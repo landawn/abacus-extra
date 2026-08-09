@@ -16,7 +16,6 @@ package com.landawn.abacus.util;
 
 import java.util.NoSuchElementException;
 
-import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.annotation.MayReturnNull;
 import com.landawn.abacus.util.ShortTuple.ShortTuple0;
 import com.landawn.abacus.util.ShortTuple.ShortTuple1;
@@ -35,15 +34,25 @@ import com.landawn.abacus.util.stream.ShortStream;
 /**
  * Base class for immutable tuples of primitive {@code short} values.
  *
- * <p>The nested tuple types model fixed arities from 0 through 9. Factory methods such as
- * {@link #from(short[])} and the {@code of(...)} overloads select the matching subtype, while the
- * base class supplies aggregate, reversal, containment, and functional helper operations.</p>
+ * <p>The nested tuple types model fixed arities from 0 through 9. Prefer the {@code of(...)} factory
+ * overloads to create a specific arity; {@link #from(short[])} is deprecated and retained only for
+ * compatibility. The base class supplies aggregate, reversal, containment, conversion, and
+ * element-wise functional helpers; {@link PrimitiveTuple} adds whole-tuple
+ * {@link PrimitiveTuple#accept(Throwables.Consumer) accept},
+ * {@link PrimitiveTuple#map(Throwables.Function) map},
+ * {@link PrimitiveTuple#filter(Throwables.Predicate) filter}, and
+ * {@link PrimitiveTuple#toOptional() toOptional}.</p>
  *
- * <p>This sealed base class permits only the built-in arity-specific nested tuple types.</p>
+ * <p>Arity-specific nested types ({@code ShortTuple1} through {@code ShortTuple9}) expose their components as
+ * public final fields {@code _1}, {@code _2}, and so on matching that arity. This sealed hierarchy permits only
+ * the built-in nested types; all instances are immutable.</p>
  *
- * <p>All {@code short} arithmetic in this class follows Java's signed semantics (range {@code -32768}
- * to {@code 32767}). {@link #sum()} is widened to {@code int} to avoid overflow, and {@link #average()}
- * returns an {@code OptionalDouble} with the result widened to {@code double} to preserve precision.</p>
+ * <p><b>Numeric semantics:</b> Values are signed {@code short}s (range {@code -32768} to {@code 32767}).
+ * {@link #min()}, {@link #max()}, and {@link #lowerMedian()} return {@code short}; {@link #sum()}
+ * widens to {@code int} so the total is not truncated to sixteen bits; {@link #average()} and
+ * {@link #median()} use {@code double} precision ({@code average} via {@link OptionalDouble}).
+ * Empty-tuple contracts: {@code sum()} is {@code 0}, {@code average()} is empty, and
+ * {@code min}/{@code max}/{@code lowerMedian}/{@code median} throw {@link NoSuchElementException}.</p>
  *
  * @param <TP> the concrete {@code ShortTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
@@ -138,7 +147,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * ShortTuple.ShortTuple3 unordered = ShortTuple.of((short) 3, (short) 1, (short) 2);
      * unordered.min();                   // returns 1
      * unordered.max();                   // returns 3
-     * unordered.median();                // returns 2
+     * unordered.lowerMedian();                // returns 2
      *
      * // Edge: all negative
      * ShortTuple.ShortTuple3 neg = ShortTuple.of((short) -3, (short) -1, (short) -2);
@@ -167,7 +176,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * t.average();                       // returns OptionalDouble.of(2.5)
      *
      * // Edge: even arity median returns lower middle
-     * t.median();                        // returns 2 (lower of the two middle values when sorted)
+     * t.lowerMedian();                        // returns 2 (lower of the two middle values when sorted)
      *
      * // Edge: boundary short values
      * ShortTuple.ShortTuple4 bounds = ShortTuple.of(Short.MIN_VALUE, (short) 0, (short) 0, Short.MAX_VALUE);
@@ -194,7 +203,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * assert t._5 == 5;
      * t.arity();                         // returns 5
      * t.sum();                           // returns 15
-     * t.median();                        // returns 3
+     * t.lowerMedian();                        // returns 3
      *
      * // Edge: reverse preserves all elements
      * ShortTuple.ShortTuple5 rev = t.reverse();
@@ -228,7 +237,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * t.sum();                           // returns 21
      *
      * // Edge: even arity - median returns lower middle value
-     * t.median();                        // returns 3 (lower of middle pair [3,4] when sorted)
+     * t.lowerMedian();                        // returns 3 (lower of middle pair [3,4] when sorted)
      *
      * // Edge: toArray has correct length
      * assert t.toArray().length == 6;
@@ -260,7 +269,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * t.sum();                           // returns 28
      *
      * // Edge: odd arity median is true middle element
-     * t.median();                        // returns 4
+     * t.lowerMedian();                        // returns 4
      *
      * // Edge: reverse has correct endpoints
      * ShortTuple.ShortTuple7 rev = t.reverse();
@@ -296,7 +305,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * t.sum();                           // returns 36
      *
      * // Edge: even arity median returns lower middle value
-     * t.median();                        // returns 4 (lower of middle pair [4,5] when sorted)
+     * t.lowerMedian();                        // returns 4 (lower of middle pair [4,5] when sorted)
      *
      * // Edge: contains boundary
      * t.contains((short) 1);             // returns true
@@ -337,7 +346,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * t.sum();                           // returns 45
      *
      * // Edge: odd arity median is the true middle element
-     * t.median();                        // returns 5
+     * t.lowerMedian();                        // returns 5
      *
      * // Edge: reverse endpoints
      * ShortTuple.ShortTuple9 rev = t.reverse();
@@ -409,10 +418,11 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * @param values the array of short values; may be {@code null} or empty, in which case the shared empty tuple is returned
      * @return a {@code ShortTuple} of the appropriate arity containing the array values, or the shared empty tuple if the array is {@code null} or empty
      * @throws IllegalArgumentException if {@code values} has more than 9 elements
+     * @deprecated Use the {@code of(...)} factory methods instead; this method may be removed in a future release.
      * @see #of(short)
      */
-    @Beta
-    @SuppressWarnings({ "deprecation", "unchecked" })
+    @Deprecated
+    @SuppressWarnings({ "unchecked" })
     public static <TP extends ShortTuple<TP>> TP from(final short[] values) {
         if (values == null || values.length == 0) {
             return (TP) ShortTuple0.EMPTY;
@@ -477,16 +487,16 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * @return the minimum short value in this tuple
      * @throws NoSuchElementException if the tuple is empty
      * @see #max()
-     * @see #median()
+     * @see #lowerMedian()
      */
     public short min() {
-        final short[] arr = elements();
+        final short[] a = elements();
 
-        if (arr.length == 0) {
+        if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute min() for an empty tuple");
         }
 
-        return N.min(arr);
+        return N.min(a);
     }
 
     /**
@@ -515,57 +525,16 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * @return the maximum short value in this tuple
      * @throws NoSuchElementException if the tuple is empty
      * @see #min()
-     * @see #median()
+     * @see #lowerMedian()
      */
     public short max() {
-        final short[] arr = elements();
+        final short[] a = elements();
 
-        if (arr.length == 0) {
+        if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute max() for an empty tuple");
         }
 
-        return N.max(arr);
-    }
-
-    /**
-     * Returns the median short value in this tuple.
-     * <p>
-     * For tuples with an odd number of elements, returns the middle value when sorted.
-     * For tuples with an even number of elements, returns the lower of the two middle
-     * values when sorted. The original tuple is not modified by this operation.
-     * </p>
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * ShortTuple.ShortTuple3 odd = ShortTuple.of((short) 1, (short) 3, (short) 2);
-     * odd.median();                      // returns 2 (middle value when sorted: 1, 2, 3)
-     *
-     * ShortTuple.ShortTuple4 even = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4);
-     * even.median();                     // returns 2 (lower of middle pair [2,3] when sorted)
-     *
-     * // Edge: single element
-     * ShortTuple.ShortTuple1 single = ShortTuple.of((short) 7);
-     * single.median();                   // returns 7
-     *
-     * // Edge: empty tuple throws
-     * ShortTuple<?> empty = ShortTuple.from(new short[0]);
-     * empty.median();                    // throws NoSuchElementException
-     * }</pre>
-     *
-     * @return the median short value in this tuple
-     * @throws NoSuchElementException if the tuple is empty
-     * @see #min()
-     * @see #max()
-     * @see N#median(short...)
-     */
-    public short median() {
-        final short[] arr = elements();
-
-        if (arr.length == 0) {
-            throw new NoSuchElementException("Cannot compute median() for an empty tuple");
-        }
-
-        return N.median(arr);
+        return N.max(a);
     }
 
     /**
@@ -627,9 +596,103 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * @see #sum()
      */
     public OptionalDouble average() {
-        final short[] arr = elements();
+        final short[] a = elements();
 
-        return arr.length == 0 ? OptionalDouble.empty() : OptionalDouble.of(N.average(arr));
+        return a.length == 0 ? OptionalDouble.empty() : OptionalDouble.of(N.average(a));
+    }
+
+    /**
+     * Returns the conventional statistical median of this tuple as a {@code double}.
+     * <p>
+     * Elements are ordered by signed magnitude. For an odd arity, this is the middle value when
+     * sorted. For an even arity, this is the arithmetic mean of the two middle values. That differs
+     * from {@link #lowerMedian()}, which returns a {@code short} and, for even arities, the lower
+     * middle element only.
+     * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ShortTuple.ShortTuple3 t3 = ShortTuple.of((short) 30, (short) 10, (short) 20);
+     * double median = t3.median();   // 20.0 (middle of sorted: 10, 20, 30)
+     *
+     * // even arity: mean of the two middle values
+     * ShortTuple.ShortTuple4 t4 = ShortTuple.of((short) 10, (short) 20, (short) 30, (short) 40);
+     * double evenMedian = t4.median();   // 25.0 (mean of 20 and 30)
+     *
+     * // pair
+     * ShortTuple.ShortTuple2 pair = ShortTuple.of((short) 10, (short) 30);
+     * double pairMedian = pair.median();   // 20.0
+     *
+     * // single element
+     * ShortTuple.ShortTuple1 single = ShortTuple.of((short) 7);
+     * double singleMedian = single.median();   // 7.0
+     *
+     * // empty tuple -> throws NoSuchElementException
+     * ShortTuple<?> empty = ShortTuple.from(new short[0]);
+     * empty.median();   // throws NoSuchElementException
+     * }</pre>
+     *
+     * @return the statistical median as a {@code double}
+     * @throws NoSuchElementException if the tuple is empty
+     * @see #lowerMedian()
+     */
+    public double median() {
+        final short[] a = toArray();
+
+        if (a.length == 0) {
+            throw new NoSuchElementException("Cannot compute median() for an empty tuple");
+        }
+
+        return N.median(a);
+    }
+
+    /**
+     * Returns the lower median of this tuple as a signed {@code short}.
+     * <p>
+     * Elements are ordered by signed magnitude. For an odd arity, this is the middle value when
+     * sorted. For an even arity, this is the lower of the two middle values when sorted
+     * (not their average). Prefer {@link #median()} when you need the conventional statistical
+     * median as a {@code double}.
+     * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * // odd number of elements: exact middle of sorted sequence
+     * ShortTuple.ShortTuple3 t3 = ShortTuple.of((short) 30, (short) 10, (short) 20);
+     * short median = t3.lowerMedian();   // 20 (sorted: 10, 20, 30; index 1)
+     *
+     * // even number of elements: lower middle of sorted sequence
+     * ShortTuple.ShortTuple4 t4 = ShortTuple.of((short) 10, (short) 20, (short) 30, (short) 40);
+     * short evenMedian = t4.lowerMedian();   // 20 (sorted: 10, [20], 30, 40; lower of the two middles)
+     *
+     * // single element
+     * ShortTuple.ShortTuple1 single = ShortTuple.of((short) 7);
+     * short singleMedian = single.lowerMedian();   // 7
+     *
+     * // negative values
+     * ShortTuple.ShortTuple3 neg = ShortTuple.of((short) -30, (short) -10, (short) -20);
+     * short negMedian = neg.lowerMedian();   // -20 (sorted: -30, -20, -10)
+     *
+     * // empty tuple -> throws NoSuchElementException
+     * ShortTuple<?> empty = ShortTuple.from(new short[0]);
+     * empty.lowerMedian();   // throws NoSuchElementException
+     * }</pre>
+     *
+     * @return the lower-median short (middle when sorted for odd arity; lower-middle when sorted for even arity)
+     * @throws NoSuchElementException if the tuple is empty
+     * @see #min()
+     * @see #max()
+     * @see #median()
+     * @see N#lowerMedian(short...)
+     */
+    public short lowerMedian() {
+        final short[] a = elements();
+
+        if (a.length == 0) {
+            throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
+        }
+
+        return N.lowerMedian(a);
     }
 
     /**
@@ -707,8 +770,8 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortTuple.ShortTuple3 t = ShortTuple.of((short) 1, (short) 2, (short) 3);
-     * short[] arr = t.toArray();         // returns [1, 2, 3]
-     * arr[0] = 99;                       // does NOT modify the tuple - it is a defensive copy
+     * short[] a = t.toArray();         // returns [1, 2, 3]
+     * a[0] = 99;                       // does NOT modify the tuple - it is a defensive copy
      * assert t._1 == 1;
      *
      * ShortTuple.ShortTuple2 pair = ShortTuple.of((short) 10, (short) 20);
@@ -939,11 +1002,12 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * This package-private class is exposed only through the base {@code ShortTuple} type
      * via the singleton instance returned by {@link #from(short[])} when invoked with a
      * {@code null} or zero-length array. {@link #sum()} returns 0 and {@link #average()} returns an empty {@code OptionalDouble}, while
-     * {@link #min()}, {@link #max()}, and {@link #median()} all throw {@link java.util.NoSuchElementException}.
+     * {@link #min()}, {@link #max()}, {@link #lowerMedian()}, and {@link #median()} all throw {@link java.util.NoSuchElementException}.
      * </p>
      */
     static final class ShortTuple0 extends ShortTuple<ShortTuple0> {
 
+        /** The shared empty short tuple. */
         private static final ShortTuple0 EMPTY = new ShortTuple0();
 
         /**
@@ -988,15 +1052,15 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         }
 
         /**
-         * Returns the median short value in this tuple.
-         * Since this tuple is empty, this method always throws an exception.
+         * Always throws because this tuple has no elements.
          *
          * @return never returns normally
-         * @throws NoSuchElementException always, because the tuple is empty
+         * @throws NoSuchElementException always
+         * @see ShortTuple#median()
          */
         @Override
-        public short median() {
-            throw new NoSuchElementException("Cannot compute median() for an empty tuple");
+        public short lowerMedian() {
+            throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
         }
 
         /**
@@ -1066,11 +1130,11 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
     }
 
     /**
-     * A ShortTuple containing exactly one short element.
+     * A {@code ShortTuple} containing exactly one {@code short} element.
      * <p>
-     * Provides direct access to the element through the public final field {@code _1}.
-     * This is the simplest non-empty tuple type, useful for wrapping a single short value
-     * in a tuple context.
+     * The value is the public final field {@code _1}. Aggregates such as {@link #min()},
+     * {@link #max()}, {@link #lowerMedian()}, {@link #sum()}, and {@link #average()} all reflect
+     * that single element.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -1079,7 +1143,6 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * short value = single._1;   // 42
      * short min = single.min();  // 42 (single element)
      * }</pre>
-     *
      */
     public static final class ShortTuple1 extends ShortTuple<ShortTuple1> {
 
@@ -1180,32 +1243,6 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         }
 
         /**
-         * Returns the median short value in this tuple.
-         * Since this tuple contains only one element, it returns that element.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * ShortTuple.ShortTuple1 t = ShortTuple.of((short) 7);
-         * t.median();                        // returns 7
-         *
-         * ShortTuple.ShortTuple1 t2 = ShortTuple.of((short) -50);
-         * t2.median();                       // returns -50
-         *
-         * // Edge: zero
-         * ShortTuple.of((short) 0).median(); // returns 0
-         *
-         * // Edge: Short.MAX_VALUE
-         * ShortTuple.of(Short.MAX_VALUE).median(); // returns 32767
-         * }</pre>
-         *
-         * @return the single short value in this tuple
-         */
-        @Override
-        public short median() {
-            return _1;
-        }
-
-        /**
          * Returns the sum of all short values in this tuple as an int.
          * Since this tuple contains only one element, it returns that element widened to an {@code int}.
          *
@@ -1255,6 +1292,45 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         @Override
         public OptionalDouble average() {
             return OptionalDouble.of(_1);
+        }
+
+        /**
+         * Returns the statistical median of this one-element tuple as a {@code double}
+         * (the element itself, widened).
+         *
+         * @return {@code (double) _1}
+         * @see #lowerMedian()
+         */
+        @Override
+        public double median() {
+            return _1;
+        }
+
+        /**
+         * Returns the lower median of this one-element tuple, which is the element itself.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ShortTuple.ShortTuple1 t = ShortTuple.of((short) 42);
+         * short median = t.lowerMedian();   // 42
+         *
+         * ShortTuple.ShortTuple1 zero = ShortTuple.of((short) 0);
+         * short zeroMedian = zero.lowerMedian();   // 0
+         *
+         * // minimum short value
+         * ShortTuple.ShortTuple1 minShort = ShortTuple.of((short) -32768);
+         * short minMedian = minShort.lowerMedian();   // -32768
+         *
+         * // maximum short value
+         * ShortTuple.ShortTuple1 maxShort = ShortTuple.of((short) 32767);
+         * short maxMedian = maxShort.lowerMedian();   // 32767
+         * }</pre>
+         *
+         * @return the single short value in this tuple
+         */
+        @Override
+        public short lowerMedian() {
+            return _1;
         }
 
         /**
@@ -1414,15 +1490,17 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
     }
 
     /**
-     * A tuple containing exactly two short values.
-     * The values are accessible through the public final fields {@code _1} and {@code _2}.
-     *
-     * <p>In addition to the operations inherited from {@link ShortTuple}, this class provides
-     * functional helpers for working with pairs:</p>
+     * A {@code ShortTuple} containing exactly two {@code short} elements.
+     * <p>
+     * Components are the public final fields {@code _1} and {@code _2}. Besides the operations from
+     * {@link ShortTuple} and {@link PrimitiveTuple}, this type adds element-unpacking helpers that
+     * pass both values to a bi-consumer / bi-function / bi-predicate (distinct from the whole-tuple
+     * {@code accept}/{@code map}/{@code filter} on {@link PrimitiveTuple}):
+     * </p>
      * <ul>
-     *   <li>{@link #accept(Throwables.ShortBiConsumer)} - consume both values</li>
-     *   <li>{@link #map(Throwables.ShortBiFunction)} - transform the pair to a single value</li>
-     *   <li>{@link #filter(Throwables.ShortBiPredicate)} - conditionally wrap in {@link Optional}</li>
+     *   <li>{@link #accept(Throwables.ShortBiConsumer)} — both elements as primitives</li>
+     *   <li>{@link #map(Throwables.ShortBiFunction)} — map both elements to one result</li>
+     *   <li>{@link #filter(Throwables.ShortBiPredicate)} — keep this pair in an {@link Optional} if the predicate holds</li>
      * </ul>
      *
      * <p><b>Usage Examples:</b></p>
@@ -1430,7 +1508,6 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * ShortTuple.ShortTuple2 pair = ShortTuple.of((short)3, (short)5);
      * int product = pair.map((a, b) -> a * b);   // 15
      * }</pre>
-     *
      */
     public static final class ShortTuple2 extends ShortTuple<ShortTuple2> {
 
@@ -1536,32 +1613,6 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         }
 
         /**
-         * Returns the median short value in this tuple.
-         * For tuples with an even number of elements, returns the lower middle element.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * ShortTuple.ShortTuple2 t = ShortTuple.of((short) 3, (short) 7);
-         * short med = t.median();   // returns 3 (sorted: [3, 7], lower middle)
-         *
-         * ShortTuple.ShortTuple2 rev = ShortTuple.of((short) 7, (short) 3);
-         * short rmed = rev.median();   // returns 3 (lower middle regardless of input order)
-         *
-         * ShortTuple.ShortTuple2 neg = ShortTuple.of((short) -5, (short) -1);
-         * short nmed = neg.median();   // returns -5 (lower of -5 and -1)
-         *
-         * ShortTuple.ShortTuple2 dups = ShortTuple.of((short) 4, (short) 4);
-         * short dmed = dups.median();   // returns 4 (equal values)
-         * }</pre>
-         *
-         * @return the median (lower) short value
-         */
-        @Override
-        public short median() {
-            return N.median(_1, _2);
-        }
-
-        /**
          * Returns the sum of all short values in this tuple as an int.
          *
          * <p><b>Usage Examples:</b></p>
@@ -1609,6 +1660,52 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         @Override
         public OptionalDouble average() {
             return OptionalDouble.of(N.average(_1, _2));
+        }
+
+        /**
+         * Returns the statistical median of this pair: the arithmetic mean of both elements as a
+         * {@code double} (not truncated to {@code short}).
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ShortTuple.of((short) 3, (short) 7).median();    // 5.0
+         * ShortTuple.of((short) 10, (short) 20).median();  // 15.0
+         * ShortTuple.of((short) -5, (short) 5).median();   // 0.0
+         * // (-32768 + 32767) / 2 = -0.5
+         * ShortTuple.of(Short.MIN_VALUE, Short.MAX_VALUE).median();   // -0.5
+         * }</pre>
+         *
+         * @return {@code ((_1 + _2) / 2.0)} with operands widened to {@code double}
+         * @see #lowerMedian()
+         */
+        @Override
+        public double median() {
+            return ((double) _1 + (double) _2) / 2d;
+        }
+
+        /**
+         * Returns the lower median of this pair: the smaller of the two signed values.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * // sorted(3, 7) -> lower middle = 3
+         * ShortTuple.of((short) 3, (short) 7).lowerMedian();    // returns 3
+         * ShortTuple.of((short) 7, (short) 3).lowerMedian();    // returns 3
+         *
+         * // same values
+         * ShortTuple.of((short) 5, (short) 5).lowerMedian();    // returns 5
+         *
+         * // negative and boundary
+         * ShortTuple.of((short) -5, (short) -10).lowerMedian();               // returns -10
+         * ShortTuple.of(Short.MIN_VALUE, Short.MAX_VALUE).lowerMedian();      // returns -32768
+         * }</pre>
+         *
+         * @return {@code min(_1, _2)}
+         * @see #median()
+         */
+        @Override
+        public short lowerMedian() {
+            return N.min(_1, _2);
         }
 
         /**
@@ -1704,11 +1801,11 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         }
 
         /**
-         * Performs the given bi-consumer action on the two elements of this tuple.
+         * Invokes {@code action} once with both elements ({@code _1}, {@code _2}).
          * <p>
-         * This method applies the specified bi-consumer to both elements simultaneously,
-         * allowing operations that need to work with both values together. The action is
-         * executed for its side effects only.
+         * This is the element-unpacking overload for pairs. It differs from
+         * {@link PrimitiveTuple#accept(Throwables.Consumer)}, which receives this tuple object, and from
+         * {@link #forEach(Throwables.ShortConsumer)}, which invokes a consumer once per element.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1732,12 +1829,13 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * // sum[0] == -1
          * }</pre>
          *
-         * @param <E> the type of exception that the action may throw
-         * @param action the bi-consumer to perform on the two elements, must not be {@code null}
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the bi-consumer to apply to both elements, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
+         * @see #forEach(Throwables.ShortConsumer)
          * @see #map(Throwables.ShortBiFunction)
-         * @see #filter(Throwables.ShortBiPredicate)
+         * @see PrimitiveTuple#accept(Throwables.Consumer)
          */
         public <E extends Exception> void accept(final Throwables.ShortBiConsumer<E> action) throws E {
             N.checkArgNotNull(action, cs.action);
@@ -1746,11 +1844,10 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         }
 
         /**
-         * Applies the given bi-function to the two elements and returns the result.
+         * Applies {@code mapper} to both elements ({@code _1}, {@code _2}) and returns the result.
          * <p>
-         * This method transforms both elements of the tuple into a single result value
-         * of type {@code U}. The mapper function receives both elements as parameters and
-         * can perform any calculation or transformation on them.
+         * Element-unpacking overload for pairs. Distinct from
+         * {@link PrimitiveTuple#map(Throwables.Function)}, which receives this tuple object as a single argument.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1767,14 +1864,15 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * Object nullResult = pair.map((a, b) -> null);   // returns null
          * }</pre>
          *
-         * @param <U> the type of the result
-         * @param <E> the type of exception that the mapper may throw
-         * @param mapper the bi-function to apply to the two elements, must not be {@code null}
-         * @return the result of applying the mapper function (may be {@code null} if the mapper returns {@code null})
+         * @param <U> the type of the result value
+         * @param <E> the type of exception that may be thrown by the mapper
+         * @param mapper the bi-function to apply to both elements, must not be {@code null}
+         * @return the result of applying the bi-function to both elements (may be {@code null})
          * @throws IllegalArgumentException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          * @see #accept(Throwables.ShortBiConsumer)
          * @see #filter(Throwables.ShortBiPredicate)
+         * @see PrimitiveTuple#map(Throwables.Function)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.ShortBiFunction<U, E> mapper) throws E {
@@ -1784,12 +1882,11 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         }
 
         /**
-         * Returns an Optional containing this tuple if the predicate is satisfied,
-         * or an empty Optional otherwise.
+         * Returns an {@link Optional} containing this pair if {@code predicate} holds for
+         * ({@code _1}, {@code _2}); otherwise {@link Optional#empty()}.
          * <p>
-         * This method evaluates the given bi-predicate against both elements of the tuple.
-         * If the predicate returns {@code true}, returns an Optional containing this tuple.
-         * If it returns {@code false}, returns an empty Optional.
+         * Element-unpacking overload for pairs. Distinct from
+         * {@link PrimitiveTuple#filter(Throwables.Predicate)}, which tests the tuple object as a whole.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1810,13 +1907,14 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * // eqEmpty.isPresent() == false (values are equal)
          * }</pre>
          *
-         * @param <E> the type of exception that the predicate may throw
-         * @param predicate the bi-predicate to test the two elements, must not be {@code null}
-         * @return an {@code Optional} containing this tuple if the predicate returns {@code true}, otherwise an empty {@code Optional}
+         * @param <E> the type of exception that may be thrown by the predicate
+         * @param predicate the bi-predicate to test both elements, must not be {@code null}
+         * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
          * @throws IllegalArgumentException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception during evaluation
          * @see #accept(Throwables.ShortBiConsumer)
          * @see #map(Throwables.ShortBiFunction)
+         * @see PrimitiveTuple#filter(Throwables.Predicate)
          */
         public <E extends Exception> Optional<ShortTuple2> filter(final Throwables.ShortBiPredicate<E> predicate) throws E {
             N.checkArgNotNull(predicate, cs.predicate);
@@ -1925,23 +2023,20 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
     }
 
     /**
-     * A tuple containing exactly three short values.
-     * The values are accessible through the public final fields {@code _1}, {@code _2}, and {@code _3}.
-     *
-     * <p>In addition to the operations inherited from {@link ShortTuple}, this class provides
-     * functional helpers for working with triples:</p>
-     * <ul>
-     *   <li>{@link #accept(Throwables.ShortTriConsumer)} - consume all three values</li>
-     *   <li>{@link #map(Throwables.ShortTriFunction)} - transform the triple to a single value</li>
-     *   <li>{@link #filter(Throwables.ShortTriPredicate)} - conditionally wrap in {@link Optional}</li>
-     * </ul>
+     * A {@code ShortTuple} containing exactly three {@code short} elements.
+     * <p>
+     * Components are the public final fields {@code _1}, {@code _2}, and {@code _3}. In addition to
+     * {@link ShortTuple} / {@link PrimitiveTuple} operations, this type provides element-unpacking
+     * {@link #accept(Throwables.ShortTriConsumer)}, {@link #map(Throwables.ShortTriFunction)}, and
+     * {@link #filter(Throwables.ShortTriPredicate)} helpers that pass all three values as primitives
+     * (distinct from the whole-tuple methods on {@link PrimitiveTuple}).
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortTuple.ShortTuple3 triple = ShortTuple.of((short)2, (short)3, (short)5);
      * int sum = triple.map((a, b, c) -> a + b + c);   // 10
      * }</pre>
-     *
      */
     public static final class ShortTuple3 extends ShortTuple<ShortTuple3> {
 
@@ -2051,32 +2146,6 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         }
 
         /**
-         * Returns the median short value in this tuple.
-         * For tuples with an odd number of elements, returns the middle value when sorted.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * ShortTuple.ShortTuple3 t = ShortTuple.of((short) 3, (short) 1, (short) 2);
-         * short med = t.median();   // returns 2 (sorted: 1, [2], 3)
-         *
-         * ShortTuple.ShortTuple3 neg = ShortTuple.of((short) -1, (short) -5, (short) -3);
-         * short nmed = neg.median();   // returns -3 (sorted: -5, [-3], -1)
-         *
-         * ShortTuple.ShortTuple3 dups = ShortTuple.of((short) 4, (short) 4, (short) 4);
-         * short dmed = dups.median();   // returns 4 (all equal)
-         *
-         * ShortTuple.ShortTuple3 bounds = ShortTuple.of(Short.MIN_VALUE, (short) 0, Short.MAX_VALUE);
-         * short bmed = bounds.median();   // returns 0 (middle value)
-         * }</pre>
-         *
-         * @return the middle short value when sorted
-         */
-        @Override
-        public short median() {
-            return N.median(_1, _2, _3);
-        }
-
-        /**
          * Returns the sum of all short values in this tuple as an int.
          *
          * <p><b>Usage Examples:</b></p>
@@ -2124,6 +2193,55 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         @Override
         public OptionalDouble average() {
             return OptionalDouble.of(N.average(_1, _2, _3));
+        }
+
+        /**
+         * Returns the statistical median of this triple as a {@code double}.
+         * <p>
+         * With three elements the middle value when sorted is both the lower median and the
+         * statistical median; the return type is still {@code double} for API consistency with
+         * even-arity tuples.
+         * </p>
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ShortTuple.of((short) 1, (short) 2, (short) 3).median();   // 2.0
+         * ShortTuple.of((short) 3, (short) 1, (short) 2).median();   // 2.0
+         * ShortTuple.of((short) -5, (short) -10, (short) 0).median(); // -5.0
+         * }</pre>
+         *
+         * @return the middle value when sorted, as a {@code double}
+         * @see #lowerMedian()
+         */
+        @Override
+        public double median() {
+            return N.median(_1, _2, _3);
+        }
+
+        /**
+         * Returns the lower median of this triple: the middle signed value when the three elements
+         * are ordered by magnitude.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * // sorted(1, 2, 3) -> middle = 2
+         * ShortTuple.of((short) 1, (short) 2, (short) 3).lowerMedian();   // returns 2
+         * ShortTuple.of((short) 3, (short) 1, (short) 2).lowerMedian();   // returns 2
+         *
+         * // all same
+         * ShortTuple.of((short) 5, (short) 5, (short) 5).lowerMedian();   // returns 5
+         *
+         * // negative and boundary
+         * ShortTuple.of((short) -5, (short) -10, (short) 0).lowerMedian();              // returns -5
+         * ShortTuple.of(Short.MIN_VALUE, (short) 0, Short.MAX_VALUE).lowerMedian();     // returns 0
+         * }</pre>
+         *
+         * @return the middle short value when the three elements are sorted
+         * @see #median()
+         */
+        @Override
+        public short lowerMedian() {
+            return N.median(_1, _2, _3);
         }
 
         /**
@@ -2219,11 +2337,11 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         }
 
         /**
-         * Performs the given tri-consumer action on the three elements of this tuple.
+         * Invokes {@code action} once with all three elements ({@code _1}, {@code _2}, {@code _3}).
          * <p>
-         * This method applies the specified tri-consumer to all three elements simultaneously,
-         * allowing operations that need to work with all values together. The action is
-         * executed for its side effects only.
+         * Element-unpacking overload for triples. Distinct from
+         * {@link PrimitiveTuple#accept(Throwables.Consumer)} (whole tuple) and
+         * {@link #forEach(Throwables.ShortConsumer)} (one call per element).
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -2247,12 +2365,13 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * // count[0] == 3 (all three conditions true)
          * }</pre>
          *
-         * @param <E> the type of exception that the action may throw
-         * @param action the tri-consumer to perform on the three elements, must not be {@code null}
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the tri-consumer to apply to all three elements, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
+         * @see #forEach(Throwables.ShortConsumer)
          * @see #map(Throwables.ShortTriFunction)
-         * @see #filter(Throwables.ShortTriPredicate)
+         * @see PrimitiveTuple#accept(Throwables.Consumer)
          */
         public <E extends Exception> void accept(final Throwables.ShortTriConsumer<E> action) throws E {
             N.checkArgNotNull(action, cs.action);
@@ -2261,11 +2380,10 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         }
 
         /**
-         * Applies the given tri-function to the three elements and returns the result.
+         * Applies {@code mapper} to all three elements ({@code _1}, {@code _2}, {@code _3}) and returns the result.
          * <p>
-         * This method transforms all three elements of the tuple into a single result value
-         * of type {@code U}. The mapper function receives all three elements as parameters and
-         * can perform any calculation or transformation on them.
+         * Element-unpacking overload for triples. Distinct from
+         * {@link PrimitiveTuple#map(Throwables.Function)}, which receives this tuple object as a single argument.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -2282,14 +2400,15 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * Object nullResult = triple.map((a, b, c) -> null);   // returns null
          * }</pre>
          *
-         * @param <U> the type of the result
-         * @param <E> the type of exception that the mapper may throw
-         * @param mapper the tri-function to apply to the three elements, must not be {@code null}
-         * @return the result of applying the mapper function (may be {@code null} if the mapper returns {@code null})
+         * @param <U> the type of the result value
+         * @param <E> the type of exception that may be thrown by the mapper
+         * @param mapper the tri-function to apply to all three elements, must not be {@code null}
+         * @return the result of applying the tri-function to all three elements (may be {@code null})
          * @throws IllegalArgumentException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          * @see #accept(Throwables.ShortTriConsumer)
          * @see #filter(Throwables.ShortTriPredicate)
+         * @see PrimitiveTuple#map(Throwables.Function)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.ShortTriFunction<U, E> mapper) throws E {
@@ -2299,12 +2418,11 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         }
 
         /**
-         * Returns an Optional containing this tuple if the predicate is satisfied,
-         * or an empty Optional otherwise.
+         * Returns an {@link Optional} containing this triple if {@code predicate} holds for
+         * ({@code _1}, {@code _2}, {@code _3}); otherwise {@link Optional#empty()}.
          * <p>
-         * This method evaluates the given tri-predicate against all three elements of the tuple.
-         * If the predicate returns {@code true}, returns an Optional containing this tuple.
-         * If it returns {@code false}, returns an empty Optional.
+         * Element-unpacking overload for triples. Distinct from
+         * {@link PrimitiveTuple#filter(Throwables.Predicate)}, which tests the tuple object as a whole.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -2325,13 +2443,14 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * // dupsEmpty.isPresent() == false (all equal)
          * }</pre>
          *
-         * @param <E> the type of exception that the predicate may throw
-         * @param predicate the tri-predicate to test the three elements, must not be {@code null}
-         * @return an {@code Optional} containing this tuple if the predicate returns {@code true}, otherwise an empty {@code Optional}
+         * @param <E> the type of exception that may be thrown by the predicate
+         * @param predicate the tri-predicate to test all three elements, must not be {@code null}
+         * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
          * @throws IllegalArgumentException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception during evaluation
          * @see #accept(Throwables.ShortTriConsumer)
          * @see #map(Throwables.ShortTriFunction)
+         * @see PrimitiveTuple#filter(Throwables.Predicate)
          */
         public <E extends Exception> Optional<ShortTuple3> filter(final Throwables.ShortTriPredicate<E> predicate) throws E {
             N.checkArgNotNull(predicate, cs.predicate);
@@ -2440,15 +2559,19 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
     }
 
     /**
-     * A tuple containing exactly four short values.
-     * The values are accessible through the public final fields {@code _1}, {@code _2}, {@code _3}, and {@code _4}.
+     * A {@code ShortTuple} containing exactly four {@code short} elements.
+     * <p>
+     * Components are public final fields {@code _1}…{@code _4}. Unlike arity 2–3, this type does not
+     * add element-unpacking {@code accept}/{@code map}/{@code filter} overloads; use
+     * {@link #forEach(Throwables.ShortConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortTuple.ShortTuple4 quad = ShortTuple.of((short)1, (short)2, (short)3, (short)4);
      * quad.average();   // returns OptionalDouble.of(2.5)
      * }</pre>
-     *
      */
     public static final class ShortTuple4 extends ShortTuple<ShortTuple4> {
 
@@ -2547,32 +2670,6 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         @Override
         public short max() {
             return N.max(_1, _2, _3, _4);
-        }
-
-        /**
-         * Returns the median short value in this tuple.
-         * For tuples with an even number of elements, returns the lower middle element when sorted.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * ShortTuple.ShortTuple4 t = ShortTuple.of((short) 3, (short) 1, (short) 4, (short) 2);
-         * t.median(); // returns (short) 2  (sorted: [1,2,3,4], lower middle at index 1)
-         *
-         * ShortTuple.ShortTuple4 t2 = ShortTuple.of((short) 5, (short) 5, (short) 5, (short) 5);
-         * t2.median(); // returns (short) 5  (all duplicates)
-         *
-         * ShortTuple.ShortTuple4 t3 = ShortTuple.of((short) -4, (short) -3, (short) -2, (short) -1);
-         * t3.median(); // returns (short) -3  (sorted: [-4,-3,-2,-1], lower middle)
-         *
-         * ShortTuple.ShortTuple4 t4 = ShortTuple.of(Short.MIN_VALUE, (short) -1, (short) 0, Short.MAX_VALUE);
-         * t4.median(); // returns (short) -1  (sorted: [MIN_VALUE,-1,0,MAX_VALUE], lower middle)
-         * }</pre>
-         *
-         * @return the median (lower middle) short value when sorted
-         */
-        @Override
-        public short median() {
-            return N.median(_1, _2, _3, _4);
         }
 
         /**
@@ -2790,13 +2887,16 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
     }
 
     /**
-     * A tuple containing exactly five short values.
-     * The values are accessible through the public final fields {@code _1} through {@code _5}.
+     * A ShortTuple containing exactly five short elements.
+     * <p>
+     * Provides direct access to elements through public final fields {@code _1} through {@code _5}.
+     * This tuple type is useful for grouping five related short values together.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortTuple.ShortTuple5 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5);
-     * short median = tuple.median();   // 3
+     * short median = tuple.lowerMedian();   // 3
      * }</pre>
      *
      */
@@ -2901,32 +3001,6 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         @Override
         public short max() {
             return N.max(_1, _2, _3, _4, _5);
-        }
-
-        /**
-         * Returns the median short value in this tuple.
-         * For tuples with an odd number of elements, returns the middle value when sorted.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * ShortTuple.ShortTuple5 t = ShortTuple.of((short) 3, (short) 1, (short) 5, (short) 2, (short) 4);
-         * t.median(); // returns (short) 3  (sorted: [1,2,3,4,5], middle at index 2)
-         *
-         * ShortTuple.ShortTuple5 t2 = ShortTuple.of((short) 7, (short) 7, (short) 7, (short) 7, (short) 7);
-         * t2.median(); // returns (short) 7  (all duplicates)
-         *
-         * ShortTuple.ShortTuple5 t3 = ShortTuple.of((short) -5, (short) -3, (short) -1, (short) -4, (short) -2);
-         * t3.median(); // returns (short) -3  (sorted: [-5,-4,-3,-2,-1], middle)
-         *
-         * ShortTuple.ShortTuple5 t4 = ShortTuple.of(Short.MIN_VALUE, (short) -1, (short) 0, (short) 1, Short.MAX_VALUE);
-         * t4.median(); // returns (short) 0  (middle of 5 values)
-         * }</pre>
-         *
-         * @return the middle short value when sorted
-         */
-        @Override
-        public short median() {
-            return N.median(_1, _2, _3, _4, _5);
         }
 
         /**
@@ -3145,8 +3219,11 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
     }
 
     /**
-     * A tuple containing exactly six short values.
-     * The values are accessible through the public final fields {@code _1} through {@code _6}.
+     * A ShortTuple containing exactly six short elements.
+     * <p>
+     * Provides direct access to elements through public final fields {@code _1} through {@code _6}.
+     * This tuple type is useful for grouping six related short values together.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -3260,32 +3337,6 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         @Override
         public short max() {
             return N.max(_1, _2, _3, _4, _5, _6);
-        }
-
-        /**
-         * Returns the median short value in this tuple.
-         * For tuples with an even number of elements, returns the lower middle element when sorted.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * ShortTuple.ShortTuple6 t = ShortTuple.of((short) 3, (short) 1, (short) 4, (short) 2, (short) 6, (short) 5);
-         * t.median(); // returns (short) 3  (sorted: [1,2,3,4,5,6], lower middle at index 2)
-         *
-         * ShortTuple.ShortTuple6 t2 = ShortTuple.of((short) 5, (short) 5, (short) 5, (short) 5, (short) 5, (short) 5);
-         * t2.median(); // returns (short) 5  (all duplicates)
-         *
-         * ShortTuple.ShortTuple6 t3 = ShortTuple.of((short) -6, (short) -5, (short) -4, (short) -3, (short) -2, (short) -1);
-         * t3.median(); // returns (short) -4  (sorted: [-6,-5,-4,-3,-2,-1], lower middle)
-         *
-         * ShortTuple.ShortTuple6 t4 = ShortTuple.of(Short.MIN_VALUE, (short) -1, (short) 0, (short) 1, (short) 2, Short.MAX_VALUE);
-         * t4.median(); // returns (short) 0  (lower middle of 6 boundary values)
-         * }</pre>
-         *
-         * @return the median (lower middle) short value when sorted
-         */
-        @Override
-        public short median() {
-            return N.median(_1, _2, _3, _4, _5, _6);
         }
 
         /**
@@ -3505,8 +3556,11 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
     }
 
     /**
-     * A tuple containing exactly seven short values.
-     * The values are accessible through the public final fields {@code _1} through {@code _7}.
+     * A ShortTuple containing exactly seven short elements.
+     * <p>
+     * Provides direct access to elements through public final fields {@code _1} through {@code _7}.
+     * This tuple type is useful for grouping seven related short values together.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -3630,32 +3684,6 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         @Override
         public short max() {
             return N.max(_1, _2, _3, _4, _5, _6, _7);
-        }
-
-        /**
-         * Returns the median short value in this tuple.
-         * For tuples with an odd number of elements, returns the middle value when sorted.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * ShortTuple.ShortTuple7 t = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7);
-         * short med = t.median();   // returns 4 (middle of sorted [1,2,3,4,5,6,7])
-         *
-         * ShortTuple.ShortTuple7 t2 = ShortTuple.of((short)7, (short)5, (short)3, (short)1, (short)4, (short)6, (short)2);
-         * short med2 = t2.median();   // returns 4 (order does not matter, still middle of sorted)
-         *
-         * ShortTuple.ShortTuple7 t3 = ShortTuple.of((short)-3, (short)-2, (short)-1, (short)0, (short)1, (short)2, (short)3);
-         * short med3 = t3.median();   // returns 0
-         *
-         * ShortTuple.ShortTuple7 t4 = ShortTuple.of((short)5, (short)5, (short)5, (short)5, (short)5, (short)5, (short)5);
-         * short med4 = t4.median();   // returns 5 (all equal)
-         * }</pre>
-         *
-         * @return the middle short value when sorted
-         */
-        @Override
-        public short median() {
-            return N.median(_1, _2, _3, _4, _5, _6, _7);
         }
 
         /**
@@ -3888,8 +3916,11 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
     }
 
     /**
-     * A tuple containing exactly eight short values.
-     * The values are accessible through the public final fields {@code _1} through {@code _8}.
+     * A ShortTuple containing exactly eight short elements.
+     * <p>
+     * Provides direct access to elements through public final fields {@code _1} through {@code _8}.
+     * This tuple type is useful for grouping eight related short values together.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -4023,32 +4054,6 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         @Override
         public short max() {
             return N.max(_1, _2, _3, _4, _5, _6, _7, _8);
-        }
-
-        /**
-         * Returns the median short value in this tuple.
-         * For tuples with an even number of elements, returns the lower middle element.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * ShortTuple.ShortTuple8 t = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8);
-         * short med = t.median();   // returns 4 (lower middle of sorted [1,2,3,4,5,6,7,8])
-         *
-         * ShortTuple.ShortTuple8 t2 = ShortTuple.of((short)8, (short)7, (short)6, (short)5, (short)4, (short)3, (short)2, (short)1);
-         * short med2 = t2.median();   // returns 4 (order does not matter)
-         *
-         * ShortTuple.ShortTuple8 t3 = ShortTuple.of((short)-4, (short)-3, (short)-2, (short)-1, (short)0, (short)1, (short)2, (short)3);
-         * short med3 = t3.median();   // returns -1 (lower middle of sorted [-4,-3,-2,-1,0,1,2,3])
-         *
-         * ShortTuple.ShortTuple8 t4 = ShortTuple.of((short)5, (short)5, (short)5, (short)5, (short)5, (short)5, (short)5, (short)5);
-         * short med4 = t4.median();   // returns 5 (all equal)
-         * }</pre>
-         *
-         * @return the median (lower middle) short value when sorted
-         */
-        @Override
-        public short median() {
-            return N.median(_1, _2, _3, _4, _5, _6, _7, _8);
         }
 
         /**
@@ -4283,8 +4288,11 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
     }
 
     /**
-     * A tuple containing exactly nine short values.
-     * The values are accessible through the public final fields {@code _1} through {@code _9}.
+     * A ShortTuple containing exactly nine short elements.
+     * <p>
+     * Provides direct access to elements through public final fields {@code _1} through {@code _9}.
+     * This tuple type is useful for grouping nine related short values together.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -4423,32 +4431,6 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         @Override
         public short max() {
             return N.max(_1, _2, _3, _4, _5, _6, _7, _8, _9);
-        }
-
-        /**
-         * Returns the median short value in this tuple.
-         * For tuples with an odd number of elements, returns the middle value when sorted.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * ShortTuple.ShortTuple9 t = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8, (short)9);
-         * short med = t.median();   // returns 5 (middle of sorted [1,2,3,4,5,6,7,8,9])
-         *
-         * ShortTuple.ShortTuple9 t2 = ShortTuple.of((short)9, (short)8, (short)7, (short)6, (short)5, (short)4, (short)3, (short)2, (short)1);
-         * short med2 = t2.median();   // returns 5 (order does not matter)
-         *
-         * ShortTuple.ShortTuple9 t3 = ShortTuple.of((short)-4, (short)-3, (short)-2, (short)-1, (short)0, (short)1, (short)2, (short)3, (short)4);
-         * short med3 = t3.median();   // returns 0
-         *
-         * ShortTuple.ShortTuple9 t4 = ShortTuple.of((short)7, (short)7, (short)7, (short)7, (short)7, (short)7, (short)7, (short)7, (short)7);
-         * short med4 = t4.median();   // returns 7 (all equal)
-         * }</pre>
-         *
-         * @return the middle short value when sorted
-         */
-        @Override
-        public short median() {
-            return N.median(_1, _2, _3, _4, _5, _6, _7, _8, _9);
         }
 
         /**

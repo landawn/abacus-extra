@@ -14,7 +14,6 @@
 
 package com.landawn.abacus.util;
 
-import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.annotation.MayReturnNull;
 import com.landawn.abacus.util.BooleanTuple.BooleanTuple0;
 import com.landawn.abacus.util.BooleanTuple.BooleanTuple1;
@@ -32,11 +31,18 @@ import com.landawn.abacus.util.stream.Stream;
 /**
  * Base class for immutable tuples of primitive {@code boolean} values.
  *
- * <p>The nested tuple types model fixed arities from 0 through 9. Factory methods such as
- * {@link #from(boolean[])} and the {@code of(...)} overloads select the matching subtype, while the
- * base class supplies reversal, containment, and functional helper operations.</p>
+ * <p>The nested tuple types model fixed arities from 0 through 9. Prefer the {@code of(...)} factory
+ * overloads to create a specific arity; {@link #from(boolean[])} is deprecated and retained only for
+ * compatibility. The base class supplies reversal, containment, conversion, and
+ * element-wise functional helpers; {@link PrimitiveTuple} adds whole-tuple
+ * {@link PrimitiveTuple#accept(Throwables.Consumer) accept},
+ * {@link PrimitiveTuple#map(Throwables.Function) map},
+ * {@link PrimitiveTuple#filter(Throwables.Predicate) filter}, and
+ * {@link PrimitiveTuple#toOptional() toOptional}.</p>
  *
- * <p>This sealed base class permits only the built-in arity-specific nested tuple types.</p>
+ * <p>Arity-specific nested types ({@code BooleanTuple1} through {@code BooleanTuple9}) expose their components as
+ * public final fields {@code _1}, {@code _2}, and so on matching that arity. This sealed hierarchy permits only
+ * the built-in nested types; all instances are immutable.</p>
  *
  * <p><b>Note:</b> unlike the numeric tuple families ({@code ByteTuple}, {@code ShortTuple},
  * {@code IntTuple}, {@code LongTuple}, {@code CharTuple}, {@code FloatTuple}, {@code DoubleTuple}),
@@ -173,7 +179,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * // all-true tuple
      * BooleanTuple.BooleanTuple4 allTrue = BooleanTuple.of(true, true, true, true);
      * boolean hasFalse = allTrue.contains(false);  // false
-     * boolean[] arr = allTrue.toArray();           // [true, true, true, true]
+     * boolean[] a = allTrue.toArray();           // [true, true, true, true]
      *
      * // all-false tuple
      * BooleanTuple.BooleanTuple4 allFalse = BooleanTuple.of(false, false, false, false);
@@ -242,7 +248,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * // all-false
      * BooleanTuple.BooleanTuple6 allFalse = BooleanTuple.of(false, false, false, false, false, false);
      * boolean hasTrue = allFalse.contains(true);  // false
-     * boolean[] arr = allFalse.toArray();         // [false, false, false, false, false, false]
+     * boolean[] a = allFalse.toArray();         // [false, false, false, false, false, false]
      * }</pre>
      *
      * @param _1 the first boolean value
@@ -310,7 +316,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      *
      * // all-false
      * BooleanTuple.BooleanTuple8 allFalse = BooleanTuple.of(false, false, false, false, false, false, false, false);
-     * boolean[] arr = allFalse.toArray();    // [false, false, false, false, false, false, false, false]
+     * boolean[] a = allFalse.toArray();    // [false, false, false, false, false, false, false, false]
      * }</pre>
      *
      * @param _1 the first boolean value
@@ -348,7 +354,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      *
      * // all-false
      * BooleanTuple.BooleanTuple9 allFalse = BooleanTuple.of(false, false, false, false, false, false, false, false, false);
-     * boolean[] arr = allFalse.toArray(); // [false, false, false, false, false, false, false, false, false]
+     * boolean[] a = allFalse.toArray(); // [false, false, false, false, false, false, false, false, false]
      * }</pre>
      *
      * @param _1 the first boolean value
@@ -413,10 +419,11 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * @param values the array of boolean values; may be {@code null} or empty, in which case the shared empty tuple is returned
      * @return a {@code BooleanTuple} of the appropriate arity containing the array values, or the shared empty tuple if the array is {@code null} or empty
      * @throws IllegalArgumentException if {@code values} has more than 9 elements
+     * @deprecated Use the {@code of(...)} factory methods instead; this method may be removed in a future release.
      * @see #of(boolean)
      */
-    @Beta
-    @SuppressWarnings({ "deprecation", "unchecked" })
+    @Deprecated
+    @SuppressWarnings({ "unchecked" })
     public static <TP extends BooleanTuple<TP>> TP from(final boolean[] values) {
         if (values == null || values.length == 0) {
             return (TP) BooleanTuple0.EMPTY;
@@ -760,6 +767,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * </p>
      */
     static final class BooleanTuple0 extends BooleanTuple<BooleanTuple0> {
+        /** The shared empty boolean tuple. */
         private static final BooleanTuple0 EMPTY = new BooleanTuple0();
 
         /** Package-private constructor for the empty tuple. */
@@ -1010,15 +1018,17 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     }
 
     /**
-     * A tuple containing exactly two boolean values.
-     * The values are accessible through the public final fields {@code _1} and {@code _2}.
-     *
-     * <p>In addition to the operations inherited from {@link BooleanTuple}, this class provides
-     * functional helpers for working with pairs:</p>
+     * A {@code BooleanTuple} containing exactly two {@code boolean} elements.
+     * <p>
+     * Components are the public final fields {@code _1} and {@code _2}. Besides the operations from
+     * {@link BooleanTuple} and {@link PrimitiveTuple}, this type adds element-unpacking helpers that
+     * pass both values to a bi-consumer / bi-function / bi-predicate (distinct from the whole-tuple
+     * {@code accept}/{@code map}/{@code filter} on {@link PrimitiveTuple}):
+     * </p>
      * <ul>
-     *   <li>{@link #accept(Throwables.BooleanBiConsumer)} - consume both values</li>
-     *   <li>{@link #map(Throwables.BooleanBiFunction)} - transform the pair to a single value</li>
-     *   <li>{@link #filter(Throwables.BooleanBiPredicate)} - conditionally wrap in {@link Optional}</li>
+     *   <li>{@link #accept(Throwables.BooleanBiConsumer)} — both elements as primitives</li>
+     *   <li>{@link #map(Throwables.BooleanBiFunction)} — map both elements to one result</li>
+     *   <li>{@link #filter(Throwables.BooleanBiPredicate)} — keep this pair in an {@link Optional} if the predicate holds</li>
      * </ul>
      *
      * <p><b>Usage Examples:</b></p>
@@ -1031,7 +1041,6 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * tuple.accept((a, b) -> System.out.println(a + " XOR " + b));
      * boolean xor = tuple.map((a, b) -> a ^ b);   // true
      * }</pre>
-     *
      */
     public static final class BooleanTuple2 extends BooleanTuple<BooleanTuple2> {
 
@@ -1163,11 +1172,11 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         }
 
         /**
-         * Applies the given action to both elements of this tuple.
+         * Invokes {@code action} once with both elements ({@code _1}, {@code _2}).
          * <p>
-         * This method executes the provided bi-consumer action with both tuple elements as arguments.
-         * It is useful for performing operations that require access to both values simultaneously,
-         * such as logging, comparison, or updating external state based on the pair of values.
+         * This is the element-unpacking overload for pairs. It differs from
+         * {@link PrimitiveTuple#accept(Throwables.Consumer)}, which receives this tuple object, and from
+         * {@link #forEach(Throwables.BooleanConsumer)}, which invokes a consumer once per element.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1189,11 +1198,12 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action
-         * @param action the bi-consumer action to be performed on both elements, must not be {@code null}
+         * @param action the bi-consumer to apply to both elements, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          * @see #forEach(Throwables.BooleanConsumer)
          * @see #map(Throwables.BooleanBiFunction)
+         * @see PrimitiveTuple#accept(Throwables.Consumer)
          */
         public <E extends Exception> void accept(final Throwables.BooleanBiConsumer<E> action) throws E {
             N.checkArgNotNull(action, cs.action);
@@ -1202,11 +1212,10 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         }
 
         /**
-         * Applies the given function to both elements of this tuple and returns the result.
+         * Applies {@code mapper} to both elements ({@code _1}, {@code _2}) and returns the result.
          * <p>
-         * This method transforms both tuple elements into a single result value by applying
-         * the provided bi-function. It enables functional-style processing of the tuple's
-         * values, such as combining them with logical operations or computing derived values.
+         * Element-unpacking overload for pairs. Distinct from
+         * {@link PrimitiveTuple#map(Throwables.Function)}, which receives this tuple object as a single argument.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1227,14 +1236,15 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * boolean neitherTrue = allFalse.map((a, b) -> a || b);   // returns false
          * }</pre>
          *
-         * @param <U> the type of the result returned by the mapper function
+         * @param <U> the type of the result value
          * @param <E> the type of exception that may be thrown by the mapper
          * @param mapper the bi-function to apply to both elements, must not be {@code null}
-         * @return the result of applying the mapping function to both elements; may be {@code null} if the mapper returns {@code null}
+         * @return the result of applying the bi-function to both elements (may be {@code null})
          * @throws IllegalArgumentException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          * @see #accept(Throwables.BooleanBiConsumer)
          * @see #filter(Throwables.BooleanBiPredicate)
+         * @see PrimitiveTuple#map(Throwables.Function)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.BooleanBiFunction<U, E> mapper) throws E {
@@ -1244,13 +1254,11 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         }
 
         /**
-         * Returns an Optional containing this tuple if it matches the given predicate,
-         * otherwise returns an empty Optional.
+         * Returns an {@link Optional} containing this pair if {@code predicate} holds for
+         * ({@code _1}, {@code _2}); otherwise {@link Optional#empty()}.
          * <p>
-         * This method evaluates the provided bi-predicate against both tuple elements.
-         * If the predicate returns {@code true}, the tuple is wrapped in an Optional;
-         * otherwise, an empty Optional is returned. This enables conditional processing
-         * and chaining of operations based on the tuple's values.
+         * Element-unpacking overload for pairs. Distinct from
+         * {@link PrimitiveTuple#filter(Throwables.Predicate)}, which tests the tuple object as a whole.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1272,11 +1280,12 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          *
          * @param <E> the type of exception that may be thrown by the predicate
          * @param predicate the bi-predicate to test both elements, must not be {@code null}
-         * @return an Optional containing this tuple if the predicate returns {@code true}, empty otherwise
+         * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
          * @throws IllegalArgumentException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception during evaluation
          * @see #accept(Throwables.BooleanBiConsumer)
          * @see #map(Throwables.BooleanBiFunction)
+         * @see PrimitiveTuple#filter(Throwables.Predicate)
          */
         public <E extends Exception> Optional<BooleanTuple2> filter(final Throwables.BooleanBiPredicate<E> predicate) throws E {
             N.checkArgNotNull(predicate, cs.predicate);
@@ -1381,16 +1390,14 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     }
 
     /**
-     * A tuple containing exactly three boolean values.
-     * The values are accessible through the public final fields {@code _1}, {@code _2}, and {@code _3}.
-     *
-     * <p>In addition to the operations inherited from {@link BooleanTuple}, this class provides
-     * functional helpers for working with triples:</p>
-     * <ul>
-     *   <li>{@link #accept(Throwables.BooleanTriConsumer)} - consume all three values</li>
-     *   <li>{@link #map(Throwables.BooleanTriFunction)} - transform the triple to a single value</li>
-     *   <li>{@link #filter(Throwables.BooleanTriPredicate)} - conditionally wrap in {@link Optional}</li>
-     * </ul>
+     * A {@code BooleanTuple} containing exactly three {@code boolean} elements.
+     * <p>
+     * Components are the public final fields {@code _1}, {@code _2}, and {@code _3}. In addition to
+     * {@link BooleanTuple} / {@link PrimitiveTuple} operations, this type provides element-unpacking
+     * {@link #accept(Throwables.BooleanTriConsumer)}, {@link #map(Throwables.BooleanTriFunction)}, and
+     * {@link #filter(Throwables.BooleanTriPredicate)} helpers that pass all three values as primitives
+     * (distinct from the whole-tuple methods on {@link PrimitiveTuple}).
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1403,7 +1410,6 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * boolean allTrue = tuple.map((a, b, c) -> a && b && c);   // false
      * boolean anyTrue = tuple.map((a, b, c) -> a || b || c);   // true
      * }</pre>
-     *
      */
     public static final class BooleanTuple3 extends BooleanTuple<BooleanTuple3> {
 
@@ -1547,11 +1553,11 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         }
 
         /**
-         * Applies the given action to all three elements of this tuple.
+         * Invokes {@code action} once with all three elements ({@code _1}, {@code _2}, {@code _3}).
          * <p>
-         * This method executes the provided tri-consumer action with all three tuple elements as arguments.
-         * It is useful for performing operations that require access to all three values simultaneously,
-         * such as logging, complex validation, or updating external state based on the triple of values.
+         * Element-unpacking overload for triples. Distinct from
+         * {@link PrimitiveTuple#accept(Throwables.Consumer)} (whole tuple) and
+         * {@link #forEach(Throwables.BooleanConsumer)} (one call per element).
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1573,11 +1579,12 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action
-         * @param action the tri-consumer action to be performed on all three elements, must not be {@code null}
+         * @param action the tri-consumer to apply to all three elements, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          * @see #forEach(Throwables.BooleanConsumer)
          * @see #map(Throwables.BooleanTriFunction)
+         * @see PrimitiveTuple#accept(Throwables.Consumer)
          */
         public <E extends Exception> void accept(final Throwables.BooleanTriConsumer<E> action) throws E {
             N.checkArgNotNull(action, cs.action);
@@ -1586,12 +1593,10 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         }
 
         /**
-         * Applies the given function to all three elements of this tuple and returns the result.
+         * Applies {@code mapper} to all three elements ({@code _1}, {@code _2}, {@code _3}) and returns the result.
          * <p>
-         * This method transforms all three tuple elements into a single result value by applying
-         * the provided tri-function. It enables functional-style processing of the tuple's
-         * values, such as combining them with logical operations, computing aggregate values,
-         * or creating derived objects from the three boolean values.
+         * Element-unpacking overload for triples. Distinct from
+         * {@link PrimitiveTuple#map(Throwables.Function)}, which receives this tuple object as a single argument.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1610,14 +1615,15 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * allFalse.map((a, b, c) -> a || b || c);   // returns false
          * }</pre>
          *
-         * @param <U> the type of the result returned by the mapper function
+         * @param <U> the type of the result value
          * @param <E> the type of exception that may be thrown by the mapper
          * @param mapper the tri-function to apply to all three elements, must not be {@code null}
-         * @return the result of applying the mapping function to all three elements; may be {@code null} if the mapper returns {@code null}
+         * @return the result of applying the tri-function to all three elements (may be {@code null})
          * @throws IllegalArgumentException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          * @see #accept(Throwables.BooleanTriConsumer)
          * @see #filter(Throwables.BooleanTriPredicate)
+         * @see PrimitiveTuple#map(Throwables.Function)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.BooleanTriFunction<U, E> mapper) throws E {
@@ -1627,13 +1633,11 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         }
 
         /**
-         * Returns an Optional containing this tuple if it matches the given predicate,
-         * otherwise returns an empty Optional.
+         * Returns an {@link Optional} containing this triple if {@code predicate} holds for
+         * ({@code _1}, {@code _2}, {@code _3}); otherwise {@link Optional#empty()}.
          * <p>
-         * This method evaluates the provided tri-predicate against all three tuple elements.
-         * If the predicate returns {@code true}, the tuple is wrapped in an Optional;
-         * otherwise, an empty Optional is returned. This enables conditional processing
-         * and chaining of operations based on the tuple's values.
+         * Element-unpacking overload for triples. Distinct from
+         * {@link PrimitiveTuple#filter(Throwables.Predicate)}, which tests the tuple object as a whole.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1655,11 +1659,12 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          *
          * @param <E> the type of exception that may be thrown by the predicate
          * @param predicate the tri-predicate to test all three elements, must not be {@code null}
-         * @return an Optional containing this tuple if the predicate returns {@code true}, empty otherwise
+         * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
          * @throws IllegalArgumentException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception during evaluation
          * @see #accept(Throwables.BooleanTriConsumer)
          * @see #map(Throwables.BooleanTriFunction)
+         * @see PrimitiveTuple#filter(Throwables.Predicate)
          */
         public <E extends Exception> Optional<BooleanTuple3> filter(final Throwables.BooleanTriPredicate<E> predicate) throws E {
             N.checkArgNotNull(predicate, cs.predicate);

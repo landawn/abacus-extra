@@ -184,13 +184,13 @@ class FloatTupleTest extends TestBase {
     @Test
     public void testMedian() {
         FloatTuple.FloatTuple3 tuple = FloatTuple.of(3.5f, 1.5f, 2.5f);
-        assertEquals(2.5f, tuple.median(), DELTA);
+        assertEquals(2.5f, tuple.lowerMedian(), DELTA);
 
         FloatTuple.FloatTuple4 evenTuple = FloatTuple.of(1.5f, 2.5f, 3.5f, 4.5f);
-        assertEquals(2.5f, evenTuple.median(), DELTA);
+        assertEquals(2.5f, evenTuple.lowerMedian(), DELTA);
 
         FloatTuple.FloatTuple0 empty = FloatTuple.from(new float[0]);
-        assertThrows(NoSuchElementException.class, () -> empty.median());
+        assertThrows(NoSuchElementException.class, () -> empty.lowerMedian());
     }
 
     @Test
@@ -425,7 +425,7 @@ class FloatTupleTest extends TestBase {
         // Test min/max/median/sum/average
         assertEquals(1.5f, tuple.min(), DELTA);
         assertEquals(1.5f, tuple.max(), DELTA);
-        assertEquals(1.5f, tuple.median(), DELTA);
+        assertEquals(1.5f, tuple.lowerMedian(), DELTA);
         assertEquals(1.5f, tuple.sum(), DELTA);
         assertEquals(1.5f, tuple.average().getAsDouble(), DELTA);
     }
@@ -448,7 +448,7 @@ class FloatTupleTest extends TestBase {
 
         assertEquals(1.5f, tuple.min(), DELTA);
         assertEquals(4.5f, tuple.max(), DELTA);
-        assertEquals(2.5f, tuple.median(), DELTA);
+        assertEquals(2.5f, tuple.lowerMedian(), DELTA);
         assertEquals(12.0f, tuple.sum(), DELTA);
         assertEquals(3.0, tuple.average().getAsDouble(), DELTA);
         assertTrue(tuple.contains(3.5f));
@@ -488,8 +488,8 @@ class FloatTupleTest extends TestBase {
         assertTrue(Float.isNaN(onlyNaN.max()));
 
         // Median follows Float.compare ordering, where NaN sorts after finite values.
-        assertEquals(1.0f, FloatTuple.of(1.0f, Float.NaN).median(), 0.0f);
-        assertEquals(1.0f, FloatTuple.of(Float.NaN, 1.0f).median(), 0.0f);
+        assertEquals(1.0f, FloatTuple.of(1.0f, Float.NaN).lowerMedian(), 0.0f);
+        assertEquals(1.0f, FloatTuple.of(Float.NaN, 1.0f).lowerMedian(), 0.0f);
 
         // Empty min/max/median must throw NoSuchElementException; average() returns an empty OptionalDouble.
         final FloatTuple.FloatTuple0 empty = FloatTuple.from(new float[0]);
@@ -778,19 +778,19 @@ class FloatTupleTest extends TestBase {
         @Test
         public void testMedianTuple1() {
             FloatTuple1 tuple = FloatTuple.of(1.0f);
-            assertEquals(1.0f, tuple.median(), 0.001f);
+            assertEquals(1.0f, tuple.lowerMedian(), 0.001f);
         }
 
         @Test
         public void testMedianTuple3() {
             FloatTuple3 tuple = FloatTuple.of(3.0f, 1.0f, 2.0f);
-            assertEquals(2.0f, tuple.median(), 0.001f);
+            assertEquals(2.0f, tuple.lowerMedian(), 0.001f);
         }
 
         @Test
         public void testMedianTuple0ThrowsException() {
             FloatTuple<FloatTuple0> tuple = FloatTuple.from(new float[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.median());
+            assertThrows(NoSuchElementException.class, () -> tuple.lowerMedian());
         }
 
         // Statistical method tests - sum
@@ -1237,7 +1237,7 @@ class FloatTupleTest extends TestBase {
             // Test min/max/median/sum/average via base class
             assertEquals(1.0f, tuple.min(), 0.001f);
             assertEquals(4.0f, tuple.max(), 0.001f);
-            assertEquals(2.0f, tuple.median(), 0.001f);
+            assertEquals(2.0f, tuple.lowerMedian(), 0.001f);
             assertEquals(10.0f, tuple.sum(), 0.001f);
             assertEquals(2.5, tuple.average().getAsDouble(), 0.001);
 
@@ -1274,7 +1274,7 @@ class FloatTupleTest extends TestBase {
             // Test statistical operations
             assertEquals(1.0f, tuple.min(), 0.001f);
             assertEquals(5.0f, tuple.max(), 0.001f);
-            assertEquals(3.0f, tuple.median(), 0.001f);
+            assertEquals(3.0f, tuple.lowerMedian(), 0.001f);
             assertEquals(15.0f, tuple.sum(), 0.001f);
             assertEquals(3.0, tuple.average().getAsDouble(), 0.001);
 
@@ -1529,7 +1529,7 @@ class FloatTupleTest extends TestBase {
         @Test
         public void testFloatTuple1_median() {
             FloatTuple.FloatTuple1 tuple = FloatTuple.of(1.0f);
-            assertNotNull(tuple.median());
+            assertNotNull(tuple.lowerMedian());
         }
 
         @Test
@@ -1609,7 +1609,7 @@ class FloatTupleTest extends TestBase {
         @Test
         public void testFloatTuple2_median() {
             FloatTuple.FloatTuple2 tuple = FloatTuple.of(1.0f, 2.0f);
-            assertNotNull(tuple.median());
+            assertNotNull(tuple.lowerMedian());
         }
 
         @Test
@@ -1711,7 +1711,7 @@ class FloatTupleTest extends TestBase {
         @Test
         public void testFloatTuple3_median() {
             FloatTuple.FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            assertNotNull(tuple.median());
+            assertNotNull(tuple.lowerMedian());
         }
 
         @Test
@@ -2139,25 +2139,25 @@ class FloatTupleTest extends TestBase {
         @Test
         public void testMedianTuple1() {
             FloatTuple1 tuple = FloatTuple.of(42.0f);
-            assertEquals(42.0f, tuple.median(), 0.001f);
+            assertEquals(42.0f, tuple.lowerMedian(), 0.001f);
         }
 
         @Test
         public void testMedianTuple3() {
             FloatTuple3 tuple = FloatTuple.of(30.0f, 10.0f, 20.0f);
-            assertEquals(20.0f, tuple.median(), 0.001f);
+            assertEquals(20.0f, tuple.lowerMedian(), 0.001f);
         }
 
         @Test
         public void testMedianTuple4() {
             FloatTuple4 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
-            assertEquals(2.0f, tuple.median(), 0.001f);
+            assertEquals(2.0f, tuple.lowerMedian(), 0.001f);
         }
 
         @Test
         public void testMedianTuple5() {
             FloatTuple5 tuple = FloatTuple.of(5.0f, 1.0f, 3.0f, 2.0f, 4.0f);
-            assertEquals(3.0f, tuple.median(), 0.001f);
+            assertEquals(3.0f, tuple.lowerMedian(), 0.001f);
         }
 
         @Test
@@ -2674,19 +2674,19 @@ class FloatTupleTest extends TestBase {
         @Test
         public void testMedian_tuple1() {
             FloatTuple1 tuple = FloatTuple.of(5.5f);
-            assertEquals(5.5f, tuple.median());
+            assertEquals(5.5f, tuple.lowerMedian());
         }
 
         @Test
         public void testMedian_tuple3() {
             FloatTuple3 tuple = FloatTuple.of(30.0f, 10.0f, 20.0f);
-            assertEquals(20.0f, tuple.median());
+            assertEquals(20.0f, tuple.lowerMedian());
         }
 
         @Test
         public void testMedian_tuple4_even() {
             FloatTuple4 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
-            assertEquals(2.0f, tuple.median());
+            assertEquals(2.0f, tuple.lowerMedian());
         }
 
         @Test
@@ -3206,7 +3206,7 @@ class FloatTupleTest extends TestBase {
         @Test
         public void test_FloatTuple0_median_throwsException() {
             FloatTuple0 tuple = FloatTuple.from(new float[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.median());
+            assertThrows(NoSuchElementException.class, () -> tuple.lowerMedian());
         }
 
         @Test
@@ -3263,7 +3263,7 @@ class FloatTupleTest extends TestBase {
         @Test
         public void test_FloatTuple1_median() {
             FloatTuple1 tuple = FloatTuple.of(5.0f);
-            assertEquals(5.0f, tuple.median(), 0.0001f);
+            assertEquals(5.0f, tuple.lowerMedian(), 0.0001f);
         }
 
         @Test
@@ -3359,7 +3359,7 @@ class FloatTupleTest extends TestBase {
         @Test
         public void test_FloatTuple2_median() {
             FloatTuple2 tuple = FloatTuple.of(1.0f, 2.0f);
-            float median = tuple.median();
+            float median = tuple.lowerMedian();
             assertEquals(1.0f, median, 0f);
         }
 
@@ -3473,7 +3473,7 @@ class FloatTupleTest extends TestBase {
         @Test
         public void test_FloatTuple3_median() {
             FloatTuple3 tuple = FloatTuple.of(30.0f, 10.0f, 20.0f);
-            assertEquals(20.0f, tuple.median(), 0.0001f);
+            assertEquals(20.0f, tuple.lowerMedian(), 0.0001f);
         }
 
         @Test
@@ -3778,9 +3778,9 @@ class FloatTupleTest extends TestBase {
         @Test
         public void testFloatTupleOf5Median() {
             // FloatTuple.FloatTuple5 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
-            // float median = tuple.median();   // 3.0f
+            // float median = tuple.lowerMedian();   // 3.0f
             FloatTuple.FloatTuple5 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
-            assertEquals(3.0f, tuple.median(), 0.001f);
+            assertEquals(3.0f, tuple.lowerMedian(), 0.001f);
         }
 
         @Test
@@ -3859,7 +3859,7 @@ class FloatTupleTest extends TestBase {
         FloatTuple.FloatTuple4 tuple4 = FloatTuple.of(9f, 1f, 7f, 3f);
         assertEquals(1f, tuple4.min(), 0.0f);
         assertEquals(9f, tuple4.max(), 0.0f);
-        assertEquals(3f, tuple4.median(), 0.0f);
+        assertEquals(3f, tuple4.lowerMedian(), 0.0f);
         assertEquals(20f, tuple4.sum(), 0.0f);
         assertEquals(5.0, tuple4.average().getAsDouble());
         assertTrue(tuple4.contains(3f));
@@ -3868,18 +3868,18 @@ class FloatTupleTest extends TestBase {
         assertTrue(tuple5.contains(5f));
 
         FloatTuple.FloatTuple6 tuple6 = FloatTuple.of(9f, 1f, 7f, 3f, 5f, 11f);
-        assertEquals(5f, tuple6.median(), 0.0f);
+        assertEquals(5f, tuple6.lowerMedian(), 0.0f);
         assertTrue(tuple6.contains(11f));
 
         FloatTuple.FloatTuple7 tuple7 = FloatTuple.of(1f, 2f, 3f, 4f, 5f, 6f, 7f);
         assertTrue(tuple7.contains(7f));
 
         FloatTuple.FloatTuple8 tuple8 = FloatTuple.of(9f, 1f, 7f, 3f, 5f, 11f, 13f, 15f);
-        assertEquals(7f, tuple8.median(), 0.0f);
+        assertEquals(7f, tuple8.lowerMedian(), 0.0f);
         assertTrue(tuple8.contains(15f));
 
         FloatTuple.FloatTuple9 tuple9 = FloatTuple.of(9f, 1f, 7f, 3f, 5f, 11f, 13f, 15f, 17f);
-        assertEquals(9f, tuple9.median(), 0.0f);
+        assertEquals(9f, tuple9.lowerMedian(), 0.0f);
         assertTrue(tuple9.contains(17f));
     }
 
@@ -3995,7 +3995,7 @@ class FloatTupleTest extends TestBase {
         assertEquals(Float.floatToRawIntBits(-0.0f), Float.floatToRawIntBits(FloatTuple.of(1f, 0.0f, 2f, -0.0f, 3f, 4f, 5f, 6f, 7f).min()));
 
         // Median for 2 elements uses Float.compare ordering, where NaN sorts last.
-        assertFalse(Float.isNaN(FloatTuple.of(1f, Float.NaN).median()));
+        assertFalse(Float.isNaN(FloatTuple.of(1f, Float.NaN).lowerMedian()));
     }
 
 }

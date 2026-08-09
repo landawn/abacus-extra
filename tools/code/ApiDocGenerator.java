@@ -330,8 +330,7 @@ public final class ApiDocGenerator {
             if (!type.modifiers.contains("final")) {
                 type.modifiers.add("final");
             }
-        } else if (parentType != null && ("interface".equals(parentType.kind) || "annotation".equals(parentType.kind))
-                && !type.modifiers.contains("static")) {
+        } else if (parentType != null && ("interface".equals(parentType.kind) || "annotation".equals(parentType.kind)) && !type.modifiers.contains("static")) {
             type.modifiers.add("static");
         }
         type.typeParams = readTypeParams(classTree.getTypeParameters());
@@ -368,8 +367,7 @@ public final class ApiDocGenerator {
                 if (isConstructor(methodTree)) {
                     final boolean compactRecordConstructor = classTree.getKind() == Tree.Kind.RECORD
                             && isCompactRecordConstructor(unitData, sourcePositions, classTree, methodTree);
-                    if (classTree.getKind() == Tree.Kind.RECORD
-                            && (compactRecordConstructor || isCanonicalRecordConstructor(methodTree, recordComponents))) {
+                    if (classTree.getKind() == Tree.Kind.RECORD && (compactRecordConstructor || isCanonicalRecordConstructor(methodTree, recordComponents))) {
                         hasCanonicalRecordConstructor = true;
                     }
                     if (!isPublicConstructor(methodTree, classTree)) {
@@ -742,7 +740,8 @@ public final class ApiDocGenerator {
             return null;
         }
         final int commonIndent = indent;
-        return java.util.Arrays.stream(lines).map(line -> line.isBlank() ? "" : line.substring(Math.min(commonIndent, line.length())))
+        return java.util.Arrays.stream(lines)
+                .map(line -> line.isBlank() ? "" : line.substring(Math.min(commonIndent, line.length())))
                 .collect(Collectors.joining("\n"));
     }
 
@@ -1180,6 +1179,7 @@ public final class ApiDocGenerator {
             out.put("deprecated", deprecatedJson(value.deprecated));
         }
         out.put("params", value.params.stream().map(ApiDocGenerator::paramJson).collect(Collectors.toList()));
+        out.put("throws", value.throwsList.stream().map(ApiDocGenerator::throwJson).collect(Collectors.toList()));
         return out;
     }
 
@@ -1201,6 +1201,9 @@ public final class ApiDocGenerator {
         }
         if (!isBlank(value.javadocSummary)) {
             out.put("javadoc_summary", value.javadocSummary);
+        }
+        if (!isBlank(value.returns)) {
+            out.put("returns", value.returns);
         }
         out.put("contract", value.contract == null ? List.of() : value.contract);
         if (!isBlank(value.performance)) {

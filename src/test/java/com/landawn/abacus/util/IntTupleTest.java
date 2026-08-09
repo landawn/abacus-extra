@@ -183,13 +183,13 @@ class IntTupleTest extends TestBase {
     @Test
     public void testMedian() {
         IntTuple.IntTuple3 tuple = IntTuple.of(30, 10, 20);
-        assertEquals(20, tuple.median());
+        assertEquals(20, tuple.lowerMedian());
 
         IntTuple.IntTuple4 evenTuple = IntTuple.of(10, 20, 30, 40);
-        assertEquals(20, evenTuple.median()); // even arity returns the lower of the two middle values: 20
+        assertEquals(20, evenTuple.lowerMedian()); // even arity returns the lower of the two middle values: 20
 
         IntTuple.IntTuple0 empty = IntTuple.from(new int[0]);
-        assertThrows(NoSuchElementException.class, () -> empty.median());
+        assertThrows(NoSuchElementException.class, () -> empty.lowerMedian());
     }
 
     @Test
@@ -435,7 +435,7 @@ class IntTupleTest extends TestBase {
         // Test min/max/median/sum/average
         assertEquals(10, tuple.min());
         assertEquals(10, tuple.max());
-        assertEquals(10, tuple.median());
+        assertEquals(10, tuple.lowerMedian());
         assertEquals(10, tuple.sum());
         assertEquals(10.0, tuple.average().getAsDouble());
     }
@@ -458,7 +458,7 @@ class IntTupleTest extends TestBase {
 
         assertEquals(1, tuple.min());
         assertEquals(4, tuple.max());
-        assertEquals(2, tuple.median());
+        assertEquals(2, tuple.lowerMedian());
         assertEquals(10, tuple.sum());
         assertEquals(2.5, tuple.average().getAsDouble());
         assertTrue(tuple.contains(3));
@@ -757,19 +757,19 @@ class IntTupleTest extends TestBase {
         @Test
         public void testMedianTuple1() {
             IntTuple1 tuple = IntTuple.of(42);
-            assertEquals(42, tuple.median());
+            assertEquals(42, tuple.lowerMedian());
         }
 
         @Test
         public void testMedianTuple2() {
             IntTuple2 tuple = IntTuple.of(5, 10);
-            assertEquals(5, tuple.median());
+            assertEquals(5, tuple.lowerMedian());
         }
 
         @Test
         public void testMedianTuple0ThrowsException() {
             IntTuple<IntTuple0> tuple = IntTuple.from(new int[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.median());
+            assertThrows(NoSuchElementException.class, () -> tuple.lowerMedian());
         }
 
         // Statistical method tests - sum
@@ -1099,7 +1099,7 @@ class IntTupleTest extends TestBase {
             IntTuple3 tuple = IntTuple.of(5, 5, 5);
             assertEquals(5, tuple.min());
             assertEquals(5, tuple.max());
-            assertEquals(5, tuple.median());
+            assertEquals(5, tuple.lowerMedian());
             assertEquals(15, tuple.sum());
             assertEquals(5.0, tuple.average().getAsDouble(), 0.001);
         }
@@ -1110,7 +1110,7 @@ class IntTupleTest extends TestBase {
             IntTuple3 tuple = IntTuple.of(Integer.MAX_VALUE, Integer.MIN_VALUE, 0);
             assertEquals(Integer.MIN_VALUE, tuple.min());
             assertEquals(Integer.MAX_VALUE, tuple.max());
-            assertEquals(0, tuple.median());
+            assertEquals(0, tuple.lowerMedian());
         }
 
         // arity tests for all tuple sizes
@@ -1190,7 +1190,7 @@ class IntTupleTest extends TestBase {
             // Test min/max/median/sum/average
             assertEquals(1, tuple.min());
             assertEquals(4, tuple.max());
-            assertEquals(2, tuple.median());
+            assertEquals(2, tuple.lowerMedian());
             assertEquals(10, tuple.sum());
             assertEquals(2.5, tuple.average().getAsDouble(), 0.001);
 
@@ -1228,7 +1228,7 @@ class IntTupleTest extends TestBase {
             // Test statistical operations
             assertEquals(1, tuple.min());
             assertEquals(5, tuple.max());
-            assertEquals(3, tuple.median());
+            assertEquals(3, tuple.lowerMedian());
             assertEquals(15, tuple.sum());
             assertEquals(3.0, tuple.average().getAsDouble(), 0.001);
 
@@ -1267,7 +1267,7 @@ class IntTupleTest extends TestBase {
             // Test statistical operations
             assertEquals(1, tuple.min());
             assertEquals(6, tuple.max());
-            assertEquals(3, tuple.median());
+            assertEquals(3, tuple.lowerMedian());
             assertEquals(21, tuple.sum());
             assertEquals(3.5, tuple.average().getAsDouble(), 0.001);
 
@@ -1307,7 +1307,7 @@ class IntTupleTest extends TestBase {
             // Test statistical operations
             assertEquals(1, tuple.min());
             assertEquals(7, tuple.max());
-            assertEquals(4, tuple.median());
+            assertEquals(4, tuple.lowerMedian());
             assertEquals(28, tuple.sum());
             assertEquals(4.0, tuple.average().getAsDouble(), 0.001);
 
@@ -1348,7 +1348,7 @@ class IntTupleTest extends TestBase {
             // Test statistical operations
             assertEquals(1, tuple.min());
             assertEquals(8, tuple.max());
-            assertEquals(4, tuple.median());
+            assertEquals(4, tuple.lowerMedian());
             assertEquals(36, tuple.sum());
             assertEquals(4.5, tuple.average().getAsDouble(), 0.001);
 
@@ -1390,7 +1390,7 @@ class IntTupleTest extends TestBase {
             // Test statistical operations
             assertEquals(1, tuple.min());
             assertEquals(9, tuple.max());
-            assertEquals(5, tuple.median());
+            assertEquals(5, tuple.lowerMedian());
             assertEquals(45, tuple.sum());
             assertEquals(5.0, tuple.average().getAsDouble(), 0.001);
 
@@ -1593,7 +1593,7 @@ class IntTupleTest extends TestBase {
         @Test
         public void testIntTuple1_median() {
             IntTuple.IntTuple1 tuple = IntTuple.of(1);
-            assertNotNull(tuple.median());
+            assertNotNull(tuple.lowerMedian());
         }
 
         @Test
@@ -1673,7 +1673,7 @@ class IntTupleTest extends TestBase {
         @Test
         public void testIntTuple2_median() {
             IntTuple.IntTuple2 tuple = IntTuple.of(1, 2);
-            assertNotNull(tuple.median());
+            assertNotNull(tuple.lowerMedian());
         }
 
         @Test
@@ -1775,7 +1775,7 @@ class IntTupleTest extends TestBase {
         @Test
         public void testIntTuple3_median() {
             IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
-            assertNotNull(tuple.median());
+            assertNotNull(tuple.lowerMedian());
         }
 
         @Test
@@ -2308,19 +2308,19 @@ class IntTupleTest extends TestBase {
         @Test
         public void testMedian_tuple2() {
             IntTuple2 tuple = IntTuple.of(5, 2);
-            assertEquals(2, tuple.median());
+            assertEquals(2, tuple.lowerMedian());
         }
 
         @Test
         public void testMedian_tuple3() {
             IntTuple3 tuple = IntTuple.of(3, 1, 2);
-            assertEquals(2, tuple.median());
+            assertEquals(2, tuple.lowerMedian());
         }
 
         @Test
         public void testMedian_tuple4() {
             IntTuple4 tuple = IntTuple.of(1, 2, 3, 4);
-            assertEquals(2, tuple.median());
+            assertEquals(2, tuple.lowerMedian());
         }
 
         @Test
@@ -2629,7 +2629,7 @@ class IntTupleTest extends TestBase {
         @Test
         public void testTuple0_median() {
             IntTuple<?> tuple = IntTuple.from(null);
-            assertThrows(NoSuchElementException.class, () -> tuple.median());
+            assertThrows(NoSuchElementException.class, () -> tuple.lowerMedian());
         }
 
         @Test
@@ -2668,7 +2668,7 @@ class IntTupleTest extends TestBase {
             assertEquals(5, tuple.arity());
             assertEquals(1, tuple.min());
             assertEquals(5, tuple.max());
-            assertEquals(3, tuple.median());
+            assertEquals(3, tuple.lowerMedian());
             assertEquals(15, tuple.sum());
             assertEquals(3.0, tuple.average().getAsDouble(), 0.001);
             assertTrue(tuple.contains(3));
@@ -2699,7 +2699,7 @@ class IntTupleTest extends TestBase {
         public void testTuple7_operations() {
             IntTuple7 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
             assertEquals(7, tuple.arity());
-            assertEquals(4, tuple.median());
+            assertEquals(4, tuple.lowerMedian());
             assertEquals(28, tuple.sum());
         }
 
@@ -2715,7 +2715,7 @@ class IntTupleTest extends TestBase {
         public void testTuple9_operations() {
             IntTuple9 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
             assertEquals(9, tuple.arity());
-            assertEquals(5, tuple.median());
+            assertEquals(5, tuple.lowerMedian());
             assertEquals(45, tuple.sum());
             assertEquals(5.0, tuple.average().getAsDouble(), 0.001);
         }
@@ -2983,7 +2983,7 @@ class IntTupleTest extends TestBase {
         @Test
         public void testMedian_odd() {
             IntTuple3 tuple = IntTuple.of(1, 2, 3);
-            assertEquals(2, tuple.median());
+            assertEquals(2, tuple.lowerMedian());
         }
 
         @Test
@@ -3381,7 +3381,7 @@ class IntTupleTest extends TestBase {
             IntTuple5 tuple = IntTuple.of(100, 500, 300, 200, 400);
             assertEquals(100, tuple.min());
             assertEquals(500, tuple.max());
-            assertEquals(300, tuple.median());
+            assertEquals(300, tuple.lowerMedian());
             assertEquals(1500, tuple.sum());
             assertEquals(300.0, tuple.average().getAsDouble());
         }
@@ -3404,7 +3404,7 @@ class IntTupleTest extends TestBase {
             IntTuple1 tuple = IntTuple.of(42);
             assertEquals(42, tuple.min());
             assertEquals(42, tuple.max());
-            assertEquals(42, tuple.median());
+            assertEquals(42, tuple.lowerMedian());
             assertEquals(42.0, tuple.average().getAsDouble());
             assertEquals(42, tuple.sum());
             assertTrue(tuple.contains(42));
@@ -3583,7 +3583,7 @@ class IntTupleTest extends TestBase {
         @Test
         public void test_IntTuple0_median_throwsException() {
             IntTuple0 tuple = IntTuple.from(new int[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.median());
+            assertThrows(NoSuchElementException.class, () -> tuple.lowerMedian());
         }
 
         @Test
@@ -3640,7 +3640,7 @@ class IntTupleTest extends TestBase {
         @Test
         public void test_IntTuple1_median() {
             IntTuple1 tuple = IntTuple.of(5);
-            assertEquals(5, tuple.median());
+            assertEquals(5, tuple.lowerMedian());
         }
 
         @Test
@@ -3736,7 +3736,7 @@ class IntTupleTest extends TestBase {
         @Test
         public void test_IntTuple2_median() {
             IntTuple2 tuple = IntTuple.of(1, 2);
-            int median = tuple.median();
+            int median = tuple.lowerMedian();
             assertEquals(1, median);
         }
 
@@ -3850,7 +3850,7 @@ class IntTupleTest extends TestBase {
         @Test
         public void test_IntTuple3_median() {
             IntTuple3 tuple = IntTuple.of(30, 10, 20);
-            assertEquals(20, tuple.median());
+            assertEquals(20, tuple.lowerMedian());
         }
 
         @Test
@@ -4074,14 +4074,14 @@ class IntTupleTest extends TestBase {
         @Test
         public void test_median_evenSize() {
             IntTuple4 tuple = IntTuple.of(1, 2, 3, 4);
-            int median = tuple.median();
+            int median = tuple.lowerMedian();
             assertEquals(2, median);
         }
 
         @Test
         public void test_median_oddSize() {
             IntTuple5 tuple = IntTuple.of(50, 10, 30, 20, 40);
-            int median = tuple.median();
+            int median = tuple.lowerMedian();
             assertEquals(30, median);
         }
     }
@@ -4207,14 +4207,14 @@ class IntTupleTest extends TestBase {
         @Test
         public void testIntTupleMedian() {
             // IntTuple.IntTuple3 tuple = IntTuple.of(1, 3, 2);
-            // int median = tuple.median();   // 2
+            // int median = tuple.lowerMedian();   // 2
             IntTuple.IntTuple3 tuple = IntTuple.of(1, 3, 2);
-            assertEquals(2, tuple.median());
+            assertEquals(2, tuple.lowerMedian());
 
             // IntTuple.IntTuple4 evenTuple = IntTuple.of(1, 2, 3, 4);
-            // int evenMedian = evenTuple.median();   // 2
+            // int evenMedian = evenTuple.lowerMedian();   // 2
             IntTuple.IntTuple4 evenTuple = IntTuple.of(1, 2, 3, 4);
-            assertEquals(2, evenTuple.median());
+            assertEquals(2, evenTuple.lowerMedian());
         }
 
         @Test
@@ -4349,7 +4349,7 @@ class IntTupleTest extends TestBase {
         IntTuple.IntTuple4 tuple4 = IntTuple.of(9, 1, 7, 3);
         assertEquals(1, tuple4.min());
         assertEquals(9, tuple4.max());
-        assertEquals(3, tuple4.median());
+        assertEquals(3, tuple4.lowerMedian());
         assertEquals(20, tuple4.sum());
         assertEquals(5.0, tuple4.average().getAsDouble());
         assertTrue(tuple4.contains(3));
@@ -4358,18 +4358,18 @@ class IntTupleTest extends TestBase {
         assertTrue(tuple5.contains(5));
 
         IntTuple.IntTuple6 tuple6 = IntTuple.of(9, 1, 7, 3, 5, 11);
-        assertEquals(5, tuple6.median());
+        assertEquals(5, tuple6.lowerMedian());
         assertTrue(tuple6.contains(11));
 
         IntTuple.IntTuple7 tuple7 = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
         assertTrue(tuple7.contains(7));
 
         IntTuple.IntTuple8 tuple8 = IntTuple.of(9, 1, 7, 3, 5, 11, 13, 15);
-        assertEquals(7, tuple8.median());
+        assertEquals(7, tuple8.lowerMedian());
         assertTrue(tuple8.contains(15));
 
         IntTuple.IntTuple9 tuple9 = IntTuple.of(9, 1, 7, 3, 5, 11, 13, 15, 17);
-        assertEquals(9, tuple9.median());
+        assertEquals(9, tuple9.lowerMedian());
         assertTrue(tuple9.contains(17));
     }
 

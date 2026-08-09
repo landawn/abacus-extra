@@ -652,57 +652,6 @@ class ImmutableIntArrayTest extends TestBase {
         }
 
         // ============================================
-        // Tests for toArray() methods
-        // ============================================
-
-        @Test
-        public void testToArray_FullArray() {
-            ImmutableIntArray immutable = ImmutableIntArray.unsafeWrap(new int[] { 1, 2, 3, 4, 5 });
-
-            int[] first = immutable.toArray();
-            int[] second = immutable.toArray();
-
-            assertArrayEquals(new int[] { 1, 2, 3, 4, 5 }, first);
-            assertNotSame(first, second);
-            first[0] = 99;
-            assertEquals(1, immutable.get(0));
-        }
-
-        @Test
-        public void testToArray_EmptyArray() {
-            int[] copy = ImmutableIntArray.unsafeWrap(null).toArray();
-
-            assertArrayEquals(new int[0], copy);
-        }
-
-        @Test
-        public void testToArray_PartialRange() {
-            ImmutableIntArray immutable = ImmutableIntArray.unsafeWrap(new int[] { 10, 20, 30, 40, 50 });
-
-            int[] copy = immutable.toArray(1, 4);
-
-            assertArrayEquals(new int[] { 20, 30, 40 }, copy);
-            copy[0] = 99;
-            assertEquals(20, immutable.get(1));
-        }
-
-        @Test
-        public void testToArray_EmptyRange() {
-            ImmutableIntArray immutable = ImmutableIntArray.unsafeWrap(new int[] { 1, 2, 3 });
-
-            assertArrayEquals(new int[0], immutable.toArray(1, 1));
-        }
-
-        @Test
-        public void testToArray_InvalidRange() {
-            ImmutableIntArray immutable = ImmutableIntArray.unsafeWrap(new int[] { 1, 2, 3 });
-
-            assertThrows(IndexOutOfBoundsException.class, () -> immutable.toArray(-1, 2));
-            assertThrows(IndexOutOfBoundsException.class, () -> immutable.toArray(0, 4));
-            assertThrows(IndexOutOfBoundsException.class, () -> immutable.toArray(2, 1));
-        }
-
-        // ============================================
         // Tests for subArray() method
         // ============================================
 
@@ -713,7 +662,7 @@ class ImmutableIntArrayTest extends TestBase {
 
             ImmutableIntArray subArray = immutable.subArray(1, 4);
 
-            assertArrayEquals(new int[] { 20, 30, 40 }, subArray.toArray());
+            assertArrayEquals(new int[] { 20, 30, 40 }, subArray.stream().toArray());
             data[2] = 99;
             assertEquals(30, subArray.get(1));
         }
@@ -744,7 +693,7 @@ class ImmutableIntArrayTest extends TestBase {
         public void testCopyOfRange_CompatibilityAlias() {
             ImmutableIntArray immutable = ImmutableIntArray.unsafeWrap(new int[] { 10, 20, 30, 40, 50 });
 
-            assertArrayEquals(immutable.toArray(1, 4), immutable.copyOfRange(1, 4));
+            assertArrayEquals(new int[] { 20, 30, 40 }, immutable.copyOfRange(1, 4));
             assertThrows(IndexOutOfBoundsException.class, () -> immutable.copyOfRange(0, 6));
         }
 

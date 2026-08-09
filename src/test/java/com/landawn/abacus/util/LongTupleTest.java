@@ -182,13 +182,13 @@ class LongTupleTest extends TestBase {
     @Test
     public void testMedian() {
         LongTuple.LongTuple3 tuple = LongTuple.of(300L, 100L, 200L);
-        assertEquals(200L, tuple.median());
+        assertEquals(200L, tuple.lowerMedian());
 
         LongTuple.LongTuple4 evenTuple = LongTuple.of(100L, 200L, 300L, 400L);
-        assertEquals(200L, evenTuple.median()); // even arity returns the lower of the two middle values: 200L
+        assertEquals(200L, evenTuple.lowerMedian()); // even arity returns the lower of the two middle values: 200L
 
         LongTuple.LongTuple0 empty = LongTuple.from(new long[0]);
-        assertThrows(NoSuchElementException.class, () -> empty.median());
+        assertThrows(NoSuchElementException.class, () -> empty.lowerMedian());
     }
 
     @Test
@@ -461,7 +461,7 @@ class LongTupleTest extends TestBase {
         // Test min/max/median/sum/average
         assertEquals(100L, tuple.min());
         assertEquals(100L, tuple.max());
-        assertEquals(100L, tuple.median());
+        assertEquals(100L, tuple.lowerMedian());
         assertEquals(100L, tuple.sum());
         assertEquals(100.0, tuple.average().getAsDouble());
     }
@@ -484,7 +484,7 @@ class LongTupleTest extends TestBase {
 
         assertEquals(1L, tuple.min());
         assertEquals(4L, tuple.max());
-        assertEquals(2L, tuple.median());
+        assertEquals(2L, tuple.lowerMedian());
         assertEquals(10L, tuple.sum());
         assertEquals(2.5, tuple.average().getAsDouble());
         assertEquals(-0.5d, LongTuple.of(Long.MAX_VALUE, Long.MIN_VALUE).average().getAsDouble());
@@ -643,10 +643,10 @@ class LongTupleTest extends TestBase {
         public void testLongTupleOf5() {
             // LongTuple.LongTuple5 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L);
             // OptionalDouble avg = tuple.average();   // OptionalDouble.of(3.0)
-            // long median = tuple.median();   // 3
+            // long median = tuple.lowerMedian();   // 3
             LongTuple.LongTuple5 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L);
             assertEquals(3.0, tuple.average().getAsDouble(), 0.001);
-            assertEquals(3L, tuple.median());
+            assertEquals(3L, tuple.lowerMedian());
         }
 
         @Test
@@ -663,10 +663,10 @@ class LongTupleTest extends TestBase {
         public void testLongTupleOf7() {
             // LongTuple.LongTuple7 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
             // long sum = tuple.sum();        // 28
-            // long median = tuple.median();  // 4
+            // long median = tuple.lowerMedian();  // 4
             LongTuple.LongTuple7 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
             assertEquals(28L, tuple.sum());
-            assertEquals(4L, tuple.median());
+            assertEquals(4L, tuple.lowerMedian());
         }
 
         @Test
@@ -685,11 +685,11 @@ class LongTupleTest extends TestBase {
         public void testLongTupleOf9() {
             // LongTuple.LongTuple9 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
             // long sum = tuple.sum();         // 45
-            // long median = tuple.median();   // 5
+            // long median = tuple.lowerMedian();   // 5
             // OptionalDouble avg = tuple.average();   // OptionalDouble.of(5.0)
             LongTuple.LongTuple9 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
             assertEquals(45L, tuple.sum());
-            assertEquals(5L, tuple.median());
+            assertEquals(5L, tuple.lowerMedian());
             assertEquals(5.0, tuple.average().getAsDouble(), 0.001);
         }
 
@@ -918,13 +918,13 @@ class LongTupleTest extends TestBase {
         @Test
         public void testMedianTuple1() {
             LongTuple1 tuple = LongTuple.of(1L);
-            assertEquals(1L, tuple.median());
+            assertEquals(1L, tuple.lowerMedian());
         }
 
         @Test
         public void testMedianTuple0ThrowsException() {
             LongTuple<LongTuple0> tuple = LongTuple.from(new long[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.median());
+            assertThrows(NoSuchElementException.class, () -> tuple.lowerMedian());
         }
 
         // Statistical method tests - sum
@@ -1335,7 +1335,7 @@ class LongTupleTest extends TestBase {
             // Test min/max/median/sum/average via base class
             assertEquals(1L, tuple.min());
             assertEquals(4L, tuple.max());
-            assertEquals(2L, tuple.median());
+            assertEquals(2L, tuple.lowerMedian());
             assertEquals(10L, tuple.sum());
             assertEquals(2.5, tuple.average().getAsDouble(), 0.001);
 
@@ -1372,7 +1372,7 @@ class LongTupleTest extends TestBase {
             // Test statistical operations
             assertEquals(1L, tuple.min());
             assertEquals(5L, tuple.max());
-            assertEquals(3L, tuple.median());
+            assertEquals(3L, tuple.lowerMedian());
             assertEquals(15L, tuple.sum());
             assertEquals(3.0, tuple.average().getAsDouble(), 0.001);
 
@@ -1627,7 +1627,7 @@ class LongTupleTest extends TestBase {
         @Test
         public void testLongTuple1_median() {
             LongTuple.LongTuple1 tuple = LongTuple.of(1L);
-            assertNotNull(tuple.median());
+            assertNotNull(tuple.lowerMedian());
         }
 
         @Test
@@ -1707,7 +1707,7 @@ class LongTupleTest extends TestBase {
         @Test
         public void testLongTuple2_median() {
             LongTuple.LongTuple2 tuple = LongTuple.of(1L, 2L);
-            assertNotNull(tuple.median());
+            assertNotNull(tuple.lowerMedian());
         }
 
         @Test
@@ -1809,7 +1809,7 @@ class LongTupleTest extends TestBase {
         @Test
         public void testLongTuple3_median() {
             LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-            assertNotNull(tuple.median());
+            assertNotNull(tuple.lowerMedian());
         }
 
         @Test
@@ -2366,25 +2366,25 @@ class LongTupleTest extends TestBase {
         @Test
         public void testMedian_tuple1() {
             LongTuple1 tuple = LongTuple.of(42L);
-            assertEquals(42L, tuple.median());
+            assertEquals(42L, tuple.lowerMedian());
         }
 
         @Test
         public void testMedian_tuple2() {
             LongTuple2 tuple = LongTuple.of(5L, 2L);
-            assertEquals(2L, tuple.median());
+            assertEquals(2L, tuple.lowerMedian());
         }
 
         @Test
         public void testMedian_tuple3() {
             LongTuple3 tuple = LongTuple.of(3L, 1L, 2L);
-            assertEquals(2L, tuple.median());
+            assertEquals(2L, tuple.lowerMedian());
         }
 
         @Test
         public void testMedian_tuple4() {
             LongTuple4 tuple = LongTuple.of(1L, 2L, 3L, 4L);
-            assertEquals(2L, tuple.median());
+            assertEquals(2L, tuple.lowerMedian());
         }
 
         @Test
@@ -2739,7 +2739,7 @@ class LongTupleTest extends TestBase {
         @Test
         public void testTuple0_median() {
             LongTuple<?> tuple = LongTuple.from(null);
-            assertThrows(NoSuchElementException.class, () -> tuple.median());
+            assertThrows(NoSuchElementException.class, () -> tuple.lowerMedian());
         }
 
         @Test
@@ -2778,7 +2778,7 @@ class LongTupleTest extends TestBase {
             assertEquals(5, tuple.arity());
             assertEquals(1L, tuple.min());
             assertEquals(5L, tuple.max());
-            assertEquals(3L, tuple.median());
+            assertEquals(3L, tuple.lowerMedian());
             assertEquals(15L, tuple.sum());
             assertEquals(3.0, tuple.average().getAsDouble(), 0.001);
             assertTrue(tuple.contains(3L));
@@ -2817,7 +2817,7 @@ class LongTupleTest extends TestBase {
         public void testTuple7_operations() {
             LongTuple7 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
             assertEquals(7, tuple.arity());
-            assertEquals(4L, tuple.median());
+            assertEquals(4L, tuple.lowerMedian());
             assertEquals(28L, tuple.sum());
         }
 
@@ -2950,7 +2950,7 @@ class LongTupleTest extends TestBase {
             LongTuple4 tuple = LongTuple.of(10L, 5L, 15L, 20L);
             assertEquals(5L, tuple.min());
             assertEquals(20L, tuple.max());
-            assertEquals(10L, tuple.median());
+            assertEquals(10L, tuple.lowerMedian());
         }
 
         @Test
@@ -2968,7 +2968,7 @@ class LongTupleTest extends TestBase {
         @Test
         public void testTuple7_median() {
             LongTuple7 tuple = LongTuple.of(1L, 3L, 5L, 7L, 9L, 11L, 13L);
-            assertEquals(7L, tuple.median());
+            assertEquals(7L, tuple.lowerMedian());
         }
     }
 
@@ -3042,11 +3042,11 @@ class LongTupleTest extends TestBase {
         @Test
         public void testMedian() {
             // Odd number of elements - returns middle value
-            assertEquals(2L, LongTuple.of(3L, 1L, 2L).median());
-            assertEquals(3L, LongTuple.of(1L, 2L, 3L, 4L, 5L).median());
+            assertEquals(2L, LongTuple.of(3L, 1L, 2L).lowerMedian());
+            assertEquals(3L, LongTuple.of(1L, 2L, 3L, 4L, 5L).lowerMedian());
 
             // Even number of elements - returns lower middle value
-            assertEquals(2L, LongTuple.of(1L, 2L, 3L, 4L).median());
+            assertEquals(2L, LongTuple.of(1L, 2L, 3L, 4L).lowerMedian());
         }
 
         @Test
@@ -3074,7 +3074,7 @@ class LongTupleTest extends TestBase {
 
         @Test
         public void testMedian_Empty() {
-            assertThrows(NoSuchElementException.class, () -> LongTuple.from(null).median());
+            assertThrows(NoSuchElementException.class, () -> LongTuple.from(null).lowerMedian());
         }
 
         @Test
@@ -3326,7 +3326,7 @@ class LongTupleTest extends TestBase {
             LongTuple1 tuple = LongTuple.of(42L);
             assertEquals(42L, tuple.min());
             assertEquals(42L, tuple.max());
-            assertEquals(42L, tuple.median());
+            assertEquals(42L, tuple.lowerMedian());
             assertEquals(42L, tuple.sum());
             assertEquals(42.0, tuple.average().getAsDouble(), 0.0001);
             assertTrue(tuple.contains(42L));
@@ -3545,7 +3545,7 @@ class LongTupleTest extends TestBase {
         @Test
         public void test_LongTuple0_median_throwsException() {
             LongTuple0 tuple = LongTuple.from(new long[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.median());
+            assertThrows(NoSuchElementException.class, () -> tuple.lowerMedian());
         }
 
         @Test
@@ -3602,7 +3602,7 @@ class LongTupleTest extends TestBase {
         @Test
         public void test_LongTuple1_median() {
             LongTuple1 tuple = LongTuple.of(5L);
-            assertEquals(5L, tuple.median());
+            assertEquals(5L, tuple.lowerMedian());
         }
 
         @Test
@@ -3698,7 +3698,7 @@ class LongTupleTest extends TestBase {
         @Test
         public void test_LongTuple2_median() {
             LongTuple2 tuple = LongTuple.of(1L, 2L);
-            long median = tuple.median();
+            long median = tuple.lowerMedian();
             assertEquals(1L, median);
         }
 
@@ -3812,7 +3812,7 @@ class LongTupleTest extends TestBase {
         @Test
         public void test_LongTuple3_median() {
             LongTuple3 tuple = LongTuple.of(30L, 10L, 20L);
-            assertEquals(20L, tuple.median());
+            assertEquals(20L, tuple.lowerMedian());
         }
 
         @Test
@@ -4012,14 +4012,14 @@ class LongTupleTest extends TestBase {
         @Test
         public void test_median_evenSize() {
             LongTuple4 tuple = LongTuple.of(1L, 2L, 3L, 4L);
-            long median = tuple.median();
+            long median = tuple.lowerMedian();
             assertEquals(2L, median);
         }
 
         @Test
         public void test_median_oddSize() {
             LongTuple5 tuple = LongTuple.of(50L, 10L, 30L, 20L, 40L);
-            long median = tuple.median();
+            long median = tuple.lowerMedian();
             assertEquals(30L, median);
         }
 
@@ -4031,7 +4031,7 @@ class LongTupleTest extends TestBase {
             LongTuple.LongTuple8 t = LongTuple.of(7L, 3L, 5L, 1L, 8L, 4L, 2L, 6L);
             assertEquals(1L, t.min());
             assertEquals(8L, t.max());
-            assertEquals(4L, t.median());
+            assertEquals(4L, t.lowerMedian());
             assertEquals(36L, t.sum());
             assertEquals(36.0 / 8.0, t.average().getAsDouble(), 0d);
         }
@@ -4041,7 +4041,7 @@ class LongTupleTest extends TestBase {
             LongTuple.LongTuple9 t = LongTuple.of(7L, 3L, 5L, 1L, 8L, 4L, 2L, 6L, 9L);
             assertEquals(1L, t.min());
             assertEquals(9L, t.max());
-            assertEquals(5L, t.median());
+            assertEquals(5L, t.lowerMedian());
             assertEquals(45L, t.sum());
             assertEquals(45.0 / 9.0, t.average().getAsDouble(), 0d);
         }
@@ -4101,7 +4101,7 @@ class LongTupleTest extends TestBase {
         LongTuple.LongTuple4 tuple4 = LongTuple.of(9L, 1L, 7L, 3L);
         assertEquals(1L, tuple4.min());
         assertEquals(9L, tuple4.max());
-        assertEquals(3L, tuple4.median());
+        assertEquals(3L, tuple4.lowerMedian());
         assertEquals(20L, tuple4.sum());
         assertEquals(5.0, tuple4.average().getAsDouble());
         assertTrue(tuple4.contains(3L));
@@ -4110,18 +4110,18 @@ class LongTupleTest extends TestBase {
         assertTrue(tuple5.contains(5L));
 
         LongTuple.LongTuple6 tuple6 = LongTuple.of(9L, 1L, 7L, 3L, 5L, 11L);
-        assertEquals(5L, tuple6.median());
+        assertEquals(5L, tuple6.lowerMedian());
         assertTrue(tuple6.contains(11L));
 
         LongTuple.LongTuple7 tuple7 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
         assertTrue(tuple7.contains(7L));
 
         LongTuple.LongTuple8 tuple8 = LongTuple.of(9L, 1L, 7L, 3L, 5L, 11L, 13L, 15L);
-        assertEquals(7L, tuple8.median());
+        assertEquals(7L, tuple8.lowerMedian());
         assertTrue(tuple8.contains(15L));
 
         LongTuple.LongTuple9 tuple9 = LongTuple.of(9L, 1L, 7L, 3L, 5L, 11L, 13L, 15L, 17L);
-        assertEquals(9L, tuple9.median());
+        assertEquals(9L, tuple9.lowerMedian());
         assertTrue(tuple9.contains(17L));
     }
 

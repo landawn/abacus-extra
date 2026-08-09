@@ -28,8 +28,7 @@ import com.landawn.abacus.util.u.OptionalDouble;
  * discipline, so prefer {@code copyOf} unless the backing array is exclusively owned for the lifetime of
  * the wrapper.</p>
  *
- * <p>The wrapper itself exposes no mutator methods, and accessors that return arrays
- * ({@link #toArray()} and {@link #toArray(int, int)}) always return fresh copies. For non-empty instances, the stream
+ * <p>The wrapper itself exposes no mutator methods. For non-empty instances, the stream
  * returned by {@link #stream()} is constructed directly over the backing array; for empty instances it returns a
  * fresh empty stream that is not tied to the backing array. See that method's javadoc for the implications.</p>
  *
@@ -580,64 +579,6 @@ public final class ImmutableIntArray implements Immutable {
     }
 
     /**
-     * Returns a new int array containing all elements in this ImmutableIntArray.
-     *
-     * <p>The returned array is a fresh copy and is independent of this ImmutableIntArray.
-     * Modifying it does not affect this object, including when this object was created by
-     * {@link #unsafeWrap(int[])}.</p>
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {10, 20, 30});
-     * int[] copy = array.toArray();   // returns {10, 20, 30}
-     * copy[0] = 99;
-     * array.get(0);                   // still returns 10
-     *
-     * // Edge: an empty wrapper produces an empty array
-     * ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(null);
-     * empty.toArray();   // returns {}
-     * }</pre>
-     *
-     * @return a newly allocated int array containing all elements in this ImmutableIntArray
-     * @see #toArray(int, int)
-     * @see #subArray(int, int)
-     */
-    public int[] toArray() {
-        return elements.clone();
-    }
-
-    /**
-     * Returns a new int array containing the elements in the specified range.
-     *
-     * <p>The range follows the half-open interval convention: {@code [fromIndex, toIndex)}.
-     * Both indices must be within this array; unlike {@link java.util.Arrays#copyOfRange(int[], int, int)},
-     * this method does not permit {@code toIndex > length()} and does not pad the result.</p>
-     *
-     * <p>The returned array is a fresh copy and is independent of this ImmutableIntArray.</p>
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {10, 20, 30, 40, 50});
-     * array.toArray(1, 4);   // returns {20, 30, 40}
-     * array.toArray(2, 2);   // returns {}
-     * array.toArray(0, 10);  // throws IndexOutOfBoundsException
-     * }</pre>
-     *
-     * @param fromIndex the starting index (inclusive), must be {@code >= 0}
-     * @param toIndex the ending index (exclusive), must be {@code <= length()}
-     * @return a newly allocated int array containing the elements in {@code [fromIndex, toIndex)}
-     * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > length()},
-     *                                   or {@code fromIndex > toIndex}
-     * @see #toArray()
-     * @see #subArray(int, int)
-     */
-    public int[] toArray(final int fromIndex, final int toIndex) throws IndexOutOfBoundsException {
-        N.checkFromToIndex(fromIndex, toIndex, length);
-
-        return N.copyOfRange(elements, fromIndex, toIndex);
-    }
-
-    /**
      * Returns an ImmutableIntArray containing the elements in the specified range.
      *
      * <p>The range follows the half-open interval convention: {@code [fromIndex, toIndex)}.
@@ -648,8 +589,8 @@ public final class ImmutableIntArray implements Immutable {
      * <pre>{@code
      * ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {10, 20, 30, 40, 50});
      * ImmutableIntArray middle = array.subArray(1, 4);
-     * middle.toArray();        // returns {20, 30, 40}
-     * array.subArray(2, 2);    // returns an empty ImmutableIntArray
+     * middle.toString();      // returns "[20, 30, 40]"
+     * array.subArray(2, 2);   // returns an empty ImmutableIntArray
      * }</pre>
      *
      * @param fromIndex the starting index (inclusive), must be {@code >= 0}
@@ -657,10 +598,11 @@ public final class ImmutableIntArray implements Immutable {
      * @return a new ImmutableIntArray containing the elements in {@code [fromIndex, toIndex)}
      * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > length()},
      *                                   or {@code fromIndex > toIndex}
-     * @see #toArray(int, int)
      */
     public ImmutableIntArray subArray(final int fromIndex, final int toIndex) throws IndexOutOfBoundsException {
-        return new ImmutableIntArray(toArray(fromIndex, toIndex));
+        N.checkFromToIndex(fromIndex, toIndex, length);
+
+        return new ImmutableIntArray(N.copyOfRange(elements, fromIndex, toIndex));
     }
 
     /**
@@ -679,11 +621,11 @@ public final class ImmutableIntArray implements Immutable {
      * @return a newly allocated int array containing the elements in {@code [fromIndex, toIndex)}
      * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > length()},
      *                                   or {@code fromIndex > toIndex}
-     * @deprecated Use {@link #toArray(int, int)}. This method has the same strict bounds and does not pad the result.
      */
-    @Deprecated
     public int[] copyOfRange(final int fromIndex, final int toIndex) throws IndexOutOfBoundsException {
-        return toArray(fromIndex, toIndex);
+        N.checkFromToIndex(fromIndex, toIndex, length);
+
+        return N.copyOfRange(elements, fromIndex, toIndex);
     }
 
     /**

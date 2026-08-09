@@ -50,9 +50,14 @@ public sealed class Arrays permits Arrays.f {
     /** The line separator inserted between sub-arrays when printing multi-dimensional arrays. */
     static final String ARRAY_PRINT_SEPARATOR = IOUtil.LINE_SEPARATOR_UNIX;
 
+    /**
+     * Wraps an {@link ArrayStoreException} thrown by a user-supplied mapping or zipping callback.
+     * The original exception is available through {@link #original()}.
+     */
     @SuppressWarnings("serial")
     private static final class CallbackArrayStoreException extends RuntimeException {
 
+        /** The array-store exception thrown by the callback. */
         private final ArrayStoreException original;
 
         /**
@@ -75,6 +80,7 @@ public sealed class Arrays permits Arrays.f {
         }
     }
 
+    /** Prevents instantiation of this utility class. */
     private Arrays() {
         // utility class.
     }
@@ -20746,10 +20752,23 @@ public sealed class Arrays permits Arrays.f {
         }
     }
 
+    /**
+     * Requires a positive column count for a reshape operation.
+     *
+     * @param m the column count to validate
+     * @throws IllegalArgumentException if {@code m} is not positive
+     */
     private static void checkColsForReshape(final int m) { // NOSONAR
         N.checkArgument(m > 0, "columnCount must be a positive number, but got: {}", m);
     }
 
+    /**
+     * Requires positive row and column counts for a reshape operation.
+     *
+     * @param rowCount the row count to validate
+     * @param columnCount the column count to validate
+     * @throws IllegalArgumentException if either count is not positive
+     */
     private static void checkRowsAndColsForReshape(final int rowCount, final int columnCount) {
         N.checkArgument(rowCount > 0 && columnCount > 0, "rowCount and columnCount must be positive numbers: rowCount = {}, columnCount = {}", rowCount,
                 columnCount);

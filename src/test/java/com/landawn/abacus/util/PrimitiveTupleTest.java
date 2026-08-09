@@ -63,8 +63,51 @@ class PrimitiveTupleTest extends TestBase {
                 assertThrows(NoSuchElementException.class, () -> ByteTuple.from((byte[]) null).min()).getMessage());
         assertEquals("Cannot compute max() for an empty tuple",
                 assertThrows(NoSuchElementException.class, () -> IntTuple.from((int[]) null).max()).getMessage());
+        assertEquals("Cannot compute lowerMedian() for an empty tuple",
+                assertThrows(NoSuchElementException.class, () -> DoubleTuple.from((double[]) null).lowerMedian()).getMessage());
+    }
+
+    @Test
+    public void testLowerMedianAndStatisticalMedian() throws ReflectiveOperationException {
+        assertEquals((byte) 2, ByteTuple.of((byte) 4, (byte) 1, (byte) 3, (byte) 2).lowerMedian());
+        assertEquals(2.5d, ByteTuple.of((byte) 4, (byte) 1, (byte) 3, (byte) 2).median());
+
+        assertEquals('B', CharTuple.of('D', 'A', 'C', 'B').lowerMedian());
+
+        assertEquals((short) 2, ShortTuple.of((short) 4, (short) 1, (short) 3, (short) 2).lowerMedian());
+        assertEquals(2.5d, ShortTuple.of((short) 4, (short) 1, (short) 3, (short) 2).median());
+
+        final IntTuple.IntTuple4 ints = IntTuple.of(4, 1, 3, 2);
+        assertEquals(2, ints.lowerMedian());
+        assertEquals(2.5d, ints.median());
+        assertEquals(-0.5d, IntTuple.of(Integer.MIN_VALUE, Integer.MAX_VALUE).median());
+
+        assertEquals(2L, LongTuple.of(4L, 1L, 3L, 2L).lowerMedian());
+        assertEquals(2.5d, LongTuple.of(4L, 1L, 3L, 2L).median());
+        assertEquals(-0.5d, LongTuple.of(Long.MIN_VALUE, Long.MAX_VALUE).median());
+
+        assertEquals(2f, FloatTuple.of(4f, 1f, 3f, 2f).lowerMedian());
+        assertEquals(2.5d, FloatTuple.of(4f, 1f, 3f, 2f).median());
+
+        final DoubleTuple.DoubleTuple4 doubles = DoubleTuple.of(4d, 1d, 3d, 2d);
+        assertEquals(2d, doubles.lowerMedian());
+        assertEquals(2.5d, doubles.median());
+        assertEquals(4d, doubles._1);
+        assertEquals(Double.MAX_VALUE, DoubleTuple.of(Double.MAX_VALUE, Double.MAX_VALUE).median());
+        assertTrue(Double.isNaN(DoubleTuple.of(1d, Double.NaN).median()));
+
+        assertEquals("Cannot compute lowerMedian() for an empty tuple",
+                assertThrows(NoSuchElementException.class, () -> DoubleTuple.from((double[]) null).lowerMedian()).getMessage());
         assertEquals("Cannot compute median() for an empty tuple",
                 assertThrows(NoSuchElementException.class, () -> DoubleTuple.from((double[]) null).median()).getMessage());
+
+        for (final Class<?> tupleType : List.of(ByteTuple.class, CharTuple.class, ShortTuple.class, IntTuple.class, LongTuple.class, FloatTuple.class,
+                DoubleTuple.class)) {
+            if (!tupleType.equals(CharTuple.class)) {
+                assertEquals(double.class, tupleType.getMethod("median").getReturnType());
+                assertFalse(tupleType.getMethod("median").isAnnotationPresent(Deprecated.class));
+            }
+        }
     }
 
     @Test

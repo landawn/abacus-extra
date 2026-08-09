@@ -16,7 +16,6 @@ package com.landawn.abacus.util;
 
 import java.util.NoSuchElementException;
 
-import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.annotation.MayReturnNull;
 import com.landawn.abacus.util.CharTuple.CharTuple0;
 import com.landawn.abacus.util.CharTuple.CharTuple1;
@@ -35,17 +34,27 @@ import com.landawn.abacus.util.stream.CharStream;
 /**
  * Base class for immutable tuples of primitive {@code char} values.
  *
- * <p>The nested tuple types model fixed arities from 0 through 9. Factory methods such as
- * {@link #from(char[])} and the {@code of(...)} overloads select the matching subtype, while the base
- * class supplies aggregate, reversal, containment, and functional helper operations.</p>
+ * <p>The nested tuple types model fixed arities from 0 through 9. Prefer the {@code of(...)} factory
+ * overloads to create a specific arity; {@link #from(char[])} is deprecated and retained only for
+ * compatibility. The base class supplies aggregate, reversal, containment, conversion, and
+ * element-wise functional helpers; {@link PrimitiveTuple} adds whole-tuple
+ * {@link PrimitiveTuple#accept(Throwables.Consumer) accept},
+ * {@link PrimitiveTuple#map(Throwables.Function) map},
+ * {@link PrimitiveTuple#filter(Throwables.Predicate) filter}, and
+ * {@link PrimitiveTuple#toOptional() toOptional}.</p>
  *
- * <p>This sealed base class permits only the built-in arity-specific nested tuple types.</p>
+ * <p>Arity-specific nested types ({@code CharTuple1} through {@code CharTuple9}) expose their components as
+ * public final fields {@code _1}, {@code _2}, and so on matching that arity. This sealed hierarchy permits only
+ * the built-in nested types; all instances are immutable.</p>
  *
- * <p><b>Numeric semantics:</b> All ordering and arithmetic operations ({@link #min()}, {@link #max()},
- * {@link #median()}, {@link #sum()}, {@link #average()}) treat each {@code char} as its unsigned
- * 16-bit UTF-16 code unit value (range {@code 0..65535}). Surrogate code units are not paired or
- * interpreted as code points. {@link #sum()} returns an {@code int} and {@link #average()} returns an
- * {@code OptionalDouble} (widened from the code-unit values).</p>
+ * <p><b>Numeric semantics:</b> Values are unsigned UTF-16 code units (range {@code 0..65535}).
+ * Ordering and arithmetic ({@link #min()}, {@link #max()}, {@link #lowerMedian()}, {@link #sum()},
+ * {@link #average()}, {@link #median()}) treat each {@code char} as its code-unit value; surrogate
+ * code units are not paired or interpreted as code points. {@link #min()}, {@link #max()}, and
+ * {@link #lowerMedian()} return {@code char}; {@link #sum()} returns {@code int}; {@link #average()}
+ * and {@link #median()} use {@code double} precision ({@code average} via {@link OptionalDouble}).
+ * Empty-tuple contracts: {@code sum()} is {@code 0}, {@code average()} is empty, and
+ * {@code min}/{@code max}/{@code lowerMedian}/{@code median} throw {@link NoSuchElementException}.</p>
  *
  * @param <TP> the concrete {@code CharTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
@@ -131,7 +140,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * CharTuple.CharTuple3 t2 = CharTuple.of('C', 'A', 'B');
      * char min = t2.min();                 // 'A'
      * char max = t2.max();                 // 'C'
-     * char median = t2.median();           // 'B'
+     * char median = t2.lowerMedian();           // 'B'
      * }</pre>
      *
      * @param _1 the first char value
@@ -154,7 +163,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      *
      * // Edge: even arity, median returns lower of two middle values
      * CharTuple.CharTuple4 t2 = CharTuple.of('D', 'A', 'C', 'B');
-     * char median = t2.median();           // 'B' (sorted: A,B,C,D -> lower middle)
+     * char median = t2.lowerMedian();           // 'B' (sorted: A,B,C,D -> lower middle)
      * }</pre>
      *
      * @param _1 the first char value
@@ -173,7 +182,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple.CharTuple5 t = CharTuple.of('A', 'B', 'C', 'D', 'E');
-     * char median = t.median();             // 'C' (sorted: A,B,C,D,E -> middle index 2)
+     * char median = t.lowerMedian();             // 'C' (sorted: A,B,C,D,E -> middle index 2)
      * boolean has = t.contains('E');        // true
      *
      * // Edge: all same character
@@ -260,8 +269,8 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      *
      * // Edge: check arity and array length consistency
      * int arity = t.arity();               // 8
-     * char[] arr = t.toArray();
-     * int len = arr.length;                // 8
+     * char[] a = t.toArray();
+     * int len = a.length;                // 8
      * }</pre>
      *
      * @param _1 the first char value
@@ -355,10 +364,11 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * @param values the array of char values; may be {@code null} or empty, in which case the shared empty tuple is returned
      * @return a {@code CharTuple} of the appropriate arity containing the array values, or the shared empty tuple if the array is {@code null} or empty
      * @throws IllegalArgumentException if {@code values} has more than 9 elements
+     * @deprecated Use the {@code of(...)} factory methods instead; this method may be removed in a future release.
      * @see #of(char)
      */
-    @Beta
-    @SuppressWarnings({ "deprecation", "unchecked" })
+    @Deprecated
+    @SuppressWarnings({ "unchecked" })
     public static <TP extends CharTuple<TP>> TP from(final char[] values) {
         if (values == null || values.length == 0) {
             return (TP) CharTuple0.EMPTY;
@@ -426,16 +436,16 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * @return the minimum char value in this tuple
      * @throws NoSuchElementException if the tuple is empty
      * @see #max()
-     * @see #median()
+     * @see #lowerMedian()
      */
     public char min() {
-        final char[] arr = elements();
+        final char[] a = elements();
 
-        if (arr.length == 0) {
+        if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute min() for an empty tuple");
         }
 
-        return N.min(arr);
+        return N.min(a);
     }
 
     /**
@@ -467,59 +477,16 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * @return the maximum char value in this tuple
      * @throws NoSuchElementException if the tuple is empty
      * @see #min()
-     * @see #median()
+     * @see #lowerMedian()
      */
     public char max() {
-        final char[] arr = elements();
+        final char[] a = elements();
 
-        if (arr.length == 0) {
+        if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute max() for an empty tuple");
         }
 
-        return N.max(arr);
-    }
-
-    /**
-     * Returns the median char value in this tuple, ordered as unsigned 16-bit code units.
-     * <p>
-     * The median is the middle value when all elements are sorted. For tuples with
-     * an odd number of elements, returns the exact middle value. For tuples with an
-     * even number of elements, returns the lower of the two middle values.
-     * </p>
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * // Basic: odd arity - exact middle after sorting
-     * CharTuple.CharTuple3 t3 = CharTuple.of('Z', 'A', 'M');
-     * char median = t3.median();           // 'M' (sorted: A, M, Z -> index 1)
-     *
-     * // Basic: even arity - lower of the two middle values
-     * CharTuple.CharTuple4 t4 = CharTuple.of('A', 'B', 'C', 'D');
-     * char median2 = t4.median();          // 'B' (sorted: A,B,C,D -> lower middle)
-     *
-     * // Edge: single-element - median equals the element itself
-     * CharTuple.CharTuple1 t1 = CharTuple.of('K');
-     * char median3 = t1.median();          // 'K'
-     *
-     * // Edge: empty tuple throws NoSuchElementException
-     * CharTuple<?> empty = CharTuple.from(new char[0]);
-     * empty.median();                      // throws NoSuchElementException
-     * }</pre>
-     *
-     * @return the median char value in this tuple (middle when sorted for odd arity; lower-middle when sorted for even arity; unsigned code-unit order)
-     * @throws NoSuchElementException if the tuple is empty
-     * @see #min()
-     * @see #max()
-     * @see N#median(char...)
-     */
-    public char median() {
-        final char[] arr = elements();
-
-        if (arr.length == 0) {
-            throw new NoSuchElementException("Cannot compute median() for an empty tuple");
-        }
-
-        return N.median(arr);
+        return N.max(a);
     }
 
     /**
@@ -585,9 +552,54 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * @see #sum()
      */
     public OptionalDouble average() {
-        final char[] arr = elements();
+        final char[] a = elements();
 
-        return arr.length == 0 ? OptionalDouble.empty() : OptionalDouble.of(N.average(arr));
+        return a.length == 0 ? OptionalDouble.empty() : OptionalDouble.of(N.average(a));
+    }
+
+    /**
+     * Returns the lower median of this tuple as an unsigned UTF-16 code unit ({@code char}).
+     * <p>
+     * Elements are ordered by unsigned code-unit magnitude (range {@code 0..65535}). For an odd
+     * arity, this is the middle value when sorted. For an even arity, this is the lower of the two
+     * middle values when sorted (not their average). Prefer {@link #median()} when you need the
+     * conventional statistical median as a {@code double}.
+     * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * // odd number of elements: exact middle of sorted sequence
+     * CharTuple.CharTuple3 t3 = CharTuple.of('Z', 'A', 'M');
+     * char median = t3.lowerMedian();   // 'M' (sorted: A, M, Z; index 1)
+     *
+     * // even number of elements: lower middle of sorted sequence
+     * CharTuple.CharTuple4 t4 = CharTuple.of('A', 'B', 'C', 'D');
+     * char evenMedian = t4.lowerMedian();   // 'B' (sorted: A, [B], C, D; lower of the two middles)
+     *
+     * // single element
+     * CharTuple.CharTuple1 single = CharTuple.of('K');
+     * char singleMedian = single.lowerMedian();   // 'K'
+     *
+     * // empty tuple -> throws NoSuchElementException
+     * CharTuple<?> empty = CharTuple.from(new char[0]);
+     * empty.lowerMedian();   // throws NoSuchElementException
+     * }</pre>
+     *
+     * @return the lower-median char (middle when sorted for odd arity; lower-middle when sorted for even arity; unsigned code-unit order)
+     * @throws NoSuchElementException if the tuple is empty
+     * @see #min()
+     * @see #max()
+     * @see #median()
+     * @see N#lowerMedian(char...)
+     */
+    public char lowerMedian() {
+        final char[] a = elements();
+
+        if (a.length == 0) {
+            throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
+        }
+
+        return N.lowerMedian(a);
     }
 
     /**
@@ -671,11 +683,11 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * <pre>{@code
      * // Basic: returns array matching the tuple's elements in order
      * CharTuple.CharTuple3 t = CharTuple.of('A', 'B', 'C');
-     * char[] arr = t.toArray();            // ['A', 'B', 'C']
-     * int len = arr.length;                // 3
+     * char[] a = t.toArray();            // ['A', 'B', 'C']
+     * int len = a.length;                // 3
      *
      * // Basic: returned array is a defensive copy - mutation does not affect tuple
-     * arr[0] = 'X';
+     * a[0] = 'X';
      * char first = t.toArray()[0];         // still 'A'
      *
      * // Edge: empty tuple returns empty array
@@ -915,17 +927,18 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
     protected abstract char[] elements();
 
     /**
-     * An empty CharTuple containing no elements (arity 0).
+     * An empty {@code CharTuple} (arity 0).
      * <p>
-     * This package-private class is exposed only through the base {@code CharTuple} type
-     * via the singleton instance returned by {@link #from(char[])} when invoked with a
-     * {@code null} or zero-length array. {@link #sum()} returns 0 and {@link #average()} returns an empty
-     * {@code OptionalDouble}, while
-     * {@link #min()}, {@link #max()}, and {@link #median()} all throw {@link java.util.NoSuchElementException}.
+     * Package-private; callers obtain the shared instance only via {@link #from(char[])} with a
+     * {@code null} or zero-length array (deprecated). Aggregate contracts for the empty instance:
+     * {@link #sum()} is {@code 0}, {@link #average()} is empty, and
+     * {@link #min()}, {@link #max()}, {@link #lowerMedian()}, and {@link #median()} throw
+     * {@link NoSuchElementException}. {@link #reverse()} returns this same instance.
      * </p>
      */
     static final class CharTuple0 extends CharTuple<CharTuple0> {
 
+        /** The shared empty char tuple. */
         private static final CharTuple0 EMPTY = new CharTuple0();
 
         /**
@@ -990,25 +1003,15 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns the median char value in this tuple.
-         * Since this tuple is empty, this method always throws an exception.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * CharTuple<?> emptyTuple = CharTuple.from(new char[0]);
-         * try {
-         *     emptyTuple.median();         // throws NoSuchElementException
-         * } catch (NoSuchElementException e) {
-         *     // expected
-         * }
-         * }</pre>
+         * Always throws because this tuple has no elements.
          *
          * @return never returns normally
-         * @throws NoSuchElementException always, because the tuple is empty
+         * @throws NoSuchElementException always
+         * @see CharTuple#median()
          */
         @Override
-        public char median() {
-            throw new NoSuchElementException("Cannot compute median() for an empty tuple");
+        public char lowerMedian() {
+            throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
         }
 
         /**
@@ -1078,12 +1081,20 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
     }
 
     /**
-     * A CharTuple containing exactly one char element.
+     * A {@code CharTuple} containing exactly one {@code char} element.
      * <p>
-     * This class provides direct access to the single element through the public final field {@code _1}.
-     * For single-element tuples, all statistical operations (min, max, median, sum, average) return
-     * or are based on that single element.
+     * The value is the public final field {@code _1}. Aggregates such as {@link #min()},
+     * {@link #max()}, {@link #lowerMedian()}, {@link #sum()}, and {@link #average()} all reflect
+     * that single element.
      * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * CharTuple.CharTuple1 tuple = CharTuple.of((char) 42);
+     * char value = tuple._1;   // 42
+     * char min = tuple.min();  // 42 (single element)
+     * char max = tuple.max();  // 42 (single element)
+     * }</pre>
      */
     public static final class CharTuple1 extends CharTuple<CharTuple1> {
 
@@ -1177,27 +1188,6 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns the median char value in this tuple.
-         * Since this tuple contains only one element, it returns that element.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * CharTuple.CharTuple1 t = CharTuple.of('M');
-         * char median = t.median();        // 'M'
-         *
-         * // Edge: any single char is its own median
-         * CharTuple.CharTuple1 t2 = CharTuple.of('a');
-         * char median2 = t2.median();      // 'a'
-         * }</pre>
-         *
-         * @return the single char value in this tuple
-         */
-        @Override
-        public char median() {
-            return _1;
-        }
-
-        /**
          * Returns the sum of all char values in this tuple.
          * Since this tuple contains only one element, it returns the numeric value of that element.
          *
@@ -1251,6 +1241,26 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         @Override
         public OptionalDouble average() {
             return OptionalDouble.of(_1);
+        }
+
+        /**
+         * Returns the lower median of this one-element tuple, which is the element itself.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * CharTuple.CharTuple1 t = CharTuple.of('M');
+         * char median = t.lowerMedian();        // 'M'
+         *
+         * // Edge: any single char is its own lower median
+         * CharTuple.CharTuple1 t2 = CharTuple.of('a');
+         * char median2 = t2.lowerMedian();      // 'a'
+         * }</pre>
+         *
+         * @return the single char value in this tuple
+         */
+        @Override
+        public char lowerMedian() {
+            return _1;
         }
 
         /**
@@ -1419,13 +1429,29 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
     }
 
     /**
-     * A CharTuple containing exactly two char elements.
+     * A {@code CharTuple} containing exactly two {@code char} elements.
      * <p>
-     * This class provides direct access to elements through public final fields {@code _1} and {@code _2}.
-     * CharTuple.CharTuple2 offers additional functional methods like {@link #accept(Throwables.CharBiConsumer)},
-     * {@link #map(Throwables.CharBiFunction)}, and {@link #filter(Throwables.CharBiPredicate)} that
-     * operate on both elements simultaneously.
+     * Components are the public final fields {@code _1} and {@code _2}. Besides the operations from
+     * {@link CharTuple} and {@link PrimitiveTuple}, this type adds element-unpacking helpers that
+     * pass both values to a bi-consumer / bi-function / bi-predicate (distinct from the whole-tuple
+     * {@code accept}/{@code map}/{@code filter} on {@link PrimitiveTuple}):
      * </p>
+     * <ul>
+     *   <li>{@link #accept(Throwables.CharBiConsumer)} — both elements as primitives</li>
+     *   <li>{@link #map(Throwables.CharBiFunction)} — map both elements to one result</li>
+     *   <li>{@link #filter(Throwables.CharBiPredicate)} — keep this pair in an {@link Optional} if the predicate holds</li>
+     * </ul>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * CharTuple.CharTuple2 tuple = CharTuple.of((char) 10, (char) 20);
+     * char first = tuple._1;   // 10
+     * char second = tuple._2;  // 20
+     *
+     * // Element-wise functional helpers
+     * tuple.accept((a, b) -> System.out.println(a + " + " + b));
+     * int sum = tuple.map((a, b) -> a + b);   // 30
+     * }</pre>
      */
     public static final class CharTuple2 extends CharTuple<CharTuple2> {
 
@@ -1537,35 +1563,6 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns the median char value in this tuple.
-         * For a tuple of two elements, returns the lower of the two values.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * CharTuple.CharTuple2 tuple = CharTuple.of('B', 'D');
-         * char median = tuple.median();   // 'B' (lower value)
-         *
-         * // Same value
-         * CharTuple.CharTuple2 same = CharTuple.of('C', 'C');
-         * char medianSame = same.median();   // 'C'
-         *
-         * // Reversed order - still returns the lower
-         * CharTuple.CharTuple2 rev = CharTuple.of('Z', 'A');
-         * char medianRev = rev.median();   // 'A'
-         *
-         * // Boundary: lower of 'A' and max char is 'A'
-         * CharTuple.CharTuple2 boundary = CharTuple.of('\uFFFF', 'A');
-         * char medianBoundary = boundary.median();   // 'A'
-         * }</pre>
-         *
-         * @return the lower-middle char value when sorted (unsigned code-unit order)
-         */
-        @Override
-        public char median() {
-            return N.median(_1, _2);
-        }
-
-        /**
          * Returns the sum of all char values in this tuple.
          *
          * <p><b>Usage Examples:</b></p>
@@ -1619,6 +1616,35 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         @Override
         public OptionalDouble average() {
             return OptionalDouble.of(N.average(_1, _2));
+        }
+
+        /**
+         * Returns the lower median of this pair: the smaller of the two unsigned code-unit values.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * CharTuple.CharTuple2 tuple = CharTuple.of('B', 'D');
+         * char median = tuple.lowerMedian();   // 'B' (lower value)
+         *
+         * // Same value
+         * CharTuple.CharTuple2 same = CharTuple.of('C', 'C');
+         * char medianSame = same.lowerMedian();   // 'C'
+         *
+         * // Reversed order - still returns the lower
+         * CharTuple.CharTuple2 rev = CharTuple.of('Z', 'A');
+         * char medianRev = rev.lowerMedian();   // 'A'
+         *
+         * // Boundary: lower of 'A' and max char is 'A'
+         * CharTuple.CharTuple2 boundary = CharTuple.of('\uFFFF', 'A');
+         * char medianBoundary = boundary.lowerMedian();   // 'A'
+         * }</pre>
+         *
+         * @return {@code min(_1, _2)} in unsigned code-unit order
+         * @see #median()
+         */
+        @Override
+        public char lowerMedian() {
+            return N.min(_1, _2);
         }
 
         /**
@@ -1711,11 +1737,11 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         }
 
         /**
-         * Applies the given action to both elements of this tuple.
+         * Invokes {@code action} once with both elements ({@code _1}, {@code _2}).
          * <p>
-         * This method executes the provided bi-consumer action with both tuple elements as arguments.
-         * It is useful for performing operations that require access to both values simultaneously,
-         * such as logging, comparison, or updating external state based on the pair of values.
+         * This is the element-unpacking overload for pairs. It differs from
+         * {@link PrimitiveTuple#accept(Throwables.Consumer)}, which receives this tuple object, and from
+         * {@link #forEach(Throwables.CharConsumer)}, which invokes a consumer once per element.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1739,11 +1765,12 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action
-         * @param action the bi-consumer action to be performed on both elements, must not be {@code null}
+         * @param action the bi-consumer to apply to both elements, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          * @see #forEach(Throwables.CharConsumer)
          * @see #map(Throwables.CharBiFunction)
+         * @see PrimitiveTuple#accept(Throwables.Consumer)
          */
         public <E extends Exception> void accept(final Throwables.CharBiConsumer<E> action) throws E {
             N.checkArgNotNull(action, cs.action);
@@ -1752,11 +1779,10 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         }
 
         /**
-         * Applies the given function to both elements of this tuple and returns the result.
+         * Applies {@code mapper} to both elements ({@code _1}, {@code _2}) and returns the result.
          * <p>
-         * This method transforms both tuple elements into a single result value by applying
-         * the provided bi-function. It enables functional-style processing of the tuple's
-         * values, such as combining them or computing derived values.
+         * Element-unpacking overload for pairs. Distinct from
+         * {@link PrimitiveTuple#map(Throwables.Function)}, which receives this tuple object as a single argument.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1776,14 +1802,15 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * String dup2 = dup.map((a, b) -> "" + a + b);   // "XX"
          * }</pre>
          *
-         * @param <U> the type of the result returned by the mapper function
+         * @param <U> the type of the result value
          * @param <E> the type of exception that may be thrown by the mapper
          * @param mapper the bi-function to apply to both elements, must not be {@code null}
-         * @return the result of applying the mapping function to both elements (may be {@code null})
+         * @return the result of applying the bi-function to both elements (may be {@code null})
          * @throws IllegalArgumentException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          * @see #accept(Throwables.CharBiConsumer)
          * @see #filter(Throwables.CharBiPredicate)
+         * @see PrimitiveTuple#map(Throwables.Function)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.CharBiFunction<U, E> mapper) throws E {
@@ -1793,13 +1820,11 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns an Optional containing this tuple if it matches the given predicate,
-         * otherwise returns an empty Optional.
+         * Returns an {@link Optional} containing this pair if {@code predicate} holds for
+         * ({@code _1}, {@code _2}); otherwise {@link Optional#empty()}.
          * <p>
-         * This method evaluates the provided bi-predicate against both tuple elements.
-         * If the predicate returns {@code true}, the tuple is wrapped in an Optional;
-         * otherwise, an empty Optional is returned. This enables conditional processing
-         * and chaining of operations based on the tuple's values.
+         * Element-unpacking overload for pairs. Distinct from
+         * {@link PrimitiveTuple#filter(Throwables.Predicate)}, which tests the tuple object as a whole.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1823,11 +1848,12 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          *
          * @param <E> the type of exception that may be thrown by the predicate
          * @param predicate the bi-predicate to test both elements, must not be {@code null}
-         * @return an Optional containing this tuple if the predicate returns {@code true}, empty otherwise
+         * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
          * @throws IllegalArgumentException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception during evaluation
          * @see #accept(Throwables.CharBiConsumer)
          * @see #map(Throwables.CharBiFunction)
+         * @see PrimitiveTuple#filter(Throwables.Predicate)
          */
         public <E extends Exception> Optional<CharTuple2> filter(final Throwables.CharBiPredicate<E> predicate) throws E {
             N.checkArgNotNull(predicate, cs.predicate);
@@ -1943,13 +1969,27 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
     }
 
     /**
-     * A CharTuple containing exactly three char elements.
+     * A {@code CharTuple} containing exactly three {@code char} elements.
      * <p>
-     * This class provides direct access to elements through public final fields {@code _1}, {@code _2}, and {@code _3}.
-     * CharTuple.CharTuple3 offers additional functional methods like {@link #accept(Throwables.CharTriConsumer)},
-     * {@link #map(Throwables.CharTriFunction)}, and {@link #filter(Throwables.CharTriPredicate)} that
-     * operate on all three elements simultaneously.
+     * Components are the public final fields {@code _1}, {@code _2}, and {@code _3}. In addition to
+     * {@link CharTuple} / {@link PrimitiveTuple} operations, this type provides element-unpacking
+     * {@link #accept(Throwables.CharTriConsumer)}, {@link #map(Throwables.CharTriFunction)}, and
+     * {@link #filter(Throwables.CharTriPredicate)} helpers that pass all three values as primitives
+     * (distinct from the whole-tuple methods on {@link PrimitiveTuple}).
      * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * CharTuple.CharTuple3 tuple = CharTuple.of((char) 10, (char) 20, (char) 30);
+     * char first = tuple._1;   // 10
+     * char second = tuple._2;  // 20
+     * char third = tuple._3;   // 30
+     *
+     * // Using statistical operations
+     * char min = tuple.min();         // 10
+     * char max = tuple.max();         // 30
+     * OptionalDouble avg = tuple.average();   // OptionalDouble.of(20.0)
+     * }</pre>
      */
     public static final class CharTuple3 extends CharTuple<CharTuple3> {
 
@@ -2065,34 +2105,6 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns the median char value in this tuple.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * CharTuple.CharTuple3 tuple = CharTuple.of('Z', 'A', 'M');
-         * char median = tuple.median();   // 'M' (middle value when sorted: A, M, Z)
-         *
-         * // Duplicates: two same values - median is the duplicate value
-         * CharTuple.CharTuple3 dup = CharTuple.of('B', 'B', 'D');
-         * char medianDup = dup.median();   // 'B'
-         *
-         * // All same values
-         * CharTuple.CharTuple3 same = CharTuple.of('C', 'C', 'C');
-         * char medianSame = same.median();   // 'C'
-         *
-         * // Boundary: 'A', 'Z', max char - median is 'Z'
-         * CharTuple.CharTuple3 boundary = CharTuple.of('A', 'Z', '\uFFFF');
-         * char medianBoundary = boundary.median();   // 'Z'
-         * }</pre>
-         *
-         * @return the middle char value when sorted (unsigned code-unit order)
-         */
-        @Override
-        public char median() {
-            return N.median(_1, _2, _3);
-        }
-
-        /**
          * Returns the sum of all char values in this tuple.
          *
          * <p><b>Usage Examples:</b></p>
@@ -2146,6 +2158,36 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         @Override
         public OptionalDouble average() {
             return OptionalDouble.of(N.average(_1, _2, _3));
+        }
+
+        /**
+         * Returns the lower median of this triple: the middle unsigned code-unit value when the three
+         * elements are ordered by magnitude.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * CharTuple.CharTuple3 tuple = CharTuple.of('Z', 'A', 'M');
+         * char median = tuple.lowerMedian();   // 'M' (middle value when sorted: A, M, Z)
+         *
+         * // Duplicates: two same values - lower median is the duplicate value
+         * CharTuple.CharTuple3 dup = CharTuple.of('B', 'B', 'D');
+         * char medianDup = dup.lowerMedian();   // 'B'
+         *
+         * // All same values
+         * CharTuple.CharTuple3 same = CharTuple.of('C', 'C', 'C');
+         * char medianSame = same.lowerMedian();   // 'C'
+         *
+         * // Boundary: 'A', 'Z', max char - lower median is 'Z'
+         * CharTuple.CharTuple3 boundary = CharTuple.of('A', 'Z', '\uFFFF');
+         * char medianBoundary = boundary.lowerMedian();   // 'Z'
+         * }</pre>
+         *
+         * @return the middle char value when the three elements are sorted (unsigned code-unit order)
+         * @see #median()
+         */
+        @Override
+        public char lowerMedian() {
+            return N.median(_1, _2, _3);
         }
 
         /**
@@ -2239,11 +2281,11 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         }
 
         /**
-         * Applies the given action to all three elements of this tuple.
+         * Invokes {@code action} once with all three elements ({@code _1}, {@code _2}, {@code _3}).
          * <p>
-         * This method executes the provided tri-consumer action with all three tuple elements as arguments.
-         * It is useful for performing operations that require access to all three values simultaneously,
-         * such as logging, complex validation, or updating external state based on the triple of values.
+         * Element-unpacking overload for triples. Distinct from
+         * {@link PrimitiveTuple#accept(Throwables.Consumer)} (whole tuple) and
+         * {@link #forEach(Throwables.CharConsumer)} (one call per element).
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -2267,11 +2309,12 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action
-         * @param action the tri-consumer action to be performed on all three elements, must not be {@code null}
+         * @param action the tri-consumer to apply to all three elements, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
          * @see #forEach(Throwables.CharConsumer)
          * @see #map(Throwables.CharTriFunction)
+         * @see PrimitiveTuple#accept(Throwables.Consumer)
          */
         public <E extends Exception> void accept(final Throwables.CharTriConsumer<E> action) throws E {
             N.checkArgNotNull(action, cs.action);
@@ -2280,11 +2323,10 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         }
 
         /**
-         * Applies the given function to all three elements of this tuple and returns the result.
+         * Applies {@code mapper} to all three elements ({@code _1}, {@code _2}, {@code _3}) and returns the result.
          * <p>
-         * This method transforms all three tuple elements into a single result value by applying
-         * the provided tri-function. It enables functional-style processing of the tuple's
-         * values, such as combining them, computing aggregate values, or creating derived objects.
+         * Element-unpacking overload for triples. Distinct from
+         * {@link PrimitiveTuple#map(Throwables.Function)}, which receives this tuple object as a single argument.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -2304,14 +2346,15 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * String mixedStr = mixed.map((a, b, c) -> "" + a + b + c);   // "ABa"
          * }</pre>
          *
-         * @param <U> the type of the result returned by the mapper function
+         * @param <U> the type of the result value
          * @param <E> the type of exception that may be thrown by the mapper
          * @param mapper the tri-function to apply to all three elements, must not be {@code null}
-         * @return the result of applying the mapping function to all three elements (may be {@code null})
+         * @return the result of applying the tri-function to all three elements (may be {@code null})
          * @throws IllegalArgumentException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          * @see #accept(Throwables.CharTriConsumer)
          * @see #filter(Throwables.CharTriPredicate)
+         * @see PrimitiveTuple#map(Throwables.Function)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.CharTriFunction<U, E> mapper) throws E {
@@ -2321,13 +2364,11 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns an Optional containing this tuple if it matches the given predicate,
-         * otherwise returns an empty Optional.
+         * Returns an {@link Optional} containing this triple if {@code predicate} holds for
+         * ({@code _1}, {@code _2}, {@code _3}); otherwise {@link Optional#empty()}.
          * <p>
-         * This method evaluates the provided tri-predicate against all three tuple elements.
-         * If the predicate returns {@code true}, the tuple is wrapped in an Optional;
-         * otherwise, an empty Optional is returned. This enables conditional processing
-         * and chaining of operations based on the tuple's values.
+         * Element-unpacking overload for triples. Distinct from
+         * {@link PrimitiveTuple#filter(Throwables.Predicate)}, which tests the tuple object as a whole.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -2351,11 +2392,12 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          *
          * @param <E> the type of exception that may be thrown by the predicate
          * @param predicate the tri-predicate to test all three elements, must not be {@code null}
-         * @return an Optional containing this tuple if the predicate returns {@code true}, empty otherwise
+         * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
          * @throws IllegalArgumentException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception during evaluation
          * @see #accept(Throwables.CharTriConsumer)
          * @see #map(Throwables.CharTriFunction)
+         * @see PrimitiveTuple#filter(Throwables.Predicate)
          */
         public <E extends Exception> Optional<CharTuple3> filter(final Throwables.CharTriPredicate<E> predicate) throws E {
             N.checkArgNotNull(predicate, cs.predicate);
@@ -2471,11 +2513,23 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
     }
 
     /**
-     * A CharTuple containing exactly four char elements.
+     * A {@code CharTuple} containing exactly four {@code char} elements.
      * <p>
-     * This class provides direct access to elements through public final fields
-     * {@code _1}, {@code _2}, {@code _3}, and {@code _4}.
+     * Components are public final fields {@code _1}…{@code _4}. Unlike arity 2–3, this type does not
+     * add element-unpacking {@code accept}/{@code map}/{@code filter} overloads; use
+     * {@link #forEach(Throwables.CharConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * CharTuple.CharTuple4 tuple = CharTuple.of((char) 10, (char) 20, (char) 30, (char) 40);
+     * char first = tuple._1;         // 10
+     * char fourth = tuple._4;        // 40
+     * // even arity: sorted 10,20,30,40 -> lower middle 20; statistical median 25.0
+     * char lowerMed = tuple.lowerMedian();  // 20
+     * double med = tuple.median();          // 25.0
+     * }</pre>
      */
     public static final class CharTuple4 extends CharTuple<CharTuple4> {
 
@@ -2590,35 +2644,6 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         @Override
         public char max() {
             return N.max(_1, _2, _3, _4);
-        }
-
-        /**
-         * Returns the median char value in this tuple.
-         * For a tuple of four elements, returns the lower of the two middle values when sorted.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * CharTuple.CharTuple4 tuple = CharTuple.of('A', 'B', 'C', 'D');
-         * char median = tuple.median();   // 'B' (lower middle value of sorted: A,B,C,D)
-         *
-         * // unsorted input - same result
-         * CharTuple.CharTuple4 t2 = CharTuple.of('D', 'A', 'C', 'B');
-         * char median2 = t2.median();   // 'B'
-         *
-         * // duplicates: sorted A,A,B,B -> lower middle = 'A'
-         * CharTuple.CharTuple4 t3 = CharTuple.of('A', 'A', 'B', 'B');
-         * char median3 = t3.median();   // 'A'
-         *
-         * // boundary chars: ' ',A,Z,'\uFFFF' -> lower middle = 'A'
-         * CharTuple.CharTuple4 t4 = CharTuple.of(' ', 'A', 'Z', '\uFFFF');
-         * char median4 = t4.median();   // 'A'
-         * }</pre>
-         *
-         * @return the lower-middle char value when sorted (unsigned code-unit order)
-         */
-        @Override
-        public char median() {
-            return N.median(_1, _2, _3, _4);
         }
 
         /**
@@ -2889,9 +2914,18 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
     /**
      * A CharTuple containing exactly five char elements.
      * <p>
-     * This class provides direct access to elements through public final fields
-     * {@code _1} through {@code _5}.
+     * Provides direct access to elements through public final fields {@code _1} through {@code _5}.
+     * This tuple type is useful for grouping five related char values together.
      * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * CharTuple.CharTuple5 tuple = CharTuple.of((char) 10, (char) 20, (char) 30, (char) 40, (char) 50);
+     * char first = tuple._1;  // 10
+     * char fifth = tuple._5;  // 50
+     * int sum = tuple.sum();  // 150
+     * }</pre>
+     *
      */
     public static final class CharTuple5 extends CharTuple<CharTuple5> {
 
@@ -3010,34 +3044,6 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         @Override
         public char max() {
             return N.max(_1, _2, _3, _4, _5);
-        }
-
-        /**
-         * Returns the median char value in this tuple.
-         * For a tuple of five elements, returns the exact middle value when sorted.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * CharTuple.CharTuple5 tuple = CharTuple.of('E', 'A', 'C', 'B', 'D');
-         * char median = tuple.median();   // 'C' (middle value when sorted: A, B, C, D, E)
-         *
-         * CharTuple.CharTuple5 t2 = CharTuple.of('A', 'B', 'C', 'D', 'E');
-         * char median2 = t2.median();   // 'C'
-         *
-         * // duplicates: A,A,A,B,B -> middle = 'A'
-         * CharTuple.CharTuple5 t3 = CharTuple.of('A', 'A', 'A', 'B', 'B');
-         * char median3 = t3.median();   // 'A'
-         *
-         * // boundary chars: ' ',A,M,Z,'\uFFFF' -> middle = 'M'
-         * CharTuple.CharTuple5 t4 = CharTuple.of(' ', 'A', 'M', 'Z', '\uFFFF');
-         * char median4 = t4.median();   // 'M'
-         * }</pre>
-         *
-         * @return the middle char value when sorted (unsigned code-unit order)
-         */
-        @Override
-        public char median() {
-            return N.median(_1, _2, _3, _4, _5);
         }
 
         /**
@@ -3307,9 +3313,18 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
     /**
      * A CharTuple containing exactly six char elements.
      * <p>
-     * This class provides direct access to elements through public final fields
-     * {@code _1} through {@code _6}.
+     * Provides direct access to elements through public final fields {@code _1} through {@code _6}.
+     * This tuple type is useful for grouping six related char values together.
      * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * CharTuple.CharTuple6 tuple = CharTuple.of((char) 10, (char) 20, (char) 30, (char) 40, (char) 50, (char) 60);
+     * char first = tuple._1;                            // 10
+     * char sixth = tuple._6;                            // 60
+     * CharTuple.CharTuple6 reversed = tuple.reverse();  // (60, 50, 40, 30, 20, 10)
+     * }</pre>
+     *
      */
     public static final class CharTuple6 extends CharTuple<CharTuple6> {
 
@@ -3432,35 +3447,6 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         @Override
         public char max() {
             return N.max(_1, _2, _3, _4, _5, _6);
-        }
-
-        /**
-         * Returns the median char value in this tuple.
-         * For a tuple of six elements, returns the lower of the two middle values when sorted.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * CharTuple.CharTuple6 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F');
-         * char median = tuple.median();   // 'C' (lower middle of sorted: A,B,C,D,E,F)
-         *
-         * // unsorted input - same result
-         * CharTuple.CharTuple6 t2 = CharTuple.of('F', 'A', 'C', 'E', 'B', 'D');
-         * char median2 = t2.median();   // 'C'
-         *
-         * // duplicates: A,A,B,B,C,C -> lower middle = 'B'
-         * CharTuple.CharTuple6 t3 = CharTuple.of('A', 'A', 'B', 'B', 'C', 'C');
-         * char median3 = t3.median();   // 'B'
-         *
-         * // boundary: ' ',A,M,N,Z,'\uFFFF' -> lower middle = 'M'
-         * CharTuple.CharTuple6 t4 = CharTuple.of(' ', 'A', 'M', 'N', 'Z', '\uFFFF');
-         * char median4 = t4.median();   // 'M'
-         * }</pre>
-         *
-         * @return the lower-middle char value when sorted (unsigned code-unit order)
-         */
-        @Override
-        public char median() {
-            return N.median(_1, _2, _3, _4, _5, _6);
         }
 
         /**
@@ -3731,9 +3717,18 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
     /**
      * A CharTuple containing exactly seven char elements.
      * <p>
-     * This class provides direct access to elements through public final fields
-     * {@code _1} through {@code _7}.
+     * Provides direct access to elements through public final fields {@code _1} through {@code _7}.
+     * This tuple type is useful for grouping seven related char values together.
      * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * CharTuple.CharTuple7 tuple = CharTuple.of((char) 10, (char) 20, (char) 30, (char) 40, (char) 50, (char) 60, (char) 70);
+     * char first = tuple._1;           // 10
+     * char seventh = tuple._7;         // 70
+     * char[] array = tuple.toArray();  // [10, 20, 30, 40, 50, 60, 70]
+     * }</pre>
+     *
      */
     public static final class CharTuple7 extends CharTuple<CharTuple7> {
 
@@ -3860,34 +3855,6 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         @Override
         public char max() {
             return N.max(_1, _2, _3, _4, _5, _6, _7);
-        }
-
-        /**
-         * Returns the median char value in this tuple.
-         * For a tuple of seven elements, returns the exact middle value when sorted.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * CharTuple.CharTuple7 tuple = CharTuple.of('G', 'A', 'C', 'E', 'B', 'D', 'F');
-         * char median = tuple.median();   // 'D' (middle value when sorted: A, B, C, D, E, F, G)
-         *
-         * CharTuple.CharTuple7 asc = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G');
-         * char median2 = asc.median();   // 'D'
-         *
-         * // all elements identical
-         * CharTuple.CharTuple7 same = CharTuple.of('m', 'm', 'm', 'm', 'm', 'm', 'm');
-         * char median3 = same.median();   // 'm'
-         *
-         * // with duplicates: sorted A, A, A, B, C, D, E -> index 3 -> 'B'
-         * CharTuple.CharTuple7 dup = CharTuple.of('A', 'A', 'A', 'B', 'C', 'D', 'E');
-         * char median4 = dup.median();   // 'B'
-         * }</pre>
-         *
-         * @return the middle char value when sorted (unsigned code-unit order)
-         */
-        @Override
-        public char median() {
-            return N.median(_1, _2, _3, _4, _5, _6, _7);
         }
 
         /**
@@ -4160,9 +4127,17 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
     /**
      * A CharTuple containing exactly eight char elements.
      * <p>
-     * This class provides direct access to elements through public final fields
-     * {@code _1} through {@code _8}.
+     * Provides direct access to elements through public final fields {@code _1} through {@code _8}.
+     * This tuple type is useful for grouping eight related char values together.
      * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * CharTuple.CharTuple8 tuple = CharTuple.of((char) 10, (char) 20, (char) 30, (char) 40, (char) 50, (char) 60, (char) 70, (char) 80);
+     * char first = tuple._1;   // 10
+     * char eighth = tuple._8;  // 80
+     * CharList list = tuple.toList();
+     * }</pre>
      *
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more char values
      */
@@ -4296,35 +4271,6 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         @Override
         public char max() {
             return N.max(_1, _2, _3, _4, _5, _6, _7, _8);
-        }
-
-        /**
-         * Returns the median char value in this tuple.
-         * For a tuple of eight elements, returns the lower of the two middle values when sorted.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * CharTuple.CharTuple8 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');
-         * char median = tuple.median();   // 'D' (lower middle value: sorted A,B,C,D,E,F,G,H -> index 3)
-         *
-         * // reversed order produces same median
-         * CharTuple.CharTuple8 rev = CharTuple.of('H', 'G', 'F', 'E', 'D', 'C', 'B', 'A');
-         * char median2 = rev.median();   // 'D'
-         *
-         * // all elements identical
-         * CharTuple.CharTuple8 same = CharTuple.of('m', 'm', 'm', 'm', 'm', 'm', 'm', 'm');
-         * char median3 = same.median();   // 'm'
-         *
-         * // with duplicates: sorted A,A,A,B,C,D,E,F -> index 3 -> 'B'
-         * CharTuple.CharTuple8 dup = CharTuple.of('A', 'A', 'A', 'B', 'C', 'D', 'E', 'F');
-         * char median4 = dup.median();   // 'B'
-         * }</pre>
-         *
-         * @return the lower-middle char value when sorted (unsigned code-unit order)
-         */
-        @Override
-        public char median() {
-            return N.median(_1, _2, _3, _4, _5, _6, _7, _8);
         }
 
         /**
@@ -4599,9 +4545,17 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
     /**
      * A CharTuple containing exactly nine char elements.
      * <p>
-     * This class provides direct access to elements through public final fields
-     * {@code _1} through {@code _9}.
+     * Provides direct access to elements through public final fields {@code _1} through {@code _9}.
+     * This tuple type is useful for grouping nine related char values together.
      * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * CharTuple.CharTuple9 tuple = CharTuple.of((char) 10, (char) 20, (char) 30, (char) 40, (char) 50, (char) 60, (char) 70, (char) 80, (char) 90);
+     * char first = tuple._1;      // 10
+     * char ninth = tuple._9;      // 90
+     * int arity = tuple.arity();  // 9
+     * }</pre>
      *
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more char values
      */
@@ -4739,34 +4693,6 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         @Override
         public char max() {
             return N.max(_1, _2, _3, _4, _5, _6, _7, _8, _9);
-        }
-
-        /**
-         * Returns the median char value in this tuple.
-         * For a tuple of nine elements, returns the exact middle value when sorted.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * CharTuple.CharTuple9 tuple = CharTuple.of('I', 'A', 'C', 'E', 'B', 'D', 'F', 'G', 'H');
-         * char median = tuple.median();   // 'E' (middle value when sorted: A, B, C, D, E, F, G, H, I)
-         *
-         * CharTuple.CharTuple9 asc = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I');
-         * char median2 = asc.median();   // 'E'
-         *
-         * // all elements identical
-         * CharTuple.CharTuple9 same = CharTuple.of('m', 'm', 'm', 'm', 'm', 'm', 'm', 'm', 'm');
-         * char median3 = same.median();   // 'm'
-         *
-         * // with duplicates: sorted A,A,A,A,B,C,D,E,F -> index 4 -> 'B'
-         * CharTuple.CharTuple9 dup = CharTuple.of('A', 'A', 'A', 'A', 'B', 'C', 'D', 'E', 'F');
-         * char median4 = dup.median();   // 'B'
-         * }</pre>
-         *
-         * @return the middle char value when sorted (unsigned code-unit order)
-         */
-        @Override
-        public char median() {
-            return N.median(_1, _2, _3, _4, _5, _6, _7, _8, _9);
         }
 
         /**

@@ -41,6 +41,7 @@ package com.landawn.abacus.util;
  */
 public final class Points {
 
+    /** Prevents instantiation of this namespace class. */
     private Points() {
         // utility class.
     }
@@ -57,6 +58,7 @@ public final class Points {
      */
     public static final class D2 {
 
+        /** Prevents instantiation of this namespace class. */
         private D2() {
             // utility class.
         }
@@ -1178,6 +1180,7 @@ public final class Points {
      */
     public static final class D3 {
 
+        /** Prevents instantiation of this namespace class. */
         private D3() {
             // utility class.
         }

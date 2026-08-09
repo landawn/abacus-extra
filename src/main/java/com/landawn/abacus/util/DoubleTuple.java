@@ -16,7 +16,6 @@ package com.landawn.abacus.util;
 
 import java.util.NoSuchElementException;
 
-import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.annotation.MayReturnNull;
 import com.landawn.abacus.util.DoubleTuple.DoubleTuple0;
 import com.landawn.abacus.util.DoubleTuple.DoubleTuple1;
@@ -35,17 +34,28 @@ import com.landawn.abacus.util.stream.DoubleStream;
 /**
  * Base class for immutable tuples of primitive {@code double} values.
  *
- * <p>The nested tuple types model fixed arities from 0 through 9. Factory methods such as
- * {@link #from(double[])} and the {@code of(...)} overloads select the matching subtype, while the
- * base class supplies aggregate, reversal, containment, and functional helper operations.</p>
+ * <p>The nested tuple types model fixed arities from 0 through 9. Prefer the {@code of(...)} factory
+ * overloads to create a specific arity; {@link #from(double[])} is deprecated and retained only for
+ * compatibility. The base class supplies aggregate, reversal, containment, conversion, and
+ * element-wise functional helpers; {@link PrimitiveTuple} adds whole-tuple
+ * {@link PrimitiveTuple#accept(Throwables.Consumer) accept},
+ * {@link PrimitiveTuple#map(Throwables.Function) map},
+ * {@link PrimitiveTuple#filter(Throwables.Predicate) filter}, and
+ * {@link PrimitiveTuple#toOptional() toOptional}.</p>
  *
- * <p>This sealed base class permits only the built-in arity-specific nested tuple types.</p>
+ * <p>Arity-specific nested types ({@code DoubleTuple1} through {@code DoubleTuple9}) expose their components as
+ * public final fields {@code _1}, {@code _2}, and so on matching that arity. This sealed hierarchy permits only
+ * the built-in nested types; all instances are immutable.</p>
  *
  * <p><b>Numeric semantics:</b> Aggregates follow IEEE-754 {@code double} arithmetic: a {@code NaN}
  * element propagates to the results of {@link #min()}, {@link #max()}, {@link #sum()}, and
- * {@link #average()}, while {@link #median()}, {@link #contains(double)}, and {@link #equals(Object)}
+ * {@link #average()}. {@link #lowerMedian()}, {@link #contains(double)}, and {@link #equals(Object)}
  * order and compare elements with {@link Double#compare(double, double)} semantics ({@code NaN} equal
- * to itself and greater than any other value, {@code -0.0} less than {@code 0.0}).</p>
+ * to itself and greater than any other value, {@code -0.0} less than {@code 0.0}).
+ * {@link #median()} is the conventional statistical median as a {@code double} (mean of the two middle
+ * values when the arity is even). Empty-tuple contracts: {@code sum()} is {@code 0.0},
+ * {@code average()} is empty, and {@code min}/{@code max}/{@code lowerMedian}/{@code median} throw
+ * {@link NoSuchElementException}.</p>
  *
  * @param <TP> the concrete {@code DoubleTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
@@ -134,7 +144,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * <pre>{@code
      * DoubleTuple.DoubleTuple3 triple = DoubleTuple.of(1.0, 2.0, 3.0);
      * double third = triple._3;          // 3.0
-     * double median = triple.median();   // 2.0
+     * double median = triple.lowerMedian();   // 2.0
      *
      * // Reverse produces a new tuple
      * DoubleTuple.DoubleTuple3 rev = triple.reverse();   // (3.0, 2.0, 1.0)
@@ -164,7 +174,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * double sum = tuple.sum();   // 10.0
      *
      * // Even-arity median returns the lower middle value (sorted order)
-     * double median = tuple.median();   // 2.0
+     * double median = tuple.lowerMedian();   // 2.0
      *
      * // Negative values
      * DoubleTuple.DoubleTuple4 neg = DoubleTuple.of(-4.0, -1.0, -3.0, -2.0);
@@ -188,7 +198,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple.DoubleTuple5 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0);
-     * double median = tuple.median();   // 3.0
+     * double median = tuple.lowerMedian();   // 3.0
      * double sum = tuple.sum();         // 15.0
      *
      * // Average of five elements
@@ -221,7 +231,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * tuple.average();   // returns OptionalDouble.of(3.5)
      *
      * // Even arity: median returns lower middle value when sorted
-     * double median = tuple.median();   // 3.0
+     * double median = tuple.lowerMedian();   // 3.0
      *
      * // toString format
      * String s = tuple.toString();   // "(1.0, 2.0, 3.0, 4.0, 5.0, 6.0)"
@@ -246,7 +256,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * <pre>{@code
      * DoubleTuple.DoubleTuple7 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
      * DoubleTuple.DoubleTuple7 reversed = tuple.reverse();   // (7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
-     * double median = tuple.median();                        // 4.0
+     * double median = tuple.lowerMedian();                        // 4.0
      *
      * // toString format
      * String s = tuple.toString();   // "(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0)"
@@ -279,7 +289,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * double sum = tuple.sum();           // 36.0
      *
      * // Even arity: median returns lower middle value (index 3 of sorted array)
-     * double median = tuple.median();   // 4.0
+     * double median = tuple.lowerMedian();   // 4.0
      *
      * // Negatives are stored as-is
      * DoubleTuple.DoubleTuple8 neg = DoubleTuple.of(-1.0, -2.0, -3.0, -4.0, -5.0, -6.0, -7.0, -8.0);
@@ -310,7 +320,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * <pre>{@code
      * DoubleTuple.DoubleTuple9 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
      * DoubleTuple.DoubleTuple9 reversed = tuple.reverse();   // (9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
-     * double median = tuple.median();                        // 5.0
+     * double median = tuple.lowerMedian();                        // 5.0
      *
      * // toString format
      * String s = tuple.toString();   // "(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0)"
@@ -378,10 +388,11 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * @param values the array of double values; may be {@code null} or empty, in which case the shared empty tuple is returned
      * @return a {@code DoubleTuple} of the appropriate arity containing the array values, or the shared empty tuple if the array is {@code null} or empty
      * @throws IllegalArgumentException if {@code values} has more than 9 elements
+     * @deprecated Use the {@code of(...)} factory methods instead; this method may be removed in a future release.
      * @see #of(double)
      */
-    @Beta
-    @SuppressWarnings({ "deprecation", "unchecked" })
+    @Deprecated
+    @SuppressWarnings({ "unchecked" })
     public static <TP extends DoubleTuple<TP>> TP from(final double[] values) {
         if (values == null || values.length == 0) {
             return (TP) DoubleTuple0.EMPTY;
@@ -452,18 +463,22 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * @return the minimum double value in this tuple
      * @throws NoSuchElementException if the tuple is empty
      * @see #max()
-     * @see #median()
+     * @see #lowerMedian()
      * @see Math#min(double, double)
      */
     public double min() {
-        final double[] arr = elements();
-        if (arr.length == 0) {
+        final double[] a = elements();
+
+        if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute min() for an empty tuple");
         }
-        double result = arr[0];
-        for (int i = 1; i < arr.length; i++) {
-            result = Math.min(result, arr[i]);
+
+        double result = a[0];
+
+        for (int i = 1; i < a.length; i++) {
+            result = Math.min(result, a[i]);
         }
+
         return result;
     }
 
@@ -499,68 +514,23 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * @return the maximum double value in this tuple
      * @throws NoSuchElementException if the tuple is empty
      * @see #min()
-     * @see #median()
+     * @see #lowerMedian()
      * @see Math#max(double, double)
      */
     public double max() {
-        final double[] arr = elements();
-        if (arr.length == 0) {
+        final double[] a = elements();
+
+        if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute max() for an empty tuple");
         }
-        double result = arr[0];
-        for (int i = 1; i < arr.length; i++) {
-            result = Math.max(result, arr[i]);
-        }
-        return result;
-    }
 
-    /**
-     * Returns the median value of the elements in this tuple.
-     * <p>
-     * For tuples with an odd number of elements, returns the middle value when sorted.
-     * For tuples with an even number of elements, returns the lower middle value
-     * (not the average of the two middle values).
-     * </p>
-     * <p>
-     * For tuples with three or more elements, ordering is performed with
-     * {@link Double#compare(double, double)} semantics, so {@code NaN} is treated as the
-     * largest value (and equal to itself), and {@code -0.0} is treated as less than
-     * {@code +0.0}. The same ordering is used for two-element tuples, so a single
-     * {@code NaN} is treated as the larger element and the finite value is returned.
-     * </p>
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * // Odd number of elements - returns middle value in sorted order
-     * DoubleTuple.DoubleTuple3 tuple3 = DoubleTuple.of(30.0, 10.0, 20.0);
-     * double median = tuple3.median();   // 20.0 (sorted: 10.0, 20.0, 30.0)
-     *
-     * // Even number of elements - returns lower middle value (index n/2 - 1 in sorted array)
-     * DoubleTuple.DoubleTuple4 tuple4 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
-     * double median2 = tuple4.median();   // 2.0
-     *
-     * // NaN sorts as the largest value (Double.compare semantics)
-     * // so median of {1.0, NaN, 2.0} sorted = {1.0, 2.0, NaN} -> middle = 2.0
-     * DoubleTuple.DoubleTuple3 nanTuple = DoubleTuple.of(1.0, Double.NaN, 2.0);
-     * double medNaN = nanTuple.median();   // 2.0
-     *
-     * // Empty tuple throws NoSuchElementException
-     * DoubleTuple<?> empty = DoubleTuple.from(new double[0]);
-     * // empty.median();   // throws NoSuchElementException
-     * }</pre>
-     *
-     * @return the median double element in this tuple
-     * @throws NoSuchElementException if the tuple is empty
-     * @see #min()
-     * @see #max()
-     * @see N#median(double...)
-     */
-    public double median() {
-        final double[] arr = elements();
-        if (arr.length == 0) {
-            throw new NoSuchElementException("Cannot compute median() for an empty tuple");
+        double result = a[0];
+
+        for (int i = 1; i < a.length; i++) {
+            result = Math.max(result, a[i]);
         }
-        return N.median(arr);
+
+        return result;
     }
 
     /**
@@ -623,9 +593,92 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * @see #sum()
      */
     public OptionalDouble average() {
-        final double[] arr = elements();
+        final double[] a = elements();
 
-        return arr.length == 0 ? OptionalDouble.empty() : OptionalDouble.of(N.average(arr));
+        return a.length == 0 ? OptionalDouble.empty() : OptionalDouble.of(N.average(a));
+    }
+
+    /**
+     * Returns the conventional statistical median of this tuple as a {@code double}.
+     * <p>
+     * Elements are ordered with {@link Double#compare(double, double)} semantics. For an odd arity,
+     * this is the middle value when sorted. For an even arity, this is the arithmetic mean of the two
+     * middle values. That differs from {@link #lowerMedian()}, which returns only the lower middle
+     * element for even arities.
+     * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * DoubleTuple.DoubleTuple3 t3 = DoubleTuple.of(30.0, 10.0, 20.0);
+     * double median = t3.median();   // 20.0
+     *
+     * DoubleTuple.DoubleTuple4 t4 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
+     * double evenMedian = t4.median();   // 2.5 (mean of 2.0 and 3.0)
+     *
+     * DoubleTuple.DoubleTuple2 pair = DoubleTuple.of(10.0, 30.0);
+     * double pairMedian = pair.median();   // 20.0
+     *
+     * DoubleTuple<?> empty = DoubleTuple.from(new double[0]);
+     * // empty.median();   // throws NoSuchElementException
+     * }</pre>
+     *
+     * @return the statistical median as a {@code double}
+     * @throws NoSuchElementException if the tuple is empty
+     * @see #lowerMedian()
+     */
+    public double median() {
+        final double[] a = toArray();
+
+        if (a.length == 0) {
+            throw new NoSuchElementException("Cannot compute median() for an empty tuple");
+        }
+
+        return N.median(a);
+    }
+
+    /**
+     * Returns the lower median of this tuple as a {@code double}.
+     * <p>
+     * Ordering uses {@link Double#compare(double, double)} ({@code NaN} largest; {@code -0.0} less than
+     * {@code +0.0}). For an odd arity, this is the middle value when sorted. For an even arity, this is
+     * the lower of the two middle values (not their average). Prefer {@link #median()} for the
+     * conventional statistical median.
+     * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * // Odd number of elements - returns middle value in sorted order
+     * DoubleTuple.DoubleTuple3 tuple3 = DoubleTuple.of(30.0, 10.0, 20.0);
+     * double median = tuple3.lowerMedian();   // 20.0 (sorted: 10.0, 20.0, 30.0)
+     *
+     * // Even number of elements - returns lower middle value
+     * DoubleTuple.DoubleTuple4 tuple4 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
+     * double median2 = tuple4.lowerMedian();   // 2.0
+     *
+     * // NaN sorts as the largest value (Double.compare semantics)
+     * DoubleTuple.DoubleTuple3 nanTuple = DoubleTuple.of(1.0, Double.NaN, 2.0);
+     * double medNaN = nanTuple.lowerMedian();   // 2.0
+     *
+     * // Empty tuple throws NoSuchElementException
+     * DoubleTuple<?> empty = DoubleTuple.from(new double[0]);
+     * // empty.lowerMedian();   // throws NoSuchElementException
+     * }</pre>
+     *
+     * @return the lower-median element (middle when sorted for odd arity; lower-middle for even arity)
+     * @throws NoSuchElementException if the tuple is empty
+     * @see #min()
+     * @see #max()
+     * @see #median()
+     * @see N#lowerMedian(double...)
+     */
+    public double lowerMedian() {
+        final double[] a = elements();
+
+        if (a.length == 0) {
+            throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
+        }
+
+        return N.lowerMedian(a);
     }
 
     /**
@@ -942,11 +995,12 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * This package-private class is exposed only through the base {@code DoubleTuple} type
      * via the singleton instance returned by {@link #from(double[])} when invoked with a
      * {@code null} or zero-length array. {@link #sum()} returns 0.0 and {@link #average()} returns an empty {@code OptionalDouble}, while
-     * {@link #min()}, {@link #max()}, and {@link #median()} all throw {@link java.util.NoSuchElementException}.
+     * {@link #min()}, {@link #max()}, and {@link #lowerMedian()} all throw {@link java.util.NoSuchElementException}.
      * </p>
      */
     static final class DoubleTuple0 extends DoubleTuple<DoubleTuple0> {
 
+        /** The shared empty double tuple. */
         private static final DoubleTuple0 EMPTY = new DoubleTuple0();
 
         /**
@@ -990,15 +1044,15 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         }
 
         /**
-         * Returns the median value in this tuple.
-         * Since this tuple is empty, this method always throws an exception.
+         * Always throws because this tuple has no elements.
          *
          * @return never returns normally
-         * @throws NoSuchElementException always, because the tuple is empty
+         * @throws NoSuchElementException always
+         * @see DoubleTuple#median()
          */
         @Override
-        public double median() {
-            throw new NoSuchElementException("Cannot compute median() for an empty tuple");
+        public double lowerMedian() {
+            throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
         }
 
         /**
@@ -1068,12 +1122,20 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     }
 
     /**
-     * A tuple containing exactly one double value.
+     * A {@code DoubleTuple} containing exactly one {@code double} element.
      * <p>
-     * This class provides direct access to the single element through the public final field {@code _1}.
-     * For single-element tuples, all statistical operations (min, max, median, sum, average) return
-     * or wrap that single element.
+     * The value is the public final field {@code _1}. Aggregates such as {@link #min()},
+     * {@link #max()}, {@link #lowerMedian()}, {@link #sum()}, and {@link #average()} all reflect
+     * that single element.
      * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * DoubleTuple.DoubleTuple1 tuple = DoubleTuple.of((double) 42);
+     * double value = tuple._1;   // 42
+     * double min = tuple.min();  // 42 (single element)
+     * double max = tuple.max();  // 42 (single element)
+     * }</pre>
      */
     public static final class DoubleTuple1 extends DoubleTuple<DoubleTuple1> {
 
@@ -1165,30 +1227,6 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         }
 
         /**
-         * Returns the median value in this tuple, which is the single element.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * DoubleTuple.DoubleTuple1 t = DoubleTuple.of(7.5);
-         * double median = t.median();   // 7.5
-         *
-         * // Zero is a valid element
-         * DoubleTuple.DoubleTuple1 zero = DoubleTuple.of(0.0);
-         * double medianZero = zero.median();   // 0.0
-         *
-         * // NaN element: median() returns NaN
-         * DoubleTuple.DoubleTuple1 nan = DoubleTuple.of(Double.NaN);
-         * double medianNaN = nan.median();   // NaN
-         * }</pre>
-         *
-         * @return the value of {@code _1}
-         */
-        @Override
-        public double median() {
-            return _1;
-        }
-
-        /**
          * Returns the sum of elements in this tuple, which is the single element.
          *
          * <p><b>Usage Examples:</b></p>
@@ -1236,6 +1274,41 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         @Override
         public OptionalDouble average() {
             return OptionalDouble.of(_1);
+        }
+
+        /**
+         * Returns the statistical median of this one-element tuple (the element itself).
+         *
+         * @return {@code _1}
+         * @see #lowerMedian()
+         */
+        @Override
+        public double median() {
+            return _1;
+        }
+
+        /**
+         * Returns the lower median of this one-element tuple, which is the element itself.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * DoubleTuple.DoubleTuple1 t = DoubleTuple.of(7.5);
+         * double median = t.lowerMedian();   // 7.5
+         *
+         * // Zero is a valid element
+         * DoubleTuple.DoubleTuple1 zero = DoubleTuple.of(0.0);
+         * double medianZero = zero.lowerMedian();   // 0.0
+         *
+         * // NaN element: lowerMedian() returns NaN
+         * DoubleTuple.DoubleTuple1 nan = DoubleTuple.of(Double.NaN);
+         * double medianNaN = nan.lowerMedian();   // NaN
+         * }</pre>
+         *
+         * @return the value of {@code _1}
+         */
+        @Override
+        public double lowerMedian() {
+            return _1;
         }
 
         /**
@@ -1391,15 +1464,17 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     }
 
     /**
-     * A tuple containing exactly two double values.
-     * The values are accessible through the public final fields {@code _1} and {@code _2}.
-     *
-     * <p>In addition to the operations inherited from {@link DoubleTuple}, this class provides
-     * functional helpers for working with pairs:</p>
+     * A {@code DoubleTuple} containing exactly two {@code double} elements.
+     * <p>
+     * Components are the public final fields {@code _1} and {@code _2}. Besides the operations from
+     * {@link DoubleTuple} and {@link PrimitiveTuple}, this type adds element-unpacking helpers that
+     * pass both values to a bi-consumer / bi-function / bi-predicate (distinct from the whole-tuple
+     * {@code accept}/{@code map}/{@code filter} on {@link PrimitiveTuple}):
+     * </p>
      * <ul>
-     *   <li>{@link #accept(Throwables.DoubleBiConsumer)} - consume both values</li>
-     *   <li>{@link #map(Throwables.DoubleBiFunction)} - transform the pair to a single value</li>
-     *   <li>{@link #filter(Throwables.DoubleBiPredicate)} - conditionally wrap in {@link Optional}</li>
+     *   <li>{@link #accept(Throwables.DoubleBiConsumer)} — both elements as primitives</li>
+     *   <li>{@link #map(Throwables.DoubleBiFunction)} — map both elements to one result</li>
+     *   <li>{@link #filter(Throwables.DoubleBiPredicate)} — keep this pair in an {@link Optional} if the predicate holds</li>
      * </ul>
      *
      * <p><b>Usage Examples:</b></p>
@@ -1412,7 +1487,6 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * double max = t.max();       // 2.5
      * t.average();   // returns OptionalDouble.of(2.0)
      * }</pre>
-     *
      */
     public static final class DoubleTuple2 extends DoubleTuple<DoubleTuple2> {
 
@@ -1511,33 +1585,6 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         }
 
         /**
-         * Returns the median of the two elements.
-         * Because there is an even number of elements, this is the lower of the
-         * two according to {@link Double#compare(double, double)}, not their average.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * double med1 = DoubleTuple.of(3.0, 4.0).median();   // 3.0  (lower of the two)
-         * double med2 = DoubleTuple.of(4.0, 3.0).median();   // 3.0  (order does not matter)
-         *
-         * // negative values - still returns the lesser
-         * double med3 = DoubleTuple.of(-3.0, -1.0).median();   // -3.0
-         *
-         * // NaN is ordered above finite values
-         * double medNaN = DoubleTuple.of(3.0, Double.NaN).median();   // 3.0
-         *
-         * // equal values
-         * double medEq = DoubleTuple.of(2.5, 2.5).median();   // 2.5
-         * }</pre>
-         *
-         * @return the lower of {@code _1} and {@code _2} according to {@link Double#compare(double, double)}
-         */
-        @Override
-        public double median() {
-            return N.median(_1, _2);
-        }
-
-        /**
          * Returns the sum of the two elements.
          * If either element is {@code NaN} the result is {@code NaN}.
          *
@@ -1581,6 +1628,51 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         @Override
         public OptionalDouble average() {
             return OptionalDouble.of(N.average(_1, _2));
+        }
+
+        /**
+         * Returns the statistical median of this pair: the arithmetic mean of both elements.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * DoubleTuple.of(3.0, 7.0).median();    // 5.0
+         * DoubleTuple.of(10.0, 30.0).median();  // 20.0
+         * DoubleTuple.of(-5.0, 5.0).median();   // 0.0
+         * }</pre>
+         *
+         * @return {@code (_1 + _2) / 2.0}
+         * @see #lowerMedian()
+         */
+        @Override
+        public double median() {
+            return _1 / 2d + _2 / 2d;
+        }
+
+        /**
+         * Returns the lower median of this pair: the smaller of the two values under
+         * {@link Double#compare(double, double)}.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * double med1 = DoubleTuple.of(3.0, 4.0).lowerMedian();   // 3.0  (lower of the two)
+         * double med2 = DoubleTuple.of(4.0, 3.0).lowerMedian();   // 3.0  (order does not matter)
+         *
+         * // negative values - still returns the lesser
+         * double med3 = DoubleTuple.of(-3.0, -1.0).lowerMedian();   // -3.0
+         *
+         * // NaN is ordered above finite values
+         * double medNaN = DoubleTuple.of(3.0, Double.NaN).lowerMedian();   // 3.0
+         *
+         * // equal values
+         * double medEq = DoubleTuple.of(2.5, 2.5).lowerMedian();   // 2.5
+         * }</pre>
+         *
+         * @return the lower of {@code _1} and {@code _2} according to {@link Double#compare(double, double)}
+         * @see #median()
+         */
+        @Override
+        public double lowerMedian() {
+            return Double.compare(_1, _2) <= 0 ? _1 : _2;
         }
 
         /**
@@ -1669,11 +1761,11 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         }
 
         /**
-         * Performs the given bi-consumer action on the two elements of this tuple.
+         * Invokes {@code action} once with both elements ({@code _1}, {@code _2}).
          * <p>
-         * This method applies the specified bi-consumer to both elements simultaneously,
-         * allowing operations that need to work with both values together. The action is
-         * executed for its side effects only.
+         * This is the element-unpacking overload for pairs. It differs from
+         * {@link PrimitiveTuple#accept(Throwables.Consumer)}, which receives this tuple object, and from
+         * {@link #forEach(Throwables.DoubleConsumer)}, which invokes a consumer once per element.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1695,11 +1787,12 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action
-         * @param action the bi-consumer to perform on the two elements, must not be {@code null}
+         * @param action the bi-consumer to apply to both elements, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
+         * @see #forEach(Throwables.DoubleConsumer)
          * @see #map(Throwables.DoubleBiFunction)
-         * @see #filter(Throwables.DoubleBiPredicate)
+         * @see PrimitiveTuple#accept(Throwables.Consumer)
          */
         public <E extends Exception> void accept(final Throwables.DoubleBiConsumer<E> action) throws E {
             N.checkArgNotNull(action, cs.action);
@@ -1708,11 +1801,10 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         }
 
         /**
-         * Applies the given bi-function to the two elements and returns the result.
+         * Applies {@code mapper} to both elements ({@code _1}, {@code _2}) and returns the result.
          * <p>
-         * This method transforms both elements of the tuple into a single result value
-         * of type {@code U}. The mapper function receives both elements as parameters and
-         * can perform any calculation or transformation on them.
+         * Element-unpacking overload for pairs. Distinct from
+         * {@link PrimitiveTuple#map(Throwables.Function)}, which receives this tuple object as a single argument.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1734,14 +1826,15 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * double diff = DoubleTuple.of(-3.0, 1.5).map((a, b) -> a + b);   // -1.5
          * }</pre>
          *
-         * @param <U> the type of the result
+         * @param <U> the type of the result value
          * @param <E> the type of exception that may be thrown by the mapper
-         * @param mapper the bi-function to apply to the two elements, must not be {@code null}
-         * @return the result of applying the mapper to {@code _1} and {@code _2} (may be {@code null} if the mapper returns {@code null})
+         * @param mapper the bi-function to apply to both elements, must not be {@code null}
+         * @return the result of applying the bi-function to both elements (may be {@code null})
          * @throws IllegalArgumentException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          * @see #accept(Throwables.DoubleBiConsumer)
          * @see #filter(Throwables.DoubleBiPredicate)
+         * @see PrimitiveTuple#map(Throwables.Function)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.DoubleBiFunction<U, E> mapper) throws E {
@@ -1751,12 +1844,11 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         }
 
         /**
-         * Returns an Optional containing this tuple if the predicate is satisfied,
-         * or an empty Optional otherwise.
+         * Returns an {@link Optional} containing this pair if {@code predicate} holds for
+         * ({@code _1}, {@code _2}); otherwise {@link Optional#empty()}.
          * <p>
-         * This method evaluates the given bi-predicate against both elements of the tuple.
-         * If the predicate returns {@code true}, returns an Optional containing this tuple.
-         * If it returns {@code false}, returns an empty Optional.
+         * Element-unpacking overload for pairs. Distinct from
+         * {@link PrimitiveTuple#filter(Throwables.Predicate)}, which tests the tuple object as a whole.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1783,12 +1875,13 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the predicate
-         * @param predicate the bi-predicate to test the two elements, must not be {@code null}
+         * @param predicate the bi-predicate to test both elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
          * @throws IllegalArgumentException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception during evaluation
          * @see #accept(Throwables.DoubleBiConsumer)
          * @see #map(Throwables.DoubleBiFunction)
+         * @see PrimitiveTuple#filter(Throwables.Predicate)
          */
         public <E extends Exception> Optional<DoubleTuple2> filter(final Throwables.DoubleBiPredicate<E> predicate) throws E {
             N.checkArgNotNull(predicate, cs.predicate);
@@ -1894,13 +1987,27 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     }
 
     /**
-     * A tuple containing exactly three double values.
+     * A {@code DoubleTuple} containing exactly three {@code double} elements.
      * <p>
-     * This class provides direct access to elements through public final fields {@code _1}, {@code _2}, and {@code _3}.
-     * DoubleTuple.DoubleTuple3 offers additional functional methods like {@link #accept(Throwables.DoubleTriConsumer)},
-     * {@link #map(Throwables.DoubleTriFunction)}, and {@link #filter(Throwables.DoubleTriPredicate)} that
-     * operate on all three elements simultaneously.
+     * Components are the public final fields {@code _1}, {@code _2}, and {@code _3}. In addition to
+     * {@link DoubleTuple} / {@link PrimitiveTuple} operations, this type provides element-unpacking
+     * {@link #accept(Throwables.DoubleTriConsumer)}, {@link #map(Throwables.DoubleTriFunction)}, and
+     * {@link #filter(Throwables.DoubleTriPredicate)} helpers that pass all three values as primitives
+     * (distinct from the whole-tuple methods on {@link PrimitiveTuple}).
      * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of((double) 10, (double) 20, (double) 30);
+     * double first = tuple._1;   // 10
+     * double second = tuple._2;  // 20
+     * double third = tuple._3;   // 30
+     *
+     * // Using statistical operations
+     * double min = tuple.min();         // 10
+     * double max = tuple.max();         // 30
+     * OptionalDouble avg = tuple.average();   // OptionalDouble.of(20.0)
+     * }</pre>
      */
     public static final class DoubleTuple3 extends DoubleTuple<DoubleTuple3> {
 
@@ -1997,31 +2104,6 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         }
 
         /**
-         * Returns the median value of the three elements.
-         * Comparison uses {@link Double#compare(double, double)} semantics, so
-         * {@code NaN} is treated as the largest value.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * double med1 = DoubleTuple.of(1.0, 2.0, 3.0).median();   // 2.0
-         * double med2 = DoubleTuple.of(-5.0, 0.0, 3.0).median();  // 0.0
-         *
-         * // NaN sorts as largest (Double.compare semantics), so it does not become the median
-         * // when the other two bracket it; median of (1.0, 3.0, NaN) is 3.0
-         * double medNaN = DoubleTuple.of(1.0, 3.0, Double.NaN).median();   // 3.0
-         *
-         * // duplicate middle value
-         * double medDup = DoubleTuple.of(2.0, 2.0, 5.0).median();   // 2.0
-         * }</pre>
-         *
-         * @return the middle value when the three elements are sorted
-         */
-        @Override
-        public double median() {
-            return N.median(_1, _2, _3);
-        }
-
-        /**
          * Returns the sum of the three elements.
          * If any element is {@code NaN}, the result is {@code NaN}.
          *
@@ -2065,6 +2147,53 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         @Override
         public OptionalDouble average() {
             return OptionalDouble.of(N.average(_1, _2, _3));
+        }
+
+        /**
+         * Returns the statistical median of this triple as a {@code double}.
+         * <p>
+         * With three elements the middle value when sorted is both the lower median and the
+         * statistical median; the return type remains {@code double} for API consistency with
+         * even-arity tuples.
+         * </p>
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * DoubleTuple.of(1.0, 2.0, 3.0).median();    // 2.0
+         * DoubleTuple.of(3.0, 1.0, 2.0).median();    // 2.0
+         * DoubleTuple.of(-5.0, -10.0, 0.0).median(); // -5.0
+         * }</pre>
+         *
+         * @return the middle value when sorted
+         * @see #lowerMedian()
+         */
+        @Override
+        public double median() {
+            return N.median(_1, _2, _3);
+        }
+
+        /**
+         * Returns the lower median of this triple: the middle value under
+         * {@link Double#compare(double, double)} ordering.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * double med1 = DoubleTuple.of(1.0, 2.0, 3.0).lowerMedian();   // 2.0
+         * double med2 = DoubleTuple.of(-5.0, 0.0, 3.0).lowerMedian();  // 0.0
+         *
+         * // NaN sorts as largest (Double.compare semantics)
+         * double medNaN = DoubleTuple.of(1.0, 3.0, Double.NaN).lowerMedian();   // 3.0
+         *
+         * // duplicate middle value
+         * double medDup = DoubleTuple.of(2.0, 2.0, 5.0).lowerMedian();   // 2.0
+         * }</pre>
+         *
+         * @return the middle value when the three elements are sorted
+         * @see #median()
+         */
+        @Override
+        public double lowerMedian() {
+            return N.median(_1, _2, _3);
         }
 
         /**
@@ -2152,11 +2281,11 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         }
 
         /**
-         * Performs the given tri-consumer action on the three elements of this tuple.
+         * Invokes {@code action} once with all three elements ({@code _1}, {@code _2}, {@code _3}).
          * <p>
-         * This method applies the specified tri-consumer to all three elements simultaneously,
-         * allowing operations that need to work with all values together. The action is
-         * executed for its side effects only.
+         * Element-unpacking overload for triples. Distinct from
+         * {@link PrimitiveTuple#accept(Throwables.Consumer)} (whole tuple) and
+         * {@link #forEach(Throwables.DoubleConsumer)} (one call per element).
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -2180,11 +2309,12 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action
-         * @param action the tri-consumer to perform on the three elements, must not be {@code null}
+         * @param action the tri-consumer to apply to all three elements, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
+         * @see #forEach(Throwables.DoubleConsumer)
          * @see #map(Throwables.DoubleTriFunction)
-         * @see #filter(Throwables.DoubleTriPredicate)
+         * @see PrimitiveTuple#accept(Throwables.Consumer)
          */
         public <E extends Exception> void accept(final Throwables.DoubleTriConsumer<E> action) throws E {
             N.checkArgNotNull(action, cs.action);
@@ -2193,11 +2323,10 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         }
 
         /**
-         * Applies the given tri-function to the three elements and returns the result.
+         * Applies {@code mapper} to all three elements ({@code _1}, {@code _2}, {@code _3}) and returns the result.
          * <p>
-         * This method transforms all three elements of the tuple into a single result value
-         * of type {@code U}. The mapper function receives all three elements as parameters and
-         * can perform any calculation or transformation on them.
+         * Element-unpacking overload for triples. Distinct from
+         * {@link PrimitiveTuple#map(Throwables.Function)}, which receives this tuple object as a single argument.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -2220,14 +2349,15 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * double sum = DoubleTuple.of(-1.0, -2.0, -3.0).map((a, b, c) -> a + b + c);   // -6.0
          * }</pre>
          *
-         * @param <U> the type of the result
+         * @param <U> the type of the result value
          * @param <E> the type of exception that may be thrown by the mapper
-         * @param mapper the tri-function to apply to the three elements, must not be {@code null}
-         * @return the result of applying the mapper to {@code _1}, {@code _2}, and {@code _3} (may be {@code null} if the mapper returns {@code null})
+         * @param mapper the tri-function to apply to all three elements, must not be {@code null}
+         * @return the result of applying the tri-function to all three elements (may be {@code null})
          * @throws IllegalArgumentException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          * @see #accept(Throwables.DoubleTriConsumer)
          * @see #filter(Throwables.DoubleTriPredicate)
+         * @see PrimitiveTuple#map(Throwables.Function)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.DoubleTriFunction<U, E> mapper) throws E {
@@ -2237,12 +2367,11 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         }
 
         /**
-         * Returns an Optional containing this tuple if the predicate is satisfied,
-         * or an empty Optional otherwise.
+         * Returns an {@link Optional} containing this triple if {@code predicate} holds for
+         * ({@code _1}, {@code _2}, {@code _3}); otherwise {@link Optional#empty()}.
          * <p>
-         * This method evaluates the given tri-predicate against all three elements of the tuple.
-         * If the predicate returns {@code true}, returns an Optional containing this tuple.
-         * If it returns {@code false}, returns an empty Optional.
+         * Element-unpacking overload for triples. Distinct from
+         * {@link PrimitiveTuple#filter(Throwables.Predicate)}, which tests the tuple object as a whole.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -2269,12 +2398,13 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the predicate
-         * @param predicate the tri-predicate to test the three elements, must not be {@code null}
+         * @param predicate the tri-predicate to test all three elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
          * @throws IllegalArgumentException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception during evaluation
          * @see #accept(Throwables.DoubleTriConsumer)
          * @see #map(Throwables.DoubleTriFunction)
+         * @see PrimitiveTuple#filter(Throwables.Predicate)
          */
         public <E extends Exception> Optional<DoubleTuple3> filter(final Throwables.DoubleTriPredicate<E> predicate) throws E {
             N.checkArgNotNull(predicate, cs.predicate);
@@ -2382,11 +2512,23 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     }
 
     /**
-     * A tuple containing exactly four double values.
-     * The values are accessible through the public final fields {@code _1}, {@code _2}, {@code _3}, and {@code _4}.
+     * A {@code DoubleTuple} containing exactly four {@code double} elements.
+     * <p>
+     * Components are public final fields {@code _1}…{@code _4}. Unlike arity 2–3, this type does not
+     * add element-unpacking {@code accept}/{@code map}/{@code filter} overloads; use
+     * {@link #forEach(Throwables.DoubleConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
+     * </p>
      *
-     * <p>This arity does not expose the bi/tri-arg functional helpers that
-     * {@link DoubleTuple2} and {@link DoubleTuple3} provide.</p>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * DoubleTuple.DoubleTuple4 tuple = DoubleTuple.of((double) 10, (double) 20, (double) 30, (double) 40);
+     * double first = tuple._1;         // 10
+     * double fourth = tuple._4;        // 40
+     * // even arity: sorted 10,20,30,40 -> lower middle 20; statistical median 25.0
+     * double lowerMed = tuple.lowerMedian();  // 20
+     * double med = tuple.median();          // 25.0
+     * }</pre>
      */
     public static final class DoubleTuple4 extends DoubleTuple<DoubleTuple4> {
 
@@ -2460,7 +2602,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double min() {
-            return Math.min(Math.min(_1, _2), Math.min(_3, _4));
+            return Math.min(Math.min(Math.min(_1, _2), _3), _4);
         }
 
         /**
@@ -2484,36 +2626,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double max() {
-            return Math.max(Math.max(_1, _2), Math.max(_3, _4));
-        }
-
-        /**
-         * Returns the median value of the four elements.
-         * For an even number of elements, returns the lower of the two middle values
-         * (not their average). Ordering uses {@link Double#compare(double, double)}
-         * semantics, so {@code NaN} is treated as the largest value.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * // sorted: 1.0, 2.0, 3.0, 4.0 -> lower middle = 2.0
-         * DoubleTuple.DoubleTuple4 t = DoubleTuple.of(3.0, 1.0, 4.0, 2.0);
-         * t.median(); // returns 2.0
-         * // sorted: -3.0, -1.0, 0.0, 1.0 -> lower middle = -1.0
-         * DoubleTuple.DoubleTuple4 t2 = DoubleTuple.of(0.0, -1.0, 1.0, -3.0);
-         * t2.median(); // returns -1.0
-         * // NaN treated as largest: sorted: 1.0, 2.0, 3.0, NaN -> lower middle = 2.0
-         * DoubleTuple.DoubleTuple4 tNaN = DoubleTuple.of(1.0, Double.NaN, 2.0, 3.0);
-         * tNaN.median(); // returns 2.0
-         * // Duplicates: sorted: 1.0, 1.0, 2.0, 2.0 -> lower middle = 1.0
-         * DoubleTuple.DoubleTuple4 tDup = DoubleTuple.of(2.0, 1.0, 1.0, 2.0);
-         * tDup.median(); // returns 1.0
-         * }</pre>
-         *
-         * @return the lower middle value when the four elements are sorted
-         */
-        @Override
-        public double median() {
-            return N.median(_1, _2, _3, _4);
+            return Math.max(Math.max(Math.max(_1, _2), _3), _4);
         }
 
         /**
@@ -2734,8 +2847,20 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     }
 
     /**
-     * A tuple containing exactly five double values.
-     * The values are accessible through the public final fields {@code _1} through {@code _5}.
+     * A DoubleTuple containing exactly five double elements.
+     * <p>
+     * Provides direct access to elements through public final fields {@code _1} through {@code _5}.
+     * This tuple type is useful for grouping five related double values together.
+     * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * DoubleTuple.DoubleTuple5 tuple = DoubleTuple.of((double) 10, (double) 20, (double) 30, (double) 40, (double) 50);
+     * double first = tuple._1;  // 10
+     * double fifth = tuple._5;  // 50
+     * int sum = tuple.sum();  // 150
+     * }</pre>
+     *
      */
     public static final class DoubleTuple5 extends DoubleTuple<DoubleTuple5> {
 
@@ -2813,7 +2938,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double min() {
-            return Math.min(Math.min(Math.min(_1, _2), Math.min(_3, _4)), _5);
+            return Math.min(Math.min(Math.min(Math.min(_1, _2), _3), _4), _5);
         }
 
         /**
@@ -2837,36 +2962,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double max() {
-            return Math.max(Math.max(Math.max(_1, _2), Math.max(_3, _4)), _5);
-        }
-
-        /**
-         * Returns the median value of the five elements.
-         * For an odd number of elements, this is the exact middle value when sorted.
-         * Ordering uses {@link Double#compare(double, double)} semantics, so
-         * {@code NaN} is treated as the largest value.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * // sorted: 1.0, 2.0, 3.0, 4.0, 5.0 -> middle = 3.0
-         * DoubleTuple.DoubleTuple5 t = DoubleTuple.of(3.0, 1.0, 5.0, 2.0, 4.0);
-         * t.median(); // returns 3.0
-         * // sorted: -2.0, -1.0, 0.0, 1.0, 2.0 -> middle = 0.0
-         * DoubleTuple.DoubleTuple5 t2 = DoubleTuple.of(0.0, -1.0, 1.0, -2.0, 2.0);
-         * t2.median(); // returns 0.0
-         * // NaN treated as largest: sorted: 1.0, 2.0, 3.0, 4.0, NaN -> middle = 3.0
-         * DoubleTuple.DoubleTuple5 tNaN = DoubleTuple.of(1.0, Double.NaN, 2.0, 3.0, 4.0);
-         * tNaN.median(); // returns 3.0
-         * // Duplicates: sorted: 1.0, 1.0, 2.0, 2.0, 3.0 -> middle = 2.0
-         * DoubleTuple.DoubleTuple5 tDup = DoubleTuple.of(2.0, 1.0, 1.0, 3.0, 2.0);
-         * tDup.median(); // returns 2.0
-         * }</pre>
-         *
-         * @return the middle value when the five elements are sorted
-         */
-        @Override
-        public double median() {
-            return N.median(_1, _2, _3, _4, _5);
+            return Math.max(Math.max(Math.max(Math.max(_1, _2), _3), _4), _5);
         }
 
         /**
@@ -3089,8 +3185,20 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     }
 
     /**
-     * A tuple containing exactly six double values.
-     * The values are accessible through the public final fields {@code _1} through {@code _6}.
+     * A DoubleTuple containing exactly six double elements.
+     * <p>
+     * Provides direct access to elements through public final fields {@code _1} through {@code _6}.
+     * This tuple type is useful for grouping six related double values together.
+     * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * DoubleTuple.DoubleTuple6 tuple = DoubleTuple.of((double) 10, (double) 20, (double) 30, (double) 40, (double) 50, (double) 60);
+     * double first = tuple._1;                            // 10
+     * double sixth = tuple._6;                            // 60
+     * DoubleTuple.DoubleTuple6 reversed = tuple.reverse();  // (60, 50, 40, 30, 20, 10)
+     * }</pre>
+     *
      */
     public static final class DoubleTuple6 extends DoubleTuple<DoubleTuple6> {
 
@@ -3172,7 +3280,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double min() {
-            return Math.min(Math.min(Math.min(_1, _2), Math.min(_3, _4)), Math.min(_5, _6));
+            return Math.min(Math.min(Math.min(Math.min(Math.min(_1, _2), _3), _4), _5), _6);
         }
 
         /**
@@ -3196,36 +3304,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double max() {
-            return Math.max(Math.max(Math.max(_1, _2), Math.max(_3, _4)), Math.max(_5, _6));
-        }
-
-        /**
-         * Returns the median value of the six elements.
-         * For an even number of elements, returns the lower of the two middle values
-         * (not their average). Ordering uses {@link Double#compare(double, double)}
-         * semantics, so {@code NaN} is treated as the largest value.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * // sorted: 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 -> lower middle = 3.0
-         * DoubleTuple.DoubleTuple6 t = DoubleTuple.of(3.0, 1.0, 5.0, 2.0, 4.0, 6.0);
-         * t.median(); // returns 3.0
-         * // sorted: -3.0, -2.0, -1.0, 0.0, 1.0, 2.0 -> lower middle = -1.0
-         * DoubleTuple.DoubleTuple6 t2 = DoubleTuple.of(0.0, -1.0, 1.0, -2.0, 2.0, -3.0);
-         * t2.median(); // returns -1.0
-         * // NaN treated as largest: sorted: 1.0, 2.0, 3.0, 4.0, 5.0, NaN -> lower middle = 3.0
-         * DoubleTuple.DoubleTuple6 tNaN = DoubleTuple.of(1.0, Double.NaN, 2.0, 3.0, 4.0, 5.0);
-         * tNaN.median(); // returns 3.0
-         * // Duplicates: sorted: 1.0, 1.0, 2.0, 2.0, 3.0, 3.0 -> lower middle = 2.0
-         * DoubleTuple.DoubleTuple6 tDup = DoubleTuple.of(2.0, 1.0, 3.0, 1.0, 3.0, 2.0);
-         * tDup.median(); // returns 2.0
-         * }</pre>
-         *
-         * @return the lower middle value when the six elements are sorted
-         */
-        @Override
-        public double median() {
-            return N.median(_1, _2, _3, _4, _5, _6);
+            return Math.max(Math.max(Math.max(Math.max(Math.max(_1, _2), _3), _4), _5), _6);
         }
 
         /**
@@ -3451,8 +3530,20 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     }
 
     /**
-     * A tuple containing exactly seven double values.
-     * The values are accessible through the public final fields {@code _1} through {@code _7}.
+     * A DoubleTuple containing exactly seven double elements.
+     * <p>
+     * Provides direct access to elements through public final fields {@code _1} through {@code _7}.
+     * This tuple type is useful for grouping seven related double values together.
+     * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * DoubleTuple.DoubleTuple7 tuple = DoubleTuple.of((double) 10, (double) 20, (double) 30, (double) 40, (double) 50, (double) 60, (double) 70);
+     * double first = tuple._1;           // 10
+     * double seventh = tuple._7;         // 70
+     * double[] array = tuple.toArray();  // [10, 20, 30, 40, 50, 60, 70]
+     * }</pre>
+     *
      */
     public static final class DoubleTuple7 extends DoubleTuple<DoubleTuple7> {
 
@@ -3541,7 +3632,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double min() {
-            return Math.min(Math.min(Math.min(_1, _2), Math.min(_3, _4)), Math.min(Math.min(_5, _6), _7));
+            return Math.min(Math.min(Math.min(Math.min(Math.min(Math.min(_1, _2), _3), _4), _5), _6), _7);
         }
 
         /**
@@ -3568,35 +3659,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double max() {
-            return Math.max(Math.max(Math.max(_1, _2), Math.max(_3, _4)), Math.max(Math.max(_5, _6), _7));
-        }
-
-        /**
-         * Returns the median value of the seven elements.
-         * For an odd number of elements, this is the exact middle value when sorted.
-         * Ordering uses {@link Double#compare(double, double)} semantics, so
-         * {@code NaN} is treated as the largest value.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * DoubleTuple.DoubleTuple7 t = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
-         * double med = t.median();   // returns 4.0 (4th of 7 when sorted)
-         *
-         * DoubleTuple.DoubleTuple7 unsorted = DoubleTuple.of(7.0, 3.0, 5.0, 1.0, 6.0, 2.0, 4.0);
-         * double med2 = unsorted.median();   // returns 4.0
-         *
-         * DoubleTuple.DoubleTuple7 withNeg = DoubleTuple.of(-3.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0);
-         * double med3 = withNeg.median();   // returns 1.0
-         *
-         * DoubleTuple.DoubleTuple7 dups = DoubleTuple.of(2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0);
-         * double med4 = dups.median();   // returns 2.0
-         * }</pre>
-         *
-         * @return the middle value when the seven elements are sorted
-         */
-        @Override
-        public double median() {
-            return N.median(_1, _2, _3, _4, _5, _6, _7);
+            return Math.max(Math.max(Math.max(Math.max(Math.max(Math.max(_1, _2), _3), _4), _5), _6), _7);
         }
 
         /**
@@ -3861,8 +3924,19 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     }
 
     /**
-     * A tuple containing exactly eight double values.
-     * The values are accessible through the public final fields {@code _1} through {@code _8}.
+     * A DoubleTuple containing exactly eight double elements.
+     * <p>
+     * Provides direct access to elements through public final fields {@code _1} through {@code _8}.
+     * This tuple type is useful for grouping eight related double values together.
+     * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * DoubleTuple.DoubleTuple8 tuple = DoubleTuple.of((double) 10, (double) 20, (double) 30, (double) 40, (double) 50, (double) 60, (double) 70, (double) 80);
+     * double first = tuple._1;   // 10
+     * double eighth = tuple._8;  // 80
+     * DoubleList list = tuple.toList();
+     * }</pre>
      *
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more double values
      */
@@ -3959,7 +4033,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double min() {
-            return Math.min(Math.min(Math.min(_1, _2), Math.min(_3, _4)), Math.min(Math.min(_5, _6), Math.min(_7, _8)));
+            return Math.min(Math.min(Math.min(Math.min(Math.min(Math.min(Math.min(_1, _2), _3), _4), _5), _6), _7), _8);
         }
 
         /**
@@ -3986,35 +4060,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double max() {
-            return Math.max(Math.max(Math.max(_1, _2), Math.max(_3, _4)), Math.max(Math.max(_5, _6), Math.max(_7, _8)));
-        }
-
-        /**
-         * Returns the median value of the eight elements.
-         * For an even number of elements, returns the lower of the two middle values
-         * (not their average). Ordering uses {@link Double#compare(double, double)}
-         * semantics, so {@code NaN} is treated as the largest value.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * DoubleTuple.DoubleTuple8 t = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
-         * double med = t.median();   // returns 4.0 (lower of 4th and 5th when sorted)
-         *
-         * DoubleTuple.DoubleTuple8 unsorted = DoubleTuple.of(8.0, 3.0, 5.0, 1.0, 6.0, 2.0, 4.0, 7.0);
-         * double med2 = unsorted.median();   // returns 4.0
-         *
-         * DoubleTuple.DoubleTuple8 withNeg = DoubleTuple.of(-4.0, -3.0, -2.0, -1.0, 1.0, 2.0, 3.0, 4.0);
-         * double med3 = withNeg.median();   // returns -1.0
-         *
-         * DoubleTuple.DoubleTuple8 dups = DoubleTuple.of(2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0);
-         * double med4 = dups.median();   // returns 2.0
-         * }</pre>
-         *
-         * @return the lower middle value when the eight elements are sorted
-         */
-        @Override
-        public double median() {
-            return N.median(_1, _2, _3, _4, _5, _6, _7, _8);
+            return Math.max(Math.max(Math.max(Math.max(Math.max(Math.max(Math.max(_1, _2), _3), _4), _5), _6), _7), _8);
         }
 
         /**
@@ -4281,8 +4327,19 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     }
 
     /**
-     * A tuple containing exactly nine double values.
-     * The values are accessible through the public final fields {@code _1} through {@code _9}.
+     * A DoubleTuple containing exactly nine double elements.
+     * <p>
+     * Provides direct access to elements through public final fields {@code _1} through {@code _9}.
+     * This tuple type is useful for grouping nine related double values together.
+     * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * DoubleTuple.DoubleTuple9 tuple = DoubleTuple.of((double) 10, (double) 20, (double) 30, (double) 40, (double) 50, (double) 60, (double) 70, (double) 80, (double) 90);
+     * double first = tuple._1;      // 10
+     * double ninth = tuple._9;      // 90
+     * int arity = tuple.arity();  // 9
+     * }</pre>
      *
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more double values
      */
@@ -4384,7 +4441,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double min() {
-            return Math.min(Math.min(Math.min(Math.min(_1, _2), Math.min(_3, _4)), Math.min(Math.min(_5, _6), Math.min(_7, _8))), _9);
+            return Math.min(Math.min(Math.min(Math.min(Math.min(Math.min(Math.min(Math.min(_1, _2), _3), _4), _5), _6), _7), _8), _9);
         }
 
         /**
@@ -4411,35 +4468,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double max() {
-            return Math.max(Math.max(Math.max(Math.max(_1, _2), Math.max(_3, _4)), Math.max(Math.max(_5, _6), Math.max(_7, _8))), _9);
-        }
-
-        /**
-         * Returns the median value of the nine elements.
-         * For an odd number of elements, this is the exact middle value when sorted.
-         * Ordering uses {@link Double#compare(double, double)} semantics, so
-         * {@code NaN} is treated as the largest value.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * DoubleTuple.DoubleTuple9 t = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
-         * double med = t.median();   // returns 5.0 (5th of 9 when sorted)
-         *
-         * DoubleTuple.DoubleTuple9 unsorted = DoubleTuple.of(9.0, 3.0, 5.0, 1.0, 6.0, 2.0, 4.0, 7.0, 8.0);
-         * double med2 = unsorted.median();   // returns 5.0
-         *
-         * DoubleTuple.DoubleTuple9 withNeg = DoubleTuple.of(-4.0, -3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0);
-         * double med3 = withNeg.median();   // returns 0.0
-         *
-         * DoubleTuple.DoubleTuple9 dups = DoubleTuple.of(2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0);
-         * double med4 = dups.median();   // returns 2.0
-         * }</pre>
-         *
-         * @return the middle value when the nine elements are sorted
-         */
-        @Override
-        public double median() {
-            return N.median(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+            return Math.max(Math.max(Math.max(Math.max(Math.max(Math.max(Math.max(Math.max(_1, _2), _3), _4), _5), _6), _7), _8), _9);
         }
 
         /**

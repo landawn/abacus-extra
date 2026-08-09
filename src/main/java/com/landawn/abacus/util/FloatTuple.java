@@ -16,7 +16,6 @@ package com.landawn.abacus.util;
 
 import java.util.NoSuchElementException;
 
-import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.annotation.MayReturnNull;
 import com.landawn.abacus.util.FloatTuple.FloatTuple0;
 import com.landawn.abacus.util.FloatTuple.FloatTuple1;
@@ -35,18 +34,28 @@ import com.landawn.abacus.util.stream.FloatStream;
 /**
  * Base class for immutable tuples of primitive {@code float} values.
  *
- * <p>The nested tuple types model fixed arities from 0 through 9. Factory methods such as
- * {@link #from(float[])} and the {@code of(...)} overloads select the matching subtype, while the
- * base class supplies aggregate, reversal, containment, and functional helper operations.</p>
+ * <p>The nested tuple types model fixed arities from 0 through 9. Prefer the {@code of(...)} factory
+ * overloads to create a specific arity; {@link #from(float[])} is deprecated and retained only for
+ * compatibility. The base class supplies aggregate, reversal, containment, conversion, and
+ * element-wise functional helpers; {@link PrimitiveTuple} adds whole-tuple
+ * {@link PrimitiveTuple#accept(Throwables.Consumer) accept},
+ * {@link PrimitiveTuple#map(Throwables.Function) map},
+ * {@link PrimitiveTuple#filter(Throwables.Predicate) filter}, and
+ * {@link PrimitiveTuple#toOptional() toOptional}.</p>
  *
- * <p>This sealed base class permits only the built-in arity-specific nested tuple types.</p>
+ * <p>Arity-specific nested types ({@code FloatTuple1} through {@code FloatTuple9}) expose their components as
+ * public final fields {@code _1}, {@code _2}, and so on matching that arity. This sealed hierarchy permits only
+ * the built-in nested types; all instances are immutable.</p>
  *
  * <p><b>Numeric semantics:</b> Aggregates follow IEEE-754 {@code float} arithmetic: a {@code NaN}
  * element propagates to the results of {@link #min()}, {@link #max()}, {@link #sum()}, and
- * {@link #average()}, while {@link #median()}, {@link #contains(float)}, and {@link #equals(Object)}
+ * {@link #average()}. {@link #lowerMedian()}, {@link #contains(float)}, and {@link #equals(Object)}
  * order and compare elements with {@link Float#compare(float, float)} semantics ({@code NaN} equal
  * to itself and greater than any other value, {@code -0.0f} less than {@code 0.0f}).
- * {@link #average()} returns an {@code OptionalDouble} (empty for an empty tuple) to preserve precision.</p>
+ * {@link #median()} is the conventional statistical median as a {@code double} (mean of the two middle
+ * values when the arity is even). Empty-tuple contracts: {@code sum()} is {@code 0.0f},
+ * {@code average()} is empty, and {@code min}/{@code max}/{@code lowerMedian}/{@code median} throw
+ * {@link NoSuchElementException}.</p>
  *
  * @param <TP> the concrete {@code FloatTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
@@ -140,7 +149,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * triple.sum();                                    // returns 6.0f
      *
      * // Median of three: middle value when sorted
-     * FloatTuple.of(30.0f, 10.0f, 20.0f).median();    // returns 20.0f
+     * FloatTuple.of(30.0f, 10.0f, 20.0f).lowerMedian();    // returns 20.0f
      *
      * // Edge: NaN propagates through sum
      * FloatTuple.of(1.0f, Float.NaN, 3.0f).sum();     // returns NaN (NaN propagates)
@@ -168,7 +177,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * tuple.sum();                                     // returns 10.0f
      *
      * // Median of four (even count): lower middle value when sorted
-     * FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f).median(); // returns 2.0f
+     * FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f).lowerMedian(); // returns 2.0f
      *
      * // Edge: all negative values
      * FloatTuple.of(-4.0f, -1.0f, -3.0f, -2.0f).min(); // returns -4.0f
@@ -193,7 +202,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple.FloatTuple5 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
-     * tuple.median();                                  // returns 3.0f
+     * tuple.lowerMedian();                                  // returns 3.0f
      * tuple.average();                                 // returns OptionalDouble.of(3.0)
      *
      * // Reverse produces a new tuple
@@ -227,7 +236,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * tuple.average();                                 // returns OptionalDouble.of(3.5)
      *
      * // Median of six (even count): lower middle value when sorted
-     * FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f).median();  // returns 3.0f
+     * FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f).lowerMedian();  // returns 3.0f
      *
      * // Edge: NaN in sum
      * Float.isNaN(FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, Float.NaN).sum()); // returns true
@@ -254,7 +263,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple.FloatTuple7 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f);
-     * tuple.median();                                  // returns 4.0f
+     * tuple.lowerMedian();                                  // returns 4.0f
      * tuple.sum();                                     // returns 28.0f
      *
      * // Reverse produces a new tuple with elements in opposite order
@@ -292,7 +301,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * tuple.sum();                                     // returns 36.0f
      *
      * // Median of eight (even count): lower middle value when sorted
-     * tuple.median();                                  // returns 4.0f
+     * tuple.lowerMedian();                                  // returns 4.0f
      *
      * // Edge: contains check
      * tuple.contains(8.0f);                            // returns true
@@ -326,7 +335,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * <pre>{@code
      * FloatTuple.FloatTuple9 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f);
      * tuple.sum();                                     // returns 45.0f
-     * tuple.median();                                  // returns 5.0f
+     * tuple.lowerMedian();                                  // returns 5.0f
      *
      * // Reverse produces a new tuple with elements in opposite order
      * FloatTuple.FloatTuple9 reversed = tuple.reverse();
@@ -395,10 +404,11 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * @param values the array of float values; may be {@code null} or empty, in which case the shared empty tuple is returned
      * @return a {@code FloatTuple} of the appropriate arity containing the array values, or the shared empty tuple if the array is {@code null} or empty
      * @throws IllegalArgumentException if {@code values} has more than 9 elements
+     * @deprecated Use the {@code of(...)} factory methods instead; this method may be removed in a future release.
      * @see #of(float)
      */
-    @Beta
-    @SuppressWarnings({ "deprecation", "unchecked" })
+    @Deprecated
+    @SuppressWarnings({ "unchecked" })
     public static <TP extends FloatTuple<TP>> TP from(final float[] values) {
         if (values == null || values.length == 0) {
             return (TP) FloatTuple0.EMPTY;
@@ -467,18 +477,22 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * @return the minimum float value in this tuple
      * @throws NoSuchElementException if the tuple is empty
      * @see #max()
-     * @see #median()
+     * @see #lowerMedian()
      * @see Math#min(float, float)
      */
     public float min() {
-        final float[] arr = elements();
-        if (arr.length == 0) {
+        final float[] a = elements();
+
+        if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute min() for an empty tuple");
         }
-        float result = arr[0];
-        for (int i = 1; i < arr.length; i++) {
-            result = Math.min(result, arr[i]);
+
+        float result = a[0];
+
+        for (int i = 1; i < a.length; i++) {
+            result = Math.min(result, a[i]);
         }
+
         return result;
     }
 
@@ -512,64 +526,23 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * @return the maximum float value in this tuple
      * @throws NoSuchElementException if the tuple is empty
      * @see #min()
-     * @see #median()
+     * @see #lowerMedian()
      * @see Math#max(float, float)
      */
     public float max() {
-        final float[] arr = elements();
-        if (arr.length == 0) {
+        final float[] a = elements();
+
+        if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute max() for an empty tuple");
         }
-        float result = arr[0];
-        for (int i = 1; i < arr.length; i++) {
-            result = Math.max(result, arr[i]);
-        }
-        return result;
-    }
 
-    /**
-     * Returns the median value of the elements in this tuple.
-     * <p>
-     * For tuples with an odd number of elements, returns the middle value when sorted.
-     * For tuples with an even number of elements, returns the lower middle value
-     * (not the average of the two middle values).
-     * </p>
-     * <p>
-     * For tuples with three or more elements, ordering follows {@link Float#compare(float, float)}
-     * semantics, so {@code NaN} is treated as the largest value (and equal to itself), and
-     * {@code -0.0f} is treated as less than {@code +0.0f}. The same ordering is used for
-     * two-element tuples, so a single {@code NaN} is treated as the larger element and the
-     * finite value is returned.
-     * </p>
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * // Odd number of elements: middle value of the sorted sequence
-     * FloatTuple.of(30.0f, 10.0f, 20.0f).median();          // returns 20.0f  (sorted: 10, 20, 30)
-     * FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f).median(); // returns 3.0f
-     *
-     * // Even number of elements: lower middle value of the sorted sequence
-     * FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f).median(); // returns 2.0f
-     *
-     * // Edge: NaN is ordered above finite values
-     * FloatTuple.of(1.0f, Float.NaN).median();                         // returns 1.0f
-     *
-     * // Edge: empty tuple throws NoSuchElementException
-     * FloatTuple.from(new float[0]).median();                        // throws NoSuchElementException
-     * }</pre>
-     *
-     * @return the median float element in this tuple
-     * @throws NoSuchElementException if the tuple is empty
-     * @see #min()
-     * @see #max()
-     * @see N#median(float...)
-     */
-    public float median() {
-        final float[] arr = elements();
-        if (arr.length == 0) {
-            throw new NoSuchElementException("Cannot compute median() for an empty tuple");
+        float result = a[0];
+
+        for (int i = 1; i < a.length; i++) {
+            result = Math.max(result, a[i]);
         }
-        return N.median(arr);
+
+        return result;
     }
 
     /**
@@ -629,9 +602,96 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * @see #sum()
      */
     public OptionalDouble average() {
-        final float[] arr = elements();
+        final float[] a = elements();
 
-        return arr.length == 0 ? OptionalDouble.empty() : OptionalDouble.of(N.average(arr));
+        return a.length == 0 ? OptionalDouble.empty() : OptionalDouble.of(N.average(a));
+    }
+
+    /**
+     * Returns the conventional statistical median of this tuple as a {@code double}.
+     * <p>
+     * Elements are ordered with {@link Float#compare(float, float)} semantics ({@code NaN} largest;
+     * {@code -0.0f} less than {@code +0.0f}). For an odd arity, this is the middle value when sorted.
+     * For an even arity, this is the arithmetic mean of the two middle values. That differs from
+     * {@link #lowerMedian()}, which returns a {@code float} and, for even arities, only the lower
+     * middle element.
+     * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * FloatTuple.FloatTuple3 t3 = FloatTuple.of(30.0f, 10.0f, 20.0f);
+     * double median = t3.median();   // 20.0
+     *
+     * FloatTuple.FloatTuple4 t4 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
+     * double evenMedian = t4.median();   // 2.5 (mean of 2.0f and 3.0f)
+     *
+     * FloatTuple.FloatTuple2 pair = FloatTuple.of(10.0f, 30.0f);
+     * double pairMedian = pair.median();   // 20.0
+     *
+     * FloatTuple.FloatTuple1 single = FloatTuple.of(7.0f);
+     * double singleMedian = single.median();   // 7.0
+     *
+     * FloatTuple<?> empty = FloatTuple.from(new float[0]);
+     * // empty.median();   // throws NoSuchElementException
+     * }</pre>
+     *
+     * @return the statistical median as a {@code double}
+     * @throws NoSuchElementException if the tuple is empty
+     * @see #lowerMedian()
+     */
+    public double median() {
+        final float[] a = toArray();
+
+        if (a.length == 0) {
+            throw new NoSuchElementException("Cannot compute median() for an empty tuple");
+        }
+
+        return N.median(a);
+    }
+
+    /**
+     * Returns the lower median of this tuple as a {@code float}.
+     * <p>
+     * Ordering uses {@link Float#compare(float, float)} ({@code NaN} largest; {@code -0.0f} less than
+     * {@code +0.0f}). For an odd arity, this is the middle value when sorted. For an even arity, this is
+     * the lower of the two middle values (not their average). Prefer {@link #median()} for the
+     * conventional statistical median as a {@code double}.
+     * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * // Odd number of elements - returns middle value in sorted order
+     * FloatTuple.FloatTuple3 tuple3 = FloatTuple.of(30.0f, 10.0f, 20.0f);
+     * float median = tuple3.lowerMedian();   // 20.0f (sorted: 10.0f, 20.0f, 30.0f)
+     *
+     * // Even number of elements - returns lower middle value
+     * FloatTuple.FloatTuple4 tuple4 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
+     * float median2 = tuple4.lowerMedian();   // 2.0f
+     *
+     * // NaN sorts as the largest value (Float.compare semantics)
+     * FloatTuple.FloatTuple3 nanTuple = FloatTuple.of(1.0f, Float.NaN, 2.0f);
+     * float medNaN = nanTuple.lowerMedian();   // 2.0f
+     *
+     * // Empty tuple throws NoSuchElementException
+     * FloatTuple<?> empty = FloatTuple.from(new float[0]);
+     * // empty.lowerMedian();   // throws NoSuchElementException
+     * }</pre>
+     *
+     * @return the lower-median element (middle when sorted for odd arity; lower-middle for even arity)
+     * @throws NoSuchElementException if the tuple is empty
+     * @see #min()
+     * @see #max()
+     * @see #median()
+     * @see N#lowerMedian(float...)
+     */
+    public float lowerMedian() {
+        final float[] a = elements();
+
+        if (a.length == 0) {
+            throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
+        }
+
+        return N.lowerMedian(a);
     }
 
     /**
@@ -702,9 +762,9 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * float[] arr = FloatTuple.of(1.0f, 2.0f, 3.0f).toArray();
-     * assert arr.length == 3;
-     * assert arr[0] == 1.0f;
+     * float[] a = FloatTuple.of(1.0f, 2.0f, 3.0f).toArray();
+     * assert a.length == 3;
+     * assert a[0] == 1.0f;
      *
      * // Mutating the returned array does not affect the tuple
      * FloatTuple.FloatTuple2 t = FloatTuple.of(1.0f, 2.0f);
@@ -922,16 +982,18 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
     protected abstract float[] elements();
 
     /**
-     * An empty FloatTuple containing no elements (arity 0).
+     * An empty {@code FloatTuple} (arity 0).
      * <p>
-     * This package-private class is exposed only through the base {@code FloatTuple} type
-     * via the singleton instance returned by {@link #from(float[])} when invoked with a
-     * {@code null} or zero-length array. {@link #sum()} returns 0.0f and {@link #average()} returns an empty {@code OptionalDouble}, while
-     * {@link #min()}, {@link #max()}, and {@link #median()} all throw {@link java.util.NoSuchElementException}.
+     * Package-private; callers obtain the shared instance only via {@link #from(float[])} with a
+     * {@code null} or zero-length array (deprecated). Aggregate contracts for the empty instance:
+     * {@link #sum()} is {@code 0.0f}, {@link #average()} is empty, and
+     * {@link #min()}, {@link #max()}, {@link #lowerMedian()}, and {@link #median()} throw
+     * {@link NoSuchElementException}. {@link #reverse()} returns this same instance.
      * </p>
      */
     static final class FloatTuple0 extends FloatTuple<FloatTuple0> {
 
+        /** The shared empty float tuple. */
         private static final FloatTuple0 EMPTY = new FloatTuple0();
 
         /**
@@ -975,15 +1037,15 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         }
 
         /**
-         * Returns the median value in this tuple.
-         * Since this tuple is empty, this method always throws an exception.
+         * Always throws because this tuple has no elements.
          *
          * @return never returns normally
-         * @throws NoSuchElementException always, because the tuple is empty
+         * @throws NoSuchElementException always
+         * @see FloatTuple#median()
          */
         @Override
-        public float median() {
-            throw new NoSuchElementException("Cannot compute median() for an empty tuple");
+        public float lowerMedian() {
+            throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
         }
 
         /**
@@ -1053,12 +1115,20 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
     }
 
     /**
-     * A FloatTuple containing exactly one float value.
+     * A {@code FloatTuple} containing exactly one {@code float} element.
      * <p>
-     * This class provides direct access to the single element through the public final field {@code _1}.
-     * For single-element tuples, all statistical operations (min, max, median, sum, average) return
-     * or are based on that single element.
+     * The value is the public final field {@code _1}. Aggregates such as {@link #min()},
+     * {@link #max()}, {@link #lowerMedian()}, {@link #sum()}, and {@link #average()} all reflect
+     * that single element.
      * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * FloatTuple.FloatTuple1 tuple = FloatTuple.of((float) 42);
+     * float value = tuple._1;   // 42
+     * float min = tuple.min();  // 42 (single element)
+     * float max = tuple.max();  // 42 (single element)
+     * }</pre>
      */
     public static final class FloatTuple1 extends FloatTuple<FloatTuple1> {
 
@@ -1148,28 +1218,6 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         }
 
         /**
-         * Returns the median value in this tuple, which is the single element.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * FloatTuple.of(3.0f).median();                    // returns 3.0f
-         * FloatTuple.of(-1.5f).median();                   // returns -1.5f
-         *
-         * // Edge: NaN - single-element median is the element itself
-         * Float.isNaN(FloatTuple.of(Float.NaN).median());  // returns true
-         *
-         * // Edge: infinity
-         * FloatTuple.of(Float.POSITIVE_INFINITY).median(); // returns Float.POSITIVE_INFINITY
-         * }</pre>
-         *
-         * @return the value of {@code _1}
-         */
-        @Override
-        public float median() {
-            return _1;
-        }
-
-        /**
          * Returns the sum of elements in this tuple, which is the single element.
          *
          * <p><b>Usage Examples:</b></p>
@@ -1217,6 +1265,42 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         @Override
         public OptionalDouble average() {
             return OptionalDouble.of(_1);
+        }
+
+        /**
+         * Returns the statistical median of this one-element tuple as a {@code double}
+         * (the element itself, widened).
+         *
+         * @return {@code (double) _1}
+         * @see #lowerMedian()
+         */
+        @Override
+        public double median() {
+            return _1;
+        }
+
+        /**
+         * Returns the lower median of this one-element tuple, which is the element itself.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * FloatTuple.FloatTuple1 t = FloatTuple.of(7.5f);
+         * float median = t.lowerMedian();   // 7.5f
+         *
+         * // Zero is a valid element
+         * FloatTuple.FloatTuple1 zero = FloatTuple.of(0.0f);
+         * float medianZero = zero.lowerMedian();   // 0.0f
+         *
+         * // NaN element: lowerMedian() returns NaN
+         * FloatTuple.FloatTuple1 nan = FloatTuple.of(Float.NaN);
+         * float medianNaN = nan.lowerMedian();   // NaN
+         * }</pre>
+         *
+         * @return the value of {@code _1}
+         */
+        @Override
+        public float lowerMedian() {
+            return _1;
         }
 
         /**
@@ -1374,15 +1458,17 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
     }
 
     /**
-     * A FloatTuple containing exactly two float values.
-     * The values are accessible through the public final fields {@code _1} and {@code _2}.
-     *
-     * <p>In addition to the operations inherited from {@link FloatTuple}, this class provides
-     * functional helpers for working with pairs:</p>
+     * A {@code FloatTuple} containing exactly two {@code float} elements.
+     * <p>
+     * Components are the public final fields {@code _1} and {@code _2}. Besides the operations from
+     * {@link FloatTuple} and {@link PrimitiveTuple}, this type adds element-unpacking helpers that
+     * pass both values to a bi-consumer / bi-function / bi-predicate (distinct from the whole-tuple
+     * {@code accept}/{@code map}/{@code filter} on {@link PrimitiveTuple}):
+     * </p>
      * <ul>
-     *   <li>{@link #accept(Throwables.FloatBiConsumer)} - consume both values</li>
-     *   <li>{@link #map(Throwables.FloatBiFunction)} - transform the pair to a single value</li>
-     *   <li>{@link #filter(Throwables.FloatBiPredicate)} - conditionally wrap in {@link Optional}</li>
+     *   <li>{@link #accept(Throwables.FloatBiConsumer)} — both elements as primitives</li>
+     *   <li>{@link #map(Throwables.FloatBiFunction)} — map both elements to one result</li>
+     *   <li>{@link #filter(Throwables.FloatBiPredicate)} — keep this pair in an {@link Optional} if the predicate holds</li>
      * </ul>
      *
      * <p><b>Usage Examples:</b></p>
@@ -1395,7 +1481,6 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * float max = t.max();       // 2.5f
      * t.average();               // returns OptionalDouble.of(2.0)
      * }</pre>
-     *
      */
     public static final class FloatTuple2 extends FloatTuple<FloatTuple2> {
 
@@ -1500,33 +1585,6 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         }
 
         /**
-         * Returns the median of the two elements.
-         * Because there is an even number of elements, this is the lower of the
-         * two according to {@link Float#compare(float, float)}, not their average.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * FloatTuple.FloatTuple2 t = FloatTuple.of(3.0f, 1.0f);
-         * float med = t.median();   // returns 1.0f (the lower of the two)
-         *
-         * FloatTuple.FloatTuple2 eq = FloatTuple.of(2.0f, 2.0f);
-         * float medEq = eq.median();   // returns 2.0f (equal values)
-         *
-         * FloatTuple.FloatTuple2 neg = FloatTuple.of(-4.0f, -1.0f);
-         * float medNeg = neg.median();   // returns -4.0f (the lower value)
-         *
-         * FloatTuple.FloatTuple2 nanT = FloatTuple.of(Float.NaN, 1.0f);
-         * float medNan = nanT.median();   // returns 1.0f
-         * }</pre>
-         *
-         * @return the lower of {@code _1} and {@code _2} according to {@link Float#compare(float, float)}
-         */
-        @Override
-        public float median() {
-            return N.median(_1, _2);
-        }
-
-        /**
          * Returns the sum of the two elements.
          * If either element is {@code NaN} the result is {@code NaN}.
          *
@@ -1576,6 +1634,52 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         @Override
         public OptionalDouble average() {
             return OptionalDouble.of(N.average(_1, _2));
+        }
+
+        /**
+         * Returns the statistical median of this pair: the arithmetic mean of both elements as a
+         * {@code double}.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * FloatTuple.of(3.0f, 7.0f).median();    // 5.0
+         * FloatTuple.of(10.0f, 20.0f).median();  // 15.0
+         * FloatTuple.of(-5.0f, 5.0f).median();   // 0.0
+         * }</pre>
+         *
+         * @return {@code ((_1 + _2) / 2.0)} with the sum widened to {@code double}
+         * @see #lowerMedian()
+         */
+        @Override
+        public double median() {
+            return ((double) _1 + (double) _2) / 2d;
+        }
+
+        /**
+         * Returns the lower median of this pair: the smaller of the two values under
+         * {@link Float#compare(float, float)}.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * float med1 = FloatTuple.of(3.0f, 4.0f).lowerMedian();   // 3.0f  (lower of the two)
+         * float med2 = FloatTuple.of(4.0f, 3.0f).lowerMedian();   // 3.0f  (order does not matter)
+         *
+         * // negative values - still returns the lesser
+         * float med3 = FloatTuple.of(-3.0f, -1.0f).lowerMedian();   // -3.0f
+         *
+         * // NaN is ordered above finite values
+         * float medNaN = FloatTuple.of(3.0f, Float.NaN).lowerMedian();   // 3.0f
+         *
+         * // equal values
+         * float medEq = FloatTuple.of(2.5f, 2.5f).lowerMedian();   // 2.5f
+         * }</pre>
+         *
+         * @return the lower of {@code _1} and {@code _2} according to {@link Float#compare(float, float)}
+         * @see #median()
+         */
+        @Override
+        public float lowerMedian() {
+            return Float.compare(_1, _2) <= 0 ? _1 : _2;
         }
 
         /**
@@ -1667,11 +1771,11 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         }
 
         /**
-         * Performs the given bi-consumer action on the two elements of this tuple.
+         * Invokes {@code action} once with both elements ({@code _1}, {@code _2}).
          * <p>
-         * This method applies the specified bi-consumer to both elements simultaneously,
-         * allowing operations that need to work with both values together. The action is
-         * executed for its side effects only.
+         * This is the element-unpacking overload for pairs. It differs from
+         * {@link PrimitiveTuple#accept(Throwables.Consumer)}, which receives this tuple object, and from
+         * {@link #forEach(Throwables.FloatConsumer)}, which invokes a consumer once per element.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1694,11 +1798,12 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action
-         * @param action the bi-consumer to perform on the two elements, must not be {@code null}
+         * @param action the bi-consumer to apply to both elements, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
+         * @see #forEach(Throwables.FloatConsumer)
          * @see #map(Throwables.FloatBiFunction)
-         * @see #filter(Throwables.FloatBiPredicate)
+         * @see PrimitiveTuple#accept(Throwables.Consumer)
          */
         public <E extends Exception> void accept(final Throwables.FloatBiConsumer<E> action) throws E {
             N.checkArgNotNull(action, cs.action);
@@ -1707,11 +1812,10 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         }
 
         /**
-         * Applies the given bi-function to the two elements and returns the result.
+         * Applies {@code mapper} to both elements ({@code _1}, {@code _2}) and returns the result.
          * <p>
-         * This method transforms both elements of the tuple into a single result value
-         * of type {@code U}. The mapper function receives both elements as parameters and
-         * can perform any calculation or transformation on them.
+         * Element-unpacking overload for pairs. Distinct from
+         * {@link PrimitiveTuple#map(Throwables.Function)}, which receives this tuple object as a single argument.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1729,14 +1833,15 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * float infProd = infT.map((a, b) -> a * b);   // returns Float.POSITIVE_INFINITY
          * }</pre>
          *
-         * @param <U> the type of the result
+         * @param <U> the type of the result value
          * @param <E> the type of exception that may be thrown by the mapper
-         * @param mapper the bi-function to apply to the two elements, must not be {@code null}
-         * @return the result of applying the mapper to _1 and _2 (may be {@code null} if the mapper returns {@code null})
+         * @param mapper the bi-function to apply to both elements, must not be {@code null}
+         * @return the result of applying the bi-function to both elements (may be {@code null})
          * @throws IllegalArgumentException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          * @see #accept(Throwables.FloatBiConsumer)
          * @see #filter(Throwables.FloatBiPredicate)
+         * @see PrimitiveTuple#map(Throwables.Function)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.FloatBiFunction<U, E> mapper) throws E {
@@ -1746,12 +1851,11 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         }
 
         /**
-         * Returns an Optional containing this tuple if the predicate is satisfied,
-         * or an empty Optional otherwise.
+         * Returns an {@link Optional} containing this pair if {@code predicate} holds for
+         * ({@code _1}, {@code _2}); otherwise {@link Optional#empty()}.
          * <p>
-         * This method evaluates the given bi-predicate against both elements of the tuple.
-         * If the predicate returns {@code true}, returns an Optional containing this tuple.
-         * If it returns {@code false}, returns an empty Optional.
+         * Element-unpacking overload for pairs. Distinct from
+         * {@link PrimitiveTuple#filter(Throwables.Predicate)}, which tests the tuple object as a whole.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1774,12 +1878,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the predicate
-         * @param predicate the bi-predicate to test the two elements, must not be {@code null}
+         * @param predicate the bi-predicate to test both elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
          * @throws IllegalArgumentException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception during evaluation
          * @see #accept(Throwables.FloatBiConsumer)
          * @see #map(Throwables.FloatBiFunction)
+         * @see PrimitiveTuple#filter(Throwables.Predicate)
          */
         public <E extends Exception> Optional<FloatTuple2> filter(final Throwables.FloatBiPredicate<E> predicate) throws E {
             N.checkArgNotNull(predicate, cs.predicate);
@@ -1892,13 +1997,27 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
     }
 
     /**
-     * A FloatTuple containing exactly three float values.
+     * A {@code FloatTuple} containing exactly three {@code float} elements.
      * <p>
-     * This class provides direct access to elements through public final fields {@code _1}, {@code _2}, and {@code _3}.
-     * FloatTuple.FloatTuple3 offers additional functional methods like {@link #accept(Throwables.FloatTriConsumer)},
-     * {@link #map(Throwables.FloatTriFunction)}, and {@link #filter(Throwables.FloatTriPredicate)} that
-     * operate on all three elements simultaneously.
+     * Components are the public final fields {@code _1}, {@code _2}, and {@code _3}. In addition to
+     * {@link FloatTuple} / {@link PrimitiveTuple} operations, this type provides element-unpacking
+     * {@link #accept(Throwables.FloatTriConsumer)}, {@link #map(Throwables.FloatTriFunction)}, and
+     * {@link #filter(Throwables.FloatTriPredicate)} helpers that pass all three values as primitives
+     * (distinct from the whole-tuple methods on {@link PrimitiveTuple}).
      * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * FloatTuple.FloatTuple3 tuple = FloatTuple.of((float) 10, (float) 20, (float) 30);
+     * float first = tuple._1;   // 10
+     * float second = tuple._2;  // 20
+     * float third = tuple._3;   // 30
+     *
+     * // Using statistical operations
+     * float min = tuple.min();         // 10
+     * float max = tuple.max();         // 30
+     * OptionalDouble avg = tuple.average();   // OptionalDouble.of(20.0)
+     * }</pre>
      */
     public static final class FloatTuple3 extends FloatTuple<FloatTuple3> {
 
@@ -2007,33 +2126,6 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         }
 
         /**
-         * Returns the median value of the three elements.
-         * Comparison uses {@link Float#compare(float, float)} semantics, so
-         * {@code NaN} is treated as the largest value.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * FloatTuple.FloatTuple3 t = FloatTuple.of(3.0f, 1.0f, 2.0f);
-         * float med = t.median();   // returns 2.0f (middle value when sorted)
-         *
-         * FloatTuple.FloatTuple3 neg = FloatTuple.of(-5.0f, -1.0f, -3.0f);
-         * float medNeg = neg.median();   // returns -3.0f
-         *
-         * FloatTuple.FloatTuple3 dup = FloatTuple.of(2.0f, 2.0f, 2.0f);
-         * float medDup = dup.median();   // returns 2.0f
-         *
-         * FloatTuple.FloatTuple3 nanT = FloatTuple.of(Float.NaN, 1.0f, 2.0f);
-         * float medNan = nanT.median();   // NaN is treated as largest; median returns 2.0f
-         * }</pre>
-         *
-         * @return the middle value when the three elements are sorted
-         */
-        @Override
-        public float median() {
-            return N.median(_1, _2, _3);
-        }
-
-        /**
          * Returns the sum of the three elements.
          * If any element is {@code NaN}, the result is {@code NaN}.
          *
@@ -2083,6 +2175,53 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         @Override
         public OptionalDouble average() {
             return OptionalDouble.of(N.average(_1, _2, _3));
+        }
+
+        /**
+         * Returns the statistical median of this triple as a {@code double}.
+         * <p>
+         * With three elements the middle value when sorted is both the lower median and the
+         * statistical median; the return type is still {@code double} for API consistency with
+         * even-arity tuples.
+         * </p>
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * FloatTuple.of(1.0f, 2.0f, 3.0f).median();    // 2.0
+         * FloatTuple.of(3.0f, 1.0f, 2.0f).median();    // 2.0
+         * FloatTuple.of(-5.0f, -10.0f, 0.0f).median(); // -5.0
+         * }</pre>
+         *
+         * @return the middle value when sorted, as a {@code double}
+         * @see #lowerMedian()
+         */
+        @Override
+        public double median() {
+            return N.median(_1, _2, _3);
+        }
+
+        /**
+         * Returns the lower median of this triple: the middle value under
+         * {@link Float#compare(float, float)} ordering.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * float med1 = FloatTuple.of(1.0f, 2.0f, 3.0f).lowerMedian();   // 2.0f
+         * float med2 = FloatTuple.of(-5.0f, 0.0f, 3.0f).lowerMedian();  // 0.0f
+         *
+         * // NaN sorts as largest (Float.compare semantics)
+         * float medNaN = FloatTuple.of(1.0f, 3.0f, Float.NaN).lowerMedian();   // 3.0f
+         *
+         * // duplicate middle value
+         * float medDup = FloatTuple.of(2.0f, 2.0f, 5.0f).lowerMedian();   // 2.0f
+         * }</pre>
+         *
+         * @return the middle value when the three elements are sorted
+         * @see #median()
+         */
+        @Override
+        public float lowerMedian() {
+            return N.lowerMedian(_1, _2, _3);
         }
 
         /**
@@ -2175,11 +2314,11 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         }
 
         /**
-         * Performs the given tri-consumer action on the three elements of this tuple.
+         * Invokes {@code action} once with all three elements ({@code _1}, {@code _2}, {@code _3}).
          * <p>
-         * This method applies the specified tri-consumer to all three elements simultaneously,
-         * allowing operations that need to work with all values together. The action is
-         * executed for its side effects only.
+         * Element-unpacking overload for triples. Distinct from
+         * {@link PrimitiveTuple#accept(Throwables.Consumer)} (whole tuple) and
+         * {@link #forEach(Throwables.FloatConsumer)} (one call per element).
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -2201,11 +2340,12 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the action
-         * @param action the tri-consumer to perform on the three elements, must not be {@code null}
+         * @param action the tri-consumer to apply to all three elements, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
+         * @see #forEach(Throwables.FloatConsumer)
          * @see #map(Throwables.FloatTriFunction)
-         * @see #filter(Throwables.FloatTriPredicate)
+         * @see PrimitiveTuple#accept(Throwables.Consumer)
          */
         public <E extends Exception> void accept(final Throwables.FloatTriConsumer<E> action) throws E {
             N.checkArgNotNull(action, cs.action);
@@ -2214,11 +2354,10 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         }
 
         /**
-         * Applies the given tri-function to the three elements and returns the result.
+         * Applies {@code mapper} to all three elements ({@code _1}, {@code _2}, {@code _3}) and returns the result.
          * <p>
-         * This method transforms all three elements of the tuple into a single result value
-         * of type {@code U}. The mapper function receives all three elements as parameters and
-         * can perform any calculation or transformation on them.
+         * Element-unpacking overload for triples. Distinct from
+         * {@link PrimitiveTuple#map(Throwables.Function)}, which receives this tuple object as a single argument.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -2236,14 +2375,15 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * float infProd = infT.map((a, b, c) -> a * b * c);   // returns Float.POSITIVE_INFINITY
          * }</pre>
          *
-         * @param <U> the type of the result
+         * @param <U> the type of the result value
          * @param <E> the type of exception that may be thrown by the mapper
-         * @param mapper the tri-function to apply to the three elements, must not be {@code null}
-         * @return the result of applying the mapper to _1, _2, and _3 (may be {@code null} if the mapper returns {@code null})
+         * @param mapper the tri-function to apply to all three elements, must not be {@code null}
+         * @return the result of applying the tri-function to all three elements (may be {@code null})
          * @throws IllegalArgumentException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          * @see #accept(Throwables.FloatTriConsumer)
          * @see #filter(Throwables.FloatTriPredicate)
+         * @see PrimitiveTuple#map(Throwables.Function)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.FloatTriFunction<U, E> mapper) throws E {
@@ -2253,12 +2393,11 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         }
 
         /**
-         * Returns an Optional containing this tuple if the predicate is satisfied,
-         * or an empty Optional otherwise.
+         * Returns an {@link Optional} containing this triple if {@code predicate} holds for
+         * ({@code _1}, {@code _2}, {@code _3}); otherwise {@link Optional#empty()}.
          * <p>
-         * This method evaluates the given tri-predicate against all three elements of the tuple.
-         * If the predicate returns {@code true}, returns an Optional containing this tuple.
-         * If it returns {@code false}, returns an empty Optional.
+         * Element-unpacking overload for triples. Distinct from
+         * {@link PrimitiveTuple#filter(Throwables.Predicate)}, which tests the tuple object as a whole.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -2281,12 +2420,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown by the predicate
-         * @param predicate the tri-predicate to test the three elements, must not be {@code null}
+         * @param predicate the tri-predicate to test all three elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
          * @throws IllegalArgumentException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception during evaluation
          * @see #accept(Throwables.FloatTriConsumer)
          * @see #map(Throwables.FloatTriFunction)
+         * @see PrimitiveTuple#filter(Throwables.Predicate)
          */
         public <E extends Exception> Optional<FloatTuple3> filter(final Throwables.FloatTriPredicate<E> predicate) throws E {
             N.checkArgNotNull(predicate, cs.predicate);
@@ -2400,12 +2540,23 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
     }
 
     /**
-     * A FloatTuple containing exactly four float values.
+     * A {@code FloatTuple} containing exactly four {@code float} elements.
      * <p>
-     * Provides direct access to elements via public final fields {@code _1}, {@code _2}, {@code _3}, and {@code _4}.
-     * This arity does not expose the bi/tri-arg functional helpers that
-     * {@link FloatTuple2} and {@link FloatTuple3} provide.
+     * Components are public final fields {@code _1}…{@code _4}. Unlike arity 2–3, this type does not
+     * add element-unpacking {@code accept}/{@code map}/{@code filter} overloads; use
+     * {@link #forEach(Throwables.FloatConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * FloatTuple.FloatTuple4 tuple = FloatTuple.of((float) 10, (float) 20, (float) 30, (float) 40);
+     * float first = tuple._1;         // 10
+     * float fourth = tuple._4;        // 40
+     * // even arity: sorted 10,20,30,40 -> lower middle 20; statistical median 25.0
+     * float lowerMed = tuple.lowerMedian();  // 20
+     * double med = tuple.median();          // 25.0
+     * }</pre>
      */
     public static final class FloatTuple4 extends FloatTuple<FloatTuple4> {
 
@@ -2483,7 +2634,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float min() {
-            return Math.min(Math.min(_1, _2), Math.min(_3, _4));
+            return Math.min(Math.min(Math.min(_1, _2), _3), _4);
         }
 
         /**
@@ -2510,35 +2661,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float max() {
-            return Math.max(Math.max(_1, _2), Math.max(_3, _4));
-        }
-
-        /**
-         * Returns the median value of the four elements.
-         * For an even number of elements, returns the lower of the two middle values
-         * (not their average). Ordering uses {@link Float#compare(float, float)}
-         * semantics, so {@code NaN} is treated as the largest value.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * FloatTuple.FloatTuple4 t = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
-         * float med = t.median();   // returns 2.0f  (lower of the two middle values)
-         *
-         * FloatTuple.FloatTuple4 t2 = FloatTuple.of(4.0f, 1.0f, 3.0f, 2.0f);
-         * float med2 = t2.median();   // returns 2.0f
-         *
-         * FloatTuple.FloatTuple4 neg = FloatTuple.of(-4.0f, -3.0f, -2.0f, -1.0f);
-         * float med3 = neg.median();   // returns -3.0f
-         *
-         * FloatTuple.FloatTuple4 withNaN = FloatTuple.of(Float.NaN, 1.0f, 2.0f, 3.0f);
-         * float med4 = withNaN.median();   // returns 2.0f  (NaN sorts last)
-         * }</pre>
-         *
-         * @return the lower middle value when the four elements are sorted
-         */
-        @Override
-        public float median() {
-            return N.median(_1, _2, _3, _4);
+            return Math.max(Math.max(Math.max(_1, _2), _3), _4);
         }
 
         /**
@@ -2790,10 +2913,20 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
     }
 
     /**
-     * A FloatTuple containing exactly five float values.
+     * A FloatTuple containing exactly five float elements.
      * <p>
-     * Provides direct access to elements via public final fields {@code _1} through {@code _5}.
+     * Provides direct access to elements through public final fields {@code _1} through {@code _5}.
+     * This tuple type is useful for grouping five related float values together.
      * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * FloatTuple.FloatTuple5 tuple = FloatTuple.of((float) 10, (float) 20, (float) 30, (float) 40, (float) 50);
+     * float first = tuple._1;  // 10
+     * float fifth = tuple._5;  // 50
+     * int sum = tuple.sum();  // 150
+     * }</pre>
+     *
      */
     public static final class FloatTuple5 extends FloatTuple<FloatTuple5> {
 
@@ -2875,7 +3008,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float min() {
-            return Math.min(Math.min(Math.min(_1, _2), Math.min(_3, _4)), _5);
+            return Math.min(Math.min(Math.min(Math.min(_1, _2), _3), _4), _5);
         }
 
         /**
@@ -2902,35 +3035,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float max() {
-            return Math.max(Math.max(Math.max(_1, _2), Math.max(_3, _4)), _5);
-        }
-
-        /**
-         * Returns the median value of the five elements.
-         * For an odd number of elements, this is the exact middle value when sorted.
-         * Ordering uses {@link Float#compare(float, float)} semantics, so
-         * {@code NaN} is treated as the largest value.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * FloatTuple.FloatTuple5 t = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
-         * float med = t.median();   // returns 3.0f  (exact middle)
-         *
-         * FloatTuple.FloatTuple5 t2 = FloatTuple.of(5.0f, 1.0f, 3.0f, 2.0f, 4.0f);
-         * float med2 = t2.median();   // returns 3.0f
-         *
-         * FloatTuple.FloatTuple5 neg = FloatTuple.of(-5.0f, -4.0f, -3.0f, -2.0f, -1.0f);
-         * float med3 = neg.median();   // returns -3.0f
-         *
-         * FloatTuple.FloatTuple5 withNaN = FloatTuple.of(Float.NaN, 1.0f, 2.0f, 3.0f, 4.0f);
-         * float med4 = withNaN.median();   // returns 3.0f  (NaN sorts last)
-         * }</pre>
-         *
-         * @return the middle value when the five elements are sorted
-         */
-        @Override
-        public float median() {
-            return N.median(_1, _2, _3, _4, _5);
+            return Math.max(Math.max(Math.max(Math.max(_1, _2), _3), _4), _5);
         }
 
         /**
@@ -3184,10 +3289,20 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
     }
 
     /**
-     * A FloatTuple containing exactly six float values.
+     * A FloatTuple containing exactly six float elements.
      * <p>
-     * Provides direct access to elements via public final fields {@code _1} through {@code _6}.
+     * Provides direct access to elements through public final fields {@code _1} through {@code _6}.
+     * This tuple type is useful for grouping six related float values together.
      * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * FloatTuple.FloatTuple6 tuple = FloatTuple.of((float) 10, (float) 20, (float) 30, (float) 40, (float) 50, (float) 60);
+     * float first = tuple._1;                            // 10
+     * float sixth = tuple._6;                            // 60
+     * FloatTuple.FloatTuple6 reversed = tuple.reverse();  // (60, 50, 40, 30, 20, 10)
+     * }</pre>
+     *
      */
     public static final class FloatTuple6 extends FloatTuple<FloatTuple6> {
 
@@ -3273,7 +3388,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float min() {
-            return Math.min(Math.min(Math.min(_1, _2), Math.min(_3, _4)), Math.min(_5, _6));
+            return Math.min(Math.min(Math.min(Math.min(Math.min(_1, _2), _3), _4), _5), _6);
         }
 
         /**
@@ -3300,35 +3415,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float max() {
-            return Math.max(Math.max(Math.max(_1, _2), Math.max(_3, _4)), Math.max(_5, _6));
-        }
-
-        /**
-         * Returns the median value of the six elements.
-         * For an even number of elements, returns the lower of the two middle values
-         * (not their average). Ordering uses {@link Float#compare(float, float)}
-         * semantics, so {@code NaN} is treated as the largest value.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * FloatTuple.FloatTuple6 t = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
-         * float med = t.median();   // returns 3.0f  (lower of the two middle values 3 and 4)
-         *
-         * FloatTuple.FloatTuple6 t2 = FloatTuple.of(6.0f, 1.0f, 4.0f, 2.0f, 5.0f, 3.0f);
-         * float med2 = t2.median();   // returns 3.0f
-         *
-         * FloatTuple.FloatTuple6 neg = FloatTuple.of(-6.0f, -5.0f, -4.0f, -3.0f, -2.0f, -1.0f);
-         * float med3 = neg.median();   // returns -4.0f
-         *
-         * FloatTuple.FloatTuple6 withNaN = FloatTuple.of(Float.NaN, 1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
-         * float med4 = withNaN.median();   // returns 3.0f  (NaN sorts last)
-         * }</pre>
-         *
-         * @return the lower middle value when the six elements are sorted
-         */
-        @Override
-        public float median() {
-            return N.median(_1, _2, _3, _4, _5, _6);
+            return Math.max(Math.max(Math.max(Math.max(Math.max(_1, _2), _3), _4), _5), _6);
         }
 
         /**
@@ -3585,10 +3672,20 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
     }
 
     /**
-     * A FloatTuple containing exactly seven float values.
+     * A FloatTuple containing exactly seven float elements.
      * <p>
-     * Provides direct access to elements via public final fields {@code _1} through {@code _7}.
+     * Provides direct access to elements through public final fields {@code _1} through {@code _7}.
+     * This tuple type is useful for grouping seven related float values together.
      * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * FloatTuple.FloatTuple7 tuple = FloatTuple.of((float) 10, (float) 20, (float) 30, (float) 40, (float) 50, (float) 60, (float) 70);
+     * float first = tuple._1;           // 10
+     * float seventh = tuple._7;         // 70
+     * float[] array = tuple.toArray();  // [10, 20, 30, 40, 50, 60, 70]
+     * }</pre>
+     *
      */
     public static final class FloatTuple7 extends FloatTuple<FloatTuple7> {
 
@@ -3678,7 +3775,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float min() {
-            return Math.min(Math.min(Math.min(_1, _2), Math.min(_3, _4)), Math.min(Math.min(_5, _6), _7));
+            return Math.min(Math.min(Math.min(Math.min(Math.min(Math.min(_1, _2), _3), _4), _5), _6), _7);
         }
 
         /**
@@ -3705,35 +3802,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float max() {
-            return Math.max(Math.max(Math.max(_1, _2), Math.max(_3, _4)), Math.max(Math.max(_5, _6), _7));
-        }
-
-        /**
-         * Returns the median value of the seven elements.
-         * For an odd number of elements, this is the exact middle value when sorted.
-         * Ordering uses {@link Float#compare(float, float)} semantics, so
-         * {@code NaN} is treated as the largest value.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * FloatTuple.FloatTuple7 t = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f);
-         * float med = t.median(); // returns 4.0f  (middle of sorted [1,2,3,4,5,6,7])
-         *
-         * FloatTuple.FloatTuple7 dup = FloatTuple.of(1.0f, 1.0f, 1.0f, 5.0f, 9.0f, 9.0f, 9.0f);
-         * float dupMed = dup.median(); // returns 5.0f
-         *
-         * FloatTuple.FloatTuple7 neg = FloatTuple.of(-7.0f, -5.0f, -3.0f, -1.0f, 1.0f, 3.0f, 5.0f);
-         * float negMed = neg.median(); // returns -1.0f
-         *
-         * FloatTuple.FloatTuple7 withNaN = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, Float.NaN);
-         * float nanMed = withNaN.median(); // returns 4.0f  (NaN treated as largest)
-         * }</pre>
-         *
-         * @return the middle value when the seven elements are sorted
-         */
-        @Override
-        public float median() {
-            return N.median(_1, _2, _3, _4, _5, _6, _7);
+            return Math.max(Math.max(Math.max(Math.max(Math.max(Math.max(_1, _2), _3), _4), _5), _6), _7);
         }
 
         /**
@@ -3993,10 +4062,19 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
     }
 
     /**
-     * A FloatTuple containing exactly eight float values.
+     * A FloatTuple containing exactly eight float elements.
      * <p>
-     * Provides direct access to elements via public final fields {@code _1} through {@code _8}.
+     * Provides direct access to elements through public final fields {@code _1} through {@code _8}.
+     * This tuple type is useful for grouping eight related float values together.
      * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * FloatTuple.FloatTuple8 tuple = FloatTuple.of((float) 10, (float) 20, (float) 30, (float) 40, (float) 50, (float) 60, (float) 70, (float) 80);
+     * float first = tuple._1;   // 10
+     * float eighth = tuple._8;  // 80
+     * FloatList list = tuple.toList();
+     * }</pre>
      *
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more float values
      */
@@ -4099,7 +4177,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float min() {
-            return Math.min(Math.min(Math.min(_1, _2), Math.min(_3, _4)), Math.min(Math.min(_5, _6), Math.min(_7, _8)));
+            return Math.min(Math.min(Math.min(Math.min(Math.min(Math.min(Math.min(_1, _2), _3), _4), _5), _6), _7), _8);
         }
 
         /**
@@ -4126,35 +4204,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float max() {
-            return Math.max(Math.max(Math.max(_1, _2), Math.max(_3, _4)), Math.max(Math.max(_5, _6), Math.max(_7, _8)));
-        }
-
-        /**
-         * Returns the median value of the eight elements.
-         * For an even number of elements, returns the lower of the two middle values
-         * (not their average). Ordering uses {@link Float#compare(float, float)}
-         * semantics, so {@code NaN} is treated as the largest value.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * FloatTuple.FloatTuple8 t = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f);
-         * float med = t.median(); // returns 4.0f  (lower of two middle values 4,5 in sorted [1..8])
-         *
-         * FloatTuple.FloatTuple8 dup = FloatTuple.of(1.0f, 1.0f, 1.0f, 5.0f, 5.0f, 9.0f, 9.0f, 9.0f);
-         * float dupMed = dup.median(); // returns 5.0f
-         *
-         * FloatTuple.FloatTuple8 neg = FloatTuple.of(-8.0f, -6.0f, -4.0f, -2.0f, 1.0f, 3.0f, 5.0f, 7.0f);
-         * float negMed = neg.median(); // returns -2.0f
-         *
-         * FloatTuple.FloatTuple8 withNaN = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, Float.NaN);
-         * float nanMed = withNaN.median(); // returns 4.0f  (NaN treated as largest)
-         * }</pre>
-         *
-         * @return the lower middle value when the eight elements are sorted
-         */
-        @Override
-        public float median() {
-            return N.median(_1, _2, _3, _4, _5, _6, _7, _8);
+            return Math.max(Math.max(Math.max(Math.max(Math.max(Math.max(Math.max(_1, _2), _3), _4), _5), _6), _7), _8);
         }
 
         /**
@@ -4416,10 +4466,19 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
     }
 
     /**
-     * A FloatTuple containing exactly nine float values.
+     * A FloatTuple containing exactly nine float elements.
      * <p>
-     * Provides direct access to elements via public final fields {@code _1} through {@code _9}.
+     * Provides direct access to elements through public final fields {@code _1} through {@code _9}.
+     * This tuple type is useful for grouping nine related float values together.
      * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * FloatTuple.FloatTuple9 tuple = FloatTuple.of((float) 10, (float) 20, (float) 30, (float) 40, (float) 50, (float) 60, (float) 70, (float) 80, (float) 90);
+     * float first = tuple._1;      // 10
+     * float ninth = tuple._9;      // 90
+     * int arity = tuple.arity();  // 9
+     * }</pre>
      *
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more float values
      */
@@ -4527,7 +4586,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float min() {
-            return Math.min(Math.min(Math.min(Math.min(_1, _2), Math.min(_3, _4)), Math.min(Math.min(_5, _6), Math.min(_7, _8))), _9);
+            return Math.min(Math.min(Math.min(Math.min(Math.min(Math.min(Math.min(Math.min(_1, _2), _3), _4), _5), _6), _7), _8), _9);
         }
 
         /**
@@ -4554,35 +4613,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float max() {
-            return Math.max(Math.max(Math.max(Math.max(_1, _2), Math.max(_3, _4)), Math.max(Math.max(_5, _6), Math.max(_7, _8))), _9);
-        }
-
-        /**
-         * Returns the median value of the nine elements.
-         * For an odd number of elements, this is the exact middle value when sorted.
-         * Ordering uses {@link Float#compare(float, float)} semantics, so
-         * {@code NaN} is treated as the largest value.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * FloatTuple.FloatTuple9 t = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f);
-         * float med = t.median(); // returns 5.0f  (middle of sorted [1..9])
-         *
-         * FloatTuple.FloatTuple9 dup = FloatTuple.of(1.0f, 1.0f, 1.0f, 5.0f, 5.0f, 9.0f, 9.0f, 9.0f, 9.0f);
-         * float dupMed = dup.median(); // returns 5.0f
-         *
-         * FloatTuple.FloatTuple9 neg = FloatTuple.of(-9.0f, -7.0f, -5.0f, -3.0f, -1.0f, 1.0f, 3.0f, 5.0f, 7.0f);
-         * float negMed = neg.median(); // returns -1.0f
-         *
-         * FloatTuple.FloatTuple9 withNaN = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, Float.NaN);
-         * float nanMed = withNaN.median(); // returns 5.0f  (NaN treated as largest)
-         * }</pre>
-         *
-         * @return the middle value when the nine elements are sorted
-         */
-        @Override
-        public float median() {
-            return N.median(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+            return Math.max(Math.max(Math.max(Math.max(Math.max(Math.max(Math.max(Math.max(_1, _2), _3), _4), _5), _6), _7), _8), _9);
         }
 
         /**

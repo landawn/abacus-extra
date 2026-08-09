@@ -183,13 +183,13 @@ class ShortTupleTest extends TestBase {
     @Test
     public void testMedian() {
         ShortTuple.ShortTuple3 tuple = ShortTuple.of((short) 15, (short) 5, (short) 10);
-        assertEquals(10, tuple.median());
+        assertEquals(10, tuple.lowerMedian());
 
         ShortTuple.ShortTuple4 evenTuple = ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20);
-        assertEquals((short) 10, evenTuple.median()); // even arity returns the lower of the two middle values: 10
+        assertEquals((short) 10, evenTuple.lowerMedian()); // even arity returns the lower of the two middle values: 10
 
         ShortTuple.ShortTuple0 empty = ShortTuple.from(new short[0]);
-        assertThrows(NoSuchElementException.class, () -> empty.median());
+        assertThrows(NoSuchElementException.class, () -> empty.lowerMedian());
     }
 
     @Test
@@ -435,7 +435,7 @@ class ShortTupleTest extends TestBase {
         // Test min/max/median/sum/average
         assertEquals(5, tuple.min());
         assertEquals(5, tuple.max());
-        assertEquals(5, tuple.median());
+        assertEquals(5, tuple.lowerMedian());
         assertEquals(5, tuple.sum());
         assertEquals(5.0, tuple.average().getAsDouble());
     }
@@ -461,7 +461,7 @@ class ShortTupleTest extends TestBase {
 
         assertEquals(1, tuple.min());
         assertEquals(9, tuple.max());
-        assertEquals(2, tuple.median());
+        assertEquals(2, tuple.lowerMedian());
         assertEquals(17, tuple.sum());
         assertEquals(4.25, tuple.average().getAsDouble());
         assertArrayEquals(new short[] { 9, 2, 5, 1 }, firstArray);
@@ -805,19 +805,19 @@ class ShortTupleTest extends TestBase {
         @Test
         public void testMedianTuple1() {
             ShortTuple1 tuple = ShortTuple.of((short) 1);
-            assertEquals((short) 1, tuple.median());
+            assertEquals((short) 1, tuple.lowerMedian());
         }
 
         @Test
         public void testMedianTuple3() {
             ShortTuple3 tuple = ShortTuple.of((short) 3, (short) 1, (short) 2);
-            assertEquals((short) 2, tuple.median());
+            assertEquals((short) 2, tuple.lowerMedian());
         }
 
         @Test
         public void testMedianTuple0ThrowsException() {
             ShortTuple<ShortTuple0> tuple = ShortTuple.from(new short[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.median());
+            assertThrows(NoSuchElementException.class, () -> tuple.lowerMedian());
         }
 
         // Statistical method tests - sum
@@ -1221,7 +1221,7 @@ class ShortTupleTest extends TestBase {
             // Test min/max/median/sum/average via base class
             assertEquals((short) 1, tuple.min());
             assertEquals((short) 4, tuple.max());
-            assertEquals((short) 2, tuple.median());
+            assertEquals((short) 2, tuple.lowerMedian());
             assertEquals(10, tuple.sum());
             assertEquals(2.5, tuple.average().getAsDouble(), 0.001);
 
@@ -1258,7 +1258,7 @@ class ShortTupleTest extends TestBase {
             // Test statistical operations
             assertEquals((short) 1, tuple.min());
             assertEquals((short) 5, tuple.max());
-            assertEquals((short) 3, tuple.median());
+            assertEquals((short) 3, tuple.lowerMedian());
             assertEquals(15, tuple.sum());
             assertEquals(3.0, tuple.average().getAsDouble(), 0.001);
 
@@ -1513,7 +1513,7 @@ class ShortTupleTest extends TestBase {
         @Test
         public void testShortTuple1_median() {
             ShortTuple.ShortTuple1 tuple = ShortTuple.of((short) 1);
-            assertNotNull(tuple.median());
+            assertNotNull(tuple.lowerMedian());
         }
 
         @Test
@@ -1593,7 +1593,7 @@ class ShortTupleTest extends TestBase {
         @Test
         public void testShortTuple2_median() {
             ShortTuple.ShortTuple2 tuple = ShortTuple.of((short) 1, (short) 2);
-            assertNotNull(tuple.median());
+            assertNotNull(tuple.lowerMedian());
         }
 
         @Test
@@ -1695,7 +1695,7 @@ class ShortTupleTest extends TestBase {
         @Test
         public void testShortTuple3_median() {
             ShortTuple.ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            assertNotNull(tuple.median());
+            assertNotNull(tuple.lowerMedian());
         }
 
         @Test
@@ -2248,19 +2248,19 @@ class ShortTupleTest extends TestBase {
         @Test
         public void testMedian_tuple2() {
             ShortTuple2 tuple = ShortTuple.of((short) 5, (short) 2);
-            assertEquals((short) 2, tuple.median());
+            assertEquals((short) 2, tuple.lowerMedian());
         }
 
         @Test
         public void testMedian_tuple3() {
             ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 3, (short) 2);
-            assertEquals((short) 2, tuple.median());
+            assertEquals((short) 2, tuple.lowerMedian());
         }
 
         @Test
         public void testMedian_tuple4() {
             ShortTuple4 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4);
-            assertEquals((short) 2, tuple.median());
+            assertEquals((short) 2, tuple.lowerMedian());
         }
 
         @Test
@@ -2584,7 +2584,7 @@ class ShortTupleTest extends TestBase {
         @Test
         public void testTuple0_median() {
             ShortTuple<?> tuple = ShortTuple.from(null);
-            assertThrows(NoSuchElementException.class, () -> tuple.median());
+            assertThrows(NoSuchElementException.class, () -> tuple.lowerMedian());
         }
 
         @Test
@@ -2623,7 +2623,7 @@ class ShortTupleTest extends TestBase {
             assertEquals(5, tuple.arity());
             assertEquals((short) 1, tuple.min());
             assertEquals((short) 5, tuple.max());
-            assertEquals((short) 3, tuple.median());
+            assertEquals((short) 3, tuple.lowerMedian());
             assertEquals(15, tuple.sum());
             assertEquals(3.0, tuple.average().getAsDouble(), 0.001);
             assertTrue(tuple.contains((short) 3));
@@ -2654,7 +2654,7 @@ class ShortTupleTest extends TestBase {
         public void testTuple7_operations() {
             ShortTuple7 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7);
             assertEquals(7, tuple.arity());
-            assertEquals((short) 4, tuple.median());
+            assertEquals((short) 4, tuple.lowerMedian());
             assertEquals(28, tuple.sum());
         }
 
@@ -2670,7 +2670,7 @@ class ShortTupleTest extends TestBase {
         public void testTuple9_operations() {
             ShortTuple9 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 9);
             assertEquals(9, tuple.arity());
-            assertEquals((short) 5, tuple.median());
+            assertEquals((short) 5, tuple.lowerMedian());
             assertEquals(45, tuple.sum());
             assertEquals(5.0, tuple.average().getAsDouble(), 0.001);
         }
@@ -2846,11 +2846,11 @@ class ShortTupleTest extends TestBase {
         @Test
         public void testMedian() {
             // Odd number of elements - returns middle value
-            assertEquals((short) 2, ShortTuple.of((short) 3, (short) 1, (short) 2).median());
-            assertEquals((short) 3, ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5).median());
+            assertEquals((short) 2, ShortTuple.of((short) 3, (short) 1, (short) 2).lowerMedian());
+            assertEquals((short) 3, ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5).lowerMedian());
 
             // Even number of elements - returns lower middle value
-            assertEquals((short) 2, ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4).median());
+            assertEquals((short) 2, ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4).lowerMedian());
         }
 
         @Test
@@ -2878,7 +2878,7 @@ class ShortTupleTest extends TestBase {
 
         @Test
         public void testMedian_Empty() {
-            assertThrows(NoSuchElementException.class, () -> ShortTuple.from(null).median());
+            assertThrows(NoSuchElementException.class, () -> ShortTuple.from(null).lowerMedian());
         }
 
         @Test
@@ -3130,7 +3130,7 @@ class ShortTupleTest extends TestBase {
             ShortTuple1 tuple = ShortTuple.of((short) 42);
             assertEquals((short) 42, tuple.min());
             assertEquals((short) 42, tuple.max());
-            assertEquals((short) 42, tuple.median());
+            assertEquals((short) 42, tuple.lowerMedian());
             assertEquals(42, tuple.sum());
             assertEquals(42.0, tuple.average().getAsDouble(), 0.0001);
             assertTrue(tuple.contains((short) 42));
@@ -3349,7 +3349,7 @@ class ShortTupleTest extends TestBase {
         @Test
         public void test_ShortTuple0_median_throwsException() {
             ShortTuple0 tuple = ShortTuple.from(new short[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.median());
+            assertThrows(NoSuchElementException.class, () -> tuple.lowerMedian());
         }
 
         @Test
@@ -3406,7 +3406,7 @@ class ShortTupleTest extends TestBase {
         @Test
         public void test_ShortTuple1_median() {
             ShortTuple1 tuple = ShortTuple.of((short) 5);
-            assertEquals((short) 5, tuple.median());
+            assertEquals((short) 5, tuple.lowerMedian());
         }
 
         @Test
@@ -3508,7 +3508,7 @@ class ShortTupleTest extends TestBase {
         @Test
         public void test_ShortTuple2_median() {
             ShortTuple2 tuple = ShortTuple.of((short) 1, (short) 2);
-            short median = tuple.median();
+            short median = tuple.lowerMedian();
             assertEquals((short) 1, median);
         }
 
@@ -3628,7 +3628,7 @@ class ShortTupleTest extends TestBase {
         @Test
         public void test_ShortTuple3_median() {
             ShortTuple3 tuple = ShortTuple.of((short) 30, (short) 10, (short) 20);
-            assertEquals((short) 20, tuple.median());
+            assertEquals((short) 20, tuple.lowerMedian());
         }
 
         @Test
@@ -3842,14 +3842,14 @@ class ShortTupleTest extends TestBase {
         @Test
         public void test_median_evenSize() {
             ShortTuple4 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4);
-            short median = tuple.median();
+            short median = tuple.lowerMedian();
             assertEquals((short) 2, median);
         }
 
         @Test
         public void test_median_oddSize() {
             ShortTuple5 tuple = ShortTuple.of((short) 50, (short) 10, (short) 30, (short) 20, (short) 40);
-            short median = tuple.median();
+            short median = tuple.lowerMedian();
             assertEquals((short) 30, median);
         }
 
@@ -3916,7 +3916,7 @@ class ShortTupleTest extends TestBase {
         ShortTuple.ShortTuple4 tuple4 = ShortTuple.of((short) 9, (short) 1, (short) 7, (short) 3);
         assertEquals((short) 1, tuple4.min());
         assertEquals((short) 9, tuple4.max());
-        assertEquals((short) 3, tuple4.median());
+        assertEquals((short) 3, tuple4.lowerMedian());
         assertEquals(20, tuple4.sum());
         assertEquals(5.0, tuple4.average().getAsDouble());
         assertTrue(tuple4.contains((short) 3));
@@ -3925,18 +3925,18 @@ class ShortTupleTest extends TestBase {
         assertTrue(tuple5.contains((short) 5));
 
         ShortTuple.ShortTuple6 tuple6 = ShortTuple.of((short) 9, (short) 1, (short) 7, (short) 3, (short) 5, (short) 11);
-        assertEquals((short) 5, tuple6.median());
+        assertEquals((short) 5, tuple6.lowerMedian());
         assertTrue(tuple6.contains((short) 11));
 
         ShortTuple.ShortTuple7 tuple7 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7);
         assertTrue(tuple7.contains((short) 7));
 
         ShortTuple.ShortTuple8 tuple8 = ShortTuple.of((short) 9, (short) 1, (short) 7, (short) 3, (short) 5, (short) 11, (short) 13, (short) 15);
-        assertEquals((short) 7, tuple8.median());
+        assertEquals((short) 7, tuple8.lowerMedian());
         assertTrue(tuple8.contains((short) 15));
 
         ShortTuple.ShortTuple9 tuple9 = ShortTuple.of((short) 9, (short) 1, (short) 7, (short) 3, (short) 5, (short) 11, (short) 13, (short) 15, (short) 17);
-        assertEquals((short) 9, tuple9.median());
+        assertEquals((short) 9, tuple9.lowerMedian());
         assertTrue(tuple9.contains((short) 17));
     }
 

@@ -246,7 +246,7 @@ class CharTupleTest extends TestBase {
 
         assertEquals('a', tuple.min());
         assertEquals('d', tuple.max());
-        assertEquals('b', tuple.median());
+        assertEquals('b', tuple.lowerMedian());
         assertEquals('d' + 'a' + 'c' + 'b', tuple.sum());
         assertEquals(('d' + 'a' + 'c' + 'b') / 4.0, tuple.average().getAsDouble(), 0.001);
         assertArrayEquals(new char[] { 'd', 'a', 'c', 'b' }, firstArray);
@@ -270,7 +270,6 @@ class CharTupleTest extends TestBase {
 
         assertThrows(NoSuchElementException.class, tuple::min);
         assertThrows(NoSuchElementException.class, tuple::max);
-        assertThrows(NoSuchElementException.class, tuple::median);
         assertTrue(tuple.average().isEmpty());
         assertEquals(0, tuple.sum());
     }
@@ -561,19 +560,19 @@ class CharTupleTest extends TestBase {
         @Test
         public void testMedianTuple1() {
             CharTuple1 tuple = CharTuple.of('a');
-            assertEquals('a', tuple.median());
+            assertEquals('a', tuple.lowerMedian());
         }
 
         @Test
         public void testMedianTuple3() {
             CharTuple3 tuple = CharTuple.of('c', 'a', 'b');
-            assertEquals('b', tuple.median());
+            assertEquals('b', tuple.lowerMedian());
         }
 
         @Test
         public void testMedianTuple0ThrowsException() {
             CharTuple<CharTuple0> tuple = CharTuple.from(new char[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.median());
+            assertThrows(NoSuchElementException.class, () -> tuple.lowerMedian());
         }
 
         // Statistical method tests - sum
@@ -1193,7 +1192,7 @@ class CharTupleTest extends TestBase {
             // Test min/max/median/sum/average via base class
             assertEquals('a', tuple.min());
             assertEquals('d', tuple.max());
-            assertEquals('b', tuple.median());
+            assertEquals('b', tuple.lowerMedian());
             assertEquals(394, tuple.sum()); // 97+98+99+100
             assertEquals(98.5, tuple.average().getAsDouble(), 0.001);
 
@@ -1230,7 +1229,7 @@ class CharTupleTest extends TestBase {
             // Test statistical operations
             assertEquals('a', tuple.min());
             assertEquals('e', tuple.max());
-            assertEquals('c', tuple.median());
+            assertEquals('c', tuple.lowerMedian());
             assertEquals(495, tuple.sum()); // 97+98+99+100+101
             assertEquals(99.0, tuple.average().getAsDouble(), 0.001);
 
@@ -1485,7 +1484,7 @@ class CharTupleTest extends TestBase {
         @Test
         public void testCharTuple1_median() {
             CharTuple.CharTuple1 tuple = CharTuple.of('a');
-            assertNotNull(tuple.median());
+            assertNotNull(tuple.lowerMedian());
         }
 
         @Test
@@ -1565,7 +1564,7 @@ class CharTupleTest extends TestBase {
         @Test
         public void testCharTuple2_median() {
             CharTuple.CharTuple2 tuple = CharTuple.of('a', 'b');
-            assertNotNull(tuple.median());
+            assertNotNull(tuple.lowerMedian());
         }
 
         @Test
@@ -1667,7 +1666,7 @@ class CharTupleTest extends TestBase {
         @Test
         public void testCharTuple3_median() {
             CharTuple.CharTuple3 tuple = CharTuple.of('a', 'b', 'c');
-            assertNotNull(tuple.median());
+            assertNotNull(tuple.lowerMedian());
         }
 
         @Test
@@ -2136,7 +2135,7 @@ class CharTupleTest extends TestBase {
         @Test
         public void testTuple0_median_throwsException() {
             CharTuple<?> tuple = CharTuple.from(new char[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.median());
+            assertThrows(NoSuchElementException.class, () -> tuple.lowerMedian());
         }
 
         @Test
@@ -2331,7 +2330,7 @@ class CharTupleTest extends TestBase {
         @Test
         public void testTuple3_median() {
             CharTuple3 tuple = CharTuple.of('A', 'C', 'B');
-            assertEquals('B', tuple.median());
+            assertEquals('B', tuple.lowerMedian());
         }
 
         @Test
@@ -2583,7 +2582,7 @@ class CharTupleTest extends TestBase {
             CharTuple3 tuple = CharTuple.of('1', '2', '3');
             assertEquals('1', tuple.min());
             assertEquals('3', tuple.max());
-            assertEquals('2', tuple.median());
+            assertEquals('2', tuple.lowerMedian());
         }
 
         @Test
@@ -2599,7 +2598,7 @@ class CharTupleTest extends TestBase {
             CharTuple5 tuple = CharTuple.of('E', 'B', 'D', 'A', 'C');
             assertEquals('A', tuple.min());
             assertEquals('E', tuple.max());
-            assertEquals('C', tuple.median());
+            assertEquals('C', tuple.lowerMedian());
         }
 
         @Test
@@ -2689,19 +2688,19 @@ class CharTupleTest extends TestBase {
         @Test
         public void testMedian_single() {
             CharTuple1 tuple = CharTuple.of('M');
-            assertEquals('M', tuple.median());
+            assertEquals('M', tuple.lowerMedian());
         }
 
         @Test
         public void testMedian_odd() {
             CharTuple3 tuple = CharTuple.of('Z', 'A', 'M');
-            assertEquals('M', tuple.median());
+            assertEquals('M', tuple.lowerMedian());
         }
 
         @Test
         public void testMedian_even() {
             CharTuple4 tuple = CharTuple.of('A', 'B', 'C', 'D');
-            assertEquals('B', tuple.median()); // Lower middle for even length
+            assertEquals('B', tuple.lowerMedian()); // Lower middle for even length
         }
 
         @Test
@@ -3001,7 +3000,7 @@ class CharTupleTest extends TestBase {
             CharTuple5 tuple = CharTuple.of('A', 'E', 'C', 'B', 'D');
             assertEquals('A', tuple.min());
             assertEquals('E', tuple.max());
-            assertEquals('C', tuple.median());
+            assertEquals('C', tuple.lowerMedian());
             assertEquals(65 + 69 + 67 + 66 + 68, tuple.sum()); // A(65)+E(69)+C(67)+B(66)+D(68)
             assertTrue(tuple.average().getAsDouble() > 0);
         }
@@ -3024,7 +3023,7 @@ class CharTupleTest extends TestBase {
             CharTuple1 tuple = CharTuple.of('X');
             assertEquals('X', tuple.min());
             assertEquals('X', tuple.max());
-            assertEquals('X', tuple.median());
+            assertEquals('X', tuple.lowerMedian());
             assertEquals('X', tuple.average().getAsDouble()); // 88.0
             assertEquals(88, tuple.sum());
             assertTrue(tuple.contains('X'));
@@ -3207,7 +3206,7 @@ class CharTupleTest extends TestBase {
         @Test
         public void test_tuple0_median_throwsException() {
             CharTuple0 tuple = CharTuple.from(new char[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.median());
+            assertThrows(NoSuchElementException.class, () -> tuple.lowerMedian());
         }
 
         @Test
@@ -3287,7 +3286,7 @@ class CharTupleTest extends TestBase {
         @Test
         public void test_tuple1_median() {
             CharTuple1 tuple = CharTuple.of('A');
-            assertEquals('A', tuple.median());
+            assertEquals('A', tuple.lowerMedian());
         }
 
         @Test
@@ -3404,7 +3403,7 @@ class CharTupleTest extends TestBase {
         @Test
         public void test_tuple2_median() {
             CharTuple2 tuple = CharTuple.of('A', 'B');
-            assertEquals('A', tuple.median());
+            assertEquals('A', tuple.lowerMedian());
         }
 
         @Test
@@ -3539,7 +3538,7 @@ class CharTupleTest extends TestBase {
         @Test
         public void test_tuple3_median() {
             CharTuple3 tuple = CharTuple.of('C', 'A', 'B');
-            assertEquals('B', tuple.median());
+            assertEquals('B', tuple.lowerMedian());
         }
 
         @Test
@@ -3649,7 +3648,7 @@ class CharTupleTest extends TestBase {
             assertEquals(5, tuple.arity());
             assertEquals('A', tuple.min());
             assertEquals('E', tuple.max());
-            assertEquals('C', tuple.median());
+            assertEquals('C', tuple.lowerMedian());
             assertTrue(tuple.contains('C'));
         }
 
@@ -3665,7 +3664,7 @@ class CharTupleTest extends TestBase {
         public void test_tuple7_basic() {
             CharTuple7 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G');
             assertEquals(7, tuple.arity());
-            assertEquals('D', tuple.median());
+            assertEquals('D', tuple.lowerMedian());
             assertEquals(7, tuple.toArray().length);
         }
 
@@ -3690,7 +3689,7 @@ class CharTupleTest extends TestBase {
             CharTuple3 tuple = CharTuple.of('0', '1', '2');
             assertEquals('0', tuple.min());
             assertEquals('2', tuple.max());
-            assertEquals('1', tuple.median());
+            assertEquals('1', tuple.lowerMedian());
         }
 
         @Test
@@ -3829,9 +3828,9 @@ class CharTupleTest extends TestBase {
         @Test
         public void testCharTupleOf5Median() {
             // CharTuple.CharTuple5 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E');
-            // char median = tuple.median();   // 'C'
+            // char median = tuple.lowerMedian();   // 'C'
             CharTuple.CharTuple5 t = CharTuple.of('A', 'B', 'C', 'D', 'E');
-            assertEquals('C', t.median());
+            assertEquals('C', t.lowerMedian());
         }
 
         @Test
@@ -3920,7 +3919,7 @@ class CharTupleTest extends TestBase {
         CharTuple.CharTuple4 tuple4 = CharTuple.of('i', 'a', 'g', 'c');
         assertEquals('a', tuple4.min());
         assertEquals('i', tuple4.max());
-        assertEquals('c', tuple4.median());
+        assertEquals('c', tuple4.lowerMedian());
         assertEquals('i' + 'a' + 'g' + 'c', tuple4.sum());
         assertEquals(((double) 'i' + 'a' + 'g' + 'c') / 4, tuple4.average().getAsDouble());
         assertTrue(tuple4.contains('c'));
@@ -3929,18 +3928,18 @@ class CharTupleTest extends TestBase {
         assertTrue(tuple5.contains('e'));
 
         CharTuple.CharTuple6 tuple6 = CharTuple.of('i', 'a', 'g', 'c', 'e', 'k');
-        assertEquals('e', tuple6.median());
+        assertEquals('e', tuple6.lowerMedian());
         assertTrue(tuple6.contains('k'));
 
         CharTuple.CharTuple7 tuple7 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g');
         assertTrue(tuple7.contains('g'));
 
         CharTuple.CharTuple8 tuple8 = CharTuple.of('i', 'a', 'g', 'c', 'e', 'k', 'm', 'o');
-        assertEquals('g', tuple8.median());
+        assertEquals('g', tuple8.lowerMedian());
         assertTrue(tuple8.contains('o'));
 
         CharTuple.CharTuple9 tuple9 = CharTuple.of('i', 'a', 'g', 'c', 'e', 'k', 'm', 'o', 'q');
-        assertEquals('i', tuple9.median());
+        assertEquals('i', tuple9.lowerMedian());
         assertTrue(tuple9.contains('q'));
     }
 

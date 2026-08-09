@@ -28441,45 +28441,7 @@ Immutable-style wrapper around an {@code int\[\]}.
    ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(new int[0]);
    empty.stream().sum();   // returns 0
   ```
-##### toArray(...) -> int\[\]
-- **Signature:** `public int[] toArray()`
-- **Summary:** Returns a new int array containing all elements in this ImmutableIntArray.
-- **Contract:**
-  - Modifying it does not affect this object, including when this object was created by {@link #unsafeWrap(int\[\])}.
-- **Parameters:**
-  - (none)
-- **Returns:** a newly allocated int array containing all elements in this ImmutableIntArray
-- **Examples:**
-  ```java
-  ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {10, 20, 30});
-   int[] copy = array.toArray();   // returns {10, 20, 30}
-   copy[0] = 99;
-   array.get(0);                   // still returns 10
-  
-   // Edge: an empty wrapper produces an empty array
-   ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(null);
-   empty.toArray();   // returns {}
-  ```
-- **See also:** #toArray(int, int), #subArray(int, int)
-- **Signature:** `public int[] toArray(final int fromIndex, final int toIndex) throws IndexOutOfBoundsException`
-- **Summary:** Returns a new int array containing the elements in the specified range.
-- **Contract:**
-  - Both indices must be within this array; unlike {@link java.util.Arrays#copyOfRange(int\[\], int, int)}, this method does not permit {@code toIndex > length()} and does not pad the result.
-- **Parameters:**
-  - `fromIndex` (`int`) — the starting index (inclusive), must be {@code >= 0}
-  - `toIndex` (`int`) — the ending index (exclusive), must be {@code <= length()}
-- **Returns:** a newly allocated int array containing the elements in {@code \[fromIndex, toIndex)}
-- **Throws:**
-  - `java.lang.IndexOutOfBoundsException` — if {@code fromIndex < 0}, {@code toIndex > length()}, or {@code fromIndex > toIndex}
-- **Examples:**
-  ```java
-  ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {10, 20, 30, 40, 50});
-   array.toArray(1, 4);   // returns {20, 30, 40}
-   array.toArray(2, 2);   // returns {}
-   array.toArray(0, 10);  // throws IndexOutOfBoundsException
-  ```
-- **See also:** #toArray(), #subArray(int, int)
-##### subArray(...) -> ImmutableIntArray
+ ##### subArray(...) -> ImmutableIntArray
 - **Signature:** `public ImmutableIntArray subArray(final int fromIndex, final int toIndex) throws IndexOutOfBoundsException`
 - **Summary:** Returns an ImmutableIntArray containing the elements in the specified range.
 - **Contract:**
@@ -28494,10 +28456,9 @@ Immutable-style wrapper around an {@code int\[\]}.
   ```java
   ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] {10, 20, 30, 40, 50});
    ImmutableIntArray middle = array.subArray(1, 4);
-   middle.toArray();        // returns {20, 30, 40}
-   array.subArray(2, 2);    // returns an empty ImmutableIntArray
+   middle.toString();      // returns "[20, 30, 40]"
+   array.subArray(2, 2);   // returns an empty ImmutableIntArray
   ```
-- **See also:** #toArray(int, int)
 ##### copyOfRange(...) -> int\[\]
 - **Signature:** `@Deprecated public int[] copyOfRange(final int fromIndex, final int toIndex) throws IndexOutOfBoundsException`
 - **Summary:** Returns a new int array containing a copy of the elements in the specified range.

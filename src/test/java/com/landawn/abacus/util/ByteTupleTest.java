@@ -182,10 +182,10 @@ class ByteTupleTest extends TestBase {
     @Test
     public void testMedian() {
         ByteTuple.ByteTuple3 tuple = ByteTuple.of((byte) 30, (byte) 10, (byte) 20);
-        assertEquals(20, tuple.median());
+        assertEquals(20, tuple.lowerMedian());
 
         ByteTuple.ByteTuple0 empty = ByteTuple.from(new byte[0]);
-        assertThrows(NoSuchElementException.class, () -> empty.median());
+        assertThrows(NoSuchElementException.class, () -> empty.lowerMedian());
     }
 
     @Test
@@ -431,7 +431,7 @@ class ByteTupleTest extends TestBase {
         // Test min/max/median/sum/average
         assertEquals(10, tuple.min());
         assertEquals(10, tuple.max());
-        assertEquals(10, tuple.median());
+        assertEquals(10, tuple.lowerMedian());
         assertEquals(10, tuple.sum());
         assertEquals(10.0, tuple.average().getAsDouble());
     }
@@ -457,7 +457,7 @@ class ByteTupleTest extends TestBase {
 
         assertEquals(1, tuple.min());
         assertEquals(9, tuple.max());
-        assertEquals(2, tuple.median());
+        assertEquals(2, tuple.lowerMedian());
         assertEquals(17, tuple.sum());
         assertEquals(4.25, tuple.average().getAsDouble());
         assertArrayEquals(new byte[] { 9, 2, 5, 1 }, firstArray);
@@ -761,19 +761,19 @@ class ByteTupleTest extends TestBase {
         @Test
         public void testMedianTuple1() {
             ByteTuple1 tuple = ByteTuple.of((byte) 1);
-            assertEquals((byte) 1, tuple.median());
+            assertEquals((byte) 1, tuple.lowerMedian());
         }
 
         @Test
         public void testMedianTuple3() {
             ByteTuple3 tuple = ByteTuple.of((byte) 3, (byte) 1, (byte) 2);
-            assertEquals((byte) 2, tuple.median());
+            assertEquals((byte) 2, tuple.lowerMedian());
         }
 
         @Test
         public void testMedianTuple0ThrowsException() {
             ByteTuple<ByteTuple0> tuple = ByteTuple.from(new byte[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.median());
+            assertThrows(NoSuchElementException.class, () -> tuple.lowerMedian());
         }
 
         // Statistical method tests - sum
@@ -1235,7 +1235,7 @@ class ByteTupleTest extends TestBase {
             // Test min/max/median/sum/average via base class
             assertEquals((byte) 1, tuple.min());
             assertEquals((byte) 4, tuple.max());
-            assertEquals((byte) 2, tuple.median());
+            assertEquals((byte) 2, tuple.lowerMedian());
             assertEquals(10, tuple.sum());
             assertEquals(2.5, tuple.average().getAsDouble(), 0.001);
 
@@ -1272,7 +1272,7 @@ class ByteTupleTest extends TestBase {
             // Test statistical operations
             assertEquals((byte) 1, tuple.min());
             assertEquals((byte) 5, tuple.max());
-            assertEquals((byte) 3, tuple.median());
+            assertEquals((byte) 3, tuple.lowerMedian());
             assertEquals(15, tuple.sum());
             assertEquals(3.0, tuple.average().getAsDouble(), 0.001);
 
@@ -1527,7 +1527,7 @@ class ByteTupleTest extends TestBase {
         @Test
         public void testByteTuple1_median() {
             ByteTuple.ByteTuple1 tuple = ByteTuple.of((byte) 1);
-            assertNotNull(tuple.median());
+            assertNotNull(tuple.lowerMedian());
         }
 
         @Test
@@ -1607,7 +1607,7 @@ class ByteTupleTest extends TestBase {
         @Test
         public void testByteTuple2_median() {
             ByteTuple.ByteTuple2 tuple = ByteTuple.of((byte) 1, (byte) 2);
-            assertNotNull(tuple.median());
+            assertNotNull(tuple.lowerMedian());
         }
 
         @Test
@@ -1709,7 +1709,7 @@ class ByteTupleTest extends TestBase {
         @Test
         public void testByteTuple3_median() {
             ByteTuple.ByteTuple3 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3);
-            assertNotNull(tuple.median());
+            assertNotNull(tuple.lowerMedian());
         }
 
         @Test
@@ -2198,7 +2198,7 @@ class ByteTupleTest extends TestBase {
         @Test
         public void testTuple0_median_throwsException() {
             ByteTuple<?> tuple = ByteTuple.from(new byte[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.median());
+            assertThrows(NoSuchElementException.class, () -> tuple.lowerMedian());
         }
 
         @Test
@@ -2373,7 +2373,7 @@ class ByteTupleTest extends TestBase {
         @Test
         public void testTuple3_median() {
             ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 30, (byte) 20);
-            assertEquals((byte) 20, tuple.median());
+            assertEquals((byte) 20, tuple.lowerMedian());
         }
 
         @Test
@@ -2616,7 +2616,7 @@ class ByteTupleTest extends TestBase {
             ByteTuple5 tuple = ByteTuple.of((byte) 5, (byte) 2, (byte) 8, (byte) 1, (byte) 9);
             assertEquals((byte) 1, tuple.min());
             assertEquals((byte) 9, tuple.max());
-            assertEquals((byte) 5, tuple.median());
+            assertEquals((byte) 5, tuple.lowerMedian());
         }
     }
 
@@ -2795,31 +2795,31 @@ class ByteTupleTest extends TestBase {
         @Test
         public void testTuple0_median_throwsException() {
             ByteTuple0 tuple = ByteTuple.from(new byte[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.median());
+            assertThrows(NoSuchElementException.class, () -> tuple.lowerMedian());
         }
 
         @Test
         public void testTuple1_median() {
             ByteTuple1 tuple = ByteTuple.of((byte) 42);
-            assertEquals((byte) 42, tuple.median());
+            assertEquals((byte) 42, tuple.lowerMedian());
         }
 
         @Test
         public void testTuple2_median() {
             ByteTuple2 tuple = ByteTuple.of((byte) 30, (byte) 10);
-            assertEquals((byte) 10, tuple.median()); // lower value for even-sized tuple
+            assertEquals((byte) 10, tuple.lowerMedian()); // lower value for even-sized tuple
         }
 
         @Test
         public void testTuple3_median() {
             ByteTuple3 tuple = ByteTuple.of((byte) 30, (byte) 10, (byte) 20);
-            assertEquals((byte) 20, tuple.median()); // middle value
+            assertEquals((byte) 20, tuple.lowerMedian()); // middle value
         }
 
         @Test
         public void testTuple4_median() {
             ByteTuple4 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40);
-            assertEquals((byte) 20, tuple.median()); // lower of two middle values
+            assertEquals((byte) 20, tuple.lowerMedian()); // lower of two middle values
         }
 
         // ============ Sum Tests ============
@@ -3553,7 +3553,7 @@ class ByteTupleTest extends TestBase {
         @Test
         public void test_tuple1_median() {
             ByteTuple1 tuple = ByteTuple.of((byte) 10);
-            assertEquals((byte) 10, tuple.median());
+            assertEquals((byte) 10, tuple.lowerMedian());
         }
 
         @Test
@@ -3670,7 +3670,7 @@ class ByteTupleTest extends TestBase {
         @Test
         public void test_tuple2_median() {
             ByteTuple2 tuple = ByteTuple.of((byte) 10, (byte) 20);
-            assertEquals((byte) 10, tuple.median());
+            assertEquals((byte) 10, tuple.lowerMedian());
         }
 
         @Test
@@ -3897,7 +3897,7 @@ class ByteTupleTest extends TestBase {
             assertEquals(5, tuple.arity());
             assertEquals((byte) 1, tuple.min());
             assertEquals((byte) 5, tuple.max());
-            assertEquals((byte) 3, tuple.median());
+            assertEquals((byte) 3, tuple.lowerMedian());
             assertEquals(15, tuple.sum());
             assertTrue(tuple.contains((byte) 3));
         }
@@ -3916,7 +3916,7 @@ class ByteTupleTest extends TestBase {
         public void test_tuple7_basic() {
             ByteTuple7 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7);
             assertEquals(7, tuple.arity());
-            assertEquals((byte) 4, tuple.median());
+            assertEquals((byte) 4, tuple.lowerMedian());
             assertEquals(7, tuple.toArray().length);
         }
 
@@ -3944,7 +3944,7 @@ class ByteTupleTest extends TestBase {
             ByteTuple3 tuple = ByteTuple.of((byte) -10, (byte) 0, (byte) 10);
             assertEquals((byte) -10, tuple.min());
             assertEquals((byte) 10, tuple.max());
-            assertEquals((byte) 0, tuple.median());
+            assertEquals((byte) 0, tuple.lowerMedian());
             assertEquals(0, tuple.sum());
         }
 
@@ -4054,9 +4054,9 @@ class ByteTupleTest extends TestBase {
         @Test
         public void testByteTupleOf4Median() {
             // ByteTuple.ByteTuple4 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40);
-            // byte median = tuple.median();   // 20
+            // byte median = tuple.lowerMedian();   // 20
             ByteTuple.ByteTuple4 t = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40);
-            assertEquals((byte) 20, t.median());
+            assertEquals((byte) 20, t.lowerMedian());
         }
 
         @Test
@@ -4132,7 +4132,7 @@ class ByteTupleTest extends TestBase {
         ByteTuple.ByteTuple4 tuple4 = ByteTuple.of((byte) 9, (byte) 1, (byte) 7, (byte) 3);
         assertEquals((byte) 1, tuple4.min());
         assertEquals((byte) 9, tuple4.max());
-        assertEquals((byte) 3, tuple4.median());
+        assertEquals((byte) 3, tuple4.lowerMedian());
         assertEquals(20, tuple4.sum());
         assertEquals(5.0, tuple4.average().getAsDouble());
         assertTrue(tuple4.contains((byte) 3));
@@ -4141,18 +4141,18 @@ class ByteTupleTest extends TestBase {
         assertTrue(tuple5.contains((byte) 5));
 
         ByteTuple.ByteTuple6 tuple6 = ByteTuple.of((byte) 9, (byte) 1, (byte) 7, (byte) 3, (byte) 5, (byte) 11);
-        assertEquals((byte) 5, tuple6.median());
+        assertEquals((byte) 5, tuple6.lowerMedian());
         assertTrue(tuple6.contains((byte) 11));
 
         ByteTuple.ByteTuple7 tuple7 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7);
         assertTrue(tuple7.contains((byte) 7));
 
         ByteTuple.ByteTuple8 tuple8 = ByteTuple.of((byte) 9, (byte) 1, (byte) 7, (byte) 3, (byte) 5, (byte) 11, (byte) 13, (byte) 15);
-        assertEquals((byte) 7, tuple8.median());
+        assertEquals((byte) 7, tuple8.lowerMedian());
         assertTrue(tuple8.contains((byte) 15));
 
         ByteTuple.ByteTuple9 tuple9 = ByteTuple.of((byte) 9, (byte) 1, (byte) 7, (byte) 3, (byte) 5, (byte) 11, (byte) 13, (byte) 15, (byte) 17);
-        assertEquals((byte) 9, tuple9.median());
+        assertEquals((byte) 9, tuple9.lowerMedian());
         assertTrue(tuple9.contains((byte) 17));
     }
 

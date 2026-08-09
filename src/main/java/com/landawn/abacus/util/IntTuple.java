@@ -16,7 +16,6 @@ package com.landawn.abacus.util;
 
 import java.util.NoSuchElementException;
 
-import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.annotation.MayReturnNull;
 import com.landawn.abacus.util.IntTuple.IntTuple0;
 import com.landawn.abacus.util.IntTuple.IntTuple1;
@@ -35,16 +34,25 @@ import com.landawn.abacus.util.stream.IntStream;
 /**
  * Base class for immutable tuples of primitive {@code int} values.
  *
- * <p>The nested tuple types model fixed arities from 0 through 9. Factory methods such as
- * {@link #from(int[])} and the {@code of(...)} overloads select the matching subtype, while the base
- * class supplies aggregate, reversal, containment, and functional helper operations.</p>
+ * <p>The nested tuple types model fixed arities from 0 through 9. Prefer the {@code of(...)} factory
+ * overloads to create a specific arity; {@link #from(int[])} is deprecated and retained only for
+ * compatibility. The base class supplies aggregate, reversal, containment, conversion, and
+ * element-wise functional helpers; {@link PrimitiveTuple} adds whole-tuple
+ * {@link PrimitiveTuple#accept(Throwables.Consumer) accept},
+ * {@link PrimitiveTuple#map(Throwables.Function) map},
+ * {@link PrimitiveTuple#filter(Throwables.Predicate) filter}, and
+ * {@link PrimitiveTuple#toOptional() toOptional}.</p>
  *
- * <p>This sealed base class permits only the built-in arity-specific nested tuple types.</p>
+ * <p>Arity-specific nested types ({@code IntTuple1} through {@code IntTuple9}) expose their components as
+ * public final fields {@code _1}, {@code _2}, and so on matching that arity. This sealed hierarchy permits only
+ * the built-in nested types; all instances are immutable.</p>
  *
- * <p>All {@code int} arithmetic in this class follows Java's signed 32-bit semantics (range
- * {@code -2147483648} to {@code 2147483647}). {@link #sum()} returns an {@code int} and throws
- * {@link ArithmeticException} if the total overflows that range, while {@link #average()} returns an
- * {@code OptionalDouble} to preserve precision.</p>
+ * <p><b>Numeric semantics:</b> Values are signed {@code int}s (range {@code -2147483648} to {@code 2147483647}).
+ * {@link #min()}, {@link #max()}, and {@link #lowerMedian()} return {@code int}; {@link #sum()} returns an
+ * {@code int} and throws {@link ArithmeticException} if the total overflows that range; {@link #average()} and
+ * {@link #median()} use {@code double} precision ({@code average} via {@link OptionalDouble}).
+ * Empty-tuple contracts: {@code sum()} is {@code 0}, {@code average()} is empty, and
+ * {@code min}/{@code max}/{@code lowerMedian}/{@code median} throw {@link NoSuchElementException}.</p>
  *
  * @param <TP> the concrete {@code IntTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
@@ -166,7 +174,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * int mn = neg.min();  // returns -4
      *
      * IntTuple.IntTuple4 even = IntTuple.of(4, 1, 3, 2);
-     * int med = even.median();  // returns 2 (lower-middle of sorted: 1, 2, 3, 4)
+     * int med = even.lowerMedian();  // returns 2 (lower-middle of sorted: 1, 2, 3, 4)
      * }</pre>
      *
      * @param _1 the first int value
@@ -250,7 +258,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * int sum = sept2.sum();  // returns 28
      *
      * IntTuple.IntTuple7 neg = IntTuple.of(-3, -2, -1, 0, 1, 2, 3);
-     * int med = neg.median();  // returns 0 (middle of 7 sorted elements)
+     * int med = neg.lowerMedian();  // returns 0 (middle of 7 sorted elements)
      *
      * IntTuple.IntTuple7 neg2 = IntTuple.of(-3, -2, -1, 0, 1, 2, 3);
      * int mx = neg2.max();  // returns 3
@@ -315,7 +323,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * int sum = non2.sum();  // returns 45
      *
      * IntTuple.IntTuple9 neg = IntTuple.of(-4, -3, -2, -1, 0, 1, 2, 3, 4);
-     * int med = neg.median();  // returns 0 (middle of 9 sorted elements)
+     * int med = neg.lowerMedian();  // returns 0 (middle of 9 sorted elements)
      *
      * IntTuple.IntTuple9 neg2 = IntTuple.of(-4, -3, -2, -1, 0, 1, 2, 3, 4);
      * boolean has = neg2.contains(-4);  // returns true
@@ -377,10 +385,11 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * @param values the array of int values; may be {@code null} or empty, in which case the shared empty tuple is returned
      * @return an {@code IntTuple} of the appropriate arity containing the array values, or the shared empty tuple if the array is {@code null} or empty
      * @throws IllegalArgumentException if {@code values} has more than 9 elements
+     * @deprecated Use the {@code of(...)} factory methods instead; this method may be removed in a future release.
      * @see #of(int)
      */
-    @Beta
-    @SuppressWarnings({ "deprecation", "unchecked" })
+    @Deprecated
+    @SuppressWarnings({ "unchecked" })
     public static <TP extends IntTuple<TP>> TP from(final int[] values) {
         if (values == null || values.length == 0) {
             return (TP) IntTuple0.EMPTY;
@@ -443,16 +452,16 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * @return the minimum int value in this tuple
      * @throws NoSuchElementException if the tuple is empty
      * @see #max()
-     * @see #median()
+     * @see #lowerMedian()
      */
     public int min() {
-        final int[] arr = elements();
+        final int[] a = elements();
 
-        if (arr.length == 0) {
+        if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute min() for an empty tuple");
         }
 
-        return N.min(arr);
+        return N.min(a);
     }
 
     /**
@@ -479,54 +488,16 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * @return the maximum int value in this tuple
      * @throws NoSuchElementException if the tuple is empty
      * @see #min()
-     * @see #median()
+     * @see #lowerMedian()
      */
     public int max() {
-        final int[] arr = elements();
+        final int[] a = elements();
 
-        if (arr.length == 0) {
+        if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute max() for an empty tuple");
         }
 
-        return N.max(arr);
-    }
-
-    /**
-     * Returns the median int value in this tuple.
-     * <p>
-     * The median is the middle value in ascending order. For an even number of elements,
-     * the lower of the two middle values is returned.
-     * </p>
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * IntTuple.IntTuple3 tuple = IntTuple.of(1, 3, 2);
-     * int median = tuple.median();  // returns 2 (middle value when sorted: 1, 2, 3)
-     *
-     * IntTuple.IntTuple4 evenTuple = IntTuple.of(4, 1, 3, 2);
-     * int evenMedian = evenTuple.median();  // returns 2 (lower-middle of sorted: 1, 2, 3, 4)
-     *
-     * IntTuple.IntTuple1 single = IntTuple.of(7);
-     * int singleMedian = single.median();  // returns 7
-     *
-     * // empty tuple throws NoSuchElementException
-     * IntTuple.from(new int[0]).median();  // throws NoSuchElementException
-     * }</pre>
-     *
-     * @return the median int value in this tuple
-     * @throws NoSuchElementException if the tuple is empty
-     * @see #min()
-     * @see #max()
-     * @see N#median(int...)
-     */
-    public int median() {
-        final int[] arr = elements();
-
-        if (arr.length == 0) {
-            throw new NoSuchElementException("Cannot compute median() for an empty tuple");
-        }
-
-        return N.median(arr);
+        return N.max(a);
     }
 
     /**
@@ -586,9 +557,103 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * @see #sum()
      */
     public OptionalDouble average() {
-        final int[] arr = elements();
+        final int[] a = elements();
 
-        return arr.length == 0 ? OptionalDouble.empty() : OptionalDouble.of(N.average(arr));
+        return a.length == 0 ? OptionalDouble.empty() : OptionalDouble.of(N.average(a));
+    }
+
+    /**
+     * Returns the conventional statistical median of this tuple as a {@code double}.
+     * <p>
+     * Elements are ordered by signed magnitude. For an odd arity, this is the middle value when
+     * sorted. For an even arity, this is the arithmetic mean of the two middle values. That differs
+     * from {@link #lowerMedian()}, which returns an {@code int} and, for even arities, the lower
+     * middle element only.
+     * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * IntTuple.IntTuple3 t3 = IntTuple.of(30, 10, 20);
+     * double median = t3.median();   // 20.0 (middle of sorted: 10, 20, 30)
+     *
+     * // even arity: mean of the two middle values
+     * IntTuple.IntTuple4 t4 = IntTuple.of(10, 20, 30, 40);
+     * double evenMedian = t4.median();   // 25.0 (mean of 20 and 30)
+     *
+     * // pair
+     * IntTuple.IntTuple2 pair = IntTuple.of(10, 30);
+     * double pairMedian = pair.median();   // 20.0
+     *
+     * // single element
+     * IntTuple.IntTuple1 single = IntTuple.of(7);
+     * double singleMedian = single.median();   // 7.0
+     *
+     * // empty tuple -> throws NoSuchElementException
+     * IntTuple<?> empty = IntTuple.from(new int[0]);
+     * empty.median();   // throws NoSuchElementException
+     * }</pre>
+     *
+     * @return the statistical median as a {@code double}
+     * @throws NoSuchElementException if the tuple is empty
+     * @see #lowerMedian()
+     */
+    public double median() {
+        final int[] a = toArray();
+
+        if (a.length == 0) {
+            throw new NoSuchElementException("Cannot compute median() for an empty tuple");
+        }
+
+        return N.median(a);
+    }
+
+    /**
+     * Returns the lower median of this tuple as a signed {@code int}.
+     * <p>
+     * Elements are ordered by signed magnitude. For an odd arity, this is the middle value when
+     * sorted. For an even arity, this is the lower of the two middle values when sorted
+     * (not their average). Prefer {@link #median()} when you need the conventional statistical
+     * median as a {@code double}.
+     * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * // odd number of elements: exact middle of sorted sequence
+     * IntTuple.IntTuple3 t3 = IntTuple.of(30, 10, 20);
+     * int median = t3.lowerMedian();   // 20 (sorted: 10, 20, 30; index 1)
+     *
+     * // even number of elements: lower middle of sorted sequence
+     * IntTuple.IntTuple4 t4 = IntTuple.of(10, 20, 30, 40);
+     * int evenMedian = t4.lowerMedian();   // 20 (sorted: 10, [20], 30, 40; lower of the two middles)
+     *
+     * // single element
+     * IntTuple.IntTuple1 single = IntTuple.of(7);
+     * int singleMedian = single.lowerMedian();   // 7
+     *
+     * // negative values
+     * IntTuple.IntTuple3 neg = IntTuple.of(-30, -10, -20);
+     * int negMedian = neg.lowerMedian();   // -20 (sorted: -30, -20, -10)
+     *
+     * // empty tuple -> throws NoSuchElementException
+     * IntTuple<?> empty = IntTuple.from(new int[0]);
+     * empty.lowerMedian();   // throws NoSuchElementException
+     * }</pre>
+     *
+     * @return the lower-median int (middle when sorted for odd arity; lower-middle when sorted for even arity)
+     * @throws NoSuchElementException if the tuple is empty
+     * @see #min()
+     * @see #max()
+     * @see #median()
+     * @see N#lowerMedian(int...)
+     */
+    public int lowerMedian() {
+        final int[] a = elements();
+
+        if (a.length == 0) {
+            throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
+        }
+
+        return N.lowerMedian(a);
     }
 
     /**
@@ -881,11 +946,12 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * This package-private class is exposed only through the base {@code IntTuple} type
      * via the singleton instance returned by {@link #from(int[])} when invoked with a
      * {@code null} or zero-length array. {@link #sum()} returns 0 and {@link #average()} returns an empty {@code OptionalDouble}, while
-     * {@link #min()}, {@link #max()}, and {@link #median()} all throw {@link java.util.NoSuchElementException}.
+     * {@link #min()}, {@link #max()}, and {@link #lowerMedian()} all throw {@link java.util.NoSuchElementException}.
      * </p>
      */
     static final class IntTuple0 extends IntTuple<IntTuple0> {
 
+        /** The shared empty int tuple. */
         private static final IntTuple0 EMPTY = new IntTuple0();
 
         /**
@@ -936,8 +1002,8 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
-        public int median() {
-            throw new NoSuchElementException("Cannot compute median() for an empty tuple");
+        public int lowerMedian() {
+            throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
         }
 
         /**
@@ -1007,15 +1073,18 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
     }
 
     /**
-     * A tuple containing exactly one int value.
-     * The value is accessible through the public final field {@code _1}.
+     * A {@code IntTuple} containing exactly one {@code int} element.
+     * <p>
+     * The value is the public final field {@code _1}. Aggregates such as {@link #min()},
+     * {@link #max()}, {@link #lowerMedian()}, {@link #sum()}, and {@link #average()} all reflect
+     * that single element.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple.IntTuple1 single = IntTuple.of(42);
      * int value = single._1;  // 42
      * }</pre>
-     *
      */
     public static final class IntTuple1 extends IntTuple<IntTuple1> {
 
@@ -1107,28 +1176,6 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         }
 
         /**
-         * Returns the median value in this tuple.
-         * For a single-element tuple, this is the element itself.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * int m = IntTuple.of(42).median();  // returns 42
-         *
-         * int mn = IntTuple.of(-5).median();  // returns -5
-         *
-         * int mz = IntTuple.of(0).median();  // returns 0
-         *
-         * int mmax = IntTuple.of(Integer.MAX_VALUE).median();  // returns 2147483647
-         * }</pre>
-         *
-         * @return the single element value
-         */
-        @Override
-        public int median() {
-            return _1;
-        }
-
-        /**
          * Returns the sum of all values in this tuple.
          * For a single-element tuple, this is the element itself.
          *
@@ -1164,6 +1211,39 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         @Override
         public OptionalDouble average() {
             return OptionalDouble.of(_1);
+        }
+
+        /**
+         * Returns the statistical median of this one-element tuple as a {@code double}
+         * (the element itself, widened).
+         *
+         * @return {@code (double) _1}
+         * @see #lowerMedian()
+         */
+        @Override
+        public double median() {
+            return _1;
+        }
+
+        /**
+         * Returns the lower median of this one-element tuple, which is the element itself.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * int m = IntTuple.of(42).lowerMedian();  // returns 42
+         *
+         * int mn = IntTuple.of(-5).lowerMedian();  // returns -5
+         *
+         * int mz = IntTuple.of(0).lowerMedian();  // returns 0
+         *
+         * int mmax = IntTuple.of(Integer.MAX_VALUE).lowerMedian();  // returns 2147483647
+         * }</pre>
+         *
+         * @return the single element value
+         */
+        @Override
+        public int lowerMedian() {
+            return _1;
         }
 
         /**
@@ -1287,15 +1367,17 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
     }
 
     /**
-     * A tuple containing exactly two int values.
-     * The values are accessible through the public final fields {@code _1} and {@code _2}.
-     *
-     * <p>In addition to the operations inherited from {@link IntTuple}, this class provides
-     * functional helpers for working with pairs:</p>
+     * A {@code IntTuple} containing exactly two {@code int} elements.
+     * <p>
+     * Components are the public final fields {@code _1} and {@code _2}. Besides the operations from
+     * {@link IntTuple} and {@link PrimitiveTuple}, this type adds element-unpacking helpers that
+     * pass both values to a bi-consumer / bi-function / bi-predicate (distinct from the whole-tuple
+     * {@code accept}/{@code map}/{@code filter} on {@link PrimitiveTuple}):
+     * </p>
      * <ul>
-     *   <li>{@link #accept(Throwables.IntBiConsumer)} - consume both values</li>
-     *   <li>{@link #map(Throwables.IntBiFunction)} - transform the pair to a single value</li>
-     *   <li>{@link #filter(Throwables.IntBiPredicate)} - conditionally wrap in {@link Optional}</li>
+     *   <li>{@link #accept(Throwables.IntBiConsumer)} — both elements as primitives</li>
+     *   <li>{@link #map(Throwables.IntBiFunction)} — map both elements to one result</li>
+     *   <li>{@link #filter(Throwables.IntBiPredicate)} — keep this pair in an {@link Optional} if the predicate holds</li>
      * </ul>
      *
      * <p><b>Usage Examples:</b></p>
@@ -1303,7 +1385,6 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * IntTuple.IntTuple2 pair = IntTuple.of(3, 5);
      * int product = pair.map((a, b) -> a * b);   // 15
      * }</pre>
-     *
      */
     public static final class IntTuple2 extends IntTuple<IntTuple2> {
 
@@ -1385,26 +1466,6 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         }
 
         /**
-         * Returns the median of the two elements.
-         * For tuples with an even number of elements, returns the lower of the two middle
-         * elements; with only two values this is equivalent to {@link #min()}.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * IntTuple.of(3, 5).median();     // returns 3 (lower middle of sorted [3, 5])
-         * IntTuple.of(5, 3).median();     // returns 3 (lower middle of sorted [3, 5])
-         * IntTuple.of(4, 4).median();     // returns 4 (duplicates)
-         * IntTuple.of(-5, -1).median();   // returns -5
-         * }</pre>
-         *
-         * @return the smaller of {@code _1} and {@code _2}
-         */
-        @Override
-        public int median() {
-            return N.median(_1, _2);
-        }
-
-        /**
          * Returns the sum of the two elements as an int.
          *
          * <p><b>Usage Examples:</b></p>
@@ -1439,6 +1500,45 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         @Override
         public OptionalDouble average() {
             return OptionalDouble.of(N.average(_1, _2));
+        }
+
+        /**
+         * Returns the statistical median of this pair: the arithmetic mean of both elements as a
+         * {@code double}.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * IntTuple.of(3, 5).median();     // 4.0
+         * IntTuple.of(10, 20).median();   // 15.0
+         * IntTuple.of(-5, 5).median();    // 0.0
+         * IntTuple.of(Integer.MIN_VALUE, Integer.MAX_VALUE).median();   // -0.5
+         * }</pre>
+         *
+         * @return {@code ((_1 + _2) / 2.0)} with operands widened to {@code double}
+         * @see #lowerMedian()
+         */
+        @Override
+        public double median() {
+            return ((double) _1 + (double) _2) / 2d;
+        }
+
+        /**
+         * Returns the lower median of this pair: the smaller of the two signed values.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * IntTuple.of(3, 5).lowerMedian();     // returns 3 (lower middle of sorted [3, 5])
+         * IntTuple.of(5, 3).lowerMedian();     // returns 3 (lower middle of sorted [3, 5])
+         * IntTuple.of(4, 4).lowerMedian();     // returns 4 (duplicates)
+         * IntTuple.of(-5, -1).lowerMedian();   // returns -5
+         * }</pre>
+         *
+         * @return {@code min(_1, _2)}
+         * @see #median()
+         */
+        @Override
+        public int lowerMedian() {
+            return N.min(_1, _2);
         }
 
         /**
@@ -1513,11 +1613,11 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         }
 
         /**
-         * Performs the given bi-consumer action on the two elements of this tuple.
+         * Invokes {@code action} once with both elements ({@code _1}, {@code _2}).
          * <p>
-         * This is a convenience method that passes both elements (_1 and _2) to the
-         * provided bi-consumer action. It's useful for operations that need to process
-         * both values together.
+         * This is the element-unpacking overload for pairs. It differs from
+         * {@link PrimitiveTuple#accept(Throwables.Consumer)}, which receives this tuple object, and from
+         * {@link #forEach(Throwables.IntConsumer)}, which invokes a consumer once per element.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1537,12 +1637,13 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * IntTuple.of(Integer.MAX_VALUE, Integer.MIN_VALUE).accept((a, b) -> store[0] = a);    // store[0] == Integer.MAX_VALUE
          * }</pre>
          *
-         * @param <E> the type of exception that the action may throw
-         * @param action the bi-consumer to perform on the two elements, must not be {@code null}
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the bi-consumer to apply to both elements, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
+         * @see #forEach(Throwables.IntConsumer)
          * @see #map(Throwables.IntBiFunction)
-         * @see #filter(Throwables.IntBiPredicate)
+         * @see PrimitiveTuple#accept(Throwables.Consumer)
          */
         public <E extends Exception> void accept(final Throwables.IntBiConsumer<E> action) throws E {
             N.checkArgNotNull(action, cs.action);
@@ -1551,11 +1652,10 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         }
 
         /**
-         * Applies the given bi-function to the two elements and returns the result.
+         * Applies {@code mapper} to both elements ({@code _1}, {@code _2}) and returns the result.
          * <p>
-         * This method transforms the pair of int values into a single value of type U
-         * using the provided mapper function. The mapper receives both _1 and _2 as arguments
-         * and can return any type, including primitive wrapper types, objects, or null.
+         * Element-unpacking overload for pairs. Distinct from
+         * {@link PrimitiveTuple#map(Throwables.Function)}, which receives this tuple object as a single argument.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1571,14 +1671,15 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * Object nullResult = IntTuple.of(0, 0).map((a, b) -> null);    // returns null
          * }</pre>
          *
-         * @param <U> the type of the result
-         * @param <E> the type of exception that the mapper may throw
-         * @param mapper the bi-function to apply to the two elements, must not be {@code null}
-         * @return the result of applying the mapper function, may be {@code null}
+         * @param <U> the type of the result value
+         * @param <E> the type of exception that may be thrown by the mapper
+         * @param mapper the bi-function to apply to both elements, must not be {@code null}
+         * @return the result of applying the bi-function to both elements (may be {@code null})
          * @throws IllegalArgumentException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          * @see #accept(Throwables.IntBiConsumer)
          * @see #filter(Throwables.IntBiPredicate)
+         * @see PrimitiveTuple#map(Throwables.Function)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.IntBiFunction<U, E> mapper) throws E {
@@ -1588,12 +1689,11 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         }
 
         /**
-         * Returns an Optional containing this tuple if the predicate is satisfied,
-         * or an empty Optional otherwise.
+         * Returns an {@link Optional} containing this pair if {@code predicate} holds for
+         * ({@code _1}, {@code _2}); otherwise {@link Optional#empty()}.
          * <p>
-         * This method tests the two elements using the provided bi-predicate. If the predicate
-         * returns {@code true}, an Optional containing this tuple is returned. Otherwise, an
-         * empty Optional is returned. This is useful for conditional processing in functional chains.
+         * Element-unpacking overload for pairs. Distinct from
+         * {@link PrimitiveTuple#filter(Throwables.Predicate)}, which tests the tuple object as a whole.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1611,13 +1711,14 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * IntTuple.of(-3, -5).filter((a, b) -> a > 0).isPresent();      // returns false
          * }</pre>
          *
-         * @param <E> the type of exception that the predicate may throw
-         * @param predicate the bi-predicate to test the two elements, must not be {@code null}
+         * @param <E> the type of exception that may be thrown by the predicate
+         * @param predicate the bi-predicate to test both elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
          * @throws IllegalArgumentException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception during evaluation
          * @see #accept(Throwables.IntBiConsumer)
          * @see #map(Throwables.IntBiFunction)
+         * @see PrimitiveTuple#filter(Throwables.Predicate)
          */
         public <E extends Exception> Optional<IntTuple2> filter(final Throwables.IntBiPredicate<E> predicate) throws E {
             N.checkArgNotNull(predicate, cs.predicate);
@@ -1707,23 +1808,20 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
     }
 
     /**
-     * A tuple containing exactly three int values.
-     * The values are accessible through the public final fields {@code _1}, {@code _2}, and {@code _3}.
-     *
-     * <p>In addition to the operations inherited from {@link IntTuple}, this class provides
-     * functional helpers for working with triples:</p>
-     * <ul>
-     *   <li>{@link #accept(Throwables.IntTriConsumer)} - consume all three values</li>
-     *   <li>{@link #map(Throwables.IntTriFunction)} - transform the triple to a single value</li>
-     *   <li>{@link #filter(Throwables.IntTriPredicate)} - conditionally wrap in {@link Optional}</li>
-     * </ul>
+     * A {@code IntTuple} containing exactly three {@code int} elements.
+     * <p>
+     * Components are the public final fields {@code _1}, {@code _2}, and {@code _3}. In addition to
+     * {@link IntTuple} / {@link PrimitiveTuple} operations, this type provides element-unpacking
+     * {@link #accept(Throwables.IntTriConsumer)}, {@link #map(Throwables.IntTriFunction)}, and
+     * {@link #filter(Throwables.IntTriPredicate)} helpers that pass all three values as primitives
+     * (distinct from the whole-tuple methods on {@link PrimitiveTuple}).
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple.IntTuple3 triple = IntTuple.of(2, 3, 5);
      * int sum = triple.map((a, b, c) -> a + b + c);   // 10
      * }</pre>
-     *
      */
     public static final class IntTuple3 extends IntTuple<IntTuple3> {
 
@@ -1809,24 +1907,6 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         }
 
         /**
-         * Returns the median value of the three elements.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * IntTuple.of(1, 2, 3).median();     // returns 2 (middle of sorted [1, 2, 3])
-         * IntTuple.of(3, 1, 2).median();     // returns 2 (middle of sorted [1, 2, 3])
-         * IntTuple.of(-5, 0, 5).median();    // returns 0
-         * IntTuple.of(3, 3, 3).median();     // returns 3 (all duplicates)
-         * }</pre>
-         *
-         * @return the middle int value when sorted
-         */
-        @Override
-        public int median() {
-            return N.median(_1, _2, _3);
-        }
-
-        /**
          * Returns the sum of all three elements as an int.
          *
          * <p><b>Usage Examples:</b></p>
@@ -1861,6 +1941,49 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         @Override
         public OptionalDouble average() {
             return OptionalDouble.of(N.average(_1, _2, _3));
+        }
+
+        /**
+         * Returns the statistical median of this triple as a {@code double}.
+         * <p>
+         * With three elements the middle value when sorted is both the lower median and the
+         * statistical median; the return type is still {@code double} for API consistency with
+         * even-arity tuples.
+         * </p>
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * IntTuple.of(1, 2, 3).median();    // 2.0
+         * IntTuple.of(3, 1, 2).median();    // 2.0
+         * IntTuple.of(-5, 0, 5).median();   // 0.0
+         * }</pre>
+         *
+         * @return the middle value when sorted, as a {@code double}
+         * @see #lowerMedian()
+         */
+        @Override
+        public double median() {
+            return N.median(_1, _2, _3);
+        }
+
+        /**
+         * Returns the lower median of this triple: the middle signed value when the three elements
+         * are ordered by magnitude.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * IntTuple.of(1, 2, 3).lowerMedian();     // returns 2 (middle of sorted [1, 2, 3])
+         * IntTuple.of(3, 1, 2).lowerMedian();     // returns 2 (middle of sorted [1, 2, 3])
+         * IntTuple.of(-5, 0, 5).lowerMedian();    // returns 0
+         * IntTuple.of(3, 3, 3).lowerMedian();     // returns 3 (all duplicates)
+         * }</pre>
+         *
+         * @return the middle int value when the three elements are sorted
+         * @see #median()
+         */
+        @Override
+        public int lowerMedian() {
+            return N.median(_1, _2, _3);
         }
 
         /**
@@ -1936,11 +2059,11 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         }
 
         /**
-         * Performs the given tri-consumer action on the three elements of this tuple.
+         * Invokes {@code action} once with all three elements ({@code _1}, {@code _2}, {@code _3}).
          * <p>
-         * This is a convenience method that passes all three elements (_1, _2, and _3) to the
-         * provided tri-consumer action. It's useful for operations that need to process
-         * all three values together.
+         * Element-unpacking overload for triples. Distinct from
+         * {@link PrimitiveTuple#accept(Throwables.Consumer)} (whole tuple) and
+         * {@link #forEach(Throwables.IntConsumer)} (one call per element).
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1960,12 +2083,13 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * IntTuple.of(Integer.MIN_VALUE, 0, Integer.MAX_VALUE).accept((a, b, c) -> store[0] = c);    // store[0] == Integer.MAX_VALUE
          * }</pre>
          *
-         * @param <E> the type of exception that the action may throw
-         * @param action the tri-consumer to perform on the three elements, must not be {@code null}
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the tri-consumer to apply to all three elements, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
          * @throws E if the action throws an exception
+         * @see #forEach(Throwables.IntConsumer)
          * @see #map(Throwables.IntTriFunction)
-         * @see #filter(Throwables.IntTriPredicate)
+         * @see PrimitiveTuple#accept(Throwables.Consumer)
          */
         public <E extends Exception> void accept(final Throwables.IntTriConsumer<E> action) throws E {
             N.checkArgNotNull(action, cs.action);
@@ -1974,12 +2098,10 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         }
 
         /**
-         * Applies the given tri-function to the three elements and returns the result.
+         * Applies {@code mapper} to all three elements ({@code _1}, {@code _2}, {@code _3}) and returns the result.
          * <p>
-         * This method transforms the three int values into a single value of type U
-         * using the provided mapper function. The mapper receives all three elements
-         * (_1, _2, and _3) as arguments and can return any type, including primitive
-         * wrapper types, objects, or null.
+         * Element-unpacking overload for triples. Distinct from
+         * {@link PrimitiveTuple#map(Throwables.Function)}, which receives this tuple object as a single argument.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1995,14 +2117,15 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * Object nullResult = IntTuple.of(0, 0, 0).map((a, b, c) -> null);    // returns null
          * }</pre>
          *
-         * @param <U> the type of the result
-         * @param <E> the type of exception that the mapper may throw
-         * @param mapper the tri-function to apply to the three elements, must not be {@code null}
-         * @return the result of applying the mapper function, may be {@code null}
+         * @param <U> the type of the result value
+         * @param <E> the type of exception that may be thrown by the mapper
+         * @param mapper the tri-function to apply to all three elements, must not be {@code null}
+         * @return the result of applying the tri-function to all three elements (may be {@code null})
          * @throws IllegalArgumentException if {@code mapper} is {@code null}
          * @throws E if the mapper throws an exception
          * @see #accept(Throwables.IntTriConsumer)
          * @see #filter(Throwables.IntTriPredicate)
+         * @see PrimitiveTuple#map(Throwables.Function)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.IntTriFunction<U, E> mapper) throws E {
@@ -2012,12 +2135,11 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         }
 
         /**
-         * Returns an Optional containing this tuple if the predicate is satisfied,
-         * or an empty Optional otherwise.
+         * Returns an {@link Optional} containing this triple if {@code predicate} holds for
+         * ({@code _1}, {@code _2}, {@code _3}); otherwise {@link Optional#empty()}.
          * <p>
-         * This method tests the three elements using the provided tri-predicate. If the predicate
-         * returns {@code true}, an Optional containing this tuple is returned. Otherwise, an
-         * empty Optional is returned. This is useful for conditional processing in functional chains.
+         * Element-unpacking overload for triples. Distinct from
+         * {@link PrimitiveTuple#filter(Throwables.Predicate)}, which tests the tuple object as a whole.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -2035,13 +2157,14 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * IntTuple.of(-3, -2, -1).filter((a, b, c) -> a + b + c > 0).isPresent();   // returns false
          * }</pre>
          *
-         * @param <E> the type of exception that the predicate may throw
-         * @param predicate the tri-predicate to test the three elements, must not be {@code null}
+         * @param <E> the type of exception that may be thrown by the predicate
+         * @param predicate the tri-predicate to test all three elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
          * @throws IllegalArgumentException if {@code predicate} is {@code null}
          * @throws E if the predicate throws an exception during evaluation
          * @see #accept(Throwables.IntTriConsumer)
          * @see #map(Throwables.IntTriFunction)
+         * @see PrimitiveTuple#filter(Throwables.Predicate)
          */
         public <E extends Exception> Optional<IntTuple3> filter(final Throwables.IntTriPredicate<E> predicate) throws E {
             N.checkArgNotNull(predicate, cs.predicate);
@@ -2131,15 +2254,19 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
     }
 
     /**
-     * A tuple containing exactly four int values.
-     * The values are accessible through the public final fields {@code _1}, {@code _2}, {@code _3}, and {@code _4}.
+     * A {@code IntTuple} containing exactly four {@code int} elements.
+     * <p>
+     * Components are public final fields {@code _1}…{@code _4}. Unlike arity 2–3, this type does not
+     * add element-unpacking {@code accept}/{@code map}/{@code filter} overloads; use
+     * {@link #forEach(Throwables.IntConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple.IntTuple4 quad = IntTuple.of(1, 2, 3, 4);
      * quad.average();   // returns OptionalDouble.of(2.5)
      * }</pre>
-     *
      */
     public static final class IntTuple4 extends IntTuple<IntTuple4> {
 
@@ -2241,32 +2368,6 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         @Override
         public int max() {
             return N.max(_1, _2, _3, _4);
-        }
-
-        /**
-         * Returns the median value of the four elements.
-         * For tuples with an even number of elements, returns the lower middle element.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * IntTuple.IntTuple4 t = IntTuple.of(3, 1, 4, 2);
-         * t.median(); // returns 2  (sorted: [1,2,3,4], lower-middle = index 1 = 2)
-         *
-         * IntTuple.IntTuple4 t2 = IntTuple.of(-1, 5, -3, 0);
-         * t2.median(); // returns -1  (sorted: [-3,-1,0,5], lower-middle = index 1 = -1)
-         *
-         * IntTuple.IntTuple4 t3 = IntTuple.of(7, 7, 7, 7);
-         * t3.median(); // returns 7  (all equal)
-         *
-         * IntTuple.IntTuple4 t4 = IntTuple.of(Integer.MAX_VALUE, 0, 1, Integer.MIN_VALUE);
-         * t4.median(); // returns 0  (sorted: [MIN,0,1,MAX], lower-middle = 0)
-         * }</pre>
-         *
-         * @return the median (lower middle) int value when sorted
-         */
-        @Override
-        public int median() {
-            return N.median(_1, _2, _3, _4);
         }
 
         /**
@@ -2505,13 +2606,16 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
     }
 
     /**
-     * A tuple containing exactly five int values.
-     * The values are accessible through the public final fields {@code _1} through {@code _5}.
+     * A IntTuple containing exactly five int elements.
+     * <p>
+     * Provides direct access to elements through public final fields {@code _1} through {@code _5}.
+     * This tuple type is useful for grouping five related int values together.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple.IntTuple5 tuple = IntTuple.of(1, 2, 3, 4, 5);
-     * int median = tuple.median();   // 3
+     * int median = tuple.lowerMedian();   // 3
      * }</pre>
      *
      */
@@ -2619,32 +2723,6 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         @Override
         public int max() {
             return N.max(_1, _2, _3, _4, _5);
-        }
-
-        /**
-         * Returns the median value of the five elements.
-         * For tuples with an odd number of elements, returns the middle value when sorted.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * IntTuple.IntTuple5 t = IntTuple.of(3, 1, 4, 2, 5);
-         * t.median(); // returns 3  (sorted: [1,2,3,4,5], middle = index 2 = 3)
-         *
-         * IntTuple.IntTuple5 t2 = IntTuple.of(-1, 3, -5, 0, 10);
-         * t2.median(); // returns 0  (sorted: [-5,-1,0,3,10], middle = 0)
-         *
-         * IntTuple.IntTuple5 t3 = IntTuple.of(7, 7, 7, 7, 7);
-         * t3.median(); // returns 7  (all equal)
-         *
-         * IntTuple.IntTuple5 t4 = IntTuple.of(1, 3, 2, 1, 3);
-         * t4.median(); // returns 2  (sorted: [1,1,2,3,3])
-         * }</pre>
-         *
-         * @return the middle int value when sorted
-         */
-        @Override
-        public int median() {
-            return N.median(_1, _2, _3, _4, _5);
         }
 
         /**
@@ -2884,8 +2962,11 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
     }
 
     /**
-     * A tuple containing exactly six int values.
-     * The values are accessible through the public final fields {@code _1} through {@code _6}.
+     * A IntTuple containing exactly six int elements.
+     * <p>
+     * Provides direct access to elements through public final fields {@code _1} through {@code _6}.
+     * This tuple type is useful for grouping six related int values together.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -3002,32 +3083,6 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         @Override
         public int max() {
             return N.max(_1, _2, _3, _4, _5, _6);
-        }
-
-        /**
-         * Returns the median value of the six elements.
-         * For tuples with an even number of elements, returns the lower middle element.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * IntTuple.IntTuple6 t = IntTuple.of(3, 1, 4, 2, 5, 6);
-         * t.median(); // returns 3  (sorted: [1,2,3,4,5,6], lower-middle = index 2 = 3)
-         *
-         * IntTuple.IntTuple6 t2 = IntTuple.of(-1, 3, -5, 0, 7, 10);
-         * t2.median(); // returns 0  (sorted: [-5,-1,0,3,7,10], lower-middle = index 2 = 0)
-         *
-         * IntTuple.IntTuple6 t3 = IntTuple.of(7, 7, 7, 7, 7, 7);
-         * t3.median(); // returns 7  (all equal)
-         *
-         * IntTuple.IntTuple6 t4 = IntTuple.of(Integer.MAX_VALUE, 0, 1, 2, 3, Integer.MIN_VALUE);
-         * t4.median(); // returns 1  (sorted: [MIN,0,1,2,3,MAX], lower-middle = index 2 = 1)
-         * }</pre>
-         *
-         * @return the median (lower middle) int value when sorted
-         */
-        @Override
-        public int median() {
-            return N.median(_1, _2, _3, _4, _5, _6);
         }
 
         /**
@@ -3268,8 +3323,11 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
     }
 
     /**
-     * A tuple containing exactly seven int values.
-     * The values are accessible through the public final fields {@code _1} through {@code _7}.
+     * A IntTuple containing exactly seven int elements.
+     * <p>
+     * Provides direct access to elements through public final fields {@code _1} through {@code _7}.
+     * This tuple type is useful for grouping seven related int values together.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -3390,32 +3448,6 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         @Override
         public int max() {
             return N.max(_1, _2, _3, _4, _5, _6, _7);
-        }
-
-        /**
-         * Returns the median value of the seven elements.
-         * For tuples with an odd number of elements, returns the middle value when sorted.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * IntTuple.IntTuple7 t = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
-         * int med = t.median();   // 4
-         *
-         * IntTuple.IntTuple7 unsorted = IntTuple.of(7, 3, 5, 1, 6, 2, 4);
-         * int unsortedMed = unsorted.median();   // 4
-         *
-         * IntTuple.IntTuple7 neg = IntTuple.of(-3, -1, 0, 2, 4, 6, 8);
-         * int negMed = neg.median();   // 2
-         *
-         * IntTuple.IntTuple7 dup = IntTuple.of(5, 5, 5, 5, 5, 5, 5);
-         * int dupMed = dup.median();   // 5
-         * }</pre>
-         *
-         * @return the middle int value when sorted
-         */
-        @Override
-        public int median() {
-            return N.median(_1, _2, _3, _4, _5, _6, _7);
         }
 
         /**
@@ -3660,8 +3692,11 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
     }
 
     /**
-     * A tuple containing exactly eight int values.
-     * The values are accessible through the public final fields {@code _1} through {@code _8}.
+     * A IntTuple containing exactly eight int elements.
+     * <p>
+     * Provides direct access to elements through public final fields {@code _1} through {@code _8}.
+     * This tuple type is useful for grouping eight related int values together.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -3788,32 +3823,6 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         @Override
         public int max() {
             return N.max(_1, _2, _3, _4, _5, _6, _7, _8);
-        }
-
-        /**
-         * Returns the median value of the eight elements.
-         * For tuples with an even number of elements, returns the lower middle element.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * IntTuple.IntTuple8 t = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8);
-         * int med = t.median();   // 4
-         *
-         * IntTuple.IntTuple8 unsorted = IntTuple.of(8, 3, 6, 1, 7, 2, 5, 4);
-         * int unsortedMed = unsorted.median();   // 4
-         *
-         * IntTuple.IntTuple8 neg = IntTuple.of(-4, -3, -2, -1, 1, 2, 3, 4);
-         * int negMed = neg.median();   // -1
-         *
-         * IntTuple.IntTuple8 dup = IntTuple.of(5, 5, 5, 5, 5, 5, 5, 5);
-         * int dupMed = dup.median();   // 5
-         * }</pre>
-         *
-         * @return the median (lower middle) int value when sorted
-         */
-        @Override
-        public int median() {
-            return N.median(_1, _2, _3, _4, _5, _6, _7, _8);
         }
 
         /**
@@ -4060,8 +4069,11 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
     }
 
     /**
-     * A tuple containing exactly nine int values.
-     * The values are accessible through the public final fields {@code _1} through {@code _9}.
+     * A IntTuple containing exactly nine int elements.
+     * <p>
+     * Provides direct access to elements through public final fields {@code _1} through {@code _9}.
+     * This tuple type is useful for grouping nine related int values together.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -4192,32 +4204,6 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         @Override
         public int max() {
             return N.max(_1, _2, _3, _4, _5, _6, _7, _8, _9);
-        }
-
-        /**
-         * Returns the median value of the nine elements.
-         * For tuples with an odd number of elements, returns the middle value when sorted.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * IntTuple.IntTuple9 t = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
-         * int med = t.median();   // 5
-         *
-         * IntTuple.IntTuple9 unsorted = IntTuple.of(9, 3, 7, 1, 5, 2, 8, 4, 6);
-         * int unsortedMed = unsorted.median();   // 5
-         *
-         * IntTuple.IntTuple9 neg = IntTuple.of(-4, -3, -2, -1, 0, 1, 2, 3, 4);
-         * int negMed = neg.median();   // 0
-         *
-         * IntTuple.IntTuple9 dup = IntTuple.of(5, 5, 5, 5, 5, 5, 5, 5, 5);
-         * int dupMed = dup.median();   // 5
-         * }</pre>
-         *
-         * @return the middle int value when sorted
-         */
-        @Override
-        public int median() {
-            return N.median(_1, _2, _3, _4, _5, _6, _7, _8, _9);
         }
 
         /**

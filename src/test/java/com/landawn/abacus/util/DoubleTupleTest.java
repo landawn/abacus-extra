@@ -230,10 +230,10 @@ class DoubleTupleTest extends TestBase {
     @Test
     public void testMedian() {
         DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(3.0, 1.0, 2.0);
-        assertEquals(2.0, tuple.median(), DELTA);
+        assertEquals(2.0, tuple.lowerMedian(), DELTA);
 
         DoubleTuple.DoubleTuple4 evenTuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
-        assertEquals(2.0, evenTuple.median(), DELTA);
+        assertEquals(2.0, evenTuple.lowerMedian(), DELTA);
     }
 
     // Cover built-in sealed tuple behavior directly.
@@ -245,7 +245,7 @@ class DoubleTupleTest extends TestBase {
 
         assertEquals(1.5, tuple.min(), DELTA);
         assertEquals(4.5, tuple.max(), DELTA);
-        assertEquals(2.5, tuple.median(), DELTA);
+        assertEquals(2.5, tuple.lowerMedian(), DELTA);
         assertEquals(12.0, tuple.sum(), DELTA);
         assertEquals(3.0, tuple.average().getAsDouble(), DELTA);
         assertTrue(tuple.contains(3.5));
@@ -551,19 +551,19 @@ class DoubleTupleTest extends TestBase {
         @Test
         public void testMedianTuple1() {
             DoubleTuple1 tuple = DoubleTuple.of(1.0);
-            assertEquals(1.0, tuple.median(), 0.001);
+            assertEquals(1.0, tuple.lowerMedian(), 0.001);
         }
 
         @Test
         public void testMedianTuple3() {
             DoubleTuple3 tuple = DoubleTuple.of(3.0, 1.0, 2.0);
-            assertEquals(2.0, tuple.median(), 0.001);
+            assertEquals(2.0, tuple.lowerMedian(), 0.001);
         }
 
         @Test
         public void testMedianTuple0ThrowsException() {
             DoubleTuple<DoubleTuple0> tuple = DoubleTuple.from(new double[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.median());
+            assertThrows(NoSuchElementException.class, () -> tuple.lowerMedian());
         }
 
         // Statistical method tests - sum
@@ -1149,7 +1149,7 @@ class DoubleTupleTest extends TestBase {
             // Test min/max/median/sum/average via base class
             assertEquals(1.0, tuple.min(), 0.001);
             assertEquals(4.0, tuple.max(), 0.001);
-            assertEquals(2.0, tuple.median(), 0.001); // For even-sized tuples, returns lower middle value
+            assertEquals(2.0, tuple.lowerMedian(), 0.001); // For even-sized tuples, returns lower middle value
             assertEquals(10.0, tuple.sum(), 0.001);
             assertEquals(2.5, tuple.average().getAsDouble(), 0.001);
 
@@ -1186,7 +1186,7 @@ class DoubleTupleTest extends TestBase {
             // Test statistical operations
             assertEquals(1.0, tuple.min(), 0.001);
             assertEquals(5.0, tuple.max(), 0.001);
-            assertEquals(3.0, tuple.median(), 0.001);
+            assertEquals(3.0, tuple.lowerMedian(), 0.001);
             assertEquals(15.0, tuple.sum(), 0.001);
             assertEquals(3.0, tuple.average().getAsDouble(), 0.001);
 
@@ -1215,7 +1215,7 @@ class DoubleTupleTest extends TestBase {
             // Test statistical operations
             assertEquals(1.0, tuple.min(), 0.001);
             assertEquals(6.0, tuple.max(), 0.001);
-            assertEquals(3.0, tuple.median(), 0.001); // For even-sized tuples, returns lower middle value
+            assertEquals(3.0, tuple.lowerMedian(), 0.001); // For even-sized tuples, returns lower middle value
             assertEquals(21.0, tuple.sum(), 0.001);
             assertEquals(3.5, tuple.average().getAsDouble(), 0.001);
         }
@@ -1264,7 +1264,7 @@ class DoubleTupleTest extends TestBase {
             // Test statistical operations
             assertEquals(1.0, tuple.min(), 0.001);
             assertEquals(8.0, tuple.max(), 0.001);
-            assertEquals(4.0, tuple.median(), 0.001); // For even-sized tuples, returns lower middle value
+            assertEquals(4.0, tuple.lowerMedian(), 0.001); // For even-sized tuples, returns lower middle value
             assertEquals(36.0, tuple.sum(), 0.001);
             assertEquals(4.5, tuple.average().getAsDouble(), 0.001);
         }
@@ -1443,7 +1443,7 @@ class DoubleTupleTest extends TestBase {
         @Test
         public void testDoubleTuple1_median() {
             DoubleTuple.DoubleTuple1 tuple = DoubleTuple.of(1.0);
-            assertNotNull(tuple.median());
+            assertNotNull(tuple.lowerMedian());
         }
 
         @Test
@@ -1523,7 +1523,7 @@ class DoubleTupleTest extends TestBase {
         @Test
         public void testDoubleTuple2_median() {
             DoubleTuple.DoubleTuple2 tuple = DoubleTuple.of(1.0, 2.0);
-            assertNotNull(tuple.median());
+            assertNotNull(tuple.lowerMedian());
         }
 
         @Test
@@ -1625,7 +1625,7 @@ class DoubleTupleTest extends TestBase {
         @Test
         public void testDoubleTuple3_median() {
             DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
-            assertNotNull(tuple.median());
+            assertNotNull(tuple.lowerMedian());
         }
 
         @Test
@@ -2046,25 +2046,25 @@ class DoubleTupleTest extends TestBase {
         @Test
         public void testMedianTuple1() {
             DoubleTuple1 tuple = DoubleTuple.of(42.0);
-            assertEquals(42.0, tuple.median(), 0.001);
+            assertEquals(42.0, tuple.lowerMedian(), 0.001);
         }
 
         @Test
         public void testMedianTuple3() {
             DoubleTuple3 tuple = DoubleTuple.of(30.0, 10.0, 20.0);
-            assertEquals(20.0, tuple.median(), 0.001);
+            assertEquals(20.0, tuple.lowerMedian(), 0.001);
         }
 
         @Test
         public void testMedianTuple4() {
             DoubleTuple4 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
-            assertEquals(2.0, tuple.median(), 0.001);
+            assertEquals(2.0, tuple.lowerMedian(), 0.001);
         }
 
         @Test
         public void testMedianTuple5() {
             DoubleTuple5 tuple = DoubleTuple.of(5.0, 1.0, 3.0, 2.0, 4.0);
-            assertEquals(3.0, tuple.median(), 0.001);
+            assertEquals(3.0, tuple.lowerMedian(), 0.001);
         }
 
         @Test
@@ -2576,19 +2576,19 @@ class DoubleTupleTest extends TestBase {
         @Test
         public void testMedian_tuple1() {
             DoubleTuple1 tuple = DoubleTuple.of(5.5);
-            assertEquals(5.5, tuple.median());
+            assertEquals(5.5, tuple.lowerMedian());
         }
 
         @Test
         public void testMedian_tuple3() {
             DoubleTuple3 tuple = DoubleTuple.of(30.0, 10.0, 20.0);
-            assertEquals(20.0, tuple.median());
+            assertEquals(20.0, tuple.lowerMedian());
         }
 
         @Test
         public void testMedian_tuple4_even() {
             DoubleTuple4 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
-            assertEquals(2.0, tuple.median());
+            assertEquals(2.0, tuple.lowerMedian());
         }
 
         @Test
@@ -3132,7 +3132,7 @@ class DoubleTupleTest extends TestBase {
         @Test
         public void test_tuple0_median_throwsException() {
             DoubleTuple0 tuple = DoubleTuple.from(new double[0]);
-            assertThrows(NoSuchElementException.class, () -> tuple.median());
+            assertThrows(NoSuchElementException.class, () -> tuple.lowerMedian());
         }
 
         @Test
@@ -3233,7 +3233,7 @@ class DoubleTupleTest extends TestBase {
         @Test
         public void test_tuple1_median() {
             DoubleTuple1 tuple = DoubleTuple.of(3.14);
-            assertEquals(3.14, tuple.median(), DELTA);
+            assertEquals(3.14, tuple.lowerMedian(), DELTA);
         }
 
         @Test
@@ -3364,7 +3364,7 @@ class DoubleTupleTest extends TestBase {
         @Test
         public void test_tuple2_median() {
             DoubleTuple2 tuple = DoubleTuple.of(1.5, 2.5);
-            assertEquals(1.5, tuple.median(), DELTA);
+            assertEquals(1.5, tuple.lowerMedian(), DELTA);
         }
 
         @Test
@@ -3509,7 +3509,7 @@ class DoubleTupleTest extends TestBase {
         @Test
         public void test_tuple3_median() {
             DoubleTuple3 tuple = DoubleTuple.of(3.0, 1.0, 2.0);
-            assertEquals(2.0, tuple.median(), DELTA);
+            assertEquals(2.0, tuple.lowerMedian(), DELTA);
         }
 
         @Test
@@ -3628,7 +3628,7 @@ class DoubleTupleTest extends TestBase {
             assertEquals(5, tuple.arity());
             assertEquals(1.0, tuple.min(), DELTA);
             assertEquals(5.0, tuple.max(), DELTA);
-            assertEquals(3.0, tuple.median(), DELTA);
+            assertEquals(3.0, tuple.lowerMedian(), DELTA);
             assertEquals(15.0, tuple.sum(), DELTA);
             assertTrue(tuple.contains(3.0));
         }
@@ -3647,7 +3647,7 @@ class DoubleTupleTest extends TestBase {
         public void test_tuple7_basic() {
             DoubleTuple7 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
             assertEquals(7, tuple.arity());
-            assertEquals(4.0, tuple.median(), DELTA);
+            assertEquals(4.0, tuple.lowerMedian(), DELTA);
             assertEquals(7, tuple.toArray().length);
         }
 
@@ -3675,7 +3675,7 @@ class DoubleTupleTest extends TestBase {
             DoubleTuple3 tuple = DoubleTuple.of(-1.0, 0.0, 1.0);
             assertEquals(-1.0, tuple.min(), DELTA);
             assertEquals(1.0, tuple.max(), DELTA);
-            assertEquals(0.0, tuple.median(), DELTA);
+            assertEquals(0.0, tuple.lowerMedian(), DELTA);
             assertEquals(0.0, tuple.sum(), DELTA);
         }
 
@@ -3760,7 +3760,7 @@ class DoubleTupleTest extends TestBase {
         @Test
         public void test_median_evenCount() {
             DoubleTuple4 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
-            assertEquals(2.0, tuple.median(), DELTA); // Lower middle value
+            assertEquals(2.0, tuple.lowerMedian(), DELTA); // Lower middle value
         }
 
         @Test
@@ -3775,7 +3775,7 @@ class DoubleTupleTest extends TestBase {
             DoubleTuple3 tuple = DoubleTuple.of(0.0, 0.0, 0.0);
             assertEquals(0.0, tuple.min(), DELTA);
             assertEquals(0.0, tuple.max(), DELTA);
-            assertEquals(0.0, tuple.median(), DELTA);
+            assertEquals(0.0, tuple.lowerMedian(), DELTA);
             assertEquals(0.0, tuple.sum(), DELTA);
             assertEquals(0.0, tuple.average().getAsDouble(), DELTA);
         }
@@ -3870,9 +3870,9 @@ class DoubleTupleTest extends TestBase {
         @Test
         public void testDoubleTupleOf5Median() {
             // DoubleTuple.DoubleTuple5 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0);
-            // double median = tuple.median();   // 3.0
+            // double median = tuple.lowerMedian();   // 3.0
             DoubleTuple.DoubleTuple5 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0);
-            assertEquals(3.0, tuple.median(), 0.001);
+            assertEquals(3.0, tuple.lowerMedian(), 0.001);
         }
 
         @Test
@@ -4033,7 +4033,7 @@ class DoubleTupleTest extends TestBase {
         DoubleTuple.DoubleTuple4 tuple4 = DoubleTuple.of(9d, 1d, 7d, 3d);
         assertEquals(1d, tuple4.min(), 0.0);
         assertEquals(9d, tuple4.max(), 0.0);
-        assertEquals(3d, tuple4.median(), 0.0);
+        assertEquals(3d, tuple4.lowerMedian(), 0.0);
         assertEquals(20d, tuple4.sum(), 0.0);
         assertEquals(5.0, tuple4.average().getAsDouble(), 0.0);
         assertTrue(tuple4.contains(3d));
@@ -4042,18 +4042,18 @@ class DoubleTupleTest extends TestBase {
         assertTrue(tuple5.contains(5d));
 
         DoubleTuple.DoubleTuple6 tuple6 = DoubleTuple.of(9d, 1d, 7d, 3d, 5d, 11d);
-        assertEquals(5d, tuple6.median(), 0.0);
+        assertEquals(5d, tuple6.lowerMedian(), 0.0);
         assertTrue(tuple6.contains(11d));
 
         DoubleTuple.DoubleTuple7 tuple7 = DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 7d);
         assertTrue(tuple7.contains(7d));
 
         DoubleTuple.DoubleTuple8 tuple8 = DoubleTuple.of(9d, 1d, 7d, 3d, 5d, 11d, 13d, 15d);
-        assertEquals(7d, tuple8.median(), 0.0);
+        assertEquals(7d, tuple8.lowerMedian(), 0.0);
         assertTrue(tuple8.contains(15d));
 
         DoubleTuple.DoubleTuple9 tuple9 = DoubleTuple.of(9d, 1d, 7d, 3d, 5d, 11d, 13d, 15d, 17d);
-        assertEquals(9d, tuple9.median(), 0.0);
+        assertEquals(9d, tuple9.lowerMedian(), 0.0);
         assertTrue(tuple9.contains(17d));
     }
 
@@ -4178,7 +4178,7 @@ class DoubleTupleTest extends TestBase {
         assertEquals(Double.doubleToRawLongBits(+0.0), Double.doubleToRawLongBits(DoubleTuple.of(0.0, -0.0).max()));
 
         // Median for 2 elements uses Double.compare ordering, where NaN sorts last.
-        assertFalse(Double.isNaN(DoubleTuple.of(1d, Double.NaN).median()));
+        assertFalse(Double.isNaN(DoubleTuple.of(1d, Double.NaN).lowerMedian()));
     }
 
     // from must dispatch to the correct arity-specific subtype based on length.

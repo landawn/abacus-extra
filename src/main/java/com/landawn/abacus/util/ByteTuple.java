@@ -16,7 +16,6 @@ package com.landawn.abacus.util;
 
 import java.util.NoSuchElementException;
 
-import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.annotation.MayReturnNull;
 import com.landawn.abacus.util.ByteTuple.ByteTuple0;
 import com.landawn.abacus.util.ByteTuple.ByteTuple1;
@@ -35,15 +34,25 @@ import com.landawn.abacus.util.stream.ByteStream;
 /**
  * Base class for immutable tuples of primitive {@code byte} values.
  *
- * <p>The nested tuple types model fixed arities from 0 through 9. Factory methods such as
- * {@link #from(byte[])} and the {@code of(...)} overloads select the matching subtype, while the base
- * class supplies aggregate, reversal, containment, and functional helper operations.</p>
+ * <p>The nested tuple types model fixed arities from 0 through 9. Prefer the {@code of(...)} factory
+ * overloads to create a specific arity; {@link #from(byte[])} is deprecated and retained only for
+ * compatibility. The base class supplies aggregate, reversal, containment, conversion, and
+ * element-wise functional helpers; {@link PrimitiveTuple} adds whole-tuple
+ * {@link PrimitiveTuple#accept(Throwables.Consumer) accept},
+ * {@link PrimitiveTuple#map(Throwables.Function) map},
+ * {@link PrimitiveTuple#filter(Throwables.Predicate) filter}, and
+ * {@link PrimitiveTuple#toOptional() toOptional}.</p>
  *
- * <p>This sealed base class permits only the built-in arity-specific nested tuple types.</p>
+ * <p>Arity-specific nested types ({@code ByteTuple1} through {@code ByteTuple9}) expose their components as
+ * public final fields {@code _1}, {@code _2}, and so on matching that arity. This sealed hierarchy permits only
+ * the built-in nested types; all instances are immutable.</p>
  *
- * <p>All {@code byte} arithmetic in this class follows Java's signed semantics (range {@code -128}
- * to {@code 127}). {@link #sum()} is widened to {@code int} to avoid overflow, and {@link #average()}
- * is computed with {@code double} precision and returned as an {@code OptionalDouble}.</p>
+ * <p><b>Numeric semantics:</b> Values are signed {@code byte}s (range {@code -128} to {@code 127}).
+ * {@link #min()}, {@link #max()}, and {@link #lowerMedian()} return {@code byte}; {@link #sum()}
+ * widens to {@code int} so the total is not truncated to eight bits; {@link #average()} and
+ * {@link #median()} use {@code double} precision ({@code average} via {@link OptionalDouble}).
+ * Empty-tuple contracts: {@code sum()} is {@code 0}, {@code average()} is empty, and
+ * {@code min}/{@code max}/{@code lowerMedian}/{@code median} throw {@link NoSuchElementException}.</p>
  *
  * @param <TP> the concrete {@code ByteTuple} subtype that fluent operations such as {@link #reverse()} return
  * @see PrimitiveTuple
@@ -139,7 +148,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * ByteTuple.ByteTuple3 t = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
      * byte third = t._3;         // 30
      * int arity = t.arity();     // 3
-     * byte median = t.median();  // 20 (middle when sorted)
+     * byte median = t.lowerMedian();  // 20 (middle when sorted)
      *
      * ByteTuple.ByteTuple3 t2 = ByteTuple.of((byte) 30, (byte) 10, (byte) 20);
      * byte min = t2.min();   // 10
@@ -151,7 +160,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      *
      * // all same value
      * ByteTuple.ByteTuple3 same = ByteTuple.of((byte) 5, (byte) 5, (byte) 5);
-     * byte sameMedian = same.median();   // 5
+     * byte sameMedian = same.lowerMedian();   // 5
      * }</pre>
      *
      * @param _1 the first byte value
@@ -172,7 +181,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * byte first = t._1;   // 10
      * byte fourth = t._4;  // 40
      * // even arity: median returns the lower middle of the sorted elements
-     * byte median = t.median();   // 20
+     * byte median = t.lowerMedian();   // 20
      *
      * ByteTuple.ByteTuple4 t2 = ByteTuple.of((byte) 40, (byte) 30, (byte) 20, (byte) 10);
      * byte min = t2.min();   // 10
@@ -181,7 +190,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * // negative values
      * ByteTuple.ByteTuple4 neg = ByteTuple.of((byte) -50, (byte) -10, (byte) 0, (byte) 50);
      * // sorted: -50, -10, 0, 50 => lower middle => -10
-     * byte negMedian = neg.median();   // -10
+     * byte negMedian = neg.lowerMedian();   // -10
      *
      * // boundary bytes
      * ByteTuple.ByteTuple4 bounds = ByteTuple.of((byte) -128, (byte) -1, (byte) 0, (byte) 127);
@@ -207,12 +216,12 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * byte first = t._1;         // 10
      * byte fifth = t._5;         // 50
      * int sum = t.sum();         // 150 (exceeds byte range; returned as int)
-     * byte median = t.median();  // 30 (middle element when sorted)
+     * byte median = t.lowerMedian();  // 30 (middle element when sorted)
      *
      * // negative values with zero sum
      * ByteTuple.ByteTuple5 neg = ByteTuple.of((byte) -10, (byte) -5, (byte) 0, (byte) 5, (byte) 10);
      * int negSum = neg.sum();          // 0
-     * byte negMedian = neg.median();   // 0
+     * byte negMedian = neg.lowerMedian();   // 0
      *
      * // all negative
      * ByteTuple.ByteTuple5 allNeg = ByteTuple.of((byte) -50, (byte) -40, (byte) -30, (byte) -20, (byte) -10);
@@ -277,7 +286,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * byte first = t._1;           // 10
      * byte seventh = t._7;         // 70
      * byte[] array = t.toArray();  // [10, 20, 30, 40, 50, 60, 70]
-     * byte median = t.median();    // 40 (middle of 7 elements when sorted)
+     * byte median = t.lowerMedian();    // 40 (middle of 7 elements when sorted)
      *
      * ByteTuple.ByteTuple7 t2 = ByteTuple.of((byte) 70, (byte) 60, (byte) 50, (byte) 40, (byte) 30, (byte) 20, (byte) 10);
      * byte min = t2.min();   // 10
@@ -358,7 +367,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * int sum = t.sum();      // 450
      *
      * // median of 9 elements (odd): sorted [10..90], middle index 4 => 50
-     * byte median = t.median();   // 50
+     * byte median = t.lowerMedian();   // 50
      *
      * // all negative values
      * ByteTuple.ByteTuple9 neg = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4, (byte) -5,
@@ -437,10 +446,11 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * @param values the array of byte values; may be {@code null} or empty, in which case the shared empty tuple is returned
      * @return a {@code ByteTuple} of the appropriate arity containing the array values, or the shared empty tuple if the array is {@code null} or empty
      * @throws IllegalArgumentException if {@code values} has more than 9 elements
+     * @deprecated Use the {@code of(...)} factory methods instead; this method may be removed in a future release.
      * @see #of(byte)
      */
-    @Beta
-    @SuppressWarnings({ "deprecation", "unchecked" })
+    @Deprecated
+    @SuppressWarnings({ "unchecked" })
     public static <TP extends ByteTuple<TP>> TP from(final byte[] values) {
         if (values == null || values.length == 0) {
             return (TP) ByteTuple0.EMPTY;
@@ -480,10 +490,9 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
     }
 
     /**
-     * Returns the minimum byte value in this tuple.
+     * Returns the minimum (smallest) signed {@code byte} value in this tuple.
      * <p>
-     * This method finds and returns the smallest byte value among all elements
-     * in the tuple. For tuples with a single element, returns that element.
+     * For a single-element tuple, returns that element.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -511,23 +520,22 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * @return the minimum byte value in this tuple
      * @throws NoSuchElementException if the tuple is empty
      * @see #max()
-     * @see #median()
+     * @see #lowerMedian()
      */
     public byte min() {
-        final byte[] arr = elements();
+        final byte[] a = elements();
 
-        if (arr.length == 0) {
+        if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute min() for an empty tuple");
         }
 
-        return N.min(arr);
+        return N.min(a);
     }
 
     /**
-     * Returns the maximum byte value in this tuple.
+     * Returns the maximum (largest) signed {@code byte} value in this tuple.
      * <p>
-     * This method finds and returns the largest byte value among all elements
-     * in the tuple. For tuples with a single element, returns that element.
+     * For a single-element tuple, returns that element.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -555,70 +563,25 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * @return the maximum byte value in this tuple
      * @throws NoSuchElementException if the tuple is empty
      * @see #min()
-     * @see #median()
+     * @see #lowerMedian()
      */
     public byte max() {
-        final byte[] arr = elements();
+        final byte[] a = elements();
 
-        if (arr.length == 0) {
+        if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute max() for an empty tuple");
         }
 
-        return N.max(arr);
+        return N.max(a);
     }
 
     /**
-     * Returns the median byte value in this tuple.
+     * Returns the sum of all signed {@code byte} values in this tuple as an {@code int}.
      * <p>
-     * The median is the middle value when all elements are sorted. For tuples with
-     * an odd number of elements, returns the exact middle value. For tuples with an
-     * even number of elements, returns the lower middle element.
-     * </p>
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * // odd number of elements: exact middle of sorted sequence
-     * ByteTuple.ByteTuple3 t3 = ByteTuple.of((byte) 30, (byte) 10, (byte) 20);
-     * byte median = t3.median();   // 20 (sorted: 10, 20, 30; index 1)
-     *
-     * // even number of elements: lower middle of sorted sequence
-     * ByteTuple.ByteTuple4 t4 = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40);
-     * byte evenMedian = t4.median();   // 20 (sorted: 10, [20], 30, 40; lower of the two middles)
-     *
-     * // single element
-     * ByteTuple.ByteTuple1 single = ByteTuple.of((byte) 7);
-     * byte singleMedian = single.median();   // 7
-     *
-     * // negative values
-     * ByteTuple.ByteTuple3 neg = ByteTuple.of((byte) -30, (byte) -10, (byte) -20);
-     * byte negMedian = neg.median();   // -20 (sorted: -30, -20, -10)
-     *
-     * // empty tuple -> throws NoSuchElementException
-     * ByteTuple<?> empty = ByteTuple.from(new byte[0]);
-     * empty.median();   // throws NoSuchElementException
-     * }</pre>
-     *
-     * @return the median byte value in this tuple (middle when sorted for odd arity; lower-middle when sorted for even arity)
-     * @throws NoSuchElementException if the tuple is empty
-     * @see #min()
-     * @see #max()
-     * @see N#median(byte...)
-     */
-    public byte median() {
-        final byte[] arr = elements();
-
-        if (arr.length == 0) {
-            throw new NoSuchElementException("Cannot compute median() for an empty tuple");
-        }
-
-        return N.median(arr);
-    }
-
-    /**
-     * Returns the sum of all byte values in this tuple as an {@code int}.
-     * <p>
-     * Elements are treated as signed {@code byte} values. The result is an {@code int}
-     * (not truncated to {@code byte}). For an empty tuple, the sum is {@code 0}.
+     * Each element is sign-extended to {@code int} before summing, so the result is never truncated
+     * back to eight bits (for example {@code 100 + 50} is {@code 150}, not a wrapped {@code byte}).
+     * An empty tuple yields {@code 0}. With at most nine {@code byte} elements, the total always
+     * fits in an {@code int}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -639,7 +602,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * int emptySum = empty.sum();   // 0
      * }</pre>
      *
-     * @return the sum of all signed byte values in this tuple as an {@code int}; {@code 0} for an empty tuple
+     * @return the sum of all signed byte values as an {@code int}; {@code 0} for an empty tuple
      * @see #average()
      */
     public int sum() {
@@ -647,9 +610,10 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
     }
 
     /**
-     * Returns the arithmetic mean of all byte values in this tuple as an {@code OptionalDouble}.
+     * Returns the arithmetic mean of all signed {@code byte} values as an {@code OptionalDouble}.
      * <p>
-     * Elements are treated as signed {@code byte} values. For an empty tuple, returns an empty {@code OptionalDouble}.
+     * Each element is treated as a signed {@code byte} before averaging. An empty tuple yields
+     * {@link OptionalDouble#empty()} (it does not throw).
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -674,20 +638,115 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * empty.average();   // returns OptionalDouble.empty()
      * }</pre>
      *
-     * @return the arithmetic mean of all signed byte values as an {@code OptionalDouble}, or an empty {@code OptionalDouble} if this tuple is empty
+     * @return the arithmetic mean as an {@code OptionalDouble}, or empty if this tuple has no elements
      * @see #sum()
      */
     public OptionalDouble average() {
-        final byte[] arr = elements();
+        final byte[] a = elements();
 
-        return arr.length == 0 ? OptionalDouble.empty() : OptionalDouble.of(N.average(arr));
+        return a.length == 0 ? OptionalDouble.empty() : OptionalDouble.of(N.average(a));
+    }
+
+    /**
+     * Returns the conventional statistical median of this tuple as a {@code double}.
+     * <p>
+     * Elements are ordered by signed magnitude. For an odd arity, this is the middle value when
+     * sorted. For an even arity, this is the arithmetic mean of the two middle values. That differs
+     * from {@link #lowerMedian()}, which returns a {@code byte} and, for even arities, the lower
+     * middle element only.
+     * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ByteTuple.ByteTuple3 t3 = ByteTuple.of((byte) 30, (byte) 10, (byte) 20);
+     * double median = t3.median();   // 20.0 (middle of sorted: 10, 20, 30)
+     *
+     * // even arity: mean of the two middle values
+     * ByteTuple.ByteTuple4 t4 = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40);
+     * double evenMedian = t4.median();   // 25.0 (mean of 20 and 30)
+     *
+     * // pair
+     * ByteTuple.ByteTuple2 pair = ByteTuple.of((byte) 10, (byte) 30);
+     * double pairMedian = pair.median();   // 20.0
+     *
+     * // single element
+     * ByteTuple.ByteTuple1 single = ByteTuple.of((byte) 7);
+     * double singleMedian = single.median();   // 7.0
+     *
+     * // empty tuple -> throws NoSuchElementException
+     * ByteTuple<?> empty = ByteTuple.from(new byte[0]);
+     * empty.median();   // throws NoSuchElementException
+     * }</pre>
+     *
+     * @return the statistical median as a {@code double}
+     * @throws NoSuchElementException if the tuple is empty
+     * @see #lowerMedian()
+     */
+    public double median() {
+        final byte[] a = toArray();
+
+        if (a.length == 0) {
+            throw new NoSuchElementException("Cannot compute median() for an empty tuple");
+        }
+
+        return N.median(a);
+    }
+
+    /**
+     * Returns the lower median of this tuple as a signed {@code byte}.
+     * <p>
+     * Elements are ordered by signed magnitude. For an odd arity, this is the middle value when
+     * sorted. For an even arity, this is the lower of the two middle values when sorted
+     * (not their average). Prefer {@link #median()} when you need the conventional statistical
+     * median as a {@code double}.
+     * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * // odd number of elements: exact middle of sorted sequence
+     * ByteTuple.ByteTuple3 t3 = ByteTuple.of((byte) 30, (byte) 10, (byte) 20);
+     * byte median = t3.lowerMedian();   // 20 (sorted: 10, 20, 30; index 1)
+     *
+     * // even number of elements: lower middle of sorted sequence
+     * ByteTuple.ByteTuple4 t4 = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40);
+     * byte evenMedian = t4.lowerMedian();   // 20 (sorted: 10, [20], 30, 40; lower of the two middles)
+     *
+     * // single element
+     * ByteTuple.ByteTuple1 single = ByteTuple.of((byte) 7);
+     * byte singleMedian = single.lowerMedian();   // 7
+     *
+     * // negative values
+     * ByteTuple.ByteTuple3 neg = ByteTuple.of((byte) -30, (byte) -10, (byte) -20);
+     * byte negMedian = neg.lowerMedian();   // -20 (sorted: -30, -20, -10)
+     *
+     * // empty tuple -> throws NoSuchElementException
+     * ByteTuple<?> empty = ByteTuple.from(new byte[0]);
+     * empty.lowerMedian();   // throws NoSuchElementException
+     * }</pre>
+     *
+     * @return the lower-median byte (middle when sorted for odd arity; lower-middle when sorted for even arity)
+     * @throws NoSuchElementException if the tuple is empty
+     * @see #min()
+     * @see #max()
+     * @see #median()
+     * @see N#lowerMedian(byte...)
+     */
+    public byte lowerMedian() {
+        final byte[] a = elements();
+
+        if (a.length == 0) {
+            throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
+        }
+
+        return N.lowerMedian(a);
     }
 
     /**
      * Returns a tuple with the elements in reverse order.
      * <p>
-     * Non-empty built-in tuples return a NEW tuple containing all elements in reversed order.
-     * The empty tuple returns itself. The original tuple remains unchanged as tuples are immutable.
+     * Non-empty built-in tuples return a new instance of the same arity-specific subtype with elements
+     * in reverse order. The empty tuple returns itself. The original tuple is unchanged.
+     * For arity 1, the result is equal in value (a new instance with the same element).
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -707,19 +766,14 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * int emptyArity = empty.reverse().arity();   // 0
      * }</pre>
      *
-     * <p>For tuples of arity 0 or 1, the returned tuple is equal to this one (reversing has no effect).
-     * The empty tuple returns itself; arity-1 tuples return a new instance with the same value.</p>
-     *
      * @return a tuple of the same arity with the elements in reverse order
      */
     public abstract TP reverse();
 
     /**
-     * Checks if this tuple contains the specified byte value.
+     * Returns {@code true} if this tuple contains the specified signed {@code byte} value.
      * <p>
-     * This method performs a linear search through all elements in the tuple to determine
-     * if any element matches the specified value. Returns {@code true} if at least one
-     * element equals the search value, {@code false} otherwise.
+     * Comparison uses primitive {@code ==}. An empty tuple always returns {@code false}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -744,16 +798,15 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * }</pre>
      *
      * @param value the byte value to search for
-     * @return {@code true} if the value is found in this tuple, {@code false} otherwise
+     * @return {@code true} if at least one element equals {@code value}; {@code false} otherwise
      */
     public abstract boolean contains(byte value);
 
     /**
-     * Returns a new array containing all elements of this tuple.
+     * Returns a new {@code byte[]} containing all elements of this tuple in order.
      * <p>
-     * Creates and returns a defensive copy of the internal element array. Modifications
-     * to the returned array do not affect the tuple, maintaining immutability. The
-     * returned array has the same length as the tuple's arity.
+     * The array is a defensive copy; mutations to it do not affect this tuple. Its length equals
+     * {@link #arity()}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -775,7 +828,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * int emptyLen = emptyArr.length;   // 0
      * }</pre>
      *
-     * @return a new byte array containing all tuple elements
+     * @return a new byte array containing all tuple elements in order
      * @see #toList()
      * @see #stream()
      */
@@ -867,12 +920,9 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
     }
 
     /**
-     * Returns a ByteStream of all elements in this tuple.
+     * Returns a sequential {@link ByteStream} of this tuple's elements in order.
      * <p>
-     * Converts this tuple to a sequential {@link ByteStream} for primitive byte values.
-     * This allows using stream operations like filter, map, and statistical operations
-     * on the tuple elements. ByteStream works with primitive bytes directly, avoiding
-     * the boxing overhead that would occur with a regular Stream.
+     * The stream is primitive-specialized (no boxing). An empty tuple yields an empty stream.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -890,7 +940,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * long emptyCount = empty.stream().count();   // 0
      * }</pre>
      *
-     * @return a ByteStream containing all tuple elements
+     * @return a sequential {@code ByteStream} of the elements in order
      * @see #toArray()
      * @see #toList()
      */
@@ -903,7 +953,8 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * <p>
      * The hash code is computed based on the contents of the tuple using a standard
      * algorithm that ensures equal tuples have equal hash codes. This implementation
-     * is consistent with {@link #equals(Object)}.
+     * is consistent with {@link #equals(Object)}. The arity-specific subclasses override
+     * this method with an equivalent but specialized implementation that combines their fields directly.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -992,16 +1043,18 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
     protected abstract byte[] elements();
 
     /**
-     * An empty ByteTuple containing no elements (arity 0).
+     * An empty {@code ByteTuple} (arity 0).
      * <p>
-     * This package-private class is exposed only through the base {@code ByteTuple} type
-     * via the singleton instance returned by {@link #from(byte[])} when invoked with a
-     * {@code null} or zero-length array. {@link #sum()} returns 0 and {@link #average()} returns an empty {@code OptionalDouble}, while
-     * {@link #min()}, {@link #max()}, and {@link #median()} all throw {@link java.util.NoSuchElementException}.
+     * Package-private; callers obtain the shared instance only via {@link #from(byte[])} with a
+     * {@code null} or zero-length array (deprecated). Aggregate contracts for the empty instance:
+     * {@link #sum()} is {@code 0}, {@link #average()} is empty, and
+     * {@link #min()}, {@link #max()}, {@link #lowerMedian()}, and {@link #median()} throw
+     * {@link NoSuchElementException}. {@link #reverse()} returns this same instance.
      * </p>
      */
     static final class ByteTuple0 extends ByteTuple<ByteTuple0> {
 
+        /** Shared empty byte tuple singleton. */
         private static final ByteTuple0 EMPTY = new ByteTuple0();
 
         /**
@@ -1021,11 +1074,10 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns the minimum byte value in this tuple.
-         * Since this tuple is empty, this method always throws an exception.
+         * Always throws because this tuple has no elements.
          *
          * @return never returns normally
-         * @throws NoSuchElementException always, because the tuple is empty
+         * @throws NoSuchElementException always
          */
         @Override
         public byte min() {
@@ -1033,11 +1085,10 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns the maximum byte value in this tuple.
-         * Since this tuple is empty, this method always throws an exception.
+         * Always throws because this tuple has no elements.
          *
          * @return never returns normally
-         * @throws NoSuchElementException always, because the tuple is empty
+         * @throws NoSuchElementException always
          */
         @Override
         public byte max() {
@@ -1045,20 +1096,19 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns the median byte value in this tuple.
-         * Since this tuple is empty, this method always throws an exception.
+         * Always throws because this tuple has no elements.
          *
          * @return never returns normally
-         * @throws NoSuchElementException always, because the tuple is empty
+         * @throws NoSuchElementException always
+         * @see ByteTuple#median()
          */
         @Override
-        public byte median() {
-            throw new NoSuchElementException("Cannot compute median() for an empty tuple");
+        public byte lowerMedian() {
+            throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
         }
 
         /**
-         * Returns the sum of all byte values in this tuple.
-         * For an empty tuple, the sum is {@code 0}.
+         * Returns {@code 0} for the empty tuple.
          *
          * @return {@code 0}
          */
@@ -1068,10 +1118,9 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns the average of all byte values in this tuple.
-         * Since this tuple is empty, this method always returns an empty {@code OptionalDouble}.
+         * Returns an empty {@code OptionalDouble} because this tuple has no elements.
          *
-         * @return an empty {@code OptionalDouble}
+         * @return {@link OptionalDouble#empty()}
          */
         @Override
         public OptionalDouble average() {
@@ -1079,10 +1128,9 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns this empty tuple instance.
-         * Since this tuple has no elements, reversing has no effect.
+         * Returns this same empty instance.
          *
-         * @return this {@code ByteTuple0} instance
+         * @return {@code this}
          */
         @Override
         public ByteTuple0 reverse() {
@@ -1090,11 +1138,10 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         }
 
         /**
-         * Checks if this tuple contains the specified byte value.
-         * Since this tuple is empty, this method always returns {@code false}.
+         * Always returns {@code false} because this tuple has no elements.
          *
-         * @param value the byte value to search for
-         * @return {@code false} always, because the tuple is empty
+         * @param value the byte value to search for (ignored)
+         * @return {@code false}
          */
         @Override
         public boolean contains(final byte value) {
@@ -1123,11 +1170,11 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
     }
 
     /**
-     * A ByteTuple containing exactly one byte element.
+     * A {@code ByteTuple} containing exactly one {@code byte} element.
      * <p>
-     * Provides direct access to the element through the public final field {@code _1}.
-     * This is the simplest non-empty tuple type, useful for wrapping a single byte
-     * value in a tuple context.
+     * The value is the public final field {@code _1}. Aggregates such as {@link #min()},
+     * {@link #max()}, {@link #lowerMedian()}, {@link #sum()}, and {@link #average()} all reflect
+     * that single element.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -1137,7 +1184,6 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * byte min = tuple.min();  // 42 (single element)
      * byte max = tuple.max();  // 42 (single element)
      * }</pre>
-     *
      */
     public static final class ByteTuple1 extends ByteTuple<ByteTuple1> {
 
@@ -1243,34 +1289,6 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns the median byte value in this tuple.
-         * Since this tuple contains only one element, it returns that element.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * ByteTuple.ByteTuple1 t = ByteTuple.of((byte) 42);
-         * byte median = t.median();   // 42
-         *
-         * ByteTuple.ByteTuple1 zero = ByteTuple.of((byte) 0);
-         * byte zeroMedian = zero.median();   // 0
-         *
-         * // minimum byte value
-         * ByteTuple.ByteTuple1 minByte = ByteTuple.of((byte) -128);
-         * byte minMedian = minByte.median();   // -128
-         *
-         * // maximum byte value
-         * ByteTuple.ByteTuple1 maxByte = ByteTuple.of((byte) 127);
-         * byte maxMedian = maxByte.median();   // 127
-         * }</pre>
-         *
-         * @return the single byte value in this tuple
-         */
-        @Override
-        public byte median() {
-            return _1;
-        }
-
-        /**
          * Returns the sum of all byte values in this tuple.
          * Since this tuple contains only one element, it returns that element widened to an {@code int}.
          *
@@ -1314,6 +1332,45 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         @Override
         public OptionalDouble average() {
             return OptionalDouble.of(_1);
+        }
+
+        /**
+         * Returns the statistical median of this one-element tuple as a {@code double}
+         * (the element itself, widened).
+         *
+         * @return {@code (double) _1}
+         * @see #lowerMedian()
+         */
+        @Override
+        public double median() {
+            return _1;
+        }
+
+        /**
+         * Returns the lower median of this one-element tuple, which is the element itself.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple1 t = ByteTuple.of((byte) 42);
+         * byte median = t.lowerMedian();   // 42
+         *
+         * ByteTuple.ByteTuple1 zero = ByteTuple.of((byte) 0);
+         * byte zeroMedian = zero.lowerMedian();   // 0
+         *
+         * // minimum byte value
+         * ByteTuple.ByteTuple1 minByte = ByteTuple.of((byte) -128);
+         * byte minMedian = minByte.lowerMedian();   // -128
+         *
+         * // maximum byte value
+         * ByteTuple.ByteTuple1 maxByte = ByteTuple.of((byte) 127);
+         * byte maxMedian = maxByte.lowerMedian();   // 127
+         * }</pre>
+         *
+         * @return the single byte value in this tuple
+         */
+        @Override
+        public byte lowerMedian() {
+            return _1;
         }
 
         /**
@@ -1457,15 +1514,17 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
     }
 
     /**
-     * A tuple containing exactly two byte values.
-     * The values are accessible through the public final fields {@code _1} and {@code _2}.
-     *
-     * <p>In addition to the operations inherited from {@link ByteTuple}, this class provides
-     * functional helpers for working with pairs:</p>
+     * A {@code ByteTuple} containing exactly two {@code byte} elements.
+     * <p>
+     * Components are the public final fields {@code _1} and {@code _2}. Besides the operations from
+     * {@link ByteTuple} and {@link PrimitiveTuple}, this type adds element-unpacking helpers that
+     * pass both values to a bi-consumer / bi-function / bi-predicate (distinct from the whole-tuple
+     * {@code accept}/{@code map}/{@code filter} on {@link PrimitiveTuple}):
+     * </p>
      * <ul>
-     *   <li>{@link #accept(Throwables.ByteBiConsumer)} - consume both values</li>
-     *   <li>{@link #map(Throwables.ByteBiFunction)} - transform the pair to a single value</li>
-     *   <li>{@link #filter(Throwables.ByteBiPredicate)} - conditionally wrap in {@link Optional}</li>
+     *   <li>{@link #accept(Throwables.ByteBiConsumer)} — both elements as primitives</li>
+     *   <li>{@link #map(Throwables.ByteBiFunction)} — map both elements to one result</li>
+     *   <li>{@link #filter(Throwables.ByteBiPredicate)} — keep this pair in an {@link Optional} if the predicate holds</li>
      * </ul>
      *
      * <p><b>Usage Examples:</b></p>
@@ -1474,11 +1533,10 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * byte first = tuple._1;   // 10
      * byte second = tuple._2;  // 20
      *
-     * // Using functional operations
+     * // Element-wise functional helpers
      * tuple.accept((a, b) -> System.out.println(a + " + " + b));
      * int sum = tuple.map((a, b) -> a + b);   // 30
      * }</pre>
-     *
      */
     public static final class ByteTuple2 extends ByteTuple<ByteTuple2> {
 
@@ -1568,32 +1626,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns the median byte value in this tuple.
-         * For tuples with an even number of elements, returns the lower middle element of the sorted values.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * // sorted(3, 7) -> lower middle = 3
-         * ByteTuple.of((byte) 3, (byte) 7).median();    // returns 3
-         * ByteTuple.of((byte) 7, (byte) 3).median();    // returns 3
-         *
-         * // same values
-         * ByteTuple.of((byte) 5, (byte) 5).median();    // returns 5
-         *
-         * // negative and boundary
-         * ByteTuple.of((byte) -5, (byte) -10).median();               // returns -10
-         * ByteTuple.of(Byte.MIN_VALUE, Byte.MAX_VALUE).median();      // returns -128
-         * }</pre>
-         *
-         * @return the lower of the two byte values when sorted
-         */
-        @Override
-        public byte median() {
-            return N.median(_1, _2);
-        }
-
-        /**
-         * Returns the sum of all byte values in this tuple.
+         * Returns the sum of both signed byte values as an {@code int} (not truncated to {@code byte}).
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -1607,7 +1640,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * ByteTuple.of(Byte.MIN_VALUE, Byte.MAX_VALUE).sum();   // returns -1
          * }</pre>
          *
-         * @return the sum of both byte values as an integer
+         * @return the sum of both values as an {@code int}
          */
         @Override
         public int sum() {
@@ -1634,6 +1667,52 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         @Override
         public OptionalDouble average() {
             return OptionalDouble.of(N.average(_1, _2));
+        }
+
+        /**
+         * Returns the statistical median of this pair: the arithmetic mean of both elements as a
+         * {@code double} (not truncated to {@code byte}).
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.of((byte) 3, (byte) 7).median();    // 5.0
+         * ByteTuple.of((byte) 10, (byte) 20).median();  // 15.0
+         * ByteTuple.of((byte) -5, (byte) 5).median();   // 0.0
+         * // (-128 + 127) / 2 = -0.5
+         * ByteTuple.of(Byte.MIN_VALUE, Byte.MAX_VALUE).median();   // -0.5
+         * }</pre>
+         *
+         * @return {@code ((_1 + _2) / 2.0)} with operands widened to {@code double}
+         * @see #lowerMedian()
+         */
+        @Override
+        public double median() {
+            return ((double) _1 + (double) _2) / 2d;
+        }
+
+        /**
+         * Returns the lower median of this pair: the smaller of the two signed values.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * // sorted(3, 7) -> lower middle = 3
+         * ByteTuple.of((byte) 3, (byte) 7).lowerMedian();    // returns 3
+         * ByteTuple.of((byte) 7, (byte) 3).lowerMedian();    // returns 3
+         *
+         * // same values
+         * ByteTuple.of((byte) 5, (byte) 5).lowerMedian();    // returns 5
+         *
+         * // negative and boundary
+         * ByteTuple.of((byte) -5, (byte) -10).lowerMedian();               // returns -10
+         * ByteTuple.of(Byte.MIN_VALUE, Byte.MAX_VALUE).lowerMedian();      // returns -128
+         * }</pre>
+         *
+         * @return {@code min(_1, _2)}
+         * @see #median()
+         */
+        @Override
+        public byte lowerMedian() {
+            return N.min(_1, _2);
         }
 
         /**
@@ -1725,12 +1804,11 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         }
 
         /**
-         * Applies the given bi-consumer to both elements of this tuple.
+         * Invokes {@code action} once with both elements ({@code _1}, {@code _2}).
          * <p>
-         * This method executes the provided action with both tuple elements as arguments.
-         * It is useful for performing side effects or operations that require access to
-         * both elements simultaneously. Unlike {@link #forEach}, which processes elements
-         * individually, this method processes both elements together in a single call.
+         * This is the element-unpacking overload for pairs. It differs from
+         * {@link PrimitiveTuple#accept(Throwables.Consumer)}, which receives this tuple object, and from
+         * {@link #forEach(Throwables.ByteConsumer)}, which invokes a consumer once per element.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1759,6 +1837,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * @throws E if the action throws an exception
          * @see #forEach(Throwables.ByteConsumer)
          * @see #map(Throwables.ByteBiFunction)
+         * @see PrimitiveTuple#accept(Throwables.Consumer)
          */
         public <E extends Exception> void accept(final Throwables.ByteBiConsumer<E> action) throws E {
             N.checkArgNotNull(action, cs.action);
@@ -1767,12 +1846,10 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         }
 
         /**
-         * Applies the given bi-function to both elements of this tuple and returns the result.
+         * Applies {@code mapper} to both elements ({@code _1}, {@code _2}) and returns the result.
          * <p>
-         * This method transforms both tuple elements into a single result value using the provided
-         * bi-function. It is useful for combining, computing, or deriving new values from the tuple
-         * elements. The result can be of any type, providing flexibility in how the tuple elements
-         * are processed and combined.
+         * Element-unpacking overload for pairs. Distinct from
+         * {@link PrimitiveTuple#map(Throwables.Function)}, which receives this tuple object as a single argument.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1803,6 +1880,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * @throws E if the mapper throws an exception
          * @see #accept(Throwables.ByteBiConsumer)
          * @see #filter(Throwables.ByteBiPredicate)
+         * @see PrimitiveTuple#map(Throwables.Function)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.ByteBiFunction<U, E> mapper) throws E {
@@ -1812,14 +1890,11 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns an Optional containing this tuple if it matches the given bi-predicate,
-         * otherwise returns an empty Optional.
+         * Returns an {@link Optional} containing this pair if {@code predicate} holds for
+         * ({@code _1}, {@code _2}); otherwise {@link Optional#empty()}.
          * <p>
-         * This method conditionally returns the tuple based on a test of both elements.
-         * If the bi-predicate evaluates to {@code true} when applied to both elements,
-         * the tuple is wrapped in an Optional and returned. Otherwise, an empty Optional
-         * is returned. This is useful for conditional processing and filtering tuples
-         * based on relationships between their elements.
+         * Element-unpacking overload for pairs. Distinct from
+         * {@link PrimitiveTuple#filter(Throwables.Predicate)}, which tests the tuple object as a whole.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1851,6 +1926,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * @throws E if the predicate throws an exception during evaluation
          * @see #accept(Throwables.ByteBiConsumer)
          * @see #map(Throwables.ByteBiFunction)
+         * @see PrimitiveTuple#filter(Throwables.Predicate)
          */
         public <E extends Exception> Optional<ByteTuple2> filter(final Throwables.ByteBiPredicate<E> predicate) throws E {
             N.checkArgNotNull(predicate, cs.predicate);
@@ -1950,11 +2026,13 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
     }
 
     /**
-     * A ByteTuple containing exactly three byte elements.
+     * A {@code ByteTuple} containing exactly three {@code byte} elements.
      * <p>
-     * Provides direct access to elements through public final fields {@code _1}, {@code _2}, and {@code _3}.
-     * This tuple type supports specialized functional operations through {@link #accept}, {@link #map}, and
-     * {@link #filter} methods that work with all three elements simultaneously.
+     * Components are the public final fields {@code _1}, {@code _2}, and {@code _3}. In addition to
+     * {@link ByteTuple} / {@link PrimitiveTuple} operations, this type provides element-unpacking
+     * {@link #accept(Throwables.ByteTriConsumer)}, {@link #map(Throwables.ByteTriFunction)}, and
+     * {@link #filter(Throwables.ByteTriPredicate)} helpers that pass all three values as primitives
+     * (distinct from the whole-tuple methods on {@link PrimitiveTuple}).
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -1969,7 +2047,6 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * byte max = tuple.max();         // 30
      * OptionalDouble avg = tuple.average();   // OptionalDouble.of(20.0)
      * }</pre>
-     *
      */
     public static final class ByteTuple3 extends ByteTuple<ByteTuple3> {
 
@@ -2061,32 +2138,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns the median byte value in this tuple.
-         * For tuples with an odd number of elements, returns the middle value when sorted.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * // sorted(1, 2, 3) -> middle = 2
-         * ByteTuple.of((byte) 1, (byte) 2, (byte) 3).median();   // returns 2
-         * ByteTuple.of((byte) 3, (byte) 1, (byte) 2).median();   // returns 2
-         *
-         * // all same
-         * ByteTuple.of((byte) 5, (byte) 5, (byte) 5).median();   // returns 5
-         *
-         * // negative and boundary
-         * ByteTuple.of((byte) -5, (byte) -10, (byte) 0).median();              // returns -5
-         * ByteTuple.of(Byte.MIN_VALUE, (byte) 0, Byte.MAX_VALUE).median();     // returns 0
-         * }</pre>
-         *
-         * @return the middle byte value when sorted
-         */
-        @Override
-        public byte median() {
-            return N.median(_1, _2, _3);
-        }
-
-        /**
-         * Returns the sum of all byte values in this tuple.
+         * Returns the sum of all three signed byte values as an {@code int} (not truncated to {@code byte}).
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -2099,7 +2151,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * ByteTuple.of(Byte.MIN_VALUE, (byte) 0, Byte.MAX_VALUE).sum();   // returns -1
          * }</pre>
          *
-         * @return the sum of all three byte values as an integer
+         * @return the sum of all three values as an {@code int}
          */
         @Override
         public int sum() {
@@ -2125,6 +2177,55 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         @Override
         public OptionalDouble average() {
             return OptionalDouble.of(N.average(_1, _2, _3));
+        }
+
+        /**
+         * Returns the statistical median of this triple as a {@code double}.
+         * <p>
+         * With three elements the middle value when sorted is both the lower median and the
+         * statistical median; the return type is still {@code double} for API consistency with
+         * even-arity tuples.
+         * </p>
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.of((byte) 1, (byte) 2, (byte) 3).median();   // 2.0
+         * ByteTuple.of((byte) 3, (byte) 1, (byte) 2).median();   // 2.0
+         * ByteTuple.of((byte) -5, (byte) -10, (byte) 0).median(); // -5.0
+         * }</pre>
+         *
+         * @return the middle value when sorted, as a {@code double}
+         * @see #lowerMedian()
+         */
+        @Override
+        public double median() {
+            return N.median(_1, _2, _3);
+        }
+
+        /**
+         * Returns the lower median of this triple: the middle signed value when the three elements
+         * are ordered by magnitude.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * // sorted(1, 2, 3) -> middle = 2
+         * ByteTuple.of((byte) 1, (byte) 2, (byte) 3).lowerMedian();   // returns 2
+         * ByteTuple.of((byte) 3, (byte) 1, (byte) 2).lowerMedian();   // returns 2
+         *
+         * // all same
+         * ByteTuple.of((byte) 5, (byte) 5, (byte) 5).lowerMedian();   // returns 5
+         *
+         * // negative and boundary
+         * ByteTuple.of((byte) -5, (byte) -10, (byte) 0).lowerMedian();              // returns -5
+         * ByteTuple.of(Byte.MIN_VALUE, (byte) 0, Byte.MAX_VALUE).lowerMedian();     // returns 0
+         * }</pre>
+         *
+         * @return the middle byte value when the three elements are sorted
+         * @see #median()
+         */
+        @Override
+        public byte lowerMedian() {
+            return N.median(_1, _2, _3);
         }
 
         /**
@@ -2216,12 +2317,11 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         }
 
         /**
-         * Applies the given tri-consumer to all three elements of this tuple.
+         * Invokes {@code action} once with all three elements ({@code _1}, {@code _2}, {@code _3}).
          * <p>
-         * This method executes the provided action with all three tuple elements as arguments.
-         * It is useful for performing side effects or operations that require access to
-         * all three elements simultaneously. Unlike {@link #forEach}, which processes elements
-         * individually, this method processes all three elements together in a single call.
+         * Element-unpacking overload for triples. Distinct from
+         * {@link PrimitiveTuple#accept(Throwables.Consumer)} (whole tuple) and
+         * {@link #forEach(Throwables.ByteConsumer)} (one call per element).
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -2253,6 +2353,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * @throws E if the action throws an exception
          * @see #forEach(Throwables.ByteConsumer)
          * @see #map(Throwables.ByteTriFunction)
+         * @see PrimitiveTuple#accept(Throwables.Consumer)
          */
         public <E extends Exception> void accept(final Throwables.ByteTriConsumer<E> action) throws E {
             N.checkArgNotNull(action, cs.action);
@@ -2261,12 +2362,10 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         }
 
         /**
-         * Applies the given tri-function to all three elements of this tuple and returns the result.
+         * Applies {@code mapper} to all three elements ({@code _1}, {@code _2}, {@code _3}) and returns the result.
          * <p>
-         * This method transforms all three tuple elements into a single result value using the provided
-         * tri-function. It is useful for combining, computing, or deriving new values from all three
-         * tuple elements simultaneously. The result can be of any type, providing flexibility in how
-         * the elements are processed and combined.
+         * Element-unpacking overload for triples. Distinct from
+         * {@link PrimitiveTuple#map(Throwables.Function)}, which receives this tuple object as a single argument.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -2302,6 +2401,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * @throws E if the mapper throws an exception
          * @see #accept(Throwables.ByteTriConsumer)
          * @see #filter(Throwables.ByteTriPredicate)
+         * @see PrimitiveTuple#map(Throwables.Function)
          */
         @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.ByteTriFunction<U, E> mapper) throws E {
@@ -2311,14 +2411,11 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns an Optional containing this tuple if it matches the given tri-predicate,
-         * otherwise returns an empty Optional.
+         * Returns an {@link Optional} containing this triple if {@code predicate} holds for
+         * ({@code _1}, {@code _2}, {@code _3}); otherwise {@link Optional#empty()}.
          * <p>
-         * This method conditionally returns the tuple based on a test of all three elements.
-         * If the tri-predicate evaluates to {@code true} when applied to all three elements,
-         * the tuple is wrapped in an Optional and returned. Otherwise, an empty Optional
-         * is returned. This is useful for conditional processing and filtering tuples
-         * based on relationships or conditions involving all three elements.
+         * Element-unpacking overload for triples. Distinct from
+         * {@link PrimitiveTuple#filter(Throwables.Predicate)}, which tests the tuple object as a whole.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -2355,6 +2452,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * @throws E if the predicate throws an exception during evaluation
          * @see #accept(Throwables.ByteTriConsumer)
          * @see #map(Throwables.ByteTriFunction)
+         * @see PrimitiveTuple#filter(Throwables.Predicate)
          */
         public <E extends Exception> Optional<ByteTuple3> filter(final Throwables.ByteTriPredicate<E> predicate) throws E {
             N.checkArgNotNull(predicate, cs.predicate);
@@ -2454,10 +2552,12 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
     }
 
     /**
-     * A ByteTuple containing exactly four byte elements.
+     * A {@code ByteTuple} containing exactly four {@code byte} elements.
      * <p>
-     * Provides direct access to elements through public final fields {@code _1}, {@code _2}, {@code _3}, and {@code _4}.
-     * This tuple type is useful for grouping four related byte values together.
+     * Components are public final fields {@code _1}…{@code _4}. Unlike arity 2–3, this type does not
+     * add element-unpacking {@code accept}/{@code map}/{@code filter} overloads; use
+     * {@link #forEach(Throwables.ByteConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -2465,9 +2565,10 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * ByteTuple.ByteTuple4 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40);
      * byte first = tuple._1;         // 10
      * byte fourth = tuple._4;        // 40
-     * byte median = tuple.median();  // 20
+     * // even arity: sorted 10,20,30,40 -> lower middle 20; statistical median 25.0
+     * byte lowerMed = tuple.lowerMedian();  // 20
+     * double med = tuple.median();          // 25.0
      * }</pre>
-     *
      */
     public static final class ByteTuple4 extends ByteTuple<ByteTuple4> {
 
@@ -2569,32 +2670,6 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         @Override
         public byte max() {
             return N.max(_1, _2, _3, _4);
-        }
-
-        /**
-         * Returns the median byte value in this tuple.
-         * For tuples with an even number of elements, returns the lower middle element.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * ByteTuple.ByteTuple4 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4);
-         * byte med = t.median();   // returns (byte) 2  (lower middle of sorted [1,2,3,4])
-         *
-         * ByteTuple.ByteTuple4 rev = ByteTuple.of((byte) 4, (byte) 3, (byte) 2, (byte) 1);
-         * byte med2 = rev.median();   // returns (byte) 2  (same sorted result)
-         *
-         * ByteTuple.ByteTuple4 dup = ByteTuple.of((byte) 5, (byte) 5, (byte) 5, (byte) 5);
-         * byte med3 = dup.median();   // returns (byte) 5
-         *
-         * ByteTuple.ByteTuple4 neg = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, (byte) 1, Byte.MAX_VALUE);
-         * byte med4 = neg.median();   // returns (byte) 0  (lower middle of sorted [-128,0,1,127])
-         * }</pre>
-         *
-         * @return the lower-middle byte value when sorted
-         */
-        @Override
-        public byte median() {
-            return N.median(_1, _2, _3, _4);
         }
 
         /**
@@ -2951,32 +3026,6 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         @Override
         public byte max() {
             return N.max(_1, _2, _3, _4, _5);
-        }
-
-        /**
-         * Returns the median byte value in this tuple.
-         * For tuples with an odd number of elements, returns the middle value when sorted.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * ByteTuple.ByteTuple5 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5);
-         * byte med = t.median();   // returns (byte) 3  (middle of sorted [1,2,3,4,5])
-         *
-         * ByteTuple.ByteTuple5 rev = ByteTuple.of((byte) 5, (byte) 4, (byte) 3, (byte) 2, (byte) 1);
-         * byte med2 = rev.median();   // returns (byte) 3  (same sorted result)
-         *
-         * ByteTuple.ByteTuple5 dup = ByteTuple.of((byte) 5, (byte) 5, (byte) 5, (byte) 5, (byte) 5);
-         * byte med3 = dup.median();   // returns (byte) 5
-         *
-         * ByteTuple.ByteTuple5 neg = ByteTuple.of((byte) -10, (byte) -5, (byte) 0, (byte) 5, (byte) 10);
-         * byte med4 = neg.median();   // returns (byte) 0
-         * }</pre>
-         *
-         * @return the middle byte value when sorted
-         */
-        @Override
-        public byte median() {
-            return N.median(_1, _2, _3, _4, _5);
         }
 
         /**
@@ -3338,32 +3387,6 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         @Override
         public byte max() {
             return N.max(_1, _2, _3, _4, _5, _6);
-        }
-
-        /**
-         * Returns the median byte value in this tuple.
-         * For tuples with an even number of elements, returns the lower middle element.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * ByteTuple.ByteTuple6 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6);
-         * byte med = t.median();   // returns (byte) 3  (lower middle of sorted [1,2,3,4,5,6])
-         *
-         * ByteTuple.ByteTuple6 rev = ByteTuple.of((byte) 6, (byte) 5, (byte) 4, (byte) 3, (byte) 2, (byte) 1);
-         * byte med2 = rev.median();   // returns (byte) 3  (same sorted result)
-         *
-         * ByteTuple.ByteTuple6 dup = ByteTuple.of((byte) 5, (byte) 5, (byte) 5, (byte) 5, (byte) 5, (byte) 5);
-         * byte med3 = dup.median();   // returns (byte) 5
-         *
-         * ByteTuple.ByteTuple6 neg = ByteTuple.of((byte) -10, (byte) -5, (byte) -1, (byte) 1, (byte) 5, (byte) 10);
-         * byte med4 = neg.median();   // returns (byte) -1  (lower middle of sorted [-10,-5,-1,1,5,10])
-         * }</pre>
-         *
-         * @return the lower-middle byte value when sorted
-         */
-        @Override
-        public byte median() {
-            return N.median(_1, _2, _3, _4, _5, _6);
         }
 
         /**
@@ -3730,32 +3753,6 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         @Override
         public byte max() {
             return N.max(_1, _2, _3, _4, _5, _6, _7);
-        }
-
-        /**
-         * Returns the median byte value in this tuple.
-         * For tuples with an odd number of elements, returns the middle value when sorted.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * ByteTuple.ByteTuple7 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7);
-         * byte result = t.median();   // returns 4 (middle of sorted [1,2,3,4,5,6,7])
-         *
-         * ByteTuple.ByteTuple7 t2 = ByteTuple.of((byte) 7, (byte) 7, (byte) 7, (byte) 7, (byte) 7, (byte) 7, (byte) 7);
-         * byte result2 = t2.median();   // returns 7 (all same)
-         *
-         * ByteTuple.ByteTuple7 t3 = ByteTuple.of(Byte.MIN_VALUE, (byte) -1, (byte) 0, (byte) 1, Byte.MAX_VALUE, (byte) 64, (byte) 32);
-         * byte result3 = t3.median();   // returns 1 (middle of sorted [-128,-1,0,1,32,64,127])
-         *
-         * ByteTuple.ByteTuple7 t4 = ByteTuple.of((byte) 7, (byte) 1, (byte) 5, (byte) 3, (byte) 9, (byte) 2, (byte) 4);
-         * byte result4 = t4.median();   // returns 4 (middle of sorted [1,2,3,4,5,7,9])
-         * }</pre>
-         *
-         * @return the middle byte value when sorted
-         */
-        @Override
-        public byte median() {
-            return N.median(_1, _2, _3, _4, _5, _6, _7);
         }
 
         /**
@@ -4162,35 +4159,6 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         @Override
         public byte max() {
             return N.max(_1, _2, _3, _4, _5, _6, _7, _8);
-        }
-
-        /**
-         * Returns the median byte value in this tuple.
-         * For tuples with an even number of elements, returns the lower middle element
-         * (the element at position {@code n/2 - 1} in the sorted order, 0-indexed).
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * // 1-8 sorted -> [1,2,3,4,5,6,7,8]; even count: lower middle (index 3) = 4
-         * ByteTuple.ByteTuple8 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8);
-         * byte result = t.median();   // returns 4
-         *
-         * ByteTuple.ByteTuple8 t2 = ByteTuple.of((byte) 3, (byte) 3, (byte) 3, (byte) 3, (byte) 3, (byte) 3, (byte) 3, (byte) 3);
-         * byte result2 = t2.median();   // returns 3 (all same)
-         *
-         * // descending order - same result as ascending
-         * ByteTuple.ByteTuple8 t3 = ByteTuple.of((byte) 8, (byte) 7, (byte) 6, (byte) 5, (byte) 4, (byte) 3, (byte) 2, (byte) 1);
-         * byte result3 = t3.median();   // returns 4
-         *
-         * ByteTuple.ByteTuple8 t4 = ByteTuple.of(Byte.MIN_VALUE, (byte) -1, (byte) 0, (byte) 1, Byte.MAX_VALUE, (byte) 64, (byte) 32, (byte) 16);
-         * byte result4 = t4.median();   // returns 1 (lower middle of sorted [-128,-1,0,1,16,32,64,127])
-         * }</pre>
-         *
-         * @return the lower-middle byte value when sorted
-         */
-        @Override
-        public byte median() {
-            return N.median(_1, _2, _3, _4, _5, _6, _7, _8);
         }
 
         /**
@@ -4608,36 +4576,6 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         @Override
         public byte max() {
             return N.max(_1, _2, _3, _4, _5, _6, _7, _8, _9);
-        }
-
-        /**
-         * Returns the median byte value in this tuple.
-         * For tuples with an odd number of elements, returns the middle value when sorted.
-         *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * // 1-9 sorted -> [1,2,3,4,5,6,7,8,9]; middle index 4 = 5
-         * ByteTuple.ByteTuple9 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9);
-         * byte result = t.median();   // returns 5
-         *
-         * ByteTuple.ByteTuple9 t2 = ByteTuple.of((byte) 4, (byte) 4, (byte) 4, (byte) 4, (byte) 4, (byte) 4, (byte) 4, (byte) 4, (byte) 4);
-         * byte result2 = t2.median();   // returns 4 (all same)
-         *
-         * // boundary mix: sorted [-128,-1,0,1,8,16,32,64,127] -> middle index 4 = 8
-         * ByteTuple.ByteTuple9 t3 = ByteTuple.of(Byte.MIN_VALUE, (byte) -1, (byte) 0, (byte) 1,
-         *         Byte.MAX_VALUE, (byte) 64, (byte) 32, (byte) 16, (byte) 8);
-         * byte result3 = t3.median();   // returns 8
-         *
-         * // descending order - same result as ascending
-         * ByteTuple.ByteTuple9 t4 = ByteTuple.of((byte) 9, (byte) 8, (byte) 7, (byte) 6, (byte) 5, (byte) 4, (byte) 3, (byte) 2, (byte) 1);
-         * byte result4 = t4.median();   // returns 5
-         * }</pre>
-         *
-         * @return the middle byte value when sorted
-         */
-        @Override
-        public byte median() {
-            return N.median(_1, _2, _3, _4, _5, _6, _7, _8, _9);
         }
 
         /**
