@@ -248,33 +248,33 @@ class LongTupleTest extends TestBase {
     }
 
     @Test
-    public void testReverse() {
+    public void testReversed() {
         // Test Tuple0
         LongTuple.LongTuple0 empty = LongTuple.from(new long[0]);
-        LongTuple.LongTuple0 reversedEmpty = empty.reverse();
+        LongTuple.LongTuple0 reversedEmpty = empty.reversed();
         assertEquals(0, reversedEmpty.arity());
 
         // Test Tuple1
         LongTuple.LongTuple1 tuple1 = LongTuple.of(100L);
-        LongTuple.LongTuple1 reversed1 = tuple1.reverse();
+        LongTuple.LongTuple1 reversed1 = tuple1.reversed();
         assertEquals(100L, reversed1._1);
 
         // Test Tuple2
         LongTuple.LongTuple2 tuple2 = LongTuple.of(100L, 200L);
-        LongTuple.LongTuple2 reversed2 = tuple2.reverse();
+        LongTuple.LongTuple2 reversed2 = tuple2.reversed();
         assertEquals(200L, reversed2._1);
         assertEquals(100L, reversed2._2);
 
         // Test Tuple3
         LongTuple.LongTuple3 tuple3 = LongTuple.of(100L, 200L, 300L);
-        LongTuple.LongTuple3 reversed3 = tuple3.reverse();
+        LongTuple.LongTuple3 reversed3 = tuple3.reversed();
         assertEquals(300L, reversed3._1);
         assertEquals(200L, reversed3._2);
         assertEquals(100L, reversed3._3);
 
         // Test larger tuples
         LongTuple.LongTuple5 tuple5 = LongTuple.of(100L, 200L, 300L, 400L, 500L);
-        LongTuple.LongTuple5 reversed5 = tuple5.reverse();
+        LongTuple.LongTuple5 reversed5 = tuple5.reversed();
         assertEquals(500L, reversed5._1);
         assertEquals(400L, reversed5._2);
         assertEquals(300L, reversed5._3);
@@ -961,9 +961,9 @@ class LongTupleTest extends TestBase {
 
         // Reverse tests
         @Test
-        public void testReverseTuple0() {
+        public void testReversedTuple0() {
             LongTuple<LongTuple0> tuple = LongTuple.from(new long[0]);
-            LongTuple<LongTuple0> reversed = tuple.reverse();
+            LongTuple<LongTuple0> reversed = tuple.reversed();
             assertNotNull(reversed);
             assertEquals(0, reversed.arity());
         }
@@ -1318,7 +1318,7 @@ class LongTupleTest extends TestBase {
             LongTuple4 tuple = LongTuple.of(1L, 2L, 3L, 4L);
 
             // Test reverse
-            LongTuple4 reversed = tuple.reverse();
+            LongTuple4 reversed = tuple.reversed();
             assertEquals(4L, reversed._1);
             assertEquals(3L, reversed._2);
             assertEquals(2L, reversed._3);
@@ -1357,7 +1357,7 @@ class LongTupleTest extends TestBase {
             LongTuple5 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L);
 
             // Test reverse
-            LongTuple5 reversed = tuple.reverse();
+            LongTuple5 reversed = tuple.reversed();
             assertEquals(5L, reversed._1);
             assertEquals(1L, reversed._5);
 
@@ -1386,7 +1386,7 @@ class LongTupleTest extends TestBase {
             LongTuple6 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
 
             // Test reverse
-            LongTuple6 reversed = tuple.reverse();
+            LongTuple6 reversed = tuple.reversed();
             assertEquals(6L, reversed._1);
             assertEquals(1L, reversed._6);
 
@@ -1410,7 +1410,7 @@ class LongTupleTest extends TestBase {
             LongTuple7 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
 
             // Test reverse
-            LongTuple7 reversed = tuple.reverse();
+            LongTuple7 reversed = tuple.reversed();
             assertEquals(7L, reversed._1);
             assertEquals(1L, reversed._7);
 
@@ -1434,7 +1434,7 @@ class LongTupleTest extends TestBase {
             LongTuple8 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
 
             // Test reverse
-            LongTuple8 reversed = tuple.reverse();
+            LongTuple8 reversed = tuple.reversed();
             assertEquals(8L, reversed._1);
             assertEquals(1L, reversed._8);
 
@@ -1458,7 +1458,7 @@ class LongTupleTest extends TestBase {
             LongTuple9 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
 
             // Test reverse
-            LongTuple9 reversed = tuple.reverse();
+            LongTuple9 reversed = tuple.reversed();
             assertEquals(9L, reversed._1);
             assertEquals(1L, reversed._9);
 
@@ -1571,9 +1571,9 @@ class LongTupleTest extends TestBase {
         }
 
         @Test
-        public void testLongTuple1_reverse() {
+        public void testLongTuple1_reversed() {
             LongTuple.LongTuple1 tuple = LongTuple.of(1L);
-            LongTuple.LongTuple1 reversed = tuple.reverse();
+            LongTuple.LongTuple1 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._1);
             assertEquals(tuple._1, reversed._1);
         }
@@ -1651,9 +1651,9 @@ class LongTupleTest extends TestBase {
         }
 
         @Test
-        public void testLongTuple2_reverse() {
+        public void testLongTuple2_reversed() {
             LongTuple.LongTuple2 tuple = LongTuple.of(1L, 2L);
-            LongTuple.LongTuple2 reversed = tuple.reverse();
+            LongTuple.LongTuple2 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._2);
             assertEquals(tuple._2, reversed._1);
         }
@@ -1753,9 +1753,9 @@ class LongTupleTest extends TestBase {
         }
 
         @Test
-        public void testLongTuple3_reverse() {
+        public void testLongTuple3_reversed() {
             LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-            LongTuple.LongTuple3 reversed = tuple.reverse();
+            LongTuple.LongTuple3 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._3);
             assertEquals(tuple._3, reversed._1);
         }
@@ -1855,9 +1855,9 @@ class LongTupleTest extends TestBase {
         }
 
         @Test
-        public void testLongTuple4_reverse() {
+        public void testLongTuple4_reversed() {
             LongTuple.LongTuple4 tuple = LongTuple.of(1L, 2L, 3L, 4L);
-            LongTuple.LongTuple4 reversed = tuple.reverse();
+            LongTuple.LongTuple4 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._4);
             assertEquals(tuple._4, reversed._1);
         }
@@ -1905,9 +1905,9 @@ class LongTupleTest extends TestBase {
         }
 
         @Test
-        public void testLongTuple5_reverse() {
+        public void testLongTuple5_reversed() {
             LongTuple.LongTuple5 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L);
-            LongTuple.LongTuple5 reversed = tuple.reverse();
+            LongTuple.LongTuple5 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._5);
             assertEquals(tuple._5, reversed._1);
         }
@@ -1955,9 +1955,9 @@ class LongTupleTest extends TestBase {
         }
 
         @Test
-        public void testLongTuple6_reverse() {
+        public void testLongTuple6_reversed() {
             LongTuple.LongTuple6 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
-            LongTuple.LongTuple6 reversed = tuple.reverse();
+            LongTuple.LongTuple6 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._6);
             assertEquals(tuple._6, reversed._1);
         }
@@ -2005,9 +2005,9 @@ class LongTupleTest extends TestBase {
         }
 
         @Test
-        public void testLongTuple7_reverse() {
+        public void testLongTuple7_reversed() {
             LongTuple.LongTuple7 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
-            LongTuple.LongTuple7 reversed = tuple.reverse();
+            LongTuple.LongTuple7 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._7);
             assertEquals(tuple._7, reversed._1);
         }
@@ -2055,9 +2055,9 @@ class LongTupleTest extends TestBase {
         }
 
         @Test
-        public void testLongTuple8_reverse() {
+        public void testLongTuple8_reversed() {
             LongTuple.LongTuple8 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
-            LongTuple.LongTuple8 reversed = tuple.reverse();
+            LongTuple.LongTuple8 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._8);
             assertEquals(tuple._8, reversed._1);
         }
@@ -2105,9 +2105,9 @@ class LongTupleTest extends TestBase {
         }
 
         @Test
-        public void testLongTuple9_reverse() {
+        public void testLongTuple9_reversed() {
             LongTuple.LongTuple9 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
-            LongTuple.LongTuple9 reversed = tuple.reverse();
+            LongTuple.LongTuple9 reversed = tuple.reversed();
             assertEquals(9L, reversed._1);
             assertEquals(8L, reversed._2);
             assertEquals(7L, reversed._3);
@@ -2424,16 +2424,16 @@ class LongTupleTest extends TestBase {
         }
 
         @Test
-        public void testReverse_tuple1() {
+        public void testReversed_tuple1() {
             LongTuple1 tuple = LongTuple.of(1L);
-            LongTuple1 reversed = tuple.reverse();
+            LongTuple1 reversed = tuple.reversed();
             assertEquals(1L, reversed._1);
         }
 
         @Test
-        public void testReverse_tuple4() {
+        public void testReversed_tuple4() {
             LongTuple4 tuple = LongTuple.of(1L, 2L, 3L, 4L);
-            LongTuple4 reversed = tuple.reverse();
+            LongTuple4 reversed = tuple.reversed();
             assertEquals(4L, reversed._1);
             assertEquals(1L, reversed._4);
         }
@@ -2755,9 +2755,9 @@ class LongTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple0_reverse() {
+        public void testTuple0_reversed() {
             LongTuple<?> tuple = LongTuple.from(null);
-            assertNotNull(tuple.reverse());
+            assertNotNull(tuple.reversed());
         }
 
         @Test
@@ -2786,9 +2786,9 @@ class LongTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple5_reverse() {
+        public void testTuple5_reversed() {
             LongTuple5 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L);
-            LongTuple5 reversed = tuple.reverse();
+            LongTuple5 reversed = tuple.reversed();
             assertEquals(5L, reversed._1);
             assertEquals(4L, reversed._2);
             assertEquals(3L, reversed._3);
@@ -2806,9 +2806,9 @@ class LongTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple6_reverse() {
+        public void testTuple6_reversed() {
             LongTuple6 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
-            LongTuple6 reversed = tuple.reverse();
+            LongTuple6 reversed = tuple.reversed();
             assertEquals(6L, reversed._1);
             assertEquals(1L, reversed._6);
         }
@@ -2822,9 +2822,9 @@ class LongTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple7_reverse() {
+        public void testTuple7_reversed() {
             LongTuple7 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
-            LongTuple7 reversed = tuple.reverse();
+            LongTuple7 reversed = tuple.reversed();
             assertEquals(7L, reversed._1);
             assertEquals(1L, reversed._7);
         }
@@ -2836,9 +2836,9 @@ class LongTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple8_reverse() {
+        public void testTuple8_reversed() {
             LongTuple8 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
-            LongTuple8 reversed = tuple.reverse();
+            LongTuple8 reversed = tuple.reversed();
             assertEquals(8L, reversed._1);
             assertEquals(1L, reversed._8);
         }
@@ -2850,9 +2850,9 @@ class LongTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple9_reverse() {
+        public void testTuple9_reversed() {
             LongTuple9 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
-            LongTuple9 reversed = tuple.reverse();
+            LongTuple9 reversed = tuple.reversed();
             assertEquals(9L, reversed._1);
             assertEquals(1L, reversed._9);
         }
@@ -3085,29 +3085,29 @@ class LongTupleTest extends TestBase {
         // ====== Reverse Tests ======
 
         @Test
-        public void testReverse1() {
-            LongTuple1 reversed = LongTuple.of(42L).reverse();
+        public void testReversed1() {
+            LongTuple1 reversed = LongTuple.of(42L).reversed();
             assertEquals(42L, reversed._1);
         }
 
         @Test
-        public void testReverse2() {
-            LongTuple2 reversed = LongTuple.of(10L, 20L).reverse();
+        public void testReversed2() {
+            LongTuple2 reversed = LongTuple.of(10L, 20L).reversed();
             assertEquals(20L, reversed._1);
             assertEquals(10L, reversed._2);
         }
 
         @Test
-        public void testReverse3() {
-            LongTuple3 reversed = LongTuple.of(1L, 2L, 3L).reverse();
+        public void testReversed3() {
+            LongTuple3 reversed = LongTuple.of(1L, 2L, 3L).reversed();
             assertEquals(3L, reversed._1);
             assertEquals(2L, reversed._2);
             assertEquals(1L, reversed._3);
         }
 
         @Test
-        public void testReverse0() {
-            LongTuple<?> reversed = LongTuple.from(null).reverse();
+        public void testReversed0() {
+            LongTuple<?> reversed = LongTuple.from(null).reversed();
             assertEquals(0, reversed.arity());
         }
 
@@ -3561,9 +3561,9 @@ class LongTupleTest extends TestBase {
         }
 
         @Test
-        public void test_LongTuple0_reverse() {
+        public void test_LongTuple0_reversed() {
             LongTuple0 tuple = LongTuple.from(new long[0]);
-            LongTuple0 reversed = tuple.reverse();
+            LongTuple0 reversed = tuple.reversed();
             assertSame(tuple, reversed);
         }
 
@@ -3618,9 +3618,9 @@ class LongTupleTest extends TestBase {
         }
 
         @Test
-        public void test_LongTuple1_reverse() {
+        public void test_LongTuple1_reversed() {
             LongTuple1 tuple = LongTuple.of(5L);
-            LongTuple1 reversed = tuple.reverse();
+            LongTuple1 reversed = tuple.reversed();
             assertEquals(5L, reversed._1);
         }
 
@@ -3715,9 +3715,9 @@ class LongTupleTest extends TestBase {
         }
 
         @Test
-        public void test_LongTuple2_reverse() {
+        public void test_LongTuple2_reversed() {
             LongTuple2 tuple = LongTuple.of(1L, 2L);
-            LongTuple2 reversed = tuple.reverse();
+            LongTuple2 reversed = tuple.reversed();
             assertEquals(2L, reversed._1);
             assertEquals(1L, reversed._2);
         }
@@ -3828,9 +3828,9 @@ class LongTupleTest extends TestBase {
         }
 
         @Test
-        public void test_LongTuple3_reverse() {
+        public void test_LongTuple3_reversed() {
             LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-            LongTuple3 reversed = tuple.reverse();
+            LongTuple3 reversed = tuple.reversed();
             assertEquals(3L, reversed._1);
             assertEquals(2L, reversed._2);
             assertEquals(1L, reversed._3);
@@ -4002,7 +4002,7 @@ class LongTupleTest extends TestBase {
         @Test
         public void test_reverse_largerTuples() {
             LongTuple4 tuple = LongTuple.of(1L, 2L, 3L, 4L);
-            LongTuple4 reversed = tuple.reverse();
+            LongTuple4 reversed = tuple.reversed();
             assertEquals(4L, reversed._1);
             assertEquals(3L, reversed._2);
             assertEquals(2L, reversed._3);

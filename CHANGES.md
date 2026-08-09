@@ -1,3 +1,8 @@
+## 3.8.7
+* Naming convention improvements
+* Improvements and bug fixes
+* Rename primitive tuple `reverse()` to `reversed()`.
+
 ## 3.8.6
 * Naming convention improvements
 * Improvements and bug fixes

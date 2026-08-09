@@ -212,33 +212,33 @@ class FloatTupleTest extends TestBase {
     }
 
     @Test
-    public void testReverse() {
+    public void testReversed() {
         // Test Tuple0
         FloatTuple.FloatTuple0 empty = FloatTuple.from(new float[0]);
-        FloatTuple.FloatTuple0 reversedEmpty = empty.reverse();
+        FloatTuple.FloatTuple0 reversedEmpty = empty.reversed();
         assertEquals(0, reversedEmpty.arity());
 
         // Test Tuple1
         FloatTuple.FloatTuple1 tuple1 = FloatTuple.of(1.5f);
-        FloatTuple.FloatTuple1 reversed1 = tuple1.reverse();
+        FloatTuple.FloatTuple1 reversed1 = tuple1.reversed();
         assertEquals(1.5f, reversed1._1, DELTA);
 
         // Test Tuple2
         FloatTuple.FloatTuple2 tuple2 = FloatTuple.of(1.5f, 2.5f);
-        FloatTuple.FloatTuple2 reversed2 = tuple2.reverse();
+        FloatTuple.FloatTuple2 reversed2 = tuple2.reversed();
         assertEquals(2.5f, reversed2._1, DELTA);
         assertEquals(1.5f, reversed2._2, DELTA);
 
         // Test Tuple3
         FloatTuple.FloatTuple3 tuple3 = FloatTuple.of(1.5f, 2.5f, 3.5f);
-        FloatTuple.FloatTuple3 reversed3 = tuple3.reverse();
+        FloatTuple.FloatTuple3 reversed3 = tuple3.reversed();
         assertEquals(3.5f, reversed3._1, DELTA);
         assertEquals(2.5f, reversed3._2, DELTA);
         assertEquals(1.5f, reversed3._3, DELTA);
 
         // Test larger tuples
         FloatTuple.FloatTuple5 tuple5 = FloatTuple.of(1.5f, 2.5f, 3.5f, 4.5f, 5.5f);
-        FloatTuple.FloatTuple5 reversed5 = tuple5.reverse();
+        FloatTuple.FloatTuple5 reversed5 = tuple5.reversed();
         assertEquals(5.5f, reversed5._1, DELTA);
         assertEquals(4.5f, reversed5._2, DELTA);
         assertEquals(3.5f, reversed5._3, DELTA);
@@ -833,32 +833,32 @@ class FloatTupleTest extends TestBase {
 
         // Reverse tests
         @Test
-        public void testReverseTuple0() {
+        public void testReversedTuple0() {
             FloatTuple<FloatTuple0> tuple = FloatTuple.from(new float[0]);
-            FloatTuple<FloatTuple0> reversed = tuple.reverse();
+            FloatTuple<FloatTuple0> reversed = tuple.reversed();
             assertNotNull(reversed);
             assertEquals(0, reversed.arity());
         }
 
         @Test
-        public void testReverseTuple1() {
+        public void testReversedTuple1() {
             FloatTuple1 tuple = FloatTuple.of(1.0f);
-            FloatTuple1 reversed = tuple.reverse();
+            FloatTuple1 reversed = tuple.reversed();
             assertEquals(1.0f, reversed._1, 0.001f);
         }
 
         @Test
-        public void testReverseTuple2() {
+        public void testReversedTuple2() {
             FloatTuple2 tuple = FloatTuple.of(1.0f, 2.0f);
-            FloatTuple2 reversed = tuple.reverse();
+            FloatTuple2 reversed = tuple.reversed();
             assertEquals(2.0f, reversed._1, 0.001f);
             assertEquals(1.0f, reversed._2, 0.001f);
         }
 
         @Test
-        public void testReverseTuple3() {
+        public void testReversedTuple3() {
             FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            FloatTuple3 reversed = tuple.reverse();
+            FloatTuple3 reversed = tuple.reversed();
             assertEquals(3.0f, reversed._1, 0.001f);
             assertEquals(2.0f, reversed._2, 0.001f);
             assertEquals(1.0f, reversed._3, 0.001f);
@@ -1220,7 +1220,7 @@ class FloatTupleTest extends TestBase {
             FloatTuple4 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
 
             // Test reverse
-            FloatTuple4 reversed = tuple.reverse();
+            FloatTuple4 reversed = tuple.reversed();
             assertEquals(4.0f, reversed._1, 0.001f);
             assertEquals(3.0f, reversed._2, 0.001f);
             assertEquals(2.0f, reversed._3, 0.001f);
@@ -1259,7 +1259,7 @@ class FloatTupleTest extends TestBase {
             FloatTuple5 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
 
             // Test reverse
-            FloatTuple5 reversed = tuple.reverse();
+            FloatTuple5 reversed = tuple.reversed();
             assertEquals(5.0f, reversed._1, 0.001f);
             assertEquals(1.0f, reversed._5, 0.001f);
 
@@ -1288,7 +1288,7 @@ class FloatTupleTest extends TestBase {
             FloatTuple6 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
 
             // Test reverse
-            FloatTuple6 reversed = tuple.reverse();
+            FloatTuple6 reversed = tuple.reversed();
             assertEquals(6.0f, reversed._1, 0.001f);
             assertEquals(1.0f, reversed._6, 0.001f);
 
@@ -1312,7 +1312,7 @@ class FloatTupleTest extends TestBase {
             FloatTuple7 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f);
 
             // Test reverse
-            FloatTuple7 reversed = tuple.reverse();
+            FloatTuple7 reversed = tuple.reversed();
             assertEquals(7.0f, reversed._1, 0.001f);
             assertEquals(1.0f, reversed._7, 0.001f);
 
@@ -1336,7 +1336,7 @@ class FloatTupleTest extends TestBase {
             FloatTuple8 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f);
 
             // Test reverse
-            FloatTuple8 reversed = tuple.reverse();
+            FloatTuple8 reversed = tuple.reversed();
             assertEquals(8.0f, reversed._1, 0.001f);
             assertEquals(1.0f, reversed._8, 0.001f);
 
@@ -1360,7 +1360,7 @@ class FloatTupleTest extends TestBase {
             FloatTuple9 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f);
 
             // Test reverse
-            FloatTuple9 reversed = tuple.reverse();
+            FloatTuple9 reversed = tuple.reversed();
             assertEquals(9.0f, reversed._1, 0.001f);
             assertEquals(1.0f, reversed._9, 0.001f);
 
@@ -1473,9 +1473,9 @@ class FloatTupleTest extends TestBase {
         }
 
         @Test
-        public void testFloatTuple1_reverse() {
+        public void testFloatTuple1_reversed() {
             FloatTuple.FloatTuple1 tuple = FloatTuple.of(1.0f);
-            FloatTuple.FloatTuple1 reversed = tuple.reverse();
+            FloatTuple.FloatTuple1 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._1);
             assertEquals(tuple._1, reversed._1);
         }
@@ -1553,9 +1553,9 @@ class FloatTupleTest extends TestBase {
         }
 
         @Test
-        public void testFloatTuple2_reverse() {
+        public void testFloatTuple2_reversed() {
             FloatTuple.FloatTuple2 tuple = FloatTuple.of(1.0f, 2.0f);
-            FloatTuple.FloatTuple2 reversed = tuple.reverse();
+            FloatTuple.FloatTuple2 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._2);
             assertEquals(tuple._2, reversed._1);
         }
@@ -1655,9 +1655,9 @@ class FloatTupleTest extends TestBase {
         }
 
         @Test
-        public void testFloatTuple3_reverse() {
+        public void testFloatTuple3_reversed() {
             FloatTuple.FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            FloatTuple.FloatTuple3 reversed = tuple.reverse();
+            FloatTuple.FloatTuple3 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._3);
             assertEquals(tuple._3, reversed._1);
         }
@@ -1757,9 +1757,9 @@ class FloatTupleTest extends TestBase {
         }
 
         @Test
-        public void testFloatTuple4_reverse() {
+        public void testFloatTuple4_reversed() {
             FloatTuple.FloatTuple4 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
-            FloatTuple.FloatTuple4 reversed = tuple.reverse();
+            FloatTuple.FloatTuple4 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._4);
             assertEquals(tuple._4, reversed._1);
         }
@@ -1807,9 +1807,9 @@ class FloatTupleTest extends TestBase {
         }
 
         @Test
-        public void testFloatTuple5_reverse() {
+        public void testFloatTuple5_reversed() {
             FloatTuple.FloatTuple5 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
-            FloatTuple.FloatTuple5 reversed = tuple.reverse();
+            FloatTuple.FloatTuple5 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._5);
             assertEquals(tuple._5, reversed._1);
         }
@@ -1857,9 +1857,9 @@ class FloatTupleTest extends TestBase {
         }
 
         @Test
-        public void testFloatTuple6_reverse() {
+        public void testFloatTuple6_reversed() {
             FloatTuple.FloatTuple6 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
-            FloatTuple.FloatTuple6 reversed = tuple.reverse();
+            FloatTuple.FloatTuple6 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._6);
             assertEquals(tuple._6, reversed._1);
         }
@@ -1907,9 +1907,9 @@ class FloatTupleTest extends TestBase {
         }
 
         @Test
-        public void testFloatTuple7_reverse() {
+        public void testFloatTuple7_reversed() {
             FloatTuple.FloatTuple7 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f);
-            FloatTuple.FloatTuple7 reversed = tuple.reverse();
+            FloatTuple.FloatTuple7 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._7);
             assertEquals(tuple._7, reversed._1);
         }
@@ -1957,9 +1957,9 @@ class FloatTupleTest extends TestBase {
         }
 
         @Test
-        public void testFloatTuple8_reverse() {
+        public void testFloatTuple8_reversed() {
             FloatTuple.FloatTuple8 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f);
-            FloatTuple.FloatTuple8 reversed = tuple.reverse();
+            FloatTuple.FloatTuple8 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._8);
             assertEquals(tuple._8, reversed._1);
         }
@@ -2007,9 +2007,9 @@ class FloatTupleTest extends TestBase {
         }
 
         @Test
-        public void testFloatTuple9_reverse() {
+        public void testFloatTuple9_reversed() {
             FloatTuple.FloatTuple9 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f);
-            FloatTuple.FloatTuple9 reversed = tuple.reverse();
+            FloatTuple.FloatTuple9 reversed = tuple.reversed();
             assertEquals(9.0f, reversed._1, 0.0f);
             assertEquals(8.0f, reversed._2, 0.0f);
             assertEquals(7.0f, reversed._3, 0.0f);
@@ -2198,16 +2198,16 @@ class FloatTupleTest extends TestBase {
         }
 
         @Test
-        public void testReverseTuple1() {
+        public void testReversedTuple1() {
             FloatTuple1 tuple = FloatTuple.of(42.0f);
-            FloatTuple1 reversed = tuple.reverse();
+            FloatTuple1 reversed = tuple.reversed();
             assertEquals(42.0f, reversed._1, 0.001f);
         }
 
         @Test
-        public void testReverseTuple9() {
+        public void testReversedTuple9() {
             FloatTuple9 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f);
-            FloatTuple9 reversed = tuple.reverse();
+            FloatTuple9 reversed = tuple.reversed();
             assertEquals(9.0f, reversed._1, 0.001f);
             assertEquals(1.0f, reversed._9, 0.001f);
         }
@@ -2748,33 +2748,33 @@ class FloatTupleTest extends TestBase {
         // ============ Reverse Tests ============
 
         @Test
-        public void testReverse_tuple1() {
+        public void testReversed_tuple1() {
             FloatTuple1 tuple = FloatTuple.of(5.5f);
-            FloatTuple1 reversed = tuple.reverse();
+            FloatTuple1 reversed = tuple.reversed();
             assertEquals(5.5f, reversed._1);
         }
 
         @Test
-        public void testReverse_tuple3() {
+        public void testReversed_tuple3() {
             FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            FloatTuple3 reversed = tuple.reverse();
+            FloatTuple3 reversed = tuple.reversed();
             assertEquals(3.0f, reversed._1);
             assertEquals(2.0f, reversed._2);
             assertEquals(1.0f, reversed._3);
         }
 
         @Test
-        public void testReverse_tuple5() {
+        public void testReversed_tuple5() {
             FloatTuple5 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
-            FloatTuple5 reversed = tuple.reverse();
+            FloatTuple5 reversed = tuple.reversed();
             assertEquals(5.0f, reversed._1);
             assertEquals(1.0f, reversed._5);
         }
 
         @Test
-        public void testReverse_tuple0() {
+        public void testReversed_tuple0() {
             FloatTuple<?> tuple = FloatTuple.from(new float[0]);
-            FloatTuple<?> reversed = tuple.reverse();
+            FloatTuple<?> reversed = tuple.reversed();
             assertEquals(0, reversed.arity());
         }
 
@@ -3222,9 +3222,9 @@ class FloatTupleTest extends TestBase {
         }
 
         @Test
-        public void test_FloatTuple0_reverse() {
+        public void test_FloatTuple0_reversed() {
             FloatTuple0 tuple = FloatTuple.from(new float[0]);
-            FloatTuple0 reversed = tuple.reverse();
+            FloatTuple0 reversed = tuple.reversed();
             assertSame(tuple, reversed);
         }
 
@@ -3279,9 +3279,9 @@ class FloatTupleTest extends TestBase {
         }
 
         @Test
-        public void test_FloatTuple1_reverse() {
+        public void test_FloatTuple1_reversed() {
             FloatTuple1 tuple = FloatTuple.of(5.0f);
-            FloatTuple1 reversed = tuple.reverse();
+            FloatTuple1 reversed = tuple.reversed();
             assertEquals(5.0f, reversed._1, 0.0001f);
         }
 
@@ -3376,9 +3376,9 @@ class FloatTupleTest extends TestBase {
         }
 
         @Test
-        public void test_FloatTuple2_reverse() {
+        public void test_FloatTuple2_reversed() {
             FloatTuple2 tuple = FloatTuple.of(1.0f, 2.0f);
-            FloatTuple2 reversed = tuple.reverse();
+            FloatTuple2 reversed = tuple.reversed();
             assertEquals(2.0f, reversed._1, 0.0001f);
             assertEquals(1.0f, reversed._2, 0.0001f);
         }
@@ -3489,9 +3489,9 @@ class FloatTupleTest extends TestBase {
         }
 
         @Test
-        public void test_FloatTuple3_reverse() {
+        public void test_FloatTuple3_reversed() {
             FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            FloatTuple3 reversed = tuple.reverse();
+            FloatTuple3 reversed = tuple.reversed();
             assertEquals(3.0f, reversed._1, 0.0001f);
             assertEquals(2.0f, reversed._2, 0.0001f);
             assertEquals(1.0f, reversed._3, 0.0001f);
@@ -3675,7 +3675,7 @@ class FloatTupleTest extends TestBase {
         @Test
         public void test_reverse_largerTuples() {
             FloatTuple4 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
-            FloatTuple4 reversed = tuple.reverse();
+            FloatTuple4 reversed = tuple.reversed();
             assertEquals(4.0f, reversed._1, 0.0001f);
             assertEquals(3.0f, reversed._2, 0.0001f);
             assertEquals(2.0f, reversed._3, 0.0001f);

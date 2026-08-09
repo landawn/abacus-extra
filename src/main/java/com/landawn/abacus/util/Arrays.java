@@ -35,16 +35,16 @@ import com.landawn.abacus.annotation.SuppressFBWarnings;
 @Beta
 public sealed class Arrays permits Arrays.f {
 
-    /** The {@code char} value {@code 0}, used as a default element value. */
+    /** The {@code char} value {@code 0}. */
     static final char CHAR_0 = (char) 0;
 
-    /** The {@code byte} value {@code 0}, used as a default element value. */
+    /** The {@code byte} value {@code 0}, used to encode {@code false} when converting boolean arrays to byte arrays. */
     static final byte BYTE_0 = (byte) 0;
 
     /** The {@code byte} value {@code 1}, used to encode {@code true} when mapping booleans to bytes. */
     static final byte BYTE_1 = (byte) 1;
 
-    /** The {@code short} value {@code 0}, used as a default element value. */
+    /** The {@code short} value {@code 0}. */
     static final short SHORT_0 = (short) 0;
 
     /** The line separator inserted between sub-arrays when printing multi-dimensional arrays. */
@@ -1622,7 +1622,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
-     * @param a the int array to map (can be {@code null}).
+     * @param a the input int array (can be {@code null}).
      * @param mapper the function to transform each int to long (must not be {@code null}).
      * @return a long array with mapped values, or an empty array if input is {@code null} or empty.
      * @throws IllegalArgumentException if {@code mapper} is {@code null}.
@@ -1678,7 +1678,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
-     * @param a the two-dimensional int array to map (can be {@code null}).
+     * @param a the input two-dimensional int array (can be {@code null}).
      * @param mapper the function to transform each int to long (must not be {@code null}).
      * @return a two-dimensional long array with mapped values, or an empty array if input is {@code null} or empty.
      * @throws IllegalArgumentException if {@code mapper} is {@code null}.
@@ -1739,7 +1739,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
-     * @param a the three-dimensional int array to map (can be {@code null}).
+     * @param a the input three-dimensional int array (can be {@code null}).
      * @param mapper the function to transform each int to long (must not be {@code null}).
      * @return a three-dimensional long array with mapped values, or an empty array if input is {@code null} or empty.
      * @throws IllegalArgumentException if {@code mapper} is {@code null}.
@@ -3433,7 +3433,7 @@ public sealed class Arrays permits Arrays.f {
      * boolean[] fromNull = Arrays.zip((boolean[]) null, (boolean[]) null, (boolean[]) null, false, false, false, (x, y, z) -> x || y || z);
      * // fromNull: [] (length 0)
      *
-     * // XOR-like with defaults: b shorter, c shortest
+     * // OR with defaults: b shorter, c shortest
      * boolean[] a2 = {true, true, false};
      * boolean[] b2 = {false, true};
      * boolean[] c2 = {true};
@@ -4646,7 +4646,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that the predicate may throw.
      * @param a the char array to modify (can be {@code null}).
-     * @param predicate the condition to test for each element (must not be {@code null}).
+     * @param predicate the condition to test each element (must not be {@code null}).
      * @param newValue the value to be placed in the array if the predicate is true.
      * @throws IllegalArgumentException if {@code predicate} is {@code null}.
      * @throws E if the {@code predicate} throws an exception.
@@ -4695,7 +4695,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that the predicate may throw.
      * @param a the two-dimensional char array to modify (can be {@code null}).
-     * @param predicate the condition to test for each element (must not be {@code null}).
+     * @param predicate the condition to test each element (must not be {@code null}).
      * @param newValue the value to be placed in the array if the predicate is true.
      * @throws IllegalArgumentException if {@code predicate} is {@code null}.
      * @throws E if the {@code predicate} throws an exception.
@@ -4741,7 +4741,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that the predicate may throw.
      * @param a the three-dimensional char array to modify (can be {@code null}).
-     * @param predicate the condition to test for each element (must not be {@code null}).
+     * @param predicate the condition to test each element (must not be {@code null}).
      * @param newValue the value to be placed in the array if the predicate is true.
      * @throws IllegalArgumentException if {@code predicate} is {@code null}.
      * @throws E if the {@code predicate} throws an exception.
@@ -6394,7 +6394,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
-     * @param a the byte array to update (can be {@code null}).
+     * @param a the byte array to update (can be {@code null} or empty).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws IllegalArgumentException if {@code operator} is {@code null}.
      * @throws E if the {@code operator} throws an exception.
@@ -8201,7 +8201,7 @@ public sealed class Arrays permits Arrays.f {
      * // empty remains {}
      * }</pre>
      *
-     * @param <E> the type of exception the operator may throw.
+     * @param <E> the type of exception that may be thrown by the operator.
      * @param a the array to update (can be {@code null} or empty).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws IllegalArgumentException if {@code operator} is {@code null}.
@@ -8244,7 +8244,7 @@ public sealed class Arrays permits Arrays.f {
      * Arrays.updateAll(withNull, x -> (short)(x + 1));  // withNull[0] is still null; withNull[1] is now {4, 5}
      * }</pre>
      *
-     * @param <E> the type of exception the operator may throw.
+     * @param <E> the type of exception that may be thrown by the operator.
      * @param a the two-dimensional array to update (can be {@code null} or empty).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws IllegalArgumentException if {@code operator} is {@code null}.
@@ -8288,7 +8288,7 @@ public sealed class Arrays permits Arrays.f {
      * // empty remains {}
      * }</pre>
      *
-     * @param <E> the type of exception the operator may throw.
+     * @param <E> the type of exception that may be thrown by the operator.
      * @param a the three-dimensional array to update (can be {@code null} or empty).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws IllegalArgumentException if {@code operator} is {@code null}.
@@ -8333,7 +8333,7 @@ public sealed class Arrays permits Arrays.f {
      * // empty remains {}
      * }</pre>
      *
-     * @param <E> the type of exception the predicate may throw.
+     * @param <E> the type of exception that may be thrown by the predicate.
      * @param a the array to modify (can be {@code null} or empty).
      * @param predicate the predicate to test each element (must not be {@code null}).
      * @param newValue the value to replace matching elements with.
@@ -8381,7 +8381,7 @@ public sealed class Arrays permits Arrays.f {
      * // empty remains {}
      * }</pre>
      *
-     * @param <E> the type of exception the predicate may throw.
+     * @param <E> the type of exception that may be thrown by the predicate.
      * @param a the two-dimensional array to modify (can be {@code null} or empty).
      * @param predicate the predicate to test each element (must not be {@code null}).
      * @param newValue the value to replace matching elements with.
@@ -8426,7 +8426,7 @@ public sealed class Arrays permits Arrays.f {
      * // empty remains {}
      * }</pre>
      *
-     * @param <E> the type of exception the predicate may throw.
+     * @param <E> the type of exception that may be thrown by the predicate.
      * @param a the three-dimensional array to modify (can be {@code null} or empty).
      * @param predicate the predicate to test each element (must not be {@code null}).
      * @param newValue the value to replace matching elements with.
@@ -8471,7 +8471,7 @@ public sealed class Arrays permits Arrays.f {
      * Arrays.reshape(new short[]{1, 2}, 0);   // throws IllegalArgumentException
      * }</pre>
      *
-     * @param a the array to reshape (can be {@code null} or empty).
+     * @param a the one-dimensional short array to reshape (can be {@code null} or empty).
      * @param columnCount the number of columns in each row (must be positive).
      * @return a two-dimensional array with the specified column count, or an empty two-dimensional array if input is {@code null} or empty.
      * @throws IllegalArgumentException if {@code columnCount} is not positive.
@@ -8522,7 +8522,7 @@ public sealed class Arrays permits Arrays.f {
      * Arrays.reshape(new short[]{1, 2}, 0, 2);   // throws IllegalArgumentException
      * }</pre>
      *
-     * @param a the array to reshape (can be {@code null} or empty).
+     * @param a the one-dimensional short array to reshape (can be {@code null} or empty).
      * @param rowCount the number of rows in each two-dimensional block (must be positive).
      * @param columnCount the number of columns in each row (must be positive).
      * @return a three-dimensional array with the specified dimensions, or an empty three-dimensional array if input is {@code null} or empty.
@@ -8675,7 +8675,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Flattens a two-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
-     * Useful for applying one-dimensional operations (e.g., sorting) across an irregular two-dimensional structure.
+     * This is useful for operations that need to be applied to all elements regardless of structure.
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
@@ -8699,7 +8699,7 @@ public sealed class Arrays permits Arrays.f {
      * // empty remains {}
      * }</pre>
      *
-     * @param <E> the type of exception the operation may throw.
+     * @param <E> the type of exception that may be thrown by the operation.
      * @param a the two-dimensional array to operate on (can be {@code null} or empty).
      * @param action the operation to perform on the flattened array (must not be {@code null}).
      * @throws IllegalArgumentException if {@code action} is {@code null}.
@@ -8731,6 +8731,8 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
+     * This is useful for operations that need to be applied to all elements regardless of structure,
+     * such as sorting or bulk modifications. The original three-dimensional structure is preserved.
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
@@ -8755,7 +8757,7 @@ public sealed class Arrays permits Arrays.f {
      * // empty remains {}
      * }</pre>
      *
-     * @param <E> the type of exception the operation may throw.
+     * @param <E> the type of exception that may be thrown by the operation.
      * @param a the three-dimensional array to operate on (can be {@code null} or empty).
      * @param action the operation to perform on the flattened array (must not be {@code null}).
      * @throws IllegalArgumentException if {@code action} is {@code null}.
@@ -9538,8 +9540,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Calculates the total number of elements in a two-dimensional short array.
-     * Handles null arrays and null sub-arrays gracefully.
+     * Calculates the total count of elements in a two-dimensional short array.
+     * Null sub-arrays are treated as having zero elements.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -9581,8 +9583,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Calculates the total number of elements in a three-dimensional short array.
-     * Handles null arrays and null sub-arrays at all levels gracefully by skipping them.
+     * Calculates the total count of elements in a three-dimensional short array.
+     * Empty or null sub-arrays at any level are skipped.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -13044,7 +13046,7 @@ public sealed class Arrays permits Arrays.f {
      * long[][][] c = {{{21L, 22L}}};
      * long[][][] r1 = Arrays.zip(a, b, c, (x, y, z) -> x + y + z);
      * // r1 is [[[33, 36]]]
-     * // block0: zip(a[0],b[0],c[0]) - each is a row, truncated to shortest: 1+11+21=33, 2+12+22=36
+     * // block0: zip(a[0],b[0],c[0]) - row dimension truncated to shortest (1 row, b[0]'s second row dropped): 1+11+21=33, 2+12+22=36
      *
      * long[][][] d = {{{1L}}, {{2L}}};
      * long[][][] e = {{{3L}}};
@@ -15458,7 +15460,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
-     * @param a the array to be updated (can be {@code null}).
+     * @param a the array to be modified (can be {@code null} or empty).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws IllegalArgumentException if {@code operator} is {@code null}.
      * @throws E if the {@code operator} throws an exception.
@@ -15502,7 +15504,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
-     * @param a the two-dimensional array to be updated (can be {@code null}).
+     * @param a the two-dimensional array to be modified (can be {@code null} or empty).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws IllegalArgumentException if {@code operator} is {@code null}.
      * @throws E if the {@code operator} throws an exception.
@@ -15546,7 +15548,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
-     * @param a the three-dimensional array to be updated (can be {@code null}).
+     * @param a the three-dimensional array to be modified (can be {@code null} or empty).
      * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws IllegalArgumentException if {@code operator} is {@code null}.
      * @throws E if the {@code operator} throws an exception.
@@ -15566,7 +15568,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Replaces each element of the array with the specified new value if it satisfies the given predicate.
+     * Replaces elements in the array that match the given predicate with the specified new value.
      * Elements that don't match the predicate remain unchanged.
      * This method modifies the array in-place.
      *
@@ -15590,9 +15592,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate.
-     * @param a the array to be modified (can be {@code null}).
-     * @param predicate a predicate to apply to each element to determine if it should be replaced (must not be {@code null}).
-     * @param newValue the value to be placed into the array.
+     * @param a the array to be modified (can be {@code null} or empty).
+     * @param predicate the predicate to test each element (must not be {@code null}).
+     * @param newValue the value to replace matching elements with.
      * @throws IllegalArgumentException if {@code predicate} is {@code null}.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(double[][], Throwables.DoublePredicate, double) for two-dimensional arrays
@@ -15613,7 +15615,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Replaces each element of the two-dimensional array with the specified new value if it satisfies the given predicate.
+     * Replaces elements in the two-dimensional array that match the given predicate with the specified new value.
      * Elements that don't match the predicate remain unchanged.
      * This method modifies the array in-place.
      *
@@ -15637,9 +15639,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate.
-     * @param a the two-dimensional array to be modified (can be {@code null}).
-     * @param predicate a predicate to apply to each element to determine if it should be replaced (must not be {@code null}).
-     * @param newValue the value to be placed into the array.
+     * @param a the two-dimensional array to be modified (can be {@code null} or empty).
+     * @param predicate the predicate to test each element (must not be {@code null}).
+     * @param newValue the value to replace matching elements with.
      * @throws IllegalArgumentException if {@code predicate} is {@code null}.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(double[], Throwables.DoublePredicate, double) for one-dimensional arrays
@@ -15658,7 +15660,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Replaces each element of the three-dimensional array with the specified new value if it satisfies the given predicate.
+     * Replaces elements in the three-dimensional array that match the given predicate with the specified new value.
      * Elements that don't match the predicate remain unchanged.
      * This method modifies the array in-place.
      *
@@ -15682,9 +15684,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate.
-     * @param a the three-dimensional array to be modified (can be {@code null}).
-     * @param predicate a predicate to apply to each element to determine if it should be replaced (must not be {@code null}).
-     * @param newValue the value to be placed into the array.
+     * @param a the three-dimensional array to be modified (can be {@code null} or empty).
+     * @param predicate the predicate to test each element (must not be {@code null}).
+     * @param newValue the value to replace matching elements with.
      * @throws IllegalArgumentException if {@code predicate} is {@code null}.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(double[], Throwables.DoublePredicate, double) for one-dimensional arrays
@@ -15712,12 +15714,12 @@ public sealed class Arrays permits Arrays.f {
      * // Basic: reshape into rows of 3; last row is shorter
      * double[] array = {1, 2, 3, 4, 5, 6, 7};
      * double[][] grid = Arrays.reshape(array, 3);
-     * // grid is now {{1, 2, 3}, {4, 5, 6}, {7}}
+     * // grid is {{1, 2, 3}, {4, 5, 6}, {7}}
      *
      * // Basic: exact-fit reshape (no partial row)
      * double[] exact = {1, 2, 3, 4};
      * double[][] grid2 = Arrays.reshape(exact, 2);
-     * // grid2 is now {{1, 2}, {3, 4}}
+     * // grid2 is {{1, 2}, {3, 4}}
      *
      * // Edge: null or empty array returns empty 2-D array
      * double[][] empty = Arrays.reshape((double[]) null, 3);
@@ -15728,7 +15730,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the one-dimensional array to reshape (can be {@code null}).
-     * @param columnCount the number of columns in the new two-dimensional array (must be positive).
+     * @param columnCount the number of columns in each row (must be positive).
      * @return a new two-dimensional array containing the elements of the input array, or an empty two-dimensional array if input is {@code null} or empty.
      * @throws IllegalArgumentException if {@code columnCount} is not positive.
      * @see #reshape(double[], int, int) for reshaping into a three-dimensional array
@@ -15763,12 +15765,12 @@ public sealed class Arrays permits Arrays.f {
      * // Basic: reshape into blocks of 2 rows x 3 cols; last row may be partial
      * double[] array = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
      * double[][][] cube = Arrays.reshape(array, 2, 3);
-     * // cube is now {{{1, 2, 3}, {4, 5, 6}}, {{7, 8, 9}, {10}}}
+     * // cube is {{{1, 2, 3}, {4, 5, 6}}, {{7, 8, 9}, {10}}}
      *
      * // Basic: exact-fit - 6 elements into 2 rows x 3 cols
      * double[] exact = {1, 2, 3, 4, 5, 6};
      * double[][][] cube2 = Arrays.reshape(exact, 2, 3);
-     * // cube2 is now {{{1, 2, 3}, {4, 5, 6}}}
+     * // cube2 is {{{1, 2, 3}, {4, 5, 6}}}
      *
      * // Edge: null or empty array returns empty 3-D array
      * double[][][] empty = Arrays.reshape((double[]) null, 2, 3);
@@ -15780,7 +15782,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the one-dimensional array to reshape (can be {@code null}).
      * @param rowCount the number of rows in each two-dimensional slice (must be positive).
-     * @param columnCount the number of columns in each two-dimensional slice (must be positive).
+     * @param columnCount the number of columns in each row (must be positive).
      * @return a new three-dimensional array containing the elements of the input array, or an empty three-dimensional array if input is {@code null} or empty.
      * @throws IllegalArgumentException if {@code rowCount <= 0} or {@code columnCount <= 0}.
      * @see #reshape(double[], int) for reshaping into a two-dimensional array
@@ -16773,6 +16775,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Calculates the total number of elements in a two-dimensional double array.
+     * This method sums the lengths of all sub-arrays.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -16894,7 +16897,7 @@ public sealed class Arrays permits Arrays.f {
      * // zeroEmpty is 0
      * }</pre>
      *
-     * @param a the two-dimensional array (can be {@code null}).
+     * @param a the two-dimensional array to inspect (can be {@code null}).
      * @return the minimum sub-array length, or 0 if the input array is {@code null} or empty.
      * @see #maxRowLength(double[][])
      */
@@ -16938,7 +16941,7 @@ public sealed class Arrays permits Arrays.f {
      * // zeroAllNull is 0
      * }</pre>
      *
-     * @param a the two-dimensional array (can be {@code null}).
+     * @param a the two-dimensional array to inspect (can be {@code null}).
      * @return the maximum sub-array length, or 0 if the input array is {@code null} or empty.
      * @see #minRowLength(double[][])
      */
@@ -17244,7 +17247,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the array of bytes to convert. Can be {@code null}.
-     * @return a new boolean array, or an empty array if the input is {@code null} or empty.
+     * @return a new {@code boolean} array, or an empty array if the input is {@code null} or empty.
      * @see #toBoolean(byte[][])
      * @see #toBoolean(byte[][][])
      * @see #toBoolean(int[])
@@ -17288,7 +17291,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array of bytes to convert. Can be {@code null}.
-     * @return a new two-dimensional boolean array, or an empty array if the input is {@code null} or empty.
+     * @return a new two-dimensional {@code boolean} array, or an empty array if the input is {@code null} or empty.
      * @see #toBoolean(byte[])
      * @see #toBoolean(byte[][][])
      * @see #toBoolean(int[][])
@@ -17333,7 +17336,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array of bytes to convert. Can be {@code null}.
-     * @return a new three-dimensional boolean array, or an empty array if the input is {@code null} or empty.
+     * @return a new three-dimensional {@code boolean} array, or an empty array if the input is {@code null} or empty.
      * @see #toBoolean(byte[])
      * @see #toBoolean(byte[][])
      * @see #toBoolean(int[][][])
@@ -17377,7 +17380,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the array of integers to convert. Can be {@code null}.
-     * @return a new boolean array, or an empty array if the input is {@code null} or empty.
+     * @return a new {@code boolean} array, or an empty array if the input is {@code null} or empty.
      * @see #toBoolean(int[][])
      * @see #toBoolean(int[][][])
      * @see #toBoolean(byte[])
@@ -17422,7 +17425,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array of integers to convert. Can be {@code null}.
-     * @return a new two-dimensional boolean array, or an empty array if the input is {@code null} or empty.
+     * @return a new two-dimensional {@code boolean} array, or an empty array if the input is {@code null} or empty.
      * @see #toBoolean(int[])
      * @see #toBoolean(int[][][])
      * @see #toBoolean(byte[][])
@@ -17467,7 +17470,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array of integers to convert. Can be {@code null}.
-     * @return a new three-dimensional boolean array, or an empty array if the input is {@code null} or empty.
+     * @return a new three-dimensional {@code boolean} array, or an empty array if the input is {@code null} or empty.
      * @see #toBoolean(int[])
      * @see #toBoolean(int[][])
      * @see #toBoolean(byte[][][])
@@ -17515,7 +17518,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the array of integers to convert. Can be {@code null}.
-     * @return a new char array, or an empty array if the input is {@code null} or empty.
+     * @return a new {@code char} array, or an empty array if the input is {@code null} or empty.
      * @see #toChar(int[][])
      * @see #toChar(int[][][])
      */
@@ -17559,7 +17562,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array of integers to convert. Can be {@code null}.
-     * @return a new two-dimensional char array, or an empty array if the input is {@code null} or empty.
+     * @return a new two-dimensional {@code char} array, or an empty array if the input is {@code null} or empty.
      * @see #toChar(int[])
      * @see #toChar(int[][][])
      */
@@ -17603,7 +17606,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array of integers to convert. Can be {@code null}.
-     * @return a new three-dimensional char array, or an empty array if the input is {@code null} or empty.
+     * @return a new three-dimensional {@code char} array, or an empty array if the input is {@code null} or empty.
      * @see #toChar(int[])
      * @see #toChar(int[][])
      */
@@ -17646,7 +17649,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the array of booleans to convert. Can be {@code null}.
-     * @return a new byte array, or an empty array if the input is {@code null} or empty.
+     * @return a new {@code byte} array, or an empty array if the input is {@code null} or empty.
      * @see #toByte(boolean[][])
      * @see #toByte(boolean[][][])
      * @see #toInt(boolean[])
@@ -17690,7 +17693,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array of booleans to convert. Can be {@code null}.
-     * @return a new two-dimensional byte array, or an empty array if the input is {@code null} or empty.
+     * @return a new two-dimensional {@code byte} array, or an empty array if the input is {@code null} or empty.
      * @see #toByte(boolean[])
      * @see #toByte(boolean[][][])
      * @see #toInt(boolean[][])
@@ -17735,7 +17738,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array of booleans to convert. Can be {@code null}.
-     * @return a new three-dimensional byte array, or an empty array if the input is {@code null} or empty.
+     * @return a new three-dimensional {@code byte} array, or an empty array if the input is {@code null} or empty.
      * @see #toByte(boolean[])
      * @see #toByte(boolean[][])
      * @see #toInt(boolean[][][])
@@ -17784,7 +17787,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the array of bytes to convert. Can be {@code null}.
-     * @return a new short array, or an empty array if the input is {@code null} or empty.
+     * @return a new {@code short} array, or an empty array if the input is {@code null} or empty.
      * @see #toShort(byte[][])
      * @see #toShort(byte[][][])
      */
@@ -17828,7 +17831,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array of bytes to convert. Can be {@code null}.
-     * @return a new two-dimensional short array, or an empty array if the input is {@code null} or empty.
+     * @return a new two-dimensional {@code short} array, or an empty array if the input is {@code null} or empty.
      * @see #toShort(byte[])
      * @see #toShort(byte[][][])
      */
@@ -17872,7 +17875,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array of bytes to convert. Can be {@code null}.
-     * @return a new three-dimensional short array, or an empty array if the input is {@code null} or empty.
+     * @return a new three-dimensional {@code short} array, or an empty array if the input is {@code null} or empty.
      * @see #toShort(byte[])
      * @see #toShort(byte[][])
      */
@@ -18357,20 +18360,22 @@ public sealed class Arrays permits Arrays.f {
      * // Basic: positive values are widened losslessly
      * short[][] shorts = {{100, 200}, {300, 400}};
      * int[][] ints = Arrays.toInt(shorts);
-     * // ints is {{100, 200}, {300, 400}}
+     * // returns {{100, 200}, {300, 400}}
      *
      * // Basic: negative values are sign-extended correctly
      * short[][] neg = {{-1, -32768}, {0, 32767}};
      * int[][] negInts = Arrays.toInt(neg);
-     * // negInts is {{-1, -32768}, {0, 32767}}
+     * // returns {{-1, -32768}, {0, 32767}}
      *
      * // Edge: null input returns empty 2D array
-     * int[][] fromNull = Arrays.toInt((short[][]) null);
-     * // fromNull is {} (length 0)
+     * int[][] fromNull = Arrays.toInt((short[][]) null); // returns {}
      *
      * // Edge: empty input returns empty 2D array
-     * int[][] fromEmpty = Arrays.toInt(new short[0][]);
-     * // fromEmpty is {} (length 0)
+     * int[][] fromEmpty = Arrays.toInt(new short[0][]); // returns {}
+     *
+     * // Edge: inner null and empty sub-arrays each map to an empty int array
+     * int[][] inner = Arrays.toInt(new short[][]{null, new short[0]});
+     * // returns {[], []}
      * }</pre>
      *
      * @param a the two-dimensional array of shorts to convert. Can be {@code null}.
@@ -18404,20 +18409,18 @@ public sealed class Arrays permits Arrays.f {
      * // Basic: positive values are widened losslessly through all nesting levels
      * short[][][] shorts = {{{100, 200}, {300}}, {{400, 500}}};
      * int[][][] ints = Arrays.toInt(shorts);
-     * // ints is {{{100, 200}, {300}}, {{400, 500}}}
+     * // returns {{{100, 200}, {300}}, {{400, 500}}}
      *
      * // Basic: negative values are sign-extended correctly at all levels
      * short[][][] neg = {{{-1, -32768}}};
      * int[][][] negInts = Arrays.toInt(neg);
-     * // negInts is {{{-1, -32768}}}
+     * // returns {{{-1, -32768}}}
      *
      * // Edge: null input returns empty 3D array
-     * int[][][] fromNull = Arrays.toInt((short[][][]) null);
-     * // fromNull is {} (length 0)
+     * int[][][] fromNull = Arrays.toInt((short[][][]) null); // returns {}
      *
      * // Edge: empty input returns empty 3D array
-     * int[][][] fromEmpty = Arrays.toInt(new short[0][][]);
-     * // fromEmpty is {} (length 0)
+     * int[][][] fromEmpty = Arrays.toInt(new short[0][][]); // returns {}
      * }</pre>
      *
      * @param a the three-dimensional array of shorts to convert. Can be {@code null}.
@@ -18514,6 +18517,10 @@ public sealed class Arrays permits Arrays.f {
      * // Edge: empty input returns empty 2D array
      * int[][] fromEmpty = Arrays.toInt(new float[0][]);
      * // fromEmpty is {} (length 0)
+     *
+     * // Edge: inner null and empty sub-arrays each map to an empty int array
+     * int[][] inner = Arrays.toInt(new float[][]{null, new float[0]});
+     * // inner is {[], []}
      * }</pre>
      *
      * @param a the two-dimensional array of floats to convert. Can be {@code null}.
@@ -18658,6 +18665,10 @@ public sealed class Arrays permits Arrays.f {
      * // Edge: empty input returns empty 2D array
      * int[][] fromEmpty = Arrays.toInt(new double[0][]);
      * // fromEmpty is {} (length 0)
+     *
+     * // Edge: inner null and empty sub-arrays each map to an empty int array
+     * int[][] inner = Arrays.toInt(new double[][]{null, new double[0]});
+     * // inner is {[], []}
      * }</pre>
      *
      * @param a the two-dimensional array of doubles to convert. Can be {@code null}.
@@ -18729,7 +18740,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts an array of bytes to an array of longs. Each {@code byte} is widened to {@code long}
+     * Converts a one-dimensional {@code byte} array to a one-dimensional {@code long} array. Each {@code byte} is widened to {@code long}
      * with sign extension; the conversion is lossless.
      *
      * <p><b>Usage Examples:</b></p>
@@ -18754,7 +18765,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the array of bytes to convert. Can be {@code null}.
-     * @return a new {@code long} array, or an empty array if the input is {@code null} or empty.
+     * @return a new one-dimensional {@code long} array, or an empty array if the input is {@code null} or empty.
      * @see #toLong(byte[][])
      * @see #toLong(byte[][][])
      */
@@ -18798,6 +18809,10 @@ public sealed class Arrays permits Arrays.f {
      * // Edge: empty input returns empty 2D array
      * long[][] fromEmpty = Arrays.toLong(new byte[0][]);
      * // fromEmpty is {} (length 0)
+     *
+     * // Edge: inner null and empty sub-arrays each map to an empty long array
+     * long[][] inner = Arrays.toLong(new byte[][]{null, new byte[0]});
+     * // inner is {[], []}
      * }</pre>
      *
      * @param a the two-dimensional array of bytes to convert. Can be {@code null}.
@@ -18937,6 +18952,10 @@ public sealed class Arrays permits Arrays.f {
      * // Edge: empty input returns empty 2D array
      * long[][] fromEmpty = Arrays.toLong(new short[0][]);
      * // fromEmpty is {} (length 0)
+     *
+     * // Edge: inner null and empty sub-arrays each map to an empty long array
+     * long[][] inner = Arrays.toLong(new short[][]{null, new short[0]});
+     * // inner is {[], []}
      * }</pre>
      *
      * @param a the two-dimensional {@code short} array to convert. Can be {@code null}.
@@ -19076,6 +19095,10 @@ public sealed class Arrays permits Arrays.f {
      * // Edge: empty input returns empty 2D array
      * long[][] fromEmpty = Arrays.toLong(new int[0][]);
      * // fromEmpty is {} (length 0)
+     *
+     * // Edge: inner null and empty sub-arrays each map to an empty long array
+     * long[][] inner = Arrays.toLong(new int[][]{null, new int[0]});
+     * // inner is {[], []}
      * }</pre>
      *
      * @param a the two-dimensional {@code int} array to convert. Can be {@code null}.
@@ -19220,6 +19243,10 @@ public sealed class Arrays permits Arrays.f {
      * // Edge: empty input returns empty 2D array
      * long[][] fromEmpty = Arrays.toLong(new float[0][]);
      * // fromEmpty is {} (length 0)
+     *
+     * // Edge: inner null and empty sub-arrays each map to an empty long array
+     * long[][] inner = Arrays.toLong(new float[][]{null, new float[0]});
+     * // inner is {[], []}
      * }</pre>
      *
      * @param a the two-dimensional {@code float} array to convert. Can be {@code null}.
@@ -19366,6 +19393,10 @@ public sealed class Arrays permits Arrays.f {
      * // Edge: empty input returns empty 2D array
      * long[][] fromEmpty = Arrays.toLong(new double[0][]);
      * // fromEmpty is {} (length 0)
+     *
+     * // Edge: inner null and empty sub-arrays each map to an empty long array
+     * long[][] inner = Arrays.toLong(new double[][]{null, new double[0]});
+     * // inner is {[], []}
      * }</pre>
      *
      * @param a the two-dimensional {@code double} array to convert. Can be {@code null}.
@@ -19507,6 +19538,10 @@ public sealed class Arrays permits Arrays.f {
      * // Edge: empty input returns empty 2D array
      * float[][] fromEmpty = Arrays.toFloat(new byte[0][]);
      * // fromEmpty is {} (length 0)
+     *
+     * // Edge: inner null and empty sub-arrays each map to an empty float array
+     * float[][] inner = Arrays.toFloat(new byte[][]{null, new byte[0]});
+     * // inner is {[], []}
      * }</pre>
      *
      * @param a the two-dimensional {@code byte} array to convert. Can be {@code null}.
@@ -19644,6 +19679,10 @@ public sealed class Arrays permits Arrays.f {
      * // empty input returns empty array
      * float[][] r4 = Arrays.toFloat(new short[0][]);
      * // r4 is float[0][]  (length 0)
+     *
+     * // inner null and empty sub-arrays each map to an empty float array
+     * float[][] r5 = Arrays.toFloat(new short[][]{null, new short[0]});
+     * // r5 is {[], []}
      * }</pre>
      *
      * @param a the two-dimensional {@code short} array to convert. Can be {@code null}.
@@ -19783,6 +19822,10 @@ public sealed class Arrays permits Arrays.f {
      * // empty input returns empty array
      * float[][] r4 = Arrays.toFloat(new int[0][]);
      * // r4 is float[0][]  (length 0)
+     *
+     * // inner null and empty sub-arrays each map to an empty float array
+     * float[][] r5 = Arrays.toFloat(new int[][]{null, new int[0]});
+     * // r5 is {[], []}
      * }</pre>
      *
      * @param a the two-dimensional {@code int} array to convert. Can be {@code null}.
@@ -19922,6 +19965,10 @@ public sealed class Arrays permits Arrays.f {
      * // empty input returns empty array
      * float[][] r4 = Arrays.toFloat(new long[0][]);
      * // r4 is float[0][]  (length 0)
+     *
+     * // inner null and empty sub-arrays each map to an empty float array
+     * float[][] r5 = Arrays.toFloat(new long[][]{null, new long[0]});
+     * // r5 is {[], []}
      * }</pre>
      *
      * @param a the two-dimensional {@code long} array to convert. Can be {@code null}.
@@ -20058,6 +20105,10 @@ public sealed class Arrays permits Arrays.f {
      * // empty input returns empty array
      * double[][] r4 = Arrays.toDouble(new byte[0][]);
      * // r4 is double[0][]  (length 0)
+     *
+     * // inner null and empty sub-arrays each map to an empty double array
+     * double[][] r5 = Arrays.toDouble(new byte[][]{null, new byte[0]});
+     * // r5 is {[], []}
      * }</pre>
      *
      * @param a the two-dimensional {@code byte} array to convert. Can be {@code null}.
@@ -20194,6 +20245,10 @@ public sealed class Arrays permits Arrays.f {
      * // empty input returns empty array
      * double[][] r4 = Arrays.toDouble(new short[0][]);
      * // r4 is double[0][]  (length 0)
+     *
+     * // inner null and empty sub-arrays each map to an empty double array
+     * double[][] r5 = Arrays.toDouble(new short[][]{null, new short[0]});
+     * // r5 is {[], []}
      * }</pre>
      *
      * @param a the two-dimensional {@code short} array to convert. Can be {@code null}.
@@ -20332,6 +20387,10 @@ public sealed class Arrays permits Arrays.f {
      * // empty input returns empty array
      * double[][] r4 = Arrays.toDouble(new int[0][]);
      * // r4 is double[0][]  (length 0)
+     *
+     * // inner null and empty sub-arrays each map to an empty double array
+     * double[][] r5 = Arrays.toDouble(new int[][]{null, new int[0]});
+     * // r5 is {[], []}
      * }</pre>
      *
      * @param a the two-dimensional {@code int} array to convert. Can be {@code null}.
@@ -20471,6 +20530,10 @@ public sealed class Arrays permits Arrays.f {
      * // empty input returns empty array
      * double[][] r4 = Arrays.toDouble(new long[0][]);
      * // r4 is double[0][]  (length 0)
+     *
+     * // inner null and empty sub-arrays each map to an empty double array
+     * double[][] r5 = Arrays.toDouble(new long[][]{null, new long[0]});
+     * // r5 is {[], []}
      * }</pre>
      *
      * @param a the two-dimensional {@code long} array to convert. Can be {@code null}.
@@ -20610,6 +20673,10 @@ public sealed class Arrays permits Arrays.f {
      * // empty input returns empty array
      * double[][] r4 = Arrays.toDouble(new float[0][]);
      * // r4 is double[0][]  (length 0)
+     *
+     * // inner null and empty sub-arrays each map to an empty double array
+     * double[][] r5 = Arrays.toDouble(new float[][]{null, new float[0]});
+     * // r5 is {[], []}
      * }</pre>
      *
      * @param a the two-dimensional {@code float} array to convert. Can be {@code null}.
@@ -22999,8 +23066,8 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Object-array helper namespace for three-dimensional arrays.
      *
-     * <p>This class contains the {@code T[][][]} variants of the bulk update, reshape, flatten, map,
-     * and zip operations, plus size statistics ({@code totalElementCount}), exposed by {@link Arrays}. The compact name is deliberate and mirrors
+     * <p>This class contains the {@code T[][][]} counterparts of the bulk update, reshape, flatten, map,
+     * and zip operations, plus size statistics ({@code totalElementCount}), that {@link Arrays} provides for primitive arrays. The compact name is deliberate and mirrors
      * {@link Arrays.f} and {@link Arrays.ff} for convenient static import usage. Like {@link Arrays.ff}, this class does
      * not extend {@link Arrays}; only {@link Arrays.f} inherits the parent class's static methods.</p>
      *
@@ -23051,7 +23118,7 @@ public sealed class Arrays permits Arrays.f {
          * @param a the three-dimensional array to update (can be {@code null}).
          * @param operator the unary operator to apply to each element (must not be {@code null}).
          * @throws IllegalArgumentException if {@code operator} is {@code null}.
-         * @throws E if the {@code operator} throws an exception during execution.
+         * @throws E if the {@code operator} throws an exception during processing.
          */
         public static <T, E extends Exception> void updateAll(final T[][][] a, final Throwables.UnaryOperator<T, E> operator) throws E {
             N.checkArgNotNull(operator, cs.operator);
@@ -23096,10 +23163,10 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the array.
          * @param <E> the type of exception that may be thrown by the predicate.
          * @param a the three-dimensional array to modify (can be {@code null}).
-         * @param predicate the condition to test for each element. Elements that match will be replaced (must not be {@code null}).
+         * @param predicate the condition to test each element against (must not be {@code null}).
          * @param newValue the value to replace matching elements with (can be {@code null}).
          * @throws IllegalArgumentException if {@code predicate} is {@code null}.
-         * @throws E if the {@code predicate} throws an exception during evaluation.
+         * @throws E if the {@code predicate} throws an exception during testing.
          */
         public static <T, E extends Exception> void replaceIf(final T[][][] a, final Throwables.Predicate<? super T, E> predicate, final T newValue) throws E {
             N.checkArgNotNull(predicate, cs.predicate);
@@ -23270,7 +23337,7 @@ public sealed class Arrays permits Arrays.f {
          *
          * @param <T> the type of elements in the array.
          * @param <E> the type of exception that may be thrown by the operation.
-         * @param a the three-dimensional array to operate on (can be {@code null} or empty). Modified in-place.
+         * @param a the three-dimensional array to operate on (can be {@code null} or empty). The operation modifies this array in-place.
          * @param action the consumer operation to apply to the flattened array (must not be {@code null}).
          * @throws IllegalArgumentException if {@code action} is {@code null}.
          * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
@@ -23337,7 +23404,7 @@ public sealed class Arrays permits Arrays.f {
          * @param mapper the unary operator to apply to each element (must not be {@code null}).
          * @return a new three-dimensional array with mapped elements; the element type is inferred from the runtime component type of {@code a}.
          * @throws IllegalArgumentException if {@code a} or {@code mapper} is {@code null}, or if a mapped value is not assignable to the inferred runtime element type (if the mapper itself throws {@link ArrayStoreException}, that exception propagates).
-         * @throws E if the function throws an exception.
+         * @throws E if the function throws an exception during mapping.
          */
         public static <T, E extends Exception> T[][][] map(final T[][][] a, final Throwables.UnaryOperator<T, E> mapper) throws E {
             N.checkArgNotNull(mapper, cs.mapper);
@@ -23401,7 +23468,7 @@ public sealed class Arrays permits Arrays.f {
          * @param targetElementType the class of the result array's element type (must not be {@code null}).
          * @return a new three-dimensional array with transformed elements, or an empty array if input is {@code null} or empty.
          * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
-         * @throws E if the function throws an exception.
+         * @throws E if the function throws an exception during mapping.
          */
         public static <T, R, E extends Exception> R[][][] map(final T[][][] a, final Throwables.Function<? super T, ? extends R, E> mapper,
                 final Class<R> targetElementType) throws E {
@@ -23458,7 +23525,7 @@ public sealed class Arrays permits Arrays.f {
          * @param mapper the boolean-mapping function to apply to each element (must not be {@code null}).
          * @return a new three-dimensional boolean array, or an empty array if input is {@code null} or empty.
          * @throws IllegalArgumentException if {@code mapper} is {@code null}.
-         * @throws E if the function throws an exception.
+         * @throws E if the function throws an exception during mapping.
          */
         public static <T, E extends Exception> boolean[][][] mapToBoolean(final T[][][] a, final Throwables.ToBooleanFunction<? super T, E> mapper) throws E {
             N.checkArgNotNull(mapper, cs.mapper);
@@ -23511,7 +23578,7 @@ public sealed class Arrays permits Arrays.f {
          * @param mapper the function to extract a char from each element (must not be {@code null}).
          * @return a new three-dimensional char array, or an empty array if input is {@code null} or empty.
          * @throws IllegalArgumentException if {@code mapper} is {@code null}.
-         * @throws E if the function throws an exception.
+         * @throws E if the function throws an exception during mapping.
          */
         public static <T, E extends Exception> char[][][] mapToChar(final T[][][] a, final Throwables.ToCharFunction<? super T, E> mapper) throws E {
             N.checkArgNotNull(mapper, cs.mapper);
@@ -23565,7 +23632,7 @@ public sealed class Arrays permits Arrays.f {
          * @param mapper the function to convert each element to a byte (must not be {@code null}).
          * @return a new three-dimensional byte array, or an empty array if input is {@code null} or empty.
          * @throws IllegalArgumentException if {@code mapper} is {@code null}.
-         * @throws E if the function throws an exception.
+         * @throws E if the function throws an exception during mapping.
          */
         public static <T, E extends Exception> byte[][][] mapToByte(final T[][][] a, final Throwables.ToByteFunction<? super T, E> mapper) throws E {
             N.checkArgNotNull(mapper, cs.mapper);
@@ -23619,7 +23686,7 @@ public sealed class Arrays permits Arrays.f {
          * @param mapper the function to convert each element to a short (must not be {@code null}).
          * @return a new three-dimensional short array, or an empty array if input is {@code null} or empty.
          * @throws IllegalArgumentException if {@code mapper} is {@code null}.
-         * @throws E if the function throws an exception.
+         * @throws E if the function throws an exception during mapping.
          */
         public static <T, E extends Exception> short[][][] mapToShort(final T[][][] a, final Throwables.ToShortFunction<? super T, E> mapper) throws E {
             N.checkArgNotNull(mapper, cs.mapper);
@@ -23673,7 +23740,7 @@ public sealed class Arrays permits Arrays.f {
          * @param mapper the function to convert each element to an int (must not be {@code null}).
          * @return a new three-dimensional int array, or an empty array if input is {@code null} or empty.
          * @throws IllegalArgumentException if {@code mapper} is {@code null}.
-         * @throws E if the function throws an exception.
+         * @throws E if the function throws an exception during mapping.
          */
         public static <T, E extends Exception> int[][][] mapToInt(final T[][][] a, final Throwables.ToIntFunction<? super T, E> mapper) throws E {
             N.checkArgNotNull(mapper, cs.mapper);
@@ -23727,7 +23794,7 @@ public sealed class Arrays permits Arrays.f {
          * @param mapper the function to convert each element to a long (must not be {@code null}).
          * @return a new three-dimensional long array, or an empty array if input is {@code null} or empty.
          * @throws IllegalArgumentException if {@code mapper} is {@code null}.
-         * @throws E if the function throws an exception.
+         * @throws E if the function throws an exception during mapping.
          */
         public static <T, E extends Exception> long[][][] mapToLong(final T[][][] a, final Throwables.ToLongFunction<? super T, E> mapper) throws E {
             N.checkArgNotNull(mapper, cs.mapper);
@@ -23781,7 +23848,7 @@ public sealed class Arrays permits Arrays.f {
          * @param mapper the function to convert each element to a float (must not be {@code null}).
          * @return a new three-dimensional float array, or an empty array if input is {@code null} or empty.
          * @throws IllegalArgumentException if {@code mapper} is {@code null}.
-         * @throws E if the function throws an exception.
+         * @throws E if the function throws an exception during mapping.
          */
         public static <T, E extends Exception> float[][][] mapToFloat(final T[][][] a, final Throwables.ToFloatFunction<? super T, E> mapper) throws E {
             N.checkArgNotNull(mapper, cs.mapper);
@@ -23835,7 +23902,7 @@ public sealed class Arrays permits Arrays.f {
          * @param mapper the function to convert each element to a double (must not be {@code null}).
          * @return a new three-dimensional double array, or an empty array if input is {@code null} or empty.
          * @throws IllegalArgumentException if {@code mapper} is {@code null}.
-         * @throws E if the function throws an exception.
+         * @throws E if the function throws an exception during mapping.
          */
         public static <T, E extends Exception> double[][][] mapToDouble(final T[][][] a, final Throwables.ToDoubleFunction<? super T, E> mapper) throws E {
             N.checkArgNotNull(mapper, cs.mapper);

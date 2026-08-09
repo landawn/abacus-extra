@@ -54,7 +54,7 @@ import com.landawn.abacus.util.stream.ByteStream;
  * Empty-tuple contracts: {@code sum()} is {@code 0}, {@code average()} is empty, and
  * {@code min}/{@code max}/{@code lowerMedian}/{@code median} throw {@link NoSuchElementException}.</p>
  *
- * @param <TP> the concrete {@code ByteTuple} subtype that fluent operations such as {@link #reverse()} return
+ * @param <TP> the concrete {@code ByteTuple} subtype that fluent operations such as {@link #reversed()} return
  * @see PrimitiveTuple
  * @see BooleanTuple
  * @see CharTuple
@@ -248,8 +248,8 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * ByteTuple.ByteTuple6 t = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60);
      * byte first = t._1;  // 10
      * byte sixth = t._6;  // 60
-     * // reverse() returns a new tuple with elements in reverse order
-     * ByteTuple.ByteTuple6 reversed = t.reverse();   // (60, 50, 40, 30, 20, 10)
+     * // reversed() returns a new tuple with elements in reverse order
+     * ByteTuple.ByteTuple6 reversed = t.reversed();   // (60, 50, 40, 30, 20, 10)
      *
      * ByteTuple.ByteTuple6 t2 = ByteTuple.of((byte) 60, (byte) 50, (byte) 40, (byte) 30, (byte) 20, (byte) 10);
      * byte min = t2.min();   // 10
@@ -650,7 +650,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
     /**
      * Returns the conventional statistical median of this tuple as a {@code double}.
      * <p>
-     * Elements are ordered by signed magnitude. For an odd arity, this is the middle value when
+     * Elements are ordered by signed numeric value. For an odd arity, this is the middle value when
      * sorted. For an even arity, this is the arithmetic mean of the two middle values. That differs
      * from {@link #lowerMedian()}, which returns a {@code byte} and, for even arities, the lower
      * middle element only.
@@ -695,7 +695,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
     /**
      * Returns the lower median of this tuple as a signed {@code byte}.
      * <p>
-     * Elements are ordered by signed magnitude. For an odd arity, this is the middle value when
+     * Elements are ordered by signed numeric value. For an odd arity, this is the middle value when
      * sorted. For an even arity, this is the lower of the two middle values when sorted
      * (not their average). Prefer {@link #median()} when you need the conventional statistical
      * median as a {@code double}.
@@ -732,7 +732,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * @see N#lowerMedian(byte...)
      */
     public byte lowerMedian() {
-        final byte[] a = elements();
+        final byte[] a = toArray();
 
         if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
@@ -752,23 +752,23 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteTuple.ByteTuple2 pair = ByteTuple.of((byte) 5, (byte) 15);
-     * ByteTuple.ByteTuple2 reversedPair = pair.reverse();   // (15, 5)
+     * ByteTuple.ByteTuple2 reversedPair = pair.reversed();   // (15, 5)
      *
      * ByteTuple.ByteTuple3 t = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-     * ByteTuple.ByteTuple3 reversed = t.reverse();   // (30, 20, 10)
+     * ByteTuple.ByteTuple3 reversed = t.reversed();   // (30, 20, 10)
      *
      * // single-element: reverse returns a new instance with the same value
      * ByteTuple.ByteTuple1 single = ByteTuple.of((byte) 42);
-     * ByteTuple.ByteTuple1 reversedSingle = single.reverse();   // (42)
+     * ByteTuple.ByteTuple1 reversedSingle = single.reversed();   // (42)
      *
      * // edge: empty tuple reverses to itself
      * ByteTuple<?> empty = ByteTuple.from(new byte[0]);
-     * int emptyArity = empty.reverse().arity();   // 0
+     * int emptyArity = empty.reversed().arity();   // 0
      * }</pre>
      *
      * @return a tuple of the same arity with the elements in reverse order
      */
-    public abstract TP reverse();
+    public abstract TP reversed();
 
     /**
      * Returns {@code true} if this tuple contains the specified signed {@code byte} value.
@@ -1049,7 +1049,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * {@code null} or zero-length array (deprecated). Aggregate contracts for the empty instance:
      * {@link #sum()} is {@code 0}, {@link #average()} is empty, and
      * {@link #min()}, {@link #max()}, {@link #lowerMedian()}, and {@link #median()} throw
-     * {@link NoSuchElementException}. {@link #reverse()} returns this same instance.
+     * {@link NoSuchElementException}. {@link #reversed()} returns this same instance.
      * </p>
      */
     static final class ByteTuple0 extends ByteTuple<ByteTuple0> {
@@ -1074,10 +1074,11 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         }
 
         /**
-         * Always throws because this tuple has no elements.
+         * Returns the minimum byte value in this tuple.
+         * Since this tuple is empty, this method always throws an exception.
          *
          * @return never returns normally
-         * @throws NoSuchElementException always
+         * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
         public byte min() {
@@ -1085,26 +1086,15 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         }
 
         /**
-         * Always throws because this tuple has no elements.
+         * Returns the maximum byte value in this tuple.
+         * Since this tuple is empty, this method always throws an exception.
          *
          * @return never returns normally
-         * @throws NoSuchElementException always
+         * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
         public byte max() {
             throw new NoSuchElementException("Cannot compute max() for an empty tuple");
-        }
-
-        /**
-         * Always throws because this tuple has no elements.
-         *
-         * @return never returns normally
-         * @throws NoSuchElementException always
-         * @see ByteTuple#median()
-         */
-        @Override
-        public byte lowerMedian() {
-            throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
         }
 
         /**
@@ -1128,12 +1118,36 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         }
 
         /**
+         * Returns the statistical median of this tuple as a {@code double}.
+         * Since this tuple is empty, this method always throws an exception.
+         *
+         * @return never returns normally
+         * @throws NoSuchElementException always, because the tuple is empty
+         */
+        @Override
+        public double median() {
+            throw new NoSuchElementException("Cannot compute median() for an empty tuple");
+        }
+
+        /**
+         * Returns the lower median byte value in this tuple.
+         * Since this tuple is empty, this method always throws an exception.
+         *
+         * @return never returns normally
+         * @throws NoSuchElementException always, because the tuple is empty
+         */
+        @Override
+        public byte lowerMedian() {
+            throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
+        }
+
+        /**
          * Returns this same empty instance.
          *
          * @return {@code this}
          */
         @Override
-        public ByteTuple0 reverse() {
+        public ByteTuple0 reversed() {
             return this;
         }
 
@@ -1338,6 +1352,12 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * Returns the statistical median of this one-element tuple as a {@code double}
          * (the element itself, widened).
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.ByteTuple1 t = ByteTuple.of((byte) 42);
+         * double median = t.median();   // 42.0
+         * }</pre>
+         *
          * @return {@code (double) _1}
          * @see #lowerMedian()
          */
@@ -1380,21 +1400,21 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ByteTuple.ByteTuple1 t = ByteTuple.of((byte) 7);
-         * ByteTuple.ByteTuple1 r = t.reverse();
+         * ByteTuple.ByteTuple1 r = t.reversed();
          * assert r._1 == 7; // (same value, new instance)
          *
          * // negative value
-         * assert ByteTuple.of((byte) -5).reverse()._1 == -5;
+         * assert ByteTuple.of((byte) -5).reversed()._1 == -5;
          *
          * // boundary
-         * assert ByteTuple.of(Byte.MIN_VALUE).reverse()._1 == -128;
-         * assert ByteTuple.of(Byte.MAX_VALUE).reverse()._1 == 127;
+         * assert ByteTuple.of(Byte.MIN_VALUE).reversed()._1 == -128;
+         * assert ByteTuple.of(Byte.MAX_VALUE).reversed()._1 == 127;
          * }</pre>
          *
          * @return a new ByteTuple.ByteTuple1 with the same element
          */
         @Override
-        public ByteTuple1 reverse() {
+        public ByteTuple1 reversed() {
             return new ByteTuple1(_1);
         }
 
@@ -1721,15 +1741,15 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ByteTuple.ByteTuple2 t = ByteTuple.of((byte) 3, (byte) 7);
-         * ByteTuple.ByteTuple2 r = t.reverse();
+         * ByteTuple.ByteTuple2 r = t.reversed();
          * assert r._1 == 7;
          * assert r._2 == 3;
          *
          * // same element values - reverse is a new instance
-         * assert ByteTuple.of((byte) 5, (byte) 5).reverse()._1 == 5;
+         * assert ByteTuple.of((byte) 5, (byte) 5).reversed()._1 == 5;
          *
          * // negative values
-         * ByteTuple.ByteTuple2 neg = ByteTuple.of((byte) -1, (byte) -2).reverse();
+         * ByteTuple.ByteTuple2 neg = ByteTuple.of((byte) -1, (byte) -2).reversed();
          * assert neg._1 == -2;
          * assert neg._2 == -1;
          * }</pre>
@@ -1737,7 +1757,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * @return a new ByteTuple.ByteTuple2 with the elements in reverse order
          */
         @Override
-        public ByteTuple2 reverse() {
+        public ByteTuple2 reversed() {
             return new ByteTuple2(_2, _1);
         }
 
@@ -2204,7 +2224,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
 
         /**
          * Returns the lower median of this triple: the middle signed value when the three elements
-         * are ordered by magnitude.
+         * are ordered by signed numeric value.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -2234,22 +2254,22 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ByteTuple.ByteTuple3 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3);
-         * ByteTuple.ByteTuple3 r = t.reverse();
+         * ByteTuple.ByteTuple3 r = t.reversed();
          * assert r._1 == 3;
          * assert r._2 == 2;
          * assert r._3 == 1;
          *
          * // negative and boundary
-         * ByteTuple.ByteTuple3 neg = ByteTuple.of((byte) -1, (byte) 0, (byte) 1).reverse();
+         * ByteTuple.ByteTuple3 neg = ByteTuple.of((byte) -1, (byte) 0, (byte) 1).reversed();
          * assert neg._1 == 1;
          * assert neg._3 == -1;
-         * assert ByteTuple.of(Byte.MIN_VALUE, (byte) 0, Byte.MAX_VALUE).reverse()._1 == 127;
+         * assert ByteTuple.of(Byte.MIN_VALUE, (byte) 0, Byte.MAX_VALUE).reversed()._1 == 127;
          * }</pre>
          *
          * @return a new ByteTuple.ByteTuple3 with the elements in reverse order
          */
         @Override
-        public ByteTuple3 reverse() {
+        public ByteTuple3 reversed() {
             return new ByteTuple3(_3, _2, _1);
         }
 
@@ -2728,23 +2748,23 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ByteTuple.ByteTuple4 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40);
-         * ByteTuple.ByteTuple4 reversed = tuple.reverse();   // returns (40, 30, 20, 10)
+         * ByteTuple.ByteTuple4 reversed = tuple.reversed();   // returns (40, 30, 20, 10)
          *
          * ByteTuple.ByteTuple4 allSame = ByteTuple.of((byte) 5, (byte) 5, (byte) 5, (byte) 5);
-         * ByteTuple.ByteTuple4 rev2 = allSame.reverse();   // returns (5, 5, 5, 5)
+         * ByteTuple.ByteTuple4 rev2 = allSame.reversed();   // returns (5, 5, 5, 5)
          *
          * ByteTuple.ByteTuple4 neg = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, (byte) 1, Byte.MAX_VALUE);
-         * ByteTuple.ByteTuple4 rev3 = neg.reverse();   // returns (127, 1, 0, -128)
+         * ByteTuple.ByteTuple4 rev3 = neg.reversed();   // returns (127, 1, 0, -128)
          *
          * // reverse of a reverse yields the original
          * ByteTuple.ByteTuple4 orig = ByteTuple.of((byte) -10, (byte) 20, (byte) -30, (byte) 40);
-         * boolean same = orig.equals(orig.reverse().reverse());   // returns true
+         * boolean same = orig.equals(orig.reversed().reversed());   // returns true
          * }</pre>
          *
          * @return a new ByteTuple.ByteTuple4 with the elements in reverse order
          */
         @Override
-        public ByteTuple4 reverse() {
+        public ByteTuple4 reversed() {
             return new ByteTuple4(_4, _3, _2, _1);
         }
 
@@ -2907,10 +2927,12 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
     }
 
     /**
-     * A ByteTuple containing exactly five byte elements.
+     * A {@code ByteTuple} containing exactly five {@code byte} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _5}.
-     * This tuple type is useful for grouping five related byte values together.
+     * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
+     * overloads; use {@link #forEach(Throwables.ByteConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -3084,23 +3106,23 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ByteTuple.ByteTuple5 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50);
-         * ByteTuple.ByteTuple5 reversed = tuple.reverse();   // returns (50, 40, 30, 20, 10)
+         * ByteTuple.ByteTuple5 reversed = tuple.reversed();   // returns (50, 40, 30, 20, 10)
          *
          * ByteTuple.ByteTuple5 allSame = ByteTuple.of((byte) 5, (byte) 5, (byte) 5, (byte) 5, (byte) 5);
-         * ByteTuple.ByteTuple5 rev2 = allSame.reverse();   // returns (5, 5, 5, 5, 5)
+         * ByteTuple.ByteTuple5 rev2 = allSame.reversed();   // returns (5, 5, 5, 5, 5)
          *
          * ByteTuple.ByteTuple5 neg = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, (byte) 1, (byte) -1, Byte.MAX_VALUE);
-         * ByteTuple.ByteTuple5 rev3 = neg.reverse();   // returns (127, -1, 1, 0, -128)
+         * ByteTuple.ByteTuple5 rev3 = neg.reversed();   // returns (127, -1, 1, 0, -128)
          *
          * // reverse of a reverse yields the original
          * ByteTuple.ByteTuple5 orig = ByteTuple.of((byte) -10, (byte) 20, (byte) -30, (byte) 40, (byte) -50);
-         * boolean same = orig.equals(orig.reverse().reverse());   // returns true
+         * boolean same = orig.equals(orig.reversed().reversed());   // returns true
          * }</pre>
          *
          * @return a new ByteTuple.ByteTuple5 with the elements in reverse order
          */
         @Override
-        public ByteTuple5 reverse() {
+        public ByteTuple5 reversed() {
             return new ByteTuple5(_5, _4, _3, _2, _1);
         }
 
@@ -3264,10 +3286,12 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
     }
 
     /**
-     * A ByteTuple containing exactly six byte elements.
+     * A {@code ByteTuple} containing exactly six {@code byte} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _6}.
-     * This tuple type is useful for grouping six related byte values together.
+     * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
+     * overloads; use {@link #forEach(Throwables.ByteConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -3275,7 +3299,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * ByteTuple.ByteTuple6 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60);
      * byte first = tuple._1;                            // 10
      * byte sixth = tuple._6;                            // 60
-     * ByteTuple.ByteTuple6 reversed = tuple.reverse();  // (60, 50, 40, 30, 20, 10)
+     * ByteTuple.ByteTuple6 reversed = tuple.reversed();  // (60, 50, 40, 30, 20, 10)
      * }</pre>
      *
      */
@@ -3445,23 +3469,23 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ByteTuple.ByteTuple6 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60);
-         * ByteTuple.ByteTuple6 reversed = tuple.reverse();   // returns (60, 50, 40, 30, 20, 10)
+         * ByteTuple.ByteTuple6 reversed = tuple.reversed();   // returns (60, 50, 40, 30, 20, 10)
          *
          * ByteTuple.ByteTuple6 allSame = ByteTuple.of((byte) 5, (byte) 5, (byte) 5, (byte) 5, (byte) 5, (byte) 5);
-         * ByteTuple.ByteTuple6 rev2 = allSame.reverse();   // returns (5, 5, 5, 5, 5, 5)
+         * ByteTuple.ByteTuple6 rev2 = allSame.reversed();   // returns (5, 5, 5, 5, 5, 5)
          *
          * ByteTuple.ByteTuple6 neg = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, (byte) 1, (byte) -1, (byte) 0, Byte.MAX_VALUE);
-         * ByteTuple.ByteTuple6 rev3 = neg.reverse();   // returns (127, 0, -1, 1, 0, -128)
+         * ByteTuple.ByteTuple6 rev3 = neg.reversed();   // returns (127, 0, -1, 1, 0, -128)
          *
          * // reverse of a reverse yields the original
          * ByteTuple.ByteTuple6 orig = ByteTuple.of((byte) -10, (byte) 20, (byte) -30, (byte) 40, (byte) -50, (byte) 60);
-         * boolean same = orig.equals(orig.reverse().reverse());   // returns true
+         * boolean same = orig.equals(orig.reversed().reversed());   // returns true
          * }</pre>
          *
          * @return a new ByteTuple.ByteTuple6 with the elements in reverse order
          */
         @Override
-        public ByteTuple6 reverse() {
+        public ByteTuple6 reversed() {
             return new ByteTuple6(_6, _5, _4, _3, _2, _1);
         }
 
@@ -3626,10 +3650,12 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
     }
 
     /**
-     * A ByteTuple containing exactly seven byte elements.
+     * A {@code ByteTuple} containing exactly seven {@code byte} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _7}.
-     * This tuple type is useful for grouping seven related byte values together.
+     * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
+     * overloads; use {@link #forEach(Throwables.ByteConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -3813,28 +3839,28 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ByteTuple.ByteTuple7 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7);
-         * ByteTuple.ByteTuple7 r = t.reverse();
+         * ByteTuple.ByteTuple7 r = t.reversed();
          * // r.toString() returns "(7, 6, 5, 4, 3, 2, 1)"
          *
          * ByteTuple.ByteTuple7 t2 = ByteTuple.of((byte) -3, (byte) -2, (byte) -1, (byte) 0, (byte) 1, (byte) 2, (byte) 3);
-         * ByteTuple.ByteTuple7 r2 = t2.reverse();
+         * ByteTuple.ByteTuple7 r2 = t2.reversed();
          * // r2.toString() returns "(3, 2, 1, 0, -1, -2, -3)"
          *
          * // boundary values are preserved
          * ByteTuple.ByteTuple7 t3 = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, Byte.MAX_VALUE, (byte) 0, (byte) 0, (byte) 0, (byte) 0);
-         * ByteTuple.ByteTuple7 r3 = t3.reverse();
+         * ByteTuple.ByteTuple7 r3 = t3.reversed();
          * // r3._7 == Byte.MIN_VALUE, r3._5 == Byte.MAX_VALUE
          *
          * // palindrome: reverse equals original
          * ByteTuple.ByteTuple7 t4 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 3, (byte) 2, (byte) 1);
-         * ByteTuple.ByteTuple7 r4 = t4.reverse();
+         * ByteTuple.ByteTuple7 r4 = t4.reversed();
          * // r4.equals(t4) == true
          * }</pre>
          *
          * @return a new ByteTuple.ByteTuple7 with the elements in reverse order
          */
         @Override
-        public ByteTuple7 reverse() {
+        public ByteTuple7 reversed() {
             return new ByteTuple7(_7, _6, _5, _4, _3, _2, _1);
         }
 
@@ -4017,10 +4043,12 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
     }
 
     /**
-     * A ByteTuple containing exactly eight byte elements.
+     * A {@code ByteTuple} containing exactly eight {@code byte} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _8}.
-     * This tuple type is useful for grouping eight related byte values together.
+     * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
+     * overloads; use {@link #forEach(Throwables.ByteConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -4220,28 +4248,28 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ByteTuple.ByteTuple8 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8);
-         * ByteTuple.ByteTuple8 r = t.reverse();
+         * ByteTuple.ByteTuple8 r = t.reversed();
          * // r.toString() returns "(8, 7, 6, 5, 4, 3, 2, 1)"
          *
          * ByteTuple.ByteTuple8 t2 = ByteTuple.of((byte) -4, (byte) -3, (byte) -2, (byte) -1, (byte) 0, (byte) 1, (byte) 2, (byte) 3);
-         * ByteTuple.ByteTuple8 r2 = t2.reverse();
+         * ByteTuple.ByteTuple8 r2 = t2.reversed();
          * // r2.toString() returns "(3, 2, 1, 0, -1, -2, -3, -4)"
          *
          * // boundary values preserved
          * ByteTuple.ByteTuple8 t3 = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, Byte.MAX_VALUE);
-         * ByteTuple.ByteTuple8 r3 = t3.reverse();
+         * ByteTuple.ByteTuple8 r3 = t3.reversed();
          * // r3._1 == Byte.MAX_VALUE, r3._8 == Byte.MIN_VALUE
          *
          * // palindrome: reverse equals original
          * ByteTuple.ByteTuple8 t4 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 4, (byte) 3, (byte) 2, (byte) 1);
-         * ByteTuple.ByteTuple8 r4 = t4.reverse();
+         * ByteTuple.ByteTuple8 r4 = t4.reversed();
          * // r4.equals(t4) == true
          * }</pre>
          *
          * @return a new ByteTuple.ByteTuple8 with the elements in reverse order
          */
         @Override
-        public ByteTuple8 reverse() {
+        public ByteTuple8 reversed() {
             return new ByteTuple8(_8, _7, _6, _5, _4, _3, _2, _1);
         }
 
@@ -4426,10 +4454,12 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
     }
 
     /**
-     * A ByteTuple containing exactly nine byte elements.
+     * A {@code ByteTuple} containing exactly nine {@code byte} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _9}.
-     * This tuple type is useful for grouping nine related byte values together.
+     * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
+     * overloads; use {@link #forEach(Throwables.ByteConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -4637,28 +4667,28 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ByteTuple.ByteTuple9 t = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9);
-         * ByteTuple.ByteTuple9 r = t.reverse();
+         * ByteTuple.ByteTuple9 r = t.reversed();
          * // r.toString() returns "(9, 8, 7, 6, 5, 4, 3, 2, 1)"
          *
          * ByteTuple.ByteTuple9 t2 = ByteTuple.of((byte) -4, (byte) -3, (byte) -2, (byte) -1, (byte) 0, (byte) 1, (byte) 2, (byte) 3, (byte) 4);
-         * ByteTuple.ByteTuple9 r2 = t2.reverse();
+         * ByteTuple.ByteTuple9 r2 = t2.reversed();
          * // r2.toString() returns "(4, 3, 2, 1, 0, -1, -2, -3, -4)"
          *
          * // boundary values preserved
          * ByteTuple.ByteTuple9 t3 = ByteTuple.of(Byte.MIN_VALUE, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, Byte.MAX_VALUE);
-         * ByteTuple.ByteTuple9 r3 = t3.reverse();
+         * ByteTuple.ByteTuple9 r3 = t3.reversed();
          * // r3._1 == Byte.MAX_VALUE, r3._9 == Byte.MIN_VALUE
          *
          * // palindrome: reverse equals original
          * ByteTuple.ByteTuple9 t4 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 4, (byte) 3, (byte) 2, (byte) 1);
-         * ByteTuple.ByteTuple9 r4 = t4.reverse();
+         * ByteTuple.ByteTuple9 r4 = t4.reversed();
          * // r4.equals(t4) == true
          * }</pre>
          *
          * @return a new ByteTuple.ByteTuple9 with the elements in reverse order
          */
         @Override
-        public ByteTuple9 reverse() {
+        public ByteTuple9 reversed() {
             return new ByteTuple9(_9, _8, _7, _6, _5, _4, _3, _2, _1);
         }
 

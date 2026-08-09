@@ -1,7 +1,7 @@
 # abacus-extra
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.landawn.abacus/abacus-extra.svg)](https://central.sonatype.com/artifact/com.landawn.abacus/abacus-extra/3.8.6)
-[![Javadocs](https://img.shields.io/badge/javadoc-3.8.6-brightgreen.svg)](https://www.javadoc.io/doc/com.landawn.abacus/abacus-extra/3.8.6/index.html)
+[![Maven Central](https://img.shields.io/maven-central/v/com.landawn.abacus/abacus-extra.svg)](https://central.sonatype.com/artifact/com.landawn.abacus/abacus-extra/3.8.7)
+[![Javadocs](https://img.shields.io/badge/javadoc-3.8.7-brightgreen.svg)](https://www.javadoc.io/doc/com.landawn.abacus/abacus-extra/3.8.7/index.html)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE.txt)
 
 Additional utility types for the [Abacus](https://github.com/landawn/abacus-common) ecosystem: immutable
@@ -42,7 +42,7 @@ Browse the rendered class views:
 <dependency>
     <groupId>com.landawn.abacus</groupId>
     <artifactId>abacus-extra</artifactId>
-    <version>3.8.6</version>
+    <version>3.8.7</version>
 </dependency>
 
 <!-- Required at runtime; abacus-extra does not pull it in transitively -->
@@ -56,7 +56,7 @@ Browse the rendered class views:
 **Gradle**
 
 ```gradle
-implementation 'com.landawn.abacus:abacus-extra:3.8.6'
+implementation 'com.landawn.abacus:abacus-extra:3.8.7'
 implementation 'com.landawn.abacus:abacus-common:7.8.5'
 ```
 
@@ -70,7 +70,7 @@ t.sum();        // 6
 t.average();    // 2.0
 t.max();        // 3
 t.contains(2);  // true
-t.reverse();    // (3, 2, 1)
+t.reversed();   // (3, 2, 1)
 int first = t._1;  // 1
 
 // Functional helpers shared by every tuple family (accept / map / filter / toOptional):
@@ -121,7 +121,7 @@ snapshot.stream().sum();  // 60
 
 ## Documentation
 
-* [API Javadoc](https://www.javadoc.io/doc/com.landawn.abacus/abacus-extra/3.8.6/index.html)
+* [API Javadoc](https://www.javadoc.io/doc/com.landawn.abacus/abacus-extra/3.8.7/index.html)
 * [User Guide (Wiki)](https://github.com/landawn/abacus-extra/wiki)
 * [Changelog](CHANGES.md)
 

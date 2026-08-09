@@ -17,6 +17,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -207,13 +208,23 @@ public final class ApiDocGenerator {
         final DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
         final StandardJavaFileManager fileManager = compiler.getStandardFileManager(diagnostics, Locale.ROOT, StandardCharsets.UTF_8);
         final Iterable<? extends JavaFileObject> files = fileManager.getJavaFileObjectsFromPaths(javaFiles);
-        final JavacTask task = (JavacTask) compiler.getTask(new StringWriter(), fileManager, diagnostics, List.of("-proc:none", "-Xlint:none"), null, files);
+        final List<String> compilerOptions = new ArrayList<>(List.of("-proc:none", "-Xlint:none"));
+        if (library.javaTarget.matches("\\d+")) {
+            compilerOptions.add("--release");
+            compilerOptions.add(library.javaTarget);
+        }
+        final JavacTask task = (JavacTask) compiler.getTask(new StringWriter(), fileManager, diagnostics, compilerOptions, null, files);
 
         final List<CompilationUnitTree> parsedUnits = new ArrayList<>();
         for (final CompilationUnitTree unit : task.parse()) {
             parsedUnits.add(unit);
         }
         fileManager.close();
+
+        final long errors = diagnostics.getDiagnostics().stream().filter(d -> d.getKind() == Diagnostic.Kind.ERROR).count();
+        if (errors > 0) {
+            throw new IllegalStateException("Java source parsing failed with " + errors + " error(s); API artifacts were not written");
+        }
 
         final DocTrees docTrees = DocTrees.instance(task);
         final Trees trees = Trees.instance(task);
@@ -294,7 +305,6 @@ public final class ApiDocGenerator {
         Files.writeString(markdownOut, toMarkdown(library, packages), StandardCharsets.UTF_8);
         Files.writeString(jsonOut, toJson(library, packages), StandardCharsets.UTF_8);
 
-        final long errors = diagnostics.getDiagnostics().stream().filter(d -> d.getKind() == Diagnostic.Kind.ERROR).count();
         System.out.println("Generated " + markdownOut + " and " + jsonOut + " from " + javaFiles.size() + " files.");
         System.out.println("Diagnostics: " + diagnostics.getDiagnostics().size() + " (" + errors + " errors)");
     }
@@ -909,6 +919,7 @@ public final class ApiDocGenerator {
 
     private static LibraryInfo readLibraryInfo(final Path pomPath) {
         final LibraryInfo out = new LibraryInfo();
+        out.gitSha = readGitSha(pomPath);
         if (!Files.exists(pomPath)) {
             return out;
         }
@@ -940,6 +951,35 @@ public final class ApiDocGenerator {
         } catch (final Exception ignored) {
         }
         return out;
+    }
+
+    private static String readGitSha(final Path pomPath) {
+        final Path absolutePom = pomPath.toAbsolutePath().normalize();
+        final Path workingDirectory = absolutePom.getParent();
+        if (workingDirectory == null) {
+            return "unknown";
+        }
+
+        Process process = null;
+        try {
+            process = new ProcessBuilder("git", "rev-parse", "HEAD").directory(workingDirectory.toFile()).redirectErrorStream(true).start();
+            if (!process.waitFor(10, TimeUnit.SECONDS)) {
+                process.destroyForcibly();
+                return "unknown";
+            }
+
+            final String value = new String(process.getInputStream().readAllBytes(), StandardCharsets.UTF_8).trim();
+            return process.exitValue() == 0 && value.matches("[0-9a-fA-F]{40}") ? value.toLowerCase(Locale.ROOT) : "unknown";
+        } catch (final IOException e) {
+            return "unknown";
+        } catch (final InterruptedException e) {
+            Thread.currentThread().interrupt();
+            return "unknown";
+        } finally {
+            if (process != null && process.isAlive()) {
+                process.destroyForcibly();
+            }
+        }
     }
 
     private static String readProjectElement(final Document doc, final String key) {
@@ -1097,7 +1137,10 @@ public final class ApiDocGenerator {
                     for (final String example : m.examples) {
                         sb.append("  ```java\n");
                         for (final String line : example.split("\\n", -1)) {
-                            sb.append("  ").append(line).append('\n');
+                            if (!line.isEmpty()) {
+                                sb.append("  ").append(line);
+                            }
+                            sb.append('\n');
                         }
                         sb.append("  ```\n");
                     }

@@ -54,7 +54,7 @@ import com.landawn.abacus.util.stream.ShortStream;
  * Empty-tuple contracts: {@code sum()} is {@code 0}, {@code average()} is empty, and
  * {@code min}/{@code max}/{@code lowerMedian}/{@code median} throw {@link NoSuchElementException}.</p>
  *
- * @param <TP> the concrete {@code ShortTuple} subtype that fluent operations such as {@link #reverse()} return
+ * @param <TP> the concrete {@code ShortTuple} subtype that fluent operations such as {@link #reversed()} return
  * @see PrimitiveTuple
  * @see BooleanTuple
  * @see ByteTuple
@@ -206,7 +206,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * t.lowerMedian();                        // returns 3
      *
      * // Edge: reverse preserves all elements
-     * ShortTuple.ShortTuple5 rev = t.reverse();
+     * ShortTuple.ShortTuple5 rev = t.reversed();
      * assert rev._1 == 5;
      * assert rev._5 == 1;
      *
@@ -272,7 +272,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * t.lowerMedian();                        // returns 4
      *
      * // Edge: reverse has correct endpoints
-     * ShortTuple.ShortTuple7 rev = t.reverse();
+     * ShortTuple.ShortTuple7 rev = t.reversed();
      * assert rev._1 == 7;
      * assert rev._7 == 1;
      *
@@ -312,7 +312,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * t.contains((short) 9);             // returns false
      *
      * // Edge: reverse endpoints
-     * ShortTuple.ShortTuple8 rev = t.reverse();
+     * ShortTuple.ShortTuple8 rev = t.reversed();
      * assert rev._1 == 8;
      * assert rev._8 == 1;
      * }</pre>
@@ -349,7 +349,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * t.lowerMedian();                        // returns 5
      *
      * // Edge: reverse endpoints
-     * ShortTuple.ShortTuple9 rev = t.reverse();
+     * ShortTuple.ShortTuple9 rev = t.reversed();
      * assert rev._1 == 9;
      * assert rev._9 == 1;
      *
@@ -604,7 +604,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
     /**
      * Returns the conventional statistical median of this tuple as a {@code double}.
      * <p>
-     * Elements are ordered by signed magnitude. For an odd arity, this is the middle value when
+     * Elements are ordered by signed numeric value. For an odd arity, this is the middle value when
      * sorted. For an even arity, this is the arithmetic mean of the two middle values. That differs
      * from {@link #lowerMedian()}, which returns a {@code short} and, for even arities, the lower
      * middle element only.
@@ -649,7 +649,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
     /**
      * Returns the lower median of this tuple as a signed {@code short}.
      * <p>
-     * Elements are ordered by signed magnitude. For an odd arity, this is the middle value when
+     * Elements are ordered by signed numeric value. For an odd arity, this is the middle value when
      * sorted. For an even arity, this is the lower of the two middle values when sorted
      * (not their average). Prefer {@link #median()} when you need the conventional statistical
      * median as a {@code double}.
@@ -686,7 +686,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * @see N#lowerMedian(short...)
      */
     public short lowerMedian() {
-        final short[] a = elements();
+        final short[] a = toArray();
 
         if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
@@ -706,26 +706,26 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortTuple.ShortTuple2 pair = ShortTuple.of((short) 1, (short) 2);
-     * ShortTuple.ShortTuple2 rev2 = pair.reverse();
+     * ShortTuple.ShortTuple2 rev2 = pair.reversed();
      * assert rev2._1 == 2;
      * assert rev2._2 == 1;
      *
      * ShortTuple.ShortTuple3 t3 = ShortTuple.of((short) 1, (short) 2, (short) 3);
-     * ShortTuple.ShortTuple3 rev3 = t3.reverse();
+     * ShortTuple.ShortTuple3 rev3 = t3.reversed();
      * rev3.toString();                   // returns "(3, 2, 1)"
      *
      * // single-element tuple reverses to an equal tuple
      * ShortTuple.ShortTuple1 t1 = ShortTuple.of((short) 9);
-     * assert t1.reverse()._1 == 9;
+     * assert t1.reversed()._1 == 9;
      *
      * // Edge: empty tuple - returns the same instance
      * ShortTuple<?> empty = ShortTuple.from(new short[0]);
-     * empty.reverse().arity();           // returns 0
+     * empty.reversed().arity();           // returns 0
      * }</pre>
      *
      * @return a tuple of the same arity with the elements in reverse order
      */
-    public abstract TP reverse();
+    public abstract TP reversed();
 
     /**
      * Checks if this tuple contains the specified short value.
@@ -866,6 +866,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * @param action the action to be performed for each element, must not be {@code null}
      * @throws IllegalArgumentException if {@code action} is {@code null}
      * @throws E if the action throws an exception during execution
+     * @see #stream()
      */
     public <E extends Exception> void forEach(final Throwables.ShortConsumer<E> action) throws E {
         N.checkArgNotNull(action, cs.action);
@@ -1052,18 +1053,6 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         }
 
         /**
-         * Always throws because this tuple has no elements.
-         *
-         * @return never returns normally
-         * @throws NoSuchElementException always
-         * @see ShortTuple#median()
-         */
-        @Override
-        public short lowerMedian() {
-            throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
-        }
-
-        /**
          * Returns the sum of all short values in this tuple as an int.
          * For an empty tuple, the sum is {@code 0}.
          *
@@ -1086,13 +1075,37 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         }
 
         /**
+         * Returns the statistical median of this tuple as a {@code double}.
+         * Since this tuple is empty, this method always throws an exception.
+         *
+         * @return never returns normally
+         * @throws NoSuchElementException always, because the tuple is empty
+         */
+        @Override
+        public double median() {
+            throw new NoSuchElementException("Cannot compute median() for an empty tuple");
+        }
+
+        /**
+         * Returns the lower median short value in this tuple.
+         * Since this tuple is empty, this method always throws an exception.
+         *
+         * @return never returns normally
+         * @throws NoSuchElementException always, because the tuple is empty
+         */
+        @Override
+        public short lowerMedian() {
+            throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
+        }
+
+        /**
          * Returns this empty tuple instance.
          * Since this tuple has no elements, reversing has no effect.
          *
          * @return this {@code ShortTuple0} instance
          */
         @Override
-        public ShortTuple0 reverse() {
+        public ShortTuple0 reversed() {
             return this;
         }
 
@@ -1151,16 +1164,15 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
 
         /**
          * Package-private no-argument constructor for internal use only; creates a tuple with the
-         * element set to {@code 0}. Use the static factory methods such as {@link ShortTuple#from(short[])}
-         * or the {@code ShortTuple.of(...)} overloads to create instances.
+         * element set to {@code 0}. Tuples are normally created via the {@code ShortTuple.of(...)} factory methods.
          */
         ShortTuple1() {
             this((short) 0);
         }
 
         /**
-         * Package-private constructor for internal use only. Use the static factory methods such as
-         * {@link ShortTuple#from(short[])} or the {@code ShortTuple.of(...)} overloads to create instances.
+         * Package-private constructor for internal use only. Tuples are normally created via the
+         * {@code ShortTuple.of(...)} factory methods.
          *
          * @param _1 the short value to store in the tuple
          */
@@ -1298,6 +1310,12 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * Returns the statistical median of this one-element tuple as a {@code double}
          * (the element itself, widened).
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ShortTuple.ShortTuple1 t = ShortTuple.of((short) 42);
+         * double median = t.median();   // 42.0
+         * }</pre>
+         *
          * @return {@code (double) _1}
          * @see #lowerMedian()
          */
@@ -1340,25 +1358,25 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ShortTuple.ShortTuple1 t = ShortTuple.of((short) 42);
-         * ShortTuple.ShortTuple1 rev = t.reverse();
+         * ShortTuple.ShortTuple1 rev = t.reversed();
          * // rev._1 == 42  (same value, new instance)
          *
          * ShortTuple.ShortTuple1 neg = ShortTuple.of((short) -1);
-         * ShortTuple.ShortTuple1 negRev = neg.reverse();
+         * ShortTuple.ShortTuple1 negRev = neg.reversed();
          * // negRev._1 == -1
          *
          * ShortTuple.ShortTuple1 maxVal = ShortTuple.of(Short.MAX_VALUE);
-         * ShortTuple.ShortTuple1 maxRev = maxVal.reverse();
+         * ShortTuple.ShortTuple1 maxRev = maxVal.reversed();
          * // maxRev._1 == Short.MAX_VALUE
          *
          * ShortTuple.ShortTuple1 dup = ShortTuple.of((short) 0);
-         * // dup.reverse()._1 == 0
+         * // dup.reversed()._1 == 0
          * }</pre>
          *
          * @return a new ShortTuple.ShortTuple1 with the same element
          */
         @Override
-        public ShortTuple1 reverse() {
+        public ShortTuple1 reversed() {
             return new ShortTuple1(_1);
         }
 
@@ -1472,9 +1490,10 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
 
         /**
          * Returns the internal array of short elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying it compromises the immutability of this tuple. Prefer {@link #toArray()}
-         * when a safely mutable copy is needed.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
          * </p>
          *
          * @return the internal array of short elements
@@ -1518,16 +1537,15 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
 
         /**
          * Package-private no-argument constructor for internal use only; creates a tuple with all
-         * elements set to {@code 0}. Use the static factory methods such as {@link ShortTuple#from(short[])}
-         * or the {@code ShortTuple.of(...)} overloads to create instances.
+         * elements set to {@code 0}. Tuples are normally created via the {@code ShortTuple.of(...)} factory methods.
          */
         ShortTuple2() {
             this((short) 0, (short) 0);
         }
 
         /**
-         * Package-private constructor for internal use only. Use the static factory methods such as
-         * {@link ShortTuple#from(short[])} or the {@code ShortTuple.of(...)} overloads to create instances.
+         * Package-private constructor for internal use only. Tuples are normally created via the
+         * {@code ShortTuple.of(...)} factory methods.
          *
          * @param _1 the first short value
          * @param _2 the second short value
@@ -1714,26 +1732,26 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ShortTuple.ShortTuple2 t = ShortTuple.of((short) 1, (short) 2);
-         * ShortTuple.ShortTuple2 rev = t.reverse();
+         * ShortTuple.ShortTuple2 rev = t.reversed();
          * // rev._1 == 2, rev._2 == 1
          *
          * ShortTuple.ShortTuple2 neg = ShortTuple.of((short) -5, (short) 10);
-         * ShortTuple.ShortTuple2 nrev = neg.reverse();
+         * ShortTuple.ShortTuple2 nrev = neg.reversed();
          * // nrev._1 == 10, nrev._2 == -5
          *
          * ShortTuple.ShortTuple2 dups = ShortTuple.of((short) 3, (short) 3);
-         * ShortTuple.ShortTuple2 drev = dups.reverse();
+         * ShortTuple.ShortTuple2 drev = dups.reversed();
          * // drev._1 == 3, drev._2 == 3
          *
          * ShortTuple.ShortTuple2 bounds = ShortTuple.of(Short.MIN_VALUE, Short.MAX_VALUE);
-         * ShortTuple.ShortTuple2 brev = bounds.reverse();
+         * ShortTuple.ShortTuple2 brev = bounds.reversed();
          * // brev._1 == Short.MAX_VALUE, brev._2 == Short.MIN_VALUE
          * }</pre>
          *
          * @return a new ShortTuple.ShortTuple2 with the elements swapped
          */
         @Override
-        public ShortTuple2 reverse() {
+        public ShortTuple2 reversed() {
             return new ShortTuple2(_2, _1);
         }
 
@@ -2005,9 +2023,10 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
 
         /**
          * Returns the internal array of short elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying it compromises the immutability of this tuple. Prefer {@link #toArray()}
-         * when a safely mutable copy is needed.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
          * </p>
          *
          * @return the internal array of short elements
@@ -2049,16 +2068,15 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
 
         /**
          * Package-private no-argument constructor for internal use only; creates a tuple with all
-         * elements set to {@code 0}. Use the static factory methods such as {@link ShortTuple#from(short[])}
-         * or the {@code ShortTuple.of(...)} overloads to create instances.
+         * elements set to {@code 0}. Tuples are normally created via the {@code ShortTuple.of(...)} factory methods.
          */
         ShortTuple3() {
             this((short) 0, (short) 0, (short) 0);
         }
 
         /**
-         * Package-private constructor for internal use only. Use the static factory methods such as
-         * {@link ShortTuple#from(short[])} or the {@code ShortTuple.of(...)} overloads to create instances.
+         * Package-private constructor for internal use only. Tuples are normally created via the
+         * {@code ShortTuple.of(...)} factory methods.
          *
          * @param _1 the first short value
          * @param _2 the second short value
@@ -2220,7 +2238,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
 
         /**
          * Returns the lower median of this triple: the middle signed value when the three elements
-         * are ordered by magnitude.
+         * are ordered by signed numeric value.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -2250,26 +2268,26 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ShortTuple.ShortTuple3 t = ShortTuple.of((short) 1, (short) 2, (short) 3);
-         * ShortTuple.ShortTuple3 rev = t.reverse();
+         * ShortTuple.ShortTuple3 rev = t.reversed();
          * // rev._1 == 3, rev._2 == 2, rev._3 == 1
          *
          * ShortTuple.ShortTuple3 neg = ShortTuple.of((short) -1, (short) -2, (short) -3);
-         * ShortTuple.ShortTuple3 nrev = neg.reverse();
+         * ShortTuple.ShortTuple3 nrev = neg.reversed();
          * // nrev._1 == -3, nrev._2 == -2, nrev._3 == -1
          *
          * ShortTuple.ShortTuple3 dups = ShortTuple.of((short) 5, (short) 5, (short) 5);
-         * ShortTuple.ShortTuple3 drev = dups.reverse();
+         * ShortTuple.ShortTuple3 drev = dups.reversed();
          * // drev._1 == 5, drev._2 == 5, drev._3 == 5
          *
          * ShortTuple.ShortTuple3 bounds = ShortTuple.of(Short.MIN_VALUE, (short) 0, Short.MAX_VALUE);
-         * ShortTuple.ShortTuple3 brev = bounds.reverse();
+         * ShortTuple.ShortTuple3 brev = bounds.reversed();
          * // brev._1 == Short.MAX_VALUE, brev._2 == 0, brev._3 == Short.MIN_VALUE
          * }</pre>
          *
          * @return a new ShortTuple.ShortTuple3 with the elements in reverse order
          */
         @Override
-        public ShortTuple3 reverse() {
+        public ShortTuple3 reversed() {
             return new ShortTuple3(_3, _2, _1);
         }
 
@@ -2541,9 +2559,10 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
 
         /**
          * Returns the internal array of short elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying it compromises the immutability of this tuple. Prefer {@link #toArray()}
-         * when a safely mutable copy is needed.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
          * </p>
          *
          * @return the internal array of short elements
@@ -2586,16 +2605,15 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
 
         /**
          * Package-private no-argument constructor for internal use only; creates a tuple with all
-         * elements set to {@code 0}. Use the static factory methods such as {@link ShortTuple#from(short[])}
-         * or the {@code ShortTuple.of(...)} overloads to create instances.
+         * elements set to {@code 0}. Tuples are normally created via the {@code ShortTuple.of(...)} factory methods.
          */
         ShortTuple4() {
             this((short) 0, (short) 0, (short) 0, (short) 0);
         }
 
         /**
-         * Package-private constructor for internal use only. Use the static factory methods such as
-         * {@link ShortTuple#from(short[])} or the {@code ShortTuple.of(...)} overloads to create instances.
+         * Package-private constructor for internal use only. Tuples are normally created via the
+         * {@code ShortTuple.of(...)} factory methods.
          *
          * @param _1 the first short value
          * @param _2 the second short value
@@ -2728,20 +2746,20 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ShortTuple.ShortTuple4 t = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4);
-         * t.reverse(); // returns ShortTuple4 with toString() "(4, 3, 2, 1)"
+         * t.reversed(); // returns ShortTuple4 with toString() "(4, 3, 2, 1)"
          *
          * ShortTuple.ShortTuple4 t2 = ShortTuple.of((short) -1, (short) 0, Short.MIN_VALUE, Short.MAX_VALUE);
-         * ShortTuple.ShortTuple4 r2 = t2.reverse();
+         * ShortTuple.ShortTuple4 r2 = t2.reversed();
          * // r2._1 == Short.MAX_VALUE, r2._2 == Short.MIN_VALUE, r2._3 == (short) 0, r2._4 == (short) -1
          *
          * ShortTuple.ShortTuple4 t3 = ShortTuple.of((short) 5, (short) 5, (short) 5, (short) 5);
-         * t3.reverse(); // returns ShortTuple4 equal to original (all duplicates)
+         * t3.reversed(); // returns ShortTuple4 equal to original (all duplicates)
          * }</pre>
          *
          * @return a new ShortTuple.ShortTuple4 with the elements in reverse order
          */
         @Override
-        public ShortTuple4 reverse() {
+        public ShortTuple4 reversed() {
             return new ShortTuple4(_4, _3, _2, _1);
         }
 
@@ -2869,9 +2887,10 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
 
         /**
          * Returns the internal array of short elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying it compromises the immutability of this tuple. Prefer {@link #toArray()}
-         * when a safely mutable copy is needed.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
          * </p>
          *
          * @return the internal array of short elements
@@ -2887,10 +2906,12 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
     }
 
     /**
-     * A ShortTuple containing exactly five short elements.
+     * A {@code ShortTuple} containing exactly five {@code short} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _5}.
-     * This tuple type is useful for grouping five related short values together.
+     * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
+     * overloads; use {@link #forEach(Throwables.ShortConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -2898,7 +2919,6 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * ShortTuple.ShortTuple5 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5);
      * short median = tuple.lowerMedian();   // 3
      * }</pre>
-     *
      */
     public static final class ShortTuple5 extends ShortTuple<ShortTuple5> {
 
@@ -2915,16 +2935,15 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
 
         /**
          * Package-private no-argument constructor for internal use only; creates a tuple with all
-         * elements set to {@code 0}. Use the static factory methods such as {@link ShortTuple#from(short[])}
-         * or the {@code ShortTuple.of(...)} overloads to create instances.
+         * elements set to {@code 0}. Tuples are normally created via the {@code ShortTuple.of(...)} factory methods.
          */
         ShortTuple5() {
             this((short) 0, (short) 0, (short) 0, (short) 0, (short) 0);
         }
 
         /**
-         * Package-private constructor for internal use only. Use the static factory methods such as
-         * {@link ShortTuple#from(short[])} or the {@code ShortTuple.of(...)} overloads to create instances.
+         * Package-private constructor for internal use only. Tuples are normally created via the
+         * {@code ShortTuple.of(...)} factory methods.
          *
          * @param _1 the first short value
          * @param _2 the second short value
@@ -3059,20 +3078,20 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ShortTuple.ShortTuple5 t = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5);
-         * t.reverse(); // returns ShortTuple5 with toString() "(5, 4, 3, 2, 1)"
+         * t.reversed(); // returns ShortTuple5 with toString() "(5, 4, 3, 2, 1)"
          *
          * ShortTuple.ShortTuple5 t2 = ShortTuple.of((short) -1, (short) 0, (short) 1, (short) 2, (short) 3);
-         * t2.reverse(); // returns ShortTuple5 with toString() "(3, 2, 1, 0, -1)"
+         * t2.reversed(); // returns ShortTuple5 with toString() "(3, 2, 1, 0, -1)"
          *
          * ShortTuple.ShortTuple5 t3 = ShortTuple.of(Short.MIN_VALUE, (short) -1, (short) 0, (short) 1, Short.MAX_VALUE);
-         * ShortTuple.ShortTuple5 r3 = t3.reverse();
+         * ShortTuple.ShortTuple5 r3 = t3.reversed();
          * // r3._1 == Short.MAX_VALUE, r3._5 == Short.MIN_VALUE
          * }</pre>
          *
          * @return a new ShortTuple.ShortTuple5 with the elements in reverse order
          */
         @Override
-        public ShortTuple5 reverse() {
+        public ShortTuple5 reversed() {
             return new ShortTuple5(_5, _4, _3, _2, _1);
         }
 
@@ -3201,9 +3220,10 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
 
         /**
          * Returns the internal array of short elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying it compromises the immutability of this tuple. Prefer {@link #toArray()}
-         * when a safely mutable copy is needed.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
          * </p>
          *
          * @return the internal array of short elements
@@ -3219,10 +3239,12 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
     }
 
     /**
-     * A ShortTuple containing exactly six short elements.
+     * A {@code ShortTuple} containing exactly six {@code short} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _6}.
-     * This tuple type is useful for grouping six related short values together.
+     * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
+     * overloads; use {@link #forEach(Throwables.ShortConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -3230,7 +3252,6 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * ShortTuple.ShortTuple6 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6);
      * int sum = tuple.sum();   // 21
      * }</pre>
-     *
      */
     public static final class ShortTuple6 extends ShortTuple<ShortTuple6> {
 
@@ -3249,16 +3270,15 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
 
         /**
          * Package-private no-argument constructor for internal use only; creates a tuple with all
-         * elements set to {@code 0}. Use the static factory methods such as {@link ShortTuple#from(short[])}
-         * or the {@code ShortTuple.of(...)} overloads to create instances.
+         * elements set to {@code 0}. Tuples are normally created via the {@code ShortTuple.of(...)} factory methods.
          */
         ShortTuple6() {
             this((short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0);
         }
 
         /**
-         * Package-private constructor for internal use only. Use the static factory methods such as
-         * {@link ShortTuple#from(short[])} or the {@code ShortTuple.of(...)} overloads to create instances.
+         * Package-private constructor for internal use only. Tuples are normally created via the
+         * {@code ShortTuple.of(...)} factory methods.
          *
          * @param _1 the first short value
          * @param _2 the second short value
@@ -3395,20 +3415,20 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ShortTuple.ShortTuple6 t = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6);
-         * t.reverse(); // returns ShortTuple6 with toString() "(6, 5, 4, 3, 2, 1)"
+         * t.reversed(); // returns ShortTuple6 with toString() "(6, 5, 4, 3, 2, 1)"
          *
          * ShortTuple.ShortTuple6 t2 = ShortTuple.of(Short.MIN_VALUE, (short) -1, (short) 0, (short) 1, (short) 2, Short.MAX_VALUE);
-         * ShortTuple.ShortTuple6 r2 = t2.reverse();
+         * ShortTuple.ShortTuple6 r2 = t2.reversed();
          * // r2._1 == Short.MAX_VALUE, r2._6 == Short.MIN_VALUE
          *
          * ShortTuple.ShortTuple6 t3 = ShortTuple.of((short) 5, (short) 5, (short) 5, (short) 5, (short) 5, (short) 5);
-         * t3.reverse(); // returns ShortTuple6 equal to original (all duplicates)
+         * t3.reversed(); // returns ShortTuple6 equal to original (all duplicates)
          * }</pre>
          *
          * @return a new ShortTuple.ShortTuple6 with the elements in reverse order
          */
         @Override
-        public ShortTuple6 reverse() {
+        public ShortTuple6 reversed() {
             return new ShortTuple6(_6, _5, _4, _3, _2, _1);
         }
 
@@ -3538,9 +3558,10 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
 
         /**
          * Returns the internal array of short elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying it compromises the immutability of this tuple. Prefer {@link #toArray()}
-         * when a safely mutable copy is needed.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
          * </p>
          *
          * @return the internal array of short elements
@@ -3556,18 +3577,19 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
     }
 
     /**
-     * A ShortTuple containing exactly seven short elements.
+     * A {@code ShortTuple} containing exactly seven {@code short} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _7}.
-     * This tuple type is useful for grouping seven related short values together.
+     * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
+     * overloads; use {@link #forEach(Throwables.ShortConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortTuple.ShortTuple7 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7);
-     * ShortTuple.ShortTuple7 reversed = tuple.reverse();   // (7, 6, 5, 4, 3, 2, 1)
+     * ShortTuple.ShortTuple7 reversed = tuple.reversed();   // (7, 6, 5, 4, 3, 2, 1)
      * }</pre>
-     *
      */
     public static final class ShortTuple7 extends ShortTuple<ShortTuple7> {
 
@@ -3588,16 +3610,15 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
 
         /**
          * Package-private no-argument constructor for internal use only; creates a tuple with all
-         * elements set to {@code 0}. Use the static factory methods such as {@link ShortTuple#from(short[])}
-         * or the {@code ShortTuple.of(...)} overloads to create instances.
+         * elements set to {@code 0}. Tuples are normally created via the {@code ShortTuple.of(...)} factory methods.
          */
         ShortTuple7() {
             this((short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0);
         }
 
         /**
-         * Package-private constructor for internal use only. Use the static factory methods such as
-         * {@link ShortTuple#from(short[])} or the {@code ShortTuple.of(...)} overloads to create instances.
+         * Package-private constructor for internal use only. Tuples are normally created via the
+         * {@code ShortTuple.of(...)} factory methods.
          *
          * @param _1 the first short value
          * @param _2 the second short value
@@ -3742,22 +3763,22 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ShortTuple.ShortTuple7 t = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7);
-         * ShortTuple.ShortTuple7 r = t.reverse();   // returns (7, 6, 5, 4, 3, 2, 1)
+         * ShortTuple.ShortTuple7 r = t.reversed();   // returns (7, 6, 5, 4, 3, 2, 1)
          *
          * ShortTuple.ShortTuple7 t2 = ShortTuple.of((short)-1, (short)0, (short)1, (short)2, (short)3, (short)4, (short)5);
-         * ShortTuple.ShortTuple7 r2 = t2.reverse();   // returns (5, 4, 3, 2, 1, 0, -1)
+         * ShortTuple.ShortTuple7 r2 = t2.reversed();   // returns (5, 4, 3, 2, 1, 0, -1)
          *
          * ShortTuple.ShortTuple7 t3 = ShortTuple.of((short)3, (short)3, (short)3, (short)3, (short)3, (short)3, (short)3);
-         * ShortTuple.ShortTuple7 r3 = t3.reverse();   // returns (3, 3, 3, 3, 3, 3, 3) (identical, all same)
+         * ShortTuple.ShortTuple7 r3 = t3.reversed();   // returns (3, 3, 3, 3, 3, 3, 3) (identical, all same)
          *
          * ShortTuple.ShortTuple7 t4 = ShortTuple.of(Short.MIN_VALUE, (short)0, (short)0, (short)0, (short)0, (short)0, Short.MAX_VALUE);
-         * ShortTuple.ShortTuple7 r4 = t4.reverse();   // r4._1 == Short.MAX_VALUE, r4._7 == Short.MIN_VALUE
+         * ShortTuple.ShortTuple7 r4 = t4.reversed();   // r4._1 == Short.MAX_VALUE, r4._7 == Short.MIN_VALUE
          * }</pre>
          *
          * @return a new ShortTuple.ShortTuple7 with the elements in reverse order
          */
         @Override
-        public ShortTuple7 reverse() {
+        public ShortTuple7 reversed() {
             return new ShortTuple7(_7, _6, _5, _4, _3, _2, _1);
         }
 
@@ -3898,9 +3919,10 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
 
         /**
          * Returns the internal array of short elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying it compromises the immutability of this tuple. Prefer {@link #toArray()}
-         * when a safely mutable copy is needed.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
          * </p>
          *
          * @return the internal array of short elements
@@ -3916,10 +3938,12 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
     }
 
     /**
-     * A ShortTuple containing exactly eight short elements.
+     * A {@code ShortTuple} containing exactly eight {@code short} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _8}.
-     * This tuple type is useful for grouping eight related short values together.
+     * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
+     * overloads; use {@link #forEach(Throwables.ShortConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -3953,16 +3977,15 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
 
         /**
          * Package-private no-argument constructor for internal use only; creates a tuple with all
-         * elements set to {@code 0}. Use the static factory methods such as {@link ShortTuple#from(short[])}
-         * or the {@code ShortTuple.of(...)} overloads to create instances.
+         * elements set to {@code 0}. Tuples are normally created via the {@code ShortTuple.of(...)} factory methods.
          */
         ShortTuple8() {
             this((short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0);
         }
 
         /**
-         * Package-private constructor for internal use only. Use the static factory methods such as
-         * {@link ShortTuple#from(short[])} or the {@code ShortTuple.of(...)} overloads to create instances.
+         * Package-private constructor for internal use only. Tuples are normally created via the
+         * {@code ShortTuple.of(...)} factory methods.
          *
          * @param _1 the first short value
          * @param _2 the second short value
@@ -4112,22 +4135,22 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ShortTuple.ShortTuple8 t = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8);
-         * ShortTuple.ShortTuple8 r = t.reverse();   // returns (8, 7, 6, 5, 4, 3, 2, 1)
+         * ShortTuple.ShortTuple8 r = t.reversed();   // returns (8, 7, 6, 5, 4, 3, 2, 1)
          *
          * ShortTuple.ShortTuple8 t2 = ShortTuple.of((short)-1, (short)0, (short)1, (short)2, (short)3, (short)4, (short)5, (short)6);
-         * ShortTuple.ShortTuple8 r2 = t2.reverse();   // returns (6, 5, 4, 3, 2, 1, 0, -1)
+         * ShortTuple.ShortTuple8 r2 = t2.reversed();   // returns (6, 5, 4, 3, 2, 1, 0, -1)
          *
          * ShortTuple.ShortTuple8 t3 = ShortTuple.of((short)3, (short)3, (short)3, (short)3, (short)3, (short)3, (short)3, (short)3);
-         * ShortTuple.ShortTuple8 r3 = t3.reverse();   // returns (3, 3, 3, 3, 3, 3, 3, 3) (identical, all same)
+         * ShortTuple.ShortTuple8 r3 = t3.reversed();   // returns (3, 3, 3, 3, 3, 3, 3, 3) (identical, all same)
          *
          * ShortTuple.ShortTuple8 t4 = ShortTuple.of(Short.MIN_VALUE, (short)0, (short)0, (short)0, (short)0, (short)0, (short)0, Short.MAX_VALUE);
-         * ShortTuple.ShortTuple8 r4 = t4.reverse();   // r4._1 == Short.MAX_VALUE, r4._8 == Short.MIN_VALUE
+         * ShortTuple.ShortTuple8 r4 = t4.reversed();   // r4._1 == Short.MAX_VALUE, r4._8 == Short.MIN_VALUE
          * }</pre>
          *
          * @return a new ShortTuple.ShortTuple8 with the elements in reverse order
          */
         @Override
-        public ShortTuple8 reverse() {
+        public ShortTuple8 reversed() {
             return new ShortTuple8(_8, _7, _6, _5, _4, _3, _2, _1);
         }
 
@@ -4270,9 +4293,10 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
 
         /**
          * Returns the internal array of short elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying it compromises the immutability of this tuple. Prefer {@link #toArray()}
-         * when a safely mutable copy is needed.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
          * </p>
          *
          * @return the internal array of short elements
@@ -4288,10 +4312,12 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
     }
 
     /**
-     * A ShortTuple containing exactly nine short elements.
+     * A {@code ShortTuple} containing exactly nine {@code short} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _9}.
-     * This tuple type is useful for grouping nine related short values together.
+     * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
+     * overloads; use {@link #forEach(Throwables.ShortConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -4327,16 +4353,15 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
 
         /**
          * Package-private no-argument constructor for internal use only; creates a tuple with all
-         * elements set to {@code 0}. Use the static factory methods such as {@link ShortTuple#from(short[])}
-         * or the {@code ShortTuple.of(...)} overloads to create instances.
+         * elements set to {@code 0}. Tuples are normally created via the {@code ShortTuple.of(...)} factory methods.
          */
         ShortTuple9() {
             this((short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0);
         }
 
         /**
-         * Package-private constructor for internal use only. Use the static factory methods such as
-         * {@link ShortTuple#from(short[])} or the {@code ShortTuple.of(...)} overloads to create instances.
+         * Package-private constructor for internal use only. Tuples are normally created via the
+         * {@code ShortTuple.of(...)} factory methods.
          *
          * @param _1 the first short value
          * @param _2 the second short value
@@ -4489,22 +4514,22 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ShortTuple.ShortTuple9 t = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8, (short)9);
-         * ShortTuple.ShortTuple9 r = t.reverse();   // returns (9, 8, 7, 6, 5, 4, 3, 2, 1)
+         * ShortTuple.ShortTuple9 r = t.reversed();   // returns (9, 8, 7, 6, 5, 4, 3, 2, 1)
          *
          * ShortTuple.ShortTuple9 t2 = ShortTuple.of((short)-1, (short)0, (short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7);
-         * ShortTuple.ShortTuple9 r2 = t2.reverse();   // returns (7, 6, 5, 4, 3, 2, 1, 0, -1)
+         * ShortTuple.ShortTuple9 r2 = t2.reversed();   // returns (7, 6, 5, 4, 3, 2, 1, 0, -1)
          *
          * ShortTuple.ShortTuple9 t3 = ShortTuple.of((short)0, (short)0, (short)0, (short)0, (short)0, (short)0, (short)0, (short)0, (short)0);
-         * ShortTuple.ShortTuple9 r3 = t3.reverse();   // returns (0, 0, 0, 0, 0, 0, 0, 0, 0) (identical, all zero)
+         * ShortTuple.ShortTuple9 r3 = t3.reversed();   // returns (0, 0, 0, 0, 0, 0, 0, 0, 0) (identical, all zero)
          *
          * ShortTuple.ShortTuple9 t4 = ShortTuple.of(Short.MIN_VALUE, (short)0, (short)0, (short)0, (short)0, (short)0, (short)0, (short)0, Short.MAX_VALUE);
-         * ShortTuple.ShortTuple9 r4 = t4.reverse();   // r4._1 == Short.MAX_VALUE, r4._9 == Short.MIN_VALUE
+         * ShortTuple.ShortTuple9 r4 = t4.reversed();   // r4._1 == Short.MAX_VALUE, r4._9 == Short.MIN_VALUE
          * }</pre>
          *
          * @return a new ShortTuple.ShortTuple9 with the elements in reverse order
          */
         @Override
-        public ShortTuple9 reverse() {
+        public ShortTuple9 reversed() {
             return new ShortTuple9(_9, _8, _7, _6, _5, _4, _3, _2, _1);
         }
 
@@ -4648,9 +4673,10 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
 
         /**
          * Returns the internal array of short elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying it compromises the immutability of this tuple. Prefer {@link #toArray()}
-         * when a safely mutable copy is needed.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
          * </p>
          *
          * @return the internal array of short elements

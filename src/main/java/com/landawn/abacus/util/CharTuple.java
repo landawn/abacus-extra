@@ -49,14 +49,14 @@ import com.landawn.abacus.util.stream.CharStream;
  *
  * <p><b>Numeric semantics:</b> Values are unsigned UTF-16 code units (range {@code 0..65535}).
  * Ordering and arithmetic ({@link #min()}, {@link #max()}, {@link #lowerMedian()}, {@link #sum()},
- * {@link #average()}, {@link #median()}) treat each {@code char} as its code-unit value; surrogate
+ * and {@link #average()}) treat each {@code char} as its code-unit value; surrogate
  * code units are not paired or interpreted as code points. {@link #min()}, {@link #max()}, and
  * {@link #lowerMedian()} return {@code char}; {@link #sum()} returns {@code int}; {@link #average()}
- * and {@link #median()} use {@code double} precision ({@code average} via {@link OptionalDouble}).
+ * uses {@code double} precision via {@link OptionalDouble}.
  * Empty-tuple contracts: {@code sum()} is {@code 0}, {@code average()} is empty, and
- * {@code min}/{@code max}/{@code lowerMedian}/{@code median} throw {@link NoSuchElementException}.</p>
+ * {@code min}/{@code max}/{@code lowerMedian} throw {@link NoSuchElementException}.</p>
  *
- * @param <TP> the concrete {@code CharTuple} subtype that fluent operations such as {@link #reverse()} return
+ * @param <TP> the concrete {@code CharTuple} subtype that fluent operations such as {@link #reversed()} return
  * @see PrimitiveTuple
  * @see BooleanTuple
  * @see ByteTuple
@@ -136,7 +136,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * char third = t._3;                   // 'C'
      * int sum = t.sum();                   // 198 (65 + 66 + 67)
      *
-     * // Edge: out-of-order elements - min/max/median operate on sorted values
+     * // Edge: out-of-order elements - min/max/lowerMedian operate on sorted values
      * CharTuple.CharTuple3 t2 = CharTuple.of('C', 'A', 'B');
      * char min = t2.min();                 // 'A'
      * char max = t2.max();                 // 'C'
@@ -161,7 +161,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * char fourth = t._4;                  // 'D'
      * int sum = t.sum();                   // 266 (65 + 66 + 67 + 68)
      *
-     * // Edge: even arity, median returns lower of two middle values
+     * // Edge: even arity, lowerMedian returns the lower of two middle values
      * CharTuple.CharTuple4 t2 = CharTuple.of('D', 'A', 'C', 'B');
      * char median = t2.lowerMedian();           // 'B' (sorted: A,B,C,D -> lower middle)
      * }</pre>
@@ -236,7 +236,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple.CharTuple7 t = CharTuple.of('M', 'O', 'N', 'D', 'A', 'Y', 'S');
-     * CharTuple.CharTuple7 rev = t.reverse();   // ('S', 'Y', 'A', 'D', 'N', 'O', 'M')
+     * CharTuple.CharTuple7 rev = t.reversed();   // ('S', 'Y', 'A', 'D', 'N', 'O', 'M')
      * char first = rev._1;                      // 'S'
      *
      * // Edge: all distinct chars, arity is exactly 7
@@ -560,10 +560,9 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
     /**
      * Returns the lower median of this tuple as an unsigned UTF-16 code unit ({@code char}).
      * <p>
-     * Elements are ordered by unsigned code-unit magnitude (range {@code 0..65535}). For an odd
+     * Elements are ordered by unsigned code-unit value (range {@code 0..65535}). For an odd
      * arity, this is the middle value when sorted. For an even arity, this is the lower of the two
-     * middle values when sorted (not their average). Prefer {@link #median()} when you need the
-     * conventional statistical median as a {@code double}.
+     * middle values when sorted (not their average).
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -589,11 +588,10 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * @throws NoSuchElementException if the tuple is empty
      * @see #min()
      * @see #max()
-     * @see #median()
      * @see N#lowerMedian(char...)
      */
     public char lowerMedian() {
-        final char[] a = elements();
+        final char[] a = toArray();
 
         if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
@@ -605,31 +603,31 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
     /**
      * Returns a tuple with the elements in reverse order.
      * <p>
-     * Non-empty built-in tuples return a NEW tuple of the same arity containing all elements in
-     * reversed order. The empty tuple returns itself. An arity-1 reverse returns a new instance
-     * equal to this one. The original tuple remains unchanged as tuples are immutable.
+     * Non-empty built-in tuples return a new tuple instance of the same arity-specific
+     * subtype with all elements in reversed order; the empty tuple returns itself. The
+     * original tuple remains unchanged as tuples are immutable.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Basic: three-element reversal
      * CharTuple.CharTuple3 t = CharTuple.of('A', 'B', 'C');
-     * CharTuple.CharTuple3 rev = t.reverse();  // ('C', 'B', 'A')
+     * CharTuple.CharTuple3 rev = t.reversed();  // ('C', 'B', 'A')
      * char first = rev._1;                     // 'C'
      *
      * // Basic: two-element reversal
      * CharTuple.CharTuple2 t2 = CharTuple.of('X', 'Y');
-     * CharTuple.CharTuple2 rev2 = t2.reverse();
+     * CharTuple.CharTuple2 rev2 = t2.reversed();
      * char r2 = rev2._1;                   // 'Y'
      *
      * // Edge: single-element - reverse returns a new equal instance
      * CharTuple.CharTuple1 t3 = CharTuple.of('Z');
-     * CharTuple.CharTuple1 rev3 = t3.reverse();
+     * CharTuple.CharTuple1 rev3 = t3.reversed();
      * char r3 = rev3._1;                   // 'Z'
      *
      * // Edge: empty tuple returns itself
      * CharTuple<?> empty = CharTuple.from(new char[0]);
-     * int emptyArity = empty.reverse().arity(); // 0
+     * int emptyArity = empty.reversed().arity(); // 0
      *
      * // Edge: original tuple is not modified by reverse
      * char origFirst = t._1;               // still 'A'
@@ -637,7 +635,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      *
      * @return a tuple of the same arity with the elements in reverse order
      */
-    public abstract TP reverse();
+    public abstract TP reversed();
 
     /**
      * Checks if this tuple contains the specified char value.
@@ -932,8 +930,8 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * Package-private; callers obtain the shared instance only via {@link #from(char[])} with a
      * {@code null} or zero-length array (deprecated). Aggregate contracts for the empty instance:
      * {@link #sum()} is {@code 0}, {@link #average()} is empty, and
-     * {@link #min()}, {@link #max()}, {@link #lowerMedian()}, and {@link #median()} throw
-     * {@link NoSuchElementException}. {@link #reverse()} returns this same instance.
+     * {@link #min()}, {@link #max()}, and {@link #lowerMedian()} throw
+     * {@link NoSuchElementException}. {@link #reversed()} returns this same instance.
      * </p>
      */
     static final class CharTuple0 extends CharTuple<CharTuple0> {
@@ -962,16 +960,6 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * Returns the minimum char value in this tuple.
          * Since this tuple is empty, this method always throws an exception.
          *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * CharTuple<?> emptyTuple = CharTuple.from(new char[0]);
-         * try {
-         *     emptyTuple.min();            // throws NoSuchElementException
-         * } catch (NoSuchElementException e) {
-         *     // expected
-         * }
-         * }</pre>
-         *
          * @return never returns normally
          * @throws NoSuchElementException always, because the tuple is empty
          */
@@ -984,16 +972,6 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * Returns the maximum char value in this tuple.
          * Since this tuple is empty, this method always throws an exception.
          *
-         * <p><b>Usage Examples:</b></p>
-         * <pre>{@code
-         * CharTuple<?> emptyTuple = CharTuple.from(new char[0]);
-         * try {
-         *     emptyTuple.max();            // throws NoSuchElementException
-         * } catch (NoSuchElementException e) {
-         *     // expected
-         * }
-         * }</pre>
-         *
          * @return never returns normally
          * @throws NoSuchElementException always, because the tuple is empty
          */
@@ -1003,11 +981,11 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         }
 
         /**
-         * Always throws because this tuple has no elements.
+         * Returns the lower median char value in this tuple.
+         * Since this tuple is empty, this method always throws an exception.
          *
          * @return never returns normally
-         * @throws NoSuchElementException always
-         * @see CharTuple#median()
+         * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
         public char lowerMedian() {
@@ -1043,7 +1021,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * @return this {@code CharTuple0} instance
          */
         @Override
-        public CharTuple0 reverse() {
+        public CharTuple0 reversed() {
             return this;
         }
 
@@ -1270,28 +1248,28 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple.CharTuple1 tuple = CharTuple.of('A');
-         * CharTuple.CharTuple1 reversed = tuple.reverse();
+         * CharTuple.CharTuple1 reversed = tuple.reversed();
          * char val = reversed._1;   // 'A'
          *
-         * // reverse() returns a NEW instance
+         * // reversed() returns a NEW instance
          * CharTuple.CharTuple1 original = CharTuple.of('Z');
-         * CharTuple.CharTuple1 rev = original.reverse();
+         * CharTuple.CharTuple1 rev = original.reversed();
          * boolean sameInstance = (original == rev);   // false
          * boolean equalValue = original.equals(rev);  // true
          *
          * // Boundary: max char is preserved
          * CharTuple.CharTuple1 tupleMax = CharTuple.of('\uFFFF');
-         * char valMax = tupleMax.reverse()._1;     // '\uFFFF'
+         * char valMax = tupleMax.reversed()._1;     // '\uFFFF'
          *
          * // Lower-case char
          * CharTuple.CharTuple1 tupleLower = CharTuple.of('a');
-         * char valLower = tupleLower.reverse()._1; // 'a'
+         * char valLower = tupleLower.reversed()._1; // 'a'
          * }</pre>
          *
          * @return a new CharTuple.CharTuple1 with the same element
          */
         @Override
-        public CharTuple1 reverse() {
+        public CharTuple1 reversed() {
             return new CharTuple1(_1);
         }
 
@@ -1640,7 +1618,6 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * }</pre>
          *
          * @return {@code min(_1, _2)} in unsigned code-unit order
-         * @see #median()
          */
         @Override
         public char lowerMedian() {
@@ -1653,18 +1630,18 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple.CharTuple2 tuple = CharTuple.of('A', 'B');
-         * CharTuple.CharTuple2 reversed = tuple.reverse();
+         * CharTuple.CharTuple2 reversed = tuple.reversed();
          * char r1 = reversed._1;   // 'B'
          * char r2 = reversed._2;   // 'A'
          *
          * // Duplicate elements - reverse equals original
          * CharTuple.CharTuple2 same = CharTuple.of('X', 'X');
-         * CharTuple.CharTuple2 revSame = same.reverse();
+         * CharTuple.CharTuple2 revSame = same.reversed();
          * boolean eq = same.equals(revSame);   // true
          *
          * // Boundary: max char and 'A' reversed
          * CharTuple.CharTuple2 boundary = CharTuple.of('A', '\uFFFF');
-         * CharTuple.CharTuple2 revBoundary = boundary.reverse();
+         * CharTuple.CharTuple2 revBoundary = boundary.reversed();
          * char rb1 = revBoundary._1;   // '\uFFFF'
          * char rb2 = revBoundary._2;   // 'A'
          * }</pre>
@@ -1672,7 +1649,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * @return a new CharTuple.CharTuple2 with the elements in reverse order
          */
         @Override
-        public CharTuple2 reverse() {
+        public CharTuple2 reversed() {
             return new CharTuple2(_2, _1);
         }
 
@@ -2162,7 +2139,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
 
         /**
          * Returns the lower median of this triple: the middle unsigned code-unit value when the three
-         * elements are ordered by magnitude.
+         * elements are ordered by code-unit value.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -2183,7 +2160,6 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * }</pre>
          *
          * @return the middle char value when the three elements are sorted (unsigned code-unit order)
-         * @see #median()
          */
         @Override
         public char lowerMedian() {
@@ -2196,26 +2172,26 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple.CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-         * CharTuple.CharTuple3 reversed = tuple.reverse();
+         * CharTuple.CharTuple3 reversed = tuple.reversed();
          * char r1 = reversed._1;   // 'C'
          * char r2 = reversed._2;   // 'B'
          * char r3 = reversed._3;   // 'A'
          *
          * // Duplicate elements - reverse equals original
          * CharTuple.CharTuple3 same = CharTuple.of('X', 'X', 'X');
-         * CharTuple.CharTuple3 revSame = same.reverse();
+         * CharTuple.CharTuple3 revSame = same.reversed();
          * boolean eq = same.equals(revSame);   // true
          *
          * // Palindrome - also equals reversed
          * CharTuple.CharTuple3 palindrome = CharTuple.of('A', 'B', 'A');
-         * CharTuple.CharTuple3 revPalin = palindrome.reverse();
+         * CharTuple.CharTuple3 revPalin = palindrome.reversed();
          * boolean palinEq = palindrome.equals(revPalin);   // true
          * }</pre>
          *
          * @return a new CharTuple.CharTuple3 with the elements in reverse order
          */
         @Override
-        public CharTuple3 reverse() {
+        public CharTuple3 reversed() {
             return new CharTuple3(_3, _2, _1);
         }
 
@@ -2526,9 +2502,8 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * CharTuple.CharTuple4 tuple = CharTuple.of((char) 10, (char) 20, (char) 30, (char) 40);
      * char first = tuple._1;         // 10
      * char fourth = tuple._4;        // 40
-     * // even arity: sorted 10,20,30,40 -> lower middle 20; statistical median 25.0
+     * // even arity: sorted 10,20,30,40 -> lower middle 20
      * char lowerMed = tuple.lowerMedian();  // 20
-     * double med = tuple.median();          // 25.0
      * }</pre>
      */
     public static final class CharTuple4 extends CharTuple<CharTuple4> {
@@ -2708,24 +2683,24 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple.CharTuple4 tuple = CharTuple.of('A', 'B', 'C', 'D');
-         * CharTuple.CharTuple4 reversed = tuple.reverse();   // ('D', 'C', 'B', 'A')
+         * CharTuple.CharTuple4 reversed = tuple.reversed();   // ('D', 'C', 'B', 'A')
          *
          * CharTuple.CharTuple4 t2 = CharTuple.of('Z', 'M', 'a', ' ');
-         * CharTuple.CharTuple4 rev2 = t2.reverse();   // (' ', 'a', 'M', 'Z')
+         * CharTuple.CharTuple4 rev2 = t2.reversed();   // (' ', 'a', 'M', 'Z')
          *
          * // palindrome-like ABBA: reverse equals original
          * CharTuple.CharTuple4 t3 = CharTuple.of('A', 'B', 'B', 'A');
-         * boolean same = t3.reverse().equals(t3);   // true
+         * boolean same = t3.reversed().equals(t3);   // true
          *
          * // all duplicates: reverse equals original
          * CharTuple.CharTuple4 t4 = CharTuple.of('X', 'X', 'X', 'X');
-         * boolean same2 = t4.reverse().equals(t4);   // true
+         * boolean same2 = t4.reversed().equals(t4);   // true
          * }</pre>
          *
          * @return a new CharTuple.CharTuple4 with the elements in reverse order
          */
         @Override
-        public CharTuple4 reverse() {
+        public CharTuple4 reversed() {
             return new CharTuple4(_4, _3, _2, _1);
         }
 
@@ -2912,10 +2887,12 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
     }
 
     /**
-     * A CharTuple containing exactly five char elements.
+     * A {@code CharTuple} containing exactly five {@code char} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _5}.
-     * This tuple type is useful for grouping five related char values together.
+     * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
+     * overloads; use {@link #forEach(Throwables.CharConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -2925,7 +2902,6 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * char fifth = tuple._5;  // 50
      * int sum = tuple.sum();  // 150
      * }</pre>
-     *
      */
     public static final class CharTuple5 extends CharTuple<CharTuple5> {
 
@@ -3107,24 +3083,24 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple.CharTuple5 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E');
-         * CharTuple.CharTuple5 reversed = tuple.reverse();   // ('E', 'D', 'C', 'B', 'A')
+         * CharTuple.CharTuple5 reversed = tuple.reversed();   // ('E', 'D', 'C', 'B', 'A')
          *
          * CharTuple.CharTuple5 t2 = CharTuple.of('Z', 'a', ' ', '\uFFFF', 'M');
-         * CharTuple.CharTuple5 rev2 = t2.reverse();   // ('M', '\uFFFF', ' ', 'a', 'Z')
+         * CharTuple.CharTuple5 rev2 = t2.reversed();   // ('M', '\uFFFF', ' ', 'a', 'Z')
          *
          * // palindrome A,B,C,B,A: reverse equals original
          * CharTuple.CharTuple5 t3 = CharTuple.of('A', 'B', 'C', 'B', 'A');
-         * boolean same = t3.reverse().equals(t3);   // true
+         * boolean same = t3.reversed().equals(t3);   // true
          *
          * // all duplicates: reverse equals original
          * CharTuple.CharTuple5 t4 = CharTuple.of('X', 'X', 'X', 'X', 'X');
-         * boolean same2 = t4.reverse().equals(t4);   // true
+         * boolean same2 = t4.reversed().equals(t4);   // true
          * }</pre>
          *
          * @return a new CharTuple.CharTuple5 with the elements in reverse order
          */
         @Override
-        public CharTuple5 reverse() {
+        public CharTuple5 reversed() {
             return new CharTuple5(_5, _4, _3, _2, _1);
         }
 
@@ -3311,10 +3287,12 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
     }
 
     /**
-     * A CharTuple containing exactly six char elements.
+     * A {@code CharTuple} containing exactly six {@code char} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _6}.
-     * This tuple type is useful for grouping six related char values together.
+     * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
+     * overloads; use {@link #forEach(Throwables.CharConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -3322,9 +3300,8 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * CharTuple.CharTuple6 tuple = CharTuple.of((char) 10, (char) 20, (char) 30, (char) 40, (char) 50, (char) 60);
      * char first = tuple._1;                            // 10
      * char sixth = tuple._6;                            // 60
-     * CharTuple.CharTuple6 reversed = tuple.reverse();  // (60, 50, 40, 30, 20, 10)
+     * CharTuple.CharTuple6 reversed = tuple.reversed();  // (60, 50, 40, 30, 20, 10)
      * }</pre>
-     *
      */
     public static final class CharTuple6 extends CharTuple<CharTuple6> {
 
@@ -3510,24 +3487,24 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple.CharTuple6 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F');
-         * CharTuple.CharTuple6 reversed = tuple.reverse();   // ('F', 'E', 'D', 'C', 'B', 'A')
+         * CharTuple.CharTuple6 reversed = tuple.reversed();   // ('F', 'E', 'D', 'C', 'B', 'A')
          *
          * CharTuple.CharTuple6 t2 = CharTuple.of(' ', 'A', 'B', 'C', 'Z', '\uFFFF');
-         * CharTuple.CharTuple6 rev2 = t2.reverse();   // ('\uFFFF', 'Z', 'C', 'B', 'A', ' ')
+         * CharTuple.CharTuple6 rev2 = t2.reversed();   // ('\uFFFF', 'Z', 'C', 'B', 'A', ' ')
          *
          * // palindrome A,B,C,C,B,A: reverse equals original
          * CharTuple.CharTuple6 t3 = CharTuple.of('A', 'B', 'C', 'C', 'B', 'A');
-         * boolean same = t3.reverse().equals(t3);   // true
+         * boolean same = t3.reversed().equals(t3);   // true
          *
          * // all duplicates: reverse equals original
          * CharTuple.CharTuple6 t4 = CharTuple.of('X', 'X', 'X', 'X', 'X', 'X');
-         * boolean same2 = t4.reverse().equals(t4);   // true
+         * boolean same2 = t4.reversed().equals(t4);   // true
          * }</pre>
          *
          * @return a new CharTuple.CharTuple6 with the elements in reverse order
          */
         @Override
-        public CharTuple6 reverse() {
+        public CharTuple6 reversed() {
             return new CharTuple6(_6, _5, _4, _3, _2, _1);
         }
 
@@ -3715,10 +3692,12 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
     }
 
     /**
-     * A CharTuple containing exactly seven char elements.
+     * A {@code CharTuple} containing exactly seven {@code char} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _7}.
-     * This tuple type is useful for grouping seven related char values together.
+     * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
+     * overloads; use {@link #forEach(Throwables.CharConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -3728,7 +3707,6 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * char seventh = tuple._7;         // 70
      * char[] array = tuple.toArray();  // [10, 20, 30, 40, 50, 60, 70]
      * }</pre>
-     *
      */
     public static final class CharTuple7 extends CharTuple<CharTuple7> {
 
@@ -3917,24 +3895,24 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple.CharTuple7 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G');
-         * CharTuple.CharTuple7 reversed = tuple.reverse();   // ('G', 'F', 'E', 'D', 'C', 'B', 'A')
+         * CharTuple.CharTuple7 reversed = tuple.reversed();   // ('G', 'F', 'E', 'D', 'C', 'B', 'A')
          *
          * CharTuple.CharTuple7 bnd = CharTuple.of(' ', '\uFFFF', 'a', 'b', 'c', 'd', 'e');
-         * CharTuple.CharTuple7 br = bnd.reverse();   // ('e', 'd', 'c', 'b', 'a', '\uFFFF', ' ')
+         * CharTuple.CharTuple7 br = bnd.reversed();   // ('e', 'd', 'c', 'b', 'a', '\uFFFF', ' ')
          *
          * // all same: reverse is identical
          * CharTuple.CharTuple7 same = CharTuple.of('x', 'x', 'x', 'x', 'x', 'x', 'x');
-         * CharTuple.CharTuple7 sr = same.reverse();   // ('x', 'x', 'x', 'x', 'x', 'x', 'x')
+         * CharTuple.CharTuple7 sr = same.reversed();   // ('x', 'x', 'x', 'x', 'x', 'x', 'x')
          *
          * // with duplicates: (A, A, B, C, B, A, A) reversed = (A, A, B, C, B, A, A)
          * CharTuple.CharTuple7 dup = CharTuple.of('A', 'A', 'B', 'C', 'B', 'A', 'A');
-         * CharTuple.CharTuple7 dr = dup.reverse();   // ('A', 'A', 'B', 'C', 'B', 'A', 'A')
+         * CharTuple.CharTuple7 dr = dup.reversed();   // ('A', 'A', 'B', 'C', 'B', 'A', 'A')
          * }</pre>
          *
          * @return a new CharTuple.CharTuple7 with the elements in reverse order
          */
         @Override
-        public CharTuple7 reverse() {
+        public CharTuple7 reversed() {
             return new CharTuple7(_7, _6, _5, _4, _3, _2, _1);
         }
 
@@ -4125,10 +4103,12 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
     }
 
     /**
-     * A CharTuple containing exactly eight char elements.
+     * A {@code CharTuple} containing exactly eight {@code char} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _8}.
-     * This tuple type is useful for grouping eight related char values together.
+     * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
+     * overloads; use {@link #forEach(Throwables.CharConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -4333,24 +4313,24 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple.CharTuple8 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');
-         * CharTuple.CharTuple8 reversed = tuple.reverse();   // ('H', 'G', 'F', 'E', 'D', 'C', 'B', 'A')
+         * CharTuple.CharTuple8 reversed = tuple.reversed();   // ('H', 'G', 'F', 'E', 'D', 'C', 'B', 'A')
          *
          * CharTuple.CharTuple8 bnd = CharTuple.of(' ', '\uFFFF', 'a', 'b', 'c', 'd', 'e', 'f');
-         * CharTuple.CharTuple8 br = bnd.reverse();   // ('f', 'e', 'd', 'c', 'b', 'a', '\uFFFF', ' ')
+         * CharTuple.CharTuple8 br = bnd.reversed();   // ('f', 'e', 'd', 'c', 'b', 'a', '\uFFFF', ' ')
          *
          * // all same: reverse is identical
          * CharTuple.CharTuple8 same = CharTuple.of('x', 'x', 'x', 'x', 'x', 'x', 'x', 'x');
-         * CharTuple.CharTuple8 sr = same.reverse();   // ('x', 'x', 'x', 'x', 'x', 'x', 'x', 'x')
+         * CharTuple.CharTuple8 sr = same.reversed();   // ('x', 'x', 'x', 'x', 'x', 'x', 'x', 'x')
          *
          * // palindrome: (A, B, C, D, D, C, B, A) reversed = (A, B, C, D, D, C, B, A)
          * CharTuple.CharTuple8 pal = CharTuple.of('A', 'B', 'C', 'D', 'D', 'C', 'B', 'A');
-         * CharTuple.CharTuple8 pr = pal.reverse();   // same as pal
+         * CharTuple.CharTuple8 pr = pal.reversed();   // same as pal
          * }</pre>
          *
          * @return a new CharTuple.CharTuple8 with the elements in reverse order
          */
         @Override
-        public CharTuple8 reverse() {
+        public CharTuple8 reversed() {
             return new CharTuple8(_8, _7, _6, _5, _4, _3, _2, _1);
         }
 
@@ -4543,10 +4523,12 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
     }
 
     /**
-     * A CharTuple containing exactly nine char elements.
+     * A {@code CharTuple} containing exactly nine {@code char} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _9}.
-     * This tuple type is useful for grouping nine related char values together.
+     * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
+     * overloads; use {@link #forEach(Throwables.CharConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -4755,24 +4737,24 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple.CharTuple9 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I');
-         * CharTuple.CharTuple9 reversed = tuple.reverse();   // ('I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A')
+         * CharTuple.CharTuple9 reversed = tuple.reversed();   // ('I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A')
          *
          * CharTuple.CharTuple9 bnd = CharTuple.of(' ', '\uFFFF', 'a', 'b', 'c', 'd', 'e', 'f', 'g');
-         * CharTuple.CharTuple9 br = bnd.reverse();   // ('g', 'f', 'e', 'd', 'c', 'b', 'a', '\uFFFF', ' ')
+         * CharTuple.CharTuple9 br = bnd.reversed();   // ('g', 'f', 'e', 'd', 'c', 'b', 'a', '\uFFFF', ' ')
          *
          * // all same: reverse is identical
          * CharTuple.CharTuple9 same = CharTuple.of('x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x');
-         * CharTuple.CharTuple9 sr = same.reverse();   // ('x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x')
+         * CharTuple.CharTuple9 sr = same.reversed();   // ('x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x')
          *
          * // palindrome: (A, B, C, D, E, D, C, B, A) reversed = same
          * CharTuple.CharTuple9 pal = CharTuple.of('A', 'B', 'C', 'D', 'E', 'D', 'C', 'B', 'A');
-         * CharTuple.CharTuple9 pr = pal.reverse();   // same as pal
+         * CharTuple.CharTuple9 pr = pal.reversed();   // same as pal
          * }</pre>
          *
          * @return a new CharTuple.CharTuple9 with the elements in reverse order
          */
         @Override
-        public CharTuple9 reverse() {
+        public CharTuple9 reversed() {
             return new CharTuple9(_9, _8, _7, _6, _5, _4, _3, _2, _1);
         }
 

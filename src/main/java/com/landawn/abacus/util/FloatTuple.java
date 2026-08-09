@@ -57,7 +57,7 @@ import com.landawn.abacus.util.stream.FloatStream;
  * {@code average()} is empty, and {@code min}/{@code max}/{@code lowerMedian}/{@code median} throw
  * {@link NoSuchElementException}.</p>
  *
- * @param <TP> the concrete {@code FloatTuple} subtype that fluent operations such as {@link #reverse()} return
+ * @param <TP> the concrete {@code FloatTuple} subtype that fluent operations such as {@link #reversed()} return
  * @see PrimitiveTuple
  * @see BooleanTuple
  * @see ByteTuple
@@ -121,7 +121,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * assert pair._2 == 2.5f;
      *
      * // Reverse produces a new tuple with elements swapped
-     * assert pair.reverse()._1 == 2.5f;
+     * assert pair.reversed()._1 == 2.5f;
      *
      * // Edge: NaN element - min/max propagate NaN
      * FloatTuple.FloatTuple2 nanPair = FloatTuple.of(1.0f, Float.NaN);
@@ -155,7 +155,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * FloatTuple.of(1.0f, Float.NaN, 3.0f).sum();     // returns NaN (NaN propagates)
      *
      * // Edge: reversed triple
-     * assert FloatTuple.of(1.0f, 2.0f, 3.0f).reverse()._1 == 3.0f;
+     * assert FloatTuple.of(1.0f, 2.0f, 3.0f).reversed()._1 == 3.0f;
      * }</pre>
      *
      * @param _1 the first float value
@@ -206,7 +206,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * tuple.average();                                 // returns OptionalDouble.of(3.0)
      *
      * // Reverse produces a new tuple
-     * assert tuple.reverse()._1 == 5.0f;
+     * assert tuple.reversed()._1 == 5.0f;
      *
      * // Edge: NaN propagates through max
      * Float.isNaN(FloatTuple.of(1.0f, 2.0f, Float.NaN, 4.0f, 5.0f).max()); // returns true
@@ -267,7 +267,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * tuple.sum();                                     // returns 28.0f
      *
      * // Reverse produces a new tuple with elements in opposite order
-     * FloatTuple.FloatTuple7 reversed = tuple.reverse();
+     * FloatTuple.FloatTuple7 reversed = tuple.reversed();
      * assert reversed._1 == 7.0f;
      * assert reversed._7 == 1.0f;
      *
@@ -338,7 +338,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * tuple.lowerMedian();                                  // returns 5.0f
      *
      * // Reverse produces a new tuple with elements in opposite order
-     * FloatTuple.FloatTuple9 reversed = tuple.reverse();
+     * FloatTuple.FloatTuple9 reversed = tuple.reversed();
      * assert reversed._1 == 9.0f;
      * assert reversed._9 == 1.0f;
      *
@@ -685,7 +685,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * @see N#lowerMedian(float...)
      */
     public float lowerMedian() {
-        final float[] a = elements();
+        final float[] a = toArray();
 
         if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
@@ -705,7 +705,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple.FloatTuple3 t = FloatTuple.of(1.0f, 2.0f, 3.0f);
-     * FloatTuple.FloatTuple3 r = t.reverse();
+     * FloatTuple.FloatTuple3 r = t.reversed();
      * assert r._1 == 3.0f;
      * assert r._3 == 1.0f;
      *
@@ -713,15 +713,15 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * assert t._1 == 1.0f;
      *
      * // Edge: single-element tuple reversed is the same element
-     * assert FloatTuple.of(5.0f).reverse()._1 == 5.0f;
+     * assert FloatTuple.of(5.0f).reversed()._1 == 5.0f;
      *
      * // Edge: empty tuple reverses to itself
-     * FloatTuple.from(new float[0]).reverse().arity(); // returns 0
+     * FloatTuple.from(new float[0]).reversed().arity(); // returns 0
      * }</pre>
      *
      * @return a tuple of the same arity with the elements in reverse order
      */
-    public abstract TP reverse();
+    public abstract TP reversed();
 
     /**
      * Checks if this tuple contains the specified float value.
@@ -856,6 +856,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * @param action the action to be performed for each element; must not be {@code null}
      * @throws IllegalArgumentException if {@code action} is {@code null}
      * @throws E if the action throws an exception during execution
+     * @see #stream()
      */
     public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E {
         N.checkArgNotNull(action, cs.action);
@@ -988,7 +989,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * {@code null} or zero-length array (deprecated). Aggregate contracts for the empty instance:
      * {@link #sum()} is {@code 0.0f}, {@link #average()} is empty, and
      * {@link #min()}, {@link #max()}, {@link #lowerMedian()}, and {@link #median()} throw
-     * {@link NoSuchElementException}. {@link #reverse()} returns this same instance.
+     * {@link NoSuchElementException}. {@link #reversed()} returns this same instance.
      * </p>
      */
     static final class FloatTuple0 extends FloatTuple<FloatTuple0> {
@@ -1037,18 +1038,6 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         }
 
         /**
-         * Always throws because this tuple has no elements.
-         *
-         * @return never returns normally
-         * @throws NoSuchElementException always
-         * @see FloatTuple#median()
-         */
-        @Override
-        public float lowerMedian() {
-            throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
-        }
-
-        /**
          * Returns the sum of all elements in this tuple.
          * For an empty tuple, the sum is {@code 0.0f}.
          *
@@ -1071,13 +1060,37 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         }
 
         /**
+         * Returns the statistical median of this tuple as a {@code double}.
+         * Since this tuple is empty, this method always throws an exception.
+         *
+         * @return never returns normally
+         * @throws NoSuchElementException always, because the tuple is empty
+         */
+        @Override
+        public double median() {
+            throw new NoSuchElementException("Cannot compute median() for an empty tuple");
+        }
+
+        /**
+         * Returns the lower median value in this tuple.
+         * Since this tuple is empty, this method always throws an exception.
+         *
+         * @return never returns normally
+         * @throws NoSuchElementException always, because the tuple is empty
+         */
+        @Override
+        public float lowerMedian() {
+            throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
+        }
+
+        /**
          * Returns this empty tuple instance.
          * Since this tuple has no elements, reversing has no effect.
          *
          * @return this {@code FloatTuple0} instance
          */
         @Override
-        public FloatTuple0 reverse() {
+        public FloatTuple0 reversed() {
             return this;
         }
 
@@ -1271,6 +1284,12 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * Returns the statistical median of this one-element tuple as a {@code double}
          * (the element itself, widened).
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * FloatTuple.FloatTuple1 t = FloatTuple.of(42.0f);
+         * double median = t.median();   // 42.0
+         * }</pre>
+         *
          * @return {@code (double) _1}
          * @see #lowerMedian()
          */
@@ -1311,20 +1330,20 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple.FloatTuple1 tuple = FloatTuple.of(3.14f);
-         * FloatTuple.FloatTuple1 reversed = tuple.reverse();   // returns a new tuple (3.14f)
+         * FloatTuple.FloatTuple1 reversed = tuple.reversed();   // returns a new tuple (3.14f)
          * boolean sameInstance = (tuple == reversed);          // returns false
          *
          * FloatTuple.FloatTuple1 neg = FloatTuple.of(-7.5f);
-         * FloatTuple.FloatTuple1 negRev = neg.reverse();   // returns a new tuple (-7.5f)
+         * FloatTuple.FloatTuple1 negRev = neg.reversed();   // returns a new tuple (-7.5f)
          *
          * FloatTuple.FloatTuple1 nanTuple = FloatTuple.of(Float.NaN);
-         * FloatTuple.FloatTuple1 nanRev = nanTuple.reverse();   // returns a new tuple (NaN)
+         * FloatTuple.FloatTuple1 nanRev = nanTuple.reversed();   // returns a new tuple (NaN)
          * }</pre>
          *
          * @return a new {@code FloatTuple1} with the same value as this tuple
          */
         @Override
-        public FloatTuple1 reverse() {
+        public FloatTuple1 reversed() {
             return new FloatTuple1(_1);
         }
 
@@ -1688,22 +1707,22 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple.FloatTuple2 tuple = FloatTuple.of(1.5f, 2.5f);
-         * FloatTuple.FloatTuple2 reversed = tuple.reverse();   // returns (2.5, 1.5)
+         * FloatTuple.FloatTuple2 reversed = tuple.reversed();   // returns (2.5, 1.5)
          *
          * FloatTuple.FloatTuple2 neg = FloatTuple.of(-3.0f, 4.0f);
-         * FloatTuple.FloatTuple2 negRev = neg.reverse();   // returns (4.0, -3.0)
+         * FloatTuple.FloatTuple2 negRev = neg.reversed();   // returns (4.0, -3.0)
          *
          * FloatTuple.FloatTuple2 nanT = FloatTuple.of(Float.NaN, 1.0f);
-         * FloatTuple.FloatTuple2 nanRev = nanT.reverse();   // returns (1.0, NaN)
+         * FloatTuple.FloatTuple2 nanRev = nanT.reversed();   // returns (1.0, NaN)
          *
          * FloatTuple.FloatTuple2 infT = FloatTuple.of(0.0f, Float.POSITIVE_INFINITY);
-         * FloatTuple.FloatTuple2 infRev = infT.reverse();   // returns (Infinity, 0.0)
+         * FloatTuple.FloatTuple2 infRev = infT.reversed();   // returns (Infinity, 0.0)
          * }</pre>
          *
          * @return a new FloatTuple.FloatTuple2 with (_2, _1)
          */
         @Override
-        public FloatTuple2 reverse() {
+        public FloatTuple2 reversed() {
             return new FloatTuple2(_2, _1);
         }
 
@@ -2230,22 +2249,22 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple.FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-         * FloatTuple.FloatTuple3 reversed = tuple.reverse();   // returns (3.0, 2.0, 1.0)
+         * FloatTuple.FloatTuple3 reversed = tuple.reversed();   // returns (3.0, 2.0, 1.0)
          *
          * FloatTuple.FloatTuple3 neg = FloatTuple.of(-1.0f, 0.0f, 1.0f);
-         * FloatTuple.FloatTuple3 negRev = neg.reverse();   // returns (1.0, 0.0, -1.0)
+         * FloatTuple.FloatTuple3 negRev = neg.reversed();   // returns (1.0, 0.0, -1.0)
          *
          * FloatTuple.FloatTuple3 nanT = FloatTuple.of(Float.NaN, 1.0f, 2.0f);
-         * FloatTuple.FloatTuple3 nanRev = nanT.reverse();   // returns (2.0, 1.0, NaN)
+         * FloatTuple.FloatTuple3 nanRev = nanT.reversed();   // returns (2.0, 1.0, NaN)
          *
          * FloatTuple.FloatTuple3 infT = FloatTuple.of(0.0f, Float.POSITIVE_INFINITY, 1.0f);
-         * FloatTuple.FloatTuple3 infRev = infT.reverse();   // returns (1.0, Infinity, 0.0)
+         * FloatTuple.FloatTuple3 infRev = infT.reversed();   // returns (1.0, Infinity, 0.0)
          * }</pre>
          *
          * @return a new FloatTuple.FloatTuple3 with (_3, _2, _1)
          */
         @Override
-        public FloatTuple3 reverse() {
+        public FloatTuple3 reversed() {
             return new FloatTuple3(_3, _2, _1);
         }
 
@@ -2722,26 +2741,26 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple.FloatTuple4 t = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
-         * FloatTuple.FloatTuple4 r = t.reverse();
+         * FloatTuple.FloatTuple4 r = t.reversed();
          * // r._1 == 4.0f, r._2 == 3.0f, r._3 == 2.0f, r._4 == 1.0f
          *
          * FloatTuple.FloatTuple4 dups = FloatTuple.of(1.5f, 1.5f, 2.5f, 2.5f);
-         * FloatTuple.FloatTuple4 r2 = dups.reverse();
+         * FloatTuple.FloatTuple4 r2 = dups.reversed();
          * // r2._1 == 2.5f, r2._2 == 2.5f, r2._3 == 1.5f, r2._4 == 1.5f
          *
          * FloatTuple.FloatTuple4 neg = FloatTuple.of(-1.0f, -2.0f, -3.0f, -4.0f);
-         * FloatTuple.FloatTuple4 r3 = neg.reverse();
+         * FloatTuple.FloatTuple4 r3 = neg.reversed();
          * // r3._1 == -4.0f, r3._2 == -3.0f, r3._3 == -2.0f, r3._4 == -1.0f
          *
          * FloatTuple.FloatTuple4 withNaN = FloatTuple.of(Float.NaN, 1.0f, 2.0f, 3.0f);
-         * FloatTuple.FloatTuple4 r4 = withNaN.reverse();
+         * FloatTuple.FloatTuple4 r4 = withNaN.reversed();
          * // r4._1 == 3.0f, r4._4 is NaN
          * }</pre>
          *
          * @return a new FloatTuple.FloatTuple4 with (_4, _3, _2, _1)
          */
         @Override
-        public FloatTuple4 reverse() {
+        public FloatTuple4 reversed() {
             return new FloatTuple4(_4, _3, _2, _1);
         }
 
@@ -2913,10 +2932,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
     }
 
     /**
-     * A FloatTuple containing exactly five float elements.
+     * A {@code FloatTuple} containing exactly five {@code float} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _5}.
-     * This tuple type is useful for grouping five related float values together.
+     * Unlike arity 2–3, this type does not
+     * add element-unpacking {@code accept}/{@code map}/{@code filter} overloads; use
+     * {@link #forEach(Throwables.FloatConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -2924,7 +2946,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * FloatTuple.FloatTuple5 tuple = FloatTuple.of((float) 10, (float) 20, (float) 30, (float) 40, (float) 50);
      * float first = tuple._1;  // 10
      * float fifth = tuple._5;  // 50
-     * int sum = tuple.sum();  // 150
+     * float sum = tuple.sum();  // 150.0f
      * }</pre>
      *
      */
@@ -3096,26 +3118,26 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple.FloatTuple5 t = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
-         * FloatTuple.FloatTuple5 r = t.reverse();
+         * FloatTuple.FloatTuple5 r = t.reversed();
          * // r._1 == 5.0f, r._2 == 4.0f, r._3 == 3.0f, r._4 == 2.0f, r._5 == 1.0f
          *
          * FloatTuple.FloatTuple5 dups = FloatTuple.of(1.5f, 1.5f, 2.5f, 2.5f, 3.5f);
-         * FloatTuple.FloatTuple5 r2 = dups.reverse();
+         * FloatTuple.FloatTuple5 r2 = dups.reversed();
          * // r2._1 == 3.5f, r2._5 == 1.5f
          *
          * FloatTuple.FloatTuple5 neg = FloatTuple.of(-1.0f, -2.0f, -3.0f, -4.0f, -5.0f);
-         * FloatTuple.FloatTuple5 r3 = neg.reverse();
+         * FloatTuple.FloatTuple5 r3 = neg.reversed();
          * // r3._1 == -5.0f, r3._5 == -1.0f
          *
          * FloatTuple.FloatTuple5 withNaN = FloatTuple.of(Float.NaN, 1.0f, 2.0f, 3.0f, 4.0f);
-         * FloatTuple.FloatTuple5 r4 = withNaN.reverse();
+         * FloatTuple.FloatTuple5 r4 = withNaN.reversed();
          * // r4._1 == 4.0f, r4._5 is NaN
          * }</pre>
          *
          * @return a new FloatTuple.FloatTuple5 with (_5, _4, _3, _2, _1)
          */
         @Override
-        public FloatTuple5 reverse() {
+        public FloatTuple5 reversed() {
             return new FloatTuple5(_5, _4, _3, _2, _1);
         }
 
@@ -3289,10 +3311,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
     }
 
     /**
-     * A FloatTuple containing exactly six float elements.
+     * A {@code FloatTuple} containing exactly six {@code float} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _6}.
-     * This tuple type is useful for grouping six related float values together.
+     * Unlike arity 2–3, this type does not
+     * add element-unpacking {@code accept}/{@code map}/{@code filter} overloads; use
+     * {@link #forEach(Throwables.FloatConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -3300,7 +3325,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * FloatTuple.FloatTuple6 tuple = FloatTuple.of((float) 10, (float) 20, (float) 30, (float) 40, (float) 50, (float) 60);
      * float first = tuple._1;                            // 10
      * float sixth = tuple._6;                            // 60
-     * FloatTuple.FloatTuple6 reversed = tuple.reverse();  // (60, 50, 40, 30, 20, 10)
+     * FloatTuple.FloatTuple6 reversed = tuple.reversed();  // (60, 50, 40, 30, 20, 10)
      * }</pre>
      *
      */
@@ -3476,26 +3501,26 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple.FloatTuple6 t = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
-         * FloatTuple.FloatTuple6 r = t.reverse();
+         * FloatTuple.FloatTuple6 r = t.reversed();
          * // r._1 == 6.0f, r._2 == 5.0f, r._3 == 4.0f, r._4 == 3.0f, r._5 == 2.0f, r._6 == 1.0f
          *
          * FloatTuple.FloatTuple6 dups = FloatTuple.of(1.5f, 1.5f, 2.5f, 2.5f, 3.5f, 3.5f);
-         * FloatTuple.FloatTuple6 r2 = dups.reverse();
+         * FloatTuple.FloatTuple6 r2 = dups.reversed();
          * // r2._1 == 3.5f, r2._6 == 1.5f
          *
          * FloatTuple.FloatTuple6 neg = FloatTuple.of(-1.0f, -2.0f, -3.0f, -4.0f, -5.0f, -6.0f);
-         * FloatTuple.FloatTuple6 r3 = neg.reverse();
+         * FloatTuple.FloatTuple6 r3 = neg.reversed();
          * // r3._1 == -6.0f, r3._6 == -1.0f
          *
          * FloatTuple.FloatTuple6 withNaN = FloatTuple.of(Float.NaN, 1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
-         * FloatTuple.FloatTuple6 r4 = withNaN.reverse();
+         * FloatTuple.FloatTuple6 r4 = withNaN.reversed();
          * // r4._1 == 5.0f, r4._6 is NaN
          * }</pre>
          *
          * @return a new FloatTuple.FloatTuple6 with (_6, _5, _4, _3, _2, _1)
          */
         @Override
-        public FloatTuple6 reverse() {
+        public FloatTuple6 reversed() {
             return new FloatTuple6(_6, _5, _4, _3, _2, _1);
         }
 
@@ -3672,10 +3697,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
     }
 
     /**
-     * A FloatTuple containing exactly seven float elements.
+     * A {@code FloatTuple} containing exactly seven {@code float} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _7}.
-     * This tuple type is useful for grouping seven related float values together.
+     * Unlike arity 2–3, this type does not
+     * add element-unpacking {@code accept}/{@code map}/{@code filter} overloads; use
+     * {@link #forEach(Throwables.FloatConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -3863,22 +3891,22 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple.FloatTuple7 t = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f);
-         * FloatTuple.FloatTuple7 reversed = t.reverse(); // returns (7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
+         * FloatTuple.FloatTuple7 reversed = t.reversed(); // returns (7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
          *
          * FloatTuple.FloatTuple7 dup = FloatTuple.of(1.0f, 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 5.0f);
-         * FloatTuple.FloatTuple7 dupRev = dup.reverse(); // returns (5.0, 5.0, 4.0, 3.0, 2.0, 1.0, 1.0)
+         * FloatTuple.FloatTuple7 dupRev = dup.reversed(); // returns (5.0, 5.0, 4.0, 3.0, 2.0, 1.0, 1.0)
          *
          * FloatTuple.FloatTuple7 neg = FloatTuple.of(-1.0f, -2.0f, -3.0f, Float.NaN, Float.POSITIVE_INFINITY, -6.0f, -7.0f);
-         * float revFirst = neg.reverse()._1; // returns -7.0f
+         * float revFirst = neg.reversed()._1; // returns -7.0f
          *
          * FloatTuple.FloatTuple7 same = FloatTuple.of(5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f);
-         * FloatTuple.FloatTuple7 sameRev = same.reverse(); // returns (5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0)
+         * FloatTuple.FloatTuple7 sameRev = same.reversed(); // returns (5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0)
          * }</pre>
          *
          * @return a new FloatTuple.FloatTuple7 with (_7, _6, _5, _4, _3, _2, _1)
          */
         @Override
-        public FloatTuple7 reverse() {
+        public FloatTuple7 reversed() {
             return new FloatTuple7(_7, _6, _5, _4, _3, _2, _1);
         }
 
@@ -4062,10 +4090,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
     }
 
     /**
-     * A FloatTuple containing exactly eight float elements.
+     * A {@code FloatTuple} containing exactly eight {@code float} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _8}.
-     * This tuple type is useful for grouping eight related float values together.
+     * Unlike arity 2–3, this type does not
+     * add element-unpacking {@code accept}/{@code map}/{@code filter} overloads; use
+     * {@link #forEach(Throwables.FloatConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -4265,22 +4296,22 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple.FloatTuple8 t = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f);
-         * FloatTuple.FloatTuple8 reversed = t.reverse(); // returns (8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
+         * FloatTuple.FloatTuple8 reversed = t.reversed(); // returns (8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
          *
          * FloatTuple.FloatTuple8 dup = FloatTuple.of(1.0f, 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 5.0f, 6.0f);
-         * FloatTuple.FloatTuple8 dupRev = dup.reverse(); // returns (6.0, 5.0, 5.0, 4.0, 3.0, 2.0, 1.0, 1.0)
+         * FloatTuple.FloatTuple8 dupRev = dup.reversed(); // returns (6.0, 5.0, 5.0, 4.0, 3.0, 2.0, 1.0, 1.0)
          *
          * FloatTuple.FloatTuple8 withSpecial = FloatTuple.of(Float.NaN, Float.POSITIVE_INFINITY, 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, Float.NEGATIVE_INFINITY);
-         * float revFirst = withSpecial.reverse()._1; // returns Float.NEGATIVE_INFINITY
+         * float revFirst = withSpecial.reversed()._1; // returns Float.NEGATIVE_INFINITY
          *
          * FloatTuple.FloatTuple8 same = FloatTuple.of(5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f);
-         * FloatTuple.FloatTuple8 sameRev = same.reverse(); // returns (5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0)
+         * FloatTuple.FloatTuple8 sameRev = same.reversed(); // returns (5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0)
          * }</pre>
          *
          * @return a new FloatTuple.FloatTuple8 with (_8, _7, _6, _5, _4, _3, _2, _1)
          */
         @Override
-        public FloatTuple8 reverse() {
+        public FloatTuple8 reversed() {
             return new FloatTuple8(_8, _7, _6, _5, _4, _3, _2, _1);
         }
 
@@ -4466,10 +4497,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
     }
 
     /**
-     * A FloatTuple containing exactly nine float elements.
+     * A {@code FloatTuple} containing exactly nine {@code float} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _9}.
-     * This tuple type is useful for grouping nine related float values together.
+     * Unlike arity 2–3, this type does not
+     * add element-unpacking {@code accept}/{@code map}/{@code filter} overloads; use
+     * {@link #forEach(Throwables.FloatConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -4674,22 +4708,22 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple.FloatTuple9 t = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f);
-         * FloatTuple.FloatTuple9 reversed = t.reverse(); // returns (9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
+         * FloatTuple.FloatTuple9 reversed = t.reversed(); // returns (9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
          *
          * FloatTuple.FloatTuple9 dup = FloatTuple.of(1.0f, 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 5.0f, 6.0f, 7.0f);
-         * FloatTuple.FloatTuple9 dupRev = dup.reverse(); // returns (7.0, 6.0, 5.0, 5.0, 4.0, 3.0, 2.0, 1.0, 1.0)
+         * FloatTuple.FloatTuple9 dupRev = dup.reversed(); // returns (7.0, 6.0, 5.0, 5.0, 4.0, 3.0, 2.0, 1.0, 1.0)
          *
          * FloatTuple.FloatTuple9 withSpecial = FloatTuple.of(Float.NaN, Float.POSITIVE_INFINITY, 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, Float.NEGATIVE_INFINITY);
-         * float revFirst = withSpecial.reverse()._1; // returns Float.NEGATIVE_INFINITY
+         * float revFirst = withSpecial.reversed()._1; // returns Float.NEGATIVE_INFINITY
          *
          * FloatTuple.FloatTuple9 same = FloatTuple.of(5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f);
-         * FloatTuple.FloatTuple9 sameRev = same.reverse(); // returns (5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0)
+         * FloatTuple.FloatTuple9 sameRev = same.reversed(); // returns (5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0)
          * }</pre>
          *
          * @return a new FloatTuple.FloatTuple9 with (_9, _8, _7, _6, _5, _4, _3, _2, _1)
          */
         @Override
-        public FloatTuple9 reverse() {
+        public FloatTuple9 reversed() {
             return new FloatTuple9(_9, _8, _7, _6, _5, _4, _3, _2, _1);
         }
 

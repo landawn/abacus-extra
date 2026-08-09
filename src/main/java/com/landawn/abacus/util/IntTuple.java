@@ -54,7 +54,7 @@ import com.landawn.abacus.util.stream.IntStream;
  * Empty-tuple contracts: {@code sum()} is {@code 0}, {@code average()} is empty, and
  * {@code min}/{@code max}/{@code lowerMedian}/{@code median} throw {@link NoSuchElementException}.</p>
  *
- * @param <TP> the concrete {@code IntTuple} subtype that fluent operations such as {@link #reverse()} return
+ * @param <TP> the concrete {@code IntTuple} subtype that fluent operations such as {@link #reversed()} return
  * @see PrimitiveTuple
  * @see BooleanTuple
  * @see ByteTuple
@@ -139,7 +139,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * IntTuple.IntTuple3 triple = IntTuple.of(1, 2, 3);
      * triple.average();  // returns OptionalDouble.of(2.0)
      *
-     * IntTuple.IntTuple3 rev = IntTuple.of(1, 2, 3).reverse();
+     * IntTuple.IntTuple3 rev = IntTuple.of(1, 2, 3).reversed();
      * int last = rev._1;  // returns 3
      *
      * IntTuple.IntTuple3 neg = IntTuple.of(-5, 0, 5);
@@ -195,7 +195,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * IntTuple.IntTuple5 quint = IntTuple.of(1, 2, 3, 4, 5);
      * int fifth = quint._5;  // returns 5
      *
-     * IntTuple.IntTuple5 rev = IntTuple.of(1, 2, 3, 4, 5).reverse();
+     * IntTuple.IntTuple5 rev = IntTuple.of(1, 2, 3, 4, 5).reversed();
      * int first = rev._1;  // returns 5
      *
      * IntTuple.IntTuple5 neg = IntTuple.of(-2, -1, 0, 1, 2);
@@ -505,7 +505,8 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * <p>
      * The summation is performed in {@code long} precision and then narrowed back to {@code int};
      * if the true total does not fit in an {@code int}, an {@link ArithmeticException} is thrown
-     * rather than the result silently wrapping around.
+     * rather than the result silently wrapping around. Contrast with {@link LongTuple#sum()},
+     * which does not check for overflow and wraps silently.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -526,6 +527,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * @return the sum of all int values in this tuple as an {@code int}; {@code 0} for an empty tuple
      * @throws ArithmeticException if the total does not fit in an {@code int}
      * @see #average()
+     * @see LongTuple#sum()
      */
     public int sum() {
         return N.sum(elements());
@@ -565,7 +567,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
     /**
      * Returns the conventional statistical median of this tuple as a {@code double}.
      * <p>
-     * Elements are ordered by signed magnitude. For an odd arity, this is the middle value when
+     * Elements are ordered by signed numeric value. For an odd arity, this is the middle value when
      * sorted. For an even arity, this is the arithmetic mean of the two middle values. That differs
      * from {@link #lowerMedian()}, which returns an {@code int} and, for even arities, the lower
      * middle element only.
@@ -610,7 +612,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
     /**
      * Returns the lower median of this tuple as a signed {@code int}.
      * <p>
-     * Elements are ordered by signed magnitude. For an odd arity, this is the middle value when
+     * Elements are ordered by signed numeric value. For an odd arity, this is the middle value when
      * sorted. For an even arity, this is the lower of the two middle values when sorted
      * (not their average). Prefer {@link #median()} when you need the conventional statistical
      * median as a {@code double}.
@@ -647,7 +649,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * @see N#lowerMedian(int...)
      */
     public int lowerMedian() {
-        final int[] a = elements();
+        final int[] a = toArray();
 
         if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
@@ -667,27 +669,27 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
-     * IntTuple.IntTuple3 reversed = tuple.reverse();
+     * IntTuple.IntTuple3 reversed = tuple.reversed();
      * // reversed equals IntTuple.of(3, 2, 1)
      *
      * IntTuple.IntTuple2 pair = IntTuple.of(1, 2);
-     * IntTuple.IntTuple2 reversedPair = pair.reverse();
+     * IntTuple.IntTuple2 reversedPair = pair.reversed();
      * // reversedPair equals IntTuple.of(2, 1)
      *
      * // single-element tuple reverses to an equal tuple (new instance)
      * IntTuple.IntTuple1 single = IntTuple.of(42);
-     * IntTuple.IntTuple1 revSingle = single.reverse();
+     * IntTuple.IntTuple1 revSingle = single.reversed();
      * // revSingle equals IntTuple.of(42)
      *
      * // edge: empty tuple reverses to itself
      * IntTuple<?> empty = IntTuple.from(new int[0]);
-     * IntTuple<?> revEmpty = empty.reverse();
+     * IntTuple<?> revEmpty = empty.reversed();
      * // revEmpty == empty (same object)
      * }</pre>
      *
      * @return a tuple of the same arity with the elements in reverse order
      */
-    public abstract TP reverse();
+    public abstract TP reversed();
 
     /**
      * Checks if this tuple contains the specified int value.
@@ -814,6 +816,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * @param action the action to be performed for each element, must not be {@code null}
      * @throws IllegalArgumentException if {@code action} is {@code null}
      * @throws E if the action throws an exception during execution
+     * @see #stream()
      */
     public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws E {
         N.checkArgNotNull(action, cs.action);
@@ -946,7 +949,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * This package-private class is exposed only through the base {@code IntTuple} type
      * via the singleton instance returned by {@link #from(int[])} when invoked with a
      * {@code null} or zero-length array. {@link #sum()} returns 0 and {@link #average()} returns an empty {@code OptionalDouble}, while
-     * {@link #min()}, {@link #max()}, and {@link #lowerMedian()} all throw {@link java.util.NoSuchElementException}.
+     * {@link #min()}, {@link #max()}, {@link #lowerMedian()}, and {@link #median()} all throw {@link java.util.NoSuchElementException}.
      * </p>
      */
     static final class IntTuple0 extends IntTuple<IntTuple0> {
@@ -995,18 +998,6 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         }
 
         /**
-         * Returns the median int value in this tuple.
-         * Since this tuple is empty, this method always throws an exception.
-         *
-         * @return never returns normally
-         * @throws NoSuchElementException always, because the tuple is empty
-         */
-        @Override
-        public int lowerMedian() {
-            throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
-        }
-
-        /**
          * Returns the sum of all values in this tuple as an int.
          * For an empty tuple, the sum is {@code 0}.
          *
@@ -1029,13 +1020,37 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         }
 
         /**
+         * Returns the statistical median of this tuple as a {@code double}.
+         * Since this tuple is empty, this method always throws an exception.
+         *
+         * @return never returns normally
+         * @throws NoSuchElementException always, because the tuple is empty
+         */
+        @Override
+        public double median() {
+            throw new NoSuchElementException("Cannot compute median() for an empty tuple");
+        }
+
+        /**
+         * Returns the lower median int value in this tuple.
+         * Since this tuple is empty, this method always throws an exception.
+         *
+         * @return never returns normally
+         * @throws NoSuchElementException always, because the tuple is empty
+         */
+        @Override
+        public int lowerMedian() {
+            throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
+        }
+
+        /**
          * Returns this empty tuple instance.
          * Since this tuple has no elements, reversing has no effect.
          *
          * @return this {@code IntTuple0} instance
          */
         @Override
-        public IntTuple0 reverse() {
+        public IntTuple0 reversed() {
             return this;
         }
 
@@ -1217,6 +1232,12 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * Returns the statistical median of this one-element tuple as a {@code double}
          * (the element itself, widened).
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * IntTuple.IntTuple1 t = IntTuple.of(42);
+         * double median = t.median();   // 42.0
+         * }</pre>
+         *
          * @return {@code (double) _1}
          * @see #lowerMedian()
          */
@@ -1252,17 +1273,17 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple1 r = IntTuple.of(5).reverse();
+         * IntTuple.IntTuple1 r = IntTuple.of(5).reversed();
          * assert r._1 == 5; // (same value, new instance)
-         * assert IntTuple.of(-99).reverse()._1 == -99;
-         * assert IntTuple.of(0).reverse()._1 == 0;
-         * assert IntTuple.of(Integer.MIN_VALUE).reverse()._1 == Integer.MIN_VALUE;
+         * assert IntTuple.of(-99).reversed()._1 == -99;
+         * assert IntTuple.of(0).reversed()._1 == 0;
+         * assert IntTuple.of(Integer.MIN_VALUE).reversed()._1 == Integer.MIN_VALUE;
          * }</pre>
          *
          * @return a new IntTuple.IntTuple1 with the same value
          */
         @Override
-        public IntTuple1 reverse() {
+        public IntTuple1 reversed() {
             return new IntTuple1(_1);
         }
 
@@ -1349,9 +1370,10 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
 
         /**
          * Returns the internal array of int elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying it compromises the immutability of this tuple. Prefer {@link #toArray()}
-         * when a safely mutable copy is needed.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
          * </p>
          *
          * @return the internal array of int elements
@@ -1546,17 +1568,17 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple2 r = IntTuple.of(3, 5).reverse();
+         * IntTuple.IntTuple2 r = IntTuple.of(3, 5).reversed();
          * assert r._1 == 5;
          * assert r._2 == 3;
-         * assert IntTuple.of(-1, -2).reverse()._1 == -2;
-         * assert IntTuple.of(0, 0).reverse()._1 == 0; // (symmetric)
+         * assert IntTuple.of(-1, -2).reversed()._1 == -2;
+         * assert IntTuple.of(0, 0).reversed()._1 == 0; // (symmetric)
          * }</pre>
          *
          * @return a new IntTuple.IntTuple2 with values (_2, _1)
          */
         @Override
-        public IntTuple2 reverse() {
+        public IntTuple2 reversed() {
             return new IntTuple2(_2, _1);
         }
 
@@ -1790,9 +1812,10 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
 
         /**
          * Returns the internal array of int elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying it compromises the immutability of this tuple. Prefer {@link #toArray()}
-         * when a safely mutable copy is needed.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
          * </p>
          *
          * @return the internal array of int elements
@@ -1968,7 +1991,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
 
         /**
          * Returns the lower median of this triple: the middle signed value when the three elements
-         * are ordered by magnitude.
+         * are ordered by signed numeric value.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -1991,17 +2014,17 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * IntTuple.IntTuple3 r = IntTuple.of(1, 2, 3).reverse();
+         * IntTuple.IntTuple3 r = IntTuple.of(1, 2, 3).reversed();
          * assert r._1 == 3;
          * assert r._2 == 2;
          * assert r._3 == 1;
-         * assert IntTuple.of(-1, -2, -3).reverse()._1 == -3;
+         * assert IntTuple.of(-1, -2, -3).reversed()._1 == -3;
          * }</pre>
          *
          * @return a new IntTuple.IntTuple3 with values (_3, _2, _1)
          */
         @Override
-        public IntTuple3 reverse() {
+        public IntTuple3 reversed() {
             return new IntTuple3(_3, _2, _1);
         }
 
@@ -2236,9 +2259,10 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
 
         /**
          * Returns the internal array of int elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying it compromises the immutability of this tuple. Prefer {@link #toArray()}
-         * when a safely mutable copy is needed.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
          * </p>
          *
          * @return the internal array of int elements
@@ -2427,22 +2451,22 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * IntTuple.IntTuple4 t = IntTuple.of(1, 2, 3, 4);
-         * t.reverse().toString(); // returns "(4, 3, 2, 1)"
+         * t.reversed().toString(); // returns "(4, 3, 2, 1)"
          *
          * IntTuple.IntTuple4 t2 = IntTuple.of(-1, 0, 5, -3);
-         * t2.reverse().toString(); // returns "(-3, 5, 0, -1)"
+         * t2.reversed().toString(); // returns "(-3, 5, 0, -1)"
          *
          * IntTuple.IntTuple4 t3 = IntTuple.of(9, 9, 9, 9);
-         * t3.reverse().toString(); // returns "(9, 9, 9, 9)"  (palindrome)
+         * t3.reversed().toString(); // returns "(9, 9, 9, 9)"  (palindrome)
          *
          * IntTuple.IntTuple4 t4 = IntTuple.of(Integer.MIN_VALUE, 0, 0, Integer.MAX_VALUE);
-         * assert t4.reverse()._1 == Integer.MAX_VALUE;
+         * assert t4.reversed()._1 == Integer.MAX_VALUE;
          * }</pre>
          *
          * @return a new IntTuple.IntTuple4 with values (_4, _3, _2, _1)
          */
         @Override
-        public IntTuple4 reverse() {
+        public IntTuple4 reversed() {
             return new IntTuple4(_4, _3, _2, _1);
         }
 
@@ -2588,9 +2612,10 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
 
         /**
          * Returns the internal array of int elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying it compromises the immutability of this tuple. Prefer {@link #toArray()}
-         * when a safely mutable copy is needed.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
          * </p>
          *
          * @return the internal array of int elements
@@ -2606,10 +2631,12 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
     }
 
     /**
-     * A IntTuple containing exactly five int elements.
+     * A {@code IntTuple} containing exactly five {@code int} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _5}.
-     * This tuple type is useful for grouping five related int values together.
+     * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter} overloads;
+     * use {@link #forEach(Throwables.IntConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -2782,22 +2809,22 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * IntTuple.IntTuple5 t = IntTuple.of(1, 2, 3, 4, 5);
-         * t.reverse().toString(); // returns "(5, 4, 3, 2, 1)"
+         * t.reversed().toString(); // returns "(5, 4, 3, 2, 1)"
          *
          * IntTuple.IntTuple5 t2 = IntTuple.of(-1, 0, 5, -3, 2);
-         * t2.reverse().toString(); // returns "(2, -3, 5, 0, -1)"
+         * t2.reversed().toString(); // returns "(2, -3, 5, 0, -1)"
          *
          * IntTuple.IntTuple5 t3 = IntTuple.of(9, 9, 9, 9, 9);
-         * t3.reverse().toString(); // returns "(9, 9, 9, 9, 9)"  (palindrome)
+         * t3.reversed().toString(); // returns "(9, 9, 9, 9, 9)"  (palindrome)
          *
          * IntTuple.IntTuple5 t4 = IntTuple.of(Integer.MIN_VALUE, 0, 0, 0, Integer.MAX_VALUE);
-         * assert t4.reverse()._1 == Integer.MAX_VALUE;
+         * assert t4.reversed()._1 == Integer.MAX_VALUE;
          * }</pre>
          *
          * @return a new IntTuple.IntTuple5 with values (_5, _4, _3, _2, _1)
          */
         @Override
-        public IntTuple5 reverse() {
+        public IntTuple5 reversed() {
             return new IntTuple5(_5, _4, _3, _2, _1);
         }
 
@@ -2944,9 +2971,10 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
 
         /**
          * Returns the internal array of int elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying it compromises the immutability of this tuple. Prefer {@link #toArray()}
-         * when a safely mutable copy is needed.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
          * </p>
          *
          * @return the internal array of int elements
@@ -2962,10 +2990,12 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
     }
 
     /**
-     * A IntTuple containing exactly six int elements.
+     * A {@code IntTuple} containing exactly six {@code int} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _6}.
-     * This tuple type is useful for grouping six related int values together.
+     * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter} overloads;
+     * use {@link #forEach(Throwables.IntConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -3142,22 +3172,22 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * IntTuple.IntTuple6 t = IntTuple.of(1, 2, 3, 4, 5, 6);
-         * t.reverse().toString(); // returns "(6, 5, 4, 3, 2, 1)"
+         * t.reversed().toString(); // returns "(6, 5, 4, 3, 2, 1)"
          *
          * IntTuple.IntTuple6 t2 = IntTuple.of(-1, 0, 5, -3, 2, 7);
-         * t2.reverse().toString(); // returns "(7, 2, -3, 5, 0, -1)"
+         * t2.reversed().toString(); // returns "(7, 2, -3, 5, 0, -1)"
          *
          * IntTuple.IntTuple6 t3 = IntTuple.of(9, 9, 9, 9, 9, 9);
-         * t3.reverse().toString(); // returns "(9, 9, 9, 9, 9, 9)"  (palindrome)
+         * t3.reversed().toString(); // returns "(9, 9, 9, 9, 9, 9)"  (palindrome)
          *
          * IntTuple.IntTuple6 t4 = IntTuple.of(Integer.MIN_VALUE, 0, 0, 0, 0, Integer.MAX_VALUE);
-         * assert t4.reverse()._1 == Integer.MAX_VALUE;
+         * assert t4.reversed()._1 == Integer.MAX_VALUE;
          * }</pre>
          *
          * @return a new IntTuple.IntTuple6 with values (_6, _5, _4, _3, _2, _1)
          */
         @Override
-        public IntTuple6 reverse() {
+        public IntTuple6 reversed() {
             return new IntTuple6(_6, _5, _4, _3, _2, _1);
         }
 
@@ -3305,9 +3335,10 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
 
         /**
          * Returns the internal array of int elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying it compromises the immutability of this tuple. Prefer {@link #toArray()}
-         * when a safely mutable copy is needed.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
          * </p>
          *
          * @return the internal array of int elements
@@ -3323,16 +3354,18 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
     }
 
     /**
-     * A IntTuple containing exactly seven int elements.
+     * A {@code IntTuple} containing exactly seven {@code int} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _7}.
-     * This tuple type is useful for grouping seven related int values together.
+     * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter} overloads;
+     * use {@link #forEach(Throwables.IntConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple.IntTuple7 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
-     * IntTuple.IntTuple7 reversed = tuple.reverse();   // (7, 6, 5, 4, 3, 2, 1)
+     * IntTuple.IntTuple7 reversed = tuple.reversed();   // (7, 6, 5, 4, 3, 2, 1)
      * }</pre>
      *
      */
@@ -3508,26 +3541,26 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * IntTuple.IntTuple7 t = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
-         * IntTuple.IntTuple7 rev = t.reverse();
+         * IntTuple.IntTuple7 rev = t.reversed();
          * // rev.toString() returns "(7, 6, 5, 4, 3, 2, 1)"
          *
          * IntTuple.IntTuple7 same = IntTuple.of(5, 5, 5, 5, 5, 5, 5);
-         * IntTuple.IntTuple7 sameRev = same.reverse();
+         * IntTuple.IntTuple7 sameRev = same.reversed();
          * // sameRev.toString() returns "(5, 5, 5, 5, 5, 5, 5)"
          *
          * IntTuple.IntTuple7 neg = IntTuple.of(-3, -2, -1, 0, 1, 2, 3);
-         * IntTuple.IntTuple7 negRev = neg.reverse();
+         * IntTuple.IntTuple7 negRev = neg.reversed();
          * // negRev.toString() returns "(3, 2, 1, 0, -1, -2, -3)"
          *
          * IntTuple.IntTuple7 boundary = IntTuple.of(Integer.MIN_VALUE, 0, 0, 0, 0, 0, Integer.MAX_VALUE);
-         * IntTuple.IntTuple7 boundRev = boundary.reverse();
+         * IntTuple.IntTuple7 boundRev = boundary.reversed();
          * // boundRev._1 == Integer.MAX_VALUE, boundRev._7 == Integer.MIN_VALUE
          * }</pre>
          *
          * @return a new IntTuple.IntTuple7 with values (_7, _6, _5, _4, _3, _2, _1)
          */
         @Override
-        public IntTuple7 reverse() {
+        public IntTuple7 reversed() {
             return new IntTuple7(_7, _6, _5, _4, _3, _2, _1);
         }
 
@@ -3674,9 +3707,10 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
 
         /**
          * Returns the internal array of int elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying it compromises the immutability of this tuple. Prefer {@link #toArray()}
-         * when a safely mutable copy is needed.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
          * </p>
          *
          * @return the internal array of int elements
@@ -3692,10 +3726,12 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
     }
 
     /**
-     * A IntTuple containing exactly eight int elements.
+     * A {@code IntTuple} containing exactly eight {@code int} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _8}.
-     * This tuple type is useful for grouping eight related int values together.
+     * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter} overloads;
+     * use {@link #forEach(Throwables.IntConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -3883,26 +3919,26 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * IntTuple.IntTuple8 t = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8);
-         * IntTuple.IntTuple8 rev = t.reverse();
+         * IntTuple.IntTuple8 rev = t.reversed();
          * // rev.toString() returns "(8, 7, 6, 5, 4, 3, 2, 1)"
          *
          * IntTuple.IntTuple8 same = IntTuple.of(5, 5, 5, 5, 5, 5, 5, 5);
-         * IntTuple.IntTuple8 sameRev = same.reverse();
+         * IntTuple.IntTuple8 sameRev = same.reversed();
          * // sameRev.toString() returns "(5, 5, 5, 5, 5, 5, 5, 5)"
          *
          * IntTuple.IntTuple8 neg = IntTuple.of(-4, -3, -2, -1, 1, 2, 3, 4);
-         * IntTuple.IntTuple8 negRev = neg.reverse();
+         * IntTuple.IntTuple8 negRev = neg.reversed();
          * // negRev.toString() returns "(4, 3, 2, 1, -1, -2, -3, -4)"
          *
          * IntTuple.IntTuple8 boundary = IntTuple.of(Integer.MIN_VALUE, 0, 0, 0, 0, 0, 0, Integer.MAX_VALUE);
-         * IntTuple.IntTuple8 boundRev = boundary.reverse();
+         * IntTuple.IntTuple8 boundRev = boundary.reversed();
          * // boundRev._1 == Integer.MAX_VALUE, boundRev._8 == Integer.MIN_VALUE
          * }</pre>
          *
          * @return a new IntTuple.IntTuple8 with values (_8, _7, _6, _5, _4, _3, _2, _1)
          */
         @Override
-        public IntTuple8 reverse() {
+        public IntTuple8 reversed() {
             return new IntTuple8(_8, _7, _6, _5, _4, _3, _2, _1);
         }
 
@@ -4051,9 +4087,10 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
 
         /**
          * Returns the internal array of int elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying it compromises the immutability of this tuple. Prefer {@link #toArray()}
-         * when a safely mutable copy is needed.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
          * </p>
          *
          * @return the internal array of int elements
@@ -4069,10 +4106,12 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
     }
 
     /**
-     * A IntTuple containing exactly nine int elements.
+     * A {@code IntTuple} containing exactly nine {@code int} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _9}.
-     * This tuple type is useful for grouping nine related int values together.
+     * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter} overloads;
+     * use {@link #forEach(Throwables.IntConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -4264,26 +4303,26 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * IntTuple.IntTuple9 t = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
-         * IntTuple.IntTuple9 rev = t.reverse();
+         * IntTuple.IntTuple9 rev = t.reversed();
          * // rev.toString() returns "(9, 8, 7, 6, 5, 4, 3, 2, 1)"
          *
          * IntTuple.IntTuple9 same = IntTuple.of(5, 5, 5, 5, 5, 5, 5, 5, 5);
-         * IntTuple.IntTuple9 sameRev = same.reverse();
+         * IntTuple.IntTuple9 sameRev = same.reversed();
          * // sameRev.toString() returns "(5, 5, 5, 5, 5, 5, 5, 5, 5)"
          *
          * IntTuple.IntTuple9 neg = IntTuple.of(-4, -3, -2, -1, 0, 1, 2, 3, 4);
-         * IntTuple.IntTuple9 negRev = neg.reverse();
+         * IntTuple.IntTuple9 negRev = neg.reversed();
          * // negRev.toString() returns "(4, 3, 2, 1, 0, -1, -2, -3, -4)"
          *
          * IntTuple.IntTuple9 boundary = IntTuple.of(Integer.MIN_VALUE, 0, 0, 0, 0, 0, 0, 0, Integer.MAX_VALUE);
-         * IntTuple.IntTuple9 boundRev = boundary.reverse();
+         * IntTuple.IntTuple9 boundRev = boundary.reversed();
          * // boundRev._1 == Integer.MAX_VALUE, boundRev._9 == Integer.MIN_VALUE
          * }</pre>
          *
          * @return a new IntTuple.IntTuple9 with values (_9, _8, _7, _6, _5, _4, _3, _2, _1)
          */
         @Override
-        public IntTuple9 reverse() {
+        public IntTuple9 reversed() {
             return new IntTuple9(_9, _8, _7, _6, _5, _4, _3, _2, _1);
         }
 
@@ -4433,9 +4472,10 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
 
         /**
          * Returns the internal array of int elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying it compromises the immutability of this tuple. Prefer {@link #toArray()}
-         * when a safely mutable copy is needed.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
          * </p>
          *
          * @return the internal array of int elements

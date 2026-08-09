@@ -57,7 +57,7 @@ import com.landawn.abacus.util.stream.DoubleStream;
  * {@code average()} is empty, and {@code min}/{@code max}/{@code lowerMedian}/{@code median} throw
  * {@link NoSuchElementException}.</p>
  *
- * @param <TP> the concrete {@code DoubleTuple} subtype that fluent operations such as {@link #reverse()} return
+ * @param <TP> the concrete {@code DoubleTuple} subtype that fluent operations such as {@link #reversed()} return
  * @see PrimitiveTuple
  * @see BooleanTuple
  * @see ByteTuple
@@ -147,7 +147,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * double median = triple.lowerMedian();   // 2.0
      *
      * // Reverse produces a new tuple
-     * DoubleTuple.DoubleTuple3 rev = triple.reverse();   // (3.0, 2.0, 1.0)
+     * DoubleTuple.DoubleTuple3 rev = triple.reversed();   // (3.0, 2.0, 1.0)
      *
      * // Out-of-order elements - min/max still correct
      * DoubleTuple.DoubleTuple3 unordered = DoubleTuple.of(30.0, 10.0, 20.0);
@@ -255,7 +255,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple.DoubleTuple7 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
-     * DoubleTuple.DoubleTuple7 reversed = tuple.reverse();   // (7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
+     * DoubleTuple.DoubleTuple7 reversed = tuple.reversed();   // (7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
      * double median = tuple.lowerMedian();                        // 4.0
      *
      * // toString format
@@ -319,7 +319,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple.DoubleTuple9 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
-     * DoubleTuple.DoubleTuple9 reversed = tuple.reverse();   // (9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
+     * DoubleTuple.DoubleTuple9 reversed = tuple.reversed();   // (9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
      * double median = tuple.lowerMedian();                        // 5.0
      *
      * // toString format
@@ -672,7 +672,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * @see N#lowerMedian(double...)
      */
     public double lowerMedian() {
-        final double[] a = elements();
+        final double[] a = toArray();
 
         if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
@@ -692,25 +692,25 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
-     * DoubleTuple.DoubleTuple3 reversed = tuple.reverse();   // (3.0, 2.0, 1.0)
+     * DoubleTuple.DoubleTuple3 reversed = tuple.reversed();   // (3.0, 2.0, 1.0)
      *
      * DoubleTuple.DoubleTuple2 pair = DoubleTuple.of(1.5, 2.5);
-     * DoubleTuple.DoubleTuple2 reversedPair = pair.reverse();   // (2.5, 1.5)
+     * DoubleTuple.DoubleTuple2 reversedPair = pair.reversed();   // (2.5, 1.5)
      *
-     * // reverse() returns a new object for non-empty tuples (the empty tuple returns itself)
+     * // reversed() returns a new object for non-empty tuples (the empty tuple returns itself)
      * DoubleTuple.DoubleTuple3 orig = DoubleTuple.of(1.0, 2.0, 3.0);
-     * DoubleTuple.DoubleTuple3 rev = orig.reverse();
+     * DoubleTuple.DoubleTuple3 rev = orig.reversed();
      * boolean same = (orig == rev);   // false
      *
      * // Single-element reverse is effectively the same value
      * DoubleTuple.DoubleTuple1 single = DoubleTuple.of(5.0);
-     * DoubleTuple.DoubleTuple1 revSingle = single.reverse();
+     * DoubleTuple.DoubleTuple1 revSingle = single.reversed();
      * double val = revSingle._1;   // 5.0
      * }</pre>
      *
      * @return a tuple of the same arity with the elements in reverse order
      */
-    public abstract TP reverse();
+    public abstract TP reversed();
 
     /**
      * Checks if this tuple contains the specified double value.
@@ -852,6 +852,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * @param action the action to be performed for each element; must not be {@code null}
      * @throws IllegalArgumentException if {@code action} is {@code null}
      * @throws E if the action throws an exception during execution
+     * @see #stream()
      */
     public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws E {
         N.checkArgNotNull(action, cs.action);
@@ -995,7 +996,8 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * This package-private class is exposed only through the base {@code DoubleTuple} type
      * via the singleton instance returned by {@link #from(double[])} when invoked with a
      * {@code null} or zero-length array. {@link #sum()} returns 0.0 and {@link #average()} returns an empty {@code OptionalDouble}, while
-     * {@link #min()}, {@link #max()}, and {@link #lowerMedian()} all throw {@link java.util.NoSuchElementException}.
+     * {@link #min()}, {@link #max()}, {@link #lowerMedian()}, and {@link #median()} all throw
+     * {@link java.util.NoSuchElementException}.
      * </p>
      */
     static final class DoubleTuple0 extends DoubleTuple<DoubleTuple0> {
@@ -1012,7 +1014,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         /**
          * Returns the number of elements in this tuple, which is always 0.
          *
-         * @return {@code 0}
+         * @return 0
          */
         @Override
         public int arity() {
@@ -1044,18 +1046,6 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         }
 
         /**
-         * Always throws because this tuple has no elements.
-         *
-         * @return never returns normally
-         * @throws NoSuchElementException always
-         * @see DoubleTuple#median()
-         */
-        @Override
-        public double lowerMedian() {
-            throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
-        }
-
-        /**
          * Returns the sum of all elements in this tuple.
          * For an empty tuple, the sum is {@code 0.0}.
          *
@@ -1078,13 +1068,37 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         }
 
         /**
+         * Returns the statistical median of this tuple as a {@code double}.
+         * Since this tuple is empty, this method always throws an exception.
+         *
+         * @return never returns normally
+         * @throws NoSuchElementException always, because the tuple is empty
+         */
+        @Override
+        public double median() {
+            throw new NoSuchElementException("Cannot compute median() for an empty tuple");
+        }
+
+        /**
+         * Returns the lower median value in this tuple.
+         * Since this tuple is empty, this method always throws an exception.
+         *
+         * @return never returns normally
+         * @throws NoSuchElementException always, because the tuple is empty
+         */
+        @Override
+        public double lowerMedian() {
+            throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
+        }
+
+        /**
          * Returns this empty tuple instance.
          * Since this tuple has no elements, reversing has no effect.
          *
          * @return this {@code DoubleTuple0} instance
          */
         @Override
-        public DoubleTuple0 reverse() {
+        public DoubleTuple0 reversed() {
             return this;
         }
 
@@ -1279,6 +1293,12 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         /**
          * Returns the statistical median of this one-element tuple (the element itself).
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * DoubleTuple.DoubleTuple1 t = DoubleTuple.of(42.0);
+         * double median = t.median();   // 42.0
+         * }</pre>
+         *
          * @return {@code _1}
          * @see #lowerMedian()
          */
@@ -1319,23 +1339,23 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple.DoubleTuple1 tuple = DoubleTuple.of(5.0);
-         * DoubleTuple.DoubleTuple1 reversed = tuple.reverse();   // (5.0)
+         * DoubleTuple.DoubleTuple1 reversed = tuple.reversed();   // (5.0)
          *
-         * // reverse() always allocates a fresh instance, never returns this
+         * // reversed() always allocates a fresh instance, never returns this
          * DoubleTuple.DoubleTuple1 t = DoubleTuple.of(5.0);
-         * boolean same = (t == t.reverse());   // false
+         * boolean same = (t == t.reversed());   // false
          *
          * // negative value preserved
-         * DoubleTuple.DoubleTuple1 neg = DoubleTuple.of(-3.0).reverse();   // (-3.0)
+         * DoubleTuple.DoubleTuple1 neg = DoubleTuple.of(-3.0).reversed();   // (-3.0)
          *
          * // NaN and Infinity are preserved
-         * DoubleTuple.DoubleTuple1 nanTuple = DoubleTuple.of(Double.NaN).reverse();   // (NaN)
+         * DoubleTuple.DoubleTuple1 nanTuple = DoubleTuple.of(Double.NaN).reversed();   // (NaN)
          * }</pre>
          *
          * @return a new {@code DoubleTuple1} with the same value as this tuple
          */
         @Override
-        public DoubleTuple1 reverse() {
+        public DoubleTuple1 reversed() {
             return new DoubleTuple1(_1);
         }
 
@@ -1640,7 +1660,8 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * DoubleTuple.of(-5.0, 5.0).median();   // 0.0
          * }</pre>
          *
-         * @return {@code (_1 + _2) / 2.0}
+         * @return the arithmetic mean of {@code _1} and {@code _2}, computed as
+         *         {@code _1 / 2d + _2 / 2d} to avoid overflow
          * @see #lowerMedian()
          */
         @Override
@@ -1681,22 +1702,22 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple.DoubleTuple2 tuple = DoubleTuple.of(3.0, 4.0);
-         * DoubleTuple.DoubleTuple2 reversed = tuple.reverse();   // (4.0, 3.0)
+         * DoubleTuple.DoubleTuple2 reversed = tuple.reversed();   // (4.0, 3.0)
          *
          * // negative values
-         * DoubleTuple.DoubleTuple2 r2 = DoubleTuple.of(-1.5, -2.5).reverse();   // (-2.5, -1.5)
+         * DoubleTuple.DoubleTuple2 r2 = DoubleTuple.of(-1.5, -2.5).reversed();   // (-2.5, -1.5)
          *
          * // NaN is preserved in the reversed position
-         * DoubleTuple.DoubleTuple2 r3 = DoubleTuple.of(Double.NaN, 1.0).reverse();   // (1.0, NaN)
+         * DoubleTuple.DoubleTuple2 r3 = DoubleTuple.of(Double.NaN, 1.0).reversed();   // (1.0, NaN)
          *
          * // Infinity is preserved in the reversed position
-         * DoubleTuple.DoubleTuple2 r4 = DoubleTuple.of(Double.POSITIVE_INFINITY, 0.0).reverse();   // (0.0, Infinity)
+         * DoubleTuple.DoubleTuple2 r4 = DoubleTuple.of(Double.POSITIVE_INFINITY, 0.0).reversed();   // (0.0, Infinity)
          * }</pre>
          *
          * @return a new DoubleTuple.DoubleTuple2 with (_2, _1)
          */
         @Override
-        public DoubleTuple2 reverse() {
+        public DoubleTuple2 reversed() {
             return new DoubleTuple2(_2, _1);
         }
 
@@ -2202,22 +2223,22 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
-         * DoubleTuple.DoubleTuple3 reversed = tuple.reverse();   // (3.0, 2.0, 1.0)
+         * DoubleTuple.DoubleTuple3 reversed = tuple.reversed();   // (3.0, 2.0, 1.0)
          *
          * // negative values preserved
-         * DoubleTuple.DoubleTuple3 r2 = DoubleTuple.of(-1.0, 0.0, 1.0).reverse();   // (1.0, 0.0, -1.0)
+         * DoubleTuple.DoubleTuple3 r2 = DoubleTuple.of(-1.0, 0.0, 1.0).reversed();   // (1.0, 0.0, -1.0)
          *
          * // NaN preserved in reversed position
-         * DoubleTuple.DoubleTuple3 r3 = DoubleTuple.of(Double.NaN, 1.0, 2.0).reverse();   // (2.0, 1.0, NaN)
+         * DoubleTuple.DoubleTuple3 r3 = DoubleTuple.of(Double.NaN, 1.0, 2.0).reversed();   // (2.0, 1.0, NaN)
          *
          * // Infinity preserved in reversed position
-         * DoubleTuple.DoubleTuple3 r4 = DoubleTuple.of(Double.POSITIVE_INFINITY, 0.0, -1.0).reverse();   // (-1.0, 0.0, Infinity)
+         * DoubleTuple.DoubleTuple3 r4 = DoubleTuple.of(Double.POSITIVE_INFINITY, 0.0, -1.0).reversed();   // (-1.0, 0.0, Infinity)
          * }</pre>
          *
          * @return a new DoubleTuple.DoubleTuple3 with (_3, _2, _1)
          */
         @Override
-        public DoubleTuple3 reverse() {
+        public DoubleTuple3 reversed() {
             return new DoubleTuple3(_3, _2, _1);
         }
 
@@ -2681,21 +2702,21 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple.DoubleTuple4 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
-         * DoubleTuple.DoubleTuple4 reversed = tuple.reverse();   // (4.0, 3.0, 2.0, 1.0)
+         * DoubleTuple.DoubleTuple4 reversed = tuple.reversed();   // (4.0, 3.0, 2.0, 1.0)
          * DoubleTuple.DoubleTuple4 t2 = DoubleTuple.of(-1.5, 0.0, 2.5, -3.0);
-         * t2.reverse().toString(); // returns "(-3.0, 2.5, 0.0, -1.5)"
+         * t2.reversed().toString(); // returns "(-3.0, 2.5, 0.0, -1.5)"
          * // NaN survives reversal: (1.0, NaN, 3.0, 4.0) reversed = (4.0, 3.0, NaN, 1.0)
          * DoubleTuple.DoubleTuple4 tNaN = DoubleTuple.of(1.0, Double.NaN, 3.0, 4.0);
-         * Double.isNaN(tNaN.reverse()._3); // returns true
+         * Double.isNaN(tNaN.reversed()._3); // returns true
          * // Duplicates: (5.0, 5.0, 6.0, 6.0) reversed = (6.0, 6.0, 5.0, 5.0)
          * DoubleTuple.DoubleTuple4 tDup = DoubleTuple.of(5.0, 5.0, 6.0, 6.0);
-         * tDup.reverse().toString(); // returns "(6.0, 6.0, 5.0, 5.0)"
+         * tDup.reversed().toString(); // returns "(6.0, 6.0, 5.0, 5.0)"
          * }</pre>
          *
          * @return a new DoubleTuple.DoubleTuple4 with (_4, _3, _2, _1)
          */
         @Override
-        public DoubleTuple4 reverse() {
+        public DoubleTuple4 reversed() {
             return new DoubleTuple4(_4, _3, _2, _1);
         }
 
@@ -2847,10 +2868,13 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     }
 
     /**
-     * A DoubleTuple containing exactly five double elements.
+     * A {@code DoubleTuple} containing exactly five {@code double} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _5}.
-     * This tuple type is useful for grouping five related double values together.
+     * Unlike arity 2–3, this type does not
+     * add element-unpacking {@code accept}/{@code map}/{@code filter} overloads; use
+     * {@link #forEach(Throwables.DoubleConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -2858,7 +2882,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * DoubleTuple.DoubleTuple5 tuple = DoubleTuple.of((double) 10, (double) 20, (double) 30, (double) 40, (double) 50);
      * double first = tuple._1;  // 10
      * double fifth = tuple._5;  // 50
-     * int sum = tuple.sum();  // 150
+     * double sum = tuple.sum();  // 150.0
      * }</pre>
      *
      */
@@ -3017,21 +3041,21 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple.DoubleTuple5 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0);
-         * DoubleTuple.DoubleTuple5 reversed = tuple.reverse();   // (5.0, 4.0, 3.0, 2.0, 1.0)
+         * DoubleTuple.DoubleTuple5 reversed = tuple.reversed();   // (5.0, 4.0, 3.0, 2.0, 1.0)
          * DoubleTuple.DoubleTuple5 t2 = DoubleTuple.of(-1.5, 0.0, 2.5, -3.0, 1.0);
-         * t2.reverse().toString(); // returns "(1.0, -3.0, 2.5, 0.0, -1.5)"
+         * t2.reversed().toString(); // returns "(1.0, -3.0, 2.5, 0.0, -1.5)"
          * // NaN survives reversal: (1.0, NaN, 3.0, 4.0, 5.0) reversed = (5.0, 4.0, 3.0, NaN, 1.0)
          * DoubleTuple.DoubleTuple5 tNaN = DoubleTuple.of(1.0, Double.NaN, 3.0, 4.0, 5.0);
-         * Double.isNaN(tNaN.reverse()._4); // returns true
+         * Double.isNaN(tNaN.reversed()._4); // returns true
          * // Duplicates: (5.0, 5.0, 6.0, 6.0, 7.0) reversed = (7.0, 6.0, 6.0, 5.0, 5.0)
          * DoubleTuple.DoubleTuple5 tDup = DoubleTuple.of(5.0, 5.0, 6.0, 6.0, 7.0);
-         * tDup.reverse().toString(); // returns "(7.0, 6.0, 6.0, 5.0, 5.0)"
+         * tDup.reversed().toString(); // returns "(7.0, 6.0, 6.0, 5.0, 5.0)"
          * }</pre>
          *
          * @return a new DoubleTuple.DoubleTuple5 with (_5, _4, _3, _2, _1)
          */
         @Override
-        public DoubleTuple5 reverse() {
+        public DoubleTuple5 reversed() {
             return new DoubleTuple5(_5, _4, _3, _2, _1);
         }
 
@@ -3185,10 +3209,13 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     }
 
     /**
-     * A DoubleTuple containing exactly six double elements.
+     * A {@code DoubleTuple} containing exactly six {@code double} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _6}.
-     * This tuple type is useful for grouping six related double values together.
+     * Unlike arity 2–3, this type does not
+     * add element-unpacking {@code accept}/{@code map}/{@code filter} overloads; use
+     * {@link #forEach(Throwables.DoubleConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -3196,7 +3223,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * DoubleTuple.DoubleTuple6 tuple = DoubleTuple.of((double) 10, (double) 20, (double) 30, (double) 40, (double) 50, (double) 60);
      * double first = tuple._1;                            // 10
      * double sixth = tuple._6;                            // 60
-     * DoubleTuple.DoubleTuple6 reversed = tuple.reverse();  // (60, 50, 40, 30, 20, 10)
+     * DoubleTuple.DoubleTuple6 reversed = tuple.reversed();  // (60, 50, 40, 30, 20, 10)
      * }</pre>
      *
      */
@@ -3359,21 +3386,21 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple.DoubleTuple6 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
-         * DoubleTuple.DoubleTuple6 reversed = tuple.reverse();   // (6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
+         * DoubleTuple.DoubleTuple6 reversed = tuple.reversed();   // (6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
          * DoubleTuple.DoubleTuple6 t2 = DoubleTuple.of(-1.5, 0.0, 2.5, -3.0, 1.0, 4.0);
-         * t2.reverse().toString(); // returns "(4.0, 1.0, -3.0, 2.5, 0.0, -1.5)"
+         * t2.reversed().toString(); // returns "(4.0, 1.0, -3.0, 2.5, 0.0, -1.5)"
          * // NaN survives reversal: (1.0, NaN, 3.0, 4.0, 5.0, 6.0) reversed = (6.0, 5.0, 4.0, 3.0, NaN, 1.0)
          * DoubleTuple.DoubleTuple6 tNaN = DoubleTuple.of(1.0, Double.NaN, 3.0, 4.0, 5.0, 6.0);
-         * Double.isNaN(tNaN.reverse()._5); // returns true
+         * Double.isNaN(tNaN.reversed()._5); // returns true
          * // Duplicates: (5.0, 5.0, 6.0, 6.0, 7.0, 7.0) reversed = (7.0, 7.0, 6.0, 6.0, 5.0, 5.0)
          * DoubleTuple.DoubleTuple6 tDup = DoubleTuple.of(5.0, 5.0, 6.0, 6.0, 7.0, 7.0);
-         * tDup.reverse().toString(); // returns "(7.0, 7.0, 6.0, 6.0, 5.0, 5.0)"
+         * tDup.reversed().toString(); // returns "(7.0, 7.0, 6.0, 6.0, 5.0, 5.0)"
          * }</pre>
          *
          * @return a new DoubleTuple.DoubleTuple6 with (_6, _5, _4, _3, _2, _1)
          */
         @Override
-        public DoubleTuple6 reverse() {
+        public DoubleTuple6 reversed() {
             return new DoubleTuple6(_6, _5, _4, _3, _2, _1);
         }
 
@@ -3530,10 +3557,13 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     }
 
     /**
-     * A DoubleTuple containing exactly seven double elements.
+     * A {@code DoubleTuple} containing exactly seven {@code double} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _7}.
-     * This tuple type is useful for grouping seven related double values together.
+     * Unlike arity 2–3, this type does not
+     * add element-unpacking {@code accept}/{@code map}/{@code filter} overloads; use
+     * {@link #forEach(Throwables.DoubleConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -3720,22 +3750,22 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple.DoubleTuple7 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
-         * DoubleTuple.DoubleTuple7 reversed = tuple.reverse();   // (7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
+         * DoubleTuple.DoubleTuple7 reversed = tuple.reversed();   // (7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
          *
          * DoubleTuple.DoubleTuple7 neg = DoubleTuple.of(-1.0, -2.0, -3.0, -4.0, -5.0, -6.0, -7.0);
-         * DoubleTuple.DoubleTuple7 revNeg = neg.reverse();   // (-7.0, -6.0, -5.0, -4.0, -3.0, -2.0, -1.0)
+         * DoubleTuple.DoubleTuple7 revNeg = neg.reversed();   // (-7.0, -6.0, -5.0, -4.0, -3.0, -2.0, -1.0)
          *
          * DoubleTuple.DoubleTuple7 withNaN = DoubleTuple.of(Double.NaN, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
-         * DoubleTuple.DoubleTuple7 revNaN = withNaN.reverse();   // (7.0, 6.0, 5.0, 4.0, 3.0, 2.0, NaN)
+         * DoubleTuple.DoubleTuple7 revNaN = withNaN.reversed();   // (7.0, 6.0, 5.0, 4.0, 3.0, 2.0, NaN)
          *
          * DoubleTuple.DoubleTuple7 dups = DoubleTuple.of(1.0, 1.0, 2.0, 3.0, 4.0, 5.0, 5.0);
-         * DoubleTuple.DoubleTuple7 revDups = dups.reverse();   // (5.0, 5.0, 4.0, 3.0, 2.0, 1.0, 1.0)
+         * DoubleTuple.DoubleTuple7 revDups = dups.reversed();   // (5.0, 5.0, 4.0, 3.0, 2.0, 1.0, 1.0)
          * }</pre>
          *
          * @return a new DoubleTuple.DoubleTuple7 with (_7, _6, _5, _4, _3, _2, _1)
          */
         @Override
-        public DoubleTuple7 reverse() {
+        public DoubleTuple7 reversed() {
             return new DoubleTuple7(_7, _6, _5, _4, _3, _2, _1);
         }
 
@@ -3816,7 +3846,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * assert t1.hashCode() == t2.hashCode();   // equal tuples have equal hash codes
          *
          * DoubleTuple.DoubleTuple7 t3 = DoubleTuple.of(7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0);
-         * // t1.hashCode() != t3.hashCode() for different element orders (likely)
+         * boolean diffHash = t1.hashCode() == t3.hashCode(); // returns false (order matters)
          *
          * DoubleTuple.DoubleTuple7 withNaN = DoubleTuple.of(Double.NaN, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
          * DoubleTuple.DoubleTuple7 withNaN2 = DoubleTuple.of(Double.NaN, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
@@ -3924,10 +3954,13 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     }
 
     /**
-     * A DoubleTuple containing exactly eight double elements.
+     * A {@code DoubleTuple} containing exactly eight {@code double} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _8}.
-     * This tuple type is useful for grouping eight related double values together.
+     * Unlike arity 2–3, this type does not
+     * add element-unpacking {@code accept}/{@code map}/{@code filter} overloads; use
+     * {@link #forEach(Throwables.DoubleConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -4121,22 +4154,22 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple.DoubleTuple8 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
-         * DoubleTuple.DoubleTuple8 reversed = tuple.reverse();   // (8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
+         * DoubleTuple.DoubleTuple8 reversed = tuple.reversed();   // (8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
          *
          * DoubleTuple.DoubleTuple8 neg = DoubleTuple.of(-1.0, -2.0, -3.0, -4.0, -5.0, -6.0, -7.0, -8.0);
-         * DoubleTuple.DoubleTuple8 revNeg = neg.reverse();   // (-8.0, -7.0, -6.0, -5.0, -4.0, -3.0, -2.0, -1.0)
+         * DoubleTuple.DoubleTuple8 revNeg = neg.reversed();   // (-8.0, -7.0, -6.0, -5.0, -4.0, -3.0, -2.0, -1.0)
          *
          * DoubleTuple.DoubleTuple8 withNaN = DoubleTuple.of(Double.NaN, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
-         * DoubleTuple.DoubleTuple8 revNaN = withNaN.reverse();   // (8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, NaN)
+         * DoubleTuple.DoubleTuple8 revNaN = withNaN.reversed();   // (8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, NaN)
          *
          * DoubleTuple.DoubleTuple8 dups = DoubleTuple.of(1.0, 1.0, 2.0, 3.0, 4.0, 5.0, 5.0, 5.0);
-         * DoubleTuple.DoubleTuple8 revDups = dups.reverse();   // (5.0, 5.0, 5.0, 4.0, 3.0, 2.0, 1.0, 1.0)
+         * DoubleTuple.DoubleTuple8 revDups = dups.reversed();   // (5.0, 5.0, 5.0, 4.0, 3.0, 2.0, 1.0, 1.0)
          * }</pre>
          *
          * @return a new DoubleTuple.DoubleTuple8 with (_8, _7, _6, _5, _4, _3, _2, _1)
          */
         @Override
-        public DoubleTuple8 reverse() {
+        public DoubleTuple8 reversed() {
             return new DoubleTuple8(_8, _7, _6, _5, _4, _3, _2, _1);
         }
 
@@ -4226,7 +4259,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * assert neg.hashCode() == neg2.hashCode();   // negative values hash consistently
          *
          * DoubleTuple.DoubleTuple8 t3 = DoubleTuple.of(8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0);
-         * // t1.hashCode() and t3.hashCode() differ for different element orders (likely)
+         * boolean diffHash = t1.hashCode() == t3.hashCode(); // returns false (order matters)
          * }</pre>
          *
          * @return the hash code
@@ -4327,10 +4360,13 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     }
 
     /**
-     * A DoubleTuple containing exactly nine double elements.
+     * A {@code DoubleTuple} containing exactly nine {@code double} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _9}.
-     * This tuple type is useful for grouping nine related double values together.
+     * Unlike arity 2–3, this type does not
+     * add element-unpacking {@code accept}/{@code map}/{@code filter} overloads; use
+     * {@link #forEach(Throwables.DoubleConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -4529,22 +4565,22 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple.DoubleTuple9 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
-         * DoubleTuple.DoubleTuple9 reversed = tuple.reverse();   // (9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
+         * DoubleTuple.DoubleTuple9 reversed = tuple.reversed();   // (9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
          *
          * DoubleTuple.DoubleTuple9 neg = DoubleTuple.of(-1.0, -2.0, -3.0, -4.0, -5.0, -6.0, -7.0, -8.0, -9.0);
-         * DoubleTuple.DoubleTuple9 revNeg = neg.reverse();   // (-9.0, -8.0, -7.0, -6.0, -5.0, -4.0, -3.0, -2.0, -1.0)
+         * DoubleTuple.DoubleTuple9 revNeg = neg.reversed();   // (-9.0, -8.0, -7.0, -6.0, -5.0, -4.0, -3.0, -2.0, -1.0)
          *
          * DoubleTuple.DoubleTuple9 withNaN = DoubleTuple.of(Double.NaN, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
-         * DoubleTuple.DoubleTuple9 revNaN = withNaN.reverse();   // (9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, NaN)
+         * DoubleTuple.DoubleTuple9 revNaN = withNaN.reversed();   // (9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, NaN)
          *
          * DoubleTuple.DoubleTuple9 dups = DoubleTuple.of(1.0, 1.0, 2.0, 3.0, 4.0, 5.0, 5.0, 6.0, 6.0);
-         * DoubleTuple.DoubleTuple9 revDups = dups.reverse();   // (6.0, 6.0, 5.0, 5.0, 4.0, 3.0, 2.0, 1.0, 1.0)
+         * DoubleTuple.DoubleTuple9 revDups = dups.reversed();   // (6.0, 6.0, 5.0, 5.0, 4.0, 3.0, 2.0, 1.0, 1.0)
          * }</pre>
          *
          * @return a new DoubleTuple.DoubleTuple9 with (_9, _8, _7, _6, _5, _4, _3, _2, _1)
          */
         @Override
-        public DoubleTuple9 reverse() {
+        public DoubleTuple9 reversed() {
             return new DoubleTuple9(_9, _8, _7, _6, _5, _4, _3, _2, _1);
         }
 
@@ -4635,7 +4671,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * assert neg.hashCode() == neg2.hashCode();   // negative values hash consistently
          *
          * DoubleTuple.DoubleTuple9 t3 = DoubleTuple.of(9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0);
-         * // t1.hashCode() and t3.hashCode() differ for different element orders (likely)
+         * boolean diffHash = t1.hashCode() == t3.hashCode(); // returns false (order matters)
          * }</pre>
          *
          * @return the hash code

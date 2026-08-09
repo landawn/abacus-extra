@@ -170,9 +170,9 @@ class CharTupleTest extends TestBase {
     }
 
     @Test
-    public void testReverse() {
+    public void testReversed() {
         CharTuple.CharTuple3 tuple = CharTuple.of('a', 'b', 'c');
-        CharTuple.CharTuple3 reversed = tuple.reverse();
+        CharTuple.CharTuple3 reversed = tuple.reversed();
 
         assertEquals('c', reversed._1);
         assertEquals('b', reversed._2);
@@ -261,7 +261,7 @@ class CharTupleTest extends TestBase {
         assertFalse(tuple.equals(null));
         assertFalse(tuple.equals("not a tuple"));
         assertEquals("(d, a, c, b)", tuple.toString());
-        assertArrayEquals(new char[] { 'b', 'c', 'a', 'd' }, tuple.reverse().toArray());
+        assertArrayEquals(new char[] { 'b', 'c', 'a', 'd' }, tuple.reversed().toArray());
     }
 
     @Test
@@ -615,32 +615,32 @@ class CharTupleTest extends TestBase {
 
         // Reverse tests
         @Test
-        public void testReverseTuple0() {
+        public void testReversedTuple0() {
             CharTuple<CharTuple0> tuple = CharTuple.from(new char[0]);
-            CharTuple<CharTuple0> reversed = tuple.reverse();
+            CharTuple<CharTuple0> reversed = tuple.reversed();
             assertNotNull(reversed);
             assertEquals(0, reversed.arity());
         }
 
         @Test
-        public void testReverseTuple1() {
+        public void testReversedTuple1() {
             CharTuple1 tuple = CharTuple.of('a');
-            CharTuple1 reversed = tuple.reverse();
+            CharTuple1 reversed = tuple.reversed();
             assertEquals('a', reversed._1);
         }
 
         @Test
-        public void testReverseTuple2() {
+        public void testReversedTuple2() {
             CharTuple2 tuple = CharTuple.of('a', 'b');
-            CharTuple2 reversed = tuple.reverse();
+            CharTuple2 reversed = tuple.reversed();
             assertEquals('b', reversed._1);
             assertEquals('a', reversed._2);
         }
 
         @Test
-        public void testReverseTuple3() {
+        public void testReversedTuple3() {
             CharTuple3 tuple = CharTuple.of('a', 'b', 'c');
-            CharTuple3 reversed = tuple.reverse();
+            CharTuple3 reversed = tuple.reversed();
             assertEquals('c', reversed._1);
             assertEquals('b', reversed._2);
             assertEquals('a', reversed._3);
@@ -1013,9 +1013,9 @@ class CharTupleTest extends TestBase {
 
         // Additional tests for larger tuple sizes - reverse
         @Test
-        public void testReverseTuple4() {
+        public void testReversedTuple4() {
             CharTuple4 tuple = CharTuple.of('a', 'b', 'c', 'd');
-            CharTuple4 reversed = tuple.reverse();
+            CharTuple4 reversed = tuple.reversed();
             assertEquals('d', reversed._1);
             assertEquals('c', reversed._2);
             assertEquals('b', reversed._3);
@@ -1023,41 +1023,41 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void testReverseTuple5() {
+        public void testReversedTuple5() {
             CharTuple5 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e');
-            CharTuple5 reversed = tuple.reverse();
+            CharTuple5 reversed = tuple.reversed();
             assertEquals('e', reversed._1);
             assertEquals('a', reversed._5);
         }
 
         @Test
-        public void testReverseTuple6() {
+        public void testReversedTuple6() {
             CharTuple6 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f');
-            CharTuple6 reversed = tuple.reverse();
+            CharTuple6 reversed = tuple.reversed();
             assertEquals('f', reversed._1);
             assertEquals('a', reversed._6);
         }
 
         @Test
-        public void testReverseTuple7() {
+        public void testReversedTuple7() {
             CharTuple7 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g');
-            CharTuple7 reversed = tuple.reverse();
+            CharTuple7 reversed = tuple.reversed();
             assertEquals('g', reversed._1);
             assertEquals('a', reversed._7);
         }
 
         @Test
-        public void testReverseTuple8() {
+        public void testReversedTuple8() {
             CharTuple8 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
-            CharTuple8 reversed = tuple.reverse();
+            CharTuple8 reversed = tuple.reversed();
             assertEquals('h', reversed._1);
             assertEquals('a', reversed._8);
         }
 
         @Test
-        public void testReverseTuple9() {
+        public void testReversedTuple9() {
             CharTuple9 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i');
-            CharTuple9 reversed = tuple.reverse();
+            CharTuple9 reversed = tuple.reversed();
             assertEquals('i', reversed._1);
             assertEquals('h', reversed._2);
             assertEquals('g', reversed._3);
@@ -1175,7 +1175,7 @@ class CharTupleTest extends TestBase {
             CharTuple4 tuple = CharTuple.of('a', 'b', 'c', 'd');
 
             // Test reverse
-            CharTuple4 reversed = tuple.reverse();
+            CharTuple4 reversed = tuple.reversed();
             assertEquals('d', reversed._1);
             assertEquals('c', reversed._2);
             assertEquals('b', reversed._3);
@@ -1214,7 +1214,7 @@ class CharTupleTest extends TestBase {
             CharTuple5 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e');
 
             // Test reverse
-            CharTuple5 reversed = tuple.reverse();
+            CharTuple5 reversed = tuple.reversed();
             assertEquals('e', reversed._1);
             assertEquals('a', reversed._5);
 
@@ -1243,7 +1243,7 @@ class CharTupleTest extends TestBase {
             CharTuple6 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f');
 
             // Test reverse
-            CharTuple6 reversed = tuple.reverse();
+            CharTuple6 reversed = tuple.reversed();
             assertEquals('f', reversed._1);
             assertEquals('a', reversed._6);
 
@@ -1267,7 +1267,7 @@ class CharTupleTest extends TestBase {
             CharTuple7 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g');
 
             // Test reverse
-            CharTuple7 reversed = tuple.reverse();
+            CharTuple7 reversed = tuple.reversed();
             assertEquals('g', reversed._1);
             assertEquals('a', reversed._7);
 
@@ -1291,7 +1291,7 @@ class CharTupleTest extends TestBase {
             CharTuple8 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
 
             // Test reverse
-            CharTuple8 reversed = tuple.reverse();
+            CharTuple8 reversed = tuple.reversed();
             assertEquals('h', reversed._1);
             assertEquals('a', reversed._8);
 
@@ -1315,7 +1315,7 @@ class CharTupleTest extends TestBase {
             CharTuple9 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i');
 
             // Test reverse
-            CharTuple9 reversed = tuple.reverse();
+            CharTuple9 reversed = tuple.reversed();
             assertEquals('i', reversed._1);
             assertEquals('a', reversed._9);
 
@@ -1428,9 +1428,9 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void testCharTuple1_reverse() {
+        public void testCharTuple1_reversed() {
             CharTuple.CharTuple1 tuple = CharTuple.of('a');
-            CharTuple.CharTuple1 reversed = tuple.reverse();
+            CharTuple.CharTuple1 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._1);
             assertEquals(tuple._1, reversed._1);
         }
@@ -1508,9 +1508,9 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void testCharTuple2_reverse() {
+        public void testCharTuple2_reversed() {
             CharTuple.CharTuple2 tuple = CharTuple.of('a', 'b');
-            CharTuple.CharTuple2 reversed = tuple.reverse();
+            CharTuple.CharTuple2 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._2);
             assertEquals(tuple._2, reversed._1);
         }
@@ -1610,9 +1610,9 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void testCharTuple3_reverse() {
+        public void testCharTuple3_reversed() {
             CharTuple.CharTuple3 tuple = CharTuple.of('a', 'b', 'c');
-            CharTuple.CharTuple3 reversed = tuple.reverse();
+            CharTuple.CharTuple3 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._3);
             assertEquals(tuple._3, reversed._1);
         }
@@ -1712,9 +1712,9 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void testCharTuple4_reverse() {
+        public void testCharTuple4_reversed() {
             CharTuple.CharTuple4 tuple = CharTuple.of('a', 'b', 'c', 'd');
-            CharTuple.CharTuple4 reversed = tuple.reverse();
+            CharTuple.CharTuple4 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._4);
             assertEquals(tuple._4, reversed._1);
         }
@@ -1762,9 +1762,9 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void testCharTuple5_reverse() {
+        public void testCharTuple5_reversed() {
             CharTuple.CharTuple5 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e');
-            CharTuple.CharTuple5 reversed = tuple.reverse();
+            CharTuple.CharTuple5 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._5);
             assertEquals(tuple._5, reversed._1);
         }
@@ -1812,9 +1812,9 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void testCharTuple6_reverse() {
+        public void testCharTuple6_reversed() {
             CharTuple.CharTuple6 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f');
-            CharTuple.CharTuple6 reversed = tuple.reverse();
+            CharTuple.CharTuple6 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._6);
             assertEquals(tuple._6, reversed._1);
         }
@@ -1862,9 +1862,9 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void testCharTuple7_reverse() {
+        public void testCharTuple7_reversed() {
             CharTuple.CharTuple7 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g');
-            CharTuple.CharTuple7 reversed = tuple.reverse();
+            CharTuple.CharTuple7 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._7);
             assertEquals(tuple._7, reversed._1);
         }
@@ -1912,9 +1912,9 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void testCharTuple8_reverse() {
+        public void testCharTuple8_reversed() {
             CharTuple.CharTuple8 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
-            CharTuple.CharTuple8 reversed = tuple.reverse();
+            CharTuple.CharTuple8 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._8);
             assertEquals(tuple._8, reversed._1);
         }
@@ -1962,9 +1962,9 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void testCharTuple9_reverse() {
+        public void testCharTuple9_reversed() {
             CharTuple.CharTuple9 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i');
-            CharTuple.CharTuple9 reversed = tuple.reverse();
+            CharTuple.CharTuple9 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._9);
             assertEquals(tuple._9, reversed._1);
         }
@@ -2151,9 +2151,9 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple0_reverse() {
+        public void testTuple0_reversed() {
             CharTuple<?> tuple = CharTuple.from(new char[0]);
-            CharTuple<?> reversed = tuple.reverse();
+            CharTuple<?> reversed = tuple.reversed();
             assertNotNull(reversed);
             assertEquals(0, reversed.arity());
         }
@@ -2191,9 +2191,9 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple1_reverse() {
+        public void testTuple1_reversed() {
             CharTuple1 tuple = CharTuple.of('A');
-            CharTuple1 reversed = tuple.reverse();
+            CharTuple1 reversed = tuple.reversed();
             assertEquals('A', reversed._1);
             assertNotSame(tuple, reversed);
         }
@@ -2254,9 +2254,9 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple2_reverse() {
+        public void testTuple2_reversed() {
             CharTuple2 tuple = CharTuple.of('A', 'B');
-            CharTuple2 reversed = tuple.reverse();
+            CharTuple2 reversed = tuple.reversed();
             assertEquals('B', reversed._1);
             assertEquals('A', reversed._2);
         }
@@ -2346,9 +2346,9 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple3_reverse() {
+        public void testTuple3_reversed() {
             CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-            CharTuple3 reversed = tuple.reverse();
+            CharTuple3 reversed = tuple.reversed();
             assertEquals('C', reversed._1);
             assertEquals('B', reversed._2);
             assertEquals('A', reversed._3);
@@ -2398,9 +2398,9 @@ class CharTupleTest extends TestBase {
         // ============ CharTuple4-9 Basic Tests ============
 
         @Test
-        public void testTuple4_reverse() {
+        public void testTuple4_reversed() {
             CharTuple4 tuple = CharTuple.of('A', 'B', 'C', 'D');
-            CharTuple4 reversed = tuple.reverse();
+            CharTuple4 reversed = tuple.reversed();
             assertEquals('D', reversed._1);
             assertEquals('C', reversed._2);
             assertEquals('B', reversed._3);
@@ -2408,41 +2408,41 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple5_reverse() {
+        public void testTuple5_reversed() {
             CharTuple5 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E');
-            CharTuple5 reversed = tuple.reverse();
+            CharTuple5 reversed = tuple.reversed();
             assertEquals('E', reversed._1);
             assertEquals('A', reversed._5);
         }
 
         @Test
-        public void testTuple6_reverse() {
+        public void testTuple6_reversed() {
             CharTuple6 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F');
-            CharTuple6 reversed = tuple.reverse();
+            CharTuple6 reversed = tuple.reversed();
             assertEquals('F', reversed._1);
             assertEquals('A', reversed._6);
         }
 
         @Test
-        public void testTuple7_reverse() {
+        public void testTuple7_reversed() {
             CharTuple7 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G');
-            CharTuple7 reversed = tuple.reverse();
+            CharTuple7 reversed = tuple.reversed();
             assertEquals('G', reversed._1);
             assertEquals('A', reversed._7);
         }
 
         @Test
-        public void testTuple8_reverse() {
+        public void testTuple8_reversed() {
             CharTuple8 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');
-            CharTuple8 reversed = tuple.reverse();
+            CharTuple8 reversed = tuple.reversed();
             assertEquals('H', reversed._1);
             assertEquals('A', reversed._8);
         }
 
         @Test
-        public void testTuple9_reverse() {
+        public void testTuple9_reversed() {
             CharTuple9 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I');
-            CharTuple9 reversed = tuple.reverse();
+            CharTuple9 reversed = tuple.reversed();
             assertEquals('I', reversed._1);
             assertEquals('A', reversed._9);
         }
@@ -2718,17 +2718,17 @@ class CharTupleTest extends TestBase {
         // ============ Reverse Tests ============
 
         @Test
-        public void testReverse_empty() {
+        public void testReversed_empty() {
             CharTuple0 tuple = CharTuple.from(new char[0]);
-            CharTuple0 reversed = tuple.reverse();
+            CharTuple0 reversed = tuple.reversed();
             assertNotNull(reversed);
             assertEquals(0, reversed.arity());
         }
 
         @Test
-        public void testReverse_twoElements() {
+        public void testReversed_twoElements() {
             CharTuple2 tuple = CharTuple.of('X', 'Y');
-            CharTuple2 reversed = tuple.reverse();
+            CharTuple2 reversed = tuple.reversed();
             assertEquals('Y', reversed._1);
             assertEquals('X', reversed._2);
         }
@@ -3028,7 +3028,7 @@ class CharTupleTest extends TestBase {
             assertEquals(88, tuple.sum());
             assertTrue(tuple.contains('X'));
             assertFalse(tuple.contains('Y'));
-            CharTuple1 reversed = tuple.reverse();
+            CharTuple1 reversed = tuple.reversed();
             assertEquals('X', reversed._1);
         }
 
@@ -3222,9 +3222,9 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void test_tuple0_reverse() {
+        public void test_tuple0_reversed() {
             CharTuple0 tuple = CharTuple.from(new char[0]);
-            CharTuple0 reversed = tuple.reverse();
+            CharTuple0 reversed = tuple.reversed();
             assertSame(tuple, reversed);
         }
 
@@ -3302,9 +3302,9 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void test_tuple1_reverse() {
+        public void test_tuple1_reversed() {
             CharTuple1 tuple = CharTuple.of('A');
-            CharTuple1 reversed = tuple.reverse();
+            CharTuple1 reversed = tuple.reversed();
             assertNotNull(reversed);
             assertEquals('A', reversed._1);
             assertNotSame(tuple, reversed);
@@ -3419,9 +3419,9 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void test_tuple2_reverse() {
+        public void test_tuple2_reversed() {
             CharTuple2 tuple = CharTuple.of('A', 'B');
-            CharTuple2 reversed = tuple.reverse();
+            CharTuple2 reversed = tuple.reversed();
             assertNotNull(reversed);
             assertEquals('B', reversed._1);
             assertEquals('A', reversed._2);
@@ -3554,9 +3554,9 @@ class CharTupleTest extends TestBase {
         }
 
         @Test
-        public void test_tuple3_reverse() {
+        public void test_tuple3_reversed() {
             CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-            CharTuple3 reversed = tuple.reverse();
+            CharTuple3 reversed = tuple.reversed();
             assertNotNull(reversed);
             assertEquals('C', reversed._1);
             assertEquals('B', reversed._2);
@@ -3637,7 +3637,7 @@ class CharTupleTest extends TestBase {
             assertEquals('A', tuple.min());
             assertEquals('D', tuple.max());
             assertTrue(tuple.contains('C'));
-            CharTuple4 reversed = tuple.reverse();
+            CharTuple4 reversed = tuple.reversed();
             assertEquals('D', reversed._1);
             assertEquals('A', reversed._4);
         }
@@ -3852,9 +3852,9 @@ class CharTupleTest extends TestBase {
         @Test
         public void testCharTupleReverse() {
             // CharTuple.CharTuple7 tuple = CharTuple.of('M', 'O', 'N', 'D', 'A', 'Y', 'S');
-            // CharTuple.CharTuple7 reversed = tuple.reverse();   // ('S', 'Y', 'A', 'D', 'N', 'O', 'M')
+            // CharTuple.CharTuple7 reversed = tuple.reversed();   // ('S', 'Y', 'A', 'D', 'N', 'O', 'M')
             CharTuple.CharTuple7 t = CharTuple.of('M', 'O', 'N', 'D', 'A', 'Y', 'S');
-            CharTuple.CharTuple7 reversed = t.reverse();
+            CharTuple.CharTuple7 reversed = t.reversed();
             assertEquals('S', reversed._1);
             assertEquals('Y', reversed._2);
             assertEquals('A', reversed._3);

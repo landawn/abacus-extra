@@ -50,7 +50,7 @@ import com.landawn.abacus.util.stream.Stream;
  * {@code median()}, {@code sum()}, or {@code average()}. These are intentionally omitted because
  * {@code boolean} values lack a natural numeric ordering and have no meaningful sum or average.</p>
  *
- * @param <TP> the concrete {@code BooleanTuple} subtype that fluent operations such as {@link #reverse()} return
+ * @param <TP> the concrete {@code BooleanTuple} subtype that fluent operations such as {@link #reversed()} return
  * @see PrimitiveTuple
  * @see ByteTuple
  * @see CharTuple
@@ -76,7 +76,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     }
 
     /**
-     * Creates a {@link BooleanTuple1} containing a single boolean value.
+     * Creates a BooleanTuple.BooleanTuple1 containing a single boolean value.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -91,19 +91,19 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * boolean hasTrue = t.contains(true);   // true
      * boolean hasFalse = t.contains(false); // false
      *
-     * BooleanTuple.BooleanTuple1 rev = t.reverse();
+     * BooleanTuple.BooleanTuple1 rev = t.reversed();
      * boolean revVal = rev._1;             // true (single-element reverse unchanged)
      * }</pre>
      *
      * @param _1 the boolean value to store in the tuple
-     * @return a new {@link BooleanTuple1} containing the specified value
+     * @return a new BooleanTuple.BooleanTuple1 containing the specified value
      */
     public static BooleanTuple1 of(final boolean _1) {
         return new BooleanTuple1(_1);
     }
 
     /**
-     * Creates a {@link BooleanTuple2} containing two boolean values.
+     * Creates a BooleanTuple.BooleanTuple2 containing two boolean values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -117,24 +117,24 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * boolean hasTrue = allFalse.contains(true);   // false
      *
      * BooleanTuple.BooleanTuple2 allTrue = BooleanTuple.of(true, true);
-     * BooleanTuple.BooleanTuple2 rev = allTrue.reverse();
+     * BooleanTuple.BooleanTuple2 rev = allTrue.reversed();
      * String revStr = rev.toString();      // "(true, true)"
      *
      * BooleanTuple.BooleanTuple2 mixed = BooleanTuple.of(true, false);
-     * BooleanTuple.BooleanTuple2 mixedRev = mixed.reverse();
+     * BooleanTuple.BooleanTuple2 mixedRev = mixed.reversed();
      * String mixedRevStr = mixedRev.toString(); // "(false, true)"
      * }</pre>
      *
      * @param _1 the first boolean value
      * @param _2 the second boolean value
-     * @return a new {@link BooleanTuple2} containing the specified values
+     * @return a new BooleanTuple.BooleanTuple2 containing the specified values
      */
     public static BooleanTuple2 of(final boolean _1, final boolean _2) {
         return new BooleanTuple2(_1, _2);
     }
 
     /**
-     * Creates a {@link BooleanTuple3} containing three boolean values.
+     * Creates a BooleanTuple.BooleanTuple3 containing three boolean values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -152,20 +152,20 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      *
      * // reverse
      * BooleanTuple.BooleanTuple3 r = BooleanTuple.of(true, false, false);
-     * String revStr = r.reverse().toString(); // "(false, false, true)"
+     * String revStr = r.reversed().toString(); // "(false, false, true)"
      * }</pre>
      *
      * @param _1 the first boolean value
      * @param _2 the second boolean value
      * @param _3 the third boolean value
-     * @return a new {@link BooleanTuple3} containing the specified values
+     * @return a new BooleanTuple.BooleanTuple3 containing the specified values
      */
     public static BooleanTuple3 of(final boolean _1, final boolean _2, final boolean _3) {
         return new BooleanTuple3(_1, _2, _3);
     }
 
     /**
-     * Creates a {@link BooleanTuple4} containing four boolean values.
+     * Creates a BooleanTuple.BooleanTuple4 containing four boolean values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -173,7 +173,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * boolean first = t._1;                         // true
      * boolean fourth = t._4;                        // false
      * String s = t.toString();                      // "(true, false, true, false)"
-     * BooleanTuple.BooleanTuple4 rev = t.reverse(); // (false, true, false, true)
+     * BooleanTuple.BooleanTuple4 rev = t.reversed(); // (false, true, false, true)
      * String revStr = rev.toString();               // "(false, true, false, true)"
      *
      * // all-true tuple
@@ -190,14 +190,14 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * @param _2 the second boolean value
      * @param _3 the third boolean value
      * @param _4 the fourth boolean value
-     * @return a new {@link BooleanTuple4} containing the specified values
+     * @return a new BooleanTuple.BooleanTuple4 containing the specified values
      */
     public static BooleanTuple4 of(final boolean _1, final boolean _2, final boolean _3, final boolean _4) {
         return new BooleanTuple4(_1, _2, _3, _4);
     }
 
     /**
-     * Creates a {@link BooleanTuple5} containing five boolean values.
+     * Creates a BooleanTuple.BooleanTuple5 containing five boolean values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -208,7 +208,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * String s = t.toString();                   // "(true, false, true, false, true)"
      *
      * // palindrome - reverse equals original
-     * BooleanTuple.BooleanTuple5 rev = t.reverse();
+     * BooleanTuple.BooleanTuple5 rev = t.reversed();
      * String revStr = rev.toString();        // "(true, false, true, false, true)"
      *
      * // all-false
@@ -222,14 +222,14 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * @param _3 the third boolean value
      * @param _4 the fourth boolean value
      * @param _5 the fifth boolean value
-     * @return a new {@link BooleanTuple5} containing the specified values
+     * @return a new BooleanTuple.BooleanTuple5 containing the specified values
      */
     public static BooleanTuple5 of(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5) {
         return new BooleanTuple5(_1, _2, _3, _4, _5);
     }
 
     /**
-     * Creates a {@link BooleanTuple6} containing six boolean values.
+     * Creates a BooleanTuple.BooleanTuple6 containing six boolean values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -237,7 +237,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * boolean first = t._1;                  // true
      * boolean sixth = t._6;                  // false
      * String s = t.toString();               // "(true, false, true, false, true, false)"
-     * BooleanTuple.BooleanTuple6 rev = t.reverse();
+     * BooleanTuple.BooleanTuple6 rev = t.reversed();
      * String revStr = rev.toString();        // "(false, true, false, true, false, true)"
      *
      * // all-true
@@ -257,14 +257,14 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * @param _4 the fourth boolean value
      * @param _5 the fifth boolean value
      * @param _6 the sixth boolean value
-     * @return a new {@link BooleanTuple6} containing the specified values
+     * @return a new BooleanTuple.BooleanTuple6 containing the specified values
      */
     public static BooleanTuple6 of(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5, final boolean _6) {
         return new BooleanTuple6(_1, _2, _3, _4, _5, _6);
     }
 
     /**
-     * Creates a {@link BooleanTuple7} containing seven boolean values.
+     * Creates a BooleanTuple.BooleanTuple7 containing seven boolean values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -291,7 +291,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * @param _5 the fifth boolean value
      * @param _6 the sixth boolean value
      * @param _7 the seventh boolean value
-     * @return a new {@link BooleanTuple7} containing the specified values
+     * @return a new BooleanTuple.BooleanTuple7 containing the specified values
      */
     public static BooleanTuple7 of(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5, final boolean _6,
             final boolean _7) {
@@ -299,7 +299,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     }
 
     /**
-     * Creates a {@link BooleanTuple8} containing eight boolean values.
+     * Creates a BooleanTuple.BooleanTuple8 containing eight boolean values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -327,7 +327,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * @param _6 the sixth boolean value
      * @param _7 the seventh boolean value
      * @param _8 the eighth boolean value
-     * @return a new {@link BooleanTuple8} containing the specified values
+     * @return a new BooleanTuple.BooleanTuple8 containing the specified values
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more boolean values
      */
     @Deprecated
@@ -337,7 +337,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     }
 
     /**
-     * Creates a {@link BooleanTuple9} containing nine boolean values.
+     * Creates a BooleanTuple.BooleanTuple9 containing nine boolean values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -366,7 +366,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * @param _7 the seventh boolean value
      * @param _8 the eighth boolean value
      * @param _9 the ninth boolean value
-     * @return a new {@link BooleanTuple9} containing the specified values
+     * @return a new BooleanTuple.BooleanTuple9 containing the specified values
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more boolean values
      */
     @Deprecated
@@ -472,20 +472,20 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanTuple.BooleanTuple2 pair = BooleanTuple.of(true, false);
-     * BooleanTuple.BooleanTuple2 reversedPair = pair.reverse();
+     * BooleanTuple.BooleanTuple2 reversedPair = pair.reversed();
      * String revStr = reversedPair.toString();          // "(false, true)"
      *
      * BooleanTuple.BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-     * BooleanTuple.BooleanTuple3 reversed = tuple.reverse();
+     * BooleanTuple.BooleanTuple3 reversed = tuple.reversed();
      * String palStr = reversed.toString();              // "(true, false, true)" - palindrome
      *
      * // edge: empty tuple reverses to itself
      * BooleanTuple<?> empty = BooleanTuple.from(new boolean[0]);
-     * String emptyRev = empty.reverse().toString();     // "()"
+     * String emptyRev = empty.reversed().toString();     // "()"
      *
      * // edge: single-element reverse has same value
      * BooleanTuple.BooleanTuple1 single = BooleanTuple.of(false);
-     * BooleanTuple.BooleanTuple1 singleRev = single.reverse();
+     * BooleanTuple.BooleanTuple1 singleRev = single.reversed();
      * boolean revVal = singleRev._1;                   // false
      * }</pre>
      *
@@ -494,7 +494,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      *
      * @return a tuple of the same arity with the elements in reverse order
      */
-    public abstract TP reverse();
+    public abstract TP reversed();
 
     /**
      * Checks if this tuple contains the specified boolean value.
@@ -791,7 +791,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * @return this {@code BooleanTuple0} instance
          */
         @Override
-        public BooleanTuple0 reverse() {
+        public BooleanTuple0 reversed() {
             return this;
         }
 
@@ -829,14 +829,14 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     }
 
     /**
-     * A tuple containing exactly one boolean value.
+     * A {@code BooleanTuple} containing exactly one {@code boolean} element.
      * The value is accessible through the public final field {@code _1}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanTuple.BooleanTuple1 tuple = BooleanTuple.of(true);
      * boolean value = tuple._1;               // true
-     * boolean reversed = tuple.reverse()._1;  // true (same for single element)
+     * boolean reversed = tuple.reversed()._1;  // true (same for single element)
      * }</pre>
      *
      */
@@ -885,18 +885,18 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * BooleanTuple.BooleanTuple1 t = BooleanTuple.of(true);
-         * BooleanTuple.BooleanTuple1 rev = t.reverse();
+         * BooleanTuple.BooleanTuple1 rev = t.reversed();
          * boolean val = rev._1;   // true (single-element reverse is unchanged)
          *
          * BooleanTuple.BooleanTuple1 f = BooleanTuple.of(false);
-         * BooleanTuple.BooleanTuple1 revF = f.reverse();
+         * BooleanTuple.BooleanTuple1 revF = f.reversed();
          * boolean valF = revF._1; // false
          * }</pre>
          *
          * @return a new BooleanTuple.BooleanTuple1 with the same element
          */
         @Override
-        public BooleanTuple1 reverse() {
+        public BooleanTuple1 reversed() {
             return new BooleanTuple1(_1);
         }
 
@@ -1000,6 +1000,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
 
         /**
          * Returns the internal array of boolean elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
          * Modifying the returned array will compromise the immutability of this tuple.
          * Prefer {@link #toArray()} when a safe, independent copy is needed.
@@ -1090,21 +1091,21 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * BooleanTuple.BooleanTuple2 t = BooleanTuple.of(true, false);
-         * BooleanTuple.BooleanTuple2 rev = t.reverse();
+         * BooleanTuple.BooleanTuple2 rev = t.reversed();
          * boolean r1 = rev._1;       // false
          * boolean r2 = rev._2;       // true
          * String s = rev.toString(); // "(false, true)"
          *
          * // all-same: reverse equals original
          * BooleanTuple.BooleanTuple2 allTrue = BooleanTuple.of(true, true);
-         * BooleanTuple.BooleanTuple2 revAll = allTrue.reverse();
+         * BooleanTuple.BooleanTuple2 revAll = allTrue.reversed();
          * String revAllStr = revAll.toString(); // "(true, true)"
          * }</pre>
          *
          * @return a new BooleanTuple.BooleanTuple2 with the elements in reverse order
          */
         @Override
-        public BooleanTuple2 reverse() {
+        public BooleanTuple2 reversed() {
             return new BooleanTuple2(_2, _1);
         }
 
@@ -1372,6 +1373,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
 
         /**
          * Returns the internal array of boolean elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
          * Modifying the returned array will compromise the immutability of this tuple.
          * Prefer {@link #toArray()} when a safe, independent copy is needed.
@@ -1467,25 +1469,25 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * BooleanTuple.BooleanTuple3 tuple = BooleanTuple.of(true, false, false);
-         * BooleanTuple.BooleanTuple3 reversed = tuple.reverse();
+         * BooleanTuple.BooleanTuple3 reversed = tuple.reversed();
          * reversed.toString();   // returns "(false, false, true)"
          *
          * // Palindrome: reversing yields the same sequence
          * BooleanTuple.BooleanTuple3 palindrome = BooleanTuple.of(true, false, true);
-         * palindrome.reverse().toString();   // returns "(true, false, true)"
+         * palindrome.reversed().toString();   // returns "(true, false, true)"
          *
          * // All-same values: reverse is identical in value
          * BooleanTuple.BooleanTuple3 allTrue = BooleanTuple.of(true, true, true);
-         * allTrue.reverse().toString();   // returns "(true, true, true)"
+         * allTrue.reversed().toString();   // returns "(true, true, true)"
          *
-         * // reverse() returns a NEW instance (not the same object)
-         * assert palindrome.reverse() != palindrome; // true
+         * // reversed() returns a NEW instance (not the same object)
+         * assert palindrome.reversed() != palindrome; // true
          * }</pre>
          *
          * @return a new BooleanTuple.BooleanTuple3 with the elements in reverse order
          */
         @Override
-        public BooleanTuple3 reverse() {
+        public BooleanTuple3 reversed() {
             return new BooleanTuple3(_3, _2, _1);
         }
 
@@ -1751,6 +1753,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
 
         /**
          * Returns the internal array of boolean elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
          * Modifying the returned array will compromise the immutability of this tuple.
          * Prefer {@link #toArray()} when a safe, independent copy is needed.
@@ -1769,7 +1772,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     }
 
     /**
-     * A tuple containing exactly four boolean values.
+     * A {@code BooleanTuple} containing exactly four {@code boolean} elements.
      * The values are accessible through the public final fields {@code _1}, {@code _2}, {@code _3}, and {@code _4}.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1841,21 +1844,21 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * BooleanTuple.BooleanTuple4 tuple = BooleanTuple.of(true, false, true, false);
-         * BooleanTuple.BooleanTuple4 reversed = tuple.reverse();
+         * BooleanTuple.BooleanTuple4 reversed = tuple.reversed();
          * reversed.toString();   // returns "(false, true, false, true)"
          *
          * // All-same values: reverse looks identical
          * BooleanTuple.BooleanTuple4 allTrue = BooleanTuple.of(true, true, true, true);
-         * allTrue.reverse().toString();   // returns "(true, true, true, true)"
+         * allTrue.reversed().toString();   // returns "(true, true, true, true)"
          *
-         * // reverse() returns a NEW instance
-         * assert tuple.reverse() != tuple; // true
+         * // reversed() returns a NEW instance
+         * assert tuple.reversed() != tuple; // true
          * }</pre>
          *
          * @return a new BooleanTuple.BooleanTuple4 with the elements in reverse order
          */
         @Override
-        public BooleanTuple4 reverse() {
+        public BooleanTuple4 reversed() {
             return new BooleanTuple4(_4, _3, _2, _1);
         }
 
@@ -2002,6 +2005,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
 
         /**
          * Returns the internal array of boolean elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
          * Modifying the returned array will compromise the immutability of this tuple.
          * Prefer {@link #toArray()} when a safe, independent copy is needed.
@@ -2020,7 +2024,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     }
 
     /**
-     * A tuple containing exactly five boolean values.
+     * A {@code BooleanTuple} containing exactly five {@code boolean} elements.
      * The values are accessible through the public final fields {@code _1} through {@code _5}.
      *
      * <p><b>Usage Examples:</b></p>
@@ -2097,24 +2101,24 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <pre>{@code
          * // Palindrome: reversing yields the same sequence
          * BooleanTuple.BooleanTuple5 palindrome = BooleanTuple.of(true, false, true, false, true);
-         * palindrome.reverse().toString();   // returns "(true, false, true, false, true)"
+         * palindrome.reversed().toString();   // returns "(true, false, true, false, true)"
          *
          * // Non-palindrome: reversed differs from original
          * BooleanTuple.BooleanTuple5 tuple = BooleanTuple.of(true, false, false, false, false);
-         * tuple.reverse().toString();   // returns "(false, false, false, false, true)"
+         * tuple.reversed().toString();   // returns "(false, false, false, false, true)"
          *
          * // All-same: reverse is identical in value
          * BooleanTuple.BooleanTuple5 allTrue = BooleanTuple.of(true, true, true, true, true);
-         * allTrue.reverse().toString();   // returns "(true, true, true, true, true)"
+         * allTrue.reversed().toString();   // returns "(true, true, true, true, true)"
          *
-         * // reverse() returns a NEW instance
-         * assert palindrome.reverse() != palindrome; // true
+         * // reversed() returns a NEW instance
+         * assert palindrome.reversed() != palindrome; // true
          * }</pre>
          *
          * @return a new BooleanTuple.BooleanTuple5 with the elements in reverse order
          */
         @Override
-        public BooleanTuple5 reverse() {
+        public BooleanTuple5 reversed() {
             return new BooleanTuple5(_5, _4, _3, _2, _1);
         }
 
@@ -2269,6 +2273,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
 
         /**
          * Returns the internal array of boolean elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
          * Modifying the returned array will compromise the immutability of this tuple.
          * Prefer {@link #toArray()} when a safe, independent copy is needed.
@@ -2287,7 +2292,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     }
 
     /**
-     * A tuple containing exactly six boolean values.
+     * A {@code BooleanTuple} containing exactly six {@code boolean} elements.
      * The values are accessible through the public final fields {@code _1} through {@code _6}.
      *
      * <p><b>Usage Examples:</b></p>
@@ -2295,7 +2300,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * BooleanTuple.BooleanTuple6 tuple = BooleanTuple.of(true, false, true, false, true, false);
      * boolean first = tuple._1;                               // true
      * boolean sixth = tuple._6;                               // false
-     * BooleanTuple.BooleanTuple6 reversed = tuple.reverse();  // (false, true, false, true, false, true)
+     * BooleanTuple.BooleanTuple6 reversed = tuple.reversed();  // (false, true, false, true, false, true)
      * }</pre>
      *
      */
@@ -2373,25 +2378,25 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <pre>{@code
          * // Basic reversal of alternating values
          * BooleanTuple.BooleanTuple6 tuple = BooleanTuple.of(true, false, true, false, true, false);
-         * BooleanTuple.BooleanTuple6 reversed = tuple.reverse();   // returns (false, true, false, true, false, true)
+         * BooleanTuple.BooleanTuple6 reversed = tuple.reversed();   // returns (false, true, false, true, false, true)
          *
          * // Reversing all-true tuple yields same result
          * BooleanTuple.BooleanTuple6 allTrue = BooleanTuple.of(true, true, true, true, true, true);
-         * BooleanTuple.BooleanTuple6 rev2 = allTrue.reverse();   // returns (true, true, true, true, true, true)
+         * BooleanTuple.BooleanTuple6 rev2 = allTrue.reversed();   // returns (true, true, true, true, true, true)
          *
          * // Reversing all-false tuple yields same result
          * BooleanTuple.BooleanTuple6 allFalse = BooleanTuple.of(false, false, false, false, false, false);
-         * BooleanTuple.BooleanTuple6 rev3 = allFalse.reverse();   // returns (false, false, false, false, false, false)
+         * BooleanTuple.BooleanTuple6 rev3 = allFalse.reversed();   // returns (false, false, false, false, false, false)
          *
          * // Reversing a mixed tuple; result is a different object
          * BooleanTuple.BooleanTuple6 mixed = BooleanTuple.of(true, false, false, true, false, true);
-         * BooleanTuple.BooleanTuple6 rev4 = mixed.reverse();   // returns (true, false, true, false, false, true)
+         * BooleanTuple.BooleanTuple6 rev4 = mixed.reversed();   // returns (true, false, true, false, false, true)
          * }</pre>
          *
          * @return a new BooleanTuple.BooleanTuple6 with the elements in reverse order
          */
         @Override
-        public BooleanTuple6 reverse() {
+        public BooleanTuple6 reversed() {
             return new BooleanTuple6(_6, _5, _4, _3, _2, _1);
         }
 
@@ -2557,6 +2562,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
 
         /**
          * Returns the internal array of boolean elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
          * Modifying the returned array will compromise the immutability of this tuple.
          * Prefer {@link #toArray()} when a safe, independent copy is needed.
@@ -2575,7 +2581,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     }
 
     /**
-     * A tuple containing exactly seven boolean values.
+     * A {@code BooleanTuple} containing exactly seven {@code boolean} elements.
      * The values are accessible through the public final fields {@code _1} through {@code _7}.
      *
      * <p><b>Usage Examples:</b></p>
@@ -2665,26 +2671,26 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <pre>{@code
          * // Non-palindrome: reverse differs in element sequence from original
          * BooleanTuple.BooleanTuple7 tuple = BooleanTuple.of(true, false, true, false, true, false, false);
-         * BooleanTuple.BooleanTuple7 reversed = tuple.reverse();   // (false, false, true, false, true, false, true)
+         * BooleanTuple.BooleanTuple7 reversed = tuple.reversed();   // (false, false, true, false, true, false, true)
          *
          * // Palindrome: reverse is equal in value (same element sequence), not the same instance
          * BooleanTuple.BooleanTuple7 palindrome = BooleanTuple.of(true, false, true, false, true, false, true);
-         * BooleanTuple.BooleanTuple7 rev2 = palindrome.reverse();   // (true, false, true, false, true, false, true)
+         * BooleanTuple.BooleanTuple7 rev2 = palindrome.reversed();   // (true, false, true, false, true, false, true)
          * boolean sameSeq = rev2.equals(palindrome); // true
          *
          * // All-true: reverse has the same element sequence
          * BooleanTuple.BooleanTuple7 allTrue = BooleanTuple.of(true, true, true, true, true, true, true);
-         * BooleanTuple.BooleanTuple7 rev3 = allTrue.reverse();   // (true, true, true, true, true, true, true)
+         * BooleanTuple.BooleanTuple7 rev3 = allTrue.reversed();   // (true, true, true, true, true, true, true)
          *
          * // All-false: reverse has the same element sequence
          * BooleanTuple.BooleanTuple7 allFalse = BooleanTuple.of(false, false, false, false, false, false, false);
-         * BooleanTuple.BooleanTuple7 rev4 = allFalse.reverse();   // (false, false, false, false, false, false, false)
+         * BooleanTuple.BooleanTuple7 rev4 = allFalse.reversed();   // (false, false, false, false, false, false, false)
          * }</pre>
          *
          * @return a new BooleanTuple.BooleanTuple7 with the elements in reverse order
          */
         @Override
-        public BooleanTuple7 reverse() {
+        public BooleanTuple7 reversed() {
             return new BooleanTuple7(_7, _6, _5, _4, _3, _2, _1);
         }
 
@@ -2853,6 +2859,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
 
         /**
          * Returns the internal array of boolean elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
          * Modifying the returned array will compromise the immutability of this tuple.
          * Prefer {@link #toArray()} when a safe, independent copy is needed.
@@ -2871,7 +2878,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     }
 
     /**
-     * A tuple containing exactly eight boolean values.
+     * A {@code BooleanTuple} containing exactly eight {@code boolean} elements.
      * The values are accessible through the public final fields {@code _1} through {@code _8}.
      *
      * <p><b>Usage Examples:</b></p>
@@ -2968,26 +2975,26 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <pre>{@code
          * // Basic reversal of alternating values
          * BooleanTuple.BooleanTuple8 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false);
-         * BooleanTuple.BooleanTuple8 reversed = tuple.reverse();   // (false, true, false, true, false, true, false, true)
+         * BooleanTuple.BooleanTuple8 reversed = tuple.reversed();   // (false, true, false, true, false, true, false, true)
          *
          * // All-true: reverse has the same element sequence
          * BooleanTuple.BooleanTuple8 allTrue = BooleanTuple.of(true, true, true, true, true, true, true, true);
-         * BooleanTuple.BooleanTuple8 rev2 = allTrue.reverse();   // (true, true, true, true, true, true, true, true)
+         * BooleanTuple.BooleanTuple8 rev2 = allTrue.reversed();   // (true, true, true, true, true, true, true, true)
          *
          * // All-false: reverse has the same element sequence
          * BooleanTuple.BooleanTuple8 allFalse = BooleanTuple.of(false, false, false, false, false, false, false, false);
-         * BooleanTuple.BooleanTuple8 rev3 = allFalse.reverse();   // (false, false, false, false, false, false, false, false)
+         * BooleanTuple.BooleanTuple8 rev3 = allFalse.reversed();   // (false, false, false, false, false, false, false, false)
          *
          * // Palindrome: reverse is equal in value (same element sequence), not the same instance
          * BooleanTuple.BooleanTuple8 palindrome = BooleanTuple.of(true, false, false, false, false, false, false, true);
-         * BooleanTuple.BooleanTuple8 rev4 = palindrome.reverse();   // (true, false, false, false, false, false, false, true)
+         * BooleanTuple.BooleanTuple8 rev4 = palindrome.reversed();   // (true, false, false, false, false, false, false, true)
          * boolean sameSeq = rev4.equals(palindrome); // true
          * }</pre>
          *
          * @return a new BooleanTuple.BooleanTuple8 with the elements in reverse order
          */
         @Override
-        public BooleanTuple8 reverse() {
+        public BooleanTuple8 reversed() {
             return new BooleanTuple8(_8, _7, _6, _5, _4, _3, _2, _1);
         }
 
@@ -3158,6 +3165,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
 
         /**
          * Returns the internal array of boolean elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
          * Modifying the returned array will compromise the immutability of this tuple.
          * Prefer {@link #toArray()} when a safe, independent copy is needed.
@@ -3176,7 +3184,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     }
 
     /**
-     * A tuple containing exactly nine boolean values.
+     * A {@code BooleanTuple} containing exactly nine {@code boolean} elements.
      * The values are accessible through the public final fields {@code _1} through {@code _9}.
      *
      * <p><b>Usage Examples:</b></p>
@@ -3277,26 +3285,26 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * <pre>{@code
          * // Palindrome: reverse is equal in value (same element sequence), not the same instance
          * BooleanTuple.BooleanTuple9 palindrome = BooleanTuple.of(true, false, true, false, true, false, true, false, true);
-         * BooleanTuple.BooleanTuple9 rev1 = palindrome.reverse();   // (true, false, true, false, true, false, true, false, true)
+         * BooleanTuple.BooleanTuple9 rev1 = palindrome.reversed();   // (true, false, true, false, true, false, true, false, true)
          * boolean sameSeq = rev1.equals(palindrome); // true
          *
          * // Non-palindrome: reverse differs in element sequence from original
          * BooleanTuple.BooleanTuple9 tuple = BooleanTuple.of(true, false, false, false, false, false, false, false, false);
-         * BooleanTuple.BooleanTuple9 rev2 = tuple.reverse();   // (false, false, false, false, false, false, false, false, true)
+         * BooleanTuple.BooleanTuple9 rev2 = tuple.reversed();   // (false, false, false, false, false, false, false, false, true)
          *
          * // All-true: reverse has the same element sequence
          * BooleanTuple.BooleanTuple9 allTrue = BooleanTuple.of(true, true, true, true, true, true, true, true, true);
-         * BooleanTuple.BooleanTuple9 rev3 = allTrue.reverse();   // (true, true, true, true, true, true, true, true, true)
+         * BooleanTuple.BooleanTuple9 rev3 = allTrue.reversed();   // (true, true, true, true, true, true, true, true, true)
          *
          * // All-false: reverse has the same element sequence
          * BooleanTuple.BooleanTuple9 allFalse = BooleanTuple.of(false, false, false, false, false, false, false, false, false);
-         * BooleanTuple.BooleanTuple9 rev4 = allFalse.reverse();   // (false, false, false, false, false, false, false, false, false)
+         * BooleanTuple.BooleanTuple9 rev4 = allFalse.reversed();   // (false, false, false, false, false, false, false, false, false)
          * }</pre>
          *
          * @return a new BooleanTuple.BooleanTuple9 with the elements in reverse order
          */
         @Override
-        public BooleanTuple9 reverse() {
+        public BooleanTuple9 reversed() {
             return new BooleanTuple9(_9, _8, _7, _6, _5, _4, _3, _2, _1);
         }
 
@@ -3468,6 +3476,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
 
         /**
          * Returns the internal array of boolean elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
          * Modifying the returned array will compromise the immutability of this tuple.
          * Prefer {@link #toArray()} when a safe, independent copy is needed.

@@ -218,33 +218,33 @@ class ByteTupleTest extends TestBase {
     }
 
     @Test
-    public void testReverse() {
+    public void testReversed() {
         // Test Tuple0
         ByteTuple.ByteTuple0 empty = ByteTuple.from(new byte[0]);
-        ByteTuple.ByteTuple0 reversedEmpty = empty.reverse();
+        ByteTuple.ByteTuple0 reversedEmpty = empty.reversed();
         assertEquals(0, reversedEmpty.arity());
 
         // Test Tuple1
         ByteTuple.ByteTuple1 tuple1 = ByteTuple.of((byte) 10);
-        ByteTuple.ByteTuple1 reversed1 = tuple1.reverse();
+        ByteTuple.ByteTuple1 reversed1 = tuple1.reversed();
         assertEquals(10, reversed1._1);
 
         // Test Tuple2
         ByteTuple.ByteTuple2 tuple2 = ByteTuple.of((byte) 10, (byte) 20);
-        ByteTuple.ByteTuple2 reversed2 = tuple2.reverse();
+        ByteTuple.ByteTuple2 reversed2 = tuple2.reversed();
         assertEquals(20, reversed2._1);
         assertEquals(10, reversed2._2);
 
         // Test Tuple3
         ByteTuple.ByteTuple3 tuple3 = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-        ByteTuple.ByteTuple3 reversed3 = tuple3.reverse();
+        ByteTuple.ByteTuple3 reversed3 = tuple3.reversed();
         assertEquals(30, reversed3._1);
         assertEquals(20, reversed3._2);
         assertEquals(10, reversed3._3);
 
         // Test larger tuples
         ByteTuple.ByteTuple5 tuple5 = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50);
-        ByteTuple.ByteTuple5 reversed5 = tuple5.reverse();
+        ByteTuple.ByteTuple5 reversed5 = tuple5.reversed();
         assertEquals(50, reversed5._1);
         assertEquals(40, reversed5._2);
         assertEquals(30, reversed5._3);
@@ -472,7 +472,7 @@ class ByteTupleTest extends TestBase {
         assertFalse(tuple.equals(null));
         assertFalse(tuple.equals("not a tuple"));
         assertEquals("(9, 2, 5, 1)", tuple.toString());
-        assertArrayEquals(new byte[] { 1, 5, 2, 9 }, tuple.reverse().toArray());
+        assertArrayEquals(new byte[] { 1, 5, 2, 9 }, tuple.reversed().toArray());
     }
 
     @Test
@@ -816,32 +816,32 @@ class ByteTupleTest extends TestBase {
 
         // Reverse tests
         @Test
-        public void testReverseTuple0() {
+        public void testReversedTuple0() {
             ByteTuple<ByteTuple0> tuple = ByteTuple.from(new byte[0]);
-            ByteTuple<ByteTuple0> reversed = tuple.reverse();
+            ByteTuple<ByteTuple0> reversed = tuple.reversed();
             assertNotNull(reversed);
             assertEquals(0, reversed.arity());
         }
 
         @Test
-        public void testReverseTuple1() {
+        public void testReversedTuple1() {
             ByteTuple1 tuple = ByteTuple.of((byte) 1);
-            ByteTuple1 reversed = tuple.reverse();
+            ByteTuple1 reversed = tuple.reversed();
             assertEquals((byte) 1, reversed._1);
         }
 
         @Test
-        public void testReverseTuple2() {
+        public void testReversedTuple2() {
             ByteTuple2 tuple = ByteTuple.of((byte) 1, (byte) 2);
-            ByteTuple2 reversed = tuple.reverse();
+            ByteTuple2 reversed = tuple.reversed();
             assertEquals((byte) 2, reversed._1);
             assertEquals((byte) 1, reversed._2);
         }
 
         @Test
-        public void testReverseTuple3() {
+        public void testReversedTuple3() {
             ByteTuple3 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3);
-            ByteTuple3 reversed = tuple.reverse();
+            ByteTuple3 reversed = tuple.reversed();
             assertEquals((byte) 3, reversed._1);
             assertEquals((byte) 2, reversed._2);
             assertEquals((byte) 1, reversed._3);
@@ -1218,7 +1218,7 @@ class ByteTupleTest extends TestBase {
             ByteTuple4 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4);
 
             // Test reverse
-            ByteTuple4 reversed = tuple.reverse();
+            ByteTuple4 reversed = tuple.reversed();
             assertEquals((byte) 4, reversed._1);
             assertEquals((byte) 3, reversed._2);
             assertEquals((byte) 2, reversed._3);
@@ -1257,7 +1257,7 @@ class ByteTupleTest extends TestBase {
             ByteTuple5 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5);
 
             // Test reverse
-            ByteTuple5 reversed = tuple.reverse();
+            ByteTuple5 reversed = tuple.reversed();
             assertEquals((byte) 5, reversed._1);
             assertEquals((byte) 1, reversed._5);
 
@@ -1286,7 +1286,7 @@ class ByteTupleTest extends TestBase {
             ByteTuple6 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6);
 
             // Test reverse
-            ByteTuple6 reversed = tuple.reverse();
+            ByteTuple6 reversed = tuple.reversed();
             assertEquals((byte) 6, reversed._1);
             assertEquals((byte) 1, reversed._6);
 
@@ -1310,7 +1310,7 @@ class ByteTupleTest extends TestBase {
             ByteTuple7 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7);
 
             // Test reverse
-            ByteTuple7 reversed = tuple.reverse();
+            ByteTuple7 reversed = tuple.reversed();
             assertEquals((byte) 7, reversed._1);
             assertEquals((byte) 1, reversed._7);
 
@@ -1334,7 +1334,7 @@ class ByteTupleTest extends TestBase {
             ByteTuple8 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8);
 
             // Test reverse
-            ByteTuple8 reversed = tuple.reverse();
+            ByteTuple8 reversed = tuple.reversed();
             assertEquals((byte) 8, reversed._1);
             assertEquals((byte) 1, reversed._8);
 
@@ -1358,7 +1358,7 @@ class ByteTupleTest extends TestBase {
             ByteTuple9 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9);
 
             // Test reverse
-            ByteTuple9 reversed = tuple.reverse();
+            ByteTuple9 reversed = tuple.reversed();
             assertEquals((byte) 9, reversed._1);
             assertEquals((byte) 1, reversed._9);
 
@@ -1471,9 +1471,9 @@ class ByteTupleTest extends TestBase {
         }
 
         @Test
-        public void testByteTuple1_reverse() {
+        public void testByteTuple1_reversed() {
             ByteTuple.ByteTuple1 tuple = ByteTuple.of((byte) 1);
-            ByteTuple.ByteTuple1 reversed = tuple.reverse();
+            ByteTuple.ByteTuple1 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._1);
             assertEquals(tuple._1, reversed._1);
         }
@@ -1551,9 +1551,9 @@ class ByteTupleTest extends TestBase {
         }
 
         @Test
-        public void testByteTuple2_reverse() {
+        public void testByteTuple2_reversed() {
             ByteTuple.ByteTuple2 tuple = ByteTuple.of((byte) 1, (byte) 2);
-            ByteTuple.ByteTuple2 reversed = tuple.reverse();
+            ByteTuple.ByteTuple2 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._2);
             assertEquals(tuple._2, reversed._1);
         }
@@ -1653,9 +1653,9 @@ class ByteTupleTest extends TestBase {
         }
 
         @Test
-        public void testByteTuple3_reverse() {
+        public void testByteTuple3_reversed() {
             ByteTuple.ByteTuple3 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3);
-            ByteTuple.ByteTuple3 reversed = tuple.reverse();
+            ByteTuple.ByteTuple3 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._3);
             assertEquals(tuple._3, reversed._1);
         }
@@ -1755,9 +1755,9 @@ class ByteTupleTest extends TestBase {
         }
 
         @Test
-        public void testByteTuple4_reverse() {
+        public void testByteTuple4_reversed() {
             ByteTuple.ByteTuple4 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4);
-            ByteTuple.ByteTuple4 reversed = tuple.reverse();
+            ByteTuple.ByteTuple4 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._4);
             assertEquals(tuple._4, reversed._1);
         }
@@ -1805,9 +1805,9 @@ class ByteTupleTest extends TestBase {
         }
 
         @Test
-        public void testByteTuple5_reverse() {
+        public void testByteTuple5_reversed() {
             ByteTuple.ByteTuple5 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5);
-            ByteTuple.ByteTuple5 reversed = tuple.reverse();
+            ByteTuple.ByteTuple5 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._5);
             assertEquals(tuple._5, reversed._1);
         }
@@ -1855,9 +1855,9 @@ class ByteTupleTest extends TestBase {
         }
 
         @Test
-        public void testByteTuple6_reverse() {
+        public void testByteTuple6_reversed() {
             ByteTuple.ByteTuple6 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6);
-            ByteTuple.ByteTuple6 reversed = tuple.reverse();
+            ByteTuple.ByteTuple6 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._6);
             assertEquals(tuple._6, reversed._1);
         }
@@ -1905,9 +1905,9 @@ class ByteTupleTest extends TestBase {
         }
 
         @Test
-        public void testByteTuple7_reverse() {
+        public void testByteTuple7_reversed() {
             ByteTuple.ByteTuple7 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7);
-            ByteTuple.ByteTuple7 reversed = tuple.reverse();
+            ByteTuple.ByteTuple7 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._7);
             assertEquals(tuple._7, reversed._1);
         }
@@ -1955,9 +1955,9 @@ class ByteTupleTest extends TestBase {
         }
 
         @Test
-        public void testByteTuple8_reverse() {
+        public void testByteTuple8_reversed() {
             ByteTuple.ByteTuple8 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8);
-            ByteTuple.ByteTuple8 reversed = tuple.reverse();
+            ByteTuple.ByteTuple8 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._8);
             assertEquals(tuple._8, reversed._1);
         }
@@ -2005,9 +2005,9 @@ class ByteTupleTest extends TestBase {
         }
 
         @Test
-        public void testByteTuple9_reverse() {
+        public void testByteTuple9_reversed() {
             ByteTuple.ByteTuple9 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9);
-            ByteTuple.ByteTuple9 reversed = tuple.reverse();
+            ByteTuple.ByteTuple9 reversed = tuple.reversed();
             assertEquals((byte) 9, reversed._1);
             assertEquals((byte) 8, reversed._2);
             assertEquals((byte) 7, reversed._3);
@@ -2214,9 +2214,9 @@ class ByteTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple0_reverse() {
+        public void testTuple0_reversed() {
             ByteTuple<?> tuple = ByteTuple.from(new byte[0]);
-            ByteTuple<?> reversed = tuple.reverse();
+            ByteTuple<?> reversed = tuple.reversed();
             assertNotNull(reversed);
             assertEquals(0, reversed.arity());
         }
@@ -2248,9 +2248,9 @@ class ByteTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple1_reverse() {
+        public void testTuple1_reversed() {
             ByteTuple1 tuple = ByteTuple.of((byte) 10);
-            ByteTuple1 reversed = tuple.reverse();
+            ByteTuple1 reversed = tuple.reversed();
             assertEquals((byte) 10, reversed._1);
             assertNotSame(tuple, reversed);
         }
@@ -2305,9 +2305,9 @@ class ByteTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple2_reverse() {
+        public void testTuple2_reversed() {
             ByteTuple2 tuple = ByteTuple.of((byte) 10, (byte) 20);
-            ByteTuple2 reversed = tuple.reverse();
+            ByteTuple2 reversed = tuple.reversed();
             assertEquals((byte) 20, reversed._1);
             assertEquals((byte) 10, reversed._2);
         }
@@ -2383,9 +2383,9 @@ class ByteTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple3_reverse() {
+        public void testTuple3_reversed() {
             ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-            ByteTuple3 reversed = tuple.reverse();
+            ByteTuple3 reversed = tuple.reversed();
             assertEquals((byte) 30, reversed._1);
             assertEquals((byte) 20, reversed._2);
             assertEquals((byte) 10, reversed._3);
@@ -2442,9 +2442,9 @@ class ByteTupleTest extends TestBase {
         // ============ ByteTuple4-9 Basic Tests ============
 
         @Test
-        public void testTuple4_reverse() {
+        public void testTuple4_reversed() {
             ByteTuple4 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4);
-            ByteTuple4 reversed = tuple.reverse();
+            ByteTuple4 reversed = tuple.reversed();
             assertEquals((byte) 4, reversed._1);
             assertEquals((byte) 3, reversed._2);
             assertEquals((byte) 2, reversed._3);
@@ -2452,41 +2452,41 @@ class ByteTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple5_reverse() {
+        public void testTuple5_reversed() {
             ByteTuple5 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5);
-            ByteTuple5 reversed = tuple.reverse();
+            ByteTuple5 reversed = tuple.reversed();
             assertEquals((byte) 5, reversed._1);
             assertEquals((byte) 1, reversed._5);
         }
 
         @Test
-        public void testTuple6_reverse() {
+        public void testTuple6_reversed() {
             ByteTuple6 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6);
-            ByteTuple6 reversed = tuple.reverse();
+            ByteTuple6 reversed = tuple.reversed();
             assertEquals((byte) 6, reversed._1);
             assertEquals((byte) 1, reversed._6);
         }
 
         @Test
-        public void testTuple7_reverse() {
+        public void testTuple7_reversed() {
             ByteTuple7 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7);
-            ByteTuple7 reversed = tuple.reverse();
+            ByteTuple7 reversed = tuple.reversed();
             assertEquals((byte) 7, reversed._1);
             assertEquals((byte) 1, reversed._7);
         }
 
         @Test
-        public void testTuple8_reverse() {
+        public void testTuple8_reversed() {
             ByteTuple8 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8);
-            ByteTuple8 reversed = tuple.reverse();
+            ByteTuple8 reversed = tuple.reversed();
             assertEquals((byte) 8, reversed._1);
             assertEquals((byte) 1, reversed._8);
         }
 
         @Test
-        public void testTuple9_reverse() {
+        public void testTuple9_reversed() {
             ByteTuple9 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9);
-            ByteTuple9 reversed = tuple.reverse();
+            ByteTuple9 reversed = tuple.reversed();
             assertEquals((byte) 9, reversed._1);
             assertEquals((byte) 1, reversed._9);
         }
@@ -2877,26 +2877,26 @@ class ByteTupleTest extends TestBase {
         // ============ Reverse Tests ============
 
         @Test
-        public void testTuple0_reverse() {
+        public void testTuple0_reversed() {
             ByteTuple0 tuple = ByteTuple.from(new byte[0]);
-            ByteTuple0 reversed = tuple.reverse();
+            ByteTuple0 reversed = tuple.reversed();
             assertNotNull(reversed);
             assertEquals(tuple, reversed);
         }
 
         @Test
-        public void testTuple1_reverse() {
+        public void testTuple1_reversed() {
             ByteTuple1 tuple = ByteTuple.of((byte) 10);
-            ByteTuple1 reversed = tuple.reverse();
+            ByteTuple1 reversed = tuple.reversed();
             assertNotNull(reversed);
             assertNotSame(tuple, reversed);
             assertEquals((byte) 10, reversed._1);
         }
 
         @Test
-        public void testTuple2_reverse() {
+        public void testTuple2_reversed() {
             ByteTuple2 tuple = ByteTuple.of((byte) 10, (byte) 20);
-            ByteTuple2 reversed = tuple.reverse();
+            ByteTuple2 reversed = tuple.reversed();
             assertNotNull(reversed);
             assertNotSame(tuple, reversed);
             assertEquals((byte) 20, reversed._1);
@@ -2904,9 +2904,9 @@ class ByteTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple3_reverse() {
+        public void testTuple3_reversed() {
             ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-            ByteTuple3 reversed = tuple.reverse();
+            ByteTuple3 reversed = tuple.reversed();
             assertNotNull(reversed);
             assertNotSame(tuple, reversed);
             assertEquals((byte) 30, reversed._1);
@@ -2915,9 +2915,9 @@ class ByteTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple5_reverse() {
+        public void testTuple5_reversed() {
             ByteTuple5 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50);
-            ByteTuple5 reversed = tuple.reverse();
+            ByteTuple5 reversed = tuple.reversed();
             assertNotNull(reversed);
             assertEquals((byte) 50, reversed._1);
             assertEquals((byte) 40, reversed._2);
@@ -3503,9 +3503,9 @@ class ByteTupleTest extends TestBase {
         }
 
         @Test
-        public void test_tuple0_reverse() {
+        public void test_tuple0_reversed() {
             ByteTuple0 tuple = ByteTuple.from(new byte[0]);
-            ByteTuple0 reversed = tuple.reverse();
+            ByteTuple0 reversed = tuple.reversed();
             assertSame(tuple, reversed);
         }
 
@@ -3569,9 +3569,9 @@ class ByteTupleTest extends TestBase {
         }
 
         @Test
-        public void test_tuple1_reverse() {
+        public void test_tuple1_reversed() {
             ByteTuple1 tuple = ByteTuple.of((byte) 10);
-            ByteTuple1 reversed = tuple.reverse();
+            ByteTuple1 reversed = tuple.reversed();
             assertNotNull(reversed);
             assertEquals((byte) 10, reversed._1);
             assertNotSame(tuple, reversed);
@@ -3686,9 +3686,9 @@ class ByteTupleTest extends TestBase {
         }
 
         @Test
-        public void test_tuple2_reverse() {
+        public void test_tuple2_reversed() {
             ByteTuple2 tuple = ByteTuple.of((byte) 10, (byte) 20);
-            ByteTuple2 reversed = tuple.reverse();
+            ByteTuple2 reversed = tuple.reversed();
             assertNotNull(reversed);
             assertEquals((byte) 20, reversed._1);
             assertEquals((byte) 10, reversed._2);
@@ -3808,9 +3808,9 @@ class ByteTupleTest extends TestBase {
         }
 
         @Test
-        public void test_tuple3_reverse() {
+        public void test_tuple3_reversed() {
             ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-            ByteTuple3 reversed = tuple.reverse();
+            ByteTuple3 reversed = tuple.reversed();
             assertNotNull(reversed);
             assertEquals((byte) 30, reversed._1);
             assertEquals((byte) 20, reversed._2);
@@ -3886,7 +3886,7 @@ class ByteTupleTest extends TestBase {
             assertEquals(10, tuple.sum());
             assertEquals(2.5, tuple.average().getAsDouble(), 0.0001);
             assertTrue(tuple.contains((byte) 3));
-            ByteTuple4 reversed = tuple.reverse();
+            ByteTuple4 reversed = tuple.reversed();
             assertEquals((byte) 4, reversed._1);
             assertEquals((byte) 1, reversed._4);
         }

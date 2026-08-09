@@ -162,9 +162,9 @@ class BooleanTupleTest extends TestBase {
     }
 
     @Test
-    public void testReverse() {
+    public void testReversed() {
         BooleanTuple.BooleanTuple3 tuple = BooleanTuple.of(true, false, false);
-        BooleanTuple.BooleanTuple3 reversed = tuple.reverse();
+        BooleanTuple.BooleanTuple3 reversed = tuple.reversed();
 
         assertFalse(reversed._1);
         assertFalse(reversed._2);
@@ -237,7 +237,7 @@ class BooleanTupleTest extends TestBase {
     @Test
     public void testHighArityTupleReverse() {
         BooleanTuple.BooleanTuple4 tuple4 = BooleanTuple.of(true, false, true, false);
-        BooleanTuple.BooleanTuple4 reversed4 = tuple4.reverse();
+        BooleanTuple.BooleanTuple4 reversed4 = tuple4.reversed();
 
         assertEquals(false, reversed4._1);
         assertEquals(true, reversed4._2);
@@ -245,7 +245,7 @@ class BooleanTupleTest extends TestBase {
         assertEquals(true, reversed4._4);
 
         BooleanTuple.BooleanTuple5 tuple5 = BooleanTuple.of(true, false, true, false, true);
-        BooleanTuple.BooleanTuple5 reversed5 = tuple5.reverse();
+        BooleanTuple.BooleanTuple5 reversed5 = tuple5.reversed();
 
         assertEquals(true, reversed5._1);
         assertEquals(false, reversed5._2);
@@ -536,24 +536,24 @@ class BooleanTupleTest extends TestBase {
 
         // Reverse tests
         @Test
-        public void testReverseTuple0() {
+        public void testReversedTuple0() {
             BooleanTuple<BooleanTuple0> tuple = BooleanTuple.from(new boolean[0]);
-            BooleanTuple<BooleanTuple0> reversed = tuple.reverse();
+            BooleanTuple<BooleanTuple0> reversed = tuple.reversed();
             assertNotNull(reversed);
             assertEquals(0, reversed.arity());
         }
 
         @Test
-        public void testReverseTuple1() {
+        public void testReversedTuple1() {
             BooleanTuple1 tuple = BooleanTuple.of(true);
-            BooleanTuple1 reversed = tuple.reverse();
+            BooleanTuple1 reversed = tuple.reversed();
             assertEquals(true, reversed._1);
         }
 
         @Test
-        public void testReverseTuple3() {
+        public void testReversedTuple3() {
             BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-            BooleanTuple3 reversed = tuple.reverse();
+            BooleanTuple3 reversed = tuple.reversed();
             assertEquals(true, reversed._1);
             assertEquals(false, reversed._2);
             assertEquals(true, reversed._3);
@@ -881,7 +881,7 @@ class BooleanTupleTest extends TestBase {
             BooleanTuple4 tuple = BooleanTuple.of(true, false, true, false);
 
             // Test reverse
-            BooleanTuple4 reversed = tuple.reverse();
+            BooleanTuple4 reversed = tuple.reversed();
             assertEquals(false, reversed._1);
             assertEquals(true, reversed._2);
             assertEquals(false, reversed._3);
@@ -912,7 +912,7 @@ class BooleanTupleTest extends TestBase {
             BooleanTuple5 tuple = BooleanTuple.of(true, false, true, false, true);
 
             // Test reverse
-            BooleanTuple5 reversed = tuple.reverse();
+            BooleanTuple5 reversed = tuple.reversed();
             assertEquals(true, reversed._1);
             assertEquals(false, reversed._2);
             assertEquals(true, reversed._3);
@@ -943,7 +943,7 @@ class BooleanTupleTest extends TestBase {
             BooleanTuple6 tuple = BooleanTuple.of(true, false, true, false, true, false);
 
             // Test reverse
-            BooleanTuple6 reversed = tuple.reverse();
+            BooleanTuple6 reversed = tuple.reversed();
             assertEquals(false, reversed._1);
             assertEquals(true, reversed._2);
             assertEquals(false, reversed._3);
@@ -971,7 +971,7 @@ class BooleanTupleTest extends TestBase {
             BooleanTuple7 tuple = BooleanTuple.of(true, false, true, false, true, false, true);
 
             // Test reverse
-            BooleanTuple7 reversed = tuple.reverse();
+            BooleanTuple7 reversed = tuple.reversed();
             assertEquals(true, reversed._1);
             assertEquals(false, reversed._2);
             assertEquals(true, reversed._3);
@@ -1000,7 +1000,7 @@ class BooleanTupleTest extends TestBase {
             BooleanTuple8 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false);
 
             // Test reverse
-            BooleanTuple8 reversed = tuple.reverse();
+            BooleanTuple8 reversed = tuple.reversed();
             assertEquals(false, reversed._1);
             assertEquals(true, reversed._2);
             assertEquals(false, reversed._3);
@@ -1030,7 +1030,7 @@ class BooleanTupleTest extends TestBase {
             BooleanTuple9 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false, true);
 
             // Test reverse
-            BooleanTuple9 reversed = tuple.reverse();
+            BooleanTuple9 reversed = tuple.reversed();
             assertEquals(true, reversed._1);
             assertEquals(false, reversed._2);
             assertEquals(true, reversed._3);
@@ -1150,9 +1150,9 @@ class BooleanTupleTest extends TestBase {
         }
 
         @Test
-        public void testBooleanTuple1_reverse() {
+        public void testBooleanTuple1_reversed() {
             BooleanTuple.BooleanTuple1 tuple = BooleanTuple.of(true);
-            BooleanTuple.BooleanTuple1 reversed = tuple.reverse();
+            BooleanTuple.BooleanTuple1 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._1);
             assertEquals(tuple._1, reversed._1);
         }
@@ -1200,9 +1200,9 @@ class BooleanTupleTest extends TestBase {
         }
 
         @Test
-        public void testBooleanTuple2_reverse() {
+        public void testBooleanTuple2_reversed() {
             BooleanTuple.BooleanTuple2 tuple = BooleanTuple.of(true, false);
-            BooleanTuple.BooleanTuple2 reversed = tuple.reverse();
+            BooleanTuple.BooleanTuple2 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._2);
             assertEquals(tuple._2, reversed._1);
         }
@@ -1278,9 +1278,9 @@ class BooleanTupleTest extends TestBase {
         }
 
         @Test
-        public void testBooleanTuple3_reverse() {
+        public void testBooleanTuple3_reversed() {
             BooleanTuple.BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-            BooleanTuple.BooleanTuple3 reversed = tuple.reverse();
+            BooleanTuple.BooleanTuple3 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._3);
             assertEquals(tuple._3, reversed._1);
         }
@@ -1356,9 +1356,9 @@ class BooleanTupleTest extends TestBase {
         }
 
         @Test
-        public void testBooleanTuple4_reverse() {
+        public void testBooleanTuple4_reversed() {
             BooleanTuple.BooleanTuple4 tuple = BooleanTuple.of(true, false, true, false);
-            BooleanTuple.BooleanTuple4 reversed = tuple.reverse();
+            BooleanTuple.BooleanTuple4 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._4);
             assertEquals(tuple._4, reversed._1);
         }
@@ -1406,9 +1406,9 @@ class BooleanTupleTest extends TestBase {
         }
 
         @Test
-        public void testBooleanTuple5_reverse() {
+        public void testBooleanTuple5_reversed() {
             BooleanTuple.BooleanTuple5 tuple = BooleanTuple.of(true, false, true, false, true);
-            BooleanTuple.BooleanTuple5 reversed = tuple.reverse();
+            BooleanTuple.BooleanTuple5 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._5);
             assertEquals(tuple._5, reversed._1);
         }
@@ -1456,9 +1456,9 @@ class BooleanTupleTest extends TestBase {
         }
 
         @Test
-        public void testBooleanTuple6_reverse() {
+        public void testBooleanTuple6_reversed() {
             BooleanTuple.BooleanTuple6 tuple = BooleanTuple.of(true, false, true, false, true, false);
-            BooleanTuple.BooleanTuple6 reversed = tuple.reverse();
+            BooleanTuple.BooleanTuple6 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._6);
             assertEquals(tuple._6, reversed._1);
         }
@@ -1506,9 +1506,9 @@ class BooleanTupleTest extends TestBase {
         }
 
         @Test
-        public void testBooleanTuple7_reverse() {
+        public void testBooleanTuple7_reversed() {
             BooleanTuple.BooleanTuple7 tuple = BooleanTuple.of(true, false, true, false, true, false, true);
-            BooleanTuple.BooleanTuple7 reversed = tuple.reverse();
+            BooleanTuple.BooleanTuple7 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._7);
             assertEquals(tuple._7, reversed._1);
         }
@@ -1556,9 +1556,9 @@ class BooleanTupleTest extends TestBase {
         }
 
         @Test
-        public void testBooleanTuple8_reverse() {
+        public void testBooleanTuple8_reversed() {
             BooleanTuple.BooleanTuple8 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false);
-            BooleanTuple.BooleanTuple8 reversed = tuple.reverse();
+            BooleanTuple.BooleanTuple8 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._8);
             assertEquals(tuple._8, reversed._1);
         }
@@ -1606,9 +1606,9 @@ class BooleanTupleTest extends TestBase {
         }
 
         @Test
-        public void testBooleanTuple9_reverse() {
+        public void testBooleanTuple9_reversed() {
             BooleanTuple.BooleanTuple9 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false, true);
-            BooleanTuple.BooleanTuple9 reversed = tuple.reverse();
+            BooleanTuple.BooleanTuple9 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._9);
             assertEquals(tuple._9, reversed._1);
         }
@@ -1712,9 +1712,9 @@ class BooleanTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple1_reverse() {
+        public void testTuple1_reversed() {
             BooleanTuple1 tuple = BooleanTuple.of(true);
-            BooleanTuple1 reversed = tuple.reverse();
+            BooleanTuple1 reversed = tuple.reversed();
             assertEquals(true, reversed._1);
             assertNotSame(tuple, reversed);
         }
@@ -1763,9 +1763,9 @@ class BooleanTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple2_reverse() {
+        public void testTuple2_reversed() {
             BooleanTuple2 tuple = BooleanTuple.of(true, false);
-            BooleanTuple2 reversed = tuple.reverse();
+            BooleanTuple2 reversed = tuple.reversed();
             assertEquals(false, reversed._1);
             assertEquals(true, reversed._2);
         }
@@ -1852,9 +1852,9 @@ class BooleanTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple3_reverse() {
+        public void testTuple3_reversed() {
             BooleanTuple3 tuple = BooleanTuple.of(true, false, false);
-            BooleanTuple3 reversed = tuple.reverse();
+            BooleanTuple3 reversed = tuple.reversed();
             assertEquals(false, reversed._1);
             assertEquals(false, reversed._2);
             assertEquals(true, reversed._3);
@@ -1910,9 +1910,9 @@ class BooleanTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple4_reverse() {
+        public void testTuple4_reversed() {
             BooleanTuple4 tuple = BooleanTuple.of(true, false, true, false);
-            BooleanTuple4 reversed = tuple.reverse();
+            BooleanTuple4 reversed = tuple.reversed();
             assertEquals(false, reversed._1);
             assertEquals(true, reversed._2);
             assertEquals(false, reversed._3);
@@ -1943,9 +1943,9 @@ class BooleanTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple5_reverse() {
+        public void testTuple5_reversed() {
             BooleanTuple5 tuple = BooleanTuple.of(true, false, true, false, true);
-            BooleanTuple5 reversed = tuple.reverse();
+            BooleanTuple5 reversed = tuple.reversed();
             assertEquals(true, reversed._1);
             assertEquals(false, reversed._2);
             assertEquals(true, reversed._3);
@@ -1977,9 +1977,9 @@ class BooleanTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple6_reverse() {
+        public void testTuple6_reversed() {
             BooleanTuple6 tuple = BooleanTuple.of(true, false, true, false, true, false);
-            BooleanTuple6 reversed = tuple.reverse();
+            BooleanTuple6 reversed = tuple.reversed();
             assertEquals(false, reversed._1);
             assertEquals(true, reversed._2);
         }
@@ -2008,9 +2008,9 @@ class BooleanTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple7_reverse() {
+        public void testTuple7_reversed() {
             BooleanTuple7 tuple = BooleanTuple.of(true, false, true, false, true, false, true);
-            BooleanTuple7 reversed = tuple.reverse();
+            BooleanTuple7 reversed = tuple.reversed();
             assertEquals(true, reversed._1);
             assertEquals(false, reversed._2);
         }
@@ -2039,9 +2039,9 @@ class BooleanTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple8_reverse() {
+        public void testTuple8_reversed() {
             BooleanTuple8 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false);
-            BooleanTuple8 reversed = tuple.reverse();
+            BooleanTuple8 reversed = tuple.reversed();
             assertEquals(false, reversed._1);
             assertEquals(true, reversed._2);
         }
@@ -2070,9 +2070,9 @@ class BooleanTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple9_reverse() {
+        public void testTuple9_reversed() {
             BooleanTuple9 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false, true);
-            BooleanTuple9 reversed = tuple.reverse();
+            BooleanTuple9 reversed = tuple.reversed();
             assertEquals(true, reversed._1);
             assertEquals(false, reversed._2);
         }
@@ -2196,26 +2196,26 @@ class BooleanTupleTest extends TestBase {
         // ============ Reverse Tests ============
 
         @Test
-        public void testTuple0_reverse() {
+        public void testTuple0_reversed() {
             BooleanTuple0 tuple = BooleanTuple.from(new boolean[0]);
-            BooleanTuple0 reversed = tuple.reverse();
+            BooleanTuple0 reversed = tuple.reversed();
             assertNotNull(reversed);
             assertEquals(tuple, reversed);
         }
 
         @Test
-        public void testTuple1_reverse() {
+        public void testTuple1_reversed() {
             BooleanTuple1 tuple = BooleanTuple.of(true);
-            BooleanTuple1 reversed = tuple.reverse();
+            BooleanTuple1 reversed = tuple.reversed();
             assertNotNull(reversed);
             assertNotSame(tuple, reversed);
             assertEquals(true, reversed._1);
         }
 
         @Test
-        public void testTuple2_reverse() {
+        public void testTuple2_reversed() {
             BooleanTuple2 tuple = BooleanTuple.of(true, false);
-            BooleanTuple2 reversed = tuple.reverse();
+            BooleanTuple2 reversed = tuple.reversed();
             assertNotNull(reversed);
             assertNotSame(tuple, reversed);
             assertEquals(false, reversed._1);
@@ -2223,9 +2223,9 @@ class BooleanTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple3_reverse() {
+        public void testTuple3_reversed() {
             BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-            BooleanTuple3 reversed = tuple.reverse();
+            BooleanTuple3 reversed = tuple.reversed();
             assertNotNull(reversed);
             assertNotSame(tuple, reversed);
             assertEquals(true, reversed._1);
@@ -2234,9 +2234,9 @@ class BooleanTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple5_reverse() {
+        public void testTuple5_reversed() {
             BooleanTuple5 tuple = BooleanTuple.of(true, false, true, false, true);
-            BooleanTuple5 reversed = tuple.reverse();
+            BooleanTuple5 reversed = tuple.reversed();
             assertNotNull(reversed);
             assertEquals(true, reversed._1);
             assertEquals(false, reversed._2);
@@ -2826,9 +2826,9 @@ class BooleanTupleTest extends TestBase {
         }
 
         @Test
-        public void test_tuple0_reverse() {
+        public void test_tuple0_reversed() {
             BooleanTuple0 tuple = BooleanTuple.from(new boolean[0]);
-            BooleanTuple0 reversed = tuple.reverse();
+            BooleanTuple0 reversed = tuple.reversed();
             assertSame(tuple, reversed);
         }
 
@@ -2856,9 +2856,9 @@ class BooleanTupleTest extends TestBase {
         }
 
         @Test
-        public void test_tuple1_reverse() {
+        public void test_tuple1_reversed() {
             BooleanTuple1 tuple = BooleanTuple.of(true);
-            BooleanTuple1 reversed = tuple.reverse();
+            BooleanTuple1 reversed = tuple.reversed();
             assertNotNull(reversed);
             assertEquals(true, reversed._1);
             assertNotSame(tuple, reversed);
@@ -2936,9 +2936,9 @@ class BooleanTupleTest extends TestBase {
         }
 
         @Test
-        public void test_tuple2_reverse() {
+        public void test_tuple2_reversed() {
             BooleanTuple2 tuple = BooleanTuple.of(true, false);
-            BooleanTuple2 reversed = tuple.reverse();
+            BooleanTuple2 reversed = tuple.reversed();
             assertNotNull(reversed);
             assertEquals(false, reversed._1);
             assertEquals(true, reversed._2);
@@ -3042,9 +3042,9 @@ class BooleanTupleTest extends TestBase {
         }
 
         @Test
-        public void test_tuple3_reverse() {
+        public void test_tuple3_reversed() {
             BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-            BooleanTuple3 reversed = tuple.reverse();
+            BooleanTuple3 reversed = tuple.reversed();
             assertNotNull(reversed);
             assertEquals(true, reversed._1);
             assertEquals(false, reversed._2);
@@ -3122,7 +3122,7 @@ class BooleanTupleTest extends TestBase {
             assertEquals(4, tuple.arity());
             assertTrue(tuple.contains(true));
             assertTrue(tuple.contains(false));
-            BooleanTuple4 reversed = tuple.reverse();
+            BooleanTuple4 reversed = tuple.reversed();
             assertEquals(false, reversed._1);
             assertEquals(true, reversed._2);
             assertEquals(false, reversed._3);
@@ -3134,7 +3134,7 @@ class BooleanTupleTest extends TestBase {
             BooleanTuple5 tuple = BooleanTuple.of(true, false, true, false, true);
             assertEquals(5, tuple.arity());
             assertTrue(tuple.contains(true));
-            BooleanTuple5 reversed = tuple.reverse();
+            BooleanTuple5 reversed = tuple.reversed();
             assertEquals(true, reversed._1);
             assertEquals(false, reversed._2);
         }
@@ -3144,7 +3144,7 @@ class BooleanTupleTest extends TestBase {
             BooleanTuple6 tuple = BooleanTuple.of(true, false, true, false, true, false);
             assertEquals(6, tuple.arity());
             assertTrue(tuple.contains(false));
-            BooleanTuple6 reversed = tuple.reverse();
+            BooleanTuple6 reversed = tuple.reversed();
             assertEquals(false, reversed._1);
         }
 
@@ -3153,7 +3153,7 @@ class BooleanTupleTest extends TestBase {
             BooleanTuple7 tuple = BooleanTuple.of(true, false, true, false, true, false, true);
             assertEquals(7, tuple.arity());
             assertEquals(7, tuple.toArray().length);
-            BooleanTuple7 reversed = tuple.reverse();
+            BooleanTuple7 reversed = tuple.reversed();
             assertEquals(true, reversed._1);
         }
 
@@ -3162,7 +3162,7 @@ class BooleanTupleTest extends TestBase {
             BooleanTuple8 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false);
             assertEquals(8, tuple.arity());
             assertEquals(8, tuple.toArray().length);
-            BooleanTuple8 reversed = tuple.reverse();
+            BooleanTuple8 reversed = tuple.reversed();
             assertEquals(false, reversed._1);
         }
 
@@ -3171,7 +3171,7 @@ class BooleanTupleTest extends TestBase {
             BooleanTuple9 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false, true);
             assertEquals(9, tuple.arity());
             assertEquals(9, tuple.toArray().length);
-            BooleanTuple9 reversed = tuple.reverse();
+            BooleanTuple9 reversed = tuple.reversed();
             assertEquals(true, reversed._1);
             assertEquals(true, reversed._9);
         }
@@ -3275,11 +3275,11 @@ class BooleanTupleTest extends TestBase {
             // BooleanTuple.BooleanTuple4 tuple = BooleanTuple.of(true, false, true, false);
             // boolean first = tuple._1;  // true
             // boolean fourth = tuple._4;  // false
-            // BooleanTuple.BooleanTuple4 reversed = tuple.reverse();   // (false, true, false, true)
+            // BooleanTuple.BooleanTuple4 reversed = tuple.reversed();   // (false, true, false, true)
             BooleanTuple.BooleanTuple4 t = BooleanTuple.of(true, false, true, false);
             assertTrue(t._1);
             assertFalse(t._4);
-            BooleanTuple.BooleanTuple4 reversed = t.reverse();
+            BooleanTuple.BooleanTuple4 reversed = t.reversed();
             assertFalse(reversed._1);
             assertTrue(reversed._2);
             assertFalse(reversed._3);

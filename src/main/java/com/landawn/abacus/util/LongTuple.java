@@ -55,7 +55,7 @@ import com.landawn.abacus.util.stream.LongStream;
  * {@code average()} is empty, and {@code min}/{@code max}/{@code lowerMedian}/{@code median} throw
  * {@link NoSuchElementException}.</p>
  *
- * @param <TP> the concrete {@code LongTuple} subtype that fluent operations such as {@link #reverse()} return
+ * @param <TP> the concrete {@code LongTuple} subtype that fluent operations such as {@link #reversed()} return
  * @see PrimitiveTuple
  * @see BooleanTuple
  * @see ByteTuple
@@ -521,7 +521,9 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * Returns the sum of all long values in this tuple as a {@code long}.
      * <p><b>&#9888;&#65039; Warning:</b> This method does not check for overflow. If the true total exceeds the range of
      * {@code long}, the result wraps around according to standard two's-complement long arithmetic
-     * rather than throwing an exception. For an empty tuple this method returns {@code 0L}.</p>
+     * rather than throwing an exception. For an empty tuple this method returns {@code 0L}.
+     * Contrast with {@link IntTuple#sum()}, which sums in {@code long} precision and throws
+     * {@link ArithmeticException} if the total does not fit in an {@code int}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -546,6 +548,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      *
      * @return the sum of all long values in this tuple as a {@code long}, or {@code 0L} if empty
      * @see #average()
+     * @see IntTuple#sum()
      */
     public long sum() {
         return N.sum(elements());
@@ -592,7 +595,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
     /**
      * Returns the conventional statistical median of this tuple as a {@code double}.
      * <p>
-     * Elements are ordered by signed magnitude. For an odd arity, this is the middle value when
+     * Elements are ordered by signed numeric value. For an odd arity, this is the middle value when
      * sorted. For an even arity, this is the arithmetic mean of the two middle values. That differs
      * from {@link #lowerMedian()}, which returns a {@code long} and, for even arities, the lower
      * middle element only. The even-arity mean is computed without intermediate {@code long} overflow
@@ -638,7 +641,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
     /**
      * Returns the lower median of this tuple as a signed {@code long}.
      * <p>
-     * Elements are ordered by signed magnitude. For an odd arity, this is the middle value when
+     * Elements are ordered by signed numeric value. For an odd arity, this is the middle value when
      * sorted. For an even arity, this is the lower of the two middle values when sorted
      * (not their average). Prefer {@link #median()} when you need the conventional statistical
      * median as a {@code double}.
@@ -675,7 +678,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * @see N#lowerMedian(long...)
      */
     public long lowerMedian() {
-        final long[] a = elements();
+        final long[] a = toArray();
 
         if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
@@ -695,16 +698,16 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple2 pair = LongTuple.of(1L, 2L);
-     * LongTuple.LongTuple2 reversedPair = pair.reverse();
+     * LongTuple.LongTuple2 reversedPair = pair.reversed();
      * reversedPair.toString();                         // returns "(2, 1)"
      *
      * LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-     * LongTuple.LongTuple3 reversed = tuple.reverse();
+     * LongTuple.LongTuple3 reversed = tuple.reversed();
      * reversed.toString();                             // returns "(3, 2, 1)"
      *
      * // Single-element tuple: reverse returns a new tuple with the same element
      * LongTuple.LongTuple1 single = LongTuple.of(42L);
-     * assert single.reverse()._1 == 42;
+     * assert single.reversed()._1 == 42;
      *
      * // Original is unmodified (immutable)
      * assert pair._1 == 1;
@@ -712,7 +715,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      *
      * @return a tuple of the same arity with the elements in reverse order
      */
-    public abstract TP reverse();
+    public abstract TP reversed();
 
     /**
      * Checks if this tuple contains the specified long value.
@@ -852,6 +855,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * @param action the action to be performed for each element, must not be {@code null}
      * @throws IllegalArgumentException if {@code action} is {@code null}
      * @throws E if the action throws an exception during execution
+     * @see #stream()
      */
     public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws E {
         N.checkArgNotNull(action, cs.action);
@@ -1042,18 +1046,6 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         }
 
         /**
-         * Always throws because this tuple has no elements.
-         *
-         * @return never returns normally
-         * @throws NoSuchElementException always
-         * @see LongTuple#median()
-         */
-        @Override
-        public long lowerMedian() {
-            throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
-        }
-
-        /**
          * Returns the sum of all values in this tuple as a long.
          * For an empty tuple, the sum is {@code 0L}.
          *
@@ -1076,13 +1068,37 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         }
 
         /**
+         * Returns the statistical median of this tuple as a {@code double}.
+         * Since this tuple is empty, this method always throws an exception.
+         *
+         * @return never returns normally
+         * @throws NoSuchElementException always, because the tuple is empty
+         */
+        @Override
+        public double median() {
+            throw new NoSuchElementException("Cannot compute median() for an empty tuple");
+        }
+
+        /**
+         * Returns the lower median long value in this tuple.
+         * Since this tuple is empty, this method always throws an exception.
+         *
+         * @return never returns normally
+         * @throws NoSuchElementException always, because the tuple is empty
+         */
+        @Override
+        public long lowerMedian() {
+            throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
+        }
+
+        /**
          * Returns this empty tuple instance.
          * Since this tuple has no elements, reversing has no effect.
          *
          * @return this {@code LongTuple0} instance
          */
         @Override
-        public LongTuple0 reverse() {
+        public LongTuple0 reversed() {
             return this;
         }
 
@@ -1275,6 +1291,12 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * Returns the statistical median of this one-element tuple as a {@code double}
          * (the element itself, widened).
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.LongTuple1 t = LongTuple.of(42L);
+         * double median = t.median();   // 42.0
+         * }</pre>
+         *
          * @return {@code (double) _1}
          * @see #lowerMedian()
          */
@@ -1312,23 +1334,23 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple.LongTuple1 t = LongTuple.of(42L);
-         * LongTuple.LongTuple1 rev = t.reverse();   // new tuple; rev._1 == 42L
+         * LongTuple.LongTuple1 rev = t.reversed();   // new tuple; rev._1 == 42L
          *
          * // reversed tuple is a distinct object
          * LongTuple.LongTuple1 orig = LongTuple.of(1L);
-         * LongTuple.LongTuple1 r = orig.reverse();   // r != orig, r._1 == 1L
+         * LongTuple.LongTuple1 r = orig.reversed();   // r != orig, r._1 == 1L
          *
          * LongTuple.LongTuple1 neg = LongTuple.of(-99L);
-         * LongTuple.LongTuple1 rn = neg.reverse();   // rn._1 == -99L
+         * LongTuple.LongTuple1 rn = neg.reversed();   // rn._1 == -99L
          *
          * LongTuple.LongTuple1 boundary = LongTuple.of(Long.MIN_VALUE);
-         * LongTuple.LongTuple1 rb = boundary.reverse();   // rb._1 == Long.MIN_VALUE
+         * LongTuple.LongTuple1 rb = boundary.reversed();   // rb._1 == Long.MIN_VALUE
          * }</pre>
          *
          * @return a new LongTuple.LongTuple1 with the same value
          */
         @Override
-        public LongTuple1 reverse() {
+        public LongTuple1 reversed() {
             return new LongTuple1(_1);
         }
 
@@ -1427,7 +1449,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * String sb = big.toString();   // returns "(9223372036854775807)"
          * }</pre>
          *
-         * @return a string in the format {@code "(_1)"}
+         * @return a string in the format "(_1)"
          */
         @Override
         public String toString() {
@@ -1673,23 +1695,23 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple.LongTuple2 t = LongTuple.of(10L, 20L);
-         * LongTuple.LongTuple2 rev = t.reverse();   // rev._1 == 20L, rev._2 == 10L
+         * LongTuple.LongTuple2 rev = t.reversed();   // rev._1 == 20L, rev._2 == 10L
          *
          * // reversed tuple is a distinct object
          * LongTuple.LongTuple2 orig = LongTuple.of(1L, 2L);
-         * LongTuple.LongTuple2 r = orig.reverse();   // r != orig
+         * LongTuple.LongTuple2 r = orig.reversed();   // r != orig
          *
          * LongTuple.LongTuple2 dup = LongTuple.of(5L, 5L);
-         * LongTuple.LongTuple2 rd = dup.reverse();   // rd._1 == 5L, rd._2 == 5L
+         * LongTuple.LongTuple2 rd = dup.reversed();   // rd._1 == 5L, rd._2 == 5L
          *
          * LongTuple.LongTuple2 neg = LongTuple.of(-1L, 0L);
-         * LongTuple.LongTuple2 rn = neg.reverse();   // rn._1 == 0L, rn._2 == -1L
+         * LongTuple.LongTuple2 rn = neg.reversed();   // rn._1 == 0L, rn._2 == -1L
          * }</pre>
          *
          * @return a new LongTuple.LongTuple2 with values (_2, _1)
          */
         @Override
-        public LongTuple2 reverse() {
+        public LongTuple2 reversed() {
             return new LongTuple2(_2, _1);
         }
 
@@ -1942,7 +1964,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * String sd = dup.toString();   // returns "(5, 5)"
          * }</pre>
          *
-         * @return a string in the format {@code "(_1, _2)"}
+         * @return a string in the format "(_1, _2)"
          */
         @Override
         public String toString() {
@@ -2160,7 +2182,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
         /**
          * Returns the lower median of this triple: the middle signed value when the three elements
-         * are ordered by magnitude.
+         * are ordered by signed numeric value.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -2191,23 +2213,23 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple.LongTuple3 t = LongTuple.of(1L, 2L, 3L);
-         * LongTuple.LongTuple3 rev = t.reverse();   // rev._1==3L, rev._2==2L, rev._3==1L
+         * LongTuple.LongTuple3 rev = t.reversed();   // rev._1==3L, rev._2==2L, rev._3==1L
          *
          * // reversed tuple is a distinct object
          * LongTuple.LongTuple3 orig = LongTuple.of(10L, 20L, 30L);
-         * LongTuple.LongTuple3 r = orig.reverse();   // r != orig
+         * LongTuple.LongTuple3 r = orig.reversed();   // r != orig
          *
          * LongTuple.LongTuple3 dup = LongTuple.of(5L, 5L, 5L);
-         * LongTuple.LongTuple3 rd = dup.reverse();   // rd._1==5L, rd._2==5L, rd._3==5L
+         * LongTuple.LongTuple3 rd = dup.reversed();   // rd._1==5L, rd._2==5L, rd._3==5L
          *
          * LongTuple.LongTuple3 neg = LongTuple.of(-1L, 0L, 1L);
-         * LongTuple.LongTuple3 rn = neg.reverse();   // rn._1==1L, rn._2==0L, rn._3==-1L
+         * LongTuple.LongTuple3 rn = neg.reversed();   // rn._1==1L, rn._2==0L, rn._3==-1L
          * }</pre>
          *
          * @return a new LongTuple.LongTuple3 with values (_3, _2, _1)
          */
         @Override
-        public LongTuple3 reverse() {
+        public LongTuple3 reversed() {
             return new LongTuple3(_3, _2, _1);
         }
 
@@ -2461,7 +2483,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * String sb = boundary.toString();   // returns "(-9223372036854775808, 0, 9223372036854775807)"
          * }</pre>
          *
-         * @return a string in the format {@code "(_1, _2, _3)"}
+         * @return a string in the format "(_1, _2, _3)"
          */
         @Override
         public String toString() {
@@ -2501,7 +2523,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * LongTuple.LongTuple4 quad = LongTuple.of(1L, 2L, 3L, 4L);
      * long sum = quad.sum();                            // 10L
      * long min = quad.min();                            // 1L
-     * LongTuple.LongTuple4 reversed = quad.reverse();   // (4, 3, 2, 1)
+     * LongTuple.LongTuple4 reversed = quad.reversed();   // (4, 3, 2, 1)
      * }</pre>
      */
     public static final class LongTuple4 extends LongTuple<LongTuple4> {
@@ -2664,29 +2686,29 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple.LongTuple4 t = LongTuple.of(1L, 2L, 3L, 4L);
-         * LongTuple.LongTuple4 rev = t.reverse();
+         * LongTuple.LongTuple4 rev = t.reversed();
          * // rev._1==4, rev._2==3, rev._3==2, rev._4==1
          * // rev.toString() returns "(4, 3, 2, 1)"
          *
          * LongTuple.LongTuple4 neg = LongTuple.of(-4L, -3L, -2L, -1L);
-         * LongTuple.LongTuple4 revNeg = neg.reverse();
+         * LongTuple.LongTuple4 revNeg = neg.reversed();
          * // revNeg.toString() returns "(-1, -2, -3, -4)"
          *
          * // Reversing a uniform tuple yields the same values
          * LongTuple.LongTuple4 dup = LongTuple.of(7L, 7L, 7L, 7L);
-         * LongTuple.LongTuple4 revDup = dup.reverse();
+         * LongTuple.LongTuple4 revDup = dup.reversed();
          * // revDup.toString() returns "(7, 7, 7, 7)"
          *
-         * // reverse() returns a new instance, original is unchanged
+         * // reversed() returns a new instance, original is unchanged
          * LongTuple.LongTuple4 orig = LongTuple.of(10L, 20L, 30L, 40L);
-         * LongTuple.LongTuple4 reversed = orig.reverse();
+         * LongTuple.LongTuple4 reversed = orig.reversed();
          * boolean notSame = orig != reversed; // true
          * }</pre>
          *
          * @return a new LongTuple.LongTuple4 with values (_4, _3, _2, _1)
          */
         @Override
-        public LongTuple4 reverse() {
+        public LongTuple4 reversed() {
             return new LongTuple4(_4, _3, _2, _1);
         }
 
@@ -2855,10 +2877,12 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
     }
 
     /**
-     * A LongTuple containing exactly five long elements.
+     * A {@code LongTuple} containing exactly five {@code long} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _5}.
-     * This tuple type is useful for grouping five related long values together.
+     * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter} overloads;
+     * use {@link #forEach(Throwables.LongConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -2866,7 +2890,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * LongTuple.LongTuple5 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L);
      * tuple.average();                                 // returns OptionalDouble.of(3.0)
      * long median = tuple.lowerMedian();                      // 3
-     * LongTuple.LongTuple5 reversed = tuple.reverse();   // (5, 4, 3, 2, 1)
+     * LongTuple.LongTuple5 reversed = tuple.reversed();   // (5, 4, 3, 2, 1)
      * }</pre>
      *
      */
@@ -3034,28 +3058,28 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple.LongTuple5 t = LongTuple.of(1L, 2L, 3L, 4L, 5L);
-         * LongTuple.LongTuple5 rev = t.reverse();
+         * LongTuple.LongTuple5 rev = t.reversed();
          * // rev.toString() returns "(5, 4, 3, 2, 1)"
          *
          * LongTuple.LongTuple5 neg = LongTuple.of(-5L, -4L, -3L, -2L, -1L);
-         * LongTuple.LongTuple5 revNeg = neg.reverse();
+         * LongTuple.LongTuple5 revNeg = neg.reversed();
          * // revNeg.toString() returns "(-1, -2, -3, -4, -5)"
          *
          * // Reversing a uniform tuple yields the same values
          * LongTuple.LongTuple5 dup = LongTuple.of(6L, 6L, 6L, 6L, 6L);
-         * LongTuple.LongTuple5 revDup = dup.reverse();
+         * LongTuple.LongTuple5 revDup = dup.reversed();
          * // revDup.toString() returns "(6, 6, 6, 6, 6)"
          *
-         * // reverse() returns a new instance, original is unchanged
+         * // reversed() returns a new instance, original is unchanged
          * LongTuple.LongTuple5 orig = LongTuple.of(10L, 20L, 30L, 40L, 50L);
-         * LongTuple.LongTuple5 reversed = orig.reverse();
+         * LongTuple.LongTuple5 reversed = orig.reversed();
          * boolean notSame = orig != reversed; // true
          * }</pre>
          *
          * @return a new LongTuple.LongTuple5 with values (_5, _4, _3, _2, _1)
          */
         @Override
-        public LongTuple5 reverse() {
+        public LongTuple5 reversed() {
             return new LongTuple5(_5, _4, _3, _2, _1);
         }
 
@@ -3225,10 +3249,12 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
     }
 
     /**
-     * A LongTuple containing exactly six long elements.
+     * A {@code LongTuple} containing exactly six {@code long} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _6}.
-     * This tuple type is useful for grouping six related long values together.
+     * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter} overloads;
+     * use {@link #forEach(Throwables.LongConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -3407,28 +3433,28 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple.LongTuple6 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
-         * LongTuple.LongTuple6 rev = t.reverse();
+         * LongTuple.LongTuple6 rev = t.reversed();
          * // rev.toString() returns "(6, 5, 4, 3, 2, 1)"
          *
          * LongTuple.LongTuple6 neg = LongTuple.of(-6L, -5L, -4L, -3L, -2L, -1L);
-         * LongTuple.LongTuple6 revNeg = neg.reverse();
+         * LongTuple.LongTuple6 revNeg = neg.reversed();
          * // revNeg.toString() returns "(-1, -2, -3, -4, -5, -6)"
          *
          * // Reversing a uniform tuple yields the same values
          * LongTuple.LongTuple6 dup = LongTuple.of(3L, 3L, 3L, 3L, 3L, 3L);
-         * LongTuple.LongTuple6 revDup = dup.reverse();
+         * LongTuple.LongTuple6 revDup = dup.reversed();
          * // revDup.toString() returns "(3, 3, 3, 3, 3, 3)"
          *
-         * // reverse() returns a new instance, original is unchanged
+         * // reversed() returns a new instance, original is unchanged
          * LongTuple.LongTuple6 orig = LongTuple.of(10L, 20L, 30L, 40L, 50L, 60L);
-         * LongTuple.LongTuple6 reversed = orig.reverse();
+         * LongTuple.LongTuple6 reversed = orig.reversed();
          * boolean notSame = orig != reversed; // true
          * }</pre>
          *
          * @return a new LongTuple.LongTuple6 with values (_6, _5, _4, _3, _2, _1)
          */
         @Override
-        public LongTuple6 reverse() {
+        public LongTuple6 reversed() {
             return new LongTuple6(_6, _5, _4, _3, _2, _1);
         }
 
@@ -3600,10 +3626,12 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
     }
 
     /**
-     * A LongTuple containing exactly seven long elements.
+     * A {@code LongTuple} containing exactly seven {@code long} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _7}.
-     * This tuple type is useful for grouping seven related long values together.
+     * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter} overloads;
+     * use {@link #forEach(Throwables.LongConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -3611,7 +3639,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * LongTuple.LongTuple7 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
      * long sum = tuple.sum();                            // 28
      * long median = tuple.lowerMedian();                      // 4
-     * LongTuple.LongTuple7 reversed = tuple.reverse();   // (7, 6, 5, 4, 3, 2, 1)
+     * LongTuple.LongTuple7 reversed = tuple.reversed();   // (7, 6, 5, 4, 3, 2, 1)
      * }</pre>
      *
      */
@@ -3774,18 +3802,18 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple.LongTuple7 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
-         * t.reverse();           // returns (7, 6, 5, 4, 3, 2, 1)
-         * t.reverse().reverse(); // returns (1, 2, 3, 4, 5, 6, 7)  (round-trip)
+         * t.reversed();           // returns (7, 6, 5, 4, 3, 2, 1)
+         * t.reversed().reversed(); // returns (1, 2, 3, 4, 5, 6, 7)  (round-trip)
          * LongTuple.LongTuple7 t2 = LongTuple.of(-1L, -2L, -3L, -4L, -5L, -6L, -7L);
-         * t2.reverse(); // returns (-7, -6, -5, -4, -3, -2, -1)
+         * t2.reversed(); // returns (-7, -6, -5, -4, -3, -2, -1)
          * LongTuple.LongTuple7 t3 = LongTuple.of(5L, 5L, 5L, 5L, 5L, 5L, 5L);
-         * t3.reverse().equals(t3); // returns true  (all-duplicate tuple)
+         * t3.reversed().equals(t3); // returns true  (all-duplicate tuple)
          * }</pre>
          *
          * @return a new LongTuple.LongTuple7 with values (_7, _6, _5, _4, _3, _2, _1)
          */
         @Override
-        public LongTuple7 reverse() {
+        public LongTuple7 reversed() {
             return new LongTuple7(_7, _6, _5, _4, _3, _2, _1);
         }
 
@@ -3935,10 +3963,12 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
     }
 
     /**
-     * A LongTuple containing exactly eight long elements.
+     * A {@code LongTuple} containing exactly eight {@code long} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _8}.
-     * This tuple type is useful for grouping eight related long values together.
+     * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter} overloads;
+     * use {@link #forEach(Throwables.LongConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -4116,18 +4146,18 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple.LongTuple8 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
-         * t.reverse();           // returns (8, 7, 6, 5, 4, 3, 2, 1)
-         * t.reverse().reverse(); // returns (1, 2, 3, 4, 5, 6, 7, 8)  (round-trip)
+         * t.reversed();           // returns (8, 7, 6, 5, 4, 3, 2, 1)
+         * t.reversed().reversed(); // returns (1, 2, 3, 4, 5, 6, 7, 8)  (round-trip)
          * LongTuple.LongTuple8 t2 = LongTuple.of(-1L, -2L, -3L, -4L, -5L, -6L, -7L, -8L);
-         * t2.reverse(); // returns (-8, -7, -6, -5, -4, -3, -2, -1)
+         * t2.reversed(); // returns (-8, -7, -6, -5, -4, -3, -2, -1)
          * LongTuple.LongTuple8 t3 = LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L);
-         * t3.reverse().equals(t3); // returns true  (all-zero tuple)
+         * t3.reversed().equals(t3); // returns true  (all-zero tuple)
          * }</pre>
          *
          * @return a new LongTuple.LongTuple8 with values (_8, _7, _6, _5, _4, _3, _2, _1)
          */
         @Override
-        public LongTuple8 reverse() {
+        public LongTuple8 reversed() {
             return new LongTuple8(_8, _7, _6, _5, _4, _3, _2, _1);
         }
 
@@ -4281,10 +4311,12 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
     }
 
     /**
-     * A LongTuple containing exactly nine long elements.
+     * A {@code LongTuple} containing exactly nine {@code long} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _9}.
-     * This tuple type is useful for grouping nine related long values together.
+     * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter} overloads;
+     * use {@link #forEach(Throwables.LongConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -4466,18 +4498,18 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple.LongTuple9 t = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
-         * t.reverse();           // returns (9, 8, 7, 6, 5, 4, 3, 2, 1)
-         * t.reverse().reverse(); // returns (1, 2, 3, 4, 5, 6, 7, 8, 9)  (round-trip)
+         * t.reversed();           // returns (9, 8, 7, 6, 5, 4, 3, 2, 1)
+         * t.reversed().reversed(); // returns (1, 2, 3, 4, 5, 6, 7, 8, 9)  (round-trip)
          * LongTuple.LongTuple9 t2 = LongTuple.of(-1L, -2L, -3L, -4L, -5L, -6L, -7L, -8L, -9L);
-         * t2.reverse(); // returns (-9, -8, -7, -6, -5, -4, -3, -2, -1)
+         * t2.reversed(); // returns (-9, -8, -7, -6, -5, -4, -3, -2, -1)
          * LongTuple.LongTuple9 t3 = LongTuple.of(0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L);
-         * t3.reverse().equals(t3); // returns true  (all-zero tuple)
+         * t3.reversed().equals(t3); // returns true  (all-zero tuple)
          * }</pre>
          *
          * @return a new LongTuple.LongTuple9 with values (_9, _8, _7, _6, _5, _4, _3, _2, _1)
          */
         @Override
-        public LongTuple9 reverse() {
+        public LongTuple9 reversed() {
             return new LongTuple9(_9, _8, _7, _6, _5, _4, _3, _2, _1);
         }
 

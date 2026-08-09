@@ -222,33 +222,33 @@ class IntTupleTest extends TestBase {
     }
 
     @Test
-    public void testReverse() {
+    public void testReversed() {
         // Test Tuple0
         IntTuple.IntTuple0 empty = IntTuple.from(new int[0]);
-        IntTuple.IntTuple0 reversedEmpty = empty.reverse();
+        IntTuple.IntTuple0 reversedEmpty = empty.reversed();
         assertEquals(0, reversedEmpty.arity());
 
         // Test Tuple1
         IntTuple.IntTuple1 tuple1 = IntTuple.of(10);
-        IntTuple.IntTuple1 reversed1 = tuple1.reverse();
+        IntTuple.IntTuple1 reversed1 = tuple1.reversed();
         assertEquals(10, reversed1._1);
 
         // Test Tuple2
         IntTuple.IntTuple2 tuple2 = IntTuple.of(10, 20);
-        IntTuple.IntTuple2 reversed2 = tuple2.reverse();
+        IntTuple.IntTuple2 reversed2 = tuple2.reversed();
         assertEquals(20, reversed2._1);
         assertEquals(10, reversed2._2);
 
         // Test Tuple3
         IntTuple.IntTuple3 tuple3 = IntTuple.of(10, 20, 30);
-        IntTuple.IntTuple3 reversed3 = tuple3.reverse();
+        IntTuple.IntTuple3 reversed3 = tuple3.reversed();
         assertEquals(30, reversed3._1);
         assertEquals(20, reversed3._2);
         assertEquals(10, reversed3._3);
 
         // Test larger tuples
         IntTuple.IntTuple5 tuple5 = IntTuple.of(10, 20, 30, 40, 50);
-        IntTuple.IntTuple5 reversed5 = tuple5.reverse();
+        IntTuple.IntTuple5 reversed5 = tuple5.reversed();
         assertEquals(50, reversed5._1);
         assertEquals(40, reversed5._2);
         assertEquals(30, reversed5._3);
@@ -806,17 +806,17 @@ class IntTupleTest extends TestBase {
 
         // Reverse tests
         @Test
-        public void testReverseTuple0() {
+        public void testReversedTuple0() {
             IntTuple<IntTuple0> tuple = IntTuple.from(new int[0]);
-            IntTuple<IntTuple0> reversed = tuple.reverse();
+            IntTuple<IntTuple0> reversed = tuple.reversed();
             assertNotNull(reversed);
             assertEquals(0, reversed.arity());
         }
 
         @Test
-        public void testReverseTuple1() {
+        public void testReversedTuple1() {
             IntTuple1 tuple = IntTuple.of(42);
-            IntTuple1 reversed = tuple.reverse();
+            IntTuple1 reversed = tuple.reversed();
             assertEquals(42, reversed._1);
         }
 
@@ -1173,7 +1173,7 @@ class IntTupleTest extends TestBase {
             IntTuple4 tuple = IntTuple.of(1, 2, 3, 4);
 
             // Test reverse
-            IntTuple4 reversed = tuple.reverse();
+            IntTuple4 reversed = tuple.reversed();
             assertEquals(4, reversed._1);
             assertEquals(3, reversed._2);
             assertEquals(2, reversed._3);
@@ -1210,7 +1210,7 @@ class IntTupleTest extends TestBase {
             IntTuple5 tuple = IntTuple.of(1, 2, 3, 4, 5);
 
             // Test reverse
-            IntTuple5 reversed = tuple.reverse();
+            IntTuple5 reversed = tuple.reversed();
             assertEquals(5, reversed._1);
             assertEquals(4, reversed._2);
             assertEquals(3, reversed._3);
@@ -1248,7 +1248,7 @@ class IntTupleTest extends TestBase {
             IntTuple6 tuple = IntTuple.of(1, 2, 3, 4, 5, 6);
 
             // Test reverse
-            IntTuple6 reversed = tuple.reverse();
+            IntTuple6 reversed = tuple.reversed();
             assertEquals(6, reversed._1);
             assertEquals(5, reversed._2);
             assertEquals(4, reversed._3);
@@ -1287,7 +1287,7 @@ class IntTupleTest extends TestBase {
             IntTuple7 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
 
             // Test reverse
-            IntTuple7 reversed = tuple.reverse();
+            IntTuple7 reversed = tuple.reversed();
             assertEquals(7, reversed._1);
             assertEquals(6, reversed._2);
             assertEquals(5, reversed._3);
@@ -1327,7 +1327,7 @@ class IntTupleTest extends TestBase {
             IntTuple8 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8);
 
             // Test reverse
-            IntTuple8 reversed = tuple.reverse();
+            IntTuple8 reversed = tuple.reversed();
             assertEquals(8, reversed._1);
             assertEquals(7, reversed._2);
             assertEquals(6, reversed._3);
@@ -1368,7 +1368,7 @@ class IntTupleTest extends TestBase {
             IntTuple9 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
 
             // Test reverse
-            IntTuple9 reversed = tuple.reverse();
+            IntTuple9 reversed = tuple.reversed();
             assertEquals(9, reversed._1);
             assertEquals(8, reversed._2);
             assertEquals(7, reversed._3);
@@ -1537,9 +1537,9 @@ class IntTupleTest extends TestBase {
         }
 
         @Test
-        public void testIntTuple1_reverse() {
+        public void testIntTuple1_reversed() {
             IntTuple.IntTuple1 tuple = IntTuple.of(1);
-            IntTuple.IntTuple1 reversed = tuple.reverse();
+            IntTuple.IntTuple1 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._1);
             assertEquals(tuple._1, reversed._1);
         }
@@ -1617,9 +1617,9 @@ class IntTupleTest extends TestBase {
         }
 
         @Test
-        public void testIntTuple2_reverse() {
+        public void testIntTuple2_reversed() {
             IntTuple.IntTuple2 tuple = IntTuple.of(1, 2);
-            IntTuple.IntTuple2 reversed = tuple.reverse();
+            IntTuple.IntTuple2 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._2);
             assertEquals(tuple._2, reversed._1);
         }
@@ -1719,9 +1719,9 @@ class IntTupleTest extends TestBase {
         }
 
         @Test
-        public void testIntTuple3_reverse() {
+        public void testIntTuple3_reversed() {
             IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
-            IntTuple.IntTuple3 reversed = tuple.reverse();
+            IntTuple.IntTuple3 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._3);
             assertEquals(tuple._3, reversed._1);
         }
@@ -1821,9 +1821,9 @@ class IntTupleTest extends TestBase {
         }
 
         @Test
-        public void testIntTuple4_reverse() {
+        public void testIntTuple4_reversed() {
             IntTuple.IntTuple4 tuple = IntTuple.of(1, 2, 3, 4);
-            IntTuple.IntTuple4 reversed = tuple.reverse();
+            IntTuple.IntTuple4 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._4);
             assertEquals(tuple._4, reversed._1);
         }
@@ -1871,9 +1871,9 @@ class IntTupleTest extends TestBase {
         }
 
         @Test
-        public void testIntTuple5_reverse() {
+        public void testIntTuple5_reversed() {
             IntTuple.IntTuple5 tuple = IntTuple.of(1, 2, 3, 4, 5);
-            IntTuple.IntTuple5 reversed = tuple.reverse();
+            IntTuple.IntTuple5 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._5);
             assertEquals(tuple._5, reversed._1);
         }
@@ -1921,9 +1921,9 @@ class IntTupleTest extends TestBase {
         }
 
         @Test
-        public void testIntTuple6_reverse() {
+        public void testIntTuple6_reversed() {
             IntTuple.IntTuple6 tuple = IntTuple.of(1, 2, 3, 4, 5, 6);
-            IntTuple.IntTuple6 reversed = tuple.reverse();
+            IntTuple.IntTuple6 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._6);
             assertEquals(tuple._6, reversed._1);
         }
@@ -1971,9 +1971,9 @@ class IntTupleTest extends TestBase {
         }
 
         @Test
-        public void testIntTuple7_reverse() {
+        public void testIntTuple7_reversed() {
             IntTuple.IntTuple7 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
-            IntTuple.IntTuple7 reversed = tuple.reverse();
+            IntTuple.IntTuple7 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._7);
             assertEquals(tuple._7, reversed._1);
         }
@@ -2021,9 +2021,9 @@ class IntTupleTest extends TestBase {
         }
 
         @Test
-        public void testIntTuple8_reverse() {
+        public void testIntTuple8_reversed() {
             IntTuple.IntTuple8 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8);
-            IntTuple.IntTuple8 reversed = tuple.reverse();
+            IntTuple.IntTuple8 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._8);
             assertEquals(tuple._8, reversed._1);
         }
@@ -2071,9 +2071,9 @@ class IntTupleTest extends TestBase {
         }
 
         @Test
-        public void testIntTuple9_reverse() {
+        public void testIntTuple9_reversed() {
             IntTuple.IntTuple9 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
-            IntTuple.IntTuple9 reversed = tuple.reverse();
+            IntTuple.IntTuple9 reversed = tuple.reversed();
             assertEquals(tuple._1, reversed._9);
             assertEquals(tuple._9, reversed._1);
         }
@@ -2354,16 +2354,16 @@ class IntTupleTest extends TestBase {
         }
 
         @Test
-        public void testReverse_tuple1() {
+        public void testReversed_tuple1() {
             IntTuple1 tuple = IntTuple.of(1);
-            IntTuple1 reversed = tuple.reverse();
+            IntTuple1 reversed = tuple.reversed();
             assertEquals(1, reversed._1);
         }
 
         @Test
-        public void testReverse_tuple4() {
+        public void testReversed_tuple4() {
             IntTuple4 tuple = IntTuple.of(1, 2, 3, 4);
-            IntTuple4 reversed = tuple.reverse();
+            IntTuple4 reversed = tuple.reversed();
             assertEquals(4, reversed._1);
             assertEquals(1, reversed._4);
         }
@@ -2645,9 +2645,9 @@ class IntTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple0_reverse() {
+        public void testTuple0_reversed() {
             IntTuple<?> tuple = IntTuple.from(null);
-            assertNotNull(tuple.reverse());
+            assertNotNull(tuple.reversed());
         }
 
         @Test
@@ -2676,9 +2676,9 @@ class IntTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple5_reverse() {
+        public void testTuple5_reversed() {
             IntTuple5 tuple = IntTuple.of(1, 2, 3, 4, 5);
-            IntTuple5 reversed = tuple.reverse();
+            IntTuple5 reversed = tuple.reversed();
             assertEquals(5, reversed._1);
             assertEquals(4, reversed._2);
             assertEquals(3, reversed._3);
@@ -2721,9 +2721,9 @@ class IntTupleTest extends TestBase {
         }
 
         @Test
-        public void testTuple9_reverse() {
+        public void testTuple9_reversed() {
             IntTuple9 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
-            IntTuple9 reversed = tuple.reverse();
+            IntTuple9 reversed = tuple.reversed();
             assertEquals(9, reversed._1);
             assertEquals(1, reversed._9);
         }
@@ -3019,26 +3019,26 @@ class IntTupleTest extends TestBase {
         // ============ Reverse Tests ============
 
         @Test
-        public void testReverse_empty() {
+        public void testReversed_empty() {
             IntTuple0 tuple = IntTuple.from(new int[0]);
-            IntTuple0 reversed = tuple.reverse();
+            IntTuple0 reversed = tuple.reversed();
             assertNotNull(reversed);
             assertEquals(0, reversed.arity());
         }
 
         @Test
-        public void testReverse_single() {
+        public void testReversed_single() {
             IntTuple1 tuple = IntTuple.of(42);
-            IntTuple1 reversed = tuple.reverse();
+            IntTuple1 reversed = tuple.reversed();
             assertNotNull(reversed);
             assertEquals(42, reversed._1);
             assertNotSame(tuple, reversed); // Should be new instance
         }
 
         @Test
-        public void testReverse_multiple() {
+        public void testReversed_multiple() {
             IntTuple3 tuple = IntTuple.of(1, 2, 3);
-            IntTuple3 reversed = tuple.reverse();
+            IntTuple3 reversed = tuple.reversed();
             assertNotNull(reversed);
             assertEquals(3, reversed._1);
             assertEquals(2, reversed._2);
@@ -3046,17 +3046,17 @@ class IntTupleTest extends TestBase {
         }
 
         @Test
-        public void testReverse_twoElements() {
+        public void testReversed_twoElements() {
             IntTuple2 tuple = IntTuple.of(100, 200);
-            IntTuple2 reversed = tuple.reverse();
+            IntTuple2 reversed = tuple.reversed();
             assertEquals(200, reversed._1);
             assertEquals(100, reversed._2);
         }
 
         @Test
-        public void testReverse_largeValues() {
+        public void testReversed_largeValues() {
             IntTuple4 tuple = IntTuple.of(Integer.MAX_VALUE, 0, -1, Integer.MIN_VALUE);
-            IntTuple4 reversed = tuple.reverse();
+            IntTuple4 reversed = tuple.reversed();
             assertEquals(Integer.MIN_VALUE, reversed._1);
             assertEquals(-1, reversed._2);
             assertEquals(0, reversed._3);
@@ -3409,7 +3409,7 @@ class IntTupleTest extends TestBase {
             assertEquals(42, tuple.sum());
             assertTrue(tuple.contains(42));
             assertFalse(tuple.contains(99));
-            IntTuple1 reversed = tuple.reverse();
+            IntTuple1 reversed = tuple.reversed();
             assertEquals(42, reversed._1);
         }
 
@@ -3599,9 +3599,9 @@ class IntTupleTest extends TestBase {
         }
 
         @Test
-        public void test_IntTuple0_reverse() {
+        public void test_IntTuple0_reversed() {
             IntTuple0 tuple = IntTuple.from(new int[0]);
-            IntTuple0 reversed = tuple.reverse();
+            IntTuple0 reversed = tuple.reversed();
             assertSame(tuple, reversed);
         }
 
@@ -3656,9 +3656,9 @@ class IntTupleTest extends TestBase {
         }
 
         @Test
-        public void test_IntTuple1_reverse() {
+        public void test_IntTuple1_reversed() {
             IntTuple1 tuple = IntTuple.of(5);
-            IntTuple1 reversed = tuple.reverse();
+            IntTuple1 reversed = tuple.reversed();
             assertEquals(5, reversed._1);
         }
 
@@ -3753,9 +3753,9 @@ class IntTupleTest extends TestBase {
         }
 
         @Test
-        public void test_IntTuple2_reverse() {
+        public void test_IntTuple2_reversed() {
             IntTuple2 tuple = IntTuple.of(1, 2);
-            IntTuple2 reversed = tuple.reverse();
+            IntTuple2 reversed = tuple.reversed();
             assertEquals(2, reversed._1);
             assertEquals(1, reversed._2);
         }
@@ -3866,9 +3866,9 @@ class IntTupleTest extends TestBase {
         }
 
         @Test
-        public void test_IntTuple3_reverse() {
+        public void test_IntTuple3_reversed() {
             IntTuple3 tuple = IntTuple.of(1, 2, 3);
-            IntTuple3 reversed = tuple.reverse();
+            IntTuple3 reversed = tuple.reversed();
             assertEquals(3, reversed._1);
             assertEquals(2, reversed._2);
             assertEquals(1, reversed._3);
@@ -4064,7 +4064,7 @@ class IntTupleTest extends TestBase {
         @Test
         public void test_reverse_largerTuples() {
             IntTuple4 tuple = IntTuple.of(1, 2, 3, 4);
-            IntTuple4 reversed = tuple.reverse();
+            IntTuple4 reversed = tuple.reversed();
             assertEquals(4, reversed._1);
             assertEquals(3, reversed._2);
             assertEquals(2, reversed._3);
@@ -4271,16 +4271,16 @@ class IntTupleTest extends TestBase {
         @Test
         public void testIntTupleReverse() {
             // IntTuple.IntTuple2 pair = IntTuple.of(1, 2);
-            // IntTuple.IntTuple2 reversedPair = pair.reverse();   // (2, 1)
+            // IntTuple.IntTuple2 reversedPair = pair.reversed();   // (2, 1)
             IntTuple.IntTuple2 pair = IntTuple.of(1, 2);
-            IntTuple.IntTuple2 reversed2 = pair.reverse();
+            IntTuple.IntTuple2 reversed2 = pair.reversed();
             assertEquals(2, reversed2._1);
             assertEquals(1, reversed2._2);
 
             // IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
-            // IntTuple.IntTuple3 reversed = tuple.reverse();   // (3, 2, 1)
+            // IntTuple.IntTuple3 reversed = tuple.reversed();   // (3, 2, 1)
             IntTuple.IntTuple3 tuple3 = IntTuple.of(1, 2, 3);
-            IntTuple.IntTuple3 reversed3 = tuple3.reverse();
+            IntTuple.IntTuple3 reversed3 = tuple3.reversed();
             assertEquals(3, reversed3._1);
             assertEquals(2, reversed3._2);
             assertEquals(1, reversed3._3);

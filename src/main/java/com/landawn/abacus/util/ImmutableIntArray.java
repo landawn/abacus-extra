@@ -598,6 +598,7 @@ public final class ImmutableIntArray implements Immutable {
      * @return a new ImmutableIntArray containing the elements in {@code [fromIndex, toIndex)}
      * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > length()},
      *                                   or {@code fromIndex > toIndex}
+     * @see #copyOfRange(int, int) to obtain the same range as a plain {@code int[]} instead
      */
     public ImmutableIntArray subArray(final int fromIndex, final int toIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromIndex, toIndex, length);
@@ -621,6 +622,7 @@ public final class ImmutableIntArray implements Immutable {
      * @return a newly allocated int array containing the elements in {@code [fromIndex, toIndex)}
      * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > length()},
      *                                   or {@code fromIndex > toIndex}
+     * @see #subArray(int, int) to obtain the same range as an ImmutableIntArray instead
      */
     public int[] copyOfRange(final int fromIndex, final int toIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromIndex, toIndex, length);
