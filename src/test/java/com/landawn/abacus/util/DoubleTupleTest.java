@@ -4197,4 +4197,54 @@ class DoubleTupleTest extends TestBase {
         assertThrows(IllegalArgumentException.class, () -> DoubleTuple.from(new double[10]));
     }
 
+    @Test
+    public void testAverageDoesNotOverflowForFiniteValues() {
+        for (int len = 2; len <= 9; len++) {
+            final double[] positive = new double[len];
+            final double[] negative = new double[len];
+
+            for (int i = 0; i < len; i++) {
+                positive[i] = Double.MAX_VALUE;
+                negative[i] = -Double.MAX_VALUE;
+            }
+
+            assertEquals(Double.MAX_VALUE, DoubleTuple.from(positive).average().getAsDouble(), "positive average for arity " + len);
+            assertEquals(-Double.MAX_VALUE, DoubleTuple.from(negative).average().getAsDouble(), "negative average for arity " + len);
+        }
+
+        assertEquals(Double.POSITIVE_INFINITY, DoubleTuple.of(Double.POSITIVE_INFINITY, 1d).average().getAsDouble());
+        assertEquals(Double.NEGATIVE_INFINITY, DoubleTuple.of(Double.NEGATIVE_INFINITY, -1d).average().getAsDouble());
+        assertTrue(Double.isNaN(DoubleTuple.of(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY).average().getAsDouble()));
+
+        final double midpoint = DoubleTuple.of(Double.MAX_VALUE, Double.MAX_VALUE, -Double.MAX_VALUE, -Double.MAX_VALUE, 2d * Double.MIN_VALUE,
+                Double.MIN_VALUE).average().getAsDouble();
+        assertEquals(Double.doubleToRawLongBits(0d), Double.doubleToRawLongBits(midpoint));
+    }
+
+    @Test
+    public void testMedianDoesNotOverflowOrUnderflow() {
+        assertEquals(Double.MIN_VALUE, N.median(Double.MIN_VALUE, Double.MIN_VALUE));
+        assertEquals(Double.MIN_VALUE, DoubleTuple.of(Double.MIN_VALUE, Double.MIN_VALUE).median());
+        assertEquals(Double.MAX_VALUE, DoubleTuple.of(Double.MAX_VALUE, Double.MAX_VALUE).median());
+        assertEquals(Double.MAX_VALUE, DoubleTuple.of(0d, Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE).median());
+
+        assertEquals(Double.doubleToRawLongBits(0d), Double.doubleToRawLongBits(DoubleTuple.of(Double.MIN_VALUE, 0d).average().getAsDouble()));
+        assertEquals(Double.doubleToRawLongBits(-0d), Double.doubleToRawLongBits(DoubleTuple.of(-Double.MIN_VALUE, 0d).average().getAsDouble()));
+        assertEquals(Double.doubleToRawLongBits(0d), Double.doubleToRawLongBits(DoubleTuple.of(Double.MIN_VALUE, 0d).median()));
+        assertEquals(Double.doubleToRawLongBits(-0d), Double.doubleToRawLongBits(DoubleTuple.of(-Double.MIN_VALUE, 0d).median()));
+        assertEquals(Double.doubleToRawLongBits(-0d), Double.doubleToRawLongBits(DoubleTuple.of(-0d, -0d).median()));
+        assertEquals(Double.doubleToRawLongBits(0d), Double.doubleToRawLongBits(DoubleTuple.of(-0d, 0d).median()));
+    }
+
+    @Test
+    public void testMedianDoesNotReorderTuple() {
+        final DoubleTuple4 tuple = DoubleTuple.of(4d, 1d, 3d, 2d);
+        final int hashCode = tuple.hashCode();
+
+        assertEquals(2.5d, tuple.median());
+        assertArrayEquals(new double[] { 4d, 1d, 3d, 2d }, tuple.toArray());
+        assertEquals(hashCode, tuple.hashCode());
+        assertEquals(DoubleTuple.of(4d, 1d, 3d, 2d), tuple);
+    }
+
 }

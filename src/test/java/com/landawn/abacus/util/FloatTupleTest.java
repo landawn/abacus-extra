@@ -3998,4 +3998,20 @@ class FloatTupleTest extends TestBase {
         assertFalse(Float.isNaN(FloatTuple.of(1f, Float.NaN).lowerMedian()));
     }
 
+    @Test
+    public void testAverageAndMedianPreserveFiniteFloatBoundaries() {
+        for (int len = 2; len <= 9; len++) {
+            final float[] values = new float[len];
+
+            for (int i = 0; i < len; i++) {
+                values[i] = Float.MAX_VALUE;
+            }
+
+            assertEquals((double) Float.MAX_VALUE, FloatTuple.from(values).average().getAsDouble(), "average for arity " + len);
+        }
+
+        assertEquals((double) Float.MIN_VALUE, FloatTuple.of(Float.MIN_VALUE, Float.MIN_VALUE).median());
+        assertEquals((double) Float.MAX_VALUE, FloatTuple.of(0f, Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE).median());
+    }
+
 }

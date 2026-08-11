@@ -1666,7 +1666,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double median() {
-            return _1 / 2d + _2 / 2d;
+            return N.median(_1, _2);
         }
 
         /**
