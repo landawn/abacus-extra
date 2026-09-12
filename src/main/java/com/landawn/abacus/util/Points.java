@@ -28,11 +28,15 @@ package com.landawn.abacus.util;
  * <p>Primitive-valued records are fully immutable and thread-safe.</p>
  *
  * <p><b>&#9888;&#65039; Shallow immutability:</b> In object-valued variants ({@code *ObjPoint}), the coordinate fields are fixed but the referenced
- * value is stored as supplied without defensive copying, so thread-safety depends on the payload.</p>
+ * value is stored as supplied without defensive copying, so thread-safety depends on the payload. Record-generated equality and hashing use
+ * the payload's {@link Object#equals(Object)} and {@link Object#hashCode()} methods. Array payloads therefore use identity rather than content,
+ * and mutating a payload whose equality or hash code depends on its state can change the point's equality or hash code. Such points must not be
+ * mutated while they are keys in hash-based collections.</p>
  *
  * <p>Each nested record provides record-based equality and a static {@code of(...)} factory for
- * concise construction. Equality for {@code double} components uses {@link Double#compare(double, double)}
- * (so {@code NaN} equals {@code NaN}).</p>
+ * concise construction. Equality for {@code double} components uses {@link Double#compare(double, double)}:
+ * all NaN values compare equal, while positive and negative zero compare unequal. Equal records always
+ * have equal hash codes; unequal records are not guaranteed to have different hash codes.</p>
  *
  * <p>This class cannot be instantiated.</p>
  *
@@ -41,7 +45,6 @@ package com.landawn.abacus.util;
  */
 public final class Points {
 
-    /** Prevents instantiation of this namespace class. */
     private Points() {
         // utility class.
     }
@@ -58,7 +61,6 @@ public final class Points {
      */
     public static final class D2 {
 
-        /** Prevents instantiation of this namespace class. */
         private D2() {
             // utility class.
         }
@@ -288,6 +290,9 @@ public final class Points {
          *
          * <p>Instances are thread-safe only when the referenced value is thread-safe or otherwise
          * not mutated concurrently.</p>
+         *
+         * <p>Equality and hashing use the payload's own methods. Arrays use identity equality, and a
+         * mutable payload can make this record's equality and hash code change over time.</p>
          *
          * @param <T> the type of the value object associated with this point
          * @param x the x-coordinate of this point
@@ -565,6 +570,9 @@ public final class Points {
          * <p>Instances are thread-safe only when the referenced value is thread-safe or otherwise
          * not mutated concurrently.</p>
          *
+         * <p>Equality and hashing use the payload's own methods. Arrays use identity equality, and a
+         * mutable payload can make this record's equality and hash code change over time.</p>
+         *
          * @param <T> the type of the value object associated with this point
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
@@ -840,6 +848,9 @@ public final class Points {
          *
          * <p>Instances are thread-safe only when the referenced value is thread-safe or otherwise
          * not mutated concurrently.</p>
+         *
+         * <p>Equality and hashing use the payload's own methods. Arrays use identity equality, and a
+         * mutable payload can make this record's equality and hash code change over time.</p>
          *
          * @param <T> the type of the value object associated with this point
          * @param x the x-coordinate of this point
@@ -1117,6 +1128,9 @@ public final class Points {
          * <p>Instances are thread-safe only when the referenced value is thread-safe or otherwise
          * not mutated concurrently.</p>
          *
+         * <p>Equality and hashing use the payload's own methods. Arrays use identity equality, and a
+         * mutable payload can make this record's equality and hash code change over time.</p>
+         *
          * @param <T> the type of the value object associated with this point
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
@@ -1180,7 +1194,6 @@ public final class Points {
      */
     public static final class D3 {
 
-        /** Prevents instantiation of this namespace class. */
         private D3() {
             // utility class.
         }
@@ -1417,6 +1430,9 @@ public final class Points {
          *
          * <p>Instances are thread-safe only when the referenced value is thread-safe or otherwise
          * not mutated concurrently.</p>
+         *
+         * <p>Equality and hashing use the payload's own methods. Arrays use identity equality, and a
+         * mutable payload can make this record's equality and hash code change over time.</p>
          *
          * @param <T> the type of the value object associated with this point
          * @param x the x-coordinate of this point
@@ -1705,6 +1721,9 @@ public final class Points {
          * <p>Instances are thread-safe only when the referenced value is thread-safe or otherwise
          * not mutated concurrently.</p>
          *
+         * <p>Equality and hashing use the payload's own methods. Arrays use identity equality, and a
+         * mutable payload can make this record's equality and hash code change over time.</p>
+         *
          * @param <T> the type of the value object associated with this point
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
@@ -1991,6 +2010,9 @@ public final class Points {
          * <p>Instances are thread-safe only when the referenced value is thread-safe or otherwise
          * not mutated concurrently.</p>
          *
+         * <p>Equality and hashing use the payload's own methods. Arrays use identity equality, and a
+         * mutable payload can make this record's equality and hash code change over time.</p>
+         *
          * @param <T> the type of the value object associated with this point
          * @param x the x-coordinate of this point
          * @param y the y-coordinate of this point
@@ -2274,6 +2296,9 @@ public final class Points {
          *
          * <p>Instances are thread-safe only when the referenced value is thread-safe or otherwise
          * not mutated concurrently.</p>
+         *
+         * <p>Equality and hashing use the payload's own methods. Arrays use identity equality, and a
+         * mutable payload can make this record's equality and hash code change over time.</p>
          *
          * @param <T> the type of the value object associated with this point
          * @param x the x-coordinate of this point

@@ -67,16 +67,21 @@ import com.landawn.abacus.util.stream.IntStream;
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<TP>
         permits IntTuple0, IntTuple1, IntTuple2, IntTuple3, IntTuple4, IntTuple5, IntTuple6, IntTuple7, IntTuple8, IntTuple9 {
-
-    /** Internal element storage; lazily initialized when {@link #elements()} is first called. */
-    protected volatile int[] elements;
-
     /**
      * Protected constructor for subclass instantiation.
      * This constructor is not intended for direct use. Use the static factory methods
      * such as {@link #of(int)}, {@link #of(int, int)}, etc., to create tuple instances.
      */
     protected IntTuple() {
+    }
+
+    /**
+     * Returns the shared empty int tuple.
+     *
+     * @return the empty tuple with arity zero
+     */
+    public static IntTuple<?> empty() {
+        return IntTuple0.EMPTY;
     }
 
     /**
@@ -359,10 +364,10 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[] values = {1, 2, 3};
-     * IntTuple.IntTuple3 tuple = IntTuple.from(values);
+     * IntTuple.IntTuple3 tuple = (IntTuple.IntTuple3) IntTuple.from(values);
      * int first = tuple._1;  // returns 1
      *
-     * IntTuple.IntTuple1 single = IntTuple.from(new int[]{42});
+     * IntTuple.IntTuple1 single = (IntTuple.IntTuple1) IntTuple.from(new int[]{42});
      * int sv = single._1;  // returns 42
      *
      * // null or empty array returns the shared empty tuple (arity 0)
@@ -376,52 +381,48 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * IntTuple.from(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10});  // throws IllegalArgumentException
      * }</pre>
      *
-     * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values.length}.
-     * The generic return type is only type-safe when assigned to the matching arity-specific subtype,
-     * or to the base tuple type. Assigning to the wrong arity-specific subtype will result in a
-     * {@link ClassCastException} at the assignment site.</p>
+     * <p>The return type is the base tuple type because the concrete arity is determined only at runtime.
+     * Test the result's type before casting when an arity-specific subtype is required.</p>
      *
-     * @param <TP> the base tuple type or matching arity-specific subtype expected by the caller
      * @param values the array of int values; may be {@code null} or empty, in which case the shared empty tuple is returned
      * @return an {@code IntTuple} of the appropriate arity containing the array values, or the shared empty tuple if the array is {@code null} or empty
      * @throws IllegalArgumentException if {@code values} has more than 9 elements
-     * @deprecated Use the {@code of(...)} factory methods instead; this method may be removed in a future release.
+     * @deprecated Use {@link #empty()} or the arity-specific {@code of(...)} factory methods instead.
      * @see #of(int)
      */
     @Deprecated
-    @SuppressWarnings({ "unchecked" })
-    public static <TP extends IntTuple<TP>> TP from(final int[] values) {
+    public static IntTuple<?> from(final int[] values) {
         if (values == null || values.length == 0) {
-            return (TP) IntTuple0.EMPTY;
+            return IntTuple0.EMPTY;
         }
 
         switch (values.length) {
             case 1:
-                return (TP) IntTuple.of(values[0]);
+                return IntTuple.of(values[0]);
 
             case 2:
-                return (TP) IntTuple.of(values[0], values[1]);
+                return IntTuple.of(values[0], values[1]);
 
             case 3:
-                return (TP) IntTuple.of(values[0], values[1], values[2]);
+                return IntTuple.of(values[0], values[1], values[2]);
 
             case 4:
-                return (TP) IntTuple.of(values[0], values[1], values[2], values[3]);
+                return IntTuple.of(values[0], values[1], values[2], values[3]);
 
             case 5:
-                return (TP) IntTuple.of(values[0], values[1], values[2], values[3], values[4]);
+                return IntTuple.of(values[0], values[1], values[2], values[3], values[4]);
 
             case 6:
-                return (TP) IntTuple.of(values[0], values[1], values[2], values[3], values[4], values[5]);
+                return IntTuple.of(values[0], values[1], values[2], values[3], values[4], values[5]);
 
             case 7:
-                return (TP) IntTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6]);
+                return IntTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6]);
 
             case 8:
-                return (TP) IntTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7]);
+                return IntTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7]);
 
             case 9:
-                return (TP) IntTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8]);
+                return IntTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8]);
 
             default:
                 throw new IllegalArgumentException("Too many elements (" + values.length + "). Maximum: 9");
@@ -720,11 +721,11 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
     public abstract boolean contains(int value);
 
     /**
-     * Returns a new array containing all elements of this tuple.
+     * Returns an array containing all elements of this tuple.
      * <p>
-     * Creates and returns a defensive copy of the internal element array. Modifications
-     * to the returned array do not affect the tuple, maintaining immutability. The
-     * returned array has the same length as the tuple's arity.
+     * Non-empty built-in tuples return a fresh array populated from their final fields on every
+     * call. The empty tuple may reuse a shared zero-length array. Modifications cannot affect the
+     * tuple, and the returned array length equals the tuple's arity.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -743,12 +744,12 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * int[] emptyArr = IntTuple.from(new int[0]).toArray();  // returns []
      * }</pre>
      *
-     * @return a new {@code int[]} array containing all tuple elements in order
+     * @return an array containing all tuple elements in order
      * @see #toList()
      * @see #stream()
      */
     public int[] toArray() {
-        return elements().clone();
+        return elements();
     }
 
     /**
@@ -782,7 +783,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * @see #stream()
      */
     public IntList toList() {
-        return IntList.of(elements().clone());
+        return IntList.of(elements());
     }
 
     /**
@@ -881,6 +882,9 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * // emptyHash == IntTuple.from(new int[0]).hashCode()  (same each call)
      * }</pre>
      *
+     * <p>Unequal tuples, including tuples with a different element order, may have the same hash
+     * code; hash codes do not provide a uniqueness guarantee.</p>
+     *
      * @return a hash code value for this tuple
      * @see #equals(Object)
      */
@@ -933,22 +937,19 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
     }
 
     /**
-     * Returns the internal array containing all int elements in this tuple.
-     * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-     * Modifying the returned array will compromise the immutability of this tuple.
-     * Use {@link #toArray()} instead if you need an array that can be safely modified.
-     * </p>
+     * Returns an array containing all int elements in this tuple. Non-empty tuples return a
+     * fresh array on every call; the empty tuple may return a shared zero-length array.
      *
-     * @return the internal array of int elements
+     * @return an array containing the int elements in encounter order
      */
     protected abstract int[] elements();
 
     /**
      * An empty IntTuple containing no elements (arity 0).
      * <p>
-     * This package-private class is exposed only through the base {@code IntTuple} type
-     * via the singleton instance returned by {@link #from(int[])} when invoked with a
-     * {@code null} or zero-length array. {@link #sum()} returns 0 and {@link #average()} returns an empty {@code OptionalDouble}, while
+     * This package-private class is exposed through the base {@code IntTuple} type via
+     * {@link #empty()} and by {@link #from(int[])} for a {@code null} or zero-length array.
+     * {@link #sum()} returns 0 and {@link #average()} returns an empty {@code OptionalDouble}, while
      * {@link #min()}, {@link #max()}, {@link #lowerMedian()}, and {@link #median()} all throw {@link java.util.NoSuchElementException}.
      * </p>
      */
@@ -1066,21 +1067,11 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
             return false;
         }
 
-        /**
-         * Returns a string representation of this empty tuple.
-         *
-         * @return {@code "()"}
-         */
         @Override
         public String toString() {
             return "()";
         }
 
-        /**
-         * Returns the shared empty int array.
-         *
-         * @return an empty int array
-         */
         @Override
         protected int[] elements() {
             return N.EMPTY_INT_ARRAY;
@@ -1113,11 +1104,6 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
             this(0);
         }
 
-        /**
-         * Constructs a tuple with the specified single element.
-         *
-         * @param _1 the int value to store in this tuple
-         */
         IntTuple1(final int _1) {
             this._1 = _1;
         }
@@ -1369,22 +1355,13 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         }
 
         /**
-         * Returns the internal array of int elements.
-         * The array is lazily initialized on first access.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Use {@link #toArray()} instead if you need an array that can be safely modified.
-         * </p>
+         * Returns a new array containing the int elements in encounter order.
          *
-         * @return the internal array of int elements
+         * @return a new array containing the int elements in encounter order
          */
         @Override
         protected int[] elements() {
-            if (elements == null) {
-                elements = new int[] { _1 };
-            }
-
-            return elements;
+            return new int[] { _1 };
         }
     }
 
@@ -1422,12 +1399,6 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
             this(0, 0);
         }
 
-        /**
-         * Constructs a tuple with the specified elements.
-         *
-         * @param _1 the first int value
-         * @param _2 the second int value
-         */
         IntTuple2(final int _1, final int _2) {
             this._1 = _1;
             this._2 = _2;
@@ -1755,8 +1726,6 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * <pre>{@code
          * IntTuple.of(3, 5).hashCode();     // content-based; equal tuples share the same hash
          * IntTuple.of(0, 0).hashCode();     // returns 0
-         * IntTuple.of(-1, 0).hashCode();    // content-based; differs from of(0, -1)
-         * IntTuple.of(0, 1).hashCode();     // order matters relative to of(1, 0)
          * }</pre>
          *
          * @return a content-based hash code consistent with {@link #equals(Object)}
@@ -1811,22 +1780,13 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         }
 
         /**
-         * Returns the internal array of int elements.
-         * The array is lazily initialized on first access.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Use {@link #toArray()} instead if you need an array that can be safely modified.
-         * </p>
+         * Returns a new array containing the int elements in encounter order.
          *
-         * @return the internal array of int elements
+         * @return a new array containing the int elements in encounter order
          */
         @Override
         protected int[] elements() {
-            if (elements == null) {
-                elements = new int[] { _1, _2 };
-            }
-
-            return elements;
+            return new int[] { _1, _2 };
         }
     }
 
@@ -1862,13 +1822,6 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
             this(0, 0, 0);
         }
 
-        /**
-         * Constructs a tuple with the specified elements.
-         *
-         * @param _1 the first int value
-         * @param _2 the second int value
-         * @param _3 the third int value
-         */
         IntTuple3(final int _1, final int _2, final int _3) {
             this._1 = _1;
             this._2 = _2;
@@ -2202,8 +2155,6 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * <pre>{@code
          * IntTuple.of(1, 2, 3).hashCode();     // content-based; equal tuples share the same hash
          * IntTuple.of(0, 0, 0).hashCode();     // returns 0
-         * IntTuple.of(-1, 0, 0).hashCode();    // content-based; order and values matter
-         * IntTuple.of(0, 0, 1).hashCode();     // order matters relative to of(1, 0, 0)
          * }</pre>
          *
          * @return a content-based hash code consistent with {@link #equals(Object)}
@@ -2258,22 +2209,13 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         }
 
         /**
-         * Returns the internal array of int elements.
-         * The array is lazily initialized on first access.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Use {@link #toArray()} instead if you need an array that can be safely modified.
-         * </p>
+         * Returns a new array containing the int elements in encounter order.
          *
-         * @return the internal array of int elements
+         * @return a new array containing the int elements in encounter order
          */
         @Override
         protected int[] elements() {
-            if (elements == null) {
-                elements = new int[] { _1, _2, _3 };
-            }
-
-            return elements;
+            return new int[] { _1, _2, _3 };
         }
     }
 
@@ -2310,14 +2252,6 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
             this(0, 0, 0, 0);
         }
 
-        /**
-         * Constructs a tuple with the specified elements.
-         *
-         * @param _1 the first int value
-         * @param _2 the second int value
-         * @param _3 the third int value
-         * @param _4 the fourth int value
-         */
         IntTuple4(final int _1, final int _2, final int _3, final int _4) {
             this._1 = _1;
             this._2 = _2;
@@ -2611,22 +2545,13 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         }
 
         /**
-         * Returns the internal array of int elements.
-         * The array is lazily initialized on first access.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Use {@link #toArray()} instead if you need an array that can be safely modified.
-         * </p>
+         * Returns a new array containing the int elements in encounter order.
          *
-         * @return the internal array of int elements
+         * @return a new array containing the int elements in encounter order
          */
         @Override
         protected int[] elements() {
-            if (elements == null) {
-                elements = new int[] { _1, _2, _3, _4 };
-            }
-
-            return elements;
+            return new int[] { _1, _2, _3, _4 };
         }
     }
 
@@ -2666,15 +2591,6 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
             this(0, 0, 0, 0, 0);
         }
 
-        /**
-         * Constructs a tuple with the specified elements.
-         *
-         * @param _1 the first int value
-         * @param _2 the second int value
-         * @param _3 the third int value
-         * @param _4 the fourth int value
-         * @param _5 the fifth int value
-         */
         IntTuple5(final int _1, final int _2, final int _3, final int _4, final int _5) {
             this._1 = _1;
             this._2 = _2;
@@ -2970,22 +2886,13 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         }
 
         /**
-         * Returns the internal array of int elements.
-         * The array is lazily initialized on first access.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Use {@link #toArray()} instead if you need an array that can be safely modified.
-         * </p>
+         * Returns a new array containing the int elements in encounter order.
          *
-         * @return the internal array of int elements
+         * @return a new array containing the int elements in encounter order
          */
         @Override
         protected int[] elements() {
-            if (elements == null) {
-                elements = new int[] { _1, _2, _3, _4, _5 };
-            }
-
-            return elements;
+            return new int[] { _1, _2, _3, _4, _5 };
         }
     }
 
@@ -3027,16 +2934,6 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
             this(0, 0, 0, 0, 0, 0);
         }
 
-        /**
-         * Constructs a tuple with the specified elements.
-         *
-         * @param _1 the first int value
-         * @param _2 the second int value
-         * @param _3 the third int value
-         * @param _4 the fourth int value
-         * @param _5 the fifth int value
-         * @param _6 the sixth int value
-         */
         IntTuple6(final int _1, final int _2, final int _3, final int _4, final int _5, final int _6) {
             this._1 = _1;
             this._2 = _2;
@@ -3334,22 +3231,13 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         }
 
         /**
-         * Returns the internal array of int elements.
-         * The array is lazily initialized on first access.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Use {@link #toArray()} instead if you need an array that can be safely modified.
-         * </p>
+         * Returns a new array containing the int elements in encounter order.
          *
-         * @return the internal array of int elements
+         * @return a new array containing the int elements in encounter order
          */
         @Override
         protected int[] elements() {
-            if (elements == null) {
-                elements = new int[] { _1, _2, _3, _4, _5, _6 };
-            }
-
-            return elements;
+            return new int[] { _1, _2, _3, _4, _5, _6 };
         }
     }
 
@@ -3393,17 +3281,6 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
             this(0, 0, 0, 0, 0, 0, 0);
         }
 
-        /**
-         * Constructs a tuple with the specified elements.
-         *
-         * @param _1 the first int value
-         * @param _2 the second int value
-         * @param _3 the third int value
-         * @param _4 the fourth int value
-         * @param _5 the fifth int value
-         * @param _6 the sixth int value
-         * @param _7 the seventh int value
-         */
         IntTuple7(final int _1, final int _2, final int _3, final int _4, final int _5, final int _6, final int _7) {
             this._1 = _1;
             this._2 = _2;
@@ -3635,9 +3512,6 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * IntTuple.IntTuple7 t2 = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
          * boolean same = t1.hashCode() == t2.hashCode(); // true
          *
-         * IntTuple.IntTuple7 t3 = IntTuple.of(7, 6, 5, 4, 3, 2, 1);
-         * // t1.hashCode() != t3.hashCode() (different element order)
-         *
          * IntTuple.IntTuple7 zeros = IntTuple.of(0, 0, 0, 0, 0, 0, 0);
          * // zeros.hashCode() == 0
          * }</pre>
@@ -3706,22 +3580,13 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         }
 
         /**
-         * Returns the internal array of int elements.
-         * The array is lazily initialized on first access.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Use {@link #toArray()} instead if you need an array that can be safely modified.
-         * </p>
+         * Returns a new array containing the int elements in encounter order.
          *
-         * @return the internal array of int elements
+         * @return a new array containing the int elements in encounter order
          */
         @Override
         protected int[] elements() {
-            if (elements == null) {
-                elements = new int[] { _1, _2, _3, _4, _5, _6, _7 };
-            }
-
-            return elements;
+            return new int[] { _1, _2, _3, _4, _5, _6, _7 };
         }
     }
 
@@ -3769,18 +3634,6 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
             this(0, 0, 0, 0, 0, 0, 0, 0);
         }
 
-        /**
-         * Constructs a tuple with the specified elements.
-         *
-         * @param _1 the first int value
-         * @param _2 the second int value
-         * @param _3 the third int value
-         * @param _4 the fourth int value
-         * @param _5 the fifth int value
-         * @param _6 the sixth int value
-         * @param _7 the seventh int value
-         * @param _8 the eighth int value
-         */
         IntTuple8(final int _1, final int _2, final int _3, final int _4, final int _5, final int _6, final int _7, final int _8) {
             this._1 = _1;
             this._2 = _2;
@@ -4014,9 +3867,6 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * IntTuple.IntTuple8 t2 = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8);
          * boolean same = t1.hashCode() == t2.hashCode(); // true
          *
-         * IntTuple.IntTuple8 t3 = IntTuple.of(8, 7, 6, 5, 4, 3, 2, 1);
-         * // t1.hashCode() != t3.hashCode() (different element order)
-         *
          * IntTuple.IntTuple8 zeros = IntTuple.of(0, 0, 0, 0, 0, 0, 0, 0);
          * // zeros.hashCode() == 0
          * }</pre>
@@ -4086,22 +3936,13 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         }
 
         /**
-         * Returns the internal array of int elements.
-         * The array is lazily initialized on first access.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Use {@link #toArray()} instead if you need an array that can be safely modified.
-         * </p>
+         * Returns a new array containing the int elements in encounter order.
          *
-         * @return the internal array of int elements
+         * @return a new array containing the int elements in encounter order
          */
         @Override
         protected int[] elements() {
-            if (elements == null) {
-                elements = new int[] { _1, _2, _3, _4, _5, _6, _7, _8 };
-            }
-
-            return elements;
+            return new int[] { _1, _2, _3, _4, _5, _6, _7, _8 };
         }
     }
 
@@ -4151,19 +3992,6 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
             this(0, 0, 0, 0, 0, 0, 0, 0, 0);
         }
 
-        /**
-         * Constructs a tuple with the specified elements.
-         *
-         * @param _1 the first int value
-         * @param _2 the second int value
-         * @param _3 the third int value
-         * @param _4 the fourth int value
-         * @param _5 the fifth int value
-         * @param _6 the sixth int value
-         * @param _7 the seventh int value
-         * @param _8 the eighth int value
-         * @param _9 the ninth int value
-         */
         IntTuple9(final int _1, final int _2, final int _3, final int _4, final int _5, final int _6, final int _7, final int _8, final int _9) {
             this._1 = _1;
             this._2 = _2;
@@ -4399,9 +4227,6 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * IntTuple.IntTuple9 t2 = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
          * boolean same = t1.hashCode() == t2.hashCode(); // true
          *
-         * IntTuple.IntTuple9 t3 = IntTuple.of(9, 8, 7, 6, 5, 4, 3, 2, 1);
-         * // t1.hashCode() != t3.hashCode() (different element order)
-         *
          * IntTuple.IntTuple9 zeros = IntTuple.of(0, 0, 0, 0, 0, 0, 0, 0, 0);
          * // zeros.hashCode() == 0
          * }</pre>
@@ -4471,22 +4296,13 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         }
 
         /**
-         * Returns the internal array of int elements.
-         * The array is lazily initialized on first access.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Use {@link #toArray()} instead if you need an array that can be safely modified.
-         * </p>
+         * Returns a new array containing the int elements in encounter order.
          *
-         * @return the internal array of int elements
+         * @return a new array containing the int elements in encounter order
          */
         @Override
         protected int[] elements() {
-            if (elements == null) {
-                elements = new int[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
-            }
-
-            return elements;
+            return new int[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
         }
     }
 

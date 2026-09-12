@@ -63,16 +63,21 @@ import com.landawn.abacus.util.stream.Stream;
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends PrimitiveTuple<TP> permits BooleanTuple0, BooleanTuple1, BooleanTuple2,
         BooleanTuple3, BooleanTuple4, BooleanTuple5, BooleanTuple6, BooleanTuple7, BooleanTuple8, BooleanTuple9 {
-
-    /** Internal element storage; lazily initialized when {@link #elements()} is first called. */
-    protected volatile boolean[] elements;
-
     /**
      * Protected constructor for subclass instantiation.
      * This constructor is not intended for direct use. Use the static factory methods
      * such as {@link #of(boolean)}, {@link #of(boolean, boolean)}, etc., to create tuple instances.
      */
     protected BooleanTuple() {
+    }
+
+    /**
+     * Returns the shared empty boolean tuple.
+     *
+     * @return the empty tuple with arity zero
+     */
+    public static BooleanTuple<?> empty() {
+        return BooleanTuple0.EMPTY;
     }
 
     /**
@@ -410,52 +415,48 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * // BooleanTuple.from(new boolean[10]); // throws IllegalArgumentException
      * }</pre>
      *
-     * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values.length}.
-     * The generic return type is only type-safe when assigned to the matching arity-specific subtype,
-     * or to the base tuple type. Assigning to the wrong arity-specific subtype will result in a
-     * {@link ClassCastException} at the assignment site.</p>
+     * <p>The return type is the base tuple type because the concrete arity is determined only at runtime.
+     * Test the result's type before casting when an arity-specific subtype is required.</p>
      *
-     * @param <TP> the base tuple type or matching arity-specific subtype expected by the caller
      * @param values the array of boolean values; may be {@code null} or empty, in which case the shared empty tuple is returned
      * @return a {@code BooleanTuple} of the appropriate arity containing the array values, or the shared empty tuple if the array is {@code null} or empty
      * @throws IllegalArgumentException if {@code values} has more than 9 elements
-     * @deprecated Use the {@code of(...)} factory methods instead; this method may be removed in a future release.
+     * @deprecated Use {@link #empty()} or the arity-specific {@code of(...)} factory methods instead.
      * @see #of(boolean)
      */
     @Deprecated
-    @SuppressWarnings({ "unchecked" })
-    public static <TP extends BooleanTuple<TP>> TP from(final boolean[] values) {
+    public static BooleanTuple<?> from(final boolean[] values) {
         if (values == null || values.length == 0) {
-            return (TP) BooleanTuple0.EMPTY;
+            return BooleanTuple0.EMPTY;
         }
 
         switch (values.length) {
             case 1:
-                return (TP) BooleanTuple.of(values[0]);
+                return BooleanTuple.of(values[0]);
 
             case 2:
-                return (TP) BooleanTuple.of(values[0], values[1]);
+                return BooleanTuple.of(values[0], values[1]);
 
             case 3:
-                return (TP) BooleanTuple.of(values[0], values[1], values[2]);
+                return BooleanTuple.of(values[0], values[1], values[2]);
 
             case 4:
-                return (TP) BooleanTuple.of(values[0], values[1], values[2], values[3]);
+                return BooleanTuple.of(values[0], values[1], values[2], values[3]);
 
             case 5:
-                return (TP) BooleanTuple.of(values[0], values[1], values[2], values[3], values[4]);
+                return BooleanTuple.of(values[0], values[1], values[2], values[3], values[4]);
 
             case 6:
-                return (TP) BooleanTuple.of(values[0], values[1], values[2], values[3], values[4], values[5]);
+                return BooleanTuple.of(values[0], values[1], values[2], values[3], values[4], values[5]);
 
             case 7:
-                return (TP) BooleanTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6]);
+                return BooleanTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6]);
 
             case 8:
-                return (TP) BooleanTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7]);
+                return BooleanTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7]);
 
             case 9:
-                return (TP) BooleanTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8]);
+                return BooleanTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8]);
 
             default:
                 throw new IllegalArgumentException("Too many elements (" + values.length + "). Maximum: 9");
@@ -526,10 +527,10 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     public abstract boolean contains(boolean value);
 
     /**
-     * Returns a new array containing all elements of this tuple.
+     * Returns an array containing all elements of this tuple.
      * <p>
-     * Returns a new {@code boolean[]} of length {@link #arity()} whose elements are this
-     * tuple's values in order. Mutations of the returned array do not affect this tuple.
+     * Non-empty built-in tuples return a fresh {@code boolean[]} on every call. The empty
+     * tuple may reuse a shared zero-length array. Mutations cannot affect this tuple.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -552,12 +553,12 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * boolean[] singleArr = single.toArray(); // [false]
      * }</pre>
      *
-     * @return a new boolean array containing all tuple elements in order
+     * @return an array containing all tuple elements in order
      * @see #toList()
      * @see #stream()
      */
     public boolean[] toArray() {
-        return elements().clone();
+        return elements();
     }
 
     /**
@@ -596,7 +597,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * @see #stream()
      */
     public BooleanList toList() {
-        return BooleanList.of(elements().clone());
+        return BooleanList.of(elements());
     }
 
     /**
@@ -693,6 +694,9 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * boolean consistent = (emptyHash1 == emptyHash2); // true
      * }</pre>
      *
+     * <p>Unequal tuples, including tuples with a different element order, may have the same hash
+     * code; hash codes do not provide a uniqueness guarantee.</p>
+     *
      * @return a hash code value for this tuple
      * @see #equals(Object)
      */
@@ -748,29 +752,24 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     }
 
     /**
-     * Returns the internal array containing all boolean elements in this tuple.
-     * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-     * Modifying the returned array will compromise the immutability of this tuple.
-     * Use {@link #toArray()} instead if you need an array that can be safely modified.
-     * </p>
+     * Returns an array containing all boolean elements in this tuple. Non-empty tuples return a
+     * fresh array on every call; the empty tuple may return a shared zero-length array.
      *
-     * @return the internal array of boolean elements
+     * @return an array containing the boolean elements in encounter order
      */
     protected abstract boolean[] elements();
 
     /**
      * An empty BooleanTuple containing no elements (arity 0).
      * <p>
-     * This package-private class is exposed only through the base {@code BooleanTuple} type
-     * via the singleton instance returned by {@link #from(boolean[])} when invoked with a
-     * {@code null} or zero-length array.
+     * This package-private class is exposed through the base {@code BooleanTuple} type via
+     * {@link #empty()} and by {@link #from(boolean[])} for a {@code null} or zero-length array.
      * </p>
      */
     static final class BooleanTuple0 extends BooleanTuple<BooleanTuple0> {
         /** The shared empty boolean tuple. */
         private static final BooleanTuple0 EMPTY = new BooleanTuple0();
 
-        /** Package-private constructor for the empty tuple. */
         BooleanTuple0() {
         }
 
@@ -807,21 +806,11 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
             return false;
         }
 
-        /**
-         * Returns a string representation of this empty tuple.
-         *
-         * @return {@code "()"}
-         */
         @Override
         public String toString() {
             return "()";
         }
 
-        /**
-         * Returns the shared empty boolean array.
-         *
-         * @return an empty boolean array
-         */
         @Override
         protected boolean[] elements() {
             return N.EMPTY_BOOLEAN_ARRAY;
@@ -845,7 +834,6 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         /** The single boolean value stored in this tuple. */
         public final boolean _1;
 
-        /** Package-private constructor creating a tuple with the element set to {@code false}. */
         BooleanTuple1() {
             this(false);
         }
@@ -999,22 +987,13 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         }
 
         /**
-         * Returns the internal array of boolean elements.
-         * The array is lazily initialized on first access.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Prefer {@link #toArray()} when a safe, independent copy is needed.
-         * </p>
+         * Returns a new array containing the boolean elements in encounter order.
          *
          * @return a boolean array containing the single element
          */
         @Override
         protected boolean[] elements() {
-            if (elements == null) {
-                elements = new boolean[] { _1 };
-            }
-
-            return elements;
+            return new boolean[] { _1 };
         }
     }
 
@@ -1050,7 +1029,6 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         /** The second boolean value in this tuple. */
         public final boolean _2;
 
-        /** Package-private constructor creating a tuple with all elements set to {@code false}. */
         BooleanTuple2() {
             this(false, false);
         }
@@ -1372,22 +1350,13 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         }
 
         /**
-         * Returns the internal array of boolean elements.
-         * The array is lazily initialized on first access.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Prefer {@link #toArray()} when a safe, independent copy is needed.
-         * </p>
+         * Returns a new array containing the boolean elements in encounter order.
          *
          * @return a boolean array containing all elements in order
          */
         @Override
         protected boolean[] elements() {
-            if (elements == null) {
-                elements = new boolean[] { _1, _2 };
-            }
-
-            return elements;
+            return new boolean[] { _1, _2 };
         }
     }
 
@@ -1422,7 +1391,6 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         /** The third boolean value in this tuple. */
         public final boolean _3;
 
-        /** Package-private constructor creating a tuple with all elements set to {@code false}. */
         BooleanTuple3() {
             this(false, false, false);
         }
@@ -1752,22 +1720,13 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         }
 
         /**
-         * Returns the internal array of boolean elements.
-         * The array is lazily initialized on first access.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Prefer {@link #toArray()} when a safe, independent copy is needed.
-         * </p>
+         * Returns a new array containing the boolean elements in encounter order.
          *
          * @return a boolean array containing all elements in order
          */
         @Override
         protected boolean[] elements() {
-            if (elements == null) {
-                elements = new boolean[] { _1, _2, _3 };
-            }
-
-            return elements;
+            return new boolean[] { _1, _2, _3 };
         }
     }
 
@@ -1795,7 +1754,6 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         /** The fourth boolean value in this tuple. */
         public final boolean _4;
 
-        /** Package-private constructor creating a tuple with all elements set to {@code false}. */
         BooleanTuple4() {
             this(false, false, false, false);
         }
@@ -2004,22 +1962,13 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         }
 
         /**
-         * Returns the internal array of boolean elements.
-         * The array is lazily initialized on first access.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Prefer {@link #toArray()} when a safe, independent copy is needed.
-         * </p>
+         * Returns a new array containing the boolean elements in encounter order.
          *
          * @return a boolean array containing all elements in order
          */
         @Override
         protected boolean[] elements() {
-            if (elements == null) {
-                elements = new boolean[] { _1, _2, _3, _4 };
-            }
-
-            return elements;
+            return new boolean[] { _1, _2, _3, _4 };
         }
     }
 
@@ -2049,7 +1998,6 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         /** The fifth boolean value in this tuple. */
         public final boolean _5;
 
-        /** Package-private constructor creating a tuple with all elements set to {@code false}. */
         BooleanTuple5() {
             this(false, false, false, false, false);
         }
@@ -2272,22 +2220,13 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         }
 
         /**
-         * Returns the internal array of boolean elements.
-         * The array is lazily initialized on first access.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Prefer {@link #toArray()} when a safe, independent copy is needed.
-         * </p>
+         * Returns a new array containing the boolean elements in encounter order.
          *
          * @return a boolean array containing all elements in order
          */
         @Override
         protected boolean[] elements() {
-            if (elements == null) {
-                elements = new boolean[] { _1, _2, _3, _4, _5 };
-            }
-
-            return elements;
+            return new boolean[] { _1, _2, _3, _4, _5 };
         }
     }
 
@@ -2319,7 +2258,6 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         /** The sixth boolean value in this tuple. */
         public final boolean _6;
 
-        /** Package-private constructor creating a tuple with all elements set to {@code false}. */
         BooleanTuple6() {
             this(false, false, false, false, false, false);
         }
@@ -2561,22 +2499,13 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         }
 
         /**
-         * Returns the internal array of boolean elements.
-         * The array is lazily initialized on first access.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Prefer {@link #toArray()} when a safe, independent copy is needed.
-         * </p>
+         * Returns a new array containing the boolean elements in encounter order.
          *
          * @return a boolean array containing all elements in order
          */
         @Override
         protected boolean[] elements() {
-            if (elements == null) {
-                elements = new boolean[] { _1, _2, _3, _4, _5, _6 };
-            }
-
-            return elements;
+            return new boolean[] { _1, _2, _3, _4, _5, _6 };
         }
     }
 
@@ -2610,7 +2539,6 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         /** The seventh boolean value in this tuple. */
         public final boolean _7;
 
-        /** Package-private constructor creating a tuple with all elements set to {@code false}. */
         BooleanTuple7() {
             this(false, false, false, false, false, false, false);
         }
@@ -2858,22 +2786,13 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         }
 
         /**
-         * Returns the internal array of boolean elements.
-         * The array is lazily initialized on first access.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Prefer {@link #toArray()} when a safe, independent copy is needed.
-         * </p>
+         * Returns a new array containing the boolean elements in encounter order.
          *
          * @return a boolean array containing all elements in order
          */
         @Override
         protected boolean[] elements() {
-            if (elements == null) {
-                elements = new boolean[] { _1, _2, _3, _4, _5, _6, _7 };
-            }
-
-            return elements;
+            return new boolean[] { _1, _2, _3, _4, _5, _6, _7 };
         }
     }
 
@@ -2911,7 +2830,6 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         /** The eighth boolean value in this tuple. */
         public final boolean _8;
 
-        /** Package-private constructor creating a tuple with all elements set to {@code false}. */
         BooleanTuple8() {
             this(false, false, false, false, false, false, false, false);
         }
@@ -3164,22 +3082,13 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         }
 
         /**
-         * Returns the internal array of boolean elements.
-         * The array is lazily initialized on first access.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Prefer {@link #toArray()} when a safe, independent copy is needed.
-         * </p>
+         * Returns a new array containing the boolean elements in encounter order.
          *
          * @return a boolean array containing all elements in order
          */
         @Override
         protected boolean[] elements() {
-            if (elements == null) {
-                elements = new boolean[] { _1, _2, _3, _4, _5, _6, _7, _8 };
-            }
-
-            return elements;
+            return new boolean[] { _1, _2, _3, _4, _5, _6, _7, _8 };
         }
     }
 
@@ -3219,7 +3128,6 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         /** The ninth boolean value in this tuple. */
         public final boolean _9;
 
-        /** Package-private constructor creating a tuple with all elements set to {@code false}. */
         BooleanTuple9() {
             this(false, false, false, false, false, false, false, false, false);
         }
@@ -3475,22 +3383,13 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         }
 
         /**
-         * Returns the internal array of boolean elements.
-         * The array is lazily initialized on first access.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Prefer {@link #toArray()} when a safe, independent copy is needed.
-         * </p>
+         * Returns a new array containing the boolean elements in encounter order.
          *
          * @return a boolean array containing all elements in order
          */
         @Override
         protected boolean[] elements() {
-            if (elements == null) {
-                elements = new boolean[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
-            }
-
-            return elements;
+            return new boolean[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
         }
     }
 

@@ -48,13 +48,13 @@ import com.landawn.abacus.util.stream.CharStream;
  * the built-in nested types; all instances are immutable.</p>
  *
  * <p><b>Numeric semantics:</b> Values are unsigned UTF-16 code units (range {@code 0..65535}).
- * Ordering and arithmetic ({@link #min()}, {@link #max()}, {@link #lowerMedian()}, {@link #sum()},
- * and {@link #average()}) treat each {@code char} as its code-unit value; surrogate
+ * Ordering and arithmetic ({@link #min()}, {@link #max()}, {@link #lowerMedian()}, {@link #median()},
+ * {@link #sum()}, and {@link #average()}) treat each {@code char} as its code-unit value; surrogate
  * code units are not paired or interpreted as code points. {@link #min()}, {@link #max()}, and
- * {@link #lowerMedian()} return {@code char}; {@link #sum()} returns {@code int}; {@link #average()}
- * uses {@code double} precision via {@link OptionalDouble}.
+ * {@link #lowerMedian()} return {@code char}; {@link #sum()} returns {@code int}; {@link #median()}
+ * and {@link #average()} use {@code double} precision ({@code average} via {@link OptionalDouble}).
  * Empty-tuple contracts: {@code sum()} is {@code 0}, {@code average()} is empty, and
- * {@code min}/{@code max}/{@code lowerMedian} throw {@link NoSuchElementException}.</p>
+ * {@code min}/{@code max}/{@code lowerMedian}/{@code median} throw {@link NoSuchElementException}.</p>
  *
  * @param <TP> the concrete {@code CharTuple} subtype that fluent operations such as {@link #reversed()} return
  * @see PrimitiveTuple
@@ -69,16 +69,21 @@ import com.landawn.abacus.util.stream.CharStream;
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple<TP>
         permits CharTuple0, CharTuple1, CharTuple2, CharTuple3, CharTuple4, CharTuple5, CharTuple6, CharTuple7, CharTuple8, CharTuple9 {
-
-    /** Internal element storage; lazily initialized when {@link #elements()} is first called. */
-    protected volatile char[] elements;
-
     /**
      * Protected constructor for subclass instantiation.
      * This constructor is not intended for direct use. Use the static factory methods
      * such as {@link #of(char)}, {@link #of(char, char)}, etc., to create tuple instances.
      */
     protected CharTuple() {
+    }
+
+    /**
+     * Returns the shared empty char tuple.
+     *
+     * @return the empty tuple with arity zero
+     */
+    public static CharTuple<?> empty() {
+        return CharTuple0.EMPTY;
     }
 
     /**
@@ -335,12 +340,12 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Basic: 3-element array creates a CharTuple3
-     * CharTuple.CharTuple3 t3 = CharTuple.from(new char[]{'A', 'B', 'C'});
+     * CharTuple.CharTuple3 t3 = (CharTuple.CharTuple3) CharTuple.from(new char[]{'A', 'B', 'C'});
      * int arity = t3.arity();              // 3
      * char min = t3.min();                 // 'A'
      *
      * // Basic: 1-element array creates a CharTuple1
-     * CharTuple.CharTuple1 t1 = CharTuple.from(new char[]{'X'});
+     * CharTuple.CharTuple1 t1 = (CharTuple.CharTuple1) CharTuple.from(new char[]{'X'});
      * char v = t1._1;                      // 'X'
      *
      * // Edge: null returns empty tuple (arity 0)
@@ -355,52 +360,48 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * CharTuple.from(new char[10]);      // throws IllegalArgumentException
      * }</pre>
      *
-     * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values.length}.
-     * The generic return type is only type-safe when assigned to the matching arity-specific subtype,
-     * or to the base tuple type. Assigning to the wrong arity-specific subtype will result in a
-     * {@link ClassCastException} at the assignment site.</p>
+     * <p>The return type is the base tuple type because the concrete arity is determined only at runtime.
+     * Test the result's type before casting when an arity-specific subtype is required.</p>
      *
-     * @param <TP> the base tuple type or matching arity-specific subtype expected by the caller
      * @param values the array of char values; may be {@code null} or empty, in which case the shared empty tuple is returned
      * @return a {@code CharTuple} of the appropriate arity containing the array values, or the shared empty tuple if the array is {@code null} or empty
      * @throws IllegalArgumentException if {@code values} has more than 9 elements
-     * @deprecated Use the {@code of(...)} factory methods instead; this method may be removed in a future release.
+     * @deprecated Use {@link #empty()} or the arity-specific {@code of(...)} factory methods instead.
      * @see #of(char)
      */
     @Deprecated
-    @SuppressWarnings({ "unchecked" })
-    public static <TP extends CharTuple<TP>> TP from(final char[] values) {
+    public static CharTuple<?> from(final char[] values) {
         if (values == null || values.length == 0) {
-            return (TP) CharTuple0.EMPTY;
+            return CharTuple0.EMPTY;
         }
 
         switch (values.length) {
             case 1:
-                return (TP) CharTuple.of(values[0]);
+                return CharTuple.of(values[0]);
 
             case 2:
-                return (TP) CharTuple.of(values[0], values[1]);
+                return CharTuple.of(values[0], values[1]);
 
             case 3:
-                return (TP) CharTuple.of(values[0], values[1], values[2]);
+                return CharTuple.of(values[0], values[1], values[2]);
 
             case 4:
-                return (TP) CharTuple.of(values[0], values[1], values[2], values[3]);
+                return CharTuple.of(values[0], values[1], values[2], values[3]);
 
             case 5:
-                return (TP) CharTuple.of(values[0], values[1], values[2], values[3], values[4]);
+                return CharTuple.of(values[0], values[1], values[2], values[3], values[4]);
 
             case 6:
-                return (TP) CharTuple.of(values[0], values[1], values[2], values[3], values[4], values[5]);
+                return CharTuple.of(values[0], values[1], values[2], values[3], values[4], values[5]);
 
             case 7:
-                return (TP) CharTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6]);
+                return CharTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6]);
 
             case 8:
-                return (TP) CharTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7]);
+                return CharTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7]);
 
             case 9:
-                return (TP) CharTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8]);
+                return CharTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8]);
 
             default:
                 throw new IllegalArgumentException("Too many elements (" + values.length + "). Maximum: 9");
@@ -558,11 +559,39 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
     }
 
     /**
+     * Returns the conventional statistical median of this tuple as a {@code double}.
+     * Elements are ordered by unsigned UTF-16 code-unit value. For an odd arity this is the
+     * middle code-unit value; for an even arity it is the arithmetic mean of the two middle
+     * code-unit values. Surrogate code units remain independent values and are not combined into
+     * Unicode code points.
+     *
+     * <p>For example, {@code CharTuple.of('D', 'A', 'C', 'B').median()} returns {@code 66.5},
+     * the mean of {@code 'B'} (66) and {@code 'C'} (67).</p>
+     *
+     * @return the statistical median as an unsigned code-unit value
+     * @throws NoSuchElementException if this tuple is empty
+     * @see #lowerMedian()
+     */
+    public double median() {
+        final char[] values = elements();
+
+        if (values.length == 0) {
+            throw new NoSuchElementException("Cannot compute median() for an empty tuple");
+        }
+
+        java.util.Arrays.sort(values);
+        final int middle = values.length / 2;
+
+        return (values.length & 1) == 1 ? values[middle] : (values[middle - 1] + (double) values[middle]) / 2d;
+    }
+
+    /**
      * Returns the lower median of this tuple as an unsigned UTF-16 code unit ({@code char}).
      * <p>
      * Elements are ordered by unsigned code-unit value (range {@code 0..65535}). For an odd
      * arity, this is the middle value when sorted. For an even arity, this is the lower of the two
-     * middle values when sorted (not their average).
+     * middle values when sorted (not their average). Prefer {@link #median()} when the conventional
+     * statistical median is required.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -588,6 +617,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * @throws NoSuchElementException if the tuple is empty
      * @see #min()
      * @see #max()
+     * @see #median()
      * @see N#lowerMedian(char...)
      */
     public char lowerMedian() {
@@ -670,11 +700,11 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
     public abstract boolean contains(char value);
 
     /**
-     * Returns a new array containing all elements of this tuple.
+     * Returns an array containing all elements of this tuple.
      * <p>
-     * Creates and returns a defensive copy of the internal element array. Modifications
-     * to the returned array do not affect the tuple, maintaining immutability. The
-     * returned array has the same length as the tuple's arity.
+     * Non-empty built-in tuples return a fresh array populated from their final fields on every
+     * call. The empty tuple may reuse a shared zero-length array. Modifications cannot affect the
+     * tuple, and the returned array length equals the tuple's arity.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -698,12 +728,12 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * char[] single = t1.toArray();        // ['Z']
      * }</pre>
      *
-     * @return a new char array containing all tuple elements (length equals arity)
+     * @return an array containing all tuple elements (length equals arity)
      * @see #toList()
      * @see #stream()
      */
     public char[] toArray() {
-        return elements().clone();
+        return elements();
     }
 
     /**
@@ -742,7 +772,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * @see #stream()
      */
     public CharList toList() {
-        return CharList.of(elements().clone());
+        return CharList.of(elements());
     }
 
     /**
@@ -840,10 +870,6 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * CharTuple.CharTuple2 t2 = CharTuple.of('A', 'B');
      * boolean sameHash = (t1.hashCode() == t2.hashCode()); // true
      *
-     * // Basic: different element order produces different hash code
-     * CharTuple.CharTuple2 t3 = CharTuple.of('B', 'A');
-     * boolean diffHash = (t1.hashCode() == t3.hashCode()); // typically false
-     *
      * // Edge: empty tuple has a consistent hash code
      * CharTuple<?> empty1 = CharTuple.from(new char[0]);
      * CharTuple<?> empty2 = CharTuple.from(new char[0]);
@@ -854,6 +880,9 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * CharTuple.CharTuple1 s2 = CharTuple.of('X');
      * boolean singleHash = (s1.hashCode() == s2.hashCode()); // true
      * }</pre>
+     *
+     * <p>Unequal tuples, including tuples with a different element order, may have the same hash
+     * code; hash codes do not provide a uniqueness guarantee.</p>
      *
      * @return a hash code value for this tuple
      * @see #equals(Object)
@@ -914,23 +943,20 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
     }
 
     /**
-     * Returns the internal array containing all char elements in this tuple.
-     * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-     * Modifying the returned array will compromise the immutability of this tuple.
-     * Use {@link #toArray()} instead if you need an array that can be safely modified.
-     * </p>
+     * Returns an array containing all char elements in this tuple. Non-empty tuples return a
+     * fresh array on every call; the empty tuple may return a shared zero-length array.
      *
-     * @return the internal array of char elements
+     * @return an array containing the char elements in encounter order
      */
     protected abstract char[] elements();
 
     /**
      * An empty {@code CharTuple} (arity 0).
      * <p>
-     * Package-private; callers obtain the shared instance only via {@link #from(char[])} with a
-     * {@code null} or zero-length array (deprecated). Aggregate contracts for the empty instance:
+     * Package-private; callers obtain the shared instance via {@link #empty()} or by
+     * {@link #from(char[])} with a {@code null} or zero-length array. Aggregate contracts for the empty instance:
      * {@link #sum()} is {@code 0}, {@link #average()} is empty, and
-     * {@link #min()}, {@link #max()}, and {@link #lowerMedian()} throw
+     * {@link #min()}, {@link #max()}, {@link #lowerMedian()}, and {@link #median()} throw
      * {@link NoSuchElementException}. {@link #reversed()} returns this same instance.
      * </p>
      */
@@ -941,7 +967,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
 
         /**
          * Package-private constructor for internal use; creates an empty tuple.
-         * The shared empty tuple is normally obtained via {@link CharTuple#from(char[])}.
+         * The shared empty tuple is normally obtained via {@link CharTuple#empty()}.
          */
         CharTuple0() {
         }
@@ -1037,21 +1063,11 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
             return false;
         }
 
-        /**
-         * Returns a string representation of this empty tuple.
-         *
-         * @return {@code "()"}
-         */
         @Override
         public String toString() {
             return "()";
         }
 
-        /**
-         * Returns the shared empty char array.
-         *
-         * @return an empty char array
-         */
         @Override
         protected char[] elements() {
             return N.EMPTY_CHAR_ARRAY;
@@ -1312,10 +1328,6 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * CharTuple.CharTuple1 t2 = CharTuple.of('Z');
          * boolean sameHash = (t1.hashCode() == t2.hashCode()); // true
          *
-         * // Different elements - different hash codes
-         * CharTuple.CharTuple1 t3 = CharTuple.of('A');
-         * CharTuple.CharTuple1 t4 = CharTuple.of('B');         // 'B' = 66
-         * boolean diffHash = (t3.hashCode() != t4.hashCode()); // true
          * }</pre>
          *
          * @return the {@code int} value of the single char element
@@ -1387,22 +1399,13 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns the internal array of char elements.
-         * The array is lazily initialized on first access.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Use {@link #toArray()} instead if you need an array that can be safely modified.
-         * </p>
+         * Returns a new array containing the char elements in encounter order.
          *
          * @return a char array containing the single element
          */
         @Override
         protected char[] elements() {
-            if (elements == null) {
-                elements = new char[] { _1 };
-            }
-
-            return elements;
+            return new char[] { _1 };
         }
     }
 
@@ -1849,10 +1852,6 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * // Equal tuples have equal hash codes
          * CharTuple.CharTuple2 t2 = CharTuple.of('A', 'B');
          * boolean sameHash = (t1.hashCode() == t2.hashCode()); // true
-         *
-         * // Different order - different hash
-         * CharTuple.CharTuple2 t3 = CharTuple.of('B', 'A');
-         * boolean diffHash = (t1.hashCode() != t3.hashCode()); // true
          * }</pre>
          *
          * @return a hash code value calculated from both elements
@@ -1926,22 +1925,13 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns the internal array of char elements.
-         * The array is lazily initialized on first access.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Use {@link #toArray()} instead if you need an array that can be safely modified.
-         * </p>
+         * Returns a new array containing the char elements in encounter order.
          *
          * @return a char array containing all elements in order
          */
         @Override
         protected char[] elements() {
-            if (elements == null) {
-                elements = new char[] { _1, _2 };
-            }
-
-            return elements;
+            return new char[] { _1, _2 };
         }
     }
 
@@ -2392,10 +2382,6 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * // Equal tuples have equal hash codes
          * CharTuple.CharTuple3 t2 = CharTuple.of('A', 'B', 'C');
          * boolean sameHash = (t1.hashCode() == t2.hashCode()); // true
-         *
-         * // Different order - different hash
-         * CharTuple.CharTuple3 t3 = CharTuple.of('C', 'B', 'A');
-         * boolean diffHash = (t1.hashCode() != t3.hashCode()); // true
          * }</pre>
          *
          * @return a hash code value calculated from all three elements
@@ -2469,22 +2455,13 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns the internal array of char elements.
-         * The array is lazily initialized on first access.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Use {@link #toArray()} instead if you need an array that can be safely modified.
-         * </p>
+         * Returns a new array containing the char elements in encounter order.
          *
          * @return a char array containing all elements in order
          */
         @Override
         protected char[] elements() {
-            if (elements == null) {
-                elements = new char[] { _1, _2, _3 };
-            }
-
-            return elements;
+            return new char[] { _1, _2, _3 };
         }
     }
 
@@ -2785,10 +2762,6 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * // Basic: tuple equals -> hashCode equals
          * assert t1.hashCode() == t2.hashCode(); // true
          *
-         * // Edge: different element order produces different hashCode
-         * CharTuple.CharTuple4 t3 = CharTuple.of('D', 'C', 'B', 'A');
-         * int h3 = t3.hashCode();              // returns 2092286
-         *
          * // Edge: all same elements - hashCode is well-defined
          * CharTuple.CharTuple4 t4 = CharTuple.of('A', 'A', 'A', 'A');
          * int h4 = t4.hashCode();                                   // consistent value
@@ -2867,22 +2840,13 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns the internal array of char elements.
-         * The array is lazily initialized on first access.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Use {@link #toArray()} instead if you need an array that can be safely modified.
-         * </p>
+         * Returns a new array containing the char elements in encounter order.
          *
          * @return a char array containing all elements in order
          */
         @Override
         protected char[] elements() {
-            if (elements == null) {
-                elements = new char[] { _1, _2, _3, _4 };
-            }
-
-            return elements;
+            return new char[] { _1, _2, _3, _4 };
         }
     }
 
@@ -3186,10 +3150,6 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * // Basic: tuple equals -> hashCode equals
          * assert t1.hashCode() == t2.hashCode(); // true
          *
-         * // Edge: different element order produces different hashCode
-         * CharTuple.CharTuple5 t3 = CharTuple.of('E', 'D', 'C', 'B', 'A');
-         * int h3 = t3.hashCode();              // returns 65815235
-         *
          * // Edge: all same elements - hashCode is well-defined
          * CharTuple.CharTuple5 t4 = CharTuple.of('A', 'A', 'A', 'A', 'A');
          * assert CharTuple.of('A', 'A', 'A', 'A', 'A').hashCode() == t4.hashCode(); // true
@@ -3267,22 +3227,13 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns the internal array of char elements.
-         * The array is lazily initialized on first access.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Use {@link #toArray()} instead if you need an array that can be safely modified.
-         * </p>
+         * Returns a new array containing the char elements in encounter order.
          *
          * @return a char array containing all elements in order
          */
         @Override
         protected char[] elements() {
-            if (elements == null) {
-                elements = new char[] { _1, _2, _3, _4, _5 };
-            }
-
-            return elements;
+            return new char[] { _1, _2, _3, _4, _5 };
         }
     }
 
@@ -3591,10 +3542,6 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * // Basic: tuple equals -> hashCode equals
          * assert t1.hashCode() == t2.hashCode(); // true
          *
-         * // Edge: different element order produces different hashCode
-         * CharTuple.CharTuple6 t3 = CharTuple.of('F', 'E', 'D', 'C', 'B', 'A');
-         * int h3 = t3.hashCode();              // returns 2069855805
-         *
          * // Edge: all same elements - hashCode is well-defined
          * CharTuple.CharTuple6 t4 = CharTuple.of('A', 'A', 'A', 'A', 'A', 'A');
          * assert CharTuple.of('A', 'A', 'A', 'A', 'A', 'A').hashCode() == t4.hashCode(); // true
@@ -3672,22 +3619,13 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns the internal array of char elements.
-         * The array is lazily initialized on first access.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Use {@link #toArray()} instead if you need an array that can be safely modified.
-         * </p>
+         * Returns a new array containing the char elements in encounter order.
          *
          * @return a char array containing all elements in order
          */
         @Override
         protected char[] elements() {
-            if (elements == null) {
-                elements = new char[] { _1, _2, _3, _4, _5, _6 };
-            }
-
-            return elements;
+            return new char[] { _1, _2, _3, _4, _5, _6 };
         }
     }
 
@@ -4002,10 +3940,6 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * // Basic: tuple equals -> hashCode equals
          * assert t1.hashCode() == t2.hashCode(); // true
          *
-         * // Edge: different element order produces different hashCode
-         * CharTuple.CharTuple7 t3 = CharTuple.of('G', 'F', 'E', 'D', 'C', 'B', 'A');
-         * int h3 = t3.hashCode();              // returns 658107716
-         *
          * // Edge: all same elements - hashCode is well-defined
          * CharTuple.CharTuple7 t4 = CharTuple.of('A', 'A', 'A', 'A', 'A', 'A', 'A');
          * assert CharTuple.of('A', 'A', 'A', 'A', 'A', 'A', 'A').hashCode() == t4.hashCode(); // true
@@ -4083,22 +4017,13 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns the internal array of char elements.
-         * The array is lazily initialized on first access.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Use {@link #toArray()} instead if you need an array that can be safely modified.
-         * </p>
+         * Returns a new array containing the char elements in encounter order.
          *
          * @return a char array containing all elements in order
          */
         @Override
         protected char[] elements() {
-            if (elements == null) {
-                elements = new char[] { _1, _2, _3, _4, _5, _6, _7 };
-            }
-
-            return elements;
+            return new char[] { _1, _2, _3, _4, _5, _6, _7 };
         }
     }
 
@@ -4421,10 +4346,6 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * // Basic: tuple equals -> hashCode equals
          * assert t1.hashCode() == t2.hashCode(); // true
          *
-         * // Edge: different element order produces different hashCode
-         * CharTuple.CharTuple8 t3 = CharTuple.of('H', 'G', 'F', 'E', 'D', 'C', 'B', 'A');
-         * int h3 = t3.hashCode();              // returns 1586400252
-         *
          * // Edge: all same elements - hashCode is well-defined
          * CharTuple.CharTuple8 t4 = CharTuple.of('A', 'A', 'A', 'A', 'A', 'A', 'A', 'A');
          * assert CharTuple.of('A', 'A', 'A', 'A', 'A', 'A', 'A', 'A').hashCode() == t4.hashCode(); // true
@@ -4503,22 +4424,13 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns the internal array of char elements.
-         * The array is lazily initialized on first access.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Use {@link #toArray()} instead if you need an array that can be safely modified.
-         * </p>
+         * Returns a new array containing the char elements in encounter order.
          *
          * @return a char array containing all elements in order
          */
         @Override
         protected char[] elements() {
-            if (elements == null) {
-                elements = new char[] { _1, _2, _3, _4, _5, _6, _7, _8 };
-            }
-
-            return elements;
+            return new char[] { _1, _2, _3, _4, _5, _6, _7, _8 };
         }
     }
 
@@ -4846,10 +4758,6 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * // Basic: tuple equals -> hashCode equals
          * assert t1.hashCode() == t2.hashCode(); // true
          *
-         * // Edge: different element order produces different hashCode
-         * CharTuple.CharTuple9 t3 = CharTuple.of('I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A');
-         * int h3 = t3.hashCode();              // returns -1508756667
-         *
          * // Edge: all same elements - hashCode is well-defined
          * CharTuple.CharTuple9 t4 = CharTuple.of('A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A');
          * assert CharTuple.of('A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A').hashCode() == t4.hashCode(); // true
@@ -4928,22 +4836,13 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns the internal array of char elements.
-         * The array is lazily initialized on first access.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Use {@link #toArray()} instead if you need an array that can be safely modified.
-         * </p>
+         * Returns a new array containing the char elements in encounter order.
          *
          * @return a char array containing all elements in order
          */
         @Override
         protected char[] elements() {
-            if (elements == null) {
-                elements = new char[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
-            }
-
-            return elements;
+            return new char[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
         }
     }
 

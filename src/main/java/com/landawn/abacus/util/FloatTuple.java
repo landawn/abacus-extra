@@ -70,16 +70,21 @@ import com.landawn.abacus.util.stream.FloatStream;
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTuple<TP>
         permits FloatTuple0, FloatTuple1, FloatTuple2, FloatTuple3, FloatTuple4, FloatTuple5, FloatTuple6, FloatTuple7, FloatTuple8, FloatTuple9 {
-
-    /** Internal element storage; lazily initialized when {@link #elements()} is first called. */
-    protected volatile float[] elements;
-
     /**
      * Protected constructor for subclass instantiation.
      * This constructor is not intended for direct use. Use the static factory methods
      * such as {@link #of(float)}, {@link #of(float, float)}, etc., to create tuple instances.
      */
     protected FloatTuple() {
+    }
+
+    /**
+     * Returns the shared empty float tuple.
+     *
+     * @return the empty tuple with arity zero
+     */
+    public static FloatTuple<?> empty() {
+        return FloatTuple0.EMPTY;
     }
 
     /**
@@ -380,11 +385,11 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Three-element array produces a FloatTuple3
-     * FloatTuple.FloatTuple3 t3 = FloatTuple.from(new float[]{1.0f, 2.0f, 3.0f});
+     * FloatTuple.FloatTuple3 t3 = (FloatTuple.FloatTuple3) FloatTuple.from(new float[]{1.0f, 2.0f, 3.0f});
      * assert t3._1 == 1.0f;
      *
      * // Single-element array produces a FloatTuple1
-     * FloatTuple.FloatTuple1 t1 = FloatTuple.from(new float[]{3.14f});
+     * FloatTuple.FloatTuple1 t1 = (FloatTuple.FloatTuple1) FloatTuple.from(new float[]{3.14f});
      * assert t1._1 == 3.14f;
      *
      * // null or empty array produces the empty (arity-0) tuple
@@ -395,52 +400,48 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * FloatTuple.from(new float[10]);                // throws IllegalArgumentException
      * }</pre>
      *
-     * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values.length}.
-     * The generic return type is only type-safe when assigned to the matching arity-specific subtype,
-     * or to the base tuple type. Assigning to the wrong arity-specific subtype will result in a
-     * {@link ClassCastException} at the assignment site.</p>
+     * <p>The return type is the base tuple type because the concrete arity is determined only at runtime.
+     * Test the result's type before casting when an arity-specific subtype is required.</p>
      *
-     * @param <TP> the base tuple type or matching arity-specific subtype expected by the caller
      * @param values the array of float values; may be {@code null} or empty, in which case the shared empty tuple is returned
      * @return a {@code FloatTuple} of the appropriate arity containing the array values, or the shared empty tuple if the array is {@code null} or empty
      * @throws IllegalArgumentException if {@code values} has more than 9 elements
-     * @deprecated Use the {@code of(...)} factory methods instead; this method may be removed in a future release.
+     * @deprecated Use {@link #empty()} or the arity-specific {@code of(...)} factory methods instead.
      * @see #of(float)
      */
     @Deprecated
-    @SuppressWarnings({ "unchecked" })
-    public static <TP extends FloatTuple<TP>> TP from(final float[] values) {
+    public static FloatTuple<?> from(final float[] values) {
         if (values == null || values.length == 0) {
-            return (TP) FloatTuple0.EMPTY;
+            return FloatTuple0.EMPTY;
         }
 
         switch (values.length) {
             case 1:
-                return (TP) FloatTuple.of(values[0]);
+                return FloatTuple.of(values[0]);
 
             case 2:
-                return (TP) FloatTuple.of(values[0], values[1]);
+                return FloatTuple.of(values[0], values[1]);
 
             case 3:
-                return (TP) FloatTuple.of(values[0], values[1], values[2]);
+                return FloatTuple.of(values[0], values[1], values[2]);
 
             case 4:
-                return (TP) FloatTuple.of(values[0], values[1], values[2], values[3]);
+                return FloatTuple.of(values[0], values[1], values[2], values[3]);
 
             case 5:
-                return (TP) FloatTuple.of(values[0], values[1], values[2], values[3], values[4]);
+                return FloatTuple.of(values[0], values[1], values[2], values[3], values[4]);
 
             case 6:
-                return (TP) FloatTuple.of(values[0], values[1], values[2], values[3], values[4], values[5]);
+                return FloatTuple.of(values[0], values[1], values[2], values[3], values[4], values[5]);
 
             case 7:
-                return (TP) FloatTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6]);
+                return FloatTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6]);
 
             case 8:
-                return (TP) FloatTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7]);
+                return FloatTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7]);
 
             case 9:
-                return (TP) FloatTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8]);
+                return FloatTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8]);
 
             default:
                 throw new IllegalArgumentException("Too many elements (" + values.length + "). Maximum: 9");
@@ -754,10 +755,10 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
     public abstract boolean contains(float value);
 
     /**
-     * Returns a new array containing all elements of this tuple.
+     * Returns an array containing all elements of this tuple.
      * <p>
-     * This method creates a defensive copy of the internal array. Changes to the
-     * returned array do not affect the tuple because tuples are immutable.
+     * Non-empty built-in tuples return a fresh array populated from their final fields on every
+     * call. The empty tuple may reuse a shared zero-length array. Changes cannot affect the tuple.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -779,12 +780,12 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * assert Float.isNaN(FloatTuple.of(Float.NaN).toArray()[0]); // NaN element is preserved
      * }</pre>
      *
-     * @return a new float array containing all tuple elements
+     * @return an array containing all tuple elements
      * @see #toList()
      * @see #stream()
      */
     public float[] toArray() {
-        return elements().clone();
+        return elements();
     }
 
     /**
@@ -818,7 +819,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * @see #stream()
      */
     public FloatList toList() {
-        return FloatList.of(elements().clone());
+        return FloatList.of(elements());
     }
 
     /**
@@ -917,6 +918,9 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * assert FloatTuple.from(new float[0]).hashCode() == FloatTuple.from(new float[0]).hashCode(); // returns true
      * }</pre>
      *
+     * <p>Unequal tuples, including tuples with a different element order, may have the same hash
+     * code; hash codes do not provide a uniqueness guarantee.</p>
+     *
      * @return a hash code value for this tuple
      * @see #equals(Object)
      */
@@ -972,21 +976,18 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
     }
 
     /**
-     * Returns the internal array containing all float elements in this tuple.
-     * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-     * Modifying the returned array will compromise the immutability of this tuple.
-     * Use {@link #toArray()} instead if you need an array that can be safely modified.
-     * </p>
+     * Returns an array containing all float elements in this tuple. Non-empty tuples return a
+     * fresh array on every call; the empty tuple may return a shared zero-length array.
      *
-     * @return the internal array of float elements
+     * @return an array containing the float elements in encounter order
      */
     protected abstract float[] elements();
 
     /**
      * An empty {@code FloatTuple} (arity 0).
      * <p>
-     * Package-private; callers obtain the shared instance only via {@link #from(float[])} with a
-     * {@code null} or zero-length array (deprecated). Aggregate contracts for the empty instance:
+     * Package-private; callers obtain the shared instance via {@link #empty()} or by
+     * {@link #from(float[])} with a {@code null} or zero-length array. Aggregate contracts for the empty instance:
      * {@link #sum()} is {@code 0.0f}, {@link #average()} is empty, and
      * {@link #min()}, {@link #max()}, {@link #lowerMedian()}, and {@link #median()} throw
      * {@link NoSuchElementException}. {@link #reversed()} returns this same instance.
@@ -997,9 +998,6 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         /** The shared empty float tuple. */
         private static final FloatTuple0 EMPTY = new FloatTuple0();
 
-        /**
-         * Package-private constructor for internal use.
-         */
         FloatTuple0() {
         }
 
@@ -1106,21 +1104,11 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
             return false;
         }
 
-        /**
-         * Returns a string representation of this empty tuple.
-         *
-         * @return {@code "()"}
-         */
         @Override
         public String toString() {
             return "()";
         }
 
-        /**
-         * Returns the shared empty float array.
-         *
-         * @return an empty float array
-         */
         @Override
         protected float[] elements() {
             return N.EMPTY_FLOAT_ARRAY;
@@ -1385,9 +1373,6 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * FloatTuple.FloatTuple1 same = FloatTuple.of(1.0f);
          * boolean sameHash = (t.hashCode() == same.hashCode()); // returns true
          *
-         * FloatTuple.FloatTuple1 neg = FloatTuple.of(-1.0f);
-         * boolean diffHash = (t.hashCode() != neg.hashCode()); // returns true
-         *
          * FloatTuple.FloatTuple1 nanTuple = FloatTuple.of(Float.NaN);
          * int nanHash = nanTuple.hashCode();   // returns Float.hashCode(Float.NaN)
          * }</pre>
@@ -1458,21 +1443,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         }
 
         /**
-         * Returns the internal array of float elements.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Use {@link #toArray()} instead if you need an array that can be safely modified.
-         * </p>
+         * Returns a new array containing the float elements in encounter order.
          *
-         * @return the internal array of float elements
+         * @return a new array containing the float elements in encounter order
          */
         @Override
         protected float[] elements() {
-            if (elements == null) {
-                elements = new float[] { _1 };
-            }
-
-            return elements;
+            return new float[] { _1 };
         }
     }
 
@@ -1920,9 +1897,6 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * FloatTuple.FloatTuple2 t2 = FloatTuple.of(1.0f, 2.0f);
          * boolean sameHash = (t1.hashCode() == t2.hashCode()); // returns true
          *
-         * FloatTuple.FloatTuple2 t3 = FloatTuple.of(2.0f, 1.0f);
-         * boolean diffHash = (t1.hashCode() != t3.hashCode()); // returns true (order matters)
-         *
          * FloatTuple.FloatTuple2 nanT = FloatTuple.of(Float.NaN, Float.NaN);
          * int nanHash = nanT.hashCode();   // consistent hash for NaN values
          *
@@ -1997,21 +1971,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         }
 
         /**
-         * Returns the internal array of float elements.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Use {@link #toArray()} instead if you need an array that can be safely modified.
-         * </p>
+         * Returns a new array containing the float elements in encounter order.
          *
-         * @return the internal array of float elements
+         * @return a new array containing the float elements in encounter order
          */
         @Override
         protected float[] elements() {
-            if (elements == null) {
-                elements = new float[] { _1, _2 };
-            }
-
-            return elements;
+            return new float[] { _1, _2 };
         }
     }
 
@@ -2462,9 +2428,6 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * FloatTuple.FloatTuple3 t2 = FloatTuple.of(1.0f, 2.0f, 3.0f);
          * boolean sameHash = (t1.hashCode() == t2.hashCode()); // returns true
          *
-         * FloatTuple.FloatTuple3 t3 = FloatTuple.of(3.0f, 2.0f, 1.0f);
-         * boolean diffHash = (t1.hashCode() != t3.hashCode()); // returns true (order matters)
-         *
          * FloatTuple.FloatTuple3 nanT = FloatTuple.of(Float.NaN, Float.NaN, Float.NaN);
          * int nanHash = nanT.hashCode();   // consistent hash for NaN values
          *
@@ -2540,21 +2503,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         }
 
         /**
-         * Returns the internal array of float elements.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Use {@link #toArray()} instead if you need an array that can be safely modified.
-         * </p>
+         * Returns a new array containing the float elements in encounter order.
          *
-         * @return the internal array of float elements
+         * @return a new array containing the float elements in encounter order
          */
         @Override
         protected float[] elements() {
-            if (elements == null) {
-                elements = new float[] { _1, _2, _3 };
-            }
-
-            return elements;
+            return new float[] { _1, _2, _3 };
         }
     }
 
@@ -2835,9 +2790,6 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * FloatTuple.FloatTuple4 t2 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
          * boolean same = (t1.hashCode() == t2.hashCode()); // returns true
          *
-         * FloatTuple.FloatTuple4 t3 = FloatTuple.of(4.0f, 3.0f, 2.0f, 1.0f);
-         * boolean diff = (t1.hashCode() == t3.hashCode());   // returns false (different order)
-         *
          * FloatTuple.FloatTuple4 withNaN = FloatTuple.of(Float.NaN, 2.0f, 3.0f, 4.0f);
          * int h = withNaN.hashCode();   // well-defined (NaN values use the canonical NaN hash)
          *
@@ -2913,21 +2865,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         }
 
         /**
-         * Returns the internal array of float elements.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Use {@link #toArray()} instead if you need an array that can be safely modified.
-         * </p>
+         * Returns a new array containing the float elements in encounter order.
          *
-         * @return the internal array of float elements
+         * @return a new array containing the float elements in encounter order
          */
         @Override
         protected float[] elements() {
-            if (elements == null) {
-                elements = new float[] { _1, _2, _3, _4 };
-            }
-
-            return elements;
+            return new float[] { _1, _2, _3, _4 };
         }
     }
 
@@ -3213,9 +3157,6 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * FloatTuple.FloatTuple5 t2 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
          * boolean same = (t1.hashCode() == t2.hashCode()); // returns true
          *
-         * FloatTuple.FloatTuple5 t3 = FloatTuple.of(5.0f, 4.0f, 3.0f, 2.0f, 1.0f);
-         * boolean diff = (t1.hashCode() == t3.hashCode());   // returns false
-         *
          * FloatTuple.FloatTuple5 withNaN = FloatTuple.of(Float.NaN, 2.0f, 3.0f, 4.0f, 5.0f);
          * int h = withNaN.hashCode();   // well-defined (NaN values use the canonical NaN hash)
          *
@@ -3292,21 +3233,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         }
 
         /**
-         * Returns the internal array of float elements.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Use {@link #toArray()} instead if you need an array that can be safely modified.
-         * </p>
+         * Returns a new array containing the float elements in encounter order.
          *
-         * @return the internal array of float elements
+         * @return a new array containing the float elements in encounter order
          */
         @Override
         protected float[] elements() {
-            if (elements == null) {
-                elements = new float[] { _1, _2, _3, _4, _5 };
-            }
-
-            return elements;
+            return new float[] { _1, _2, _3, _4, _5 };
         }
     }
 
@@ -3597,9 +3530,6 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * FloatTuple.FloatTuple6 t2 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
          * boolean same = (t1.hashCode() == t2.hashCode()); // returns true
          *
-         * FloatTuple.FloatTuple6 t3 = FloatTuple.of(6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f);
-         * boolean diff = (t1.hashCode() == t3.hashCode());   // returns false
-         *
          * FloatTuple.FloatTuple6 withNaN = FloatTuple.of(Float.NaN, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
          * int h = withNaN.hashCode();   // well-defined (NaN values use the canonical NaN hash)
          *
@@ -3678,21 +3608,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         }
 
         /**
-         * Returns the internal array of float elements.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Use {@link #toArray()} instead if you need an array that can be safely modified.
-         * </p>
+         * Returns a new array containing the float elements in encounter order.
          *
-         * @return the internal array of float elements
+         * @return a new array containing the float elements in encounter order
          */
         @Override
         protected float[] elements() {
-            if (elements == null) {
-                elements = new float[] { _1, _2, _3, _4, _5, _6 };
-            }
-
-            return elements;
+            return new float[] { _1, _2, _3, _4, _5, _6 };
         }
     }
 
@@ -3987,9 +3909,6 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * FloatTuple.FloatTuple7 t2 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f);
          * boolean sameHash = t1.hashCode() == t2.hashCode(); // returns true (equal tuples)
          *
-         * FloatTuple.FloatTuple7 t3 = FloatTuple.of(7.0f, 6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f);
-         * boolean diffHash = t1.hashCode() == t3.hashCode(); // returns false (order matters)
-         *
          * FloatTuple.FloatTuple7 nanTuple = FloatTuple.of(Float.NaN, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f);
          * int nanHash = nanTuple.hashCode(); // consistent for canonical NaN values
          *
@@ -4071,21 +3990,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         }
 
         /**
-         * Returns the internal array of float elements.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Use {@link #toArray()} instead if you need an array that can be safely modified.
-         * </p>
+         * Returns a new array containing the float elements in encounter order.
          *
-         * @return the internal array of float elements
+         * @return a new array containing the float elements in encounter order
          */
         @Override
         protected float[] elements() {
-            if (elements == null) {
-                elements = new float[] { _1, _2, _3, _4, _5, _6, _7 };
-            }
-
-            return elements;
+            return new float[] { _1, _2, _3, _4, _5, _6, _7 };
         }
     }
 
@@ -4393,9 +4304,6 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * FloatTuple.FloatTuple8 t2 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f);
          * boolean sameHash = t1.hashCode() == t2.hashCode(); // returns true (equal tuples)
          *
-         * FloatTuple.FloatTuple8 t3 = FloatTuple.of(8.0f, 7.0f, 6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f);
-         * boolean diffHash = t1.hashCode() == t3.hashCode(); // returns false (order matters)
-         *
          * FloatTuple.FloatTuple8 nanTuple = FloatTuple.of(Float.NaN, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f);
          * int nanHash = nanTuple.hashCode(); // consistent for canonical NaN values
          *
@@ -4478,21 +4386,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         }
 
         /**
-         * Returns the internal array of float elements.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Use {@link #toArray()} instead if you need an array that can be safely modified.
-         * </p>
+         * Returns a new array containing the float elements in encounter order.
          *
-         * @return the internal array of float elements
+         * @return a new array containing the float elements in encounter order
          */
         @Override
         protected float[] elements() {
-            if (elements == null) {
-                elements = new float[] { _1, _2, _3, _4, _5, _6, _7, _8 };
-            }
-
-            return elements;
+            return new float[] { _1, _2, _3, _4, _5, _6, _7, _8 };
         }
     }
 
@@ -4806,9 +4706,6 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * FloatTuple.FloatTuple9 t2 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f);
          * boolean sameHash = t1.hashCode() == t2.hashCode(); // returns true (equal tuples)
          *
-         * FloatTuple.FloatTuple9 t3 = FloatTuple.of(9.0f, 8.0f, 7.0f, 6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f);
-         * boolean diffHash = t1.hashCode() == t3.hashCode(); // returns false (order matters)
-         *
          * FloatTuple.FloatTuple9 nanTuple = FloatTuple.of(Float.NaN, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f);
          * int nanHash = nanTuple.hashCode(); // consistent for canonical NaN values
          *
@@ -4892,21 +4789,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         }
 
         /**
-         * Returns the internal array of float elements.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Use {@link #toArray()} instead if you need an array that can be safely modified.
-         * </p>
+         * Returns a new array containing the float elements in encounter order.
          *
-         * @return the internal array of float elements
+         * @return a new array containing the float elements in encounter order
          */
         @Override
         protected float[] elements() {
-            if (elements == null) {
-                elements = new float[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
-            }
-
-            return elements;
+            return new float[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
         }
     }
 

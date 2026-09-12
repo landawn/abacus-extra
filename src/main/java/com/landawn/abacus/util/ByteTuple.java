@@ -67,16 +67,21 @@ import com.landawn.abacus.util.stream.ByteStream;
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple<TP>
         permits ByteTuple0, ByteTuple1, ByteTuple2, ByteTuple3, ByteTuple4, ByteTuple5, ByteTuple6, ByteTuple7, ByteTuple8, ByteTuple9 {
-
-    /** Internal element storage; lazily initialized when {@link #elements()} is first called. */
-    protected volatile byte[] elements;
-
     /**
      * Protected constructor for subclass instantiation.
      * This constructor is not intended for direct use. Use the static factory methods
      * such as {@link #of(byte)}, {@link #of(byte, byte)}, etc., to create tuple instances.
      */
     protected ByteTuple() {
+    }
+
+    /**
+     * Returns the shared empty byte tuple.
+     *
+     * @return the empty tuple with arity zero
+     */
+    public static ByteTuple<?> empty() {
+        return ByteTuple0.EMPTY;
     }
 
     /**
@@ -412,11 +417,11 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * <pre>{@code
      * // typical: 3-element array
      * byte[] values = {(byte) 10, (byte) 20, (byte) 30};
-     * ByteTuple.ByteTuple3 t3 = ByteTuple.from(values);
+     * ByteTuple.ByteTuple3 t3 = (ByteTuple.ByteTuple3) ByteTuple.from(values);
      * byte third = t3._3;   // 30
      *
      * // single element
-     * ByteTuple.ByteTuple1 t1 = ByteTuple.from(new byte[]{(byte) 42});
+     * ByteTuple.ByteTuple1 t1 = (ByteTuple.ByteTuple1) ByteTuple.from(new byte[]{(byte) 42});
      * byte val = t1._1;   // 42
      *
      * // null -> empty tuple (arity 0)
@@ -429,7 +434,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      *
      * // mutation safety: modifying the source array does not affect the tuple
      * byte[] src = {(byte) 1, (byte) 2};
-     * ByteTuple.ByteTuple2 t2 = ByteTuple.from(src);
+     * ByteTuple.ByteTuple2 t2 = (ByteTuple.ByteTuple2) ByteTuple.from(src);
      * src[0] = (byte) 99;
      * byte unchanged = t2._1;   // 1
      *
@@ -437,52 +442,48 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * ByteTuple.from(new byte[10]);   // throws IllegalArgumentException
      * }</pre>
      *
-     * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values.length}.
-     * The generic return type is only type-safe when assigned to the matching arity-specific subtype,
-     * or to the base tuple type. Assigning to the wrong arity-specific subtype will result in a
-     * {@link ClassCastException} at the assignment site.</p>
+     * <p>The return type is the base tuple type because the concrete arity is determined only at runtime.
+     * Test the result's type before casting when an arity-specific subtype is required.</p>
      *
-     * @param <TP> the base tuple type or matching arity-specific subtype expected by the caller
      * @param values the array of byte values; may be {@code null} or empty, in which case the shared empty tuple is returned
      * @return a {@code ByteTuple} of the appropriate arity containing the array values, or the shared empty tuple if the array is {@code null} or empty
      * @throws IllegalArgumentException if {@code values} has more than 9 elements
-     * @deprecated Use the {@code of(...)} factory methods instead; this method may be removed in a future release.
+     * @deprecated Use {@link #empty()} or the arity-specific {@code of(...)} factory methods instead.
      * @see #of(byte)
      */
     @Deprecated
-    @SuppressWarnings({ "unchecked" })
-    public static <TP extends ByteTuple<TP>> TP from(final byte[] values) {
+    public static ByteTuple<?> from(final byte[] values) {
         if (values == null || values.length == 0) {
-            return (TP) ByteTuple0.EMPTY;
+            return ByteTuple0.EMPTY;
         }
 
         switch (values.length) {
             case 1:
-                return (TP) ByteTuple.of(values[0]);
+                return ByteTuple.of(values[0]);
 
             case 2:
-                return (TP) ByteTuple.of(values[0], values[1]);
+                return ByteTuple.of(values[0], values[1]);
 
             case 3:
-                return (TP) ByteTuple.of(values[0], values[1], values[2]);
+                return ByteTuple.of(values[0], values[1], values[2]);
 
             case 4:
-                return (TP) ByteTuple.of(values[0], values[1], values[2], values[3]);
+                return ByteTuple.of(values[0], values[1], values[2], values[3]);
 
             case 5:
-                return (TP) ByteTuple.of(values[0], values[1], values[2], values[3], values[4]);
+                return ByteTuple.of(values[0], values[1], values[2], values[3], values[4]);
 
             case 6:
-                return (TP) ByteTuple.of(values[0], values[1], values[2], values[3], values[4], values[5]);
+                return ByteTuple.of(values[0], values[1], values[2], values[3], values[4], values[5]);
 
             case 7:
-                return (TP) ByteTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6]);
+                return ByteTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6]);
 
             case 8:
-                return (TP) ByteTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7]);
+                return ByteTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7]);
 
             case 9:
-                return (TP) ByteTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8]);
+                return ByteTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8]);
 
             default:
                 throw new IllegalArgumentException("Too many elements (" + values.length + "). Maximum: 9");
@@ -803,10 +804,10 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
     public abstract boolean contains(byte value);
 
     /**
-     * Returns a new {@code byte[]} containing all elements of this tuple in order.
+     * Returns a {@code byte[]} containing all elements of this tuple in order.
      * <p>
-     * The array is a defensive copy; mutations to it do not affect this tuple. Its length equals
-     * {@link #arity()}.
+     * Non-empty built-in tuples return a fresh array on every call. The empty tuple may reuse a
+     * shared zero-length array. Mutations cannot affect this tuple, and the array length equals {@link #arity()}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -828,12 +829,12 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * int emptyLen = emptyArr.length;   // 0
      * }</pre>
      *
-     * @return a new byte array containing all tuple elements in order
+     * @return an array containing all tuple elements in order
      * @see #toList()
      * @see #stream()
      */
     public byte[] toArray() {
-        return elements().clone();
+        return elements();
     }
 
     /**
@@ -871,7 +872,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * @see #stream()
      */
     public ByteList toList() {
-        return ByteList.of(elements().clone());
+        return ByteList.of(elements());
     }
 
     /**
@@ -964,14 +965,13 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * // equal tuples have equal hash codes
      * boolean sameHash = (t1.hashCode() == t2.hashCode()); // true
      *
-     * // different values -> typically different hash codes
-     * ByteTuple.ByteTuple3 t3 = ByteTuple.of((byte) 1, (byte) 2, (byte) 4);
-     * // t1.hashCode() != t3.hashCode() in most cases (not guaranteed, but typical)
-     *
      * // empty tuple has a stable hash code
      * ByteTuple<?> empty = ByteTuple.from(new byte[0]);
      * int emptyHash = empty.hashCode();   // consistent across calls
      * }</pre>
+     *
+     * <p>Unequal tuples, including tuples with a different element order, may have the same hash
+     * code; hash codes do not provide a uniqueness guarantee.</p>
      *
      * @return a hash code value for this tuple
      * @see #equals(Object)
@@ -1032,21 +1032,18 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
     }
 
     /**
-     * Returns the internal array containing all byte elements in this tuple.
-     * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-     * Modifying the returned array will compromise the immutability of this tuple.
-     * Use {@link #toArray()} instead if you need an array that can be safely modified.
-     * </p>
+     * Returns an array containing all byte elements in this tuple. Non-empty tuples return a
+     * fresh array on every call; the empty tuple may return a shared zero-length array.
      *
-     * @return the internal array of byte elements
+     * @return an array containing the byte elements in encounter order
      */
     protected abstract byte[] elements();
 
     /**
      * An empty {@code ByteTuple} (arity 0).
      * <p>
-     * Package-private; callers obtain the shared instance only via {@link #from(byte[])} with a
-     * {@code null} or zero-length array (deprecated). Aggregate contracts for the empty instance:
+     * Package-private; callers obtain the shared instance via {@link #empty()} or by
+     * {@link #from(byte[])} with a {@code null} or zero-length array. Aggregate contracts for the empty instance:
      * {@link #sum()} is {@code 0}, {@link #average()} is empty, and
      * {@link #min()}, {@link #max()}, {@link #lowerMedian()}, and {@link #median()} throw
      * {@link NoSuchElementException}. {@link #reversed()} returns this same instance.
@@ -1057,9 +1054,6 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         /** Shared empty byte tuple singleton. */
         private static final ByteTuple0 EMPTY = new ByteTuple0();
 
-        /**
-         * Constructs the empty tuple instance.
-         */
         ByteTuple0() {
         }
 
@@ -1097,11 +1091,6 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
             throw new NoSuchElementException("Cannot compute max() for an empty tuple");
         }
 
-        /**
-         * Returns {@code 0} for the empty tuple.
-         *
-         * @return {@code 0}
-         */
         @Override
         public int sum() {
             return 0;
@@ -1141,11 +1130,6 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
             throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
         }
 
-        /**
-         * Returns this same empty instance.
-         *
-         * @return {@code this}
-         */
         @Override
         public ByteTuple0 reversed() {
             return this;
@@ -1162,21 +1146,11 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
             return false;
         }
 
-        /**
-         * Returns a string representation of this empty tuple.
-         *
-         * @return {@code "()"}
-         */
         @Override
         public String toString() {
             return "()";
         }
 
-        /**
-         * Returns the shared empty byte array.
-         *
-         * @return an empty byte array
-         */
         @Override
         protected byte[] elements() {
             return N.EMPTY_BYTE_ARRAY;
@@ -1211,11 +1185,6 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
             this((byte) 0);
         }
 
-        /**
-         * Constructs a tuple with the specified element.
-         *
-         * @param _1 the byte value to store in this tuple
-         */
         ByteTuple1(final byte _1) {
             this._1 = _1;
         }
@@ -1514,22 +1483,13 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns the internal array of byte elements.
-         * The array is lazily initialized on first access.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Use {@link #toArray()} instead if you need an array that can be safely modified.
-         * </p>
+         * Returns a new array containing the byte elements in encounter order.
          *
          * @return a byte array containing the single element
          */
         @Override
         protected byte[] elements() {
-            if (elements == null) {
-                elements = new byte[] { _1 };
-            }
-
-            return elements;
+            return new byte[] { _1 };
         }
     }
 
@@ -1572,12 +1532,6 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
             this((byte) 0, (byte) 0);
         }
 
-        /**
-         * Constructs a tuple with the specified elements.
-         *
-         * @param _1 the first byte value
-         * @param _2 the second byte value
-         */
         ByteTuple2(final byte _1, final byte _2) {
             this._1 = _1;
             this._2 = _2;
@@ -1963,9 +1917,6 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * ByteTuple.of((byte) 10, (byte) 20).hashCode();   // returns 31 * 10 + 20 = 330
          * ByteTuple.of((byte) 0, (byte) 0).hashCode();     // returns 0
          *
-         * // order matters: different order yields different hash
-         * ByteTuple.of((byte) 3, (byte) 7).hashCode();     // returns 31 * 3 + 7 = 100
-         * ByteTuple.of((byte) 7, (byte) 3).hashCode();     // returns 31 * 7 + 3 = 220
          * }</pre>
          *
          * @return a hash code value calculated from both elements
@@ -2026,22 +1977,13 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns the internal array of byte elements.
-         * The array is lazily initialized on first access.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Use {@link #toArray()} instead if you need an array that can be safely modified.
-         * </p>
+         * Returns a new array containing the byte elements in encounter order.
          *
          * @return a byte array containing all elements in order
          */
         @Override
         protected byte[] elements() {
-            if (elements == null) {
-                elements = new byte[] { _1, _2 };
-            }
-
-            return elements;
+            return new byte[] { _1, _2 };
         }
     }
 
@@ -2084,13 +2026,6 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
             this((byte) 0, (byte) 0, (byte) 0);
         }
 
-        /**
-         * Constructs a tuple with the specified elements.
-         *
-         * @param _1 the first byte value
-         * @param _2 the second byte value
-         * @param _3 the third byte value
-         */
         ByteTuple3(final byte _1, final byte _2, final byte _3) {
             this._1 = _1;
             this._2 = _2;
@@ -2489,9 +2424,6 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * ByteTuple.of((byte) 1, (byte) 2, (byte) 3).hashCode();   // returns (31 * (31 * 1 + 2)) + 3 = 1026
          * ByteTuple.of((byte) 0, (byte) 0, (byte) 0).hashCode();   // returns 0
          *
-         * // different order yields different hash
-         * ByteTuple.of((byte) 1, (byte) 2, (byte) 3).hashCode();   // returns 1026
-         * ByteTuple.of((byte) 3, (byte) 2, (byte) 1).hashCode();   // returns (31 * (31 * 3 + 2)) + 1 = 2946
          * }</pre>
          *
          * @return a hash code value calculated from all three elements
@@ -2552,22 +2484,13 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns the internal array of byte elements.
-         * The array is lazily initialized on first access.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Use {@link #toArray()} instead if you need an array that can be safely modified.
-         * </p>
+         * Returns a new array containing the byte elements in encounter order.
          *
          * @return a byte array containing all elements in order
          */
         @Override
         protected byte[] elements() {
-            if (elements == null) {
-                elements = new byte[] { _1, _2, _3 };
-            }
-
-            return elements;
+            return new byte[] { _1, _2, _3 };
         }
     }
 
@@ -2608,14 +2531,6 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
             this((byte) 0, (byte) 0, (byte) 0, (byte) 0);
         }
 
-        /**
-         * Constructs a tuple with the specified elements.
-         *
-         * @param _1 the first byte value
-         * @param _2 the second byte value
-         * @param _3 the third byte value
-         * @param _4 the fourth byte value
-         */
         ByteTuple4(final byte _1, final byte _2, final byte _3, final byte _4) {
             this._1 = _1;
             this._2 = _2;
@@ -2840,9 +2755,6 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * ByteTuple.ByteTuple4 t1 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4);
          * ByteTuple.ByteTuple4 t2 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4);
          * boolean sameHash = (t1.hashCode() == t2.hashCode()); // returns true
-         *
-         * ByteTuple.ByteTuple4 t3 = ByteTuple.of((byte) 4, (byte) 3, (byte) 2, (byte) 1);
-         * boolean diffHash = (t1.hashCode() == t3.hashCode());   // returns false (order matters)
          * }</pre>
          *
          * @return a hash code value calculated from all four elements
@@ -2907,22 +2819,13 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns the internal array of byte elements.
-         * The array is lazily initialized on first access.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Use {@link #toArray()} instead if you need an array that can be safely modified.
-         * </p>
+         * Returns a new array containing the byte elements in encounter order.
          *
          * @return a byte array containing all elements in order
          */
         @Override
         protected byte[] elements() {
-            if (elements == null) {
-                elements = new byte[] { _1, _2, _3, _4 };
-            }
-
-            return elements;
+            return new byte[] { _1, _2, _3, _4 };
         }
     }
 
@@ -2964,15 +2867,6 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
             this((byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0);
         }
 
-        /**
-         * Constructs a tuple with the specified elements.
-         *
-         * @param _1 the first byte value
-         * @param _2 the second byte value
-         * @param _3 the third byte value
-         * @param _4 the fourth byte value
-         * @param _5 the fifth byte value
-         */
         ByteTuple5(final byte _1, final byte _2, final byte _3, final byte _4, final byte _5) {
             this._1 = _1;
             this._2 = _2;
@@ -3199,9 +3093,6 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * ByteTuple.ByteTuple5 t1 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5);
          * ByteTuple.ByteTuple5 t2 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5);
          * boolean sameHash = (t1.hashCode() == t2.hashCode()); // returns true
-         *
-         * ByteTuple.ByteTuple5 t3 = ByteTuple.of((byte) 5, (byte) 4, (byte) 3, (byte) 2, (byte) 1);
-         * boolean diffHash = (t1.hashCode() == t3.hashCode());   // returns false (order matters)
          * }</pre>
          *
          * @return a hash code value calculated from all five elements
@@ -3266,22 +3157,13 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns the internal array of byte elements.
-         * The array is lazily initialized on first access.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Use {@link #toArray()} instead if you need an array that can be safely modified.
-         * </p>
+         * Returns a new array containing the byte elements in encounter order.
          *
          * @return a byte array containing all elements in order
          */
         @Override
         protected byte[] elements() {
-            if (elements == null) {
-                elements = new byte[] { _1, _2, _3, _4, _5 };
-            }
-
-            return elements;
+            return new byte[] { _1, _2, _3, _4, _5 };
         }
     }
 
@@ -3325,16 +3207,6 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
             this((byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0);
         }
 
-        /**
-         * Constructs a tuple with the specified elements.
-         *
-         * @param _1 the first byte value
-         * @param _2 the second byte value
-         * @param _3 the third byte value
-         * @param _4 the fourth byte value
-         * @param _5 the fifth byte value
-         * @param _6 the sixth byte value
-         */
         ByteTuple6(final byte _1, final byte _2, final byte _3, final byte _4, final byte _5, final byte _6) {
             this._1 = _1;
             this._2 = _2;
@@ -3563,9 +3435,6 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * ByteTuple.ByteTuple6 t1 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6);
          * ByteTuple.ByteTuple6 t2 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6);
          * boolean sameHash = (t1.hashCode() == t2.hashCode()); // returns true
-         *
-         * ByteTuple.ByteTuple6 t3 = ByteTuple.of((byte) 6, (byte) 5, (byte) 4, (byte) 3, (byte) 2, (byte) 1);
-         * boolean diffHash = (t1.hashCode() == t3.hashCode());   // returns false (order matters)
          * }</pre>
          *
          * @return a hash code value calculated from all six elements
@@ -3630,22 +3499,13 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns the internal array of byte elements.
-         * The array is lazily initialized on first access.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Use {@link #toArray()} instead if you need an array that can be safely modified.
-         * </p>
+         * Returns a new array containing the byte elements in encounter order.
          *
          * @return a byte array containing all elements in order
          */
         @Override
         protected byte[] elements() {
-            if (elements == null) {
-                elements = new byte[] { _1, _2, _3, _4, _5, _6 };
-            }
-
-            return elements;
+            return new byte[] { _1, _2, _3, _4, _5, _6 };
         }
     }
 
@@ -3691,17 +3551,6 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
             this((byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0);
         }
 
-        /**
-         * Constructs a tuple with the specified elements.
-         *
-         * @param _1 the first byte value
-         * @param _2 the second byte value
-         * @param _3 the third byte value
-         * @param _4 the fourth byte value
-         * @param _5 the fifth byte value
-         * @param _6 the sixth byte value
-         * @param _7 the seventh byte value
-         */
         ByteTuple7(final byte _1, final byte _2, final byte _3, final byte _4, final byte _5, final byte _6, final byte _7) {
             this._1 = _1;
             this._2 = _2;
@@ -3950,13 +3799,9 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * // hash code is self-consistent
          * boolean selfConsistent = t1.hashCode() == t1.hashCode(); // returns true
          *
-         * // different element order produces different hash codes
-         * ByteTuple.ByteTuple7 t3 = ByteTuple.of((byte) 7, (byte) 6, (byte) 5, (byte) 4, (byte) 3, (byte) 2, (byte) 1);
-         * boolean diffHash = t1.hashCode() == t3.hashCode();   // returns false
-         *
          * // negative values produce a well-defined int hash code
          * ByteTuple.ByteTuple7 tNeg = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4, (byte) -5, (byte) -6, (byte) -7);
-         * boolean negDistinct = tNeg.hashCode() != t1.hashCode(); // returns true
+         * int negativeHash = tNeg.hashCode(); // deterministic; collisions with unequal tuples remain possible
          * }</pre>
          *
          * @return a hash code value calculated from all seven elements
@@ -4023,22 +3868,13 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns the internal array of byte elements.
-         * The array is lazily initialized on first access.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Use {@link #toArray()} instead if you need an array that can be safely modified.
-         * </p>
+         * Returns a new array containing the byte elements in encounter order.
          *
          * @return a byte array containing all elements in order
          */
         @Override
         protected byte[] elements() {
-            if (elements == null) {
-                elements = new byte[] { _1, _2, _3, _4, _5, _6, _7 };
-            }
-
-            return elements;
+            return new byte[] { _1, _2, _3, _4, _5, _6, _7 };
         }
     }
 
@@ -4088,18 +3924,6 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
             this((byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0);
         }
 
-        /**
-         * Constructs a tuple with the specified elements.
-         *
-         * @param _1 the first byte value
-         * @param _2 the second byte value
-         * @param _3 the third byte value
-         * @param _4 the fourth byte value
-         * @param _5 the fifth byte value
-         * @param _6 the sixth byte value
-         * @param _7 the seventh byte value
-         * @param _8 the eighth byte value
-         */
         ByteTuple8(final byte _1, final byte _2, final byte _3, final byte _4, final byte _5, final byte _6, final byte _7, final byte _8) {
             this._1 = _1;
             this._2 = _2;
@@ -4360,13 +4184,9 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * // hash code is self-consistent
          * boolean selfConsistent = t1.hashCode() == t1.hashCode(); // returns true
          *
-         * // different element order produces different hash codes
-         * ByteTuple.ByteTuple8 t3 = ByteTuple.of((byte) 8, (byte) 7, (byte) 6, (byte) 5, (byte) 4, (byte) 3, (byte) 2, (byte) 1);
-         * boolean diffHash = t1.hashCode() == t3.hashCode();   // returns false
-         *
-         * // negative values produce a well-defined int hash code, distinct from positive counterpart
+         * // negative values produce a well-defined int hash code
          * ByteTuple.ByteTuple8 tNeg = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4, (byte) -5, (byte) -6, (byte) -7, (byte) -8);
-         * boolean negDistinct = tNeg.hashCode() != t1.hashCode(); // returns true
+         * int negativeHash = tNeg.hashCode(); // collisions with unequal tuples remain possible
          * }</pre>
          *
          * @return a hash code value calculated from all eight elements
@@ -4434,22 +4254,13 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns the internal array of byte elements.
-         * The array is lazily initialized on first access.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Use {@link #toArray()} instead if you need an array that can be safely modified.
-         * </p>
+         * Returns a new array containing the byte elements in encounter order.
          *
          * @return a byte array containing all elements in order
          */
         @Override
         protected byte[] elements() {
-            if (elements == null) {
-                elements = new byte[] { _1, _2, _3, _4, _5, _6, _7, _8 };
-            }
-
-            return elements;
+            return new byte[] { _1, _2, _3, _4, _5, _6, _7, _8 };
         }
     }
 
@@ -4501,19 +4312,6 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
             this((byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0);
         }
 
-        /**
-         * Constructs a tuple with the specified elements.
-         *
-         * @param _1 the first byte value
-         * @param _2 the second byte value
-         * @param _3 the third byte value
-         * @param _4 the fourth byte value
-         * @param _5 the fifth byte value
-         * @param _6 the sixth byte value
-         * @param _7 the seventh byte value
-         * @param _8 the eighth byte value
-         * @param _9 the ninth byte value
-         */
         ByteTuple9(final byte _1, final byte _2, final byte _3, final byte _4, final byte _5, final byte _6, final byte _7, final byte _8, final byte _9) {
             this._1 = _1;
             this._2 = _2;
@@ -4782,14 +4580,10 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * // hash code is self-consistent
          * boolean selfConsistent = t1.hashCode() == t1.hashCode(); // returns true
          *
-         * // different element order produces different hash codes
-         * ByteTuple.ByteTuple9 t3 = ByteTuple.of((byte) 9, (byte) 8, (byte) 7, (byte) 6, (byte) 5, (byte) 4, (byte) 3, (byte) 2, (byte) 1);
-         * boolean diffHash = t1.hashCode() == t3.hashCode();   // returns false
-         *
-         * // negative values produce a well-defined int hash code, distinct from positive counterpart
+         * // negative values produce a well-defined int hash code
          * ByteTuple.ByteTuple9 tNeg = ByteTuple.of((byte) -1, (byte) -2, (byte) -3, (byte) -4, (byte) -5,
          *         (byte) -6, (byte) -7, (byte) -8, (byte) -9);
-         * boolean negDistinct = tNeg.hashCode() != t1.hashCode(); // returns true
+         * int negativeHash = tNeg.hashCode(); // collisions with unequal tuples remain possible
          * }</pre>
          *
          * @return a hash code value calculated from all nine elements
@@ -4857,22 +4651,13 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns the internal array of byte elements.
-         * The array is lazily initialized on first access.
-         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
-         * Modifying the returned array will compromise the immutability of this tuple.
-         * Use {@link #toArray()} instead if you need an array that can be safely modified.
-         * </p>
+         * Returns a new array containing the byte elements in encounter order.
          *
          * @return a byte array containing all elements in order
          */
         @Override
         protected byte[] elements() {
-            if (elements == null) {
-                elements = new byte[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
-            }
-
-            return elements;
+            return new byte[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
         }
     }
 

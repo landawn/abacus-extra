@@ -31,6 +31,12 @@ import com.landawn.abacus.annotation.SuppressFBWarnings;
  * <p>Element-wise transforms are named by source and result type: {@code updateAll} rewrites an array
  * in place, {@code mapToObj}/{@code mapToInt}/{@code mapToLong}/... return a new array of a different type, and
  * {@code map} on {@link Arrays.f}/{@link Arrays.ff}/{@link Arrays.fff} transforms object arrays into a new array.</p>
+ *
+ * <p>Primitive conversion methods in this class retain their documented, method-specific null handling and
+ * Java cast-style narrowing behavior. Use {@link ArrayConversions} when null inputs or inexact numeric values
+ * should be rejected, or when boolean conversion should use conventional non-zero semantics.</p>
+ *
+ * @see ArrayConversions
  */
 @Beta
 public sealed class Arrays permits Arrays.f {
@@ -70,17 +76,245 @@ public sealed class Arrays permits Arrays.f {
             this.original = original;
         }
 
-        /**
-         * Returns the wrapped {@link ArrayStoreException}.
-         *
-         * @return the original {@link ArrayStoreException}.
-         */
         ArrayStoreException original() {
             return original;
         }
     }
 
-    /** Prevents instantiation of this utility class. */
+    /**
+     * Captures the identity-based shape of a two- or three-dimensional array before a user callback runs.
+     * The snapshot also centralizes alias detection and failure-atomic commits for multidimensional mutators.
+     */
+    private static final class LeafArraySnapshot {
+
+        private static final String TOPOLOGY_CHANGED_MESSAGE = "Array topology differs from its captured state after callback processing";
+        private static final long TOO_LARGE_TO_FLATTEN = (long) Integer.MAX_VALUE + 1;
+
+        private final Object[] firstLevel;
+        private final Object[][] leafGroups;
+        private final boolean threeDimensional;
+        private final long elementCount;
+
+        private LeafArraySnapshot(final Object[] firstLevel, final Object[][] leafGroups, final boolean threeDimensional, final long elementCount) {
+            this.firstLevel = firstLevel;
+            this.leafGroups = leafGroups;
+            this.threeDimensional = threeDimensional;
+            this.elementCount = elementCount;
+        }
+
+        static LeafArraySnapshot capture2D(final Object[] array) {
+            final Object[] rows = array.clone();
+            final java.util.IdentityHashMap<Object, String> locations = new java.util.IdentityHashMap<>();
+            long count = 0;
+
+            for (int i = 0; i < rows.length; i++) {
+                final Object row = rows[i];
+
+                if (row != null) {
+                    rejectAliasedLeaf(locations, row, "[" + i + "]");
+                    count = addToElementCount(count, row);
+                }
+            }
+
+            return new LeafArraySnapshot(rows, new Object[][] { rows }, false, count);
+        }
+
+        static LeafArraySnapshot capture3D(final Object[] array) {
+            final Object[] slices = array.clone();
+            final Object[][] rows = new Object[slices.length][];
+            final java.util.IdentityHashMap<Object, String> locations = new java.util.IdentityHashMap<>();
+            long count = 0;
+
+            for (int i = 0; i < slices.length; i++) {
+                final Object[] slice = (Object[]) slices[i];
+
+                if (slice == null) {
+                    continue;
+                }
+
+                rows[i] = slice.clone();
+
+                for (int j = 0; j < slice.length; j++) {
+                    final Object row = slice[j];
+
+                    if (row != null) {
+                        rejectAliasedLeaf(locations, row, "[" + i + "][" + j + "]");
+                        count = addToElementCount(count, row);
+                    }
+                }
+            }
+
+            return new LeafArraySnapshot(slices, rows, true, count);
+        }
+
+        private static long addToElementCount(final long count, final Object leaf) {
+            return Math.min(TOO_LARGE_TO_FLATTEN, count + java.lang.reflect.Array.getLength(leaf));
+        }
+
+        private static void rejectAliasedLeaf(final java.util.IdentityHashMap<Object, String> locations, final Object leaf, final String location) {
+            final String previousLocation = locations.put(leaf, location);
+
+            if (previousLocation != null) {
+                throw new IllegalArgumentException("Aliased leaf arrays are not supported: " + previousLocation + " and " + location);
+            }
+        }
+
+        long elementCount() {
+            return elementCount;
+        }
+
+        /** Stages reference-array updates in runtime-typed leaves so validation never needs one giant flat array. */
+        @SuppressWarnings("unchecked")
+        <T, E extends Exception> void updateAllAtomically(final Object[] currentArray, final Throwables.UnaryOperator<T, E> operator) throws E {
+            verifyTopology(currentArray);
+
+            final Object[][] updatedLeaves = new Object[leafGroups.length][];
+
+            for (int i = 0; i < leafGroups.length; i++) {
+                final Object[] group = leafGroups[i];
+
+                if (group == null) {
+                    continue;
+                }
+
+                updatedLeaves[i] = new Object[group.length];
+
+                for (int j = 0; j < group.length; j++) {
+                    if (group[j] == null) {
+                        continue;
+                    }
+
+                    final Object[] updated = ((Object[]) group[j]).clone();
+
+                    for (int k = 0; k < updated.length; k++) {
+                        updated[k] = operator.apply((T) updated[k]);
+                    }
+
+                    updatedLeaves[i][j] = updated;
+                }
+            }
+
+            commit(updatedLeaves, currentArray);
+        }
+
+        /** Stages conditional replacements in runtime-typed leaves before committing any matched value. */
+        @SuppressWarnings("unchecked")
+        <T, E extends Exception> void replaceIfAtomically(final Object[] currentArray, final Throwables.Predicate<? super T, E> predicate,
+                final T newValue) throws E {
+            verifyTopology(currentArray);
+
+            final Object[][] updatedLeaves = new Object[leafGroups.length][];
+
+            for (int i = 0; i < leafGroups.length; i++) {
+                final Object[] group = leafGroups[i];
+
+                if (group == null) {
+                    continue;
+                }
+
+                updatedLeaves[i] = new Object[group.length];
+
+                for (int j = 0; j < group.length; j++) {
+                    if (group[j] == null) {
+                        continue;
+                    }
+
+                    final Object[] updated = ((Object[]) group[j]).clone();
+
+                    for (int k = 0; k < updated.length; k++) {
+                        final T value = (T) updated[k];
+                        updated[k] = predicate.test(value) ? newValue : value;
+                    }
+
+                    updatedLeaves[i][j] = updated;
+                }
+            }
+
+            commit(updatedLeaves, currentArray);
+        }
+
+        /**
+         * Validates every destination using temporary arrays before touching an original leaf. Once validation
+         * succeeds, the second topology check makes each remaining array copy type-safe and non-failing in the
+         * absence of unsupported concurrent interference.
+         */
+        void copyBackAtomically(final Object flatArray, final Object[] currentArray) {
+            verifyTopology(currentArray);
+
+            if (java.lang.reflect.Array.getLength(flatArray) != elementCount) {
+                throw new IllegalArgumentException("The flat array length must remain " + elementCount);
+            }
+
+            final Object[][] updatedLeaves = new Object[leafGroups.length][];
+            int index = 0;
+
+            for (int i = 0; i < leafGroups.length; i++) {
+                final Object[] group = leafGroups[i];
+
+                if (group == null) {
+                    continue;
+                }
+
+                updatedLeaves[i] = new Object[group.length];
+
+                for (int j = 0; j < group.length; j++) {
+                    final Object leaf = group[j];
+
+                    if (leaf == null) {
+                        continue;
+                    }
+
+                    final int len = java.lang.reflect.Array.getLength(leaf);
+                    final Object updatedLeaf = java.lang.reflect.Array.newInstance(leaf.getClass().getComponentType(), len);
+                    System.arraycopy(flatArray, index, updatedLeaf, 0, len);
+                    updatedLeaves[i][j] = updatedLeaf;
+                    index += len;
+                }
+            }
+
+            commit(updatedLeaves, currentArray);
+        }
+
+        private void commit(final Object[][] updatedLeaves, final Object[] currentArray) {
+            verifyTopology(currentArray);
+
+            for (int i = 0; i < leafGroups.length; i++) {
+                final Object[] group = leafGroups[i];
+
+                if (group == null) {
+                    continue;
+                }
+
+                for (int j = 0; j < group.length; j++) {
+                    final Object leaf = group[j];
+
+                    if (leaf != null) {
+                        System.arraycopy(updatedLeaves[i][j], 0, leaf, 0, java.lang.reflect.Array.getLength(leaf));
+                    }
+                }
+            }
+        }
+
+        private void verifyTopology(final Object[] currentArray) {
+            for (int i = 0; i < firstLevel.length; i++) {
+                if (currentArray[i] != firstLevel[i]) {
+                    throw new IllegalArgumentException(TOPOLOGY_CHANGED_MESSAGE);
+                }
+
+                if (threeDimensional && firstLevel[i] != null) {
+                    final Object[] currentSlice = (Object[]) currentArray[i];
+                    final Object[] expectedRows = leafGroups[i];
+
+                    for (int j = 0; j < expectedRows.length; j++) {
+                        if (currentSlice[j] != expectedRows[j]) {
+                            throw new IllegalArgumentException(TOPOLOGY_CHANGED_MESSAGE);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     private Arrays() {
         // utility class.
     }
@@ -3120,6 +3354,11 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
      *
+     * <p>Non-null leaf arrays are traversed in row-major order. Aliased leaf arrays are rejected before the action runs,
+     * and the action is not invoked when there are no logical elements. Copy-back starts only after the action completes,
+     * the original topology is verified, and every destination has accepted its prospective values in temporary storage.
+     * Direct changes made by the action through separately captured references are outside this guarantee.</p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Flip all elements while preserving the 2D structure
@@ -3141,7 +3380,7 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that may be thrown by the operation.
      * @param a the two-dimensional boolean array to operate on (can be {@code null} or empty).
      * @param action the operation to apply to the flattened array (must not be {@code null}).
-     * @throws IllegalArgumentException if {@code action} is {@code null}.
+     * @throws IllegalArgumentException if {@code action} is {@code null}, a leaf array is aliased, or the array topology differs when callback processing completes.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the operation throws an exception.
      * @see #mutateViaFlatArray(boolean[][][], Throwables.Consumer) for three-dimensional arrays
@@ -3154,18 +3393,16 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
+        final LeafArraySnapshot snapshot = LeafArraySnapshot.capture2D(a);
+
+        if (snapshot.elementCount() == 0) {
+            return;
+        }
+
         final boolean[] tmp = flatten(a);
 
         action.accept(tmp);
-
-        int idx = 0;
-
-        for (final boolean[] e : a) {
-            if (N.notEmpty(e)) {
-                N.copy(tmp, idx, e, 0, e.length);
-                idx += e.length;
-            }
-        }
+        snapshot.copyBackAtomically(tmp, a);
     }
 
     /**
@@ -3175,6 +3412,11 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
+     *
+     * <p>Non-null leaf arrays are traversed in row-major order. Aliased leaf arrays are rejected before the action runs,
+     * and the action is not invoked when there are no logical elements. Copy-back starts only after the action completes,
+     * the original topology is verified, and every destination has accepted its prospective values in temporary storage.
+     * Direct changes made by the action through separately captured references are outside this guarantee.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -3197,7 +3439,7 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that may be thrown by the operation.
      * @param a the three-dimensional boolean array to operate on (can be {@code null} or empty).
      * @param action the operation to apply to the flattened array (must not be {@code null}).
-     * @throws IllegalArgumentException if {@code action} is {@code null}.
+     * @throws IllegalArgumentException if {@code action} is {@code null}, a leaf array is aliased, or the array topology differs when callback processing completes.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the operation throws an exception.
      * @see #mutateViaFlatArray(boolean[][], Throwables.Consumer) for two-dimensional arrays
@@ -3210,22 +3452,16 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
+        final LeafArraySnapshot snapshot = LeafArraySnapshot.capture3D(a);
+
+        if (snapshot.elementCount() == 0) {
+            return;
+        }
+
         final boolean[] tmp = flatten(a);
 
         action.accept(tmp);
-
-        int idx = 0;
-
-        for (final boolean[][] e : a) {
-            if (N.notEmpty(e)) {
-                for (final boolean[] ee : e) {
-                    if (N.notEmpty(ee)) {
-                        N.copy(tmp, idx, ee, 0, ee.length);
-                        idx += ee.length;
-                    }
-                }
-            }
-        }
+        snapshot.copyBackAtomically(tmp, a);
     }
 
     /**
@@ -5019,10 +5255,15 @@ public sealed class Arrays permits Arrays.f {
      * Arrays.mutateViaFlatArray(single, t -> java.util.Arrays.sort(t));  // single is still {{'z'}}
      * }</pre>
      *
+     * <p>Non-null leaf arrays are traversed in row-major order. Aliased leaf arrays are rejected before the action runs,
+     * and the action is not invoked when there are no logical elements. Copy-back starts only after the action completes,
+     * the original topology is verified, and every destination has accepted its prospective values in temporary storage.
+     * Direct changes made by the action through separately captured references are outside this guarantee.</p>
+     *
      * @param <E> the type of exception that the operation may throw.
      * @param a the two-dimensional character array to operate on (can be {@code null} or empty).
      * @param action the consumer operation to apply to the flattened array (must not be {@code null}).
-     * @throws IllegalArgumentException if {@code action} is {@code null}.
+     * @throws IllegalArgumentException if {@code action} is {@code null}, a leaf array is aliased, or the array topology differs when callback processing completes.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the operation throws an exception.
      * @see #mutateViaFlatArray(char[][][], Throwables.Consumer) for three-dimensional arrays
@@ -5035,18 +5276,16 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
+        final LeafArraySnapshot snapshot = LeafArraySnapshot.capture2D(a);
+
+        if (snapshot.elementCount() == 0) {
+            return;
+        }
+
         final char[] tmp = flatten(a);
 
         action.accept(tmp);
-
-        int idx = 0;
-
-        for (final char[] e : a) {
-            if (N.notEmpty(e)) {
-                N.copy(tmp, idx, e, 0, e.length);
-                idx += e.length;
-            }
-        }
+        snapshot.copyBackAtomically(tmp, a);
     }
 
     /**
@@ -5056,6 +5295,11 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
+     *
+     * <p>Non-null leaf arrays are traversed in row-major order. Aliased leaf arrays are rejected before the action runs,
+     * and the action is not invoked when there are no logical elements. Copy-back starts only after the action completes,
+     * the original topology is verified, and every destination has accepted its prospective values in temporary storage.
+     * Direct changes made by the action through separately captured references are outside this guarantee.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -5080,7 +5324,7 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the operation may throw.
      * @param a the three-dimensional character array to operate on (can be {@code null} or empty).
      * @param action the consumer operation to apply to the flattened array (must not be {@code null}).
-     * @throws IllegalArgumentException if {@code action} is {@code null}.
+     * @throws IllegalArgumentException if {@code action} is {@code null}, a leaf array is aliased, or the array topology differs when callback processing completes.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the operation throws an exception.
      * @see #mutateViaFlatArray(char[][], Throwables.Consumer) for two-dimensional arrays
@@ -5093,22 +5337,16 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
+        final LeafArraySnapshot snapshot = LeafArraySnapshot.capture3D(a);
+
+        if (snapshot.elementCount() == 0) {
+            return;
+        }
+
         final char[] tmp = flatten(a);
 
         action.accept(tmp);
-
-        int idx = 0;
-
-        for (final char[][] e : a) {
-            if (N.notEmpty(e)) {
-                for (final char[] ee : e) {
-                    if (N.notEmpty(ee)) {
-                        N.copy(tmp, idx, ee, 0, ee.length);
-                        idx += ee.length;
-                    }
-                }
-            }
-        }
+        snapshot.copyBackAtomically(tmp, a);
     }
 
     /**
@@ -6912,10 +7150,15 @@ public sealed class Arrays permits Arrays.f {
      * Arrays.mutateViaFlatArray(new byte[][]{{1, 2}}, null);   // throws IllegalArgumentException
      * }</pre>
      *
+     * <p>Non-null leaf arrays are traversed in row-major order. Aliased leaf arrays are rejected before the action runs,
+     * and the action is not invoked when there are no logical elements. Copy-back starts only after the action completes,
+     * the original topology is verified, and every destination has accepted its prospective values in temporary storage.
+     * Direct changes made by the action through separately captured references are outside this guarantee.</p>
+     *
      * @param <E> the type of exception that may be thrown by the operation.
      * @param a the two-dimensional byte array to operate on (can be {@code null} or empty).
      * @param action the operation to apply to the flattened array (must not be {@code null}).
-     * @throws IllegalArgumentException if {@code action} is {@code null}.
+     * @throws IllegalArgumentException if {@code action} is {@code null}, a leaf array is aliased, or the array topology differs when callback processing completes.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the operation throws an exception.
      * @see #mutateViaFlatArray(byte[][][], Throwables.Consumer) for three-dimensional arrays
@@ -6928,18 +7171,16 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
+        final LeafArraySnapshot snapshot = LeafArraySnapshot.capture2D(a);
+
+        if (snapshot.elementCount() == 0) {
+            return;
+        }
+
         final byte[] tmp = flatten(a);
 
         action.accept(tmp);
-
-        int idx = 0;
-
-        for (final byte[] e : a) {
-            if (N.notEmpty(e)) {
-                N.copy(tmp, idx, e, 0, e.length);
-                idx += e.length;
-            }
-        }
+        snapshot.copyBackAtomically(tmp, a);
     }
 
     /**
@@ -6949,6 +7190,11 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
+     *
+     * <p>Non-null leaf arrays are traversed in row-major order. Aliased leaf arrays are rejected before the action runs,
+     * and the action is not invoked when there are no logical elements. Copy-back starts only after the action completes,
+     * the original topology is verified, and every destination has accepted its prospective values in temporary storage.
+     * Direct changes made by the action through separately captured references are outside this guarantee.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -6974,7 +7220,7 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that may be thrown by the operation.
      * @param a the three-dimensional byte array to operate on (can be {@code null} or empty).
      * @param action the operation to apply to the flattened array (must not be {@code null}).
-     * @throws IllegalArgumentException if {@code action} is {@code null}.
+     * @throws IllegalArgumentException if {@code action} is {@code null}, a leaf array is aliased, or the array topology differs when callback processing completes.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the operation throws an exception.
      * @see #mutateViaFlatArray(byte[][], Throwables.Consumer) for two-dimensional arrays
@@ -6987,22 +7233,16 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
+        final LeafArraySnapshot snapshot = LeafArraySnapshot.capture3D(a);
+
+        if (snapshot.elementCount() == 0) {
+            return;
+        }
+
         final byte[] tmp = flatten(a);
 
         action.accept(tmp);
-
-        int idx = 0;
-
-        for (final byte[][] e : a) {
-            if (N.notEmpty(e)) {
-                for (final byte[] ee : e) {
-                    if (N.notEmpty(ee)) {
-                        N.copy(tmp, idx, ee, 0, ee.length);
-                        idx += ee.length;
-                    }
-                }
-            }
-        }
+        snapshot.copyBackAtomically(tmp, a);
     }
 
     /**
@@ -8699,10 +8939,15 @@ public sealed class Arrays permits Arrays.f {
      * // empty remains {}
      * }</pre>
      *
+     * <p>Non-null leaf arrays are traversed in row-major order. Aliased leaf arrays are rejected before the action runs,
+     * and the action is not invoked when there are no logical elements. Copy-back starts only after the action completes,
+     * the original topology is verified, and every destination has accepted its prospective values in temporary storage.
+     * Direct changes made by the action through separately captured references are outside this guarantee.</p>
+     *
      * @param <E> the type of exception that may be thrown by the operation.
      * @param a the two-dimensional array to operate on (can be {@code null} or empty).
      * @param action the operation to perform on the flattened array (must not be {@code null}).
-     * @throws IllegalArgumentException if {@code action} is {@code null}.
+     * @throws IllegalArgumentException if {@code action} is {@code null}, a leaf array is aliased, or the array topology differs when callback processing completes.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the operation throws an exception.
      * @see #mutateViaFlatArray(short[][][], Throwables.Consumer) for three-dimensional arrays
@@ -8715,18 +8960,16 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
+        final LeafArraySnapshot snapshot = LeafArraySnapshot.capture2D(a);
+
+        if (snapshot.elementCount() == 0) {
+            return;
+        }
+
         final short[] tmp = flatten(a);
 
         action.accept(tmp);
-
-        int idx = 0;
-
-        for (final short[] e : a) {
-            if (N.notEmpty(e)) {
-                N.copy(tmp, idx, e, 0, e.length);
-                idx += e.length;
-            }
-        }
+        snapshot.copyBackAtomically(tmp, a);
     }
 
     /**
@@ -8736,6 +8979,11 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
+     *
+     * <p>Non-null leaf arrays are traversed in row-major order. Aliased leaf arrays are rejected before the action runs,
+     * and the action is not invoked when there are no logical elements. Copy-back starts only after the action completes,
+     * the original topology is verified, and every destination has accepted its prospective values in temporary storage.
+     * Direct changes made by the action through separately captured references are outside this guarantee.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -8760,7 +9008,7 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that may be thrown by the operation.
      * @param a the three-dimensional array to operate on (can be {@code null} or empty).
      * @param action the operation to perform on the flattened array (must not be {@code null}).
-     * @throws IllegalArgumentException if {@code action} is {@code null}.
+     * @throws IllegalArgumentException if {@code action} is {@code null}, a leaf array is aliased, or the array topology differs when callback processing completes.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the operation throws an exception.
      * @see #mutateViaFlatArray(short[][], Throwables.Consumer) for two-dimensional arrays
@@ -8773,22 +9021,16 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
+        final LeafArraySnapshot snapshot = LeafArraySnapshot.capture3D(a);
+
+        if (snapshot.elementCount() == 0) {
+            return;
+        }
+
         final short[] tmp = flatten(a);
 
         action.accept(tmp);
-
-        int idx = 0;
-
-        for (final short[][] e : a) {
-            if (N.notEmpty(e)) {
-                for (final short[] ee : e) {
-                    if (N.notEmpty(ee)) {
-                        N.copy(tmp, idx, ee, 0, ee.length);
-                        idx += ee.length;
-                    }
-                }
-            }
-        }
+        snapshot.copyBackAtomically(tmp, a);
     }
 
     /**
@@ -10580,10 +10822,15 @@ public sealed class Arrays permits Arrays.f {
      * Arrays.mutateViaFlatArray(new int[][]{{1, 2}}, null); // throws IllegalArgumentException
      * }</pre>
      *
+     * <p>Non-null leaf arrays are traversed in row-major order. Aliased leaf arrays are rejected before the action runs,
+     * and the action is not invoked when there are no logical elements. Copy-back starts only after the action completes,
+     * the original topology is verified, and every destination has accepted its prospective values in temporary storage.
+     * Direct changes made by the action through separately captured references are outside this guarantee.</p>
+     *
      * @param <E> the type of exception that the operation may throw.
      * @param a the two-dimensional array to operate on (can be {@code null} or empty).
      * @param action the operation to apply to the flattened array (must not be {@code null}).
-     * @throws IllegalArgumentException if {@code action} is {@code null}.
+     * @throws IllegalArgumentException if {@code action} is {@code null}, a leaf array is aliased, or the array topology differs when callback processing completes.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the operation throws an exception.
      * @see #mutateViaFlatArray(int[][][], Throwables.Consumer) for three-dimensional arrays
@@ -10596,18 +10843,16 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
+        final LeafArraySnapshot snapshot = LeafArraySnapshot.capture2D(a);
+
+        if (snapshot.elementCount() == 0) {
+            return;
+        }
+
         final int[] tmp = flatten(a);
 
         action.accept(tmp);
-
-        int idx = 0;
-
-        for (final int[] e : a) {
-            if (N.notEmpty(e)) {
-                N.copy(tmp, idx, e, 0, e.length);
-                idx += e.length;
-            }
-        }
+        snapshot.copyBackAtomically(tmp, a);
     }
 
     /**
@@ -10619,6 +10864,11 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
+     *
+     * <p>Non-null leaf arrays are traversed in row-major order. Aliased leaf arrays are rejected before the action runs,
+     * and the action is not invoked when there are no logical elements. Copy-back starts only after the action completes,
+     * the original topology is verified, and every destination has accepted its prospective values in temporary storage.
+     * Direct changes made by the action through separately captured references are outside this guarantee.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -10644,7 +10894,7 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the operation may throw.
      * @param a the three-dimensional array to operate on (can be {@code null} or empty).
      * @param action the operation to apply to the flattened array (must not be {@code null}).
-     * @throws IllegalArgumentException if {@code action} is {@code null}.
+     * @throws IllegalArgumentException if {@code action} is {@code null}, a leaf array is aliased, or the array topology differs when callback processing completes.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the operation throws an exception.
      * @see #mutateViaFlatArray(int[][], Throwables.Consumer) for two-dimensional arrays
@@ -10657,22 +10907,16 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
+        final LeafArraySnapshot snapshot = LeafArraySnapshot.capture3D(a);
+
+        if (snapshot.elementCount() == 0) {
+            return;
+        }
+
         final int[] tmp = flatten(a);
 
         action.accept(tmp);
-
-        int idx = 0;
-
-        for (final int[][] e : a) {
-            if (N.notEmpty(e)) {
-                for (final int[] ee : e) {
-                    if (N.notEmpty(ee)) {
-                        N.copy(tmp, idx, ee, 0, ee.length);
-                        idx += ee.length;
-                    }
-                }
-            }
-        }
+        snapshot.copyBackAtomically(tmp, a);
     }
 
     /**
@@ -12361,10 +12605,15 @@ public sealed class Arrays permits Arrays.f {
      * // empty is still []
      * }</pre>
      *
+     * <p>Non-null leaf arrays are traversed in row-major order. Aliased leaf arrays are rejected before the action runs,
+     * and the action is not invoked when there are no logical elements. Copy-back starts only after the action completes,
+     * the original topology is verified, and every destination has accepted its prospective values in temporary storage.
+     * Direct changes made by the action through separately captured references are outside this guarantee.</p>
+     *
      * @param <E> the type of exception that the operation may throw.
      * @param a the two-dimensional array to operate on (can be {@code null} or empty).
      * @param action the operation to perform on the flattened array (must not be {@code null}).
-     * @throws IllegalArgumentException if {@code action} is {@code null}.
+     * @throws IllegalArgumentException if {@code action} is {@code null}, a leaf array is aliased, or the array topology differs when callback processing completes.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the operation throws an exception.
      * @see #mutateViaFlatArray(long[][][], Throwables.Consumer) for three-dimensional arrays
@@ -12377,18 +12626,16 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
+        final LeafArraySnapshot snapshot = LeafArraySnapshot.capture2D(a);
+
+        if (snapshot.elementCount() == 0) {
+            return;
+        }
+
         final long[] tmp = flatten(a);
 
         action.accept(tmp);
-
-        int idx = 0;
-
-        for (final long[] e : a) {
-            if (N.notEmpty(e)) {
-                N.copy(tmp, idx, e, 0, e.length);
-                idx += e.length;
-            }
-        }
+        snapshot.copyBackAtomically(tmp, a);
     }
 
     /**
@@ -12396,6 +12643,11 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
+     *
+     * <p>Non-null leaf arrays are traversed in row-major order. Aliased leaf arrays are rejected before the action runs,
+     * and the action is not invoked when there are no logical elements. Copy-back starts only after the action completes,
+     * the original topology is verified, and every destination has accepted its prospective values in temporary storage.
+     * Direct changes made by the action through separately captured references are outside this guarantee.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -12419,7 +12671,7 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the operation may throw.
      * @param a the three-dimensional array to operate on (can be {@code null} or empty).
      * @param action the operation to perform on the flattened array (must not be {@code null}).
-     * @throws IllegalArgumentException if {@code action} is {@code null}.
+     * @throws IllegalArgumentException if {@code action} is {@code null}, a leaf array is aliased, or the array topology differs when callback processing completes.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the operation throws an exception.
      * @see #mutateViaFlatArray(long[][], Throwables.Consumer) for two-dimensional arrays
@@ -12432,22 +12684,16 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
+        final LeafArraySnapshot snapshot = LeafArraySnapshot.capture3D(a);
+
+        if (snapshot.elementCount() == 0) {
+            return;
+        }
+
         final long[] tmp = flatten(a);
 
         action.accept(tmp);
-
-        int idx = 0;
-
-        for (final long[][] e : a) {
-            if (N.notEmpty(e)) {
-                for (final long[] ee : e) {
-                    if (N.notEmpty(ee)) {
-                        N.copy(tmp, idx, ee, 0, ee.length);
-                        idx += ee.length;
-                    }
-                }
-            }
-        }
+        snapshot.copyBackAtomically(tmp, a);
     }
 
     /**
@@ -14131,10 +14377,15 @@ public sealed class Arrays permits Arrays.f {
      * Arrays.mutateViaFlatArray(g3, arr -> java.util.Arrays.sort(arr));  // Flat sorted order: [1.0, 2.0, 3.0, NaN]; copied back: g3[0]={1.0,2.0}, g3[1]={3.0,NaN}
      * }</pre>
      *
+     * <p>Non-null leaf arrays are traversed in row-major order. Aliased leaf arrays are rejected before the action runs,
+     * and the action is not invoked when there are no logical elements. Copy-back starts only after the action completes,
+     * the original topology is verified, and every destination has accepted its prospective values in temporary storage.
+     * Direct changes made by the action through separately captured references are outside this guarantee.</p>
+     *
      * @param <E> the type of exception that may be thrown by the operation.
      * @param a the two-dimensional array to operate on (can be {@code null} or empty).
      * @param action the operation to perform on the flattened array (must not be {@code null}).
-     * @throws IllegalArgumentException if {@code action} is {@code null}.
+     * @throws IllegalArgumentException if {@code action} is {@code null}, a leaf array is aliased, or the array topology differs when callback processing completes.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the operation throws an exception.
      * @see #mutateViaFlatArray(float[][][], Throwables.Consumer) for three-dimensional arrays
@@ -14147,18 +14398,16 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
+        final LeafArraySnapshot snapshot = LeafArraySnapshot.capture2D(a);
+
+        if (snapshot.elementCount() == 0) {
+            return;
+        }
+
         final float[] tmp = flatten(a);
 
         action.accept(tmp);
-
-        int idx = 0;
-
-        for (final float[] e : a) {
-            if (N.notEmpty(e)) {
-                N.copy(tmp, idx, e, 0, e.length);
-                idx += e.length;
-            }
-        }
+        snapshot.copyBackAtomically(tmp, a);
     }
 
     /**
@@ -14168,6 +14417,11 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
+     *
+     * <p>Non-null leaf arrays are traversed in row-major order. Aliased leaf arrays are rejected before the action runs,
+     * and the action is not invoked when there are no logical elements. Copy-back starts only after the action completes,
+     * the original topology is verified, and every destination has accepted its prospective values in temporary storage.
+     * Direct changes made by the action through separately captured references are outside this guarantee.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -14191,7 +14445,7 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that may be thrown by the operation.
      * @param a the three-dimensional array to operate on (can be {@code null} or empty).
      * @param action the operation to perform on the flattened array (must not be {@code null}).
-     * @throws IllegalArgumentException if {@code action} is {@code null}.
+     * @throws IllegalArgumentException if {@code action} is {@code null}, a leaf array is aliased, or the array topology differs when callback processing completes.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the operation throws an exception.
      * @see #mutateViaFlatArray(float[][], Throwables.Consumer) for two-dimensional arrays
@@ -14204,22 +14458,16 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
+        final LeafArraySnapshot snapshot = LeafArraySnapshot.capture3D(a);
+
+        if (snapshot.elementCount() == 0) {
+            return;
+        }
+
         final float[] tmp = flatten(a);
 
         action.accept(tmp);
-
-        int idx = 0;
-
-        for (final float[][] e : a) {
-            if (N.notEmpty(e)) {
-                for (final float[] ee : e) {
-                    if (N.notEmpty(ee)) {
-                        N.copy(tmp, idx, ee, 0, ee.length);
-                        idx += ee.length;
-                    }
-                }
-            }
-        }
+        snapshot.copyBackAtomically(tmp, a);
     }
 
     /**
@@ -15958,10 +16206,15 @@ public sealed class Arrays permits Arrays.f {
      * // empty.length == 0, no exception
      * }</pre>
      *
+     * <p>Non-null leaf arrays are traversed in row-major order. Aliased leaf arrays are rejected before the action runs,
+     * and the action is not invoked when there are no logical elements. Copy-back starts only after the action completes,
+     * the original topology is verified, and every destination has accepted its prospective values in temporary storage.
+     * Direct changes made by the action through separately captured references are outside this guarantee.</p>
+     *
      * @param <E> the type of exception that may be thrown by the operation.
      * @param a the two-dimensional array to operate on (can be {@code null} or empty).
      * @param action the operation to perform on the flattened array (must not be {@code null}).
-     * @throws IllegalArgumentException if {@code action} is {@code null}.
+     * @throws IllegalArgumentException if {@code action} is {@code null}, a leaf array is aliased, or the array topology differs when callback processing completes.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the operation throws an exception.
      * @see #mutateViaFlatArray(double[][][], Throwables.Consumer) for three-dimensional arrays
@@ -15974,18 +16227,16 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
+        final LeafArraySnapshot snapshot = LeafArraySnapshot.capture2D(a);
+
+        if (snapshot.elementCount() == 0) {
+            return;
+        }
+
         final double[] tmp = flatten(a);
 
         action.accept(tmp);
-
-        int idx = 0;
-
-        for (final double[] e : a) {
-            if (N.notEmpty(e)) {
-                N.copy(tmp, idx, e, 0, e.length);
-                idx += e.length;
-            }
-        }
+        snapshot.copyBackAtomically(tmp, a);
     }
 
     /**
@@ -15994,6 +16245,11 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
+     *
+     * <p>Non-null leaf arrays are traversed in row-major order. Aliased leaf arrays are rejected before the action runs,
+     * and the action is not invoked when there are no logical elements. Copy-back starts only after the action completes,
+     * the original topology is verified, and every destination has accepted its prospective values in temporary storage.
+     * Direct changes made by the action through separately captured references are outside this guarantee.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -16018,7 +16274,7 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that may be thrown by the operation.
      * @param a the three-dimensional array to operate on (can be {@code null} or empty).
      * @param action the operation to perform on the flattened array (must not be {@code null}).
-     * @throws IllegalArgumentException if {@code action} is {@code null}.
+     * @throws IllegalArgumentException if {@code action} is {@code null}, a leaf array is aliased, or the array topology differs when callback processing completes.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the operation throws an exception.
      * @see #mutateViaFlatArray(double[][], Throwables.Consumer) for two-dimensional arrays
@@ -16031,22 +16287,16 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
+        final LeafArraySnapshot snapshot = LeafArraySnapshot.capture3D(a);
+
+        if (snapshot.elementCount() == 0) {
+            return;
+        }
+
         final double[] tmp = flatten(a);
 
         action.accept(tmp);
-
-        int idx = 0;
-
-        for (final double[][] e : a) {
-            if (N.notEmpty(e)) {
-                for (final double[] ee : e) {
-                    if (N.notEmpty(ee)) {
-                        N.copy(tmp, idx, ee, 0, ee.length);
-                        idx += ee.length;
-                    }
-                }
-            }
-        }
+        snapshot.copyBackAtomically(tmp, a);
     }
 
     /**
@@ -21420,11 +21670,17 @@ public sealed class Arrays permits Arrays.f {
          * Arrays.ff.updateAll(jagged, s -> s + "!");  // jagged is now {{"a!", "b!"}, null, {"c!"}}
          * }</pre>
          *
+         * <p>Elements are evaluated in row-major order. Aliased leaf arrays are rejected. All callback results and
+         * runtime destination types are validated before any original element is changed, so callback, topology, and
+         * array-store failures do not produce a method-written partial update. Direct changes made by the callback
+         * through separately captured references are outside this guarantee.</p>
+         *
          * @param <T> the type of elements in the array.
          * @param <E> the type of exception that may be thrown by the operator.
          * @param a the two-dimensional array to update (can be {@code null}).
          * @param operator the unary operator to apply to each element (must not be {@code null}).
-         * @throws IllegalArgumentException if {@code operator} is {@code null}.
+         * @throws IllegalArgumentException if {@code operator} is {@code null}, a leaf array is aliased, or the array topology differs when callback processing completes.
+         * @throws ArrayStoreException if a produced value is not compatible with its destination leaf's runtime component type.
          * @throws E if the {@code operator} throws an exception during processing.
          */
         public static <T, E extends Exception> void updateAll(final T[][] a, final Throwables.UnaryOperator<T, E> operator) throws E {
@@ -21434,15 +21690,13 @@ public sealed class Arrays permits Arrays.f {
                 return;
             }
 
-            for (final T[] element : a) {
-                if (N.isEmpty(element)) {
-                    continue;
-                }
+            final LeafArraySnapshot snapshot = LeafArraySnapshot.capture2D(a);
 
-                for (int j = 0, m = element.length; j < m; j++) {
-                    element[j] = operator.apply(element[j]);
-                }
+            if (snapshot.elementCount() == 0) {
+                return;
             }
+
+            snapshot.updateAllAtomically(a, operator);
         }
 
         /**
@@ -21472,12 +21726,18 @@ public sealed class Arrays permits Arrays.f {
          * Arrays.ff.replaceIf(noop, val -> val > 100, -1);  // noop is still {{1, 2}, {3, 4}}
          * }</pre>
          *
+         * <p>Elements are tested in row-major order. Aliased leaf arrays are rejected. All predicate results and
+         * runtime destination types are validated before any original element is changed, so callback, topology, and
+         * array-store failures do not produce a method-written partial update. Direct changes made by the callback
+         * through separately captured references are outside this guarantee.</p>
+         *
          * @param <T> the type of elements in the array.
          * @param <E> the type of exception that may be thrown by the predicate.
          * @param a the two-dimensional array to modify (can be {@code null}).
          * @param predicate the condition to test each element against (must not be {@code null}).
          * @param newValue the value to replace matching elements with (can be {@code null}).
-         * @throws IllegalArgumentException if {@code predicate} is {@code null}.
+         * @throws IllegalArgumentException if {@code predicate} is {@code null}, a leaf array is aliased, or the array topology differs when callback processing completes.
+         * @throws ArrayStoreException if {@code newValue} is not compatible with a matched destination leaf's runtime component type.
          * @throws E if the {@code predicate} throws an exception during testing.
          */
         public static <T, E extends Exception> void replaceIf(final T[][] a, final Throwables.Predicate<? super T, E> predicate, final T newValue) throws E {
@@ -21487,17 +21747,13 @@ public sealed class Arrays permits Arrays.f {
                 return;
             }
 
-            for (final T[] element : a) {
-                if (N.isEmpty(element)) {
-                    continue;
-                }
+            final LeafArraySnapshot snapshot = LeafArraySnapshot.capture2D(a);
 
-                for (int j = 0, m = element.length; j < m; j++) {
-                    if (predicate.test(element[j])) {
-                        element[j] = newValue;
-                    }
-                }
+            if (snapshot.elementCount() == 0) {
+                return;
             }
+
+            snapshot.replaceIfAtomically(a, predicate, newValue);
         }
 
         /**
@@ -21646,12 +21902,18 @@ public sealed class Arrays permits Arrays.f {
          * // single is still {{42}}
          * }</pre>
          *
+         * <p>Non-null leaf arrays are traversed in row-major order. Aliased leaf arrays are rejected before the action runs,
+         * and the action is not invoked when there are no logical elements. Copy-back starts only after the action completes,
+         * the original topology is verified, and every destination has accepted its prospective values in temporary storage.
+         * Direct changes made by the action through separately captured references are outside this guarantee.</p>
+         *
          * @param <T> the type of elements in the array.
          * @param <E> the type of exception that may be thrown by the operation.
          * @param a the two-dimensional array to operate on (can be {@code null} or empty). The operation modifies this array in-place.
          * @param action the consumer that operates on the flattened array (must not be {@code null}).
-         * @throws IllegalArgumentException if {@code action} is {@code null}.
+         * @throws IllegalArgumentException if {@code action} is {@code null}, a leaf array is aliased, or the array topology differs when callback processing completes.
          * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
+         * @throws ArrayStoreException if a modified value is not compatible with its destination leaf's runtime component type.
          * @throws E if the operation throws an exception.
          */
         public static <T, E extends Exception> void mutateViaFlatArray(final T[][] a, final Throwables.Consumer<? super T[], E> action) throws E {
@@ -21661,18 +21923,16 @@ public sealed class Arrays permits Arrays.f {
                 return;
             }
 
+            final LeafArraySnapshot snapshot = LeafArraySnapshot.capture2D(a);
+
+            if (snapshot.elementCount() == 0) {
+                return;
+            }
+
             final T[] tmp = flatten(a);
 
             action.accept(tmp);
-
-            int idx = 0;
-
-            for (final T[] e : a) {
-                if (N.notEmpty(e)) {
-                    N.copy(tmp, idx, e, 0, e.length);
-                    idx += e.length;
-                }
-            }
+            snapshot.copyBackAtomically(tmp, a);
         }
 
         /**
@@ -21714,7 +21974,10 @@ public sealed class Arrays permits Arrays.f {
          * @return a new two-dimensional array with mapped elements; the element type is inferred from the runtime component type of {@code a}.
          * @throws IllegalArgumentException if {@code a} or {@code mapper} is {@code null}, or if a mapped value is not assignable to the inferred runtime element type (if the mapper itself throws {@link ArrayStoreException}, that exception propagates).
          * @throws E if the function throws an exception during mapping.
+         * @deprecated The inferred runtime component type may be narrower than {@code T} and reject valid results.
+         *             Use the corresponding overload with an explicit {@code targetElementType} argument.
          */
+        @Deprecated
         public static <T, E extends Exception> T[][] map(final T[][] a, final Throwables.UnaryOperator<T, E> mapper) throws E {
             N.checkArgNotNull(mapper, cs.mapper);
 
@@ -22237,7 +22500,10 @@ public sealed class Arrays permits Arrays.f {
          * @return a new two-dimensional array containing the combined elements.
          * @throws IllegalArgumentException if {@code a} or {@code zipFunction} is {@code null}, or if a combined value is not assignable to the inferred runtime element type (if the zip function itself throws {@link ArrayStoreException}, that exception propagates).
          * @throws E if the zip function throws an exception.
+         * @deprecated The inferred runtime component type may be narrower than {@code A} and reject valid results.
+         *             Use the corresponding overload with an explicit {@code targetElementType} argument.
          */
+        @Deprecated
         public static <A, B, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction)
                 throws E {
             N.checkArgNotNull(zipFunction, cs.zipFunction);
@@ -22371,7 +22637,10 @@ public sealed class Arrays permits Arrays.f {
          * @return a new two-dimensional array with combined elements using defaults where needed.
          * @throws IllegalArgumentException if {@code zipFunction} is {@code null}, or if both {@code a} and {@code defaultValueA} are {@code null} and target element type cannot be inferred, or if a combined value is not assignable to the inferred runtime element type (if the zip function itself throws {@link ArrayStoreException}, that exception propagates).
          * @throws E if the zip function throws an exception.
+         * @deprecated The inferred runtime component type may be narrower than {@code A} and reject valid results.
+         *             Use the corresponding overload with an explicit {@code targetElementType} argument.
          */
+        @Deprecated
         public static <A, B, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final A defaultValueA, final B defaultValueB,
                 final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
             N.checkArgNotNull(zipFunction, cs.zipFunction);
@@ -22508,7 +22777,10 @@ public sealed class Arrays permits Arrays.f {
          * @return a new two-dimensional array containing the combined elements.
          * @throws IllegalArgumentException if {@code a} or {@code zipFunction} is {@code null}, or if a combined value is not assignable to the inferred runtime element type (if the zip function itself throws {@link ArrayStoreException}, that exception propagates).
          * @throws E if the zip function throws an exception.
+         * @deprecated The inferred runtime component type may be narrower than {@code A} and reject valid results.
+         *             Use the corresponding overload with an explicit {@code targetElementType} argument.
          */
+        @Deprecated
         public static <A, B, C, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final C[][] c,
                 final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
             N.checkArgNotNull(zipFunction, cs.zipFunction);
@@ -22654,7 +22926,10 @@ public sealed class Arrays permits Arrays.f {
          * @return a new two-dimensional array with combined elements using defaults where needed.
          * @throws IllegalArgumentException if {@code zipFunction} is {@code null}, or if both {@code a} and {@code defaultValueA} are {@code null} and target element type cannot be inferred, or if a combined value is not assignable to the inferred runtime element type (if the zip function itself throws {@link ArrayStoreException}, that exception propagates).
          * @throws E if the zip function throws an exception.
+         * @deprecated The inferred runtime component type may be narrower than {@code A} and reject valid results.
+         *             Use the corresponding overload with an explicit {@code targetElementType} argument.
          */
+        @Deprecated
         public static <A, B, C, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final C[][] c, final A defaultValueA, final B defaultValueB,
                 final C defaultValueC, final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
             N.checkArgNotNull(zipFunction, cs.zipFunction);
@@ -23113,11 +23388,17 @@ public sealed class Arrays permits Arrays.f {
          * // empty remains unchanged, length still 0
          * }</pre>
          *
+         * <p>Elements are evaluated in row-major order. Aliased leaf arrays are rejected. All callback results and
+         * runtime destination types are validated before any original element is changed, so callback, topology, and
+         * array-store failures do not produce a method-written partial update. Direct changes made by the callback
+         * through separately captured references are outside this guarantee.</p>
+         *
          * @param <T> the type of elements in the array.
          * @param <E> the type of exception that may be thrown by the operator.
          * @param a the three-dimensional array to update (can be {@code null}).
          * @param operator the unary operator to apply to each element (must not be {@code null}).
-         * @throws IllegalArgumentException if {@code operator} is {@code null}.
+         * @throws IllegalArgumentException if {@code operator} is {@code null}, a leaf array is aliased, or the array topology differs when callback processing completes.
+         * @throws ArrayStoreException if a produced value is not compatible with its destination leaf's runtime component type.
          * @throws E if the {@code operator} throws an exception during processing.
          */
         public static <T, E extends Exception> void updateAll(final T[][][] a, final Throwables.UnaryOperator<T, E> operator) throws E {
@@ -23127,9 +23408,13 @@ public sealed class Arrays permits Arrays.f {
                 return;
             }
 
-            for (final T[][] element : a) {
-                ff.updateAll(element, operator);
+            final LeafArraySnapshot snapshot = LeafArraySnapshot.capture3D(a);
+
+            if (snapshot.elementCount() == 0) {
+                return;
             }
+
+            snapshot.updateAllAtomically(a, operator);
         }
 
         /**
@@ -23160,12 +23445,18 @@ public sealed class Arrays permits Arrays.f {
          * Arrays.fff.replaceIf(noMatch, val -> val > 100, 99);  // noMatch is still {{{1, 2, 3}}}
          * }</pre>
          *
+         * <p>Elements are tested in row-major order. Aliased leaf arrays are rejected. All predicate results and
+         * runtime destination types are validated before any original element is changed, so callback, topology, and
+         * array-store failures do not produce a method-written partial update. Direct changes made by the callback
+         * through separately captured references are outside this guarantee.</p>
+         *
          * @param <T> the type of elements in the array.
          * @param <E> the type of exception that may be thrown by the predicate.
          * @param a the three-dimensional array to modify (can be {@code null}).
          * @param predicate the condition to test each element against (must not be {@code null}).
          * @param newValue the value to replace matching elements with (can be {@code null}).
-         * @throws IllegalArgumentException if {@code predicate} is {@code null}.
+         * @throws IllegalArgumentException if {@code predicate} is {@code null}, a leaf array is aliased, or the array topology differs when callback processing completes.
+         * @throws ArrayStoreException if {@code newValue} is not compatible with a matched destination leaf's runtime component type.
          * @throws E if the {@code predicate} throws an exception during testing.
          */
         public static <T, E extends Exception> void replaceIf(final T[][][] a, final Throwables.Predicate<? super T, E> predicate, final T newValue) throws E {
@@ -23175,9 +23466,13 @@ public sealed class Arrays permits Arrays.f {
                 return;
             }
 
-            for (final T[][] element : a) {
-                ff.replaceIf(element, predicate, newValue);
+            final LeafArraySnapshot snapshot = LeafArraySnapshot.capture3D(a);
+
+            if (snapshot.elementCount() == 0) {
+                return;
             }
+
+            snapshot.replaceIfAtomically(a, predicate, newValue);
         }
 
         /**
@@ -23315,6 +23610,11 @@ public sealed class Arrays permits Arrays.f {
          * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
          * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
          *
+         * <p>Non-null leaf arrays are traversed in row-major order. Aliased leaf arrays are rejected before the action runs,
+         * and the action is not invoked when there are no logical elements. Copy-back starts only after the action completes,
+         * the original topology is verified, and every destination has accepted its prospective values in temporary storage.
+         * Direct changes made by the action through separately captured references are outside this guarantee.</p>
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * // basic: sort all elements across the full 3D structure
@@ -23339,8 +23639,9 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the operation.
          * @param a the three-dimensional array to operate on (can be {@code null} or empty). The operation modifies this array in-place.
          * @param action the consumer operation to apply to the flattened array (must not be {@code null}).
-         * @throws IllegalArgumentException if {@code action} is {@code null}.
+         * @throws IllegalArgumentException if {@code action} is {@code null}, a leaf array is aliased, or the array topology differs when callback processing completes.
          * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
+         * @throws ArrayStoreException if a modified value is not compatible with its destination leaf's runtime component type.
          * @throws E if the operation throws an exception.
          */
         public static <T, E extends Exception> void mutateViaFlatArray(final T[][][] a, final Throwables.Consumer<? super T[], E> action) throws E {
@@ -23350,22 +23651,16 @@ public sealed class Arrays permits Arrays.f {
                 return;
             }
 
+            final LeafArraySnapshot snapshot = LeafArraySnapshot.capture3D(a);
+
+            if (snapshot.elementCount() == 0) {
+                return;
+            }
+
             final T[] tmp = flatten(a);
 
             action.accept(tmp);
-
-            int idx = 0;
-
-            for (final T[][] e : a) {
-                if (N.notEmpty(e)) {
-                    for (final T[] ee : e) {
-                        if (N.notEmpty(ee)) {
-                            N.copy(tmp, idx, ee, 0, ee.length);
-                            idx += ee.length;
-                        }
-                    }
-                }
-            }
+            snapshot.copyBackAtomically(tmp, a);
         }
 
         /**
@@ -23405,7 +23700,10 @@ public sealed class Arrays permits Arrays.f {
          * @return a new three-dimensional array with mapped elements; the element type is inferred from the runtime component type of {@code a}.
          * @throws IllegalArgumentException if {@code a} or {@code mapper} is {@code null}, or if a mapped value is not assignable to the inferred runtime element type (if the mapper itself throws {@link ArrayStoreException}, that exception propagates).
          * @throws E if the function throws an exception during mapping.
+         * @deprecated The inferred runtime component type may be narrower than {@code T} and reject valid results.
+         *             Use the corresponding overload with an explicit {@code targetElementType} argument.
          */
+        @Deprecated
         public static <T, E extends Exception> T[][][] map(final T[][][] a, final Throwables.UnaryOperator<T, E> mapper) throws E {
             N.checkArgNotNull(mapper, cs.mapper);
 
@@ -23964,7 +24262,10 @@ public sealed class Arrays permits Arrays.f {
          * @return a new three-dimensional array with combined elements.
          * @throws IllegalArgumentException if {@code a} or {@code zipFunction} is {@code null}, or if a combined value is not assignable to the inferred runtime element type (if the zip function itself throws {@link ArrayStoreException}, that exception propagates).
          * @throws E if the zip function throws an exception.
+         * @deprecated The inferred runtime component type may be narrower than {@code A} and reject valid results.
+         *             Use the corresponding overload with an explicit {@code targetElementType} argument.
          */
+        @Deprecated
         public static <A, B, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b,
                 final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
             N.checkArgNotNull(zipFunction, cs.zipFunction);
@@ -24097,7 +24398,10 @@ public sealed class Arrays permits Arrays.f {
          * @return a new three-dimensional array with combined elements.
          * @throws IllegalArgumentException if {@code zipFunction} is {@code null}, or if both {@code a} and {@code defaultValueA} are {@code null} and the target element type cannot be inferred, or if a combined value is not assignable to the inferred runtime element type (if the zip function itself throws {@link ArrayStoreException}, that exception propagates).
          * @throws E if the zip function throws an exception.
+         * @deprecated The inferred runtime component type may be narrower than {@code A} and reject valid results.
+         *             Use the corresponding overload with an explicit {@code targetElementType} argument.
          */
+        @Deprecated
         public static <A, B, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final A defaultValueA, final B defaultValueB,
                 final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
             N.checkArgNotNull(zipFunction, cs.zipFunction);
@@ -24242,7 +24546,10 @@ public sealed class Arrays permits Arrays.f {
          * @return a new three-dimensional array with combined elements.
          * @throws IllegalArgumentException if {@code a} or {@code zipFunction} is {@code null}, or if a combined value is not assignable to the inferred runtime element type (if the zip function itself throws {@link ArrayStoreException}, that exception propagates).
          * @throws E if the zip function throws an exception.
+         * @deprecated The inferred runtime component type may be narrower than {@code A} and reject valid results.
+         *             Use the corresponding overload with an explicit {@code targetElementType} argument.
          */
+        @Deprecated
         public static <A, B, C, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c,
                 final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
             N.checkArgNotNull(zipFunction, cs.zipFunction);
@@ -24385,7 +24692,10 @@ public sealed class Arrays permits Arrays.f {
          * @return a new three-dimensional array with combined elements.
          * @throws IllegalArgumentException if {@code zipFunction} is {@code null}, or if both {@code a} and {@code defaultValueA} are {@code null} and the target element type cannot be inferred, or if a combined value is not assignable to the inferred runtime element type (if the zip function itself throws {@link ArrayStoreException}, that exception propagates).
          * @throws E if the zip function throws an exception.
+         * @deprecated The inferred runtime component type may be narrower than {@code A} and reject valid results.
+         *             Use the corresponding overload with an explicit {@code targetElementType} argument.
          */
+        @Deprecated
         public static <A, B, C, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c, final A defaultValueA,
                 final B defaultValueB, final C defaultValueC, final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
             N.checkArgNotNull(zipFunction, cs.zipFunction);
