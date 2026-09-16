@@ -637,7 +637,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * @see #lowerMedian()
      */
     public double median() {
-        final short[] a = toArray();
+        final short[] a = elements();
 
         if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute median() for an empty tuple");
@@ -686,7 +686,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * @see N#lowerMedian(short...)
      */
     public short lowerMedian() {
-        final short[] a = toArray();
+        final short[] a = elements();
 
         if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");

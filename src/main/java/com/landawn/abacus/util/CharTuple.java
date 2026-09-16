@@ -591,7 +591,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * @see N#lowerMedian(char...)
      */
     public char lowerMedian() {
-        final char[] a = toArray();
+        final char[] a = elements();
 
         if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");

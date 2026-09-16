@@ -600,7 +600,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * @see #lowerMedian()
      */
     public double median() {
-        final int[] a = toArray();
+        final int[] a = elements();
 
         if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute median() for an empty tuple");
@@ -649,7 +649,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * @see N#lowerMedian(int...)
      */
     public int lowerMedian() {
-        final int[] a = toArray();
+        final int[] a = elements();
 
         if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");

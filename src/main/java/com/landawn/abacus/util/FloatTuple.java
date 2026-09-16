@@ -640,7 +640,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * @see #lowerMedian()
      */
     public double median() {
-        final float[] a = toArray();
+        final float[] a = elements();
 
         if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute median() for an empty tuple");
@@ -685,7 +685,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * @see N#lowerMedian(float...)
      */
     public float lowerMedian() {
-        final float[] a = toArray();
+        final float[] a = elements();
 
         if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");

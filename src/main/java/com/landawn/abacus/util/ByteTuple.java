@@ -683,7 +683,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * @see #lowerMedian()
      */
     public double median() {
-        final byte[] a = toArray();
+        final byte[] a = elements();
 
         if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute median() for an empty tuple");
@@ -732,7 +732,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * @see N#lowerMedian(byte...)
      */
     public byte lowerMedian() {
-        final byte[] a = toArray();
+        final byte[] a = elements();
 
         if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");

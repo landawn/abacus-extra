@@ -627,7 +627,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * @see #lowerMedian()
      */
     public double median() {
-        final double[] a = toArray();
+        final double[] a = elements();
 
         if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute median() for an empty tuple");
@@ -672,7 +672,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * @see N#lowerMedian(double...)
      */
     public double lowerMedian() {
-        final double[] a = toArray();
+        final double[] a = elements();
 
         if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");

@@ -629,7 +629,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * @see #lowerMedian()
      */
     public double median() {
-        final long[] a = toArray();
+        final long[] a = elements();
 
         if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute median() for an empty tuple");
@@ -678,7 +678,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * @see N#lowerMedian(long...)
      */
     public long lowerMedian() {
-        final long[] a = toArray();
+        final long[] a = elements();
 
         if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
