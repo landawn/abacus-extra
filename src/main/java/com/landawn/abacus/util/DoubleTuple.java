@@ -14,9 +14,6 @@
 
 package com.landawn.abacus.util;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
 import java.util.NoSuchElementException;
 
 import com.landawn.abacus.annotation.MayReturnNull;
@@ -52,8 +49,7 @@ import com.landawn.abacus.util.stream.DoubleStream;
  *
  * <p><b>Numeric semantics:</b> Aggregates follow IEEE-754 {@code double} arithmetic: a {@code NaN}
  * element propagates to the results of {@link #min()}, {@link #max()}, {@link #sum()}, and
- * {@link #average()}. The average of finite elements is computed without overflowing an intermediate
- * sum. {@link #lowerMedian()}, {@link #contains(double)}, and {@link #equals(Object)}
+ * {@link #average()}. {@link #lowerMedian()}, {@link #contains(double)}, and {@link #equals(Object)}
  * order and compare elements with {@link Double#compare(double, double)} semantics ({@code NaN} equal
  * to itself and greater than any other value, {@code -0.0} less than {@code 0.0}).
  * {@link #median()} is the conventional statistical median as a {@code double} (mean of the two middle
@@ -74,21 +70,16 @@ import com.landawn.abacus.util.stream.DoubleStream;
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveTuple<TP>
         permits DoubleTuple0, DoubleTuple1, DoubleTuple2, DoubleTuple3, DoubleTuple4, DoubleTuple5, DoubleTuple6, DoubleTuple7, DoubleTuple8, DoubleTuple9 {
+
+    /** Internal element storage; lazily initialized when {@link #elements()} is first called. */
+    protected volatile double[] elements;
+
     /**
      * Protected constructor for subclass instantiation.
      * This constructor is not intended for direct use. Use the static factory methods
      * such as {@link #of(double)}, {@link #of(double, double)}, etc., to create tuple instances.
      */
     protected DoubleTuple() {
-    }
-
-    /**
-     * Returns the shared empty double tuple.
-     *
-     * @return the empty tuple with arity zero
-     */
-    public static DoubleTuple<?> empty() {
-        return DoubleTuple0.EMPTY;
     }
 
     /**
@@ -370,11 +361,11 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * <pre>{@code
      * // Create from 3-element array
      * double[] values = {1.0, 2.0, 3.0};
-     * DoubleTuple.DoubleTuple3 tuple = (DoubleTuple.DoubleTuple3) DoubleTuple.from(values);
+     * DoubleTuple.DoubleTuple3 tuple = DoubleTuple.from(values);
      * double third = tuple._3;   // 3.0
      *
      * // Single element
-     * DoubleTuple.DoubleTuple1 single = (DoubleTuple.DoubleTuple1) DoubleTuple.from(new double[]{3.14});
+     * DoubleTuple.DoubleTuple1 single = DoubleTuple.from(new double[]{3.14});
      * double v = single._1;   // 3.14
      *
      * // null or empty array returns the empty singleton (arity 0)
@@ -388,137 +379,56 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * // DoubleTuple.from(new double[10]);   // throws IllegalArgumentException
      * }</pre>
      *
-     * <p>The return type is the base tuple type because the concrete arity is determined only at runtime.
-     * Test the result's type before casting when an arity-specific subtype is required.</p>
+     * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values.length}.
+     * The generic return type is only type-safe when assigned to the matching arity-specific subtype,
+     * or to the base tuple type. Assigning to the wrong arity-specific subtype will result in a
+     * {@link ClassCastException} at the assignment site.</p>
      *
+     * @param <TP> the base tuple type or matching arity-specific subtype expected by the caller
      * @param values the array of double values; may be {@code null} or empty, in which case the shared empty tuple is returned
      * @return a {@code DoubleTuple} of the appropriate arity containing the array values, or the shared empty tuple if the array is {@code null} or empty
      * @throws IllegalArgumentException if {@code values} has more than 9 elements
-     * @deprecated Use {@link #empty()} or the arity-specific {@code of(...)} factory methods instead.
+     * @deprecated Use the {@code of(...)} factory methods instead; this method may be removed in a future release.
      * @see #of(double)
      */
     @Deprecated
-    public static DoubleTuple<?> from(final double[] values) {
+    @SuppressWarnings({ "unchecked" })
+    public static <TP extends DoubleTuple<TP>> TP from(final double[] values) {
         if (values == null || values.length == 0) {
-            return DoubleTuple0.EMPTY;
+            return (TP) DoubleTuple0.EMPTY;
         }
 
         switch (values.length) {
             case 1:
-                return DoubleTuple.of(values[0]);
+                return (TP) DoubleTuple.of(values[0]);
 
             case 2:
-                return DoubleTuple.of(values[0], values[1]);
+                return (TP) DoubleTuple.of(values[0], values[1]);
 
             case 3:
-                return DoubleTuple.of(values[0], values[1], values[2]);
+                return (TP) DoubleTuple.of(values[0], values[1], values[2]);
 
             case 4:
-                return DoubleTuple.of(values[0], values[1], values[2], values[3]);
+                return (TP) DoubleTuple.of(values[0], values[1], values[2], values[3]);
 
             case 5:
-                return DoubleTuple.of(values[0], values[1], values[2], values[3], values[4]);
+                return (TP) DoubleTuple.of(values[0], values[1], values[2], values[3], values[4]);
 
             case 6:
-                return DoubleTuple.of(values[0], values[1], values[2], values[3], values[4], values[5]);
+                return (TP) DoubleTuple.of(values[0], values[1], values[2], values[3], values[4], values[5]);
 
             case 7:
-                return DoubleTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6]);
+                return (TP) DoubleTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6]);
 
             case 8:
-                return DoubleTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7]);
+                return (TP) DoubleTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7]);
 
             case 9:
-                return DoubleTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8]);
+                return (TP) DoubleTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8]);
 
             default:
                 throw new IllegalArgumentException("Too many elements (" + values.length + "). Maximum: 9");
         }
-    }
-
-    private static double averageOf(final double... values) {
-        boolean hasPositiveInfinity = false;
-        boolean hasNegativeInfinity = false;
-        double scale = 0d;
-
-        for (final double value : values) {
-            if (Double.isNaN(value)) {
-                return Double.NaN;
-            } else if (value == Double.POSITIVE_INFINITY) {
-                hasPositiveInfinity = true;
-            } else if (value == Double.NEGATIVE_INFINITY) {
-                hasNegativeInfinity = true;
-            } else {
-                scale = Math.max(scale, Math.abs(value));
-            }
-        }
-
-        if (hasPositiveInfinity || hasNegativeInfinity) {
-            if (hasPositiveInfinity && hasNegativeInfinity) {
-                return Double.NaN;
-            }
-
-            return hasPositiveInfinity ? Double.POSITIVE_INFINITY : Double.NEGATIVE_INFINITY;
-        }
-
-        if (scale == 0d) {
-            double zero = values[0];
-
-            for (int i = 1; i < values.length; i++) {
-                zero += values[i];
-            }
-
-            return zero / values.length;
-        }
-
-        double scaledSum = 0d;
-        double compensation = 0d;
-
-        // Scaling each finite input to [-1, 1] prevents overflow before division. Neumaier
-        // compensation then retains cancellation terms that a straightforward scaled sum can lose.
-        for (final double value : values) {
-            final double scaledValue = value / scale;
-
-            if (scaledValue == 0d && value != 0d) {
-                // Scaling can underflow a real addend before compensation sees it. Reconstructing
-                // each binary double exactly preserves a tiny residual exposed by later cancellation.
-                return exactFiniteAverage(values);
-            }
-
-            final double next = scaledSum + scaledValue;
-
-            if (Math.abs(scaledSum) >= Math.abs(scaledValue)) {
-                compensation += (scaledSum - next) + scaledValue;
-            } else {
-                compensation += (scaledValue - next) + scaledSum;
-            }
-
-            scaledSum = next;
-        }
-
-        final double normalizedAverage = (scaledSum + compensation) / values.length;
-
-        // Rounding in the compensated normalized sum must not turn a finite mathematical average
-        // into an infinity when it lands infinitesimally outside [-1, 1].
-        return normalizedAverage >= 1d ? scale : normalizedAverage <= -1d ? -scale : normalizedAverage * scale;
-    }
-
-    private static double exactFiniteAverage(final double[] values) {
-        BigDecimal exactSum = BigDecimal.ZERO;
-
-        for (final double value : values) {
-            // The constructor is intentional: unlike valueOf, it captures the exact binary value.
-            exactSum = exactSum.add(new BigDecimal(value));
-        }
-
-        if (exactSum.signum() == 0) {
-            return 0d;
-        }
-
-        // The exact sum's precision covers the full binary-double exponent span after cancellation.
-        // Extra guard digits make the decimal division safe before the final double rounding.
-        final int precision = Math.max(34, exactSum.precision() + 20);
-        return exactSum.divide(BigDecimal.valueOf(values.length), new MathContext(precision, RoundingMode.HALF_EVEN)).doubleValue();
     }
 
     /**
@@ -658,9 +568,8 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     /**
      * Returns the arithmetic mean of all double values in this tuple.
      * <p>
-     * If any element is {@code NaN}, the result is {@code NaN}. Opposite-signed infinities produce
-     * {@code NaN}; otherwise an infinity is preserved. A tuple containing only finite values has a
-     * finite average, even when its unscaled sum would overflow.
+     * If any element is {@code NaN}, the result is {@code NaN}. Infinities
+     * follow standard IEEE-754 rules.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -686,7 +595,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     public OptionalDouble average() {
         final double[] a = elements();
 
-        return a.length == 0 ? OptionalDouble.empty() : OptionalDouble.of(averageOf(a));
+        return a.length == 0 ? OptionalDouble.empty() : OptionalDouble.of(N.average(a));
     }
 
     /**
@@ -842,10 +751,10 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     public abstract boolean contains(double value);
 
     /**
-     * Returns an array containing all elements of this tuple.
+     * Returns a new array containing all elements of this tuple.
      * <p>
-     * Non-empty built-in tuples return a fresh array populated from their final fields on every
-     * call. The empty tuple may reuse a shared zero-length array. Changes cannot affect the tuple.
+     * This method creates a defensive copy of the internal array. Changes to the
+     * returned array do not affect the tuple because tuples are immutable.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -869,12 +778,12 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * boolean same = (copy1 == copy2);   // false
      * }</pre>
      *
-     * @return an array containing all tuple elements
+     * @return a new double array containing all tuple elements
      * @see #toList()
      * @see #stream()
      */
     public double[] toArray() {
-        return elements();
+        return elements().clone();
     }
 
     /**
@@ -906,7 +815,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * @see #stream()
      */
     public DoubleList toList() {
-        return DoubleList.of(elements());
+        return DoubleList.of(elements().clone());
     }
 
     /**
@@ -1011,9 +920,6 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * boolean differentHash = (pos.hashCode() != neg.hashCode()); // true
      * }</pre>
      *
-     * <p>Unequal tuples, including tuples with a different element order, may have the same hash
-     * code; hash codes do not provide a uniqueness guarantee.</p>
-     *
      * @return a hash code value for this tuple
      * @see #equals(Object)
      */
@@ -1074,19 +980,22 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     }
 
     /**
-     * Returns an array containing all double elements in this tuple. Non-empty tuples return a
-     * fresh array on every call; the empty tuple may return a shared zero-length array.
+     * Returns the internal array containing all double elements in this tuple.
+     * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+     * Modifying the returned array will compromise the immutability of this tuple.
+     * Use {@link #toArray()} instead if you need an array that can be safely modified.
+     * </p>
      *
-     * @return an array containing the double elements in encounter order
+     * @return the internal array of double elements
      */
     protected abstract double[] elements();
 
     /**
      * An empty DoubleTuple containing no elements (arity 0).
      * <p>
-     * This package-private class is exposed through the base {@code DoubleTuple} type via
-     * {@link #empty()} and by {@link #from(double[])} for a {@code null} or zero-length array.
-     * {@link #sum()} returns 0.0 and {@link #average()} returns an empty {@code OptionalDouble}, while
+     * This package-private class is exposed only through the base {@code DoubleTuple} type
+     * via the singleton instance returned by {@link #from(double[])} when invoked with a
+     * {@code null} or zero-length array. {@link #sum()} returns 0.0 and {@link #average()} returns an empty {@code OptionalDouble}, while
      * {@link #min()}, {@link #max()}, {@link #lowerMedian()}, and {@link #median()} all throw
      * {@link java.util.NoSuchElementException}.
      * </p>
@@ -1205,11 +1114,21 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
             return false;
         }
 
+        /**
+         * Returns a string representation of this empty tuple.
+         *
+         * @return {@code "()"}
+         */
         @Override
         public String toString() {
             return "()";
         }
 
+        /**
+         * Returns the shared empty double array.
+         *
+         * @return an empty double array
+         */
         @Override
         protected double[] elements() {
             return N.EMPTY_DOUBLE_ARRAY;
@@ -1546,13 +1465,21 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         }
 
         /**
-         * Returns a new array containing the double elements in encounter order.
+         * Returns the internal array of double elements.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a new array containing the double elements in encounter order
+         * @return the internal array of double elements
          */
         @Override
         protected double[] elements() {
-            return new double[] { _1 };
+            if (elements == null) {
+                elements = new double[] { _1 };
+            }
+
+            return elements;
         }
     }
 
@@ -1720,7 +1647,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(averageOf(_1, _2));
+            return OptionalDouble.of(N.average(_1, _2));
         }
 
         /**
@@ -1993,6 +1920,9 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * // equal tuples always have equal hash codes
          * boolean same = DoubleTuple.of(3.0, 4.0).hashCode() == DoubleTuple.of(3.0, 4.0).hashCode(); // true
          *
+         * // order matters: (3.0, 4.0) and (4.0, 3.0) have different hash codes
+         * boolean diff = DoubleTuple.of(3.0, 4.0).hashCode() != DoubleTuple.of(4.0, 3.0).hashCode(); // true
+         *
          * // NaN has a consistent hash code
          * int nanHash = DoubleTuple.of(Double.NaN, 1.0).hashCode();   // 31 * Double.hashCode(Double.NaN) + Double.hashCode(1.0)
          * }</pre>
@@ -2059,13 +1989,21 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         }
 
         /**
-         * Returns a new array containing the double elements in encounter order.
+         * Returns the internal array of double elements.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a new array containing the double elements in encounter order
+         * @return the internal array of double elements
          */
         @Override
         protected double[] elements() {
-            return new double[] { _1, _2 };
+            if (elements == null) {
+                elements = new double[] { _1, _2 };
+            }
+
+            return elements;
         }
     }
 
@@ -2229,7 +2167,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(averageOf(_1, _2, _3));
+            return OptionalDouble.of(N.average(_1, _2, _3));
         }
 
         /**
@@ -2506,6 +2444,9 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * // equal tuples always have equal hash codes
          * boolean same = DoubleTuple.of(1.0, 2.0, 3.0).hashCode() == DoubleTuple.of(1.0, 2.0, 3.0).hashCode(); // true
          *
+         * // order matters: different permutations yield different hash codes
+         * boolean diff = DoubleTuple.of(1.0, 2.0, 3.0).hashCode() != DoubleTuple.of(3.0, 2.0, 1.0).hashCode(); // true
+         *
          * // NaN has a consistent hash code
          * int nanHash = DoubleTuple.of(Double.NaN, 1.0, 2.0).hashCode();
          * }</pre>
@@ -2573,13 +2514,21 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         }
 
         /**
-         * Returns a new array containing the double elements in encounter order.
+         * Returns the internal array of double elements.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a new array containing the double elements in encounter order
+         * @return the internal array of double elements
          */
         @Override
         protected double[] elements() {
-            return new double[] { _1, _2, _3 };
+            if (elements == null) {
+                elements = new double[] { _1, _2, _3 };
+            }
+
+            return elements;
         }
     }
 
@@ -2744,7 +2693,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(averageOf(_1, _2, _3, _4));
+            return OptionalDouble.of(N.average(_1, _2, _3, _4));
         }
 
         /**
@@ -2900,13 +2849,21 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         }
 
         /**
-         * Returns a new array containing the double elements in encounter order.
+         * Returns the internal array of double elements.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a new array containing the double elements in encounter order
+         * @return the internal array of double elements
          */
         @Override
         protected double[] elements() {
-            return new double[] { _1, _2, _3, _4 };
+            if (elements == null) {
+                elements = new double[] { _1, _2, _3, _4 };
+            }
+
+            return elements;
         }
     }
 
@@ -3075,7 +3032,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(averageOf(_1, _2, _3, _4, _5));
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5));
         }
 
         /**
@@ -3233,13 +3190,21 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         }
 
         /**
-         * Returns a new array containing the double elements in encounter order.
+         * Returns the internal array of double elements.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a new array containing the double elements in encounter order
+         * @return the internal array of double elements
          */
         @Override
         protected double[] elements() {
-            return new double[] { _1, _2, _3, _4, _5 };
+            if (elements == null) {
+                elements = new double[] { _1, _2, _3, _4, _5 };
+            }
+
+            return elements;
         }
     }
 
@@ -3412,7 +3377,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(averageOf(_1, _2, _3, _4, _5, _6));
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6));
         }
 
         /**
@@ -3573,13 +3538,21 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         }
 
         /**
-         * Returns a new array containing the double elements in encounter order.
+         * Returns the internal array of double elements.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a new array containing the double elements in encounter order
+         * @return the internal array of double elements
          */
         @Override
         protected double[] elements() {
-            return new double[] { _1, _2, _3, _4, _5, _6 };
+            if (elements == null) {
+                elements = new double[] { _1, _2, _3, _4, _5, _6 };
+            }
+
+            return elements;
         }
     }
 
@@ -3768,7 +3741,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(averageOf(_1, _2, _3, _4, _5, _6, _7));
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7));
         }
 
         /**
@@ -3872,6 +3845,9 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * DoubleTuple.DoubleTuple7 t2 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
          * assert t1.hashCode() == t2.hashCode();   // equal tuples have equal hash codes
          *
+         * DoubleTuple.DoubleTuple7 t3 = DoubleTuple.of(7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0);
+         * boolean diffHash = t1.hashCode() == t3.hashCode(); // returns false (order matters)
+         *
          * DoubleTuple.DoubleTuple7 withNaN = DoubleTuple.of(Double.NaN, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
          * DoubleTuple.DoubleTuple7 withNaN2 = DoubleTuple.of(Double.NaN, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
          * assert withNaN.hashCode() == withNaN2.hashCode();   // NaN has consistent hash
@@ -3959,13 +3935,21 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         }
 
         /**
-         * Returns a new array containing the double elements in encounter order.
+         * Returns the internal array of double elements.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a new array containing the double elements in encounter order
+         * @return the internal array of double elements
          */
         @Override
         protected double[] elements() {
-            return new double[] { _1, _2, _3, _4, _5, _6, _7 };
+            if (elements == null) {
+                elements = new double[] { _1, _2, _3, _4, _5, _6, _7 };
+            }
+
+            return elements;
         }
     }
 
@@ -4161,7 +4145,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(averageOf(_1, _2, _3, _4, _5, _6, _7, _8));
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7, _8));
         }
 
         /**
@@ -4273,6 +4257,9 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * DoubleTuple.DoubleTuple8 neg = DoubleTuple.of(-1.0, -2.0, -3.0, -4.0, -5.0, -6.0, -7.0, -8.0);
          * DoubleTuple.DoubleTuple8 neg2 = DoubleTuple.of(-1.0, -2.0, -3.0, -4.0, -5.0, -6.0, -7.0, -8.0);
          * assert neg.hashCode() == neg2.hashCode();   // negative values hash consistently
+         *
+         * DoubleTuple.DoubleTuple8 t3 = DoubleTuple.of(8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0);
+         * boolean diffHash = t1.hashCode() == t3.hashCode(); // returns false (order matters)
          * }</pre>
          *
          * @return the hash code
@@ -4354,13 +4341,21 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         }
 
         /**
-         * Returns a new array containing the double elements in encounter order.
+         * Returns the internal array of double elements.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a new array containing the double elements in encounter order
+         * @return the internal array of double elements
          */
         @Override
         protected double[] elements() {
-            return new double[] { _1, _2, _3, _4, _5, _6, _7, _8 };
+            if (elements == null) {
+                elements = new double[] { _1, _2, _3, _4, _5, _6, _7, _8 };
+            }
+
+            return elements;
         }
     }
 
@@ -4561,7 +4556,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(averageOf(_1, _2, _3, _4, _5, _6, _7, _8, _9));
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7, _8, _9));
         }
 
         /**
@@ -4674,6 +4669,9 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * DoubleTuple.DoubleTuple9 neg = DoubleTuple.of(-1.0, -2.0, -3.0, -4.0, -5.0, -6.0, -7.0, -8.0, -9.0);
          * DoubleTuple.DoubleTuple9 neg2 = DoubleTuple.of(-1.0, -2.0, -3.0, -4.0, -5.0, -6.0, -7.0, -8.0, -9.0);
          * assert neg.hashCode() == neg2.hashCode();   // negative values hash consistently
+         *
+         * DoubleTuple.DoubleTuple9 t3 = DoubleTuple.of(9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0);
+         * boolean diffHash = t1.hashCode() == t3.hashCode(); // returns false (order matters)
          * }</pre>
          *
          * @return the hash code
@@ -4756,13 +4754,21 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         }
 
         /**
-         * Returns a new array containing the double elements in encounter order.
+         * Returns the internal array of double elements.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a new array containing the double elements in encounter order
+         * @return the internal array of double elements
          */
         @Override
         protected double[] elements() {
-            return new double[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
+            if (elements == null) {
+                elements = new double[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
+            }
+
+            return elements;
         }
     }
 

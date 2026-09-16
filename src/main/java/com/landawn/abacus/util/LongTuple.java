@@ -14,7 +14,6 @@
 
 package com.landawn.abacus.util;
 
-import java.math.BigInteger;
 import java.util.NoSuchElementException;
 
 import com.landawn.abacus.annotation.MayReturnNull;
@@ -50,11 +49,9 @@ import com.landawn.abacus.util.stream.LongStream;
  *
  * <p><b>Numeric semantics:</b> Values are signed {@code long}s (range {@code -9223372036854775808} to
  * {@code 9223372036854775807}). {@link #min()}, {@link #max()}, and {@link #lowerMedian()} return {@code long};
- * {@link #sum()} returns a {@code long} and wraps silently on overflow (two's-complement), while
- * {@link #sumExact()} throws when the mathematical total is outside the {@code long} range;
+ * {@link #sum()} returns a {@code long} and wraps silently on overflow (two's-complement);
  * {@link #average()} and {@link #median()} use {@code double} precision ({@code average} via {@link OptionalDouble},
- * without intermediate {@code long} overflow). Empty-tuple contracts: {@code sum()} and
- * {@code sumExact()} are {@code 0},
+ * without intermediate {@code long} overflow). Empty-tuple contracts: {@code sum()} is {@code 0},
  * {@code average()} is empty, and {@code min}/{@code max}/{@code lowerMedian}/{@code median} throw
  * {@link NoSuchElementException}.</p>
  *
@@ -71,21 +68,16 @@ import com.landawn.abacus.util.stream.LongStream;
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple<TP>
         permits LongTuple0, LongTuple1, LongTuple2, LongTuple3, LongTuple4, LongTuple5, LongTuple6, LongTuple7, LongTuple8, LongTuple9 {
+
+    /** Internal element storage; lazily initialized when {@link #elements()} is first called. */
+    protected volatile long[] elements;
+
     /**
      * Protected constructor for subclass instantiation.
      * This constructor is not intended for direct use. Use the static factory methods
      * such as {@link #of(long)}, {@link #of(long, long)}, etc., to create tuple instances.
      */
     protected LongTuple() {
-    }
-
-    /**
-     * Returns the shared empty long tuple.
-     *
-     * @return the empty tuple with arity zero
-     */
-    public static LongTuple<?> empty() {
-        return LongTuple0.EMPTY;
     }
 
     /**
@@ -378,11 +370,11 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * <pre>{@code
      * // Create a 3-element tuple from an array
      * long[] values = {1L, 2L, 3L};
-     * LongTuple.LongTuple3 tuple = (LongTuple.LongTuple3) LongTuple.from(values);
+     * LongTuple.LongTuple3 tuple = LongTuple.from(values);
      * tuple.sum();                                           // returns 6
      *
      * // Single element
-     * LongTuple.LongTuple1 single = (LongTuple.LongTuple1) LongTuple.from(new long[]{42L});
+     * LongTuple.LongTuple1 single = LongTuple.from(new long[]{42L});
      * assert single._1 == 42;
      *
      * // null or empty array returns the shared empty tuple (arity == 0)
@@ -395,48 +387,52 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * LongTuple.from(new long[10]);                       // throws IllegalArgumentException
      * }</pre>
      *
-     * <p>The return type is the base tuple type because the concrete arity is determined only at runtime.
-     * Test the result's type before casting when an arity-specific subtype is required.</p>
+     * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values.length}.
+     * The generic return type is only type-safe when assigned to the matching arity-specific subtype,
+     * or to the base tuple type. Assigning to the wrong arity-specific subtype will result in a
+     * {@link ClassCastException} at the assignment site.</p>
      *
+     * @param <TP> the base tuple type or matching arity-specific subtype expected by the caller
      * @param values the array of long values; may be {@code null} or empty, in which case the shared empty tuple is returned
      * @return a {@code LongTuple} of the appropriate arity containing the array values, or the shared empty tuple if the array is {@code null} or empty
      * @throws IllegalArgumentException if {@code values} has more than 9 elements
-     * @deprecated Use {@link #empty()} or the arity-specific {@code of(...)} factory methods instead.
+     * @deprecated Use the {@code of(...)} factory methods instead; this method may be removed in a future release.
      * @see #of(long)
      */
     @Deprecated
-    public static LongTuple<?> from(final long[] values) {
+    @SuppressWarnings({ "unchecked" })
+    public static <TP extends LongTuple<TP>> TP from(final long[] values) {
         if (values == null || values.length == 0) {
-            return LongTuple0.EMPTY;
+            return (TP) LongTuple0.EMPTY;
         }
 
         switch (values.length) {
             case 1:
-                return LongTuple.of(values[0]);
+                return (TP) LongTuple.of(values[0]);
 
             case 2:
-                return LongTuple.of(values[0], values[1]);
+                return (TP) LongTuple.of(values[0], values[1]);
 
             case 3:
-                return LongTuple.of(values[0], values[1], values[2]);
+                return (TP) LongTuple.of(values[0], values[1], values[2]);
 
             case 4:
-                return LongTuple.of(values[0], values[1], values[2], values[3]);
+                return (TP) LongTuple.of(values[0], values[1], values[2], values[3]);
 
             case 5:
-                return LongTuple.of(values[0], values[1], values[2], values[3], values[4]);
+                return (TP) LongTuple.of(values[0], values[1], values[2], values[3], values[4]);
 
             case 6:
-                return LongTuple.of(values[0], values[1], values[2], values[3], values[4], values[5]);
+                return (TP) LongTuple.of(values[0], values[1], values[2], values[3], values[4], values[5]);
 
             case 7:
-                return LongTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6]);
+                return (TP) LongTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6]);
 
             case 8:
-                return LongTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7]);
+                return (TP) LongTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7]);
 
             case 9:
-                return LongTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8]);
+                return (TP) LongTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8]);
 
             default:
                 throw new IllegalArgumentException("Too many elements (" + values.length + "). Maximum: 9");
@@ -556,42 +552,6 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      */
     public long sum() {
         return N.sum(elements());
-    }
-
-    /**
-     * Returns the exact mathematical sum of this tuple's elements as a {@code long}.
-     * Unlike {@link #sum()}, this method throws if the final total is outside the signed
-     * {@code long} range. An empty tuple returns {@code 0L}.
-     *
-     * <p>An intermediate overflow does not by itself cause failure. For example,
-     * {@code LongTuple.of(Long.MAX_VALUE, 1L, -1L).sumExact()} returns
-     * {@link Long#MAX_VALUE} because the final mathematical total is representable.</p>
-     *
-     * @return the exact sum, or {@code 0L} if this tuple is empty
-     * @throws ArithmeticException if the final mathematical sum cannot be represented as a {@code long}
-     * @see #sum()
-     */
-    public long sumExact() {
-        final long[] values = elements();
-        long result = 0L;
-
-        for (int i = 0; i < values.length; i++) {
-            try {
-                result = Math.addExact(result, values[i]);
-            } catch (final ArithmeticException overflow) {
-                // The final total can still fit after an overflowing prefix (MAX_VALUE + 1 - 1).
-                // Fall back only on that uncommon path to avoid BigInteger allocation for ordinary exact sums.
-                BigInteger exactResult = BigInteger.valueOf(result);
-
-                for (; i < values.length; i++) {
-                    exactResult = exactResult.add(BigInteger.valueOf(values[i]));
-                }
-
-                return exactResult.longValueExact();
-            }
-        }
-
-        return result;
     }
 
     /**
@@ -791,11 +751,11 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
     public abstract boolean contains(long value);
 
     /**
-     * Returns an array containing all elements of this tuple.
+     * Returns a new array containing all elements of this tuple.
      * <p>
-     * Non-empty built-in tuples return a fresh array populated from their final fields on every
-     * call. The empty tuple may reuse a shared zero-length array. Modifications cannot affect the
-     * tuple, and the returned array length equals the tuple's arity.
+     * Creates and returns a defensive copy of the internal element array. Modifications
+     * to the returned array do not affect the tuple, maintaining immutability. The
+     * returned array has the same length as the tuple's arity.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -815,12 +775,12 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * assert empty.toArray().length == 0;
      * }</pre>
      *
-     * @return an array containing all tuple elements in order
+     * @return a new {@code long[]} array containing all tuple elements in order
      * @see #toList()
      * @see #stream()
      */
     public long[] toArray() {
-        return elements();
+        return elements().clone();
     }
 
     /**
@@ -856,7 +816,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * @see #stream()
      */
     public LongList toList() {
-        return LongList.of(elements());
+        return LongList.of(elements().clone());
     }
 
     /**
@@ -951,13 +911,14 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * LongTuple.LongTuple3 b = LongTuple.of(1L, 2L, 3L);
      * assert a.hashCode() == b.hashCode(); // returns true (equal tuples have equal hash codes)
      *
+     * // different element order produces a different hash code
+     * LongTuple.LongTuple3 c = LongTuple.of(3L, 2L, 1L);
+     * assert a.hashCode() != c.hashCode(); // returns true
+     *
      * // Edge: empty tuple has a stable hash code
      * LongTuple<?> empty = LongTuple.from(new long[0]);
      * assert empty.hashCode() == LongTuple.from(new long[0]).hashCode(); // returns true
      * }</pre>
-     *
-     * <p>Unequal tuples, including tuples with a different element order, may have the same hash
-     * code; hash codes do not provide a uniqueness guarantee.</p>
      *
      * @return a hash code value for this tuple
      * @see #equals(Object)
@@ -1019,19 +980,22 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
     }
 
     /**
-     * Returns an array containing all long elements in this tuple. Non-empty tuples return a
-     * fresh array on every call; the empty tuple may return a shared zero-length array.
+     * Returns the internal array containing all long elements in this tuple.
+     * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+     * Modifying the returned array will compromise the immutability of this tuple.
+     * Use {@link #toArray()} instead if you need an array that can be safely modified.
+     * </p>
      *
-     * @return an array containing the long elements in encounter order
+     * @return the internal array of long elements
      */
     protected abstract long[] elements();
 
     /**
      * An empty LongTuple containing no elements (arity 0).
      * <p>
-     * This package-private class is exposed through the base {@code LongTuple} type via
-     * {@link #empty()} and by {@link #from(long[])} for a {@code null} or zero-length array.
-     * {@link #sum()} and {@link #sumExact()} return {@code 0L}; {@link #average()} returns an empty {@code OptionalDouble}, while
+     * This package-private class is exposed only through the base {@code LongTuple} type
+     * via the singleton instance returned by {@link #from(long[])} when invoked with a
+     * {@code null} or zero-length array. {@link #sum()} returns {@code 0L} and {@link #average()} returns an empty {@code OptionalDouble}, while
      * {@link #min()}, {@link #max()}, {@link #lowerMedian()}, and {@link #median()} all throw
      * {@link java.util.NoSuchElementException}.
      * </p>
@@ -1041,6 +1005,9 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         /** The shared empty long tuple. */
         private static final LongTuple0 EMPTY = new LongTuple0();
 
+        /**
+         * Creates the empty tuple instance.
+         */
         LongTuple0() {
         }
 
@@ -1147,11 +1114,21 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
             return false;
         }
 
+        /**
+         * Returns a string representation of this empty tuple.
+         *
+         * @return {@code "()"}
+         */
         @Override
         public String toString() {
             return "()";
         }
 
+        /**
+         * Returns the shared empty long array.
+         *
+         * @return an empty long array
+         */
         @Override
         protected long[] elements() {
             return N.EMPTY_LONG_ARRAY;
@@ -1184,6 +1161,11 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
             this(0);
         }
 
+        /**
+         * Creates a tuple with the specified value.
+         *
+         * @param _1 the long value to store in the tuple
+         */
         LongTuple1(final long _1) {
             this._1 = _1;
         }
@@ -1475,13 +1457,21 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns a new array containing the long elements in encounter order.
+         * Returns the internal array of long elements.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a new array containing the long elements in encounter order
+         * @return the internal array of long elements
          */
         @Override
         protected long[] elements() {
-            return new long[] { _1 };
+            if (elements == null) {
+                elements = new long[] { _1 };
+            }
+
+            return elements;
         }
     }
 
@@ -1520,6 +1510,12 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
             this(0, 0);
         }
 
+        /**
+         * Creates a tuple with the specified values.
+         *
+         * @param _1 the first long value
+         * @param _2 the second long value
+         */
         LongTuple2(final long _1, final long _2) {
             this._1 = _1;
             this._2 = _2;
@@ -1903,6 +1899,10 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * int ha = a.hashCode();   // == 31 * Long.hashCode(3L) + Long.hashCode(4L)
          * int hb = b.hashCode();   // == ha (equal tuples have equal hash codes)
          *
+         * // order matters: (3, 4) and (4, 3) have different hash codes
+         * LongTuple.LongTuple2 c = LongTuple.of(4L, 3L);
+         * int hc = c.hashCode();   // != ha
+         *
          * LongTuple.LongTuple2 neg = LongTuple.of(-1L, -2L);
          * int hn = neg.hashCode();   // == 31 * Long.hashCode(-1L) + Long.hashCode(-2L)
          * }</pre>
@@ -1972,13 +1972,21 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns a new array containing the long elements in encounter order.
+         * Returns the internal array of long elements.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a new array containing the long elements in encounter order
+         * @return the internal array of long elements
          */
         @Override
         protected long[] elements() {
-            return new long[] { _1, _2 };
+            if (elements == null) {
+                elements = new long[] { _1, _2 };
+            }
+
+            return elements;
         }
     }
 
@@ -2015,6 +2023,13 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
             this(0, 0, 0);
         }
 
+        /**
+         * Creates a tuple with the specified values.
+         *
+         * @param _1 the first long value
+         * @param _2 the second long value
+         * @param _3 the third long value
+         */
         LongTuple3(final long _1, final long _2, final long _3) {
             this._1 = _1;
             this._2 = _2;
@@ -2403,6 +2418,10 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * int ha = a.hashCode();   // == (31 * (31 * Long.hashCode(1L) + Long.hashCode(2L))) + Long.hashCode(3L)
          * int hb = b.hashCode();   // == ha (equal tuples have equal hash codes)
          *
+         * // order matters: (1, 2, 3) and (3, 2, 1) have different hash codes
+         * LongTuple.LongTuple3 c = LongTuple.of(3L, 2L, 1L);
+         * int hc = c.hashCode();   // != ha
+         *
          * LongTuple.LongTuple3 neg = LongTuple.of(-1L, 0L, 1L);
          * int hn = neg.hashCode();   // consistent with equals
          * }</pre>
@@ -2472,13 +2491,21 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns a new array containing the long elements in encounter order.
+         * Returns the internal array of long elements.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a new array containing the long elements in encounter order
+         * @return the internal array of long elements
          */
         @Override
         protected long[] elements() {
-            return new long[] { _1, _2, _3 };
+            if (elements == null) {
+                elements = new long[] { _1, _2, _3 };
+            }
+
+            return elements;
         }
     }
 
@@ -2517,6 +2544,14 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
             this(0, 0, 0, 0);
         }
 
+        /**
+         * Creates a tuple with the specified values.
+         *
+         * @param _1 the first long value
+         * @param _2 the second long value
+         * @param _3 the third long value
+         * @param _4 the fourth long value
+         */
         LongTuple4(final long _1, final long _2, final long _3, final long _4) {
             this._1 = _1;
             this._2 = _2;
@@ -2749,6 +2784,9 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * LongTuple.LongTuple4 t1 = LongTuple.of(1L, 2L, 3L, 4L);
          * LongTuple.LongTuple4 t2 = LongTuple.of(1L, 2L, 3L, 4L);
          * boolean sameHash = t1.hashCode() == t2.hashCode(); // true (equal tuples have same hash)
+         *
+         * LongTuple.LongTuple4 t3 = LongTuple.of(4L, 3L, 2L, 1L);
+         * boolean diffHash = t1.hashCode() != t3.hashCode(); // true (different element order)
          * }</pre>
          *
          * @return a hash code based on all four elements
@@ -2820,13 +2858,21 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns a new array containing the long elements in encounter order.
+         * Returns the internal array of long elements.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a new array containing the long elements in encounter order
+         * @return the internal array of long elements
          */
         @Override
         protected long[] elements() {
-            return new long[] { _1, _2, _3, _4 };
+            if (elements == null) {
+                elements = new long[] { _1, _2, _3, _4 };
+            }
+
+            return elements;
         }
     }
 
@@ -2868,6 +2914,15 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
             this(0, 0, 0, 0, 0);
         }
 
+        /**
+         * Creates a tuple with the specified values.
+         *
+         * @param _1 the first long value
+         * @param _2 the second long value
+         * @param _3 the third long value
+         * @param _4 the fourth long value
+         * @param _5 the fifth long value
+         */
         LongTuple5(final long _1, final long _2, final long _3, final long _4, final long _5) {
             this._1 = _1;
             this._2 = _2;
@@ -3101,6 +3156,9 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * LongTuple.LongTuple5 t1 = LongTuple.of(1L, 2L, 3L, 4L, 5L);
          * LongTuple.LongTuple5 t2 = LongTuple.of(1L, 2L, 3L, 4L, 5L);
          * boolean sameHash = t1.hashCode() == t2.hashCode(); // true (equal tuples have same hash)
+         *
+         * LongTuple.LongTuple5 t3 = LongTuple.of(5L, 4L, 3L, 2L, 1L);
+         * boolean diffHash = t1.hashCode() != t3.hashCode(); // true (different element order)
          * }</pre>
          *
          * @return a hash code based on all five elements
@@ -3172,13 +3230,21 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns a new array containing the long elements in encounter order.
+         * Returns the internal array of long elements.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a new array containing the long elements in encounter order
+         * @return the internal array of long elements
          */
         @Override
         protected long[] elements() {
-            return new long[] { _1, _2, _3, _4, _5 };
+            if (elements == null) {
+                elements = new long[] { _1, _2, _3, _4, _5 };
+            }
+
+            return elements;
         }
     }
 
@@ -3221,6 +3287,16 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
             this(0, 0, 0, 0, 0, 0);
         }
 
+        /**
+         * Creates a tuple with the specified values.
+         *
+         * @param _1 the first long value
+         * @param _2 the second long value
+         * @param _3 the third long value
+         * @param _4 the fourth long value
+         * @param _5 the fifth long value
+         * @param _6 the sixth long value
+         */
         LongTuple6(final long _1, final long _2, final long _3, final long _4, final long _5, final long _6) {
             this._1 = _1;
             this._2 = _2;
@@ -3456,6 +3532,9 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * LongTuple.LongTuple6 t1 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
          * LongTuple.LongTuple6 t2 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
          * boolean sameHash = t1.hashCode() == t2.hashCode(); // true (equal tuples have same hash)
+         *
+         * LongTuple.LongTuple6 t3 = LongTuple.of(6L, 5L, 4L, 3L, 2L, 1L);
+         * boolean diffHash = t1.hashCode() != t3.hashCode(); // true (different element order)
          * }</pre>
          *
          * @return a hash code based on all six elements
@@ -3528,13 +3607,21 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns a new array containing the long elements in encounter order.
+         * Returns the internal array of long elements.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a new array containing the long elements in encounter order
+         * @return the internal array of long elements
          */
         @Override
         protected long[] elements() {
-            return new long[] { _1, _2, _3, _4, _5, _6 };
+            if (elements == null) {
+                elements = new long[] { _1, _2, _3, _4, _5, _6 };
+            }
+
+            return elements;
         }
     }
 
@@ -3580,6 +3667,17 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
             this(0, 0, 0, 0, 0, 0, 0);
         }
 
+        /**
+         * Creates a tuple with the specified values.
+         *
+         * @param _1 the first long value
+         * @param _2 the second long value
+         * @param _3 the third long value
+         * @param _4 the fourth long value
+         * @param _5 the fifth long value
+         * @param _6 the sixth long value
+         * @param _7 the seventh long value
+         */
         LongTuple7(final long _1, final long _2, final long _3, final long _4, final long _5, final long _6, final long _7) {
             this._1 = _1;
             this._2 = _2;
@@ -3846,13 +3944,21 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns a new array containing the long elements in encounter order.
+         * Returns the internal array of long elements.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a new array containing the long elements in encounter order
+         * @return the internal array of long elements
          */
         @Override
         protected long[] elements() {
-            return new long[] { _1, _2, _3, _4, _5, _6, _7 };
+            if (elements == null) {
+                elements = new long[] { _1, _2, _3, _4, _5, _6, _7 };
+            }
+
+            return elements;
         }
     }
 
@@ -3902,6 +4008,18 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
             this(0, 0, 0, 0, 0, 0, 0, 0);
         }
 
+        /**
+         * Creates a tuple with the specified values.
+         *
+         * @param _1 the first long value
+         * @param _2 the second long value
+         * @param _3 the third long value
+         * @param _4 the fourth long value
+         * @param _5 the fifth long value
+         * @param _6 the sixth long value
+         * @param _7 the seventh long value
+         * @param _8 the eighth long value
+         */
         LongTuple8(final long _1, final long _2, final long _3, final long _4, final long _5, final long _6, final long _7, final long _8) {
             this._1 = _1;
             this._2 = _2;
@@ -4174,13 +4292,21 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns a new array containing the long elements in encounter order.
+         * Returns the internal array of long elements.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a new array containing the long elements in encounter order
+         * @return the internal array of long elements
          */
         @Override
         protected long[] elements() {
-            return new long[] { _1, _2, _3, _4, _5, _6, _7, _8 };
+            if (elements == null) {
+                elements = new long[] { _1, _2, _3, _4, _5, _6, _7, _8 };
+            }
+
+            return elements;
         }
     }
 
@@ -4232,6 +4358,19 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
             this(0, 0, 0, 0, 0, 0, 0, 0, 0);
         }
 
+        /**
+         * Creates a tuple with the specified values.
+         *
+         * @param _1 the first long value
+         * @param _2 the second long value
+         * @param _3 the third long value
+         * @param _4 the fourth long value
+         * @param _5 the fifth long value
+         * @param _6 the sixth long value
+         * @param _7 the seventh long value
+         * @param _8 the eighth long value
+         * @param _9 the ninth long value
+         */
         LongTuple9(final long _1, final long _2, final long _3, final long _4, final long _5, final long _6, final long _7, final long _8, final long _9) {
             this._1 = _1;
             this._2 = _2;
@@ -4506,13 +4645,21 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         }
 
         /**
-         * Returns a new array containing the long elements in encounter order.
+         * Returns the internal array of long elements.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a new array containing the long elements in encounter order
+         * @return the internal array of long elements
          */
         @Override
         protected long[] elements() {
-            return new long[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
+            if (elements == null) {
+                elements = new long[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
+            }
+
+            return elements;
         }
     }
 

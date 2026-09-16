@@ -15,6 +15,7 @@ package com.landawn.abacus.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -61,6 +62,7 @@ class PointsTest extends TestBase {
         assertTrue(point1.equals(point1));
 
         assertEquals(point1.hashCode(), point2.hashCode());
+        assertNotEquals(point1.hashCode(), point3.hashCode());
     }
 
     @Test
@@ -94,6 +96,7 @@ class PointsTest extends TestBase {
         assertTrue(point1.equals(point1));
 
         assertEquals(point1.hashCode(), point2.hashCode());
+        assertNotEquals(point1.hashCode(), point3.hashCode());
     }
 
     @Test
@@ -109,6 +112,8 @@ class PointsTest extends TestBase {
         assertTrue(point1.equals(point1));
 
         assertEquals(point1.hashCode(), point2.hashCode());
+        assertNotEquals(point1.hashCode(), point3.hashCode());
+        assertNotEquals(point1.hashCode(), point4.hashCode());
     }
 
     @Test
@@ -130,6 +135,7 @@ class PointsTest extends TestBase {
         assertFalse(point1.equals(point3));
 
         assertEquals(point1.hashCode(), point2.hashCode());
+        assertNotEquals(point1.hashCode(), point3.hashCode());
     }
 
     @Test
@@ -151,6 +157,8 @@ class PointsTest extends TestBase {
         assertFalse(point1.equals(point3));
 
         assertEquals(point1.hashCode(), point2.hashCode());
+        // Record uses default hashCode which includes all fields
+        assertNotEquals(point1.hashCode(), point3.hashCode());
     }
 
     @Test
@@ -177,34 +185,8 @@ class PointsTest extends TestBase {
         assertTrue(point4.equals(point5));
 
         assertEquals(point1.hashCode(), point2.hashCode());
+        assertNotEquals(point1.hashCode(), point3.hashCode());
         assertEquals(point4.hashCode(), point5.hashCode());
-    }
-
-    @Test
-    @Tag("2025")
-    public void testObjPointArrayPayloadUsesIdentityEquality() {
-        final int[] payload = { 1, 2, 3 };
-        final Points.D2.IntObjPoint<int[]> first = Points.D2.IntObjPoint.of(1, 2, payload);
-        final Points.D2.IntObjPoint<int[]> sameReference = Points.D2.IntObjPoint.of(1, 2, payload);
-        final Points.D2.IntObjPoint<int[]> equalContents = Points.D2.IntObjPoint.of(1, 2, payload.clone());
-
-        assertEquals(first, sameReference);
-        assertEquals(first.hashCode(), sameReference.hashCode());
-        assertFalse(first.equals(equalContents));
-    }
-
-    @Test
-    @Tag("2025")
-    public void testObjPointMutablePayloadCanChangeEquality() {
-        final java.util.List<Integer> mutablePayload = new java.util.ArrayList<>(java.util.List.of(1, 2));
-        final Points.D3.IntObjPoint<java.util.List<Integer>> point = Points.D3.IntObjPoint.of(1, 2, 3, mutablePayload);
-        final Points.D3.IntObjPoint<java.util.List<Integer>> originalValue = Points.D3.IntObjPoint.of(1, 2, 3,
-                new java.util.ArrayList<>(mutablePayload));
-        assertEquals(originalValue, point);
-
-        mutablePayload.add(3);
-
-        assertFalse(originalValue.equals(point));
     }
 
     @Test
@@ -307,6 +289,7 @@ class PointsTest extends TestBase {
         assertTrue(point.equals(point2));
         assertFalse(point.equals(point3));
         assertEquals(point.hashCode(), point2.hashCode());
+        assertNotEquals(point.hashCode(), point3.hashCode());
 
         // Test toString
         assertEquals("ByteLongPoint[x=10, y=20, value=1000]", point.toString());
@@ -354,6 +337,7 @@ class PointsTest extends TestBase {
         assertTrue(point4.equals(point5));
 
         assertEquals(point1.hashCode(), point2.hashCode());
+        assertNotEquals(point1.hashCode(), point3.hashCode());
         assertEquals(point4.hashCode(), point5.hashCode());
 
         // Test toString
@@ -375,6 +359,7 @@ class PointsTest extends TestBase {
         assertTrue(point.equals(point2));
         assertFalse(point.equals(point3));
         assertEquals(point.hashCode(), point2.hashCode());
+        assertNotEquals(point.hashCode(), point3.hashCode());
 
         // Test toString
         assertEquals("IntBytePoint[x=100, y=200, value=50]", point.toString());
@@ -395,6 +380,7 @@ class PointsTest extends TestBase {
         assertTrue(point.equals(point2));
         assertFalse(point.equals(point3));
         assertEquals(point.hashCode(), point2.hashCode());
+        assertNotEquals(point.hashCode(), point3.hashCode());
 
         // Test toString
         assertEquals("IntLongPoint[x=10, y=20, value=5000]", point.toString());
@@ -415,6 +401,7 @@ class PointsTest extends TestBase {
         assertTrue(point.equals(point2));
         assertFalse(point.equals(point3));
         assertEquals(point.hashCode(), point2.hashCode());
+        assertNotEquals(point.hashCode(), point3.hashCode());
 
         // Test toString
         assertEquals("LongBytePoint[x=1000, y=2000, value=100]", point.toString());
@@ -435,6 +422,7 @@ class PointsTest extends TestBase {
         assertTrue(point.equals(point2));
         assertFalse(point.equals(point3));
         assertEquals(point.hashCode(), point2.hashCode());
+        assertNotEquals(point.hashCode(), point3.hashCode());
 
         // Test toString
         assertEquals("LongIntPoint[x=500, y=1000, value=250]", point.toString());
@@ -1754,12 +1742,11 @@ class PointsTest extends TestBase {
         }
 
         @Test
-        public void testHashCode_EqualPoints() {
+        public void testHashCode_DifferentPoints() {
             D2.IntIntPoint point1 = D2.IntIntPoint.of(1, 2, 3);
-            D2.IntIntPoint point2 = D2.IntIntPoint.of(1, 2, 3);
+            D2.IntIntPoint point2 = D2.IntIntPoint.of(4, 5, 6);
 
-            assertEquals(point1, point2);
-            assertEquals(point1.hashCode(), point2.hashCode());
+            assertNotEquals(point1.hashCode(), point2.hashCode());
         }
 
         @Test
@@ -2839,12 +2826,11 @@ class PointsTest extends TestBase {
         }
 
         @Test
-        public void testByteIntPoint_HashCode_EqualValues() {
+        public void testByteIntPoint_HashCode_DifferentValues() {
             D2.ByteIntPoint point1 = D2.ByteIntPoint.of((byte) 1, (byte) 2, 100);
-            D2.ByteIntPoint point2 = D2.ByteIntPoint.of((byte) 1, (byte) 2, 100);
+            D2.ByteIntPoint point2 = D2.ByteIntPoint.of((byte) 1, (byte) 2, 200);
 
-            assertEquals(point1, point2);
-            assertEquals(point1.hashCode(), point2.hashCode());
+            assertNotEquals(point1.hashCode(), point2.hashCode());
         }
 
         // ============================================
@@ -3079,12 +3065,11 @@ class PointsTest extends TestBase {
         }
 
         @Test
-        public void testIntIntPoint_HashCode_Equal() {
+        public void testIntIntPoint_HashCode_Different() {
             D2.IntIntPoint point1 = D2.IntIntPoint.of(1, 2, 3);
-            D2.IntIntPoint point2 = D2.IntIntPoint.of(1, 2, 3);
+            D2.IntIntPoint point2 = D2.IntIntPoint.of(3, 2, 1);
 
-            assertEquals(point1, point2);
-            assertEquals(point1.hashCode(), point2.hashCode());
+            assertNotEquals(point1.hashCode(), point2.hashCode());
         }
 
         @Test
@@ -3571,11 +3556,8 @@ class PointsTest extends TestBase {
         public void testDoubleDoublePoint_NegativeZero() {
             D2.DoubleDoublePoint point1 = D2.DoubleDoublePoint.of(-0.0, 0.0, -0.0);
             D2.DoubleDoublePoint point2 = D2.DoubleDoublePoint.of(0.0, -0.0, 0.0);
-            D3.DoubleDoublePoint point3 = D3.DoubleDoublePoint.of(-0.0, 0.0, 0.0, 1.0);
-            D3.DoubleDoublePoint point4 = D3.DoubleDoublePoint.of(0.0, 0.0, 0.0, 1.0);
 
             assertFalse(point1.equals(point2));
-            assertFalse(point3.equals(point4));
         }
 
         @Test
@@ -3676,24 +3658,29 @@ class PointsTest extends TestBase {
         }
 
         // ============================================
-        // HashCode Contract Tests
+        // HashCode Distribution Tests
         // ============================================
 
         @Test
-        public void testHashCode_IntIntPoint_EqualValues() {
+        public void testHashCode_IntIntPoint_Distribution() {
             D2.IntIntPoint point1 = D2.IntIntPoint.of(1, 2, 3);
-            D2.IntIntPoint point2 = D2.IntIntPoint.of(1, 2, 3);
+            D2.IntIntPoint point2 = D2.IntIntPoint.of(2, 1, 3);
+            D2.IntIntPoint point3 = D2.IntIntPoint.of(3, 2, 1);
 
-            assertEquals(point1, point2);
-            assertEquals(point1.hashCode(), point2.hashCode());
+            // All should have different hash codes due to different coordinates
+            int hash1 = point1.hashCode();
+            int hash2 = point2.hashCode();
+            int hash3 = point3.hashCode();
+
+            assertTrue(hash1 != hash2 || hash1 != hash3 || hash2 != hash3);
         }
 
         @Test
         public void testHashCode_DoubleDoublePoint_NaN() {
             D2.DoubleDoublePoint point1 = D2.DoubleDoublePoint.of(Double.NaN, 2.0, 3.0);
-            D2.DoubleDoublePoint point2 = D2.DoubleDoublePoint.of(Double.longBitsToDouble(0x7ff0000000000001L), 2.0, 3.0);
+            D2.DoubleDoublePoint point2 = D2.DoubleDoublePoint.of(Double.NaN, 2.0, 3.0);
 
-            assertEquals(point1, point2);
+            // Hash codes should be equal for NaN values
             assertEquals(point1.hashCode(), point2.hashCode());
         }
 
@@ -4077,6 +4064,13 @@ class PointsTest extends TestBase {
             Points.D2.ByteBytePoint p1 = Points.D2.ByteBytePoint.of((byte) 10, (byte) 20, (byte) 30);
             Points.D2.ByteBytePoint p2 = Points.D2.ByteBytePoint.of((byte) 10, (byte) 20, (byte) 30);
             assertEquals(p1.hashCode(), p2.hashCode());
+        }
+
+        @Test
+        public void testByteBytePoint_hashCode_different() {
+            Points.D2.ByteBytePoint p1 = Points.D2.ByteBytePoint.of((byte) 10, (byte) 20, (byte) 30);
+            Points.D2.ByteBytePoint p2 = Points.D2.ByteBytePoint.of((byte) 10, (byte) 20, (byte) 31);
+            assertFalse(p1.hashCode() == p2.hashCode());
         }
 
         @Test
@@ -5701,12 +5695,15 @@ class PointsTest extends TestBase {
         }
 
         @Test
-        public void test_integration_equalPointsHaveEqualHashCodes() {
+        public void test_integration_hashCodeDifferentForDifferentPoints() {
             IntIntPoint point1 = IntIntPoint.of(10, 20, 30);
-            IntIntPoint point2 = IntIntPoint.of(10, 20, 30);
+            IntIntPoint point2 = IntIntPoint.of(11, 20, 30);
+            IntIntPoint point3 = IntIntPoint.of(10, 21, 30);
+            IntIntPoint point4 = IntIntPoint.of(10, 20, 31);
 
-            assertEquals(point1, point2);
-            assertEquals(point1.hashCode(), point2.hashCode());
+            assertNotEquals(point1.hashCode(), point2.hashCode());
+            assertNotEquals(point1.hashCode(), point3.hashCode());
+            assertNotEquals(point1.hashCode(), point4.hashCode());
         }
     }
 

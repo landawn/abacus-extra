@@ -144,17 +144,17 @@ class IntTupleTest extends TestBase {
         assertEquals(0, empty.arity());
 
         // Test array with 1 element
-        IntTuple.IntTuple1 tuple1 = (IntTuple.IntTuple1) IntTuple.from(new int[] { 10 });
+        IntTuple.IntTuple1 tuple1 = IntTuple.from(new int[] { 10 });
         assertEquals(1, tuple1.arity());
         assertEquals(10, tuple1._1);
 
         // Test array with 5 elements
-        IntTuple.IntTuple5 tuple5 = (IntTuple.IntTuple5) IntTuple.from(new int[] { 10, 20, 30, 40, 50 });
+        IntTuple.IntTuple5 tuple5 = IntTuple.from(new int[] { 10, 20, 30, 40, 50 });
         assertEquals(5, tuple5.arity());
         assertEquals(50, tuple5._5);
 
         // Test array with 9 elements
-        IntTuple.IntTuple9 tuple9 = (IntTuple.IntTuple9) IntTuple.from(new int[] { 10, 20, 30, 40, 50, 60, 70, 80, 90 });
+        IntTuple.IntTuple9 tuple9 = IntTuple.from(new int[] { 10, 20, 30, 40, 50, 60, 70, 80, 90 });
         assertEquals(9, tuple9.arity());
         assertEquals(90, tuple9._9);
 
@@ -167,7 +167,7 @@ class IntTupleTest extends TestBase {
         IntTuple.IntTuple3 tuple = IntTuple.of(30, 10, 20);
         assertEquals(10, tuple.min());
 
-        IntTuple.IntTuple0 empty = (IntTuple.IntTuple0) IntTuple.from(new int[0]);
+        IntTuple.IntTuple0 empty = IntTuple.from(new int[0]);
         assertThrows(NoSuchElementException.class, () -> empty.min());
     }
 
@@ -176,7 +176,7 @@ class IntTupleTest extends TestBase {
         IntTuple.IntTuple3 tuple = IntTuple.of(30, 10, 20);
         assertEquals(30, tuple.max());
 
-        IntTuple.IntTuple0 empty = (IntTuple.IntTuple0) IntTuple.from(new int[0]);
+        IntTuple.IntTuple0 empty = IntTuple.from(new int[0]);
         assertThrows(NoSuchElementException.class, () -> empty.max());
     }
 
@@ -188,7 +188,7 @@ class IntTupleTest extends TestBase {
         IntTuple.IntTuple4 evenTuple = IntTuple.of(10, 20, 30, 40);
         assertEquals(20, evenTuple.lowerMedian()); // even arity returns the lower of the two middle values: 20
 
-        IntTuple.IntTuple0 empty = (IntTuple.IntTuple0) IntTuple.from(new int[0]);
+        IntTuple.IntTuple0 empty = IntTuple.from(new int[0]);
         assertThrows(NoSuchElementException.class, () -> empty.lowerMedian());
     }
 
@@ -197,7 +197,7 @@ class IntTupleTest extends TestBase {
         IntTuple.IntTuple3 tuple = IntTuple.of(10, 20, 30);
         assertEquals(60, tuple.sum());
 
-        IntTuple.IntTuple0 empty = (IntTuple.IntTuple0) IntTuple.from(new int[0]);
+        IntTuple.IntTuple0 empty = IntTuple.from(new int[0]);
         assertEquals(0, empty.sum());
     }
 
@@ -206,13 +206,13 @@ class IntTupleTest extends TestBase {
         IntTuple.IntTuple3 tuple = IntTuple.of(10, 20, 30);
         assertEquals(20.0, tuple.average().getAsDouble());
 
-        IntTuple.IntTuple0 empty = (IntTuple.IntTuple0) IntTuple.from(new int[0]);
+        IntTuple.IntTuple0 empty = IntTuple.from(new int[0]);
         assertTrue(empty.average().isEmpty());
     }
 
     @Test
     public void testInheritedAggregateEmptyBehavior() {
-        final IntTuple.IntTuple0 tuple = (IntTuple.IntTuple0) IntTuple.from(new int[0]);
+        final IntTuple.IntTuple0 tuple = IntTuple.from(new int[0]);
 
         assertThrows(NoSuchElementException.class, tuple::min);
         assertThrows(NoSuchElementException.class, tuple::max);
@@ -224,7 +224,7 @@ class IntTupleTest extends TestBase {
     @Test
     public void testReversed() {
         // Test Tuple0
-        IntTuple.IntTuple0 empty = (IntTuple.IntTuple0) IntTuple.from(new int[0]);
+        IntTuple.IntTuple0 empty = IntTuple.from(new int[0]);
         IntTuple.IntTuple0 reversedEmpty = empty.reversed();
         assertEquals(0, reversedEmpty.arity());
 
@@ -259,7 +259,7 @@ class IntTupleTest extends TestBase {
     @Test
     public void testContains() {
         // Test Tuple0
-        IntTuple.IntTuple0 empty = (IntTuple.IntTuple0) IntTuple.from(new int[0]);
+        IntTuple.IntTuple0 empty = IntTuple.from(new int[0]);
         assertFalse(empty.contains(10));
 
         // Test Tuple1
@@ -335,8 +335,10 @@ class IntTupleTest extends TestBase {
     public void testHashCode() {
         IntTuple.IntTuple3 tuple1 = IntTuple.of(10, 20, 30);
         IntTuple.IntTuple3 tuple2 = IntTuple.of(10, 20, 30);
+        IntTuple.IntTuple3 tuple3 = IntTuple.of(10, 20, 31);
 
         assertEquals(tuple1.hashCode(), tuple2.hashCode());
+        assertNotEquals(tuple1.hashCode(), tuple3.hashCode());
 
         // Test specific hashcodes for coverage
         IntTuple.IntTuple1 single = IntTuple.of(10);
@@ -377,7 +379,7 @@ class IntTupleTest extends TestBase {
 
     @Test
     public void testToString() {
-        IntTuple.IntTuple0 empty = (IntTuple.IntTuple0) IntTuple.from(new int[0]);
+        IntTuple.IntTuple0 empty = IntTuple.from(new int[0]);
         assertEquals("()", empty.toString());
 
         IntTuple.IntTuple1 single = IntTuple.of(10);
@@ -439,15 +441,12 @@ class IntTupleTest extends TestBase {
     }
 
     @Test
-    @Tag("2025")
-    public void testElementsMethodReturnsFreshArrays() {
+    public void testElementsMethod() {
+        // Just test that elements are cached properly
         IntTuple.IntTuple3 tuple = IntTuple.of(10, 20, 30);
         int[] elements1 = tuple.elements();
         int[] elements2 = tuple.elements();
-        elements1[0] = 99;
-        assertNotSame(elements1, elements2);
-        assertArrayEquals(new int[] { 10, 20, 30 }, elements2);
-        assertArrayEquals(new int[] { 10, 20, 30 }, tuple.elements());
+        assertSame(elements1, elements2); // Should return same cached array
     }
 
     // Cover built-in sealed tuple behavior directly.
@@ -471,7 +470,7 @@ class IntTupleTest extends TestBase {
         assertEquals("(4, 1, 3, 2)", tuple.toString());
     }
 
-    // Exercise zero-initialized tuple constructors and fresh element snapshots.
+    // Exercise zero-initialized tuple constructors and cached element materialization.
     @Test
     public void testIntTupleDefaultConstructors_ZeroInitialization() {
         final IntTuple1 tuple1 = new IntTuple1();
@@ -670,28 +669,28 @@ class IntTupleTest extends TestBase {
         // Create method tests
         @Test
         public void testCreateEmpty() {
-            IntTuple<?> tuple = IntTuple.from(new int[0]);
+            IntTuple<IntTuple0> tuple = IntTuple.from(new int[0]);
             assertNotNull(tuple);
             assertEquals(0, tuple.arity());
         }
 
         @Test
         public void testCreateNull() {
-            IntTuple<?> tuple = IntTuple.from(null);
+            IntTuple<IntTuple0> tuple = IntTuple.from(null);
             assertNotNull(tuple);
             assertEquals(0, tuple.arity());
         }
 
         @Test
         public void testCreate1() {
-            IntTuple1 tuple = (IntTuple1) IntTuple.from(new int[] { 42 });
+            IntTuple1 tuple = IntTuple.from(new int[] { 42 });
             assertEquals(42, tuple._1);
             assertEquals(1, tuple.arity());
         }
 
         @Test
         public void testCreate3() {
-            IntTuple3 tuple = (IntTuple3) IntTuple.from(new int[] { 1, 2, 3 });
+            IntTuple3 tuple = IntTuple.from(new int[] { 1, 2, 3 });
             assertEquals(1, tuple._1);
             assertEquals(2, tuple._2);
             assertEquals(3, tuple._3);
@@ -699,7 +698,7 @@ class IntTupleTest extends TestBase {
 
         @Test
         public void testCreate9() {
-            IntTuple9 tuple = (IntTuple9) IntTuple.from(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
+            IntTuple9 tuple = IntTuple.from(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
             assertEquals(1, tuple._1);
             assertEquals(9, tuple._9);
         }
@@ -725,7 +724,7 @@ class IntTupleTest extends TestBase {
 
         @Test
         public void testMinTuple0ThrowsException() {
-            IntTuple<?> tuple = IntTuple.from(new int[0]);
+            IntTuple<IntTuple0> tuple = IntTuple.from(new int[0]);
             assertThrows(NoSuchElementException.class, () -> tuple.min());
         }
 
@@ -750,7 +749,7 @@ class IntTupleTest extends TestBase {
 
         @Test
         public void testMaxTuple0ThrowsException() {
-            IntTuple<?> tuple = IntTuple.from(new int[0]);
+            IntTuple<IntTuple0> tuple = IntTuple.from(new int[0]);
             assertThrows(NoSuchElementException.class, () -> tuple.max());
         }
 
@@ -769,14 +768,14 @@ class IntTupleTest extends TestBase {
 
         @Test
         public void testMedianTuple0ThrowsException() {
-            IntTuple<?> tuple = IntTuple.from(new int[0]);
+            IntTuple<IntTuple0> tuple = IntTuple.from(new int[0]);
             assertThrows(NoSuchElementException.class, () -> tuple.lowerMedian());
         }
 
         // Statistical method tests - sum
         @Test
         public void testSumTuple0() {
-            IntTuple<?> tuple = IntTuple.from(new int[0]);
+            IntTuple<IntTuple0> tuple = IntTuple.from(new int[0]);
             assertEquals(0, tuple.sum());
         }
 
@@ -801,15 +800,15 @@ class IntTupleTest extends TestBase {
 
         @Test
         public void testAverageTuple0ReturnsEmpty() {
-            IntTuple<?> tuple = IntTuple.from(new int[0]);
+            IntTuple<IntTuple0> tuple = IntTuple.from(new int[0]);
             assertTrue(tuple.average().isEmpty());
         }
 
         // Reverse tests
         @Test
         public void testReversedTuple0() {
-            IntTuple<?> tuple = IntTuple.from(new int[0]);
-            IntTuple<?> reversed = tuple.reversed();
+            IntTuple<IntTuple0> tuple = IntTuple.from(new int[0]);
+            IntTuple<IntTuple0> reversed = tuple.reversed();
             assertNotNull(reversed);
             assertEquals(0, reversed.arity());
         }
@@ -824,7 +823,7 @@ class IntTupleTest extends TestBase {
         // Contains tests
         @Test
         public void testContainsTuple0() {
-            IntTuple<?> tuple = IntTuple.from(new int[0]);
+            IntTuple<IntTuple0> tuple = IntTuple.from(new int[0]);
             assertFalse(tuple.contains(1));
         }
 
@@ -859,7 +858,7 @@ class IntTupleTest extends TestBase {
         // toArray tests
         @Test
         public void testToArrayTuple0() {
-            IntTuple<?> tuple = IntTuple.from(new int[0]);
+            IntTuple<IntTuple0> tuple = IntTuple.from(new int[0]);
             int[] array = tuple.toArray();
             assertEquals(0, array.length);
         }
@@ -875,7 +874,7 @@ class IntTupleTest extends TestBase {
         // toList tests
         @Test
         public void testToListTuple0() {
-            IntTuple<?> tuple = IntTuple.from(new int[0]);
+            IntTuple<IntTuple0> tuple = IntTuple.from(new int[0]);
             IntList list = tuple.toList();
             assertEquals(0, list.size());
         }
@@ -893,7 +892,7 @@ class IntTupleTest extends TestBase {
         // forEach tests
         @Test
         public void testForEachTuple0() {
-            IntTuple<?> tuple = IntTuple.from(new int[0]);
+            IntTuple<IntTuple0> tuple = IntTuple.from(new int[0]);
             List<Integer> result = new ArrayList<>();
             tuple.forEach(i -> result.add(i));
             assertEquals(0, result.size());
@@ -922,7 +921,7 @@ class IntTupleTest extends TestBase {
         // stream tests
         @Test
         public void testStreamTuple0() {
-            IntTuple<?> tuple = IntTuple.from(new int[0]);
+            IntTuple<IntTuple0> tuple = IntTuple.from(new int[0]);
             IntStream stream = tuple.stream();
             assertEquals(0, stream.count());
         }
@@ -998,7 +997,7 @@ class IntTupleTest extends TestBase {
         // toString tests
         @Test
         public void testToStringTuple0() {
-            IntTuple<?> tuple = IntTuple.from(new int[0]);
+            IntTuple<IntTuple0> tuple = IntTuple.from(new int[0]);
             assertEquals("()", tuple.toString());
         }
 
@@ -1409,27 +1408,27 @@ class IntTupleTest extends TestBase {
         // Test create methods for sizes 2, 4-8
         @Test
         public void testCreate2Through8() {
-            IntTuple2 tuple2 = (IntTuple2) IntTuple.from(new int[] { 1, 2 });
+            IntTuple2 tuple2 = IntTuple.from(new int[] { 1, 2 });
             assertEquals(1, tuple2._1);
             assertEquals(2, tuple2._2);
 
-            IntTuple4 tuple4 = (IntTuple4) IntTuple.from(new int[] { 1, 2, 3, 4 });
+            IntTuple4 tuple4 = IntTuple.from(new int[] { 1, 2, 3, 4 });
             assertEquals(1, tuple4._1);
             assertEquals(4, tuple4._4);
 
-            IntTuple5 tuple5 = (IntTuple5) IntTuple.from(new int[] { 1, 2, 3, 4, 5 });
+            IntTuple5 tuple5 = IntTuple.from(new int[] { 1, 2, 3, 4, 5 });
             assertEquals(1, tuple5._1);
             assertEquals(5, tuple5._5);
 
-            IntTuple6 tuple6 = (IntTuple6) IntTuple.from(new int[] { 1, 2, 3, 4, 5, 6 });
+            IntTuple6 tuple6 = IntTuple.from(new int[] { 1, 2, 3, 4, 5, 6 });
             assertEquals(1, tuple6._1);
             assertEquals(6, tuple6._6);
 
-            IntTuple7 tuple7 = (IntTuple7) IntTuple.from(new int[] { 1, 2, 3, 4, 5, 6, 7 });
+            IntTuple7 tuple7 = IntTuple.from(new int[] { 1, 2, 3, 4, 5, 6, 7 });
             assertEquals(1, tuple7._1);
             assertEquals(7, tuple7._7);
 
-            IntTuple8 tuple8 = (IntTuple8) IntTuple.from(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 });
+            IntTuple8 tuple8 = IntTuple.from(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 });
             assertEquals(1, tuple8._1);
             assertEquals(8, tuple8._8);
         }
@@ -2207,14 +2206,14 @@ class IntTupleTest extends TestBase {
 
         @Test
         public void testCreate_sizeOne() {
-            IntTuple1 tuple = (IntTuple1) IntTuple.from(new int[] { 42 });
+            IntTuple1 tuple = IntTuple.from(new int[] { 42 });
             assertEquals(1, tuple.arity());
             assertEquals(42, tuple._1);
         }
 
         @Test
         public void testCreate_sizeTwo() {
-            IntTuple2 tuple = (IntTuple2) IntTuple.from(new int[] { 1, 2 });
+            IntTuple2 tuple = IntTuple.from(new int[] { 1, 2 });
             assertEquals(2, tuple.arity());
             assertEquals(1, tuple._1);
             assertEquals(2, tuple._2);
@@ -2222,7 +2221,7 @@ class IntTupleTest extends TestBase {
 
         @Test
         public void testCreate_sizeThree() {
-            IntTuple3 tuple = (IntTuple3) IntTuple.from(new int[] { 1, 2, 3 });
+            IntTuple3 tuple = IntTuple.from(new int[] { 1, 2, 3 });
             assertEquals(3, tuple.arity());
             assertEquals(1, tuple._1);
             assertEquals(3, tuple._3);
@@ -2230,7 +2229,7 @@ class IntTupleTest extends TestBase {
 
         @Test
         public void testCreate_sizeFour() {
-            IntTuple4 tuple = (IntTuple4) IntTuple.from(new int[] { 1, 2, 3, 4 });
+            IntTuple4 tuple = IntTuple.from(new int[] { 1, 2, 3, 4 });
             assertEquals(4, tuple.arity());
             assertEquals(1, tuple._1);
             assertEquals(4, tuple._4);
@@ -2238,35 +2237,35 @@ class IntTupleTest extends TestBase {
 
         @Test
         public void testCreate_sizeFive() {
-            IntTuple5 tuple = (IntTuple5) IntTuple.from(new int[] { 1, 2, 3, 4, 5 });
+            IntTuple5 tuple = IntTuple.from(new int[] { 1, 2, 3, 4, 5 });
             assertEquals(5, tuple.arity());
             assertEquals(5, tuple._5);
         }
 
         @Test
         public void testCreate_sizeSix() {
-            IntTuple6 tuple = (IntTuple6) IntTuple.from(new int[] { 1, 2, 3, 4, 5, 6 });
+            IntTuple6 tuple = IntTuple.from(new int[] { 1, 2, 3, 4, 5, 6 });
             assertEquals(6, tuple.arity());
             assertEquals(6, tuple._6);
         }
 
         @Test
         public void testCreate_sizeSeven() {
-            IntTuple7 tuple = (IntTuple7) IntTuple.from(new int[] { 1, 2, 3, 4, 5, 6, 7 });
+            IntTuple7 tuple = IntTuple.from(new int[] { 1, 2, 3, 4, 5, 6, 7 });
             assertEquals(7, tuple.arity());
             assertEquals(7, tuple._7);
         }
 
         @Test
         public void testCreate_sizeEight() {
-            IntTuple8 tuple = (IntTuple8) IntTuple.from(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 });
+            IntTuple8 tuple = IntTuple.from(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 });
             assertEquals(8, tuple.arity());
             assertEquals(8, tuple._8);
         }
 
         @Test
         public void testCreate_sizeNine() {
-            IntTuple9 tuple = (IntTuple9) IntTuple.from(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
+            IntTuple9 tuple = IntTuple.from(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
             assertEquals(9, tuple.arity());
             assertEquals(9, tuple._9);
         }
@@ -2499,10 +2498,10 @@ class IntTupleTest extends TestBase {
         }
 
         @Test
-        public void testHashCode_tuple1_equal() {
+        public void testHashCode_tuple1_different() {
             IntTuple1 tuple1 = IntTuple.of(42);
-            IntTuple1 tuple2 = IntTuple.of(42);
-            assertEquals(tuple1.hashCode(), tuple2.hashCode());
+            IntTuple1 tuple2 = IntTuple.of(100);
+            assertNotEquals(tuple1.hashCode(), tuple2.hashCode());
         }
 
         @Test
@@ -2920,14 +2919,14 @@ class IntTupleTest extends TestBase {
 
         @Test
         public void testCreate_empty() {
-            IntTuple0 tuple = (IntTuple0) IntTuple.from(new int[0]);
+            IntTuple0 tuple = IntTuple.from(new int[0]);
             assertNotNull(tuple);
             assertEquals(0, tuple.arity());
         }
 
         @Test
         public void testCreate_single() {
-            IntTuple1 tuple = (IntTuple1) IntTuple.from(new int[] { 100 });
+            IntTuple1 tuple = IntTuple.from(new int[] { 100 });
             assertNotNull(tuple);
             assertEquals(100, tuple._1);
             assertEquals(1, tuple.arity());
@@ -2935,7 +2934,7 @@ class IntTupleTest extends TestBase {
 
         @Test
         public void testCreate_two() {
-            IntTuple2 tuple = (IntTuple2) IntTuple.from(new int[] { 10, 20 });
+            IntTuple2 tuple = IntTuple.from(new int[] { 10, 20 });
             assertNotNull(tuple);
             assertEquals(10, tuple._1);
             assertEquals(20, tuple._2);
@@ -2943,7 +2942,7 @@ class IntTupleTest extends TestBase {
 
         @Test
         public void testCreate_nine() {
-            IntTuple9 tuple = (IntTuple9) IntTuple.from(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
+            IntTuple9 tuple = IntTuple.from(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
             assertNotNull(tuple);
             assertEquals(1, tuple._1);
             assertEquals(9, tuple._9);
@@ -3021,7 +3020,7 @@ class IntTupleTest extends TestBase {
 
         @Test
         public void testReversed_empty() {
-            IntTuple0 tuple = (IntTuple0) IntTuple.from(new int[0]);
+            IntTuple0 tuple = IntTuple.from(new int[0]);
             IntTuple0 reversed = tuple.reversed();
             assertNotNull(reversed);
             assertEquals(0, reversed.arity());
@@ -3068,7 +3067,7 @@ class IntTupleTest extends TestBase {
 
         @Test
         public void testContains_empty() {
-            IntTuple0 tuple = (IntTuple0) IntTuple.from(new int[0]);
+            IntTuple0 tuple = IntTuple.from(new int[0]);
             assertFalse(tuple.contains(42));
         }
 
@@ -3173,7 +3172,7 @@ class IntTupleTest extends TestBase {
 
         @Test
         public void testForEach_empty() {
-            IntTuple0 tuple = (IntTuple0) IntTuple.from(new int[0]);
+            IntTuple0 tuple = IntTuple.from(new int[0]);
             AtomicInteger count = new AtomicInteger(0);
             tuple.forEach(i -> count.incrementAndGet());
             assertEquals(0, count.get());
@@ -3212,7 +3211,7 @@ class IntTupleTest extends TestBase {
 
         @Test
         public void testToArray_empty() {
-            IntTuple0 tuple = (IntTuple0) IntTuple.from(new int[0]);
+            IntTuple0 tuple = IntTuple.from(new int[0]);
             int[] array = tuple.toArray();
             assertNotNull(array);
             assertEquals(0, array.length);
@@ -3238,7 +3237,7 @@ class IntTupleTest extends TestBase {
 
         @Test
         public void testToList_empty() {
-            IntTuple0 tuple = (IntTuple0) IntTuple.from(new int[0]);
+            IntTuple0 tuple = IntTuple.from(new int[0]);
             IntList list = tuple.toList();
             assertNotNull(list);
             assertEquals(0, list.size());
@@ -3258,7 +3257,7 @@ class IntTupleTest extends TestBase {
 
         @Test
         public void testStream_empty() {
-            IntTuple0 tuple = (IntTuple0) IntTuple.from(new int[0]);
+            IntTuple0 tuple = IntTuple.from(new int[0]);
             int sum = tuple.stream().sum();
             assertEquals(0, sum);
         }
@@ -3326,15 +3325,15 @@ class IntTupleTest extends TestBase {
         }
 
         @Test
-        public void testHashCode_equalValues() {
+        public void testHashCode_differentValues() {
             IntTuple2 tuple1 = IntTuple.of(10, 20);
-            IntTuple2 tuple2 = IntTuple.of(10, 20);
-            assertEquals(tuple1.hashCode(), tuple2.hashCode());
+            IntTuple2 tuple2 = IntTuple.of(30, 40);
+            assertNotEquals(tuple1.hashCode(), tuple2.hashCode());
         }
 
         @Test
         public void testHashCode_empty() {
-            IntTuple0 tuple = (IntTuple0) IntTuple.from(new int[0]);
+            IntTuple0 tuple = IntTuple.from(new int[0]);
             assertNotNull(tuple.hashCode());
         }
 
@@ -3532,14 +3531,14 @@ class IntTupleTest extends TestBase {
 
         @Test
         public void test_create_nullArray() {
-            IntTuple0 tuple = (IntTuple0) IntTuple.from(null);
+            IntTuple0 tuple = IntTuple.from(null);
             assertNotNull(tuple);
             assertEquals(0, tuple.arity());
         }
 
         @Test
         public void test_create_singleElementArray() {
-            IntTuple1 tuple = (IntTuple1) IntTuple.from(new int[] { 42 });
+            IntTuple1 tuple = IntTuple.from(new int[] { 42 });
             assertNotNull(tuple);
             assertEquals(1, tuple.arity());
             assertEquals(42, tuple._1);
@@ -3547,7 +3546,7 @@ class IntTupleTest extends TestBase {
 
         @Test
         public void test_create_multipleElementsArray() {
-            IntTuple3 tuple = (IntTuple3) IntTuple.from(new int[] { 1, 2, 3 });
+            IntTuple3 tuple = IntTuple.from(new int[] { 1, 2, 3 });
             assertNotNull(tuple);
             assertEquals(3, tuple.arity());
             assertEquals(1, tuple._1);
@@ -3565,56 +3564,56 @@ class IntTupleTest extends TestBase {
 
         @Test
         public void test_IntTuple0_arity() {
-            IntTuple0 tuple = (IntTuple0) IntTuple.from(new int[0]);
+            IntTuple0 tuple = IntTuple.from(new int[0]);
             assertEquals(0, tuple.arity());
         }
 
         @Test
         public void test_IntTuple0_min_throwsException() {
-            IntTuple0 tuple = (IntTuple0) IntTuple.from(new int[0]);
+            IntTuple0 tuple = IntTuple.from(new int[0]);
             assertThrows(NoSuchElementException.class, () -> tuple.min());
         }
 
         @Test
         public void test_IntTuple0_max_throwsException() {
-            IntTuple0 tuple = (IntTuple0) IntTuple.from(new int[0]);
+            IntTuple0 tuple = IntTuple.from(new int[0]);
             assertThrows(NoSuchElementException.class, () -> tuple.max());
         }
 
         @Test
         public void test_IntTuple0_median_throwsException() {
-            IntTuple0 tuple = (IntTuple0) IntTuple.from(new int[0]);
+            IntTuple0 tuple = IntTuple.from(new int[0]);
             assertThrows(NoSuchElementException.class, () -> tuple.lowerMedian());
         }
 
         @Test
         public void test_IntTuple0_sum() {
-            IntTuple0 tuple = (IntTuple0) IntTuple.from(new int[0]);
+            IntTuple0 tuple = IntTuple.from(new int[0]);
             assertEquals(0, tuple.sum());
         }
 
         @Test
         public void test_IntTuple0_average_returnsEmpty() {
-            IntTuple0 tuple = (IntTuple0) IntTuple.from(new int[0]);
+            IntTuple0 tuple = IntTuple.from(new int[0]);
             assertTrue(tuple.average().isEmpty());
         }
 
         @Test
         public void test_IntTuple0_reversed() {
-            IntTuple0 tuple = (IntTuple0) IntTuple.from(new int[0]);
+            IntTuple0 tuple = IntTuple.from(new int[0]);
             IntTuple0 reversed = tuple.reversed();
             assertSame(tuple, reversed);
         }
 
         @Test
         public void test_IntTuple0_contains() {
-            IntTuple0 tuple = (IntTuple0) IntTuple.from(new int[0]);
+            IntTuple0 tuple = IntTuple.from(new int[0]);
             assertFalse(tuple.contains(1));
         }
 
         @Test
         public void test_IntTuple0_toString() {
-            IntTuple0 tuple = (IntTuple0) IntTuple.from(new int[0]);
+            IntTuple0 tuple = IntTuple.from(new int[0]);
             assertEquals("()", tuple.toString());
         }
 
@@ -4307,50 +4306,42 @@ class IntTupleTest extends TestBase {
     }
 
     @Test
-    @Tag("2025")
-    public void testCoverageRegression_DefaultConstructorsAndFreshArrays() {
-        assertSame(IntTuple.empty(), IntTuple.empty());
-        assertSame(IntTuple.empty(), IntTuple.from(null));
-
+    public void testCoverageRegression_DefaultConstructorsAndCachedArrays() {
         IntTuple.IntTuple1 tuple1 = new IntTuple.IntTuple1();
-        final int[] firstArray = tuple1.elements();
-        firstArray[0] = 1;
-        assertArrayEquals(new int[] { 0 }, tuple1.elements());
-        assertNotSame(firstArray, tuple1.elements());
         assertArrayEquals(new int[] { 0 }, tuple1.toArray());
-        assertNotSame(tuple1.toArray(), tuple1.toArray());
+        assertArrayEquals(new int[] { 0 }, tuple1.toArray());
 
         IntTuple.IntTuple2 tuple2 = new IntTuple.IntTuple2();
         assertArrayEquals(new int[] { 0, 0 }, tuple2.toArray());
-        assertNotSame(tuple2.toArray(), tuple2.toArray());
+        assertArrayEquals(new int[] { 0, 0 }, tuple2.toArray());
 
         IntTuple.IntTuple3 tuple3 = new IntTuple.IntTuple3();
         assertArrayEquals(new int[] { 0, 0, 0 }, tuple3.toArray());
-        assertNotSame(tuple3.toArray(), tuple3.toArray());
+        assertArrayEquals(new int[] { 0, 0, 0 }, tuple3.toArray());
 
         IntTuple.IntTuple4 tuple4 = new IntTuple.IntTuple4();
         assertArrayEquals(new int[] { 0, 0, 0, 0 }, tuple4.toArray());
-        assertNotSame(tuple4.toArray(), tuple4.toArray());
+        assertArrayEquals(new int[] { 0, 0, 0, 0 }, tuple4.toArray());
 
         IntTuple.IntTuple5 tuple5 = new IntTuple.IntTuple5();
         assertArrayEquals(new int[] { 0, 0, 0, 0, 0 }, tuple5.toArray());
-        assertNotSame(tuple5.toArray(), tuple5.toArray());
+        assertArrayEquals(new int[] { 0, 0, 0, 0, 0 }, tuple5.toArray());
 
         IntTuple.IntTuple6 tuple6 = new IntTuple.IntTuple6();
         assertArrayEquals(new int[] { 0, 0, 0, 0, 0, 0 }, tuple6.toArray());
-        assertNotSame(tuple6.toArray(), tuple6.toArray());
+        assertArrayEquals(new int[] { 0, 0, 0, 0, 0, 0 }, tuple6.toArray());
 
         IntTuple.IntTuple7 tuple7 = new IntTuple.IntTuple7();
         assertArrayEquals(new int[] { 0, 0, 0, 0, 0, 0, 0 }, tuple7.toArray());
-        assertNotSame(tuple7.toArray(), tuple7.toArray());
+        assertArrayEquals(new int[] { 0, 0, 0, 0, 0, 0, 0 }, tuple7.toArray());
 
         IntTuple.IntTuple8 tuple8 = new IntTuple.IntTuple8();
         assertArrayEquals(new int[] { 0, 0, 0, 0, 0, 0, 0, 0 }, tuple8.toArray());
-        assertNotSame(tuple8.toArray(), tuple8.toArray());
+        assertArrayEquals(new int[] { 0, 0, 0, 0, 0, 0, 0, 0 }, tuple8.toArray());
 
         IntTuple.IntTuple9 tuple9 = new IntTuple.IntTuple9();
         assertArrayEquals(new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, tuple9.toArray());
-        assertNotSame(tuple9.toArray(), tuple9.toArray());
+        assertArrayEquals(new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, tuple9.toArray());
     }
 
     @Test

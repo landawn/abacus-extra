@@ -67,21 +67,16 @@ import com.landawn.abacus.util.stream.ShortStream;
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTuple<TP>
         permits ShortTuple0, ShortTuple1, ShortTuple2, ShortTuple3, ShortTuple4, ShortTuple5, ShortTuple6, ShortTuple7, ShortTuple8, ShortTuple9 {
+
+    /** Internal element storage; lazily initialized when {@link #elements()} is first called. */
+    protected volatile short[] elements;
+
     /**
      * Protected constructor for subclass instantiation.
      * This constructor is not intended for direct use. Use the static factory methods
      * such as {@link #of(short)}, {@link #of(short, short)}, etc., to create tuple instances.
      */
     protected ShortTuple() {
-    }
-
-    /**
-     * Returns the shared empty short tuple.
-     *
-     * @return the empty tuple with arity zero
-     */
-    public static ShortTuple<?> empty() {
-        return ShortTuple0.EMPTY;
     }
 
     /**
@@ -394,12 +389,12 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * <pre>{@code
      * // Typical 3-element array
      * short[] values = {1, 2, 3};
-     * ShortTuple.ShortTuple3 t3 = (ShortTuple.ShortTuple3) ShortTuple.from(values);
+     * ShortTuple.ShortTuple3 t3 = ShortTuple.from(values);
      * assert t3._1 == 1;
      * assert t3._3 == 3;
      *
      * // Typical 1-element array
-     * ShortTuple.ShortTuple1 t1 = (ShortTuple.ShortTuple1) ShortTuple.from(new short[]{42});
+     * ShortTuple.ShortTuple1 t1 = ShortTuple.from(new short[]{42});
      * assert t1._1 == 42;
      *
      * // Edge: null input returns the empty tuple
@@ -414,48 +409,52 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * ShortTuple.from(new short[10]); // throws IllegalArgumentException
      * }</pre>
      *
-     * <p>The return type is the base tuple type because the concrete arity is determined only at runtime.
-     * Test the result's type before casting when an arity-specific subtype is required.</p>
+     * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values.length}.
+     * The generic return type is only type-safe when assigned to the matching arity-specific subtype,
+     * or to the base tuple type. Assigning to the wrong arity-specific subtype will result in a
+     * {@link ClassCastException} at the assignment site.</p>
      *
+     * @param <TP> the base tuple type or matching arity-specific subtype expected by the caller
      * @param values the array of short values; may be {@code null} or empty, in which case the shared empty tuple is returned
      * @return a {@code ShortTuple} of the appropriate arity containing the array values, or the shared empty tuple if the array is {@code null} or empty
      * @throws IllegalArgumentException if {@code values} has more than 9 elements
-     * @deprecated Use {@link #empty()} or the arity-specific {@code of(...)} factory methods instead.
+     * @deprecated Use the {@code of(...)} factory methods instead; this method may be removed in a future release.
      * @see #of(short)
      */
     @Deprecated
-    public static ShortTuple<?> from(final short[] values) {
+    @SuppressWarnings({ "unchecked" })
+    public static <TP extends ShortTuple<TP>> TP from(final short[] values) {
         if (values == null || values.length == 0) {
-            return ShortTuple0.EMPTY;
+            return (TP) ShortTuple0.EMPTY;
         }
 
         switch (values.length) {
             case 1:
-                return ShortTuple.of(values[0]);
+                return (TP) ShortTuple.of(values[0]);
 
             case 2:
-                return ShortTuple.of(values[0], values[1]);
+                return (TP) ShortTuple.of(values[0], values[1]);
 
             case 3:
-                return ShortTuple.of(values[0], values[1], values[2]);
+                return (TP) ShortTuple.of(values[0], values[1], values[2]);
 
             case 4:
-                return ShortTuple.of(values[0], values[1], values[2], values[3]);
+                return (TP) ShortTuple.of(values[0], values[1], values[2], values[3]);
 
             case 5:
-                return ShortTuple.of(values[0], values[1], values[2], values[3], values[4]);
+                return (TP) ShortTuple.of(values[0], values[1], values[2], values[3], values[4]);
 
             case 6:
-                return ShortTuple.of(values[0], values[1], values[2], values[3], values[4], values[5]);
+                return (TP) ShortTuple.of(values[0], values[1], values[2], values[3], values[4], values[5]);
 
             case 7:
-                return ShortTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6]);
+                return (TP) ShortTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6]);
 
             case 8:
-                return ShortTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7]);
+                return (TP) ShortTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7]);
 
             case 9:
-                return ShortTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8]);
+                return (TP) ShortTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8]);
 
             default:
                 throw new IllegalArgumentException("Too many elements (" + values.length + "). Maximum: 9");
@@ -761,11 +760,11 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
     public abstract boolean contains(short value);
 
     /**
-     * Returns an array containing all elements of this tuple.
+     * Returns a new array containing all elements of this tuple.
      * <p>
-     * Non-empty built-in tuples return a fresh array populated from their final fields on every
-     * call. The empty tuple may reuse a shared zero-length array. Modifications cannot affect the
-     * tuple, and the returned array length equals the tuple's arity.
+     * Creates and returns a defensive copy of the internal element array. Modifications
+     * to the returned array do not affect the tuple, preserving immutability. The
+     * returned array has length equal to the tuple's arity.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -787,20 +786,20 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * single.toArray();                  // returns [5]
      * }</pre>
      *
-     * @return an array containing all tuple elements in order
+     * @return a new {@code short[]} array containing all tuple elements in order
      * @see #toList()
      * @see #stream()
      */
     public short[] toArray() {
-        return elements();
+        return elements().clone();
     }
 
     /**
      * Returns a new {@link ShortList} containing all elements of this tuple.
      * <p>
      * Converts this tuple to a mutable {@code ShortList} containing all elements
-     * in their original order. The returned list's mutable storage is independent of this tuple,
-     * so modifications to it do not affect the tuple.
+     * in their original order. The returned list is backed by a fresh array;
+     * modifications to it do not affect this tuple.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -827,7 +826,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * @see #stream()
      */
     public ShortList toList() {
-        return ShortList.of(elements());
+        return ShortList.of(elements().clone());
     }
 
     /**
@@ -933,9 +932,6 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * t1.hashCode();                     // does not throw
      * }</pre>
      *
-     * <p>Unequal tuples, including tuples with a different element order, may have the same hash
-     * code; hash codes do not provide a uniqueness guarantee.</p>
-     *
      * @return a hash code value for this tuple
      * @see #equals(Object)
      */
@@ -991,19 +987,22 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
     }
 
     /**
-     * Returns an array containing all short elements in this tuple. Non-empty tuples return a
-     * fresh array on every call; the empty tuple may return a shared zero-length array.
+     * Returns the internal array containing all short elements in this tuple.
+     * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+     * Modifying the returned array will compromise the immutability of this tuple.
+     * Use {@link #toArray()} instead if you need an array that can be safely modified.
+     * </p>
      *
-     * @return an array containing the short elements in encounter order
+     * @return the internal array of short elements
      */
     protected abstract short[] elements();
 
     /**
      * An empty ShortTuple containing no elements (arity 0).
      * <p>
-     * This package-private class is exposed through the base {@code ShortTuple} type via
-     * {@link #empty()} and by {@link #from(short[])} for a {@code null} or zero-length array.
-     * {@link #sum()} returns 0 and {@link #average()} returns an empty {@code OptionalDouble}, while
+     * This package-private class is exposed only through the base {@code ShortTuple} type
+     * via the singleton instance returned by {@link #from(short[])} when invoked with a
+     * {@code null} or zero-length array. {@link #sum()} returns 0 and {@link #average()} returns an empty {@code OptionalDouble}, while
      * {@link #min()}, {@link #max()}, {@link #lowerMedian()}, and {@link #median()} all throw {@link java.util.NoSuchElementException}.
      * </p>
      */
@@ -1014,7 +1013,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
 
         /**
          * Package-private constructor for internal use only; the empty tuple is exposed as a shared
-         * singleton via {@link ShortTuple#empty()}.
+         * singleton via {@link ShortTuple#from(short[])}.
          */
         ShortTuple0() {
         }
@@ -1122,11 +1121,21 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
             return false;
         }
 
+        /**
+         * Returns a string representation of this empty tuple.
+         *
+         * @return {@code "()"}
+         */
         @Override
         public String toString() {
             return "()";
         }
 
+        /**
+         * Returns the shared empty short array.
+         *
+         * @return an empty short array
+         */
         @Override
         protected short[] elements() {
             return N.EMPTY_SHORT_ARRAY;
@@ -1480,13 +1489,22 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         }
 
         /**
-         * Returns a new array containing the short elements in encounter order.
+         * Returns the internal array of short elements.
+         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a new array containing the short elements in encounter order
+         * @return the internal array of short elements
          */
         @Override
         protected short[] elements() {
-            return new short[] { _1 };
+            if (elements == null) {
+                elements = new short[] { _1 };
+            }
+
+            return elements;
         }
     }
 
@@ -1933,6 +1951,9 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * ShortTuple.ShortTuple2 same = ShortTuple.of((short) 1, (short) 2);
          * // t.hashCode() == same.hashCode()  -> true
          *
+         * ShortTuple.ShortTuple2 diff = ShortTuple.of((short) 2, (short) 1);
+         * // t.hashCode() != diff.hashCode()  -> likely true (order matters)
+         *
          * ShortTuple.ShortTuple2 neg = ShortTuple.of((short) -1, (short) -2);
          * int nh = neg.hashCode();   // returns 31 * (-1) + (-2) == -33
          * }</pre>
@@ -2001,13 +2022,22 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         }
 
         /**
-         * Returns a new array containing the short elements in encounter order.
+         * Returns the internal array of short elements.
+         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a new array containing the short elements in encounter order
+         * @return the internal array of short elements
          */
         @Override
         protected short[] elements() {
-            return new short[] { _1, _2 };
+            if (elements == null) {
+                elements = new short[] { _1, _2 };
+            }
+
+            return elements;
         }
     }
 
@@ -2457,6 +2487,9 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * ShortTuple.ShortTuple3 same = ShortTuple.of((short) 1, (short) 2, (short) 3);
          * // t.hashCode() == same.hashCode()  -> true
          *
+         * ShortTuple.ShortTuple3 diff = ShortTuple.of((short) 3, (short) 2, (short) 1);
+         * // t.hashCode() != diff.hashCode()  -> likely true (order matters)
+         *
          * ShortTuple.ShortTuple3 neg = ShortTuple.of((short) -1, (short) -2, (short) -3);
          * int nh = neg.hashCode();   // returns (31 * (31 * (-1) + (-2))) + (-3) == -1026
          * }</pre>
@@ -2525,13 +2558,22 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         }
 
         /**
-         * Returns a new array containing the short elements in encounter order.
+         * Returns the internal array of short elements.
+         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a new array containing the short elements in encounter order
+         * @return the internal array of short elements
          */
         @Override
         protected short[] elements() {
-            return new short[] { _1, _2, _3 };
+            if (elements == null) {
+                elements = new short[] { _1, _2, _3 };
+            }
+
+            return elements;
         }
     }
 
@@ -2844,13 +2886,22 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         }
 
         /**
-         * Returns a new array containing the short elements in encounter order.
+         * Returns the internal array of short elements.
+         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a new array containing the short elements in encounter order
+         * @return the internal array of short elements
          */
         @Override
         protected short[] elements() {
-            return new short[] { _1, _2, _3, _4 };
+            if (elements == null) {
+                elements = new short[] { _1, _2, _3, _4 };
+            }
+
+            return elements;
         }
     }
 
@@ -3168,13 +3219,22 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         }
 
         /**
-         * Returns a new array containing the short elements in encounter order.
+         * Returns the internal array of short elements.
+         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a new array containing the short elements in encounter order
+         * @return the internal array of short elements
          */
         @Override
         protected short[] elements() {
-            return new short[] { _1, _2, _3, _4, _5 };
+            if (elements == null) {
+                elements = new short[] { _1, _2, _3, _4, _5 };
+            }
+
+            return elements;
         }
     }
 
@@ -3497,13 +3557,22 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         }
 
         /**
-         * Returns a new array containing the short elements in encounter order.
+         * Returns the internal array of short elements.
+         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a new array containing the short elements in encounter order
+         * @return the internal array of short elements
          */
         @Override
         protected short[] elements() {
-            return new short[] { _1, _2, _3, _4, _5, _6 };
+            if (elements == null) {
+                elements = new short[] { _1, _2, _3, _4, _5, _6 };
+            }
+
+            return elements;
         }
     }
 
@@ -3779,6 +3848,10 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * ShortTuple.ShortTuple7 t1 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7);
          * ShortTuple.ShortTuple7 t2 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7);
          * boolean same = t1.hashCode() == t2.hashCode(); // true
+         *
+         * ShortTuple.ShortTuple7 t3 = ShortTuple.of((short)7, (short)6, (short)5, (short)4, (short)3, (short)2, (short)1);
+         * boolean diff = (t1.hashCode() == t3.hashCode());   // returns false (order matters)
+         *
          * ShortTuple.ShortTuple7 t4 = ShortTuple.of((short)0, (short)0, (short)0, (short)0, (short)0, (short)0, (short)0);
          * int h = t4.hashCode();   // returns 0 (all-zero tuple)
          * }</pre>
@@ -3845,13 +3918,22 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         }
 
         /**
-         * Returns a new array containing the short elements in encounter order.
+         * Returns the internal array of short elements.
+         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a new array containing the short elements in encounter order
+         * @return the internal array of short elements
          */
         @Override
         protected short[] elements() {
-            return new short[] { _1, _2, _3, _4, _5, _6, _7 };
+            if (elements == null) {
+                elements = new short[] { _1, _2, _3, _4, _5, _6, _7 };
+            }
+
+            return elements;
         }
     }
 
@@ -4139,6 +4221,10 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * ShortTuple.ShortTuple8 t1 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8);
          * ShortTuple.ShortTuple8 t2 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8);
          * boolean same = t1.hashCode() == t2.hashCode(); // true
+         *
+         * ShortTuple.ShortTuple8 t3 = ShortTuple.of((short)8, (short)7, (short)6, (short)5, (short)4, (short)3, (short)2, (short)1);
+         * boolean diff = (t1.hashCode() == t3.hashCode());   // returns false (order matters)
+         *
          * ShortTuple.ShortTuple8 t4 = ShortTuple.of((short)0, (short)0, (short)0, (short)0, (short)0, (short)0, (short)0, (short)0);
          * int h = t4.hashCode();   // returns 0 (all-zero tuple)
          * }</pre>
@@ -4206,13 +4292,22 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         }
 
         /**
-         * Returns a new array containing the short elements in encounter order.
+         * Returns the internal array of short elements.
+         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a new array containing the short elements in encounter order
+         * @return the internal array of short elements
          */
         @Override
         protected short[] elements() {
-            return new short[] { _1, _2, _3, _4, _5, _6, _7, _8 };
+            if (elements == null) {
+                elements = new short[] { _1, _2, _3, _4, _5, _6, _7, _8 };
+            }
+
+            return elements;
         }
     }
 
@@ -4506,6 +4601,10 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
          * ShortTuple.ShortTuple9 t1 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8, (short)9);
          * ShortTuple.ShortTuple9 t2 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8, (short)9);
          * boolean same = t1.hashCode() == t2.hashCode(); // true
+         *
+         * ShortTuple.ShortTuple9 t3 = ShortTuple.of((short)9, (short)8, (short)7, (short)6, (short)5, (short)4, (short)3, (short)2, (short)1);
+         * boolean diff = (t1.hashCode() == t3.hashCode());   // returns false (order matters)
+         *
          * ShortTuple.ShortTuple9 t4 = ShortTuple.of((short)0, (short)0, (short)0, (short)0, (short)0, (short)0, (short)0, (short)0, (short)0);
          * int h = t4.hashCode();   // returns 0 (all-zero tuple)
          * }</pre>
@@ -4573,13 +4672,22 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         }
 
         /**
-         * Returns a new array containing the short elements in encounter order.
+         * Returns the internal array of short elements.
+         * The array is lazily initialized on first access.
+         * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
+         * Modifying the returned array will compromise the immutability of this tuple.
+         * Use {@link #toArray()} instead if you need an array that can be safely modified.
+         * </p>
          *
-         * @return a new array containing the short elements in encounter order
+         * @return the internal array of short elements
          */
         @Override
         protected short[] elements() {
-            return new short[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
+            if (elements == null) {
+                elements = new short[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
+            }
+
+            return elements;
         }
     }
 

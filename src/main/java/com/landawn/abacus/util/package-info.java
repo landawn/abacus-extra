@@ -23,11 +23,8 @@
  *       {@link com.landawn.abacus.util.Arrays.f Arrays.f},
  *       {@link com.landawn.abacus.util.Arrays.ff Arrays.ff}, and
  *       {@link com.landawn.abacus.util.Arrays.fff Arrays.fff}.</li>
- *   <li>{@link com.landawn.abacus.util.ArrayConversions} supplies policy-explicit exact numeric
- *       conversions and non-zero boolean mappings with strict outer-array null handling.</li>
  *   <li>{@link com.landawn.abacus.util.ImmutableIntArray} is a read-only, value-oriented wrapper
- *       around an {@code int} array, while {@link com.landawn.abacus.util.IntArrayView} is an
- *       explicitly shared zero-copy view.</li>
+ *       around an {@code int} array, with aggregate, traversal, streaming, and range operations.</li>
  *   <li>{@link com.landawn.abacus.util.Points} groups point/value records under
  *       {@link com.landawn.abacus.util.Points.D2 Points.D2} and
  *       {@link com.landawn.abacus.util.Points.D3 Points.D3}. Coordinate types include
@@ -48,14 +45,14 @@
  *       Empty results may use a shared empty-array constant. Operations named {@code updateAll},
  *       {@code replaceIf}, or {@code mutateViaFlatArray} modify the supplied array.</li>
  *   <li>{@link com.landawn.abacus.util.ImmutableIntArray#copyOf(int[]) ImmutableIntArray.copyOf}
- *       makes a defensive snapshot with stable value semantics. {@link com.landawn.abacus.util.IntArrayView}
- *       explicitly retains caller-owned storage when later external changes should remain observable.</li>
- *   <li>Primitive tuples are immutable; non-empty tuples return fresh storage from {@code toArray()},
- *       while an empty tuple may return a shared zero-length array. Point records have immutable
- *       components, but an object payload may itself be mutable and is not defensively copied.</li>
- *   <li>Null, empty-input, range, overflow, and ragged-array behavior in the legacy array API is
- *       method-specific. {@code ArrayConversions} instead requires a non-null outer array and
- *       preserves null inner arrays; consult the selected method's contract for other APIs.</li>
+ *       makes a defensive copy. In contrast,
+ *       {@link com.landawn.abacus.util.ImmutableIntArray#unsafeWrap(int[]) ImmutableIntArray.unsafeWrap}
+ *       retains the supplied array, so later external changes remain observable.</li>
+ *   <li>Primitive tuples are immutable and return a copy from {@code toArray()}. Point records have
+ *       immutable components, but an object payload may itself be mutable and is not defensively
+ *       copied.</li>
+ *   <li>Null, empty-input, range, overflow, and ragged-array behavior is method-specific; consult
+ *       the selected method's contract rather than assuming a package-wide policy.</li>
  * </ul>
  *
  * <h2>Naming guide</h2>
