@@ -557,8 +557,26 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
     /**
      * Returns the arithmetic mean of all long values in this tuple as an {@code OptionalDouble}.
      * <p>
-     * The computation avoids {@code long} overflow. The exact arithmetic mean is rounded once,
-     * using the normal round-to-nearest {@code double} conversion.
+     * The computation avoids {@code long} overflow. How close the result is to the true mean depends on
+     * which of two internal paths is taken, selected by whether any running <i>left-to-right prefix</i>
+     * sum overflows {@code long} — not by whether the total does.
+     * </p>
+     * <p>
+     * When no prefix overflows, the exact total is narrowed to {@code double} and then divided. That is
+     * the nearest {@code double} to the true mean whenever the total is within 2<sup>53</sup> or the
+     * arity is a power of two, and at most one ulp away otherwise. For example
+     * {@code LongTuple.of(9007199254740991L, 1L, 1L).average()} returns {@code 3.0023997515803305E15},
+     * one ulp below the true mean {@code 3002399751580331.0}, which is itself exactly representable;
+     * and {@code LongTuple.of(Long.MAX_VALUE, 1026L).average()} returns {@code 4.611686018427388E18}
+     * where the nearest {@code double} is {@code 4.611686018427389E18}.
+     * </p>
+     * <p>
+     * When a prefix does overflow, a quotient/remainder decomposition is used instead. It is accurate
+     * for large means, but because it adds a rounded fraction to a quotient it can be <i>several</i>
+     * ulps off when large elements very nearly cancel. For example a nine-element tuple built from
+     * {@code 6748534329674943672L, 7183318492732822330L, -6748534329674943653L, -7183318492732822325L,
+     * -17L, 18L, -5L, -6L, -15L} has an exact total of {@code -1} and a true mean of
+     * {@code -0.1111111111111111}, but {@code average()} returns {@code -0.11111111111111072}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -598,8 +616,8 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * Elements are ordered by signed numeric value. For an odd arity, this is the middle value when
      * sorted. For an even arity, this is the arithmetic mean of the two middle values. That differs
      * from {@link #lowerMedian()}, which returns a {@code long} and, for even arities, the lower
-     * middle element only. The even-arity mean is computed without intermediate {@code long} overflow
-     * ({@code lower/2 + upper/2 + remainder}).
+     * middle element only. The two middle values are summed exactly before the single rounding to
+     * {@code double}, so the even-arity mean neither overflows nor rounds twice.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -1458,6 +1476,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
         /**
          * Returns the internal array of long elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
          * Modifying the returned array will compromise the immutability of this tuple.
          * Use {@link #toArray()} instead if you need an array that can be safely modified.
@@ -1644,7 +1663,8 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
         /**
          * Returns the statistical median of this pair: the arithmetic mean of both elements as a
-         * {@code double}, computed without intermediate {@code long} overflow.
+         * {@code double}, computed without intermediate {@code long} overflow. The two values are summed
+         * exactly before the single rounding to {@code double}, so the result is correctly rounded.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -1655,12 +1675,12 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * LongTuple.of(Long.MIN_VALUE, Long.MAX_VALUE).median();   // -0.5
          * }</pre>
          *
-         * @return the mean of both values as a {@code double}
+         * @return the mean of both values as a {@code double}, correctly rounded
          * @see #lowerMedian()
          */
         @Override
         public double median() {
-            return _1 / 2 + _2 / 2 + (_1 % 2 + _2 % 2) / 2d;
+            return N.median(_1, _2);
         }
 
         /**
@@ -1973,6 +1993,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
         /**
          * Returns the internal array of long elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
          * Modifying the returned array will compromise the immutability of this tuple.
          * Use {@link #toArray()} instead if you need an array that can be safely modified.
@@ -2492,6 +2513,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
         /**
          * Returns the internal array of long elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
          * Modifying the returned array will compromise the immutability of this tuple.
          * Use {@link #toArray()} instead if you need an array that can be safely modified.
@@ -2859,6 +2881,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
         /**
          * Returns the internal array of long elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
          * Modifying the returned array will compromise the immutability of this tuple.
          * Use {@link #toArray()} instead if you need an array that can be safely modified.
@@ -3231,6 +3254,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
         /**
          * Returns the internal array of long elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
          * Modifying the returned array will compromise the immutability of this tuple.
          * Use {@link #toArray()} instead if you need an array that can be safely modified.
@@ -3608,6 +3632,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
         /**
          * Returns the internal array of long elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
          * Modifying the returned array will compromise the immutability of this tuple.
          * Use {@link #toArray()} instead if you need an array that can be safely modified.
@@ -3945,6 +3970,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
         /**
          * Returns the internal array of long elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
          * Modifying the returned array will compromise the immutability of this tuple.
          * Use {@link #toArray()} instead if you need an array that can be safely modified.
@@ -4293,6 +4319,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
         /**
          * Returns the internal array of long elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
          * Modifying the returned array will compromise the immutability of this tuple.
          * Use {@link #toArray()} instead if you need an array that can be safely modified.
@@ -4646,6 +4673,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
         /**
          * Returns the internal array of long elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
          * Modifying the returned array will compromise the immutability of this tuple.
          * Use {@link #toArray()} instead if you need an array that can be safely modified.

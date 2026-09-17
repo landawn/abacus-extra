@@ -4195,4 +4195,32 @@ class ByteTupleTest extends TestBase {
         assertFalse(tuple9.equals("tuple9"));
     }
 
+    @Nested
+    @Tag("2025")
+    class HashCodeSpecializationTest extends TestBase {
+
+        @Test
+        public void test_subclassHashCodeDiffersFromArrayBasedHash() {
+            // the non-empty overrides are self-consistent but NOT numerically equal to N.hashCode(byte[])
+            assertEquals(33, ByteTuple.of((byte) 1, (byte) 2).hashCode());
+            assertNotEquals(N.hashCode(ByteTuple.of((byte) 1, (byte) 2).toArray()), ByteTuple.of((byte) 1, (byte) 2).hashCode());
+
+            assertEquals(5, ByteTuple.of((byte) 5).hashCode());
+            assertNotEquals(N.hashCode(ByteTuple.of((byte) 5).toArray()), ByteTuple.of((byte) 5).hashCode());
+        }
+
+        @Test
+        public void test_emptyTupleUsesTheArrayBasedHash() {
+            final ByteTuple<?> empty = ByteTuple.from(new byte[0]);
+            assertEquals(1, empty.hashCode());
+            assertEquals(N.hashCode(empty.toArray()), empty.hashCode());
+        }
+
+        @Test
+        public void test_equalTuplesStillShareHashCodes() {
+            assertEquals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3).hashCode(),
+                         ByteTuple.of((byte) 1, (byte) 2, (byte) 3).hashCode());
+            assertEquals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3), ByteTuple.of((byte) 1, (byte) 2, (byte) 3));
+        }
+    }
 }

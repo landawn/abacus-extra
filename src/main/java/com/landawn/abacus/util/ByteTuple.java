@@ -953,8 +953,9 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * <p>
      * The hash code is computed based on the contents of the tuple using a standard
      * algorithm that ensures equal tuples have equal hash codes. This implementation
-     * is consistent with {@link #equals(Object)}. The arity-specific subclasses override
-     * this method with an equivalent but specialized implementation that combines their fields directly.
+     * is consistent with {@link #equals(Object)}. The non-empty arity-specific subclasses override
+     * this method with a specialized implementation that combines their fields directly; that
+     * implementation is self-consistent but does not produce the same value as this array-based one.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>

@@ -4161,4 +4161,192 @@ class LongTupleTest extends TestBase {
         assertEquals(Long.MAX_VALUE - 1, LongTuple.of(Long.MAX_VALUE, Long.MAX_VALUE, Long.MAX_VALUE, 1L).sum());
     }
 
+    @Nested
+    @Tag("2025")
+    class AverageRoundingContractTest extends TestBase {
+
+        /** Exact mean rounded exactly once, for use as an oracle. */
+        private double exactOnce(final long... xs) {
+            java.math.BigInteger s = java.math.BigInteger.ZERO;
+            for (final long x : xs) {
+                s = s.add(java.math.BigInteger.valueOf(x));
+            }
+            return new java.math.BigDecimal(s)
+                    .divide(java.math.BigDecimal.valueOf(xs.length), new java.math.MathContext(60, java.math.RoundingMode.HALF_EVEN))
+                    .doubleValue();
+        }
+
+        @Test
+        public void test_average_documentedExample() {
+            // the exact example the javadoc states
+            assertEquals(3.0023997515803305E15, LongTuple.of(9007199254740991L, 1L, 1L).average().getAsDouble());
+            // ... and the true mean it is one ulp away from is itself exactly representable.
+            // Round-tripping through double is the non-vacuous form: comparing the two literals
+            // directly folds to the same constant and would pass for any long at all.
+            assertEquals(3002399751580331L, (long) (double) 3002399751580331L);
+            assertNotEquals(9007199254740993L, (long) (double) 9007199254740993L, "control: this one is NOT representable");
+        }
+
+        @Test
+        public void test_average_isCorrectlyRoundedWhenTotalFitsIn2Pow53() {
+            assertEquals(exactOnce(1L, 2L, 3L), LongTuple.of(1L, 2L, 3L).average().getAsDouble());
+            assertEquals(exactOnce(-3L, -1L), LongTuple.of(-3L, -1L).average().getAsDouble());
+            final long big = (1L << 53) / 3;
+            assertEquals(exactOnce(big, big, big), LongTuple.of(big, big, big).average().getAsDouble());
+        }
+
+        @Test
+        public void test_average_isCorrectlyRoundedForPowerOfTwoAritiesWhenTheTotalDoesNotOverflow() {
+            // dividing by a power of two is exact, so only one rounding is observable -- but this holds
+            // ONLY while the long accumulation itself does not overflow (see the next test)
+            // must stay below the prefix-overflow threshold at the LARGEST arity tested, so /8 not /2
+            final long v = Long.MAX_VALUE / 8;
+            assertEquals(exactOnce(v, v), LongTuple.of(v, v).average().getAsDouble());
+            assertEquals(exactOnce(v, v, v, v), LongTuple.of(v, v, v, v).average().getAsDouble());
+            assertEquals(exactOnce(v, v, v, v, v, v, v, v), LongTuple.of(v, v, v, v, v, v, v, v).average().getAsDouble());
+        }
+
+        @Test
+        public void test_average_powerOfTwoArityIsNotImmuneOnTheOverflowBranch() {
+            // once the long total overflows, N.average switches to a quotient/remainder decomposition
+            // that can round twice at ANY arity -- including 2. This is what the javadoc now states.
+            final double got = LongTuple.of(Long.MAX_VALUE, 1026L).average().getAsDouble();
+            assertEquals(4.611686018427388E18, got);
+            assertNotEquals(exactOnce(Long.MAX_VALUE, 1026L), got);
+            assertEquals(4.611686018427389E18, exactOnce(Long.MAX_VALUE, 1026L));
+        }
+
+        /** True when a running left-to-right prefix sum overflows, which is what selects the fallback. */
+        private boolean prefixOverflows(final long... xs) {
+            long acc = 0;
+            for (final long x : xs) {
+                try {
+                    acc = Math.addExact(acc, x);
+                } catch (final ArithmeticException e) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        @Test
+        public void test_average_staysWithinOneUlpOnTheNonOverflowBranch() {
+            // the one-ulp bound holds only while no prefix sum overflows; arities 2..9, not just 3
+            final java.util.Random r = new java.util.Random(20260916L);
+            int checked = 0;
+            for (int i = 0; i < 40000; i++) {
+                final int n = 2 + r.nextInt(8);
+                final long[] v = new long[n];
+                for (int j = 0; j < n; j++) {
+                    v[j] = r.nextLong();
+                }
+                if (prefixOverflows(v)) {
+                    continue;
+                }
+                checked++;
+                final double got = LongTuple.from(v).average().getAsDouble();
+                final double want = exactOnce(v);
+                assertTrue(got == want || Math.abs(got - want) <= Math.ulp(want),
+                        "average() drifted more than 1 ulp for " + java.util.Arrays.toString(v));
+            }
+            assertTrue(checked > 1000, "the sample must actually reach the non-overflow branch, got " + checked);
+        }
+
+        @Test
+        public void test_average_canBeSeveralUlpsOffOnTheOverflowBranchWhenElementsCancel() {
+            // the fallback adds a rounded fraction to a quotient, so near-total cancellation of large
+            // elements costs far more than one ulp -- this is why the javadoc does not promise a bound
+            final long[] v = { 6748534329674943672L, 7183318492732822330L, -6748534329674943653L,
+                    -7183318492732822325L, -17L, 18L, -5L, -6L, -15L };
+            assertTrue(prefixOverflows(v));
+            assertEquals(-1L, java.util.Arrays.stream(v).reduce(0L, Long::sum), "the exact total is -1");
+
+            final double got = LongTuple.from(v).average().getAsDouble();
+            assertEquals(-0.11111111111111072, got);
+            assertEquals(-0.1111111111111111, exactOnce(v));
+            assertTrue(Math.abs(got - exactOnce(v)) > Math.ulp(exactOnce(v)), "more than one ulp off");
+        }
+
+        @Test
+        public void test_average_avoidsLongOverflow() {
+            // the first documented sentence: overflow is genuinely avoided (unlike sum(), which wraps)
+            assertEquals((double) Long.MAX_VALUE,
+                    LongTuple.of(Long.MAX_VALUE, Long.MAX_VALUE, Long.MAX_VALUE).average().getAsDouble());
+            assertEquals((double) Long.MIN_VALUE,
+                    LongTuple.of(Long.MIN_VALUE, Long.MIN_VALUE, Long.MIN_VALUE).average().getAsDouble());
+        }
+
+        @Test
+        public void test_average_emptyAndSingle() {
+            assertFalse(LongTuple.from(new long[0]).average().isPresent());
+            assertEquals(7.0, LongTuple.of(7L).average().getAsDouble());
+            // arity 1 is a single widening, so it is exact even above 2^53
+            assertEquals((double) 9007199254740993L, LongTuple.of(9007199254740993L).average().getAsDouble());
+        }
+    }
+
+    @Nested
+    @Tag("2025")
+    class PairMedianRoundingTest extends TestBase {
+
+        /** Exact (a+b)/2 rounded exactly once. */
+        private double exactOnce(final long a, final long b) {
+            return new java.math.BigDecimal(java.math.BigInteger.valueOf(a).add(java.math.BigInteger.valueOf(b)))
+                    .divide(java.math.BigDecimal.valueOf(2), new java.math.MathContext(60, java.math.RoundingMode.HALF_EVEN))
+                    .doubleValue();
+        }
+
+        @Test
+        public void test_pairMedian_isCorrectlyRoundedAbove2Pow53() {
+            // the old hand-rolled formula widened the exact long quotient sum to double before adding
+            // the half-bit, losing the last place here
+            assertEquals(9.007199254740994E15, LongTuple.of(9007199254740993L, 9007199254740995L).median());
+            assertEquals(9.007199254740994E15, LongTuple.of(18014398509481985L, 2L).median());
+            assertEquals(9.007199254740994E15, LongTuple.of(18014398509481986L, 1L).median());
+        }
+
+        @Test
+        public void test_pairMedian_matchesTheArity4PathOnTheSameMiddlePair() {
+            final long a = 9007199254740993L, b = 9007199254740995L;
+            assertEquals(LongTuple.of(Long.MIN_VALUE, a, b, Long.MAX_VALUE).median(), LongTuple.of(a, b).median());
+            // it also agrees with average() here, because this pair does not overflow the long total
+            assertEquals(LongTuple.of(a, b).average().getAsDouble(), LongTuple.of(a, b).median());
+        }
+
+        @Test
+        public void test_pairMedian_isCorrectWhereAverageIsNotOnTheOverflowBranch() {
+            // median() now rounds once (BigInteger sum); average() still uses the quotient/remainder
+            // fallback when the long total overflows, so the two can differ by one ulp there.
+            assertEquals(4.611686018427389E18, LongTuple.of(Long.MAX_VALUE, 1026L).median());
+            assertEquals(4.611686018427388E18, LongTuple.of(Long.MAX_VALUE, 1026L).average().getAsDouble());
+        }
+
+        @Test
+        public void test_pairMedian_documentedExamplesUnchanged() {
+            assertEquals(5.0, LongTuple.of(3L, 7L).median());
+            assertEquals(15.0, LongTuple.of(10L, 20L).median());
+            assertEquals(0.0, LongTuple.of(-5L, 5L).median());
+            assertEquals(20.0, LongTuple.of(10L, 30L).median());
+            // still no intermediate long overflow
+            assertEquals(-0.5, LongTuple.of(Long.MIN_VALUE, Long.MAX_VALUE).median());
+        }
+
+        @Test
+        public void test_pairMedian_extremesAndNearCancelling() {
+            assertEquals((double) Long.MAX_VALUE, LongTuple.of(Long.MAX_VALUE, Long.MAX_VALUE).median());
+            assertEquals((double) Long.MIN_VALUE, LongTuple.of(Long.MIN_VALUE, Long.MIN_VALUE).median());
+            assertEquals(0.0, LongTuple.of(0L, 0L).median());
+            assertEquals(500.0, LongTuple.of(-5614431094282083852L, 5614431094282084852L).median());
+            assertEquals(-3.5, LongTuple.of(-3L, -4L).median());
+        }
+
+        @Test
+        public void test_pairMedian_matchesExactReferenceOverRandomPairs() {
+            final java.util.Random r = new java.util.Random(20260916L);
+            for (int i = 0; i < 50000; i++) {
+                final long a = r.nextLong(), b = r.nextLong();
+                assertEquals(exactOnce(a, b), LongTuple.of(a, b).median(), "median() not correctly rounded for " + a + "," + b);
+            }
+        }
+    }
 }

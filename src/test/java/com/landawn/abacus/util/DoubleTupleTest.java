@@ -4247,4 +4247,113 @@ class DoubleTupleTest extends TestBase {
         assertEquals(DoubleTuple.of(4d, 1d, 3d, 2d), tuple);
     }
 
+    @Nested
+    @Tag("2025")
+    class SignedZeroAndSummationContractTest extends TestBase {
+
+        @Test
+        public void test_sum_losesSignOfZeroBeyondArityOne() {
+            // arity 1 returns the field directly and keeps -0.0
+            assertEquals(Double.doubleToRawLongBits(-0.0), Double.doubleToRawLongBits(DoubleTuple.of(-0.0).sum()));
+            // arity >= 2 goes through the compensated accumulator, which starts at +0.0
+            assertEquals(Double.doubleToRawLongBits(0.0), Double.doubleToRawLongBits(DoubleTuple.of(-0.0, -0.0).sum()));
+            // ... whereas plain IEEE-754 addition would have kept it
+            final double negZero = Double.parseDouble("-0.0");
+            assertEquals(Double.doubleToRawLongBits(-0.0), Double.doubleToRawLongBits(negZero + negZero));
+        }
+
+        @Test
+        public void test_average_losesSignOfZeroBeyondArityOne() {
+            assertEquals(Double.doubleToRawLongBits(-0.0), Double.doubleToRawLongBits(DoubleTuple.of(-0.0).average().getAsDouble()));
+            assertEquals(Double.doubleToRawLongBits(0.0), Double.doubleToRawLongBits(DoubleTuple.of(-0.0, -0.0).average().getAsDouble()));
+        }
+
+        @Test
+        public void test_median_keepsSignOfZeroWhereAverageDoesNot() {
+            assertEquals(Double.doubleToRawLongBits(-0.0), Double.doubleToRawLongBits(DoubleTuple.of(-0.0, -0.0).median()));
+        }
+
+        @Test
+        public void test_sum_isCompensatedNotLeftToRight() {
+            // the compensated sum is the more accurate of the two
+            assertEquals(3.0, DoubleTuple.of(1.0, 1.0, 1.0).sum());
+            final double a = Double.parseDouble("1e16"), b = 1.0, c = 1.0;
+            assertEquals(1.0E16 + 2.0, DoubleTuple.of(a, b, c).sum());
+            assertEquals(1.0E16, a + b + c, "plain left-to-right addition loses both units");
+        }
+
+        @Test
+        public void test_average_isOverflowSafeUnlikeSum() {
+            assertEquals(Double.POSITIVE_INFINITY, DoubleTuple.of(Double.MAX_VALUE, Double.MAX_VALUE).sum());
+            assertEquals(Double.MAX_VALUE, DoubleTuple.of(Double.MAX_VALUE, Double.MAX_VALUE).average().getAsDouble());
+        }
+
+        @Test
+        public void test_pairMedian_matchesDocumentedFormulaIncludingSubnormals() {
+            // the @return documents (_1 + _2) / 2d, which (unlike _1/2d + _2/2d) survives subnormals
+            assertEquals(Double.MIN_VALUE, DoubleTuple.of(Double.MIN_VALUE, Double.MIN_VALUE).median());
+            assertEquals(Double.doubleToRawLongBits(-Double.MIN_VALUE),
+                    Double.doubleToRawLongBits(DoubleTuple.of(-Double.MIN_VALUE, -Double.MIN_VALUE).median()));
+            // ... and the documented overflow fallback still applies
+            assertEquals(Double.MAX_VALUE, DoubleTuple.of(Double.MAX_VALUE, Double.MAX_VALUE).median());
+        }
+
+        @Test
+        public void test_pairMedian_nanPropagates() {
+            // at arity 2 the median IS the mean, so NaN propagates (unlike lowerMedian)
+            assertTrue(Double.isNaN(DoubleTuple.of(3.0, Double.NaN).median()));
+            assertEquals(3.0, DoubleTuple.of(3.0, Double.NaN).lowerMedian());
+        }
+
+        @Test
+        public void test_sum_emptyAndNaN() {
+            assertEquals(0.0, DoubleTuple.from(new double[0]).sum());
+            assertTrue(Double.isNaN(DoubleTuple.of(1.0, Double.NaN).sum()));
+            assertTrue(Double.isNaN(DoubleTuple.of(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY).sum()));
+        }
+    }
+
+    @Nested
+    @Tag("2025")
+    class MedianOrderingContractTest extends TestBase {
+
+        @Test
+        public void test_median_usesTotalOrderingSoNaNSortsLast() {
+            // min()/max() propagate NaN, but median() orders by Double.compare, where NaN is largest
+            assertEquals(3.0, DoubleTuple.of(1.0, Double.NaN, 3.0).median());
+            assertTrue(Double.isNaN(DoubleTuple.of(1.0, Double.NaN, 3.0).min()));
+            assertTrue(Double.isNaN(DoubleTuple.of(1.0, Double.NaN, 3.0).max()));
+        }
+
+        @Test
+        public void test_median_ofOppositeInfinitiesIsNaN() {
+            // notable because min() and max() are themselves NOT NaN here -- unlike a tuple that
+            // actually contains NaN, where min()/max() propagate it (see the test below)
+            final DoubleTuple.DoubleTuple2 t = DoubleTuple.of(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY);
+            assertEquals(Double.NEGATIVE_INFINITY, t.min());
+            assertEquals(Double.POSITIVE_INFINITY, t.max());
+            assertTrue(Double.isNaN(t.median()));
+            assertEquals(Double.NEGATIVE_INFINITY, t.lowerMedian());
+
+            assertTrue(Double.isNaN(DoubleTuple.of(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY,
+                    Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY).median()));
+        }
+
+        @Test
+        public void test_nanTupleAlsoBreaksTheMinMedianMaxRelation() {
+            // min()/max() propagate NaN, so the min <= median <= max relation fails for ANY tuple
+            // containing NaN -- the (+Inf,-Inf) case is not unique in that respect
+            final DoubleTuple.DoubleTuple3 t = DoubleTuple.of(1.0, Double.NaN, 3.0);
+            assertTrue(Double.isNaN(t.min()));
+            assertTrue(Double.isNaN(t.max()));
+            assertEquals(3.0, t.median(), "median orders NaN last, so it is not selected here");
+            assertFalse(t.min() <= t.median());
+        }
+
+        @Test
+        public void test_median_ofSameSignInfinitiesIsThatInfinity() {
+            assertEquals(Double.POSITIVE_INFINITY, DoubleTuple.of(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY).median());
+            assertEquals(Double.NEGATIVE_INFINITY, DoubleTuple.of(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY).median());
+        }
+    }
 }

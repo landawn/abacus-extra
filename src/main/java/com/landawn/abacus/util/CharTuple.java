@@ -1068,10 +1068,10 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * CharTuple.CharTuple1 tuple = CharTuple.of((char) 42);
-     * char value = tuple._1;   // 42
-     * char min = tuple.min();  // 42 (single element)
-     * char max = tuple.max();  // 42 (single element)
+     * CharTuple.CharTuple1 tuple = CharTuple.of('A');
+     * char value = tuple._1;   // 'A'
+     * char min = tuple.min();  // 'A' (single element)
+     * char max = tuple.max();  // 'A' (single element)
      * }</pre>
      */
     public static final class CharTuple1 extends CharTuple<CharTuple1> {
@@ -1422,13 +1422,13 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * CharTuple.CharTuple2 tuple = CharTuple.of((char) 10, (char) 20);
-     * char first = tuple._1;   // 10
-     * char second = tuple._2;  // 20
+     * CharTuple.CharTuple2 tuple = CharTuple.of('A', 'B');
+     * char first = tuple._1;   // 'A'
+     * char second = tuple._2;  // 'B'
      *
      * // Element-wise functional helpers
      * tuple.accept((a, b) -> System.out.println(a + " + " + b));
-     * int sum = tuple.map((a, b) -> a + b);   // 30
+     * int sum = tuple.map((a, b) -> a + b);   // 131 ('A' + 'B' == 65 + 66)
      * }</pre>
      */
     public static final class CharTuple2 extends CharTuple<CharTuple2> {
@@ -1957,15 +1957,15 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * CharTuple.CharTuple3 tuple = CharTuple.of((char) 10, (char) 20, (char) 30);
-     * char first = tuple._1;   // 10
-     * char second = tuple._2;  // 20
-     * char third = tuple._3;   // 30
+     * CharTuple.CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
+     * char first = tuple._1;   // 'A'
+     * char second = tuple._2;  // 'B'
+     * char third = tuple._3;   // 'C'
      *
      * // Using statistical operations
-     * char min = tuple.min();         // 10
-     * char max = tuple.max();         // 30
-     * OptionalDouble avg = tuple.average();   // OptionalDouble.of(20.0)
+     * char min = tuple.min();         // 'A'
+     * char max = tuple.max();         // 'C'
+     * OptionalDouble avg = tuple.average();   // OptionalDouble.of(66.0)
      * }</pre>
      */
     public static final class CharTuple3 extends CharTuple<CharTuple3> {
@@ -2499,11 +2499,11 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * CharTuple.CharTuple4 tuple = CharTuple.of((char) 10, (char) 20, (char) 30, (char) 40);
-     * char first = tuple._1;         // 10
-     * char fourth = tuple._4;        // 40
-     * // even arity: sorted 10,20,30,40 -> lower middle 20
-     * char lowerMed = tuple.lowerMedian();  // 20
+     * CharTuple.CharTuple4 tuple = CharTuple.of('A', 'B', 'C', 'D');
+     * char first = tuple._1;         // 'A'
+     * char fourth = tuple._4;        // 'D'
+     * // even arity: sorted 'A','B','C','D' -> lower middle 'B'
+     * char lowerMed = tuple.lowerMedian();  // 'B'
      * }</pre>
      */
     public static final class CharTuple4 extends CharTuple<CharTuple4> {
@@ -2897,10 +2897,10 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * CharTuple.CharTuple5 tuple = CharTuple.of((char) 10, (char) 20, (char) 30, (char) 40, (char) 50);
-     * char first = tuple._1;  // 10
-     * char fifth = tuple._5;  // 50
-     * int sum = tuple.sum();  // 150
+     * CharTuple.CharTuple5 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E');
+     * char first = tuple._1;  // 'A'
+     * char fifth = tuple._5;  // 'E'
+     * int sum = tuple.sum();  // 335 (65 + 66 + 67 + 68 + 69)
      * }</pre>
      */
     public static final class CharTuple5 extends CharTuple<CharTuple5> {
@@ -3297,10 +3297,10 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * CharTuple.CharTuple6 tuple = CharTuple.of((char) 10, (char) 20, (char) 30, (char) 40, (char) 50, (char) 60);
-     * char first = tuple._1;                            // 10
-     * char sixth = tuple._6;                            // 60
-     * CharTuple.CharTuple6 reversed = tuple.reversed();  // (60, 50, 40, 30, 20, 10)
+     * CharTuple.CharTuple6 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F');
+     * char first = tuple._1;                            // 'A'
+     * char sixth = tuple._6;                            // 'F'
+     * CharTuple.CharTuple6 reversed = tuple.reversed();  // ('F', 'E', 'D', 'C', 'B', 'A')
      * }</pre>
      */
     public static final class CharTuple6 extends CharTuple<CharTuple6> {
@@ -3702,10 +3702,10 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * CharTuple.CharTuple7 tuple = CharTuple.of((char) 10, (char) 20, (char) 30, (char) 40, (char) 50, (char) 60, (char) 70);
-     * char first = tuple._1;           // 10
-     * char seventh = tuple._7;         // 70
-     * char[] array = tuple.toArray();  // [10, 20, 30, 40, 50, 60, 70]
+     * CharTuple.CharTuple7 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G');
+     * char first = tuple._1;           // 'A'
+     * char seventh = tuple._7;         // 'G'
+     * char[] array = tuple.toArray();  // ['A', 'B', 'C', 'D', 'E', 'F', 'G']
      * }</pre>
      */
     public static final class CharTuple7 extends CharTuple<CharTuple7> {
@@ -4113,9 +4113,9 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * CharTuple.CharTuple8 tuple = CharTuple.of((char) 10, (char) 20, (char) 30, (char) 40, (char) 50, (char) 60, (char) 70, (char) 80);
-     * char first = tuple._1;   // 10
-     * char eighth = tuple._8;  // 80
+     * CharTuple.CharTuple8 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');
+     * char first = tuple._1;   // 'A'
+     * char eighth = tuple._8;  // 'H'
      * CharList list = tuple.toList();
      * }</pre>
      *
@@ -4533,9 +4533,9 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * CharTuple.CharTuple9 tuple = CharTuple.of((char) 10, (char) 20, (char) 30, (char) 40, (char) 50, (char) 60, (char) 70, (char) 80, (char) 90);
-     * char first = tuple._1;      // 10
-     * char ninth = tuple._9;      // 90
+     * CharTuple.CharTuple9 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I');
+     * char first = tuple._1;      // 'A'
+     * char ninth = tuple._9;      // 'I'
      * int arity = tuple.arity();  // 9
      * }</pre>
      *

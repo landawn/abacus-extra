@@ -4014,4 +4014,75 @@ class FloatTupleTest extends TestBase {
         assertEquals((double) Float.MAX_VALUE, FloatTuple.of(0f, Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE).median());
     }
 
+    @Nested
+    @Tag("2025")
+    class SignedZeroAndSummationContractTest extends TestBase {
+
+        @Test
+        public void test_sum_losesSignOfZeroBeyondArityOne() {
+            assertEquals(Float.floatToRawIntBits(-0.0f), Float.floatToRawIntBits(FloatTuple.of(-0.0f).sum()));
+            assertEquals(Float.floatToRawIntBits(0.0f), Float.floatToRawIntBits(FloatTuple.of(-0.0f, -0.0f).sum()));
+            final float negZero = Float.parseFloat("-0.0");
+            assertEquals(Float.floatToRawIntBits(-0.0f), Float.floatToRawIntBits(negZero + negZero));
+        }
+
+        @Test
+        public void test_sum_isCompensatedNotLeftToRight() {
+            // accumulated in double, so the two trailing units survive
+            final float big = Float.parseFloat("16777216"), one = 1f;
+            assertEquals(1.6777218E7f, FloatTuple.of(big, one, one).sum());
+            assertEquals(1.6777216E7f, big + one + one, "plain left-to-right addition loses both units");
+        }
+
+        @Test
+        public void test_average_losesSignOfZeroBeyondArityOne() {
+            assertEquals(Double.doubleToRawLongBits(-0.0), Double.doubleToRawLongBits(FloatTuple.of(-0.0f).average().getAsDouble()));
+            assertEquals(Double.doubleToRawLongBits(0.0), Double.doubleToRawLongBits(FloatTuple.of(-0.0f, -0.0f).average().getAsDouble()));
+        }
+
+        @Test
+        public void test_average_isOverflowSafeUnlikeSum() {
+            assertEquals(Float.POSITIVE_INFINITY, FloatTuple.of(Float.MAX_VALUE, Float.MAX_VALUE).sum());
+            assertEquals(3.4028234663852886E38, FloatTuple.of(Float.MAX_VALUE, Float.MAX_VALUE).average().getAsDouble());
+        }
+
+        @Test
+        public void test_equals_followsFloatCompareSemanticsAtArities4And9() {
+            // identical to DoubleTuple's documented rule: NaN == NaN, but +0.0f != -0.0f
+            assertEquals(FloatTuple.of(Float.NaN, 2f, 3f, 4f), FloatTuple.of(Float.NaN, 2f, 3f, 4f));
+            assertNotEquals(FloatTuple.of(0.0f, 1f, 2f, 3f), FloatTuple.of(-0.0f, 1f, 2f, 3f));
+            assertNotEquals(FloatTuple.of(0.0f, 1f, 2f, 3f).hashCode(), FloatTuple.of(-0.0f, 1f, 2f, 3f).hashCode());
+
+            assertEquals(FloatTuple.of(Float.NaN, 2f, 3f, 4f, 5f, 6f, 7f, 8f, 9f),
+                         FloatTuple.of(Float.NaN, 2f, 3f, 4f, 5f, 6f, 7f, 8f, 9f));
+            assertNotEquals(FloatTuple.of(0.0f, 2f, 3f, 4f, 5f, 6f, 7f, 8f, 9f),
+                            FloatTuple.of(-0.0f, 2f, 3f, 4f, 5f, 6f, 7f, 8f, 9f));
+        }
+
+        @Test
+        public void test_sum_emptyAndNaN() {
+            assertEquals(0.0f, FloatTuple.from(new float[0]).sum());
+            assertTrue(Float.isNaN(FloatTuple.of(1.0f, Float.NaN).sum()));
+            assertTrue(Float.isNaN(FloatTuple.of(Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY).sum()));
+        }
+    }
+
+    @Nested
+    @Tag("2025")
+    class MedianOrderingContractTest extends TestBase {
+
+        @Test
+        public void test_median_ofOppositeInfinitiesIsNaN() {
+            final FloatTuple.FloatTuple2 t = FloatTuple.of(Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY);
+            assertEquals(Float.NEGATIVE_INFINITY, t.min());
+            assertEquals(Float.POSITIVE_INFINITY, t.max());
+            assertTrue(Double.isNaN(t.median()));
+            assertEquals(Float.NEGATIVE_INFINITY, t.lowerMedian());
+        }
+
+        @Test
+        public void test_median_usesTotalOrderingSoNaNSortsLast() {
+            assertEquals(3.0, FloatTuple.of(1.0f, Float.NaN, 3.0f).median());
+        }
+    }
 }

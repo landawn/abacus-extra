@@ -3998,4 +3998,26 @@ class CharTupleTest extends TestBase {
         assertEquals(null, mapped);
     }
 
+    @Nested
+    @Tag("2025")
+    class ClassDocExampleValuesTest extends TestBase {
+
+        @Test
+        public void test_classDocExamples_renderAsDocumented() {
+            final int mapped = CharTuple.of('A', 'B').map((a, b) -> a + b);
+            assertEquals(131, mapped);
+
+            final CharTuple.CharTuple3 t3 = CharTuple.of('A', 'B', 'C');
+            assertEquals('A', t3.min());
+            assertEquals('C', t3.max());
+            assertEquals(66.0, t3.average().getAsDouble());
+
+            assertEquals('B', CharTuple.of('A', 'B', 'C', 'D').lowerMedian());
+            assertEquals(335, CharTuple.of('A', 'B', 'C', 'D', 'E').sum());
+            assertEquals("(F, E, D, C, B, A)", CharTuple.of('A', 'B', 'C', 'D', 'E', 'F').reversed().toString());
+            assertArrayEquals(new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G' },
+                    CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G').toArray());
+            assertEquals(9, CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I').arity());
+        }
+    }
 }

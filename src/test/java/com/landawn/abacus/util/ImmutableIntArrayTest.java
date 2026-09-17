@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -1280,4 +1281,76 @@ class ImmutableIntArrayTest extends TestBase {
         }
     }
 
+    @Nested
+    @Tag("2025")
+    class UnsafeWrapHashStabilityTest extends TestBase {
+
+        @Test
+        public void test_unsafeWrap_hashCodeFollowsCallerMutation() {
+            final int[] backing = { 1, 2, 3 };
+            final ImmutableIntArray wrapped = ImmutableIntArray.unsafeWrap(backing);
+            final int before = wrapped.hashCode();
+
+            backing[0] = 9;
+
+            assertNotEquals(before, wrapped.hashCode(), "hash is content-derived, so it tracks the wrapped array");
+        }
+
+        @Test
+        public void test_unsafeWrap_asMapKeyBecomesUnreachableAfterMutation() {
+            final int[] backing = { 1, 2, 3 };
+            final ImmutableIntArray key = ImmutableIntArray.unsafeWrap(backing);
+            final java.util.Map<ImmutableIntArray, String> map = new java.util.HashMap<>();
+            map.put(key, "v");
+
+            backing[0] = 9;
+
+            assertNull(map.get(key), "mutating the wrapped array strands the entry in its original bucket");
+        }
+
+        @Test
+        public void test_unsafeWrap_equalityFollowsCallerMutation() {
+            final int[] backing = { 1, 2, 3 };
+            final ImmutableIntArray a = ImmutableIntArray.unsafeWrap(backing);
+            final ImmutableIntArray b = ImmutableIntArray.copyOf(new int[] { 1, 2, 3 });
+            assertEquals(a, b);
+
+            backing[0] = 9;
+
+            assertNotEquals(a, b);
+        }
+
+        @Test
+        public void test_copyOf_isUnaffectedByCallerMutation() {
+            final int[] backing = { 1, 2, 3 };
+            final ImmutableIntArray snapshot = ImmutableIntArray.copyOf(backing);
+            final int before = snapshot.hashCode();
+
+            backing[0] = 9;
+
+            assertEquals(before, snapshot.hashCode());
+            assertArrayEquals(new int[] { 1, 2, 3 }, snapshot.copyOfRange(0, snapshot.length()));
+        }
+
+        @Test
+        public void test_copyOf_asMapKeyStaysReachable() {
+            final int[] backing = { 1, 2, 3 };
+            final ImmutableIntArray key = ImmutableIntArray.copyOf(backing);
+            final java.util.Map<ImmutableIntArray, String> map = new java.util.HashMap<>();
+            map.put(key, "v");
+
+            backing[0] = 9;
+
+            assertEquals("v", map.get(key));
+        }
+
+        @Test
+        public void test_emptyWrappers_shareStableHash() {
+            final ImmutableIntArray fromNull = ImmutableIntArray.unsafeWrap(null);
+            final ImmutableIntArray fromEmpty = ImmutableIntArray.unsafeWrap(new int[0]);
+
+            assertEquals(fromNull.hashCode(), fromEmpty.hashCode());
+            assertEquals(fromNull, fromEmpty);
+        }
+    }
 }

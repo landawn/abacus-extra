@@ -32,7 +32,9 @@ package com.landawn.abacus.util;
  *
  * <p>Each nested record provides record-based equality and a static {@code of(...)} factory for
  * concise construction. Equality for {@code double} components uses {@link Double#compare(double, double)}
- * (so {@code NaN} equals {@code NaN}).</p>
+ * (so {@code NaN} equals {@code NaN}, while {@code 0.0} does <em>not</em> equal {@code -0.0}). A point holding
+ * {@code -0.0} therefore will not match an otherwise identical point holding {@code 0.0} as a
+ * {@link java.util.HashMap} key or {@link java.util.HashSet} element.</p>
  *
  * <p>This class cannot be instantiated.</p>
  *

@@ -642,6 +642,11 @@ public final class ImmutableIntArray implements Immutable {
      * if two ImmutableIntArray instances are equal according to {@link #equals(Object)},
      * then calling this method on each will produce the same integer result.</p>
      *
+     * <p><b>&#9888;&#65039; Stability:</b> the hash code is derived from the contents, so an instance created by
+     * {@link #unsafeWrap(int[])} has a stable hash code only for as long as the caller leaves the wrapped array
+     * unmodified. Mutating that array after the instance has been used as a {@link java.util.HashMap} key or
+     * {@link java.util.HashSet} element makes the entry unreachable. Use {@link #copyOf(int[])} for keys.</p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Basic: two wrappers with the same contents have the same hash code
@@ -664,6 +669,8 @@ public final class ImmutableIntArray implements Immutable {
      * }</pre>
      *
      * @return a hash code value for this ImmutableIntArray based on its contents
+     * @see #equals(Object)
+     * @see #unsafeWrap(int[])
      */
     @Override
     public int hashCode() {
@@ -706,9 +713,15 @@ public final class ImmutableIntArray implements Immutable {
      * array1.equals(shorter);   // returns false
      * }</pre>
      *
+     * <p><b>&#9888;&#65039; Shared backing:</b> equality is decided by the current contents, so two instances
+     * created by {@link #unsafeWrap(int[])} can start out equal and stop being equal if a caller mutates
+     * either wrapped array. Use {@link #copyOf(int[])} when equality must be stable.</p>
+     *
      * @param obj the object to compare with this ImmutableIntArray
      * @return {@code true} if the specified object is an ImmutableIntArray with the same elements
      *         in the same order; {@code false} otherwise
+     * @see #hashCode()
+     * @see #unsafeWrap(int[])
      */
     @Override
     public boolean equals(final Object obj) {

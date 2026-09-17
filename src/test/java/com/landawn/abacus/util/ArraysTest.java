@@ -17830,4 +17830,133 @@ class ArraysTest extends TestBase {
         }
     }
 
+    @Nested
+    @Tag("2025")
+    class MutateViaFlatArrayStoreFailureTest extends TestBase {
+
+        @Test
+        public void test_ff_mutateViaFlatArray_narrowerRowType_throwsArrayStoreException() {
+            // flatten() allocates by the OUTER component type (Object[]), so storing an Integer is
+            // legal in the flat array but illegal for the String[] row it is copied back into.
+            final Object[][] a = { new String[] { "x", "y" } };
+
+            assertThrows(ArrayStoreException.class, () -> Arrays.ff.mutateViaFlatArray(a, flat -> flat[0] = Integer.valueOf(1)));
+        }
+
+        @Test
+        public void test_ff_mutateViaFlatArray_storeFailure_leavesArrayPartiallyModified() {
+            // row 0 is a plain Object[] and is copied back successfully; row 1 is a String[] and fails.
+            final Object[][] a = { new Object[] { "a", "b" }, new String[] { "c", "d" } };
+
+            assertThrows(ArrayStoreException.class, () -> Arrays.ff.mutateViaFlatArray(a, flat -> {
+                for (int i = 0; i < flat.length; i++) {
+                    flat[i] = Integer.valueOf(i);
+                }
+            }));
+
+            assertArrayEquals(new Object[] { 0, 1 }, a[0], "rows copied before the failure keep their new values");
+            assertArrayEquals(new Object[] { "c", "d" }, a[1], "this failing row is untouched only because its very first element fails");
+        }
+
+        @Test
+        public void test_ff_mutateViaFlatArray_storeFailure_alsoPartiallyUpdatesTheFailingRow() {
+            // System.arraycopy copies the assignable prefix before throwing, so the row that fails is
+            // itself left half-written when the offending element is not the first one.
+            final Object[][] a = { new Object[] { "a", "b" }, new String[] { "c", "d" } };
+
+            assertThrows(ArrayStoreException.class, () -> Arrays.ff.mutateViaFlatArray(a, flat -> {
+                flat[0] = 0;
+                flat[1] = 1;
+                flat[2] = "KEPT";
+                flat[3] = Integer.valueOf(3);
+            }));
+
+            assertArrayEquals(new Object[] { 0, 1 }, a[0]);
+            assertArrayEquals(new Object[] { "KEPT", "d" }, a[1], "the failing row keeps the elements copied before the offending one");
+        }
+
+        @Test
+        public void test_fff_mutateViaFlatArray_narrowerRowType_throwsArrayStoreException() {
+            final Object[][][] a = { { new String[] { "p", "q" } } };
+
+            assertThrows(ArrayStoreException.class, () -> Arrays.fff.mutateViaFlatArray(a, flat -> flat[0] = Integer.valueOf(9)));
+        }
+
+        @Test
+        public void test_ff_mutateViaFlatArray_assignableValue_succeeds() {
+            final Object[][] a = { new Object[] { 3, 1 }, new Object[] { 2 } };
+
+            Arrays.ff.mutateViaFlatArray(a, flat -> java.util.Arrays.sort(flat));
+
+            assertArrayEquals(new Object[] { 1, 2 }, a[0]);
+            assertArrayEquals(new Object[] { 3 }, a[1]);
+        }
+
+        @Test
+        public void test_ff_mutateViaFlatArray_uniformRowType_hasNoStoreHazard() {
+            // when the declared type already matches the rows there is no widening gap at all
+            final String[][] a = { { "b", "a" } };
+
+            Arrays.ff.mutateViaFlatArray(a, flat -> java.util.Arrays.sort(flat));
+
+            assertArrayEquals(new String[] { "a", "b" }, a[0]);
+        }
+
+        @Test
+        public void test_ff_mutateViaFlatArray_nullAndEmpty_areNoOps() {
+            assertDoesNotThrow(() -> Arrays.ff.mutateViaFlatArray((Object[][]) null, flat -> flat[0] = 1));
+            assertDoesNotThrow(() -> Arrays.fff.mutateViaFlatArray((Object[][][]) null, flat -> flat[0] = 1));
+
+            final Object[][] empty = {};
+            assertDoesNotThrow(() -> Arrays.ff.mutateViaFlatArray(empty, flat -> java.util.Arrays.sort(flat)));
+            assertEquals(0, empty.length);
+
+            final Object[][] emptyRows = { new Object[0], null };
+            assertDoesNotThrow(() -> Arrays.ff.mutateViaFlatArray(emptyRows, flat -> java.util.Arrays.sort(flat)));
+            assertEquals(0, emptyRows[0].length);
+            assertNull(emptyRows[1]);
+        }
+    }
+
+    @Nested
+    @Tag("2025")
+    class RuntimeComponentTypeNarrowingTest extends TestBase {
+
+        @Test
+        public void test_ff_flatten_keepsTheInputRuntimeComponentType() {
+            final Number[][] grid = new Integer[][] { { 1 }, { 2 } };
+            final Number[] flat = Arrays.ff.flatten(grid);
+
+            assertEquals(Integer.class, flat.getClass().getComponentType(), "narrower than the declared Number[]");
+            assertThrows(ArrayStoreException.class, () -> flat[0] = Double.valueOf(1.5));
+        }
+
+        @Test
+        public void test_ff_reshape_keepsTheInputRuntimeComponentType() {
+            final Number[] src = new Integer[] { 1, 2, 3 };
+            final Number[][] resh = Arrays.ff.reshape(src, 2);
+
+            assertEquals(Integer.class, resh.getClass().getComponentType().getComponentType());
+            assertThrows(ArrayStoreException.class, () -> resh[0][0] = Double.valueOf(1.5));
+        }
+
+        @Test
+        public void test_fff_flattenAndReshape_keepTheInputRuntimeComponentType() {
+            final Number[][][] cube = new Integer[][][] { { { 1 } } };
+            assertEquals(Integer.class, Arrays.fff.flatten(cube).getClass().getComponentType());
+
+            final Number[] src = new Integer[] { 1, 2, 3 };
+            final Number[][][] resh = Arrays.fff.reshape(src, 2, 2);
+            assertEquals(Integer.class, resh.getClass().getComponentType().getComponentType().getComponentType());
+        }
+
+        @Test
+        public void test_aWideInputKeepsTheWideComponentType() {
+            final Object[][] wide = new Object[][] { { 1 }, { 2 } };
+            final Object[] flat = Arrays.ff.flatten(wide);
+
+            assertEquals(Object.class, flat.getClass().getComponentType());
+            assertDoesNotThrow(() -> flat[0] = Double.valueOf(1.5));
+        }
+    }
 }

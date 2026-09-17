@@ -552,6 +552,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * the result is {@code NaN}. Infinities follow standard IEEE-754 addition rules
      * (e.g. {@code +INF + -INF} produces {@code NaN}).
      * </p>
+     * <p>
+     * The elements are added with compensated (Kahan) summation rather than plain left-to-right
+     * addition, so the result can differ from {@code _1 + _2 + ...}; it is generally the more accurate.
+     * The sign of a zero result is not preserved at arity two or above:
+     * {@code FloatTuple.of(-0.0f, -0.0f).sum()} is {@code +0.0f}, whereas plain IEEE-754 addition of two
+     * negative zeros yields {@code -0.0f}.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -581,6 +588,12 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * The result is returned as an {@code OptionalDouble} to preserve precision.
      * If any element is {@code NaN}, the result is {@code NaN}. Infinities
      * follow standard IEEE-754 rules.
+     * </p>
+     * <p>
+     * Unlike {@link #sum()}, the mean is not reported as infinity merely because the total exceeds the
+     * {@code float} range: {@code FloatTuple.of(Float.MAX_VALUE, Float.MAX_VALUE)} has a {@code sum()} of
+     * {@code Infinity} but an {@code average()} of {@code 3.4028234663852886E38}. As with {@code sum()},
+     * the sign of a zero result is not preserved at arity two or above.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -615,6 +628,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * For an even arity, this is the arithmetic mean of the two middle values. That differs from
      * {@link #lowerMedian()}, which returns a {@code float} and, for even arities, only the lower
      * middle element.
+     * </p>
+     * <p>
+     * The even-arity mean is IEEE-754 arithmetic, so a tuple whose two middle values are
+     * {@code +Infinity} and {@code -Infinity} yields {@code NaN} even though neither {@link #min()} nor
+     * {@link #max()} is {@code NaN} for that tuple. (A tuple that actually contains {@code NaN}
+     * propagates it through {@code min()} and {@code max()} instead, while {@code median()} orders it
+     * last and may not select it at all.)
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -1459,6 +1479,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Returns the internal array of float elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
          * Modifying the returned array will compromise the immutability of this tuple.
          * Use {@link #toArray()} instead if you need an array that can be safely modified.
@@ -1998,6 +2019,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Returns the internal array of float elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
          * Modifying the returned array will compromise the immutability of this tuple.
          * Use {@link #toArray()} instead if you need an array that can be safely modified.
@@ -2541,6 +2563,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Returns the internal array of float elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
          * Modifying the returned array will compromise the immutability of this tuple.
          * Use {@link #toArray()} instead if you need an array that can be safely modified.
@@ -2857,6 +2880,8 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Compares this tuple to another object for equality.
+         * Element equality follows {@link Float#compare(float, float)} / {@code N.equals} semantics:
+         * {@code NaN} equals {@code NaN}, and {@code +0.0f} is not equal to {@code -0.0f}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -2914,6 +2939,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Returns the internal array of float elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
          * Modifying the returned array will compromise the immutability of this tuple.
          * Use {@link #toArray()} instead if you need an array that can be safely modified.
@@ -3236,6 +3262,8 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Compares this tuple to another object for equality.
+         * Element equality follows {@link Float#compare(float, float)} / {@code N.equals} semantics:
+         * {@code NaN} equals {@code NaN}, and {@code +0.0f} is not equal to {@code -0.0f}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -3293,6 +3321,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Returns the internal array of float elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
          * Modifying the returned array will compromise the immutability of this tuple.
          * Use {@link #toArray()} instead if you need an array that can be safely modified.
@@ -3621,6 +3650,8 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Compares this tuple to another object for equality.
+         * Element equality follows {@link Float#compare(float, float)} / {@code N.equals} semantics:
+         * {@code NaN} equals {@code NaN}, and {@code +0.0f} is not equal to {@code -0.0f}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -3679,6 +3710,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Returns the internal array of float elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
          * Modifying the returned array will compromise the immutability of this tuple.
          * Use {@link #toArray()} instead if you need an array that can be safely modified.
@@ -4013,6 +4045,8 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Compares this tuple to another object for equality.
+         * Element equality follows {@link Float#compare(float, float)} / {@code N.equals} semantics:
+         * {@code NaN} equals {@code NaN}, and {@code +0.0f} is not equal to {@code -0.0f}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -4072,6 +4106,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Returns the internal array of float elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
          * Modifying the returned array will compromise the immutability of this tuple.
          * Use {@link #toArray()} instead if you need an array that can be safely modified.
@@ -4420,6 +4455,8 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Compares this tuple to another object for equality.
+         * Element equality follows {@link Float#compare(float, float)} / {@code N.equals} semantics:
+         * {@code NaN} equals {@code NaN}, and {@code +0.0f} is not equal to {@code -0.0f}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -4479,6 +4516,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Returns the internal array of float elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
          * Modifying the returned array will compromise the immutability of this tuple.
          * Use {@link #toArray()} instead if you need an array that can be safely modified.
@@ -4834,6 +4872,8 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Compares this tuple to another object for equality.
+         * Element equality follows {@link Float#compare(float, float)} / {@code N.equals} semantics:
+         * {@code NaN} equals {@code NaN}, and {@code +0.0f} is not equal to {@code -0.0f}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -4893,6 +4933,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Returns the internal array of float elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
          * Modifying the returned array will compromise the immutability of this tuple.
          * Use {@link #toArray()} instead if you need an array that can be safely modified.

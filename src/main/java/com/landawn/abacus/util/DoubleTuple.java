@@ -540,6 +540,13 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * the result is {@code NaN}. Infinities follow standard IEEE-754 addition
      * rules (e.g. {@code +INF + -INF} produces {@code NaN}).
      * </p>
+     * <p>
+     * The elements are added with compensated (Kahan) summation rather than plain left-to-right
+     * addition, so the result can differ from {@code _1 + _2 + ...}; it is generally the more accurate.
+     * The sign of a zero result is not preserved at arity two or above:
+     * {@code DoubleTuple.of(-0.0, -0.0).sum()} is {@code +0.0}, whereas plain IEEE-754 addition of two
+     * negative zeros yields {@code -0.0}.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -571,6 +578,12 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * If any element is {@code NaN}, the result is {@code NaN}. Infinities
      * follow standard IEEE-754 rules.
      * </p>
+     * <p>
+     * Unlike {@link #sum()}, the mean is not reported as infinity merely because the intermediate total
+     * overflows: {@code DoubleTuple.of(Double.MAX_VALUE, Double.MAX_VALUE)} has a {@code sum()} of
+     * {@code Infinity} but an {@code average()} of {@code Double.MAX_VALUE}. As with {@code sum()}, the
+     * sign of a zero result is not preserved at arity two or above.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -601,10 +614,17 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     /**
      * Returns the conventional statistical median of this tuple as a {@code double}.
      * <p>
-     * Elements are ordered with {@link Double#compare(double, double)} semantics. For an odd arity,
-     * this is the middle value when sorted. For an even arity, this is the arithmetic mean of the two
-     * middle values. That differs from {@link #lowerMedian()}, which returns only the lower middle
-     * element for even arities.
+     * Elements are ordered with {@link Double#compare(double, double)} semantics ({@code NaN} largest;
+     * {@code -0.0} less than {@code +0.0}). For an odd arity, this is the middle value when sorted. For
+     * an even arity, this is the arithmetic mean of the two middle values. That differs from
+     * {@link #lowerMedian()}, which returns only the lower middle element for even arities.
+     * </p>
+     * <p>
+     * The even-arity mean is IEEE-754 arithmetic, so a tuple whose two middle values are
+     * {@code +Infinity} and {@code -Infinity} yields {@code NaN} even though neither {@link #min()} nor
+     * {@link #max()} is {@code NaN} for that tuple. (A tuple that actually contains {@code NaN}
+     * propagates it through {@code min()} and {@code max()} instead, while {@code median()} orders it
+     * last and may not select it at all.)
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -1466,6 +1486,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Returns the internal array of double elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
          * Modifying the returned array will compromise the immutability of this tuple.
          * Use {@link #toArray()} instead if you need an array that can be safely modified.
@@ -1660,8 +1681,9 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * DoubleTuple.of(-5.0, 5.0).median();   // 0.0
          * }</pre>
          *
-         * @return the arithmetic mean of {@code _1} and {@code _2}, computed as
-         *         {@code _1 / 2d + _2 / 2d} to avoid overflow
+         * @return the arithmetic mean of {@code _1} and {@code _2}, computed as {@code (_1 + _2) / 2d}
+         *         and falling back to {@code _1 / 2d + _2 / 2d} only when that sum of two finite values
+         *         overflows to infinity
          * @see #lowerMedian()
          */
         @Override
@@ -1990,6 +2012,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Returns the internal array of double elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
          * Modifying the returned array will compromise the immutability of this tuple.
          * Use {@link #toArray()} instead if you need an array that can be safely modified.
@@ -2515,6 +2538,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Returns the internal array of double elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
          * Modifying the returned array will compromise the immutability of this tuple.
          * Use {@link #toArray()} instead if you need an array that can be safely modified.
@@ -2850,6 +2874,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Returns the internal array of double elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
          * Modifying the returned array will compromise the immutability of this tuple.
          * Use {@link #toArray()} instead if you need an array that can be safely modified.
@@ -3191,6 +3216,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Returns the internal array of double elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
          * Modifying the returned array will compromise the immutability of this tuple.
          * Use {@link #toArray()} instead if you need an array that can be safely modified.
@@ -3539,6 +3565,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Returns the internal array of double elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
          * Modifying the returned array will compromise the immutability of this tuple.
          * Use {@link #toArray()} instead if you need an array that can be safely modified.
@@ -3936,6 +3963,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Returns the internal array of double elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
          * Modifying the returned array will compromise the immutability of this tuple.
          * Use {@link #toArray()} instead if you need an array that can be safely modified.
@@ -4342,6 +4370,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Returns the internal array of double elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
          * Modifying the returned array will compromise the immutability of this tuple.
          * Use {@link #toArray()} instead if you need an array that can be safely modified.
@@ -4755,6 +4784,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Returns the internal array of double elements.
+         * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
          * Modifying the returned array will compromise the immutability of this tuple.
          * Use {@link #toArray()} instead if you need an array that can be safely modified.

@@ -17,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Nested;
@@ -5707,4 +5708,53 @@ class PointsTest extends TestBase {
         }
     }
 
+    @Nested
+    @Tag("2025")
+    class SignedZeroAndNaNEqualityTest extends TestBase {
+
+        @Test
+        public void test_positiveZeroDoesNotEqualNegativeZero() {
+            // record equality on double components uses Double.compare, which orders -0.0 below 0.0
+            final DoubleDoublePoint p = DoubleDoublePoint.of(0.0, 0.0, 1.0);
+            final DoubleDoublePoint q = DoubleDoublePoint.of(-0.0, 0.0, 1.0);
+
+            assertNotEquals(p, q);
+            assertNotEquals(p.hashCode(), q.hashCode());
+        }
+
+        @Test
+        public void test_negativeZeroKeyIsNotFoundByPositiveZeroKey() {
+            final java.util.Map<DoubleDoublePoint, String> map = new java.util.HashMap<>();
+            map.put(DoubleDoublePoint.of(0.0, 0.0, 1.0), "origin");
+
+            assertNull(map.get(DoubleDoublePoint.of(-0.0, 0.0, 1.0)));
+            assertEquals("origin", map.get(DoubleDoublePoint.of(0.0, 0.0, 1.0)));
+        }
+
+        @Test
+        public void test_signedZeroInValueComponentAlsoSplits() {
+            assertNotEquals(DoubleDoublePoint.of(1.0, 2.0, 0.0), DoubleDoublePoint.of(1.0, 2.0, -0.0));
+        }
+
+        @Test
+        public void test_nanEqualsNaN() {
+            // the documented half of the Double.compare rule
+            assertEquals(DoubleDoublePoint.of(Double.NaN, 0.0, 1.0), DoubleDoublePoint.of(Double.NaN, 0.0, 1.0));
+            assertEquals(DoubleDoublePoint.of(Double.NaN, 0.0, 1.0).hashCode(), DoubleDoublePoint.of(Double.NaN, 0.0, 1.0).hashCode());
+        }
+
+        @Test
+        public void test_nanKeyIsRecoverable() {
+            final java.util.Map<DoubleDoublePoint, String> map = new java.util.HashMap<>();
+            map.put(DoubleDoublePoint.of(Double.NaN, Double.NaN, Double.NaN), "nan");
+
+            assertEquals("nan", map.get(DoubleDoublePoint.of(Double.NaN, Double.NaN, Double.NaN)));
+        }
+
+        @Test
+        public void test_infinitiesCompareByValue() {
+            assertEquals(DoubleDoublePoint.of(Double.POSITIVE_INFINITY, 0.0, 1.0), DoubleDoublePoint.of(Double.POSITIVE_INFINITY, 0.0, 1.0));
+            assertNotEquals(DoubleDoublePoint.of(Double.POSITIVE_INFINITY, 0.0, 1.0), DoubleDoublePoint.of(Double.NEGATIVE_INFINITY, 0.0, 1.0));
+        }
+    }
 }
