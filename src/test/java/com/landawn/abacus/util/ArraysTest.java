@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -40,6 +41,183 @@ import com.landawn.abacus.util.Arrays.fff;
 import com.landawn.abacus.util.stream.Stream;
 
 class ArraysTest extends TestBase {
+
+    @Test
+    public void testPrimitiveFlatMutationUsesTemporaryCopyAndLastSharedRowWins() {
+        final int[] row = { 1, 2 };
+        final int[][] grid = { row, null, row };
+        Arrays.mutateViaFlatArray(grid, flat -> {
+            assertArrayEquals(new int[] { 1, 2, 1, 2 }, flat);
+            for (int i = 0; i < flat.length; i++) {
+                flat[i] = i + 10;
+            }
+            assertArrayEquals(new int[] { 1, 2 }, row);
+        });
+        assertArrayEquals(new int[] { 12, 13 }, row);
+        assertSame(grid[0], grid[2]);
+
+        final int[] cubeRow = { 3, 4 };
+        final int[][][] cube = { { cubeRow }, null, { cubeRow } };
+        Arrays.mutateViaFlatArray(cube, flat -> {
+            for (int i = 0; i < flat.length; i++) {
+                flat[i] = i + 20;
+            }
+            assertArrayEquals(new int[] { 3, 4 }, cubeRow);
+        });
+        assertArrayEquals(new int[] { 22, 23 }, cubeRow);
+        assertSame(cube[0][0], cube[2][0]);
+    }
+
+    @Test
+    public void testObjectFlatMutationUsesTemporaryCopyAndLastSharedRowWins() {
+        final String[] row = { "a", "b" };
+        final String[][] grid = { row, null, row };
+        Arrays.ff.mutateViaFlatArray(grid, flat -> {
+            assertArrayEquals(new String[] { "a", "b", "a", "b" }, flat);
+            for (int i = 0; i < flat.length; i++) {
+                flat[i] = "v" + i;
+            }
+            assertArrayEquals(new String[] { "a", "b" }, row);
+        });
+        assertArrayEquals(new String[] { "v2", "v3" }, row);
+        assertSame(grid[0], grid[2]);
+
+        final String[] cubeRow = { "c", "d" };
+        final String[][][] cube = { { cubeRow }, null, { cubeRow } };
+        Arrays.fff.mutateViaFlatArray(cube, flat -> {
+            for (int i = 0; i < flat.length; i++) {
+                flat[i] = "w" + i;
+            }
+            assertArrayEquals(new String[] { "c", "d" }, cubeRow);
+        });
+        assertArrayEquals(new String[] { "w2", "w3" }, cubeRow);
+        assertSame(cube[0][0], cube[2][0]);
+    }
+
+    @Test
+    public void testFlatMutationDoesNotCopyBackWhenActionThrows() {
+        final IOException failure = new IOException("action failed after editing the temporary array");
+        final int[][] grid = { { 1, 2 } };
+        final int[][][] cube = { { { 3, 4 } } };
+        final String[][] objects = { { "a", "b" } };
+        final String[][][] objectCube = { { { "c", "d" } } };
+        final List<Executable> calls = List.of(//
+                () -> Arrays.mutateViaFlatArray(grid, flat -> {
+                    flat[0] = 99;
+                    throw failure;
+                }), () -> Arrays.mutateViaFlatArray(cube, flat -> {
+                    flat[0] = 99;
+                    throw failure;
+                }), () -> Arrays.ff.mutateViaFlatArray(objects, flat -> {
+                    flat[0] = "changed";
+                    throw failure;
+                }), () -> Arrays.fff.mutateViaFlatArray(objectCube, flat -> {
+                    flat[0] = "changed";
+                    throw failure;
+                }));
+
+        for (final Executable call : calls) {
+            assertSame(failure, assertThrows(IOException.class, call));
+        }
+        assertArrayEquals(new int[] { 1, 2 }, grid[0]);
+        assertArrayEquals(new int[] { 3, 4 }, cube[0][0]);
+        assertArrayEquals(new String[] { "a", "b" }, objects[0]);
+        assertArrayEquals(new String[] { "c", "d" }, objectCube[0][0]);
+    }
+
+    @Test
+    public void testObjectFlatMutationSharesElementObjectsEvenWhenActionThrows() {
+        final StringBuilder value = new StringBuilder("before");
+        final StringBuilder[][] grid = { { value } };
+        final StringBuilder[][][] cube = { { { value } } };
+        final IOException failure = new IOException("action failed");
+        final Throwables.Consumer<StringBuilder[], IOException> action = flat -> {
+            flat[0].append("-changed");
+            flat[0] = new StringBuilder("replacement");
+            throw failure;
+        };
+
+        assertSame(failure, assertThrows(IOException.class, () -> Arrays.ff.mutateViaFlatArray(grid, action)));
+        assertSame(value, grid[0][0]);
+        assertEquals("before-changed", value.toString());
+        assertSame(failure, assertThrows(IOException.class, () -> Arrays.fff.mutateViaFlatArray(cube, action)));
+        assertSame(value, cube[0][0][0]);
+        assertEquals("before-changed-changed", value.toString());
+    }
+
+    @Test
+    public void testObjectFlattenAndFlatMutationPreserveArrayValuedElementTypes() {
+        final int[] value = { 1, 2 };
+        final int[][][] grid = { { value }, null, {} };
+        final int[][][][] cube = { grid, null };
+        final int[][] flatGrid = Arrays.ff.flatten(grid);
+        final int[][] flatCube = Arrays.fff.flatten(cube);
+
+        assertEquals(int[][].class, flatGrid.getClass());
+        assertEquals(int[][].class, flatCube.getClass());
+        assertEquals(1, flatGrid.length);
+        assertEquals(1, flatCube.length);
+        assertSame(value, flatGrid[0]);
+        assertSame(value, flatCube[0]);
+        assertEquals(int[][].class, Arrays.ff.flatten(new int[0][][]).getClass());
+        assertEquals(int[][].class, Arrays.fff.flatten(new int[0][][][]).getClass());
+
+        final int[] replacement = { 3 };
+        Arrays.ff.mutateViaFlatArray(grid, flat -> {
+            assertEquals(int[][].class, flat.getClass());
+            flat[0] = replacement;
+            assertSame(value, grid[0][0]);
+        });
+        assertSame(replacement, grid[0][0]);
+        Arrays.fff.mutateViaFlatArray(cube, flat -> {
+            assertEquals(int[][].class, flat.getClass());
+            flat[0] = value;
+            assertSame(replacement, cube[0][0][0]);
+        });
+        assertSame(value, cube[0][0][0]);
+    }
+
+    @Test
+    public void testFlatMutationInvokesActionForNonemptyOuterArraysWithoutElements() {
+        final int[] calls = { 0 };
+        Arrays.mutateViaFlatArray(new int[][] { null, {} }, flat -> {
+            assertEquals(0, flat.length);
+            calls[0]++;
+        });
+        Arrays.mutateViaFlatArray(new int[][][] { null, { null, {} } }, flat -> {
+            assertEquals(0, flat.length);
+            calls[0]++;
+        });
+        Arrays.ff.mutateViaFlatArray(new String[][] { null, {} }, flat -> {
+            assertEquals(String[].class, flat.getClass());
+            assertEquals(0, flat.length);
+            calls[0]++;
+        });
+        Arrays.fff.mutateViaFlatArray(new String[][][] { null, { null, {} } }, flat -> {
+            assertEquals(String[].class, flat.getClass());
+            assertEquals(0, flat.length);
+            calls[0]++;
+        });
+        assertEquals(4, calls[0]);
+    }
+
+    @Test
+    public void testFloatUpdateAllNaNExamples() {
+        final float[] row = { 1.0f, Float.NaN, 3.0f };
+        final float[][] grid = { { Float.NaN, 2.0f } };
+        final float[][][] cube = { { { Float.NaN, 1.0f } } };
+        Arrays.updateAll(row, x -> x * 2.0f);
+        Arrays.updateAll(grid, x -> x * 2.0f);
+        Arrays.updateAll(cube, x -> x / 0f);
+
+        assertTrue(Float.isNaN(row[1]));
+        assertTrue(Float.isNaN(grid[0][0]));
+        assertTrue(Float.isNaN(cube[0][0][0]));
+        assertEquals(2.0f, row[0]);
+        assertEquals(6.0f, row[2]);
+        assertEquals(4.0f, grid[0][1]);
+        assertEquals(Float.POSITIVE_INFINITY, cube[0][0][1]);
+    }
 
     @Test
     public void testFunctionalArgumentsAreValidatedForEmptyInputs() {

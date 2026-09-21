@@ -536,8 +536,8 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
     /**
      * Returns the arithmetic mean of all int values in this tuple as an {@code OptionalDouble}.
      * <p>
-     * The result is returned as an {@code OptionalDouble} to preserve fractional precision;
-     * it is empty if this tuple has no elements.
+     * The mean uses {@code double} precision to retain fractional values; the returned
+     * {@code OptionalDouble} is empty if this tuple has no elements.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -1536,7 +1536,8 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * IntTuple.of(Integer.MIN_VALUE, Integer.MAX_VALUE).median();   // -0.5
          * }</pre>
          *
-         * @return {@code ((_1 + _2) / 2.0)} with operands widened to {@code double}
+         * @return {@code ((double) _1 + (double) _2) / 2d}; both operands are widened before addition
+         *         to avoid {@code int} overflow
          * @see #lowerMedian()
          */
         @Override

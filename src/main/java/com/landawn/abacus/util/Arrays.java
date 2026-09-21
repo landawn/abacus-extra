@@ -3117,6 +3117,10 @@ public sealed class Arrays permits Arrays.f {
      * all elements regardless of structure. The original two-dimensional structure is preserved; the
      * action is expected to mutate the supplied flat array in place.
      *
+     * <p>The action receives a temporary flat copy. No elements are copied back unless the action returns normally.
+     * For a nonempty outer array, the action is invoked once even when all nested arrays are null or empty.
+     * Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.</p>
+     *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
      *
@@ -3127,7 +3131,7 @@ public sealed class Arrays permits Arrays.f {
      * Arrays.mutateViaFlatArray(arr, t -> { for (int i = 0; i < t.length; i++) t[i] = !t[i]; });
      * // arr is now: {{false, true}, {true, false}}
      *
-     * // Set all elements to true via the flat view
+     * // Set all elements to true via the temporary flat copy
      * boolean[][] arr2 = {{false, false}, {false, false}};
      * Arrays.mutateViaFlatArray(arr2, t -> java.util.Arrays.fill(t, true));  // arr2 is now: {{true, true}, {true, true}}
      *
@@ -3173,6 +3177,10 @@ public sealed class Arrays permits Arrays.f {
      * This is useful for operations that need to be applied to all elements regardless of structure,
      * such as sorting or bulk modifications. The original three-dimensional structure is preserved.
      *
+     * <p>The action receives a temporary flat copy. No elements are copied back unless the action returns normally.
+     * For a nonempty outer array, the action is invoked once even when all nested arrays are null or empty.
+     * Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.</p>
+     *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
      *
@@ -3183,7 +3191,7 @@ public sealed class Arrays permits Arrays.f {
      * Arrays.mutateViaFlatArray(cube, arr -> { for (int i = 0; i < arr.length; i++) arr[i] = !arr[i]; });
      * // cube is now: {{{true, false}, {false, true}}, {{false, true}, {true, false}}}
      *
-     * // Set all elements to false via the flat view
+     * // Set all elements to false via the temporary flat copy
      * boolean[][][] cube2 = {{{true, true}}, {{true}}};
      * Arrays.mutateViaFlatArray(cube2, t -> java.util.Arrays.fill(t, false));  // cube2 is now: {{{false, false}}, {{false}}}
      *
@@ -4992,6 +5000,10 @@ public sealed class Arrays permits Arrays.f {
      * and then copies the modified elements back into the original two-dimensional array.
      * This allows for applying one-dimensional array operations (like sorting) across a two-dimensional structure.
      *
+     * <p>The action receives a temporary flat copy. No elements are copied back unless the action returns normally.
+     * For a nonempty outer array, the action is invoked once even when all nested arrays are null or empty.
+     * Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.</p>
+     *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
      *
@@ -5054,6 +5066,10 @@ public sealed class Arrays permits Arrays.f {
      * and then copies the modified elements back into the original three-dimensional array.
      * This allows for applying one-dimensional array operations (like sorting) across a three-dimensional structure.
      *
+     * <p>The action receives a temporary flat copy. No elements are copied back unless the action returns normally.
+     * For a nonempty outer array, the action is invoked once even when all nested arrays are null or empty.
+     * Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.</p>
+     *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
      *
@@ -5063,7 +5079,7 @@ public sealed class Arrays permits Arrays.f {
      * char[][][] array = {{{'d', 'a'}}, {{'c'}, {'b'}}};
      * Arrays.mutateViaFlatArray(array, t -> java.util.Arrays.sort(t));  // array is now {{{'a', 'b'}}, {{'c'}, {'d'}}}
      *
-     * // Basic: fill all positions with 'z' using the flattened view
+     * // Basic: fill all positions with 'z' using the temporary flat copy
      * char[][][] cube = {{{'a', 'b'}}, {{'c'}}};
      * Arrays.mutateViaFlatArray(cube, t -> java.util.Arrays.fill(t, 'z'));  // cube is now {{{'z', 'z'}}, {{'z'}}}
      *
@@ -6888,6 +6904,10 @@ public sealed class Arrays permits Arrays.f {
      * Flattens a two-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
      * This is useful for operations that need to be applied to all elements regardless of structure.
      *
+     * <p>The action receives a temporary flat copy. No elements are copied back unless the action returns normally.
+     * For a nonempty outer array, the action is invoked once even when all nested arrays are null or empty.
+     * Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.</p>
+     *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
      *
@@ -6946,6 +6966,10 @@ public sealed class Arrays permits Arrays.f {
      * Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
      * This is useful for operations that need to be applied to all elements regardless of structure,
      * such as sorting or bulk modifications. The original three-dimensional structure is preserved.
+     *
+     * <p>The action receives a temporary flat copy. No elements are copied back unless the action returns normally.
+     * For a nonempty outer array, the action is invoked once even when all nested arrays are null or empty.
+     * Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.</p>
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
@@ -8677,6 +8701,10 @@ public sealed class Arrays permits Arrays.f {
      * Flattens a two-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
      * This is useful for operations that need to be applied to all elements regardless of structure.
      *
+     * <p>The action receives a temporary flat copy. No elements are copied back unless the action returns normally.
+     * For a nonempty outer array, the action is invoked once even when all nested arrays are null or empty.
+     * Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.</p>
+     *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
      *
@@ -8733,6 +8761,10 @@ public sealed class Arrays permits Arrays.f {
      * Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
      * This is useful for operations that need to be applied to all elements regardless of structure,
      * such as sorting or bulk modifications. The original three-dimensional structure is preserved.
+     *
+     * <p>The action receives a temporary flat copy. No elements are copied back unless the action returns normally.
+     * For a nonempty outer array, the action is invoked once even when all nested arrays are null or empty.
+     * Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.</p>
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
@@ -10556,6 +10588,10 @@ public sealed class Arrays permits Arrays.f {
      * The array is flattened, the operation is applied to the flattened array, and then the values
      * are copied back to the original two-dimensional array structure.</p>
      *
+     * <p>The action receives a temporary flat copy. No elements are copied back unless the action returns normally.
+     * For a nonempty outer array, the action is invoked once even when all nested arrays are null or empty.
+     * Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.</p>
+     *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
      *
@@ -10616,6 +10652,10 @@ public sealed class Arrays permits Arrays.f {
      * <p>This method provides a convenient way to apply operations that work on one-dimensional arrays to three-dimensional arrays.
      * The array is flattened, the operation is applied to the flattened array, and then the values
      * are copied back to the original three-dimensional array structure.</p>
+     *
+     * <p>The action receives a temporary flat copy. No elements are copied back unless the action returns normally.
+     * For a nonempty outer array, the action is invoked once even when all nested arrays are null or empty.
+     * Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.</p>
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
@@ -12339,6 +12379,10 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Flattens a two-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
      *
+     * <p>The action receives a temporary flat copy. No elements are copied back unless the action returns normally.
+     * For a nonempty outer array, the action is invoked once even when all nested arrays are null or empty.
+     * Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.</p>
+     *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
      *
@@ -12393,6 +12437,10 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
+     *
+     * <p>The action receives a temporary flat copy. No elements are copied back unless the action returns normally.
+     * For a nonempty outer array, the action is invoked once even when all nested arrays are null or empty.
+     * Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.</p>
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
@@ -13606,9 +13654,9 @@ public sealed class Arrays permits Arrays.f {
      * // Edge: null array - no-op
      * Arrays.updateAll((float[]) null, x -> x + 1.0f);   // no exception, nothing happens
      *
-     * // Edge: NaN propagates through arithmetic (NaN * 2 == NaN)
+     * // Edge: NaN propagates through arithmetic; test it with Float.isNaN, not ==
      * float[] c = {1.0f, Float.NaN, 3.0f};
-     * Arrays.updateAll(c, x -> x * 2.0f);  // c[0] is 2.0, c[1] is NaN (NaN * 2 == NaN), c[2] is 6.0
+     * Arrays.updateAll(c, x -> x * 2.0f);  // c[0] is 2.0, Float.isNaN(c[1]) is true, c[2] is 6.0
      *
      * // Edge: divide by zero produces Infinity
      * float[] d = {1.0f, 2.0f};
@@ -13655,7 +13703,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Edge: NaN propagates through the operator
      * float[][] g3 = {{Float.NaN, 2.0f}};
-     * Arrays.updateAll(g3, x -> x * 2.0f);  // g3[0][0] is NaN (NaN * 2 == NaN), g3[0][1] is 4.0
+     * Arrays.updateAll(g3, x -> x * 2.0f);  // Float.isNaN(g3[0][0]) is true, g3[0][1] is 4.0
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
@@ -13698,7 +13746,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Edge: NaN remains NaN; divide by zero produces Infinity
      * float[][][] c3 = {{{Float.NaN, 1.0f}}};
-     * Arrays.updateAll(c3, x -> x / 0f);  // c3[0][0][0] is NaN (NaN / 0 == NaN), c3[0][0][1] is Infinity
+     * Arrays.updateAll(c3, x -> x / 0f);  // Float.isNaN(c3[0][0][0]) is true, c3[0][0][1] is Infinity
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
@@ -14109,6 +14157,10 @@ public sealed class Arrays permits Arrays.f {
      * This is useful for applying operations like sorting to the entire set of elements
      * in a multi-dimensional array.
      *
+     * <p>The action receives a temporary flat copy. No elements are copied back unless the action returns normally.
+     * For a nonempty outer array, the action is invoked once even when all nested arrays are null or empty.
+     * Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.</p>
+     *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
      *
@@ -14118,7 +14170,7 @@ public sealed class Arrays permits Arrays.f {
      * float[][] grid = {{4.0f, 1.0f}, {3.0f, 2.0f}};
      * Arrays.mutateViaFlatArray(grid, N::sort);  // grid is now {{1.0, 2.0}, {3.0, 4.0}}
      *
-     * // Basic: negate all elements via flat view
+     * // Basic: negate all elements via temporary flat copy
      * float[][] g2 = {{3.0f, 1.0f}, {2.0f}};
      * Arrays.mutateViaFlatArray(g2, arr -> { for (int i = 0; i < arr.length; i++) arr[i] = -arr[i]; });
      * // g2 is now {{-3.0, -1.0}, {-2.0}}
@@ -14166,6 +14218,10 @@ public sealed class Arrays permits Arrays.f {
      * This is useful for applying operations like sorting to the entire set of elements
      * in a multi-dimensional array.
      *
+     * <p>The action receives a temporary flat copy. No elements are copied back unless the action returns normally.
+     * For a nonempty outer array, the action is invoked once even when all nested arrays are null or empty.
+     * Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.</p>
+     *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
      *
@@ -14175,7 +14231,7 @@ public sealed class Arrays permits Arrays.f {
      * float[][][] cube = {{{4.0f, 1.0f}}, {{3.0f, 2.0f}}};
      * Arrays.mutateViaFlatArray(cube, N::sort);  // cube is now {{{1.0, 2.0}}, {{3.0, 4.0}}}
      *
-     * // Basic: double all elements via flat view
+     * // Basic: double all elements via temporary flat copy
      * float[][][] c2 = {{{5.0f, 3.0f}}, {{1.0f, 2.0f}}};
      * Arrays.mutateViaFlatArray(c2, arr -> { for (int i = 0; i < arr.length; i++) arr[i] *= 2; });
      * // c2 is now {{{10.0, 6.0}}, {{2.0, 4.0}}}
@@ -15935,6 +15991,10 @@ public sealed class Arrays permits Arrays.f {
      * Flattens a two-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
      * This allows for operations like sorting across the entire two-dimensional array.
      *
+     * <p>The action receives a temporary flat copy. No elements are copied back unless the action returns normally.
+     * For a nonempty outer array, the action is invoked once even when all nested arrays are null or empty.
+     * Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.</p>
+     *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
      *
@@ -15944,7 +16004,7 @@ public sealed class Arrays permits Arrays.f {
      * double[][] grid = {{5.0, 2.0}, {8.0, 1.0}};
      * Arrays.mutateViaFlatArray(grid, arr -> java.util.Arrays.sort(arr));  // grid is now {{1.0, 2.0}, {5.0, 8.0}}
      *
-     * // Basic: sort a single-row grid via the flat view
+     * // Basic: sort a single-row grid via the temporary flat copy
      * double[][] grid2 = {{3.0, 1.0, 2.0}};
      * Arrays.mutateViaFlatArray(grid2, arr -> java.util.Arrays.sort(arr));  // grid2 is now {{1.0, 2.0, 3.0}}
      *
@@ -15991,6 +16051,10 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
      * This allows for operations like sorting across the entire three-dimensional array.
+     *
+     * <p>The action receives a temporary flat copy. No elements are copied back unless the action returns normally.
+     * For a nonempty outer array, the action is invoked once even when all nested arrays are null or empty.
+     * Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.</p>
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
@@ -21604,9 +21668,10 @@ public sealed class Arrays permits Arrays.f {
          *
          * @param <T> the component type of the array elements.
          * @param a the two-dimensional array to flatten (must not be {@code null}).
-         * @return a new one-dimensional array containing all elements from the input array. The result has the same runtime component type as
-         *         {@code a}, which may be narrower than {@code T}; storing a value into it that is not
-         *         assignable to that type throws {@link ArrayStoreException}.
+         * @return a new one-dimensional array containing all elements from the input array. Its component type is obtained
+         *         by removing two array dimensions from the runtime type of {@code a}; any additional dimensions belonging
+         *         to {@code T} remain intact. This type may be narrower
+         *         than {@code T}; storing an incompatible value in the result throws {@link ArrayStoreException}.
          * @throws IllegalArgumentException if {@code a} is {@code null}.
          * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
          * @see Arrays.fff#flatten(Object[][][]) for three-dimensional arrays
@@ -21634,11 +21699,16 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * Performs an operation on a flattened view of a two-dimensional array, then copies the
+         * Performs an operation on a temporary flat copy of a two-dimensional array, then copies the
          * modified elements back to the original array structure.
          *
          * <p>This method is particularly useful for operations that need to work on all elements
          * as a single sequence, such as sorting all elements across the entire two-dimensional array.</p>
+         *
+         * <p>The action receives a temporary flat copy. No elements are copied back unless the action returns normally.
+         * For a nonempty outer array, the action is invoked once even when all nested arrays are null or empty.
+         * Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.
+         * The copy is shallow: mutations to referenced element objects are visible immediately.</p>
          *
          * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
          * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
@@ -21674,12 +21744,11 @@ public sealed class Arrays permits Arrays.f {
          * @param action the consumer that operates on the flattened array (must not be {@code null}).
          * @throws IllegalArgumentException if {@code action} is {@code null}.
          * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
-         * @throws ArrayStoreException if the action stores a value that is not assignable to a row's runtime
-         *         component type. The flattened array is allocated with the component type of {@code a} itself,
-         *         which may be wider than an individual row's (for example a {@code String[]} row inside an
-         *         {@code Object[][]}), so such a store only fails when the elements are copied back. When this
-         *         happens the array may already be <i>partially modified</i>: rows copied before the failing one
-         *         keep their new values, and the failing row keeps the elements copied before the offending one.
+         * @throws ArrayStoreException if the action stores an incompatible value in the temporary array, or a value
+         *         cannot be stored when copied back to an original row. The temporary array's component type is
+         *         obtained by removing two dimensions from the runtime type of {@code a}; it may be wider than
+         *         an individual row's component type. Copying back can partially modify the input: rows copied
+         *         before the failure retain their new values, as does the assignable prefix of the failing row.
          * @throws E if the operation throws an exception.
          * @see Arrays.fff#mutateViaFlatArray(Object[][][], Throwables.Consumer) for three-dimensional arrays
          */
@@ -23335,9 +23404,10 @@ public sealed class Arrays permits Arrays.f {
          *
          * @param <T> the component type of the array elements.
          * @param a the three-dimensional array to flatten (must not be {@code null}).
-         * @return a new one-dimensional array containing all elements in order. The result has the same runtime component type as
-         *         {@code a}, which may be narrower than {@code T}; storing a value into it that is not
-         *         assignable to that type throws {@link ArrayStoreException}.
+         * @return a new one-dimensional array containing all elements in order. Its component type is obtained by removing
+         *         three array dimensions from the runtime type of {@code a}; any additional dimensions belonging to
+         *         {@code T} remain intact. This type may be narrower
+         *         than {@code T}; storing an incompatible value in the result throws {@link ArrayStoreException}.
          * @throws IllegalArgumentException if {@code a} is {@code null}.
          * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
          * @see Arrays.ff#flatten(Object[][]) for two-dimensional arrays
@@ -23379,6 +23449,11 @@ public sealed class Arrays permits Arrays.f {
          * <p>The operation preserves the original shape of the three-dimensional array while allowing
          * transformations that work on the entire dataset as a single unit.</p>
          *
+         * <p>The action receives a temporary flat copy. No elements are copied back unless the action returns normally.
+         * For a nonempty outer array, the action is invoked once even when all nested arrays are null or empty.
+         * Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.
+         * The copy is shallow: mutations to referenced element objects are visible immediately.</p>
+         *
          * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
          * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
          *
@@ -23408,12 +23483,11 @@ public sealed class Arrays permits Arrays.f {
          * @param action the consumer operation to apply to the flattened array (must not be {@code null}).
          * @throws IllegalArgumentException if {@code action} is {@code null}.
          * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
-         * @throws ArrayStoreException if the action stores a value that is not assignable to an innermost row's
-         *         runtime component type. The flattened array is allocated with the component type of {@code a}
-         *         itself, which may be wider than an individual row's, so such a store only fails when the
-         *         elements are copied back. When this happens the array may already be <i>partially modified</i>:
-         *         rows copied before the failing one keep their new values, and the failing row keeps the
-         *         elements copied before the offending one.
+         * @throws ArrayStoreException if the action stores an incompatible value in the temporary array, or a value
+         *         cannot be stored when copied back to an original row. The temporary array's component type is
+         *         obtained by removing three dimensions from the runtime type of {@code a}; it may be wider than
+         *         an individual row's component type. Copying back can partially modify the input: rows copied
+         *         before the failure retain their new values, as does the assignable prefix of the failing row.
          * @throws E if the operation throws an exception.
          * @see Arrays.ff#mutateViaFlatArray(Object[][], Throwables.Consumer) for two-dimensional arrays
          */

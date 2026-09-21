@@ -4008,8 +4008,10 @@ class FloatTupleTest extends TestBase {
             }
 
             assertEquals((double) Float.MAX_VALUE, FloatTuple.from(values).average().getAsDouble(), "average for arity " + len);
+            assertEquals((double) Float.MAX_VALUE, FloatTuple.from(values).median(), "median for arity " + len);
         }
 
+        assertEquals(-(double) Float.MAX_VALUE, FloatTuple.of(-Float.MAX_VALUE, -Float.MAX_VALUE).median());
         assertEquals((double) Float.MIN_VALUE, FloatTuple.of(Float.MIN_VALUE, Float.MIN_VALUE).median());
         assertEquals((double) Float.MAX_VALUE, FloatTuple.of(0f, Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE).median());
     }
@@ -4032,6 +4034,10 @@ class FloatTupleTest extends TestBase {
             final float big = Float.parseFloat("16777216"), one = 1f;
             assertEquals(1.6777218E7f, FloatTuple.of(big, one, one).sum());
             assertEquals(1.6777216E7f, big + one + one, "plain left-to-right addition loses both units");
+
+            // The double accumulator also avoids intermediate float overflow before cancellation.
+            assertEquals(Float.MAX_VALUE, FloatTuple.of(Float.MAX_VALUE, Float.MAX_VALUE, -Float.MAX_VALUE).sum());
+            assertEquals(-Float.MAX_VALUE, FloatTuple.of(-Float.MAX_VALUE, -Float.MAX_VALUE, Float.MAX_VALUE).sum());
         }
 
         @Test

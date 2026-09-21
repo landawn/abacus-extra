@@ -575,14 +575,16 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     /**
      * Returns the arithmetic mean of all double values in this tuple.
      * <p>
-     * If any element is {@code NaN}, the result is {@code NaN}. Infinities
+     * If any element is {@code NaN}, the mean is {@code NaN}. Infinities
      * follow standard IEEE-754 rules.
      * </p>
      * <p>
      * Unlike {@link #sum()}, the mean is not reported as infinity merely because the intermediate total
      * overflows: {@code DoubleTuple.of(Double.MAX_VALUE, Double.MAX_VALUE)} has a {@code sum()} of
-     * {@code Infinity} but an {@code average()} of {@code Double.MAX_VALUE}. As with {@code sum()}, the
-     * sign of a zero result is not preserved at arity two or above.
+     * {@code Infinity} but its {@code average()} contains {@code Double.MAX_VALUE}. For arities two and above,
+     * averaging only negative zeros produces a mean of {@code +0.0}. A negative nonzero mean that
+     * underflows to zero produces {@code -0.0}, as in
+     * {@code DoubleTuple.of(-Double.MIN_VALUE, 0.0).average().getAsDouble()}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>

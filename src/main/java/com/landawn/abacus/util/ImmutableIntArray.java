@@ -318,8 +318,9 @@ public final class ImmutableIntArray implements Immutable {
     /**
      * Returns the sum of all elements in this array as an {@code int}.
      *
-     * <p>For an empty array this method returns {@code 0}.
-     * If the total overflows the {@code int} range, an {@link ArithmeticException} is thrown.</p>
+     * <p>For an empty array this method returns {@code 0}. Elements are accumulated in a {@code long},
+     * so intermediate totals may exceed the {@code int} range and later cancel. An
+     * {@link ArithmeticException} is thrown only if the final sum is outside the {@code int} range.</p>
      *
      * <p>Unlike {@link #min()} and {@link #max()}, this method does not throw on an empty array.</p>
      *
@@ -359,11 +360,11 @@ public final class ImmutableIntArray implements Immutable {
     /**
      * Returns the arithmetic mean of all elements in this array as an {@code OptionalDouble}.
      *
-     * <p>The result is returned as an {@code OptionalDouble} to preserve fractional precision.
-     * For an empty array this method returns an empty {@code OptionalDouble} (it does not throw).</p>
+     * <p>The mean is represented as a {@code double}, including any fractional part. The optional
+     * distinguishes an empty array from a non-empty array whose mean is zero.</p>
      *
-     * <p>Unlike {@link #sum()}, this method does not throw when intermediate totals exceed the
-     * {@code int} range; the mean is computed in wider arithmetic.</p>
+     * <p>Unlike {@link #sum()}, this method still returns a mean when the final sum exceeds the
+     * {@code int} range; the total is accumulated in a {@code long} before division.</p>
      *
      * <p>Unlike {@link #min()} and {@link #max()}, this method does not throw on an empty array;
      * it returns an empty {@code OptionalDouble} instead.</p>
@@ -643,9 +644,10 @@ public final class ImmutableIntArray implements Immutable {
      * then calling this method on each will produce the same integer result.</p>
      *
      * <p><b>&#9888;&#65039; Stability:</b> the hash code is derived from the contents, so an instance created by
-     * {@link #unsafeWrap(int[])} has a stable hash code only for as long as the caller leaves the wrapped array
-     * unmodified. Mutating that array after the instance has been used as a {@link java.util.HashMap} key or
-     * {@link java.util.HashSet} element makes the entry unreachable. Use {@link #copyOf(int[])} for keys.</p>
+     * {@link #unsafeWrap(int[])} has a guaranteed stable hash code while the wrapped array remains unmodified.
+     * A mutation can change the hash code, although different contents can have the same hash code.
+     * Mutating that array after the instance has been used as a {@link java.util.HashMap} key or
+     * {@link java.util.HashSet} element can make lookups fail. Use {@link #copyOf(int[])} for keys.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code

@@ -355,6 +355,12 @@ class ImmutableIntArrayTest extends TestBase {
             assertThrows(ArithmeticException.class, array::sum);
         }
 
+        @Test
+        public void testSum_IntermediateOverflowCanCancel() {
+            assertEquals(Integer.MAX_VALUE, ImmutableIntArray.copyOf(new int[] { Integer.MAX_VALUE, 1, -1 }).sum());
+            assertEquals(Integer.MIN_VALUE, ImmutableIntArray.copyOf(new int[] { Integer.MIN_VALUE, -1, 1 }).sum());
+        }
+
         // ============================================
         // Tests for average() method
         // ============================================
@@ -393,6 +399,13 @@ class ImmutableIntArrayTest extends TestBase {
         public void testAverage_NullInputReturnsEmpty() {
             ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(null);
             assertTrue(empty.average().isEmpty());
+        }
+
+        @Test
+        public void testAverage_ZeroMeanIsPresent() {
+            final ImmutableIntArray balanced = ImmutableIntArray.copyOf(new int[] { -1, 1 });
+            assertTrue(balanced.average().isPresent());
+            assertEquals(0.0, balanced.average().getAsDouble());
         }
 
         @Test
@@ -1284,6 +1297,19 @@ class ImmutableIntArrayTest extends TestBase {
     @Nested
     @Tag("2025")
     class UnsafeWrapHashStabilityTest extends TestBase {
+
+        @Test
+        public void test_unsafeWrap_mutationCanPreserveHashCode() {
+            final int[] backing = { 0, 31 };
+            final ImmutableIntArray wrapped = ImmutableIntArray.unsafeWrap(backing);
+            final ImmutableIntArray original = ImmutableIntArray.copyOf(backing);
+
+            backing[0] = 1;
+            backing[1] = 0;
+
+            assertNotEquals(original, wrapped);
+            assertEquals(original.hashCode(), wrapped.hashCode());
+        }
 
         @Test
         public void test_unsafeWrap_hashCodeFollowsCallerMutation() {

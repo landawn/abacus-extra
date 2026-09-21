@@ -206,6 +206,11 @@ class ShortTupleTest extends TestBase {
         ShortTuple.ShortTuple3 tuple = ShortTuple.of((short) 5, (short) 10, (short) 15);
         assertEquals(10.0, tuple.average().getAsDouble());
 
+        final ShortTuple.ShortTuple2 balanced = ShortTuple.of((short) -1, (short) 1);
+        assertTrue(balanced.average().isPresent());
+        assertEquals(0.0, balanced.average().getAsDouble());
+        assertEquals(-0.5, ShortTuple.of(Short.MIN_VALUE, Short.MAX_VALUE).average().getAsDouble());
+
         ShortTuple.ShortTuple0 empty = ShortTuple.from(new short[0]);
         assertTrue(empty.average().isEmpty());
     }

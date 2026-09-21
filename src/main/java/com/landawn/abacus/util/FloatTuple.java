@@ -47,9 +47,11 @@ import com.landawn.abacus.util.stream.FloatStream;
  * public final fields {@code _1}, {@code _2}, and so on matching that arity. This sealed hierarchy permits only
  * the built-in nested types; all instances are immutable.</p>
  *
- * <p><b>Numeric semantics:</b> Aggregates follow IEEE-754 {@code float} arithmetic: a {@code NaN}
- * element propagates to the results of {@link #min()}, {@link #max()}, {@link #sum()}, and
- * {@link #average()}. {@link #lowerMedian()}, {@link #contains(float)}, and {@link #equals(Object)}
+ * <p><b>Numeric semantics:</b> Values use IEEE-754 {@code float} representation. A {@code NaN} element
+ * propagates to the results of {@link #min()}, {@link #max()}, {@link #sum()}, and {@link #average()}.
+ * Sums and averages of two or more elements use {@code double} accumulation; {@code sum()}
+ * narrows its result to {@code float}.
+ * {@link #lowerMedian()}, {@link #contains(float)}, and {@link #equals(Object)}
  * order and compare elements with {@link Float#compare(float, float)} semantics ({@code NaN} equal
  * to itself and greater than any other value, {@code -0.0f} less than {@code 0.0f}).
  * {@link #median()} is the conventional statistical median as a {@code double} (mean of the two middle
@@ -553,8 +555,9 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * (e.g. {@code +INF + -INF} produces {@code NaN}).
      * </p>
      * <p>
-     * The elements are added with compensated (Kahan) summation rather than plain left-to-right
-     * addition, so the result can differ from {@code _1 + _2 + ...}; it is generally the more accurate.
+     * For arities two and above, elements are accumulated in {@code double} precision with compensated
+     * (Kahan) summation, and the final result is narrowed to {@code float}. This can differ from plain
+     * left-to-right {@code float} addition such as {@code _1 + _2 + ...} and generally reduces rounding error.
      * The sign of a zero result is not preserved at arity two or above:
      * {@code FloatTuple.of(-0.0f, -0.0f).sum()} is {@code +0.0f}, whereas plain IEEE-754 addition of two
      * negative zeros yields {@code -0.0f}.
@@ -585,14 +588,14 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
     /**
      * Returns the arithmetic mean of all float values in this tuple.
      * <p>
-     * The result is returned as an {@code OptionalDouble} to preserve precision.
-     * If any element is {@code NaN}, the result is {@code NaN}. Infinities
-     * follow standard IEEE-754 rules.
+     * The computation uses {@code double} precision, and the returned {@code OptionalDouble} is empty
+     * if this tuple has no elements. If any element is {@code NaN}, the mean is {@code NaN}.
+     * Infinities follow standard IEEE-754 rules.
      * </p>
      * <p>
      * Unlike {@link #sum()}, the mean is not reported as infinity merely because the total exceeds the
      * {@code float} range: {@code FloatTuple.of(Float.MAX_VALUE, Float.MAX_VALUE)} has a {@code sum()} of
-     * {@code Infinity} but an {@code average()} of {@code 3.4028234663852886E38}. As with {@code sum()},
+     * {@code Infinity} but its {@code average()} contains {@code 3.4028234663852886E38}. As with {@code sum()},
      * the sign of a zero result is not preserved at arity two or above.
      * </p>
      *
@@ -1687,7 +1690,8 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * FloatTuple.of(-5.0f, 5.0f).median();   // 0.0
          * }</pre>
          *
-         * @return {@code ((_1 + _2) / 2.0)} with the sum widened to {@code double}
+         * @return {@code ((double) _1 + (double) _2) / 2d}; both operands are widened before addition
+         *         so finite {@code float} values cannot overflow the intermediate sum
          * @see #lowerMedian()
          */
         @Override

@@ -36,6 +36,11 @@ package com.landawn.abacus.util;
  * {@code -0.0} therefore will not match an otherwise identical point holding {@code 0.0} as a
  * {@link java.util.HashMap} key or {@link java.util.HashSet} element.</p>
  *
+ * <p>Equality compares every coordinate and the payload, and requires the same record type.
+ * Object payloads use their own {@code equals} and {@code hashCode} methods; array payloads therefore
+ * compare by reference, not by their contents. Mutating a payload can change a point's equality and
+ * hash code when those methods depend on the payload's contents.</p>
+ *
  * <p>This class cannot be instantiated.</p>
  *
  * @see D2

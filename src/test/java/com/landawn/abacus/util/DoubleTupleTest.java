@@ -4269,6 +4269,21 @@ class DoubleTupleTest extends TestBase {
         }
 
         @Test
+        public void test_average_distinguishesNegativeZeroInputsFromNegativeUnderflow() {
+            for (int len = 2; len <= 9; len++) {
+                final double[] negativeZeros = new double[len];
+                java.util.Arrays.fill(negativeZeros, -0.0d);
+                assertEquals(Double.doubleToRawLongBits(0.0d),
+                        Double.doubleToRawLongBits(DoubleTuple.from(negativeZeros).average().getAsDouble()), "zero inputs for arity " + len);
+
+                final double[] negativeSubnormal = new double[len];
+                negativeSubnormal[0] = -Double.MIN_VALUE;
+                assertEquals(Double.doubleToRawLongBits(-0.0d),
+                        Double.doubleToRawLongBits(DoubleTuple.from(negativeSubnormal).average().getAsDouble()), "underflow for arity " + len);
+            }
+        }
+
+        @Test
         public void test_median_keepsSignOfZeroWhereAverageDoesNot() {
             assertEquals(Double.doubleToRawLongBits(-0.0), Double.doubleToRawLongBits(DoubleTuple.of(-0.0, -0.0).median()));
         }

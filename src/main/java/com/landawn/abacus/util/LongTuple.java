@@ -565,18 +565,19 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * When no prefix overflows, the exact total is narrowed to {@code double} and then divided. That is
      * the nearest {@code double} to the true mean whenever the total is within 2<sup>53</sup> or the
      * arity is a power of two, and at most one ulp away otherwise. For example
-     * {@code LongTuple.of(9007199254740991L, 1L, 1L).average()} returns {@code 3.0023997515803305E15},
-     * one ulp below the true mean {@code 3002399751580331.0}, which is itself exactly representable;
-     * and {@code LongTuple.of(Long.MAX_VALUE, 1026L).average()} returns {@code 4.611686018427388E18}
-     * where the nearest {@code double} is {@code 4.611686018427389E18}.
+     * {@code LongTuple.of(9007199254740991L, 1L, 1L).average().getAsDouble()} returns {@code 3.0023997515803305E15},
+     * one ulp below the true mean {@code 3002399751580331.0}, which is itself exactly representable.
      * </p>
      * <p>
-     * When a prefix does overflow, a quotient/remainder decomposition is used instead. It is accurate
-     * for large means, but because it adds a rounded fraction to a quotient it can be <i>several</i>
-     * ulps off when large elements very nearly cancel. For example a nine-element tuple built from
+     * When a prefix does overflow, a quotient/remainder decomposition is used instead. This path can
+     * round twice even when the arity is a power of two:
+     * {@code LongTuple.of(Long.MAX_VALUE, 1026L).average().getAsDouble()} returns {@code 4.611686018427388E18},
+     * while the nearest {@code double} is {@code 4.611686018427389E18}.
+     * Adding a rounded fraction to a quotient can also leave the result <i>several</i> ulps off when
+     * large elements very nearly cancel. For example a nine-element tuple built from
      * {@code 6748534329674943672L, 7183318492732822330L, -6748534329674943653L, -7183318492732822325L,
      * -17L, 18L, -5L, -6L, -15L} has an exact total of {@code -1} and a true mean of
-     * {@code -0.1111111111111111}, but {@code average()} returns {@code -0.11111111111111072}.
+     * {@code -0.1111111111111111}, but {@code average().getAsDouble()} returns {@code -0.11111111111111072}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>

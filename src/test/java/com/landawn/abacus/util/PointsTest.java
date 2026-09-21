@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Nested;
@@ -49,6 +50,50 @@ import com.landawn.abacus.util.Points.D2.LongObjPoint;
 import com.landawn.abacus.util.Points.D3;
 
 class PointsTest extends TestBase {
+
+    @Test
+    public void testArrayPayloadsUseReferenceEquality() {
+        final int[] payload = { 1, 2 };
+        final D2.IntObjPoint<int[]> point2d = D2.IntObjPoint.of(3, 4, payload);
+        final D3.IntObjPoint<int[]> point3d = D3.IntObjPoint.of(3, 4, 5, payload);
+
+        assertSame(payload, point2d.value());
+        assertSame(payload, point3d.value());
+        assertEquals(point2d, D2.IntObjPoint.of(3, 4, payload));
+        assertEquals(point3d, D3.IntObjPoint.of(3, 4, 5, payload));
+        assertNotEquals(point2d, D2.IntObjPoint.of(3, 4, payload.clone()));
+        assertNotEquals(point3d, D3.IntObjPoint.of(3, 4, 5, payload.clone()));
+
+        final int hash2d = point2d.hashCode();
+        final int hash3d = point3d.hashCode();
+        payload[0] = 9;
+        assertEquals(9, point2d.value()[0]);
+        assertEquals(9, point3d.value()[0]);
+        assertEquals(hash2d, point2d.hashCode());
+        assertEquals(hash3d, point3d.hashCode());
+    }
+
+    @Test
+    public void testMutablePayloadContentsAffectEqualityAndHashCode() {
+        final java.util.List<Integer> payload = new java.util.ArrayList<>(java.util.List.of(1));
+        final D2.IntObjPoint<java.util.List<Integer>> point2d = D2.IntObjPoint.of(3, 4, payload);
+        final D3.IntObjPoint<java.util.List<Integer>> point3d = D3.IntObjPoint.of(3, 4, 5, payload);
+        final D2.IntObjPoint<java.util.List<Integer>> original2d = D2.IntObjPoint.of(3, 4, java.util.List.of(1));
+        final D3.IntObjPoint<java.util.List<Integer>> original3d = D3.IntObjPoint.of(3, 4, 5, java.util.List.of(1));
+
+        assertEquals(original2d, point2d);
+        assertEquals(original3d, point3d);
+        payload.set(0, 2);
+
+        assertSame(payload, point2d.value());
+        assertSame(payload, point3d.value());
+        assertNotEquals(original2d, point2d);
+        assertNotEquals(original3d, point3d);
+        assertEquals(D2.IntObjPoint.of(3, 4, java.util.List.of(2)), point2d);
+        assertEquals(D3.IntObjPoint.of(3, 4, 5, java.util.List.of(2)), point3d);
+        assertEquals(D2.IntObjPoint.of(3, 4, java.util.List.of(2)).hashCode(), point2d.hashCode());
+        assertEquals(D3.IntObjPoint.of(3, 4, 5, java.util.List.of(2)).hashCode(), point3d.hashCode());
+    }
 
     @Test
     public void testByteBytePointEqualsAndHashCode() {

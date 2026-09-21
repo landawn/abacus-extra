@@ -4412,6 +4412,13 @@ class IntTupleTest extends TestBase {
         assertFalse(tuple9.equals("tuple9"));
     }
 
+    @Test
+    public void testPairMedianWidensOperandsBeforeAddition() {
+        assertEquals((double) Integer.MAX_VALUE, IntTuple.of(Integer.MAX_VALUE, Integer.MAX_VALUE).median());
+        assertEquals((double) Integer.MIN_VALUE, IntTuple.of(Integer.MIN_VALUE, Integer.MIN_VALUE).median());
+        assertEquals(-0.5d, IntTuple.of(Integer.MIN_VALUE, Integer.MAX_VALUE).median());
+    }
+
     // Pin the documented overflow contract: sum() delegates to N.sum(int...), which
     // accumulates into a long and throws ArithmeticException when the total leaves
     // the int range (a silent wrap-around would be a regression).

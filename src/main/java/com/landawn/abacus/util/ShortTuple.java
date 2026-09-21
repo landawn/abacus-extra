@@ -572,7 +572,8 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
     /**
      * Returns the average of all short values in this tuple as an {@code OptionalDouble}.
      * <p>
-     * The result is wrapped in an {@code OptionalDouble} to preserve fractional precision.
+     * The arithmetic mean is represented as a {@code double}, including any fractional part.
+     * The optional distinguishes an empty tuple from a non-empty tuple whose mean is zero.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>

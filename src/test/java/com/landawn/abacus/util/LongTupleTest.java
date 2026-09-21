@@ -4179,6 +4179,7 @@ class LongTupleTest extends TestBase {
         @Test
         public void test_average_documentedExample() {
             // the exact example the javadoc states
+            assertFalse(prefixOverflows(9007199254740991L, 1L, 1L));
             assertEquals(3.0023997515803305E15, LongTuple.of(9007199254740991L, 1L, 1L).average().getAsDouble());
             // ... and the true mean it is one ulp away from is itself exactly representable.
             // Round-tripping through double is the non-vacuous form: comparing the two literals
@@ -4210,6 +4211,7 @@ class LongTupleTest extends TestBase {
         public void test_average_powerOfTwoArityIsNotImmuneOnTheOverflowBranch() {
             // once the long total overflows, N.average switches to a quotient/remainder decomposition
             // that can round twice at ANY arity -- including 2. This is what the javadoc now states.
+            assertTrue(prefixOverflows(Long.MAX_VALUE, 1026L));
             final double got = LongTuple.of(Long.MAX_VALUE, 1026L).average().getAsDouble();
             assertEquals(4.611686018427388E18, got);
             assertNotEquals(exactOnce(Long.MAX_VALUE, 1026L), got);
