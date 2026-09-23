@@ -4223,4 +4223,11 @@ class ByteTupleTest extends TestBase {
             assertEquals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3), ByteTuple.of((byte) 1, (byte) 2, (byte) 3));
         }
     }
+
+    @Test
+    public void testLowerMedian_evenArityDocExampleDiffersFromMedian() {
+        final ByteTuple.ByteTuple4 t = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40);
+        assertEquals((byte) 20, t.lowerMedian());
+        assertEquals(25.0, t.median());
+    }
 }

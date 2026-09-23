@@ -175,7 +175,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * t.sum();                           // returns 10
      * t.average();                       // returns OptionalDouble.of(2.5)
      *
-     * // Edge: even arity median returns lower middle
+     * // Edge: even arity - lowerMedian returns lower middle
      * t.lowerMedian();                        // returns 2 (lower of the two middle values when sorted)
      *
      * // Edge: boundary short values
@@ -236,7 +236,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * t.arity();                         // returns 6
      * t.sum();                           // returns 21
      *
-     * // Edge: even arity - median returns lower middle value
+     * // Edge: even arity - lowerMedian returns lower middle value
      * t.lowerMedian();                        // returns 3 (lower of middle pair [3,4] when sorted)
      *
      * // Edge: toArray has correct length
@@ -304,7 +304,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * t.arity();                         // returns 8
      * t.sum();                           // returns 36
      *
-     * // Edge: even arity median returns lower middle value
+     * // Edge: even arity - lowerMedian returns lower middle value
      * t.lowerMedian();                        // returns 4 (lower of middle pair [4,5] when sorted)
      *
      * // Edge: contains boundary

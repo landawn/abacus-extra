@@ -18137,4 +18137,88 @@ class ArraysTest extends TestBase {
             assertDoesNotThrow(() -> flat[0] = Double.valueOf(1.5));
         }
     }
+
+    @Nested
+    class ReviewFixes20260922Test extends TestBase {
+
+        @Test
+        public void test_flatten_primitiveReturnsSharedEmptyOnlyForNullOrEmptyInput() {
+            assertSame(Arrays.flatten((boolean[][]) null), Arrays.flatten(new boolean[0][]));
+            assertSame(Arrays.flatten((char[][]) null), Arrays.flatten(new char[0][]));
+            assertSame(Arrays.flatten((byte[][]) null), Arrays.flatten(new byte[0][]));
+            assertSame(Arrays.flatten((short[][]) null), Arrays.flatten(new short[0][]));
+            assertSame(Arrays.flatten((int[][]) null), Arrays.flatten(new int[0][]));
+            assertSame(Arrays.flatten((long[][]) null), Arrays.flatten(new long[0][]));
+            assertSame(Arrays.flatten((float[][]) null), Arrays.flatten(new float[0][]));
+            assertSame(Arrays.flatten((double[][]) null), Arrays.flatten(new double[0][]));
+            assertSame(Arrays.flatten((int[][][]) null), Arrays.flatten(new int[0][][]));
+
+            // a non-empty outer array always yields a newly allocated result, even when it has no elements
+            assertEquals(0, Arrays.flatten(new int[][] { null, {} }).length);
+            assertTrue(Arrays.flatten(new int[][] { null, {} }) != Arrays.flatten((int[][]) null));
+            assertTrue(Arrays.flatten(new int[][][] { null, { null } }) != Arrays.flatten((int[][][]) null));
+            final int[][] rows = { { 1, 2 }, { 3 } };
+            assertTrue(Arrays.flatten(rows) != Arrays.flatten(rows));
+        }
+
+        @Test
+        public void test_zip_boolean2DWithDefaults_onlyTheMissingSideUsesItsDefault() {
+            final boolean[][] a = { { true, false } };
+            final boolean[][] b = { { false }, { true, false } };
+
+            // row 1: a has no sub-array -> a's default fills every position, b's actual values are kept
+            final boolean[][] keepB = Arrays.zip(a, b, true, true, (x, y) -> y);
+            assertArrayEquals(new boolean[] { false, true }, keepB[0]);
+            assertArrayEquals(new boolean[] { true, false }, keepB[1]);
+
+            final boolean[][] keepA = Arrays.zip(a, b, true, false, (x, y) -> x);
+            assertArrayEquals(new boolean[] { true, false }, keepA[0]);
+            assertArrayEquals(new boolean[] { true, true }, keepA[1]);
+
+            // a null sub-array behaves like a missing one
+            final boolean[][] nullRow = Arrays.zip(new boolean[][] { null }, new boolean[][] { { true, false } }, true, true, (x, y) -> y);
+            assertArrayEquals(new boolean[] { true, false }, nullRow[0]);
+        }
+
+        @Test
+        public void test_totalElementCount_float3DWithOnlyNullTwoDimensionalSubArraysIsZero() {
+            assertEquals(0L, Arrays.totalElementCount(new float[][][] { null, null }));
+        }
+
+        @Test
+        public void test_ffZipWithDefaults_resultElementTypeComesFromAOrElseFromDefaultValueA() throws Exception {
+            final Number[][] b = { { 10L, 20L } };
+
+            final Number[][] fromA = ff.zip(new Number[][] { { 1 } }, b, (Number) 0, (Number) 0L, (x, y) -> y);
+            assertEquals(Number[][].class, fromA.getClass());
+            assertEquals(20L, fromA[0][1]);
+
+            final Number[][] fromDefault = ff.zip((Number[][]) null, b, (Number) 0, (Number) 0L, (x, y) -> x);
+            assertEquals(Integer[][].class, fromDefault.getClass());
+
+            final Number[][] fromDefault3 = ff.zip((Number[][]) null, b, b, (Number) 0, (Number) 0L, (Number) 0L, (x, y, z) -> x);
+            assertEquals(Integer[][].class, fromDefault3.getClass());
+
+            final Number[][] fromA3 = ff.zip(new Number[][] { { 1 } }, b, b, (Number) 0, (Number) 0L, (Number) 0L, (x, y, z) -> z);
+            assertEquals(Number[][].class, fromA3.getClass());
+        }
+
+        @Test
+        public void test_fffZipWithDefaults_resultElementTypeComesFromAOrElseFromDefaultValueA() throws Exception {
+            final Number[][][] b = { { { 10L, 20L } } };
+
+            final Number[][][] fromA = fff.zip(new Number[][][] { { { 1 } } }, b, (Number) 0, (Number) 0L, (x, y) -> y);
+            assertEquals(Number[][][].class, fromA.getClass());
+            assertEquals(20L, fromA[0][0][1]);
+
+            final Number[][][] fromDefault = fff.zip((Number[][][]) null, b, (Number) 0, (Number) 0L, (x, y) -> x);
+            assertEquals(Integer[][][].class, fromDefault.getClass());
+
+            final Number[][][] fromDefault3 = fff.zip((Number[][][]) null, b, b, (Number) 0, (Number) 0L, (Number) 0L, (x, y, z) -> x);
+            assertEquals(Integer[][][].class, fromDefault3.getClass());
+
+            final Number[][][] fromA3 = fff.zip(new Number[][][] { { { 1 } } }, b, b, (Number) 0, (Number) 0L, (Number) 0L, (x, y, z) -> z);
+            assertEquals(Number[][][].class, fromA3.getClass());
+        }
+    }
 }

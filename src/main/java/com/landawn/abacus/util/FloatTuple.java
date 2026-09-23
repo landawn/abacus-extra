@@ -178,7 +178,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * assert tuple._4 == 4.0f;
      * tuple.sum();                                     // returns 10.0f
      *
-     * // Median of four (even count): lower middle value when sorted
+     * // Lower median of four (even count): lower middle value when sorted
      * FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f).lowerMedian(); // returns 2.0f
      *
      * // Edge: all negative values
@@ -237,7 +237,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * tuple.sum();                                     // returns 21.0f
      * tuple.average();                                 // returns OptionalDouble.of(3.5)
      *
-     * // Median of six (even count): lower middle value when sorted
+     * // Lower median of six (even count): lower middle value when sorted
      * FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f).lowerMedian();  // returns 3.0f
      *
      * // Edge: NaN in sum
@@ -302,7 +302,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * assert tuple.toArray().length == 8;
      * tuple.sum();                                     // returns 36.0f
      *
-     * // Median of eight (even count): lower middle value when sorted
+     * // Lower median of eight (even count): lower middle value when sorted
      * tuple.lowerMedian();                                  // returns 4.0f
      *
      * // Edge: contains check

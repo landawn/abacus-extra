@@ -564,7 +564,8 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * <p>
      * When no prefix overflows, the exact total is narrowed to {@code double} and then divided. That is
      * the nearest {@code double} to the true mean whenever the total is within 2<sup>53</sup> or the
-     * arity is a power of two, and at most one ulp away otherwise. For example
+     * arity is a power of two; otherwise it is that nearest {@code double} or one of its two neighbours, so
+     * its distance from the true mean can slightly exceed one ulp. For example
      * {@code LongTuple.of(9007199254740991L, 1L, 1L).average().getAsDouble()} returns {@code 3.0023997515803305E15},
      * one ulp below the true mean {@code 3002399751580331.0}, which is itself exactly representable.
      * </p>

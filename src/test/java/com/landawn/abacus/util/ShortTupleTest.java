@@ -3984,4 +3984,15 @@ class ShortTupleTest extends TestBase {
         assertFalse(tuple9.equals("tuple9"));
     }
 
+
+    @Test
+    public void testLowerMedian_evenArityDocExamplesDifferFromMedian() {
+        assertEquals((short) 2, ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4).lowerMedian());
+        assertEquals(2.5, ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4).median());
+        assertEquals((short) 3, ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6).lowerMedian());
+        assertEquals(3.5, ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6).median());
+        assertEquals((short) 4,
+                ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8).lowerMedian());
+        assertEquals(4.5, ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8).median());
+    }
 }

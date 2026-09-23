@@ -4165,6 +4165,20 @@ class LongTupleTest extends TestBase {
     @Tag("2025")
     class AverageRoundingContractTest extends TestBase {
 
+        @Test
+        public void test_average_nonOverflowBranchStaysAdjacentToNearestButCanExceedOneUlpOfTheTrueMean() {
+            final long[] v = { 9007199254741009L, 0L, 0L, 0L, 0L };
+            assertFalse(prefixOverflows(v));
+            final double got = LongTuple.from(v).average().getAsDouble();
+            assertEquals(1.8014398509482015E15, got);
+            // nearest double to the true mean 1801439850948201.8 is ...201.75, exactly one double above
+            assertEquals(1.8014398509482018E15, exactOnce(v));
+            assertEquals(exactOnce(v), Math.nextUp(got));
+            final java.math.BigDecimal trueMean = new java.math.BigDecimal("1801439850948201.8");
+            assertTrue(new java.math.BigDecimal(got).subtract(trueMean).abs().compareTo(new java.math.BigDecimal(Math.ulp(got))) > 0,
+                    "absolute error exceeds one ulp of the result");
+        }
+
         /** Exact mean rounded exactly once, for use as an oracle. */
         private double exactOnce(final long... xs) {
             java.math.BigInteger s = java.math.BigInteger.ZERO;

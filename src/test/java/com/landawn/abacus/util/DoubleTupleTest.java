@@ -4371,4 +4371,77 @@ class DoubleTupleTest extends TestBase {
             assertEquals(Double.NEGATIVE_INFINITY, DoubleTuple.of(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY).median());
         }
     }
+
+    @Test
+    public void testSum_compensationOverflowDoesNotCorruptAFiniteTotal() {
+        // Kahan's compensation term (t - sum) - y overflows here, which used to turn a finite total
+        // into -Infinity / +Infinity / NaN depending on element order
+        final double expected = -3.0E307 + Double.MAX_VALUE;
+        assertTrue(Double.isFinite(expected));
+        assertEquals(expected, DoubleTuple.of(-3.0E307, Double.MAX_VALUE).sum());
+        assertEquals(-expected, DoubleTuple.of(3.0E307, -Double.MAX_VALUE).sum());
+        assertEquals(DoubleTuple.of(Double.MAX_VALUE, -3.0E307).sum(), DoubleTuple.of(-3.0E307, Double.MAX_VALUE).sum());
+        assertEquals(expected, DoubleTuple.of(-3.0E307, Double.MAX_VALUE, 1.0).sum());
+
+        for (int n = 2; n <= 9; n++) {
+            final double[] a = new double[n];
+            a[0] = -3.0E307;
+            a[1] = Double.MAX_VALUE;
+            assertEquals(expected, DoubleTuple.from(a).sum(), "arity " + n);
+        }
+    }
+
+    @Test
+    public void testSum_finiteExactTotalIsNeverReportedAsNonFinite() {
+        final java.util.Random rnd = new java.util.Random(20260922L);
+
+        for (int iter = 0; iter < 20000; iter++) {
+            final int n = 2 + rnd.nextInt(8);
+            final double[] a = new double[n];
+            java.math.BigDecimal exact = java.math.BigDecimal.ZERO;
+
+            for (int i = 0; i < n; i++) {
+                a[i] = (rnd.nextBoolean() ? 1 : -1) * Double.MAX_VALUE * rnd.nextDouble();
+                exact = exact.add(new java.math.BigDecimal(a[i]));
+            }
+
+            final double sum = DoubleTuple.from(a).sum();
+
+            if (Double.isFinite(exact.doubleValue())) {
+                assertTrue(Double.isFinite(sum), () -> java.util.Arrays.toString(a) + " -> " + sum);
+            } else {
+                assertEquals(exact.doubleValue(), sum, () -> java.util.Arrays.toString(a));
+            }
+        }
+    }
+
+    @Test
+    public void testSum_overflowAndNonFiniteElementsAreUnchangedByTheFallback() {
+        assertEquals(Double.POSITIVE_INFINITY, DoubleTuple.of(Double.MAX_VALUE, Double.MAX_VALUE).sum());
+        assertEquals(Double.NEGATIVE_INFINITY, DoubleTuple.of(-Double.MAX_VALUE, -Double.MAX_VALUE).sum());
+        assertEquals(Double.POSITIVE_INFINITY, DoubleTuple.of(Double.POSITIVE_INFINITY, 1.0).sum());
+        assertTrue(Double.isNaN(DoubleTuple.of(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY).sum()));
+        assertTrue(Double.isNaN(DoubleTuple.of(-3.0E307, Double.MAX_VALUE, Double.NaN).sum()));
+        assertEquals(0.0, DoubleTuple.of(-0.0, -0.0).sum());
+        assertEquals(-0.0, DoubleTuple.of(-0.0).sum());
+    }
+
+    @Test
+    public void testAverage_negativeUnderflowSignFollowsTheComputedTotal() {
+        assertEquals(-0.0, DoubleTuple.of(-Double.MIN_VALUE, 0.0).average().getAsDouble());
+        assertEquals(-0.0, DoubleTuple.of(1.0, -1.0, -Double.MIN_VALUE).average().getAsDouble());
+        // the true mean is negative and underflows, but the compensated total itself rounds to +0.0
+        assertEquals(0.0, DoubleTuple.of(-1.0, -Double.MIN_VALUE, 1.0).sum());
+        assertEquals(0.0, DoubleTuple.of(-1.0, -Double.MIN_VALUE, 1.0).average().getAsDouble());
+    }
+
+    @Test
+    public void testLowerMedian_evenArityDocExamplesDifferFromMedian() {
+        assertEquals(2.0, DoubleTuple.of(1.0, 2.0, 3.0, 4.0).lowerMedian());
+        assertEquals(2.5, DoubleTuple.of(1.0, 2.0, 3.0, 4.0).median());
+        assertEquals(3.0, DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0).lowerMedian());
+        assertEquals(3.5, DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0).median());
+        assertEquals(4.0, DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0).lowerMedian());
+        assertEquals(4.5, DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0).median());
+    }
 }

@@ -4091,4 +4091,14 @@ class FloatTupleTest extends TestBase {
             assertEquals(3.0, FloatTuple.of(1.0f, Float.NaN, 3.0f).median());
         }
     }
+
+    @Test
+    public void testLowerMedian_evenArityDocExamplesDifferFromMedian() {
+        assertEquals(2.0f, FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f).lowerMedian());
+        assertEquals(2.5, FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f).median());
+        assertEquals(3.0f, FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f).lowerMedian());
+        assertEquals(3.5, FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f).median());
+        assertEquals(4.0f, FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f).lowerMedian());
+        assertEquals(4.5, FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f).median());
+    }
 }

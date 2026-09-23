@@ -47,7 +47,7 @@ import com.landawn.abacus.util.stream.Stream;
  * <p><b>Note:</b> unlike the numeric tuple families ({@code ByteTuple}, {@code ShortTuple},
  * {@code IntTuple}, {@code LongTuple}, {@code CharTuple}, {@code FloatTuple}, {@code DoubleTuple}),
  * {@code BooleanTuple} does not expose aggregate operations such as {@code min()}, {@code max()},
- * {@code median()}, {@code sum()}, or {@code average()}. These are intentionally omitted because
+ * {@code lowerMedian()}, {@code sum()}, or {@code average()}. These are intentionally omitted because
  * {@code boolean} values lack a natural numeric ordering and have no meaningful sum or average.</p>
  *
  * @param <TP> the concrete {@code BooleanTuple} subtype that fluent operations such as {@link #reversed()} return

@@ -3036,7 +3036,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional boolean array to flatten (can be {@code null} or contain {@code null} sub-arrays).
-     * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
+     * @return a one-dimensional array containing all elements from the input array (newly allocated unless {@code a} is {@code null} or empty, in which case a shared empty array is returned); empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(boolean[][][]) for three-dimensional arrays
      * @see #mutateViaFlatArray(boolean[][], Throwables.Consumer) for performing operations on flattened arrays
@@ -3094,7 +3094,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional boolean array to flatten (can be {@code null} or contain {@code null} sub-arrays at any level).
-     * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
+     * @return a one-dimensional array containing all elements from the input array (newly allocated unless {@code a} is {@code null} or empty, in which case a shared empty array is returned); empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(boolean[][]) for flattening two-dimensional arrays
      * @see #mutateViaFlatArray(boolean[][][], Throwables.Consumer) for performing operations on flattened three-dimensional arrays
@@ -3580,8 +3580,9 @@ public sealed class Arrays permits Arrays.f {
      * over how mismatched array dimensions are handled.
      *
      * <p>The outer array length of the result equals the maximum of the input outer array lengths.
-     * For each position, if one array lacks a sub-array, a null is treated as an empty array and
-     * default values are used for all positions.</p>
+     * For each outer position where one array has no sub-array (or the sub-array is {@code null}), that side is
+     * treated as an empty array: its default value is used for every element, while the other array's actual
+     * elements are still used.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -4929,7 +4930,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional character array to flatten (can be {@code null} or contain {@code null} sub-arrays).
-     * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
+     * @return a one-dimensional array containing all elements from the input array (newly allocated unless {@code a} is {@code null} or empty, in which case a shared empty array is returned); empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(char[][][]) for three-dimensional arrays
      * @see #mutateViaFlatArray(char[][], Throwables.Consumer) for flatten-operate-copy-back
@@ -4987,7 +4988,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional character array to flatten (can be {@code null} or contain {@code null} sub-arrays at any level).
-     * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
+     * @return a one-dimensional array containing all elements from the input array (newly allocated unless {@code a} is {@code null} or empty, in which case a shared empty array is returned); empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(char[][]) for two-dimensional arrays
      * @see #mutateViaFlatArray(char[][][], Throwables.Consumer) for flatten-operate-copy-back
@@ -6839,7 +6840,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional byte array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
+     * @return a one-dimensional array containing all elements from the input array (newly allocated unless {@code a} is {@code null} or empty, in which case a shared empty array is returned); empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(byte[][][]) for three-dimensional arrays
      * @see #mutateViaFlatArray(byte[][], Throwables.Consumer) for flatten-operate-copy-back
@@ -6900,7 +6901,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional byte array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
+     * @return a one-dimensional array containing all elements from the input array (newly allocated unless {@code a} is {@code null} or empty, in which case a shared empty array is returned); empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(byte[][]) for two-dimensional arrays
      * @see #mutateViaFlatArray(byte[][][], Throwables.Consumer) for flatten-operate-copy-back
@@ -8648,7 +8649,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
+     * @return a one-dimensional array containing all elements from the input array (newly allocated unless {@code a} is {@code null} or empty, in which case a shared empty array is returned); empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(short[][][]) for three-dimensional arrays
      * @see #mutateViaFlatArray(short[][], Throwables.Consumer) for flatten-operate-copy-back
@@ -8706,7 +8707,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
+     * @return a one-dimensional array containing all elements from the input array (newly allocated unless {@code a} is {@code null} or empty, in which case a shared empty array is returned); empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(short[][]) for two-dimensional arrays
      * @see #mutateViaFlatArray(short[][][], Throwables.Consumer) for flatten-operate-copy-back
@@ -10532,7 +10533,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
+     * @return a one-dimensional array containing all elements from the input array (newly allocated unless {@code a} is {@code null} or empty, in which case a shared empty array is returned); empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(int[][][]) for three-dimensional arrays
      * @see #mutateViaFlatArray(int[][], Throwables.Consumer) for flatten-operate-copy-back
@@ -10597,7 +10598,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
+     * @return a one-dimensional array containing all elements from the input array (newly allocated unless {@code a} is {@code null} or empty, in which case a shared empty array is returned); empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(int[][]) for two-dimensional arrays
      * @see #mutateViaFlatArray(int[][][], Throwables.Consumer) for flatten-operate-copy-back
@@ -12345,7 +12346,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
+     * @return a one-dimensional array containing all elements from the input array (newly allocated unless {@code a} is {@code null} or empty, in which case a shared empty array is returned); empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(long[][][]) for three-dimensional arrays
      * @see #mutateViaFlatArray(long[][], Throwables.Consumer) for flatten-operate-copy-back
@@ -12401,7 +12402,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
+     * @return a one-dimensional array containing all elements from the input array (newly allocated unless {@code a} is {@code null} or empty, in which case a shared empty array is returned); empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(long[][]) for two-dimensional arrays
      * @see #mutateViaFlatArray(long[][][], Throwables.Consumer) for flatten-operate-copy-back
@@ -14122,7 +14123,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
+     * @return a one-dimensional array containing all elements from the input array (newly allocated unless {@code a} is {@code null} or empty, in which case a shared empty array is returned); empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(float[][][]) for three-dimensional arrays
      * @see #mutateViaFlatArray(float[][], Throwables.Consumer) for performing operations on flattened arrays
@@ -14186,7 +14187,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
+     * @return a one-dimensional array containing all elements from the input array (newly allocated unless {@code a} is {@code null} or empty, in which case a shared empty array is returned); empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(float[][]) for flattening two-dimensional arrays
      * @see #mutateViaFlatArray(float[][][], Throwables.Consumer) for performing operations on flattened arrays
@@ -15161,7 +15162,7 @@ public sealed class Arrays permits Arrays.f {
      * long c3 = Arrays.totalElementCount((float[][][]) null);
      * // c3 is 0
      *
-     * // Edge: all-null outer and inner arrays - total is 0
+     * // Edge: all two-dimensional sub-arrays are null - total is 0
      * float[][][] c4 = {null, null};
      * long c4count = Arrays.totalElementCount(c4);
      * // c4count is 0
@@ -15972,7 +15973,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
+     * @return a one-dimensional array containing all elements from the input array (newly allocated unless {@code a} is {@code null} or empty, in which case a shared empty array is returned); empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(double[][][]) for three-dimensional arrays
      * @see #mutateViaFlatArray(double[][], Throwables.Consumer) for performing operations on flattened arrays
@@ -16030,7 +16031,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array; empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
+     * @return a one-dimensional array containing all elements from the input array (newly allocated unless {@code a} is {@code null} or empty, in which case a shared empty array is returned); empty if {@code a} is {@code null}, empty, or has no elements after skipping null/empty sub-arrays.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @see #flatten(double[][]) for flattening two-dimensional arrays
      * @see #mutateViaFlatArray(double[][][], Throwables.Consumer) for performing operations on flattened arrays
@@ -22594,7 +22595,7 @@ public sealed class Arrays permits Arrays.f {
          * @param defaultValueA default value used when first array has no element at a position.
          * @param defaultValueB default value used when second array has no element at a position.
          * @param zipFunction the function to combine elements (must not be {@code null}).
-         * @return a new two-dimensional array with combined elements using defaults where needed.
+         * @return a new two-dimensional array with combined elements using defaults where needed; the element type is inferred from the runtime component type of {@code a}, or from the runtime class of {@code defaultValueA} if {@code a} is {@code null}.
          * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null} and target element type cannot be inferred, or if {@code zipFunction} is {@code null}, or if a combined value is not assignable to the inferred runtime element type (if the zip function itself throws {@link ArrayStoreException}, that exception propagates).
          * @throws E if the zip function throws an exception.
          * @see Arrays.fff#zip(Object[][][], Object[][][], Object, Object, Throwables.BiFunction) for three-dimensional arrays
@@ -22883,7 +22884,7 @@ public sealed class Arrays permits Arrays.f {
          * @param defaultValueB default value for the second array.
          * @param defaultValueC default value for the third array.
          * @param zipFunction the function to combine three elements (must not be {@code null}).
-         * @return a new two-dimensional array with combined elements using defaults where needed.
+         * @return a new two-dimensional array with combined elements using defaults where needed; the element type is inferred from the runtime component type of {@code a}, or from the runtime class of {@code defaultValueA} if {@code a} is {@code null}.
          * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null} and target element type cannot be inferred, or if {@code zipFunction} is {@code null}, or if a combined value is not assignable to the inferred runtime element type (if the zip function itself throws {@link ArrayStoreException}, that exception propagates).
          * @throws E if the zip function throws an exception.
          * @see Arrays.fff#zip(Object[][][], Object[][][], Object[][][], Object, Object, Object, Throwables.TriFunction) for three-dimensional arrays
@@ -24381,7 +24382,7 @@ public sealed class Arrays permits Arrays.f {
          * @param defaultValueA default value when first array element is missing.
          * @param defaultValueB default value when second array element is missing.
          * @param zipFunction the function to combine elements (must not be {@code null}).
-         * @return a new three-dimensional array with combined elements.
+         * @return a new three-dimensional array with combined elements; the element type is inferred from the runtime component type of {@code a}, or from the runtime class of {@code defaultValueA} if {@code a} is {@code null}.
          * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null} and the target element type cannot be inferred, or if {@code zipFunction} is {@code null}, or if a combined value is not assignable to the inferred runtime element type (if the zip function itself throws {@link ArrayStoreException}, that exception propagates).
          * @throws E if the zip function throws an exception.
          * @see Arrays.ff#zip(Object[][], Object[][], Object, Object, Throwables.BiFunction) for two-dimensional arrays
@@ -24675,7 +24676,7 @@ public sealed class Arrays permits Arrays.f {
          * @param defaultValueB default value when second array element is missing.
          * @param defaultValueC default value when third array element is missing.
          * @param zipFunction the function to combine elements (must not be {@code null}).
-         * @return a new three-dimensional array with combined elements.
+         * @return a new three-dimensional array with combined elements; the element type is inferred from the runtime component type of {@code a}, or from the runtime class of {@code defaultValueA} if {@code a} is {@code null}.
          * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null} and the target element type cannot be inferred, or if {@code zipFunction} is {@code null}, or if a combined value is not assignable to the inferred runtime element type (if the zip function itself throws {@link ArrayStoreException}, that exception propagates).
          * @throws E if the zip function throws an exception.
          * @see Arrays.ff#zip(Object[][], Object[][], Object[][], Object, Object, Object, Throwables.TriFunction) for two-dimensional arrays

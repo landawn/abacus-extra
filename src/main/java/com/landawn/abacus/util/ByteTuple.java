@@ -180,7 +180,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * ByteTuple.ByteTuple4 t = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40);
      * byte first = t._1;   // 10
      * byte fourth = t._4;  // 40
-     * // even arity: median returns the lower middle of the sorted elements
+     * // even arity: lowerMedian returns the lower middle of the sorted elements (median() would return 25.0)
      * byte median = t.lowerMedian();   // 20
      *
      * ByteTuple.ByteTuple4 t2 = ByteTuple.of((byte) 40, (byte) 30, (byte) 20, (byte) 10);
