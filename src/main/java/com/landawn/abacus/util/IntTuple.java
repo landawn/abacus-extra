@@ -390,7 +390,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      */
     @Deprecated
     @SuppressWarnings({ "unchecked" })
-    public static <TP extends IntTuple<TP>> TP from(final int[] values) {
+    public static <TP extends IntTuple<TP>> TP from(final int[] values) throws IllegalArgumentException {
         if (values == null || values.length == 0) {
             return (TP) IntTuple0.EMPTY;
         }
@@ -454,7 +454,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * @see #max()
      * @see #lowerMedian()
      */
-    public int min() {
+    public int min() throws NoSuchElementException {
         final int[] a = elements();
 
         if (a.length == 0) {
@@ -490,7 +490,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * @see #min()
      * @see #lowerMedian()
      */
-    public int max() {
+    public int max() throws NoSuchElementException {
         final int[] a = elements();
 
         if (a.length == 0) {
@@ -529,7 +529,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * @see #average()
      * @see LongTuple#sum()
      */
-    public int sum() {
+    public int sum() throws ArithmeticException {
         return N.sum(elements());
     }
 
@@ -599,7 +599,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * @throws NoSuchElementException if the tuple is empty
      * @see #lowerMedian()
      */
-    public double median() {
+    public double median() throws NoSuchElementException {
         final int[] a = elements();
 
         if (a.length == 0) {
@@ -648,7 +648,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * @see #median()
      * @see N#lowerMedian(int...)
      */
-    public int lowerMedian() {
+    public int lowerMedian() throws NoSuchElementException {
         final int[] a = elements();
 
         if (a.length == 0) {
@@ -818,7 +818,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * @throws E if the action throws an exception during execution
      * @see #stream()
      */
-    public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws E {
+    public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws IllegalArgumentException, E {
         N.checkArgNotNull(action, cs.action);
 
         for (final int element : elements()) {
@@ -981,7 +981,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
-        public int min() {
+        public int min() throws NoSuchElementException {
             throw new NoSuchElementException("Cannot compute min() for an empty tuple");
         }
 
@@ -993,7 +993,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
-        public int max() {
+        public int max() throws NoSuchElementException {
             throw new NoSuchElementException("Cannot compute max() for an empty tuple");
         }
 
@@ -1027,7 +1027,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
-        public double median() {
+        public double median() throws NoSuchElementException {
             throw new NoSuchElementException("Cannot compute median() for an empty tuple");
         }
 
@@ -1039,7 +1039,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
-        public int lowerMedian() {
+        public int lowerMedian() throws NoSuchElementException {
             throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
         }
 
@@ -1502,7 +1502,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @throws ArithmeticException if the total does not fit in an {@code int}
          */
         @Override
-        public int sum() {
+        public int sum() throws ArithmeticException {
             return N.sum(_1, _2);
         }
 
@@ -1628,7 +1628,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -1668,7 +1668,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @see #map(Throwables.IntBiFunction)
          * @see PrimitiveTuple#accept(Throwables.Consumer)
          */
-        public <E extends Exception> void accept(final Throwables.IntBiConsumer<E> action) throws E {
+        public <E extends Exception> void accept(final Throwables.IntBiConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1, _2);
@@ -1705,7 +1705,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @see PrimitiveTuple#map(Throwables.Function)
          */
         @MayReturnNull
-        public <U, E extends Exception> U map(final Throwables.IntBiFunction<U, E> mapper) throws E {
+        public <U, E extends Exception> U map(final Throwables.IntBiFunction<U, E> mapper) throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2);
@@ -1743,7 +1743,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @see #map(Throwables.IntBiFunction)
          * @see PrimitiveTuple#filter(Throwables.Predicate)
          */
-        public <E extends Exception> Optional<IntTuple2> filter(final Throwables.IntBiPredicate<E> predicate) throws E {
+        public <E extends Exception> Optional<IntTuple2> filter(final Throwables.IntBiPredicate<E> predicate) throws IllegalArgumentException, E {
             N.checkArgNotNull(predicate, cs.predicate);
 
             return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
@@ -1945,7 +1945,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @throws ArithmeticException if the total does not fit in an {@code int}
          */
         @Override
-        public int sum() {
+        public int sum() throws ArithmeticException {
             return N.sum(_1, _2, _3);
         }
 
@@ -2074,7 +2074,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -2115,7 +2115,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @see #map(Throwables.IntTriFunction)
          * @see PrimitiveTuple#accept(Throwables.Consumer)
          */
-        public <E extends Exception> void accept(final Throwables.IntTriConsumer<E> action) throws E {
+        public <E extends Exception> void accept(final Throwables.IntTriConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1, _2, _3);
@@ -2152,7 +2152,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @see PrimitiveTuple#map(Throwables.Function)
          */
         @MayReturnNull
-        public <U, E extends Exception> U map(final Throwables.IntTriFunction<U, E> mapper) throws E {
+        public <U, E extends Exception> U map(final Throwables.IntTriFunction<U, E> mapper) throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2, _3);
@@ -2190,7 +2190,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @see #map(Throwables.IntTriFunction)
          * @see PrimitiveTuple#filter(Throwables.Predicate)
          */
-        public <E extends Exception> Optional<IntTuple3> filter(final Throwables.IntTriPredicate<E> predicate) throws E {
+        public <E extends Exception> Optional<IntTuple3> filter(final Throwables.IntTriPredicate<E> predicate) throws IllegalArgumentException, E {
             N.checkArgNotNull(predicate, cs.predicate);
 
             return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();
@@ -2417,7 +2417,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @throws ArithmeticException if the total does not fit in an {@code int}
          */
         @Override
-        public int sum() {
+        public int sum() throws ArithmeticException {
             return N.sum(_1, _2, _3, _4);
         }
 
@@ -2521,7 +2521,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -2775,7 +2775,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @throws ArithmeticException if the total does not fit in an {@code int}
          */
         @Override
-        public int sum() {
+        public int sum() throws ArithmeticException {
             return N.sum(_1, _2, _3, _4, _5);
         }
 
@@ -2879,7 +2879,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -3138,7 +3138,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @throws ArithmeticException if the total does not fit in an {@code int}
          */
         @Override
-        public int sum() {
+        public int sum() throws ArithmeticException {
             return N.sum(_1, _2, _3, _4, _5, _6);
         }
 
@@ -3242,7 +3242,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -3507,7 +3507,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @throws ArithmeticException if the total does not fit in an {@code int}
          */
         @Override
-        public int sum() {
+        public int sum() throws ArithmeticException {
             return N.sum(_1, _2, _3, _4, _5, _6, _7);
         }
 
@@ -3614,7 +3614,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -3885,7 +3885,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @throws ArithmeticException if the total does not fit in an {@code int}
          */
         @Override
-        public int sum() {
+        public int sum() throws ArithmeticException {
             return N.sum(_1, _2, _3, _4, _5, _6, _7, _8);
         }
 
@@ -3992,7 +3992,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -4269,7 +4269,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @throws ArithmeticException if the total does not fit in an {@code int}
          */
         @Override
-        public int sum() {
+        public int sum() throws ArithmeticException {
             return N.sum(_1, _2, _3, _4, _5, _6, _7, _8, _9);
         }
 
@@ -4376,7 +4376,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);

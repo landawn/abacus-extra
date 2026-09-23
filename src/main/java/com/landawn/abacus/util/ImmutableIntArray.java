@@ -273,7 +273,7 @@ public final class ImmutableIntArray implements Immutable {
      * @see #sum()
      * @see #average()
      */
-    public int min() {
+    public int min() throws NoSuchElementException {
         if (length == 0) {
             throw new NoSuchElementException("ImmutableIntArray is empty");
         }
@@ -308,7 +308,7 @@ public final class ImmutableIntArray implements Immutable {
      * @see #sum()
      * @see #average()
      */
-    public int max() {
+    public int max() throws NoSuchElementException {
         if (length == 0) {
             throw new NoSuchElementException("ImmutableIntArray is empty");
         }
@@ -353,7 +353,7 @@ public final class ImmutableIntArray implements Immutable {
      * @see #min()
      * @see #max()
      */
-    public int sum() {
+    public int sum() throws ArithmeticException {
         return N.sum(elements);
     }
 
@@ -429,7 +429,7 @@ public final class ImmutableIntArray implements Immutable {
      * @throws ArrayIndexOutOfBoundsException if {@code index < 0} or {@code index >= length()}
      * @see #length()
      */
-    public int get(final int index) {
+    public int get(final int index) throws ArrayIndexOutOfBoundsException {
         return elements[index]; // No need to call N.checkElementIndex(index, length)
     }
 

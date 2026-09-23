@@ -393,7 +393,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      */
     @Deprecated
     @SuppressWarnings({ "unchecked" })
-    public static <TP extends DoubleTuple<TP>> TP from(final double[] values) {
+    public static <TP extends DoubleTuple<TP>> TP from(final double[] values) throws IllegalArgumentException {
         if (values == null || values.length == 0) {
             return (TP) DoubleTuple0.EMPTY;
         }
@@ -466,7 +466,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * @see #lowerMedian()
      * @see Math#min(double, double)
      */
-    public double min() {
+    public double min() throws NoSuchElementException {
         final double[] a = elements();
 
         if (a.length == 0) {
@@ -517,7 +517,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * @see #lowerMedian()
      * @see Math#max(double, double)
      */
-    public double max() {
+    public double max() throws NoSuchElementException {
         final double[] a = elements();
 
         if (a.length == 0) {
@@ -648,7 +648,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * @throws NoSuchElementException if the tuple is empty
      * @see #lowerMedian()
      */
-    public double median() {
+    public double median() throws NoSuchElementException {
         final double[] a = elements();
 
         if (a.length == 0) {
@@ -693,7 +693,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * @see #median()
      * @see N#lowerMedian(double...)
      */
-    public double lowerMedian() {
+    public double lowerMedian() throws NoSuchElementException {
         final double[] a = elements();
 
         if (a.length == 0) {
@@ -876,7 +876,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * @throws E if the action throws an exception during execution
      * @see #stream()
      */
-    public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws E {
+    public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws IllegalArgumentException, E {
         N.checkArgNotNull(action, cs.action);
 
         for (final double element : elements()) {
@@ -1051,7 +1051,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
-        public double min() {
+        public double min() throws NoSuchElementException {
             throw new NoSuchElementException("Cannot compute min() for an empty tuple");
         }
 
@@ -1063,7 +1063,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
-        public double max() {
+        public double max() throws NoSuchElementException {
             throw new NoSuchElementException("Cannot compute max() for an empty tuple");
         }
 
@@ -1097,7 +1097,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
-        public double median() {
+        public double median() throws NoSuchElementException {
             throw new NoSuchElementException("Cannot compute median() for an empty tuple");
         }
 
@@ -1109,7 +1109,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
-        public double lowerMedian() {
+        public double lowerMedian() throws NoSuchElementException {
             throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
         }
 
@@ -1798,7 +1798,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -1839,7 +1839,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * @see #map(Throwables.DoubleBiFunction)
          * @see PrimitiveTuple#accept(Throwables.Consumer)
          */
-        public <E extends Exception> void accept(final Throwables.DoubleBiConsumer<E> action) throws E {
+        public <E extends Exception> void accept(final Throwables.DoubleBiConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1, _2);
@@ -1882,7 +1882,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * @see PrimitiveTuple#map(Throwables.Function)
          */
         @MayReturnNull
-        public <U, E extends Exception> U map(final Throwables.DoubleBiFunction<U, E> mapper) throws E {
+        public <U, E extends Exception> U map(final Throwables.DoubleBiFunction<U, E> mapper) throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2);
@@ -1928,7 +1928,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * @see #map(Throwables.DoubleBiFunction)
          * @see PrimitiveTuple#filter(Throwables.Predicate)
          */
-        public <E extends Exception> Optional<DoubleTuple2> filter(final Throwables.DoubleBiPredicate<E> predicate) throws E {
+        public <E extends Exception> Optional<DoubleTuple2> filter(final Throwables.DoubleBiPredicate<E> predicate) throws IllegalArgumentException, E {
             N.checkArgNotNull(predicate, cs.predicate);
 
             return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
@@ -2318,7 +2318,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -2362,7 +2362,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * @see #map(Throwables.DoubleTriFunction)
          * @see PrimitiveTuple#accept(Throwables.Consumer)
          */
-        public <E extends Exception> void accept(final Throwables.DoubleTriConsumer<E> action) throws E {
+        public <E extends Exception> void accept(final Throwables.DoubleTriConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1, _2, _3);
@@ -2406,7 +2406,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * @see PrimitiveTuple#map(Throwables.Function)
          */
         @MayReturnNull
-        public <U, E extends Exception> U map(final Throwables.DoubleTriFunction<U, E> mapper) throws E {
+        public <U, E extends Exception> U map(final Throwables.DoubleTriFunction<U, E> mapper) throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2, _3);
@@ -2452,7 +2452,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * @see #map(Throwables.DoubleTriFunction)
          * @see PrimitiveTuple#filter(Throwables.Predicate)
          */
-        public <E extends Exception> Optional<DoubleTuple3> filter(final Throwables.DoubleTriPredicate<E> predicate) throws E {
+        public <E extends Exception> Optional<DoubleTuple3> filter(final Throwables.DoubleTriPredicate<E> predicate) throws IllegalArgumentException, E {
             N.checkArgNotNull(predicate, cs.predicate);
 
             return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();
@@ -2792,7 +2792,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -3132,7 +3132,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -3478,7 +3478,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -3853,7 +3853,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -4258,7 +4258,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -4670,7 +4670,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);

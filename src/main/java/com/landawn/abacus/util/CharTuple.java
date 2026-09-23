@@ -369,7 +369,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      */
     @Deprecated
     @SuppressWarnings({ "unchecked" })
-    public static <TP extends CharTuple<TP>> TP from(final char[] values) {
+    public static <TP extends CharTuple<TP>> TP from(final char[] values) throws IllegalArgumentException {
         if (values == null || values.length == 0) {
             return (TP) CharTuple0.EMPTY;
         }
@@ -438,7 +438,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * @see #max()
      * @see #lowerMedian()
      */
-    public char min() {
+    public char min() throws NoSuchElementException {
         final char[] a = elements();
 
         if (a.length == 0) {
@@ -479,7 +479,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * @see #min()
      * @see #lowerMedian()
      */
-    public char max() {
+    public char max() throws NoSuchElementException {
         final char[] a = elements();
 
         if (a.length == 0) {
@@ -590,7 +590,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * @see #max()
      * @see N#lowerMedian(char...)
      */
-    public char lowerMedian() {
+    public char lowerMedian() throws NoSuchElementException {
         final char[] a = elements();
 
         if (a.length == 0) {
@@ -782,7 +782,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * @throws E if the action throws an exception during execution
      * @see #stream()
      */
-    public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {
+    public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws IllegalArgumentException, E {
         N.checkArgNotNull(action, cs.action);
 
         for (final char element : elements()) {
@@ -964,7 +964,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
-        public char min() {
+        public char min() throws NoSuchElementException {
             throw new NoSuchElementException("Cannot compute min() for an empty tuple");
         }
 
@@ -976,7 +976,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
-        public char max() {
+        public char max() throws NoSuchElementException {
             throw new NoSuchElementException("Cannot compute max() for an empty tuple");
         }
 
@@ -988,7 +988,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
-        public char lowerMedian() {
+        public char lowerMedian() throws NoSuchElementException {
             throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
         }
 
@@ -1706,7 +1706,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -1749,7 +1749,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * @see #map(Throwables.CharBiFunction)
          * @see PrimitiveTuple#accept(Throwables.Consumer)
          */
-        public <E extends Exception> void accept(final Throwables.CharBiConsumer<E> action) throws E {
+        public <E extends Exception> void accept(final Throwables.CharBiConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1, _2);
@@ -1790,7 +1790,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * @see PrimitiveTuple#map(Throwables.Function)
          */
         @MayReturnNull
-        public <U, E extends Exception> U map(final Throwables.CharBiFunction<U, E> mapper) throws E {
+        public <U, E extends Exception> U map(final Throwables.CharBiFunction<U, E> mapper) throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2);
@@ -1832,7 +1832,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * @see #map(Throwables.CharBiFunction)
          * @see PrimitiveTuple#filter(Throwables.Predicate)
          */
-        public <E extends Exception> Optional<CharTuple2> filter(final Throwables.CharBiPredicate<E> predicate) throws E {
+        public <E extends Exception> Optional<CharTuple2> filter(final Throwables.CharBiPredicate<E> predicate) throws IllegalArgumentException, E {
             N.checkArgNotNull(predicate, cs.predicate);
 
             return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
@@ -2248,7 +2248,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -2292,7 +2292,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * @see #map(Throwables.CharTriFunction)
          * @see PrimitiveTuple#accept(Throwables.Consumer)
          */
-        public <E extends Exception> void accept(final Throwables.CharTriConsumer<E> action) throws E {
+        public <E extends Exception> void accept(final Throwables.CharTriConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1, _2, _3);
@@ -2333,7 +2333,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * @see PrimitiveTuple#map(Throwables.Function)
          */
         @MayReturnNull
-        public <U, E extends Exception> U map(final Throwables.CharTriFunction<U, E> mapper) throws E {
+        public <U, E extends Exception> U map(final Throwables.CharTriFunction<U, E> mapper) throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2, _3);
@@ -2375,7 +2375,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * @see #map(Throwables.CharTriFunction)
          * @see PrimitiveTuple#filter(Throwables.Predicate)
          */
-        public <E extends Exception> Optional<CharTuple3> filter(final Throwables.CharTriPredicate<E> predicate) throws E {
+        public <E extends Exception> Optional<CharTuple3> filter(final Throwables.CharTriPredicate<E> predicate) throws IllegalArgumentException, E {
             N.checkArgNotNull(predicate, cs.predicate);
 
             return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();
@@ -2762,7 +2762,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -3162,7 +3162,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -3566,7 +3566,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -3976,7 +3976,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -4394,7 +4394,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -4818,7 +4818,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);

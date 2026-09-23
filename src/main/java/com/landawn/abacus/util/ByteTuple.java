@@ -451,7 +451,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      */
     @Deprecated
     @SuppressWarnings({ "unchecked" })
-    public static <TP extends ByteTuple<TP>> TP from(final byte[] values) {
+    public static <TP extends ByteTuple<TP>> TP from(final byte[] values) throws IllegalArgumentException {
         if (values == null || values.length == 0) {
             return (TP) ByteTuple0.EMPTY;
         }
@@ -522,7 +522,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * @see #max()
      * @see #lowerMedian()
      */
-    public byte min() {
+    public byte min() throws NoSuchElementException {
         final byte[] a = elements();
 
         if (a.length == 0) {
@@ -565,7 +565,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * @see #min()
      * @see #lowerMedian()
      */
-    public byte max() {
+    public byte max() throws NoSuchElementException {
         final byte[] a = elements();
 
         if (a.length == 0) {
@@ -682,7 +682,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * @throws NoSuchElementException if the tuple is empty
      * @see #lowerMedian()
      */
-    public double median() {
+    public double median() throws NoSuchElementException {
         final byte[] a = elements();
 
         if (a.length == 0) {
@@ -731,7 +731,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * @see #median()
      * @see N#lowerMedian(byte...)
      */
-    public byte lowerMedian() {
+    public byte lowerMedian() throws NoSuchElementException {
         final byte[] a = elements();
 
         if (a.length == 0) {
@@ -911,7 +911,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * @throws E if the action throws an exception during execution
      * @see #stream()
      */
-    public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws E {
+    public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws IllegalArgumentException, E {
         N.checkArgNotNull(action, cs.action);
 
         for (final byte element : elements()) {
@@ -1082,7 +1082,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
-        public byte min() {
+        public byte min() throws NoSuchElementException {
             throw new NoSuchElementException("Cannot compute min() for an empty tuple");
         }
 
@@ -1094,7 +1094,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
-        public byte max() {
+        public byte max() throws NoSuchElementException {
             throw new NoSuchElementException("Cannot compute max() for an empty tuple");
         }
 
@@ -1126,7 +1126,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
-        public double median() {
+        public double median() throws NoSuchElementException {
             throw new NoSuchElementException("Cannot compute median() for an empty tuple");
         }
 
@@ -1138,7 +1138,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
-        public byte lowerMedian() {
+        public byte lowerMedian() throws NoSuchElementException {
             throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
         }
 
@@ -1817,7 +1817,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -1860,7 +1860,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * @see #map(Throwables.ByteBiFunction)
          * @see PrimitiveTuple#accept(Throwables.Consumer)
          */
-        public <E extends Exception> void accept(final Throwables.ByteBiConsumer<E> action) throws E {
+        public <E extends Exception> void accept(final Throwables.ByteBiConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1, _2);
@@ -1904,7 +1904,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * @see PrimitiveTuple#map(Throwables.Function)
          */
         @MayReturnNull
-        public <U, E extends Exception> U map(final Throwables.ByteBiFunction<U, E> mapper) throws E {
+        public <U, E extends Exception> U map(final Throwables.ByteBiFunction<U, E> mapper) throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2);
@@ -1949,7 +1949,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * @see #map(Throwables.ByteBiFunction)
          * @see PrimitiveTuple#filter(Throwables.Predicate)
          */
-        public <E extends Exception> Optional<ByteTuple2> filter(final Throwables.ByteBiPredicate<E> predicate) throws E {
+        public <E extends Exception> Optional<ByteTuple2> filter(final Throwables.ByteBiPredicate<E> predicate) throws IllegalArgumentException, E {
             N.checkArgNotNull(predicate, cs.predicate);
 
             return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
@@ -2329,7 +2329,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -2376,7 +2376,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * @see #map(Throwables.ByteTriFunction)
          * @see PrimitiveTuple#accept(Throwables.Consumer)
          */
-        public <E extends Exception> void accept(final Throwables.ByteTriConsumer<E> action) throws E {
+        public <E extends Exception> void accept(final Throwables.ByteTriConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1, _2, _3);
@@ -2425,7 +2425,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * @see PrimitiveTuple#map(Throwables.Function)
          */
         @MayReturnNull
-        public <U, E extends Exception> U map(final Throwables.ByteTriFunction<U, E> mapper) throws E {
+        public <U, E extends Exception> U map(final Throwables.ByteTriFunction<U, E> mapper) throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2, _3);
@@ -2475,7 +2475,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * @see #map(Throwables.ByteTriFunction)
          * @see PrimitiveTuple#filter(Throwables.Predicate)
          */
-        public <E extends Exception> Optional<ByteTuple3> filter(final Throwables.ByteTriPredicate<E> predicate) throws E {
+        public <E extends Exception> Optional<ByteTuple3> filter(final Throwables.ByteTriPredicate<E> predicate) throws IllegalArgumentException, E {
             N.checkArgNotNull(predicate, cs.predicate);
 
             return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();
@@ -2824,7 +2824,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -3182,7 +3182,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -3545,7 +3545,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -3926,7 +3926,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -4335,7 +4335,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -4756,7 +4756,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);

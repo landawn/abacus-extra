@@ -411,7 +411,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      */
     @Deprecated
     @SuppressWarnings({ "unchecked" })
-    public static <TP extends FloatTuple<TP>> TP from(final float[] values) {
+    public static <TP extends FloatTuple<TP>> TP from(final float[] values) throws IllegalArgumentException {
         if (values == null || values.length == 0) {
             return (TP) FloatTuple0.EMPTY;
         }
@@ -482,7 +482,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * @see #lowerMedian()
      * @see Math#min(float, float)
      */
-    public float min() {
+    public float min() throws NoSuchElementException {
         final float[] a = elements();
 
         if (a.length == 0) {
@@ -531,7 +531,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * @see #lowerMedian()
      * @see Math#max(float, float)
      */
-    public float max() {
+    public float max() throws NoSuchElementException {
         final float[] a = elements();
 
         if (a.length == 0) {
@@ -662,7 +662,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * @throws NoSuchElementException if the tuple is empty
      * @see #lowerMedian()
      */
-    public double median() {
+    public double median() throws NoSuchElementException {
         final float[] a = elements();
 
         if (a.length == 0) {
@@ -707,7 +707,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * @see #median()
      * @see N#lowerMedian(float...)
      */
-    public float lowerMedian() {
+    public float lowerMedian() throws NoSuchElementException {
         final float[] a = elements();
 
         if (a.length == 0) {
@@ -881,7 +881,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * @throws E if the action throws an exception during execution
      * @see #stream()
      */
-    public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E {
+    public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws IllegalArgumentException, E {
         N.checkArgNotNull(action, cs.action);
 
         for (final float element : elements()) {
@@ -1044,7 +1044,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
-        public float min() {
+        public float min() throws NoSuchElementException {
             throw new NoSuchElementException("Cannot compute min() for an empty tuple");
         }
 
@@ -1056,7 +1056,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
-        public float max() {
+        public float max() throws NoSuchElementException {
             throw new NoSuchElementException("Cannot compute max() for an empty tuple");
         }
 
@@ -1090,7 +1090,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
-        public double median() {
+        public double median() throws NoSuchElementException {
             throw new NoSuchElementException("Cannot compute median() for an empty tuple");
         }
 
@@ -1102,7 +1102,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
-        public float lowerMedian() {
+        public float lowerMedian() throws NoSuchElementException {
             throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
         }
 
@@ -1807,7 +1807,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -1849,7 +1849,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * @see #map(Throwables.FloatBiFunction)
          * @see PrimitiveTuple#accept(Throwables.Consumer)
          */
-        public <E extends Exception> void accept(final Throwables.FloatBiConsumer<E> action) throws E {
+        public <E extends Exception> void accept(final Throwables.FloatBiConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1, _2);
@@ -1888,7 +1888,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * @see PrimitiveTuple#map(Throwables.Function)
          */
         @MayReturnNull
-        public <U, E extends Exception> U map(final Throwables.FloatBiFunction<U, E> mapper) throws E {
+        public <U, E extends Exception> U map(final Throwables.FloatBiFunction<U, E> mapper) throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2);
@@ -1930,7 +1930,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * @see #map(Throwables.FloatBiFunction)
          * @see PrimitiveTuple#filter(Throwables.Predicate)
          */
-        public <E extends Exception> Optional<FloatTuple2> filter(final Throwables.FloatBiPredicate<E> predicate) throws E {
+        public <E extends Exception> Optional<FloatTuple2> filter(final Throwables.FloatBiPredicate<E> predicate) throws IllegalArgumentException, E {
             N.checkArgNotNull(predicate, cs.predicate);
 
             return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
@@ -2350,7 +2350,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -2392,7 +2392,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * @see #map(Throwables.FloatTriFunction)
          * @see PrimitiveTuple#accept(Throwables.Consumer)
          */
-        public <E extends Exception> void accept(final Throwables.FloatTriConsumer<E> action) throws E {
+        public <E extends Exception> void accept(final Throwables.FloatTriConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1, _2, _3);
@@ -2431,7 +2431,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * @see PrimitiveTuple#map(Throwables.Function)
          */
         @MayReturnNull
-        public <U, E extends Exception> U map(final Throwables.FloatTriFunction<U, E> mapper) throws E {
+        public <U, E extends Exception> U map(final Throwables.FloatTriFunction<U, E> mapper) throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2, _3);
@@ -2473,7 +2473,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * @see #map(Throwables.FloatTriFunction)
          * @see PrimitiveTuple#filter(Throwables.Predicate)
          */
-        public <E extends Exception> Optional<FloatTuple3> filter(final Throwables.FloatTriPredicate<E> predicate) throws E {
+        public <E extends Exception> Optional<FloatTuple3> filter(final Throwables.FloatTriPredicate<E> predicate) throws IllegalArgumentException, E {
             N.checkArgNotNull(predicate, cs.predicate);
 
             return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();
@@ -2844,7 +2844,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -3224,7 +3224,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -3610,7 +3610,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -4002,7 +4002,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -4410,7 +4410,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -4825,7 +4825,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);

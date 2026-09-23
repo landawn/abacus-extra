@@ -64,7 +64,7 @@ abstract sealed class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements I
      * @see #map(Throwables.Function)
      * @see #filter(Throwables.Predicate)
      */
-    public <E extends Exception> void accept(final Throwables.Consumer<? super TP, E> action) throws E {
+    public <E extends Exception> void accept(final Throwables.Consumer<? super TP, E> action) throws IllegalArgumentException, E {
         N.checkArgNotNull(action, cs.action);
 
         action.accept(self());
@@ -83,7 +83,7 @@ abstract sealed class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements I
      * @see #filter(Throwables.Predicate)
      */
     @MayReturnNull
-    public <U, E extends Exception> U map(final Throwables.Function<? super TP, U, E> mapper) throws E {
+    public <U, E extends Exception> U map(final Throwables.Function<? super TP, U, E> mapper) throws IllegalArgumentException, E {
         N.checkArgNotNull(mapper, cs.mapper);
 
         return mapper.apply(self());
@@ -102,7 +102,7 @@ abstract sealed class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements I
      * @see #map(Throwables.Function)
      * @see #toOptional()
      */
-    public <E extends Exception> Optional<TP> filter(final Throwables.Predicate<? super TP, E> predicate) throws E {
+    public <E extends Exception> Optional<TP> filter(final Throwables.Predicate<? super TP, E> predicate) throws IllegalArgumentException, E {
         N.checkArgNotNull(predicate, cs.predicate);
 
         final TP tuple = self();

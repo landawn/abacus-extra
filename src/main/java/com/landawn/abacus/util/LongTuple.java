@@ -401,7 +401,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      */
     @Deprecated
     @SuppressWarnings({ "unchecked" })
-    public static <TP extends LongTuple<TP>> TP from(final long[] values) {
+    public static <TP extends LongTuple<TP>> TP from(final long[] values) throws IllegalArgumentException {
         if (values == null || values.length == 0) {
             return (TP) LongTuple0.EMPTY;
         }
@@ -468,7 +468,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * @see #max()
      * @see #lowerMedian()
      */
-    public long min() {
+    public long min() throws NoSuchElementException {
         final long[] a = elements();
 
         if (a.length == 0) {
@@ -507,7 +507,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * @see #min()
      * @see #lowerMedian()
      */
-    public long max() {
+    public long max() throws NoSuchElementException {
         final long[] a = elements();
 
         if (a.length == 0) {
@@ -647,7 +647,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * @throws NoSuchElementException if the tuple is empty
      * @see #lowerMedian()
      */
-    public double median() {
+    public double median() throws NoSuchElementException {
         final long[] a = elements();
 
         if (a.length == 0) {
@@ -696,7 +696,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * @see #median()
      * @see N#lowerMedian(long...)
      */
-    public long lowerMedian() {
+    public long lowerMedian() throws NoSuchElementException {
         final long[] a = elements();
 
         if (a.length == 0) {
@@ -876,7 +876,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * @throws E if the action throws an exception during execution
      * @see #stream()
      */
-    public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws E {
+    public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws IllegalArgumentException, E {
         N.checkArgNotNull(action, cs.action);
 
         for (final long element : elements()) {
@@ -1048,7 +1048,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
-        public long min() {
+        public long min() throws NoSuchElementException {
             throw new NoSuchElementException("Cannot compute min() for an empty tuple");
         }
 
@@ -1060,7 +1060,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
-        public long max() {
+        public long max() throws NoSuchElementException {
             throw new NoSuchElementException("Cannot compute max() for an empty tuple");
         }
 
@@ -1094,7 +1094,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
-        public double median() {
+        public double median() throws NoSuchElementException {
             throw new NoSuchElementException("Cannot compute median() for an empty tuple");
         }
 
@@ -1106,7 +1106,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
-        public long lowerMedian() {
+        public long lowerMedian() throws NoSuchElementException {
             throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
         }
 
@@ -1779,7 +1779,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -1823,7 +1823,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @see #map(Throwables.LongBiFunction)
          * @see PrimitiveTuple#accept(Throwables.Consumer)
          */
-        public <E extends Exception> void accept(final Throwables.LongBiConsumer<E> action) throws E {
+        public <E extends Exception> void accept(final Throwables.LongBiConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1, _2);
@@ -1864,7 +1864,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @see PrimitiveTuple#map(Throwables.Function)
          */
         @MayReturnNull
-        public <U, E extends Exception> U map(final Throwables.LongBiFunction<U, E> mapper) throws E {
+        public <U, E extends Exception> U map(final Throwables.LongBiFunction<U, E> mapper) throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2);
@@ -1904,7 +1904,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @see #map(Throwables.LongBiFunction)
          * @see PrimitiveTuple#filter(Throwables.Predicate)
          */
-        public <E extends Exception> Optional<LongTuple2> filter(final Throwables.LongBiPredicate<E> predicate) throws E {
+        public <E extends Exception> Optional<LongTuple2> filter(final Throwables.LongBiPredicate<E> predicate) throws IllegalArgumentException, E {
             N.checkArgNotNull(predicate, cs.predicate);
 
             return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
@@ -2298,7 +2298,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -2343,7 +2343,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @see #map(Throwables.LongTriFunction)
          * @see PrimitiveTuple#accept(Throwables.Consumer)
          */
-        public <E extends Exception> void accept(final Throwables.LongTriConsumer<E> action) throws E {
+        public <E extends Exception> void accept(final Throwables.LongTriConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1, _2, _3);
@@ -2384,7 +2384,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @see PrimitiveTuple#map(Throwables.Function)
          */
         @MayReturnNull
-        public <U, E extends Exception> U map(final Throwables.LongTriFunction<U, E> mapper) throws E {
+        public <U, E extends Exception> U map(final Throwables.LongTriFunction<U, E> mapper) throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2, _3);
@@ -2424,7 +2424,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @see #map(Throwables.LongTriFunction)
          * @see PrimitiveTuple#filter(Throwables.Predicate)
          */
-        public <E extends Exception> Optional<LongTuple3> filter(final Throwables.LongTriPredicate<E> predicate) throws E {
+        public <E extends Exception> Optional<LongTuple3> filter(final Throwables.LongTriPredicate<E> predicate) throws IllegalArgumentException, E {
             N.checkArgNotNull(predicate, cs.predicate);
 
             return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();
@@ -2790,7 +2790,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -3162,7 +3162,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -3538,7 +3538,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -3884,7 +3884,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -4229,7 +4229,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -4582,7 +4582,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @throws E if the action throws an exception
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);

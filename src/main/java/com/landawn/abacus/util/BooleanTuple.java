@@ -424,7 +424,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      */
     @Deprecated
     @SuppressWarnings({ "unchecked" })
-    public static <TP extends BooleanTuple<TP>> TP from(final boolean[] values) {
+    public static <TP extends BooleanTuple<TP>> TP from(final boolean[] values) throws IllegalArgumentException {
         if (values == null || values.length == 0) {
             return (TP) BooleanTuple0.EMPTY;
         }
@@ -633,7 +633,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * @throws E if the action throws an exception during execution
      * @see #stream()
      */
-    public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
+    public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws IllegalArgumentException, E {
         N.checkArgNotNull(action, cs.action);
 
         for (final boolean element : elements()) {
@@ -1165,7 +1165,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * @throws E if the action throws an exception during execution
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -1206,7 +1206,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * @see #map(Throwables.BooleanBiFunction)
          * @see PrimitiveTuple#accept(Throwables.Consumer)
          */
-        public <E extends Exception> void accept(final Throwables.BooleanBiConsumer<E> action) throws E {
+        public <E extends Exception> void accept(final Throwables.BooleanBiConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1, _2);
@@ -1248,7 +1248,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * @see PrimitiveTuple#map(Throwables.Function)
          */
         @MayReturnNull
-        public <U, E extends Exception> U map(final Throwables.BooleanBiFunction<U, E> mapper) throws E {
+        public <U, E extends Exception> U map(final Throwables.BooleanBiFunction<U, E> mapper) throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2);
@@ -1288,7 +1288,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * @see #map(Throwables.BooleanBiFunction)
          * @see PrimitiveTuple#filter(Throwables.Predicate)
          */
-        public <E extends Exception> Optional<BooleanTuple2> filter(final Throwables.BooleanBiPredicate<E> predicate) throws E {
+        public <E extends Exception> Optional<BooleanTuple2> filter(final Throwables.BooleanBiPredicate<E> predicate) throws IllegalArgumentException, E {
             N.checkArgNotNull(predicate, cs.predicate);
 
             return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
@@ -1546,7 +1546,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * @throws E if the action throws an exception during execution
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -1588,7 +1588,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * @see #map(Throwables.BooleanTriFunction)
          * @see PrimitiveTuple#accept(Throwables.Consumer)
          */
-        public <E extends Exception> void accept(final Throwables.BooleanTriConsumer<E> action) throws E {
+        public <E extends Exception> void accept(final Throwables.BooleanTriConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1, _2, _3);
@@ -1628,7 +1628,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * @see PrimitiveTuple#map(Throwables.Function)
          */
         @MayReturnNull
-        public <U, E extends Exception> U map(final Throwables.BooleanTriFunction<U, E> mapper) throws E {
+        public <U, E extends Exception> U map(final Throwables.BooleanTriFunction<U, E> mapper) throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2, _3);
@@ -1668,7 +1668,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * @see #map(Throwables.BooleanTriFunction)
          * @see PrimitiveTuple#filter(Throwables.Predicate)
          */
-        public <E extends Exception> Optional<BooleanTuple3> filter(final Throwables.BooleanTriPredicate<E> predicate) throws E {
+        public <E extends Exception> Optional<BooleanTuple3> filter(final Throwables.BooleanTriPredicate<E> predicate) throws IllegalArgumentException, E {
             N.checkArgNotNull(predicate, cs.predicate);
 
             return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();
@@ -1917,7 +1917,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * @throws E if the action throws an exception during execution
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -2177,7 +2177,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * @throws E if the action throws an exception during execution
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -2459,7 +2459,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * @throws E if the action throws an exception during execution
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -2753,7 +2753,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * @throws E if the action throws an exception during execution
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -3057,7 +3057,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * @throws E if the action throws an exception during execution
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
@@ -3367,7 +3367,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * @throws E if the action throws an exception during execution
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
+        public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
 
             action.accept(_1);
