@@ -58,7 +58,7 @@ abstract sealed class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements I
      * Passes this tuple to the given action.
      *
      * @param <E> the type of exception that may be thrown by the action
-     * @param action the action to invoke with this tuple as its input
+     * @param action the action to invoke with this tuple as its input, must not be {@code null}
      * @throws IllegalArgumentException if {@code action} is {@code null}
      * @throws E if the action throws an exception during execution
      * @see #map(Throwables.Function)
@@ -75,7 +75,7 @@ abstract sealed class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements I
      *
      * @param <U> the type of the result produced by the mapping function
      * @param <E> the type of exception that may be thrown by the mapper
-     * @param mapper the function to apply with this tuple as its input
+     * @param mapper the function to apply with this tuple as its input, must not be {@code null}
      * @return the value produced by the mapper; may be {@code null} if the mapper returns {@code null}
      * @throws IllegalArgumentException if {@code mapper} is {@code null}
      * @throws E if the mapper throws an exception during execution
@@ -94,7 +94,7 @@ abstract sealed class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements I
      * if the predicate is satisfied, or an empty {@link Optional} otherwise.
      *
      * @param <E> the type of exception that may be thrown by the predicate
-     * @param predicate the predicate to evaluate against this tuple
+     * @param predicate the predicate to evaluate against this tuple, must not be {@code null}
      * @return an {@link Optional} containing this tuple if the predicate returns {@code true};
      *         otherwise {@link Optional#empty()}
      * @throws IllegalArgumentException if {@code predicate} is {@code null}

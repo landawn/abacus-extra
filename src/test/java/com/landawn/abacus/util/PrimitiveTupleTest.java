@@ -257,6 +257,20 @@ class PrimitiveTupleTest extends TestBase {
     }
 
     @Test
+    public void testBaseAcceptMapFilterRejectNullCallbackForEmptyAndNonEmptyTuples() {
+        assertEquals("'action' cannot be null", assertThrows(IllegalArgumentException.class, () -> IntTuple.of(1).accept(null)).getMessage());
+        assertEquals("'mapper' cannot be null", assertThrows(IllegalArgumentException.class, () -> LongTuple.of(1L).map(null)).getMessage());
+        assertEquals("'predicate' cannot be null", assertThrows(IllegalArgumentException.class, () -> ShortTuple.of((short) 1).filter(null)).getMessage());
+        assertThrows(IllegalArgumentException.class, () -> ByteTuple.of((byte) 1).accept(null));
+        assertThrows(IllegalArgumentException.class, () -> IntTuple.from(new int[0]).map(null));
+        assertThrows(IllegalArgumentException.class, () -> LongTuple.from(new long[0]).filter(null));
+        assertThrows(IllegalArgumentException.class, () -> ShortTuple.from(new short[0]).accept(null));
+        assertThrows(IllegalArgumentException.class, () -> ByteTuple.from(new byte[0]).map(null));
+        assertThrows(IllegalArgumentException.class, () -> IntTuple.of(1, 2).accept((Throwables.Consumer<IntTuple.IntTuple2, RuntimeException>) null));
+        assertThrows(IllegalArgumentException.class, () -> LongTuple.of(1L, 2L, 3L).filter((Throwables.Predicate<LongTuple.LongTuple3, RuntimeException>) null));
+    }
+
+    @Test
     public void testMapWithIntTuple() {
         IntTuple.IntTuple2 tuple = IntTuple.of(3, 4);
 
