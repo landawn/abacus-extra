@@ -126,11 +126,12 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the one-dimensional object array to print (can be {@code null}).
      * @return the string representation of the array that was printed to console.
+     * @throws RuntimeException if converting a non-null array element to a string throws a runtime exception.
      * @see #println(Object[][]) for two-dimensional array printing
      * @see #println(Object[][][]) for three-dimensional array printing
      * @see N#println(Object) for the underlying print implementation
      */
-    public static String println(final Object[] a) {
+    public static String println(final Object[] a) throws RuntimeException {
         if (a == null) {
             return N.println("null");
         } else if (a.length == 0) {
@@ -183,10 +184,11 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the two-dimensional object array to print (can be {@code null}).
      * @return the string representation of the two-dimensional array that was printed to console.
+     * @throws RuntimeException if converting a non-null array element to a string throws a runtime exception.
      * @see #println(Object[]) for one-dimensional array printing
      * @see #println(Object[][][]) for three-dimensional array printing
      */
-    public static String println(final Object[][] a) {
+    public static String println(final Object[][] a) throws RuntimeException {
         return ff.println(a);
     }
 
@@ -237,10 +239,11 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the three-dimensional object array to print (can be {@code null}).
      * @return the string representation of the three-dimensional array that was printed to console.
+     * @throws RuntimeException if converting a non-null array element to a string throws a runtime exception.
      * @see #println(Object[]) for one-dimensional array printing
      * @see #println(Object[][]) for two-dimensional array printing
      */
-    public static String println(final Object[][][] a) {
+    public static String println(final Object[][][] a) throws RuntimeException {
         return fff.println(a);
     }
 
@@ -274,13 +277,16 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each boolean to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is
+     *         primitive, or if the result would exceed 255 array dimensions.
      * @throws E if the {@code mapper} function throws an exception.
+     * @throws ArrayStoreException if a value returned by {@code mapper} cannot be stored in an array with component type
+     *         {@code targetElementType}.
      * @see #mapToObj(boolean[][], Throwables.BooleanFunction, Class) for two-dimensional arrays
      * @see #mapToObj(boolean[][][], Throwables.BooleanFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[] mapToObj(final boolean[] a, final Throwables.BooleanFunction<? extends T, E> mapper,
-            final Class<T> targetElementType) throws IllegalArgumentException, E {
+            final Class<T> targetElementType) throws IllegalArgumentException, E, ArrayStoreException {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
@@ -331,13 +337,16 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each boolean to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is
+     *         primitive, or if the result would exceed 255 array dimensions.
      * @throws E if the {@code mapper} function throws an exception.
+     * @throws ArrayStoreException if a value returned by {@code mapper} cannot be stored in an array with component type
+     *         {@code targetElementType}.
      * @see #mapToObj(boolean[], Throwables.BooleanFunction, Class) for one-dimensional arrays
      * @see #mapToObj(boolean[][][], Throwables.BooleanFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[][] mapToObj(final boolean[][] a, final Throwables.BooleanFunction<? extends T, E> mapper,
-            final Class<T> targetElementType) throws IllegalArgumentException, E {
+            final Class<T> targetElementType) throws IllegalArgumentException, E, ArrayStoreException {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
@@ -388,13 +397,16 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each boolean to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is
+     *         primitive, or if the result would exceed 255 array dimensions.
      * @throws E if the {@code mapper} function throws an exception.
+     * @throws ArrayStoreException if a value returned by {@code mapper} cannot be stored in an array with component type
+     *         {@code targetElementType}.
      * @see #mapToObj(boolean[], Throwables.BooleanFunction, Class) for one-dimensional arrays
      * @see #mapToObj(boolean[][], Throwables.BooleanFunction, Class) for two-dimensional arrays
      */
     public static <T, E extends Exception> T[][][] mapToObj(final boolean[][][] a, final Throwables.BooleanFunction<? extends T, E> mapper,
-            final Class<T> targetElementType) throws IllegalArgumentException, E {
+            final Class<T> targetElementType) throws IllegalArgumentException, E, ArrayStoreException {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
@@ -442,13 +454,16 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each char to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is
+     *         primitive, or if the result would exceed 255 array dimensions.
      * @throws E if the {@code mapper} function throws an exception.
+     * @throws ArrayStoreException if a value returned by {@code mapper} cannot be stored in an array with component type
+     *         {@code targetElementType}.
      * @see #mapToObj(char[][], Throwables.CharFunction, Class) for two-dimensional arrays
      * @see #mapToObj(char[][][], Throwables.CharFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[] mapToObj(final char[] a, final Throwables.CharFunction<? extends T, E> mapper, final Class<T> targetElementType)
-            throws IllegalArgumentException, E {
+            throws IllegalArgumentException, E, ArrayStoreException {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
@@ -499,13 +514,16 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each char to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is
+     *         primitive, or if the result would exceed 255 array dimensions.
      * @throws E if the {@code mapper} function throws an exception.
+     * @throws ArrayStoreException if a value returned by {@code mapper} cannot be stored in an array with component type
+     *         {@code targetElementType}.
      * @see #mapToObj(char[], Throwables.CharFunction, Class) for one-dimensional arrays
      * @see #mapToObj(char[][][], Throwables.CharFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[][] mapToObj(final char[][] a, final Throwables.CharFunction<? extends T, E> mapper,
-            final Class<T> targetElementType) throws IllegalArgumentException, E {
+            final Class<T> targetElementType) throws IllegalArgumentException, E, ArrayStoreException {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
@@ -556,13 +574,16 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each char to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is
+     *         primitive, or if the result would exceed 255 array dimensions.
      * @throws E if the {@code mapper} function throws an exception.
+     * @throws ArrayStoreException if a value returned by {@code mapper} cannot be stored in an array with component type
+     *         {@code targetElementType}.
      * @see #mapToObj(char[], Throwables.CharFunction, Class) for one-dimensional arrays
      * @see #mapToObj(char[][], Throwables.CharFunction, Class) for two-dimensional arrays
      */
     public static <T, E extends Exception> T[][][] mapToObj(final char[][][] a, final Throwables.CharFunction<? extends T, E> mapper,
-            final Class<T> targetElementType) throws IllegalArgumentException, E {
+            final Class<T> targetElementType) throws IllegalArgumentException, E, ArrayStoreException {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
@@ -610,13 +631,16 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each byte to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is
+     *         primitive, or if the result would exceed 255 array dimensions.
      * @throws E if the {@code mapper} function throws an exception.
+     * @throws ArrayStoreException if a value returned by {@code mapper} cannot be stored in an array with component type
+     *         {@code targetElementType}.
      * @see #mapToObj(byte[][], Throwables.ByteFunction, Class) for two-dimensional arrays
      * @see #mapToObj(byte[][][], Throwables.ByteFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[] mapToObj(final byte[] a, final Throwables.ByteFunction<? extends T, E> mapper, final Class<T> targetElementType)
-            throws IllegalArgumentException, E {
+            throws IllegalArgumentException, E, ArrayStoreException {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
@@ -667,13 +691,16 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each byte to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is
+     *         primitive, or if the result would exceed 255 array dimensions.
      * @throws E if the {@code mapper} function throws an exception.
+     * @throws ArrayStoreException if a value returned by {@code mapper} cannot be stored in an array with component type
+     *         {@code targetElementType}.
      * @see #mapToObj(byte[], Throwables.ByteFunction, Class) for one-dimensional arrays
      * @see #mapToObj(byte[][][], Throwables.ByteFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[][] mapToObj(final byte[][] a, final Throwables.ByteFunction<? extends T, E> mapper,
-            final Class<T> targetElementType) throws IllegalArgumentException, E {
+            final Class<T> targetElementType) throws IllegalArgumentException, E, ArrayStoreException {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
@@ -724,13 +751,16 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each byte to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is
+     *         primitive, or if the result would exceed 255 array dimensions.
      * @throws E if the {@code mapper} function throws an exception.
+     * @throws ArrayStoreException if a value returned by {@code mapper} cannot be stored in an array with component type
+     *         {@code targetElementType}.
      * @see #mapToObj(byte[], Throwables.ByteFunction, Class) for one-dimensional arrays
      * @see #mapToObj(byte[][], Throwables.ByteFunction, Class) for two-dimensional arrays
      */
     public static <T, E extends Exception> T[][][] mapToObj(final byte[][][] a, final Throwables.ByteFunction<? extends T, E> mapper,
-            final Class<T> targetElementType) throws IllegalArgumentException, E {
+            final Class<T> targetElementType) throws IllegalArgumentException, E, ArrayStoreException {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
@@ -778,13 +808,16 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each short to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is
+     *         primitive, or if the result would exceed 255 array dimensions.
      * @throws E if the {@code mapper} function throws an exception.
+     * @throws ArrayStoreException if a value returned by {@code mapper} cannot be stored in an array with component type
+     *         {@code targetElementType}.
      * @see #mapToObj(short[][], Throwables.ShortFunction, Class) for two-dimensional arrays
      * @see #mapToObj(short[][][], Throwables.ShortFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[] mapToObj(final short[] a, final Throwables.ShortFunction<? extends T, E> mapper,
-            final Class<T> targetElementType) throws IllegalArgumentException, E {
+            final Class<T> targetElementType) throws IllegalArgumentException, E, ArrayStoreException {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
@@ -835,13 +868,16 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each short to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is
+     *         primitive, or if the result would exceed 255 array dimensions.
      * @throws E if the {@code mapper} function throws an exception.
+     * @throws ArrayStoreException if a value returned by {@code mapper} cannot be stored in an array with component type
+     *         {@code targetElementType}.
      * @see #mapToObj(short[], Throwables.ShortFunction, Class) for one-dimensional arrays
      * @see #mapToObj(short[][][], Throwables.ShortFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[][] mapToObj(final short[][] a, final Throwables.ShortFunction<? extends T, E> mapper,
-            final Class<T> targetElementType) throws IllegalArgumentException, E {
+            final Class<T> targetElementType) throws IllegalArgumentException, E, ArrayStoreException {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
@@ -892,13 +928,16 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each short to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is
+     *         primitive, or if the result would exceed 255 array dimensions.
      * @throws E if the {@code mapper} function throws an exception.
+     * @throws ArrayStoreException if a value returned by {@code mapper} cannot be stored in an array with component type
+     *         {@code targetElementType}.
      * @see #mapToObj(short[], Throwables.ShortFunction, Class) for one-dimensional arrays
      * @see #mapToObj(short[][], Throwables.ShortFunction, Class) for two-dimensional arrays
      */
     public static <T, E extends Exception> T[][][] mapToObj(final short[][][] a, final Throwables.ShortFunction<? extends T, E> mapper,
-            final Class<T> targetElementType) throws IllegalArgumentException, E {
+            final Class<T> targetElementType) throws IllegalArgumentException, E, ArrayStoreException {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
@@ -946,13 +985,16 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each int to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is
+     *         primitive, or if the result would exceed 255 array dimensions.
      * @throws E if the {@code mapper} function throws an exception.
+     * @throws ArrayStoreException if a value returned by {@code mapper} cannot be stored in an array with component type
+     *         {@code targetElementType}.
      * @see #mapToObj(int[][], Throwables.IntFunction, Class) for two-dimensional arrays
      * @see #mapToObj(int[][][], Throwables.IntFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[] mapToObj(final int[] a, final Throwables.IntFunction<? extends T, E> mapper, final Class<T> targetElementType)
-            throws IllegalArgumentException, E {
+            throws IllegalArgumentException, E, ArrayStoreException {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
@@ -1003,13 +1045,16 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each int to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is
+     *         primitive, or if the result would exceed 255 array dimensions.
      * @throws E if the {@code mapper} function throws an exception.
+     * @throws ArrayStoreException if a value returned by {@code mapper} cannot be stored in an array with component type
+     *         {@code targetElementType}.
      * @see #mapToObj(int[], Throwables.IntFunction, Class) for one-dimensional arrays
      * @see #mapToObj(int[][][], Throwables.IntFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[][] mapToObj(final int[][] a, final Throwables.IntFunction<? extends T, E> mapper,
-            final Class<T> targetElementType) throws IllegalArgumentException, E {
+            final Class<T> targetElementType) throws IllegalArgumentException, E, ArrayStoreException {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
@@ -1060,13 +1105,16 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each int to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is
+     *         primitive, or if the result would exceed 255 array dimensions.
      * @throws E if the {@code mapper} function throws an exception.
+     * @throws ArrayStoreException if a value returned by {@code mapper} cannot be stored in an array with component type
+     *         {@code targetElementType}.
      * @see #mapToObj(int[], Throwables.IntFunction, Class) for one-dimensional arrays
      * @see #mapToObj(int[][], Throwables.IntFunction, Class) for two-dimensional arrays
      */
     public static <T, E extends Exception> T[][][] mapToObj(final int[][][] a, final Throwables.IntFunction<? extends T, E> mapper,
-            final Class<T> targetElementType) throws IllegalArgumentException, E {
+            final Class<T> targetElementType) throws IllegalArgumentException, E, ArrayStoreException {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
@@ -1114,13 +1162,16 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each long to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is
+     *         primitive, or if the result would exceed 255 array dimensions.
      * @throws E if the {@code mapper} function throws an exception.
+     * @throws ArrayStoreException if a value returned by {@code mapper} cannot be stored in an array with component type
+     *         {@code targetElementType}.
      * @see #mapToObj(long[][], Throwables.LongFunction, Class) for two-dimensional arrays
      * @see #mapToObj(long[][][], Throwables.LongFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[] mapToObj(final long[] a, final Throwables.LongFunction<? extends T, E> mapper, final Class<T> targetElementType)
-            throws IllegalArgumentException, E {
+            throws IllegalArgumentException, E, ArrayStoreException {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
@@ -1171,13 +1222,16 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each long to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is
+     *         primitive, or if the result would exceed 255 array dimensions.
      * @throws E if the {@code mapper} function throws an exception.
+     * @throws ArrayStoreException if a value returned by {@code mapper} cannot be stored in an array with component type
+     *         {@code targetElementType}.
      * @see #mapToObj(long[], Throwables.LongFunction, Class) for one-dimensional arrays
      * @see #mapToObj(long[][][], Throwables.LongFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[][] mapToObj(final long[][] a, final Throwables.LongFunction<? extends T, E> mapper,
-            final Class<T> targetElementType) throws IllegalArgumentException, E {
+            final Class<T> targetElementType) throws IllegalArgumentException, E, ArrayStoreException {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
@@ -1229,13 +1283,16 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each long to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is
+     *         primitive, or if the result would exceed 255 array dimensions.
      * @throws E if the {@code mapper} function throws an exception.
+     * @throws ArrayStoreException if a value returned by {@code mapper} cannot be stored in an array with component type
+     *         {@code targetElementType}.
      * @see #mapToObj(long[], Throwables.LongFunction, Class) for one-dimensional arrays
      * @see #mapToObj(long[][], Throwables.LongFunction, Class) for two-dimensional arrays
      */
     public static <T, E extends Exception> T[][][] mapToObj(final long[][][] a, final Throwables.LongFunction<? extends T, E> mapper,
-            final Class<T> targetElementType) throws IllegalArgumentException, E {
+            final Class<T> targetElementType) throws IllegalArgumentException, E, ArrayStoreException {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
@@ -1283,13 +1340,16 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each float to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is
+     *         primitive, or if the result would exceed 255 array dimensions.
      * @throws E if the {@code mapper} function throws an exception.
+     * @throws ArrayStoreException if a value returned by {@code mapper} cannot be stored in an array with component type
+     *         {@code targetElementType}.
      * @see #mapToObj(float[][], Throwables.FloatFunction, Class) for two-dimensional arrays
      * @see #mapToObj(float[][][], Throwables.FloatFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[] mapToObj(final float[] a, final Throwables.FloatFunction<? extends T, E> mapper,
-            final Class<T> targetElementType) throws IllegalArgumentException, E {
+            final Class<T> targetElementType) throws IllegalArgumentException, E, ArrayStoreException {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
@@ -1340,13 +1400,16 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each float to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is
+     *         primitive, or if the result would exceed 255 array dimensions.
      * @throws E if the {@code mapper} function throws an exception.
+     * @throws ArrayStoreException if a value returned by {@code mapper} cannot be stored in an array with component type
+     *         {@code targetElementType}.
      * @see #mapToObj(float[], Throwables.FloatFunction, Class) for one-dimensional arrays
      * @see #mapToObj(float[][][], Throwables.FloatFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[][] mapToObj(final float[][] a, final Throwables.FloatFunction<? extends T, E> mapper,
-            final Class<T> targetElementType) throws IllegalArgumentException, E {
+            final Class<T> targetElementType) throws IllegalArgumentException, E, ArrayStoreException {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
@@ -1397,13 +1460,16 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each float to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is
+     *         primitive, or if the result would exceed 255 array dimensions.
      * @throws E if the {@code mapper} function throws an exception.
+     * @throws ArrayStoreException if a value returned by {@code mapper} cannot be stored in an array with component type
+     *         {@code targetElementType}.
      * @see #mapToObj(float[], Throwables.FloatFunction, Class) for one-dimensional arrays
      * @see #mapToObj(float[][], Throwables.FloatFunction, Class) for two-dimensional arrays
      */
     public static <T, E extends Exception> T[][][] mapToObj(final float[][][] a, final Throwables.FloatFunction<? extends T, E> mapper,
-            final Class<T> targetElementType) throws IllegalArgumentException, E {
+            final Class<T> targetElementType) throws IllegalArgumentException, E, ArrayStoreException {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
@@ -1451,13 +1517,16 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each double to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is
+     *         primitive, or if the result would exceed 255 array dimensions.
      * @throws E if the {@code mapper} function throws an exception.
+     * @throws ArrayStoreException if a value returned by {@code mapper} cannot be stored in an array with component type
+     *         {@code targetElementType}.
      * @see #mapToObj(double[][], Throwables.DoubleFunction, Class) for two-dimensional arrays
      * @see #mapToObj(double[][][], Throwables.DoubleFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[] mapToObj(final double[] a, final Throwables.DoubleFunction<? extends T, E> mapper,
-            final Class<T> targetElementType) throws IllegalArgumentException, E {
+            final Class<T> targetElementType) throws IllegalArgumentException, E, ArrayStoreException {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
@@ -1508,13 +1577,16 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each double to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is
+     *         primitive, or if the result would exceed 255 array dimensions.
      * @throws E if the {@code mapper} function throws an exception.
+     * @throws ArrayStoreException if a value returned by {@code mapper} cannot be stored in an array with component type
+     *         {@code targetElementType}.
      * @see #mapToObj(double[], Throwables.DoubleFunction, Class) for one-dimensional arrays
      * @see #mapToObj(double[][][], Throwables.DoubleFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[][] mapToObj(final double[][] a, final Throwables.DoubleFunction<? extends T, E> mapper,
-            final Class<T> targetElementType) throws IllegalArgumentException, E {
+            final Class<T> targetElementType) throws IllegalArgumentException, E, ArrayStoreException {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
@@ -1565,13 +1637,16 @@ public sealed class Arrays permits Arrays.f {
      * @param mapper the function that maps each double to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
-     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
+     * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is
+     *         primitive, or if the result would exceed 255 array dimensions.
      * @throws E if the {@code mapper} function throws an exception.
+     * @throws ArrayStoreException if a value returned by {@code mapper} cannot be stored in an array with component type
+     *         {@code targetElementType}.
      * @see #mapToObj(double[], Throwables.DoubleFunction, Class) for one-dimensional arrays
      * @see #mapToObj(double[][], Throwables.DoubleFunction, Class) for two-dimensional arrays
      */
     public static <T, E extends Exception> T[][][] mapToObj(final double[][][] a, final Throwables.DoubleFunction<? extends T, E> mapper,
-            final Class<T> targetElementType) throws IllegalArgumentException, E {
+            final Class<T> targetElementType) throws IllegalArgumentException, E, ArrayStoreException {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
@@ -3131,12 +3206,19 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Flattens a two-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
      * This is useful for operations (such as sorting or bulk modifications) that need to be applied to
-     * all elements regardless of structure. The original two-dimensional structure is preserved; the
+     * all elements regardless of structure. The method does not replace nested arrays; the
      * action is expected to mutate the supplied flat array in place.
      *
      * <p>The action receives a temporary flat copy. No elements are copied back unless the action returns normally.
+     * Changes made directly to {@code a} by the action are not rolled back if it throws.
      * For a nonempty outer array, the action is invoked once even when all nested arrays are null or empty.
      * Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.</p>
+     *
+     * <p>Copy-back uses the nested arrays present after the action returns. If the action replaces nested arrays
+     * through another reference to {@code a}, their new structure determines where the flat elements are copied.
+     * If the updated rows need fewer elements, the unused suffix of the flat array is discarded. Copying a row
+     * that needs more than the remaining flat elements throws {@link IndexOutOfBoundsException}; copies into
+     * preceding rows remain applied.</p>
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
@@ -3165,11 +3247,13 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the {@code action} throws an exception.
+     * @throws IndexOutOfBoundsException if the action changes the input structure so that copying the flattened elements into
+     *         its current rows requires more elements than the temporary array contains.
      * @see #mutateViaFlatArray(boolean[][][], Throwables.Consumer) for three-dimensional arrays
      * @see #flatten(boolean[][]) for flattening without copy-back
      */
     public static <E extends Exception> void mutateViaFlatArray(final boolean[][] a, final Throwables.Consumer<? super boolean[], E> action)
-            throws IllegalArgumentException, ArithmeticException, E {
+            throws IllegalArgumentException, ArithmeticException, E, IndexOutOfBoundsException {
         N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
@@ -3193,11 +3277,18 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
      * This is useful for operations that need to be applied to all elements regardless of structure,
-     * such as sorting or bulk modifications. The original three-dimensional structure is preserved.
+     * such as sorting or bulk modifications. The method does not replace nested arrays.
      *
      * <p>The action receives a temporary flat copy. No elements are copied back unless the action returns normally.
+     * Changes made directly to {@code a} by the action are not rolled back if it throws.
      * For a nonempty outer array, the action is invoked once even when all nested arrays are null or empty.
      * Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.</p>
+     *
+     * <p>Copy-back uses the nested arrays present after the action returns. If the action replaces nested arrays
+     * through another reference to {@code a}, their new structure determines where the flat elements are copied.
+     * If the updated rows need fewer elements, the unused suffix of the flat array is discarded. Copying a row
+     * that needs more than the remaining flat elements throws {@link IndexOutOfBoundsException}; copies into
+     * preceding rows remain applied.</p>
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
@@ -3226,11 +3317,13 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the {@code action} throws an exception.
+     * @throws IndexOutOfBoundsException if the action changes the input structure so that copying the flattened elements into
+     *         its current rows requires more elements than the temporary array contains.
      * @see #mutateViaFlatArray(boolean[][], Throwables.Consumer) for two-dimensional arrays
      * @see #flatten(boolean[][][]) for flattening without copy-back
      */
     public static <E extends Exception> void mutateViaFlatArray(final boolean[][][] a, final Throwables.Consumer<? super boolean[], E> action)
-            throws IllegalArgumentException, ArithmeticException, E {
+            throws IllegalArgumentException, ArithmeticException, E, IndexOutOfBoundsException {
         N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
@@ -5028,8 +5121,15 @@ public sealed class Arrays permits Arrays.f {
      * This allows for applying one-dimensional array operations (like sorting) across a two-dimensional structure.
      *
      * <p>The action receives a temporary flat copy. No elements are copied back unless the action returns normally.
+     * Changes made directly to {@code a} by the action are not rolled back if it throws.
      * For a nonempty outer array, the action is invoked once even when all nested arrays are null or empty.
      * Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.</p>
+     *
+     * <p>Copy-back uses the nested arrays present after the action returns. If the action replaces nested arrays
+     * through another reference to {@code a}, their new structure determines where the flat elements are copied.
+     * If the updated rows need fewer elements, the unused suffix of the flat array is discarded. Copying a row
+     * that needs more than the remaining flat elements throws {@link IndexOutOfBoundsException}; copies into
+     * preceding rows remain applied.</p>
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
@@ -5064,11 +5164,13 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the {@code action} throws an exception.
+     * @throws IndexOutOfBoundsException if the action changes the input structure so that copying the flattened elements into
+     *         its current rows requires more elements than the temporary array contains.
      * @see #mutateViaFlatArray(char[][][], Throwables.Consumer) for three-dimensional arrays
      * @see #flatten(char[][]) for flattening without copy-back
      */
     public static <E extends Exception> void mutateViaFlatArray(final char[][] a, final Throwables.Consumer<? super char[], E> action)
-            throws IllegalArgumentException, ArithmeticException, E {
+            throws IllegalArgumentException, ArithmeticException, E, IndexOutOfBoundsException {
         N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
@@ -5095,8 +5197,15 @@ public sealed class Arrays permits Arrays.f {
      * This allows for applying one-dimensional array operations (like sorting) across a three-dimensional structure.
      *
      * <p>The action receives a temporary flat copy. No elements are copied back unless the action returns normally.
+     * Changes made directly to {@code a} by the action are not rolled back if it throws.
      * For a nonempty outer array, the action is invoked once even when all nested arrays are null or empty.
      * Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.</p>
+     *
+     * <p>Copy-back uses the nested arrays present after the action returns. If the action replaces nested arrays
+     * through another reference to {@code a}, their new structure determines where the flat elements are copied.
+     * If the updated rows need fewer elements, the unused suffix of the flat array is discarded. Copying a row
+     * that needs more than the remaining flat elements throws {@link IndexOutOfBoundsException}; copies into
+     * preceding rows remain applied.</p>
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
@@ -5127,11 +5236,13 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the {@code action} throws an exception.
+     * @throws IndexOutOfBoundsException if the action changes the input structure so that copying the flattened elements into
+     *         its current rows requires more elements than the temporary array contains.
      * @see #mutateViaFlatArray(char[][], Throwables.Consumer) for two-dimensional arrays
      * @see #flatten(char[][][]) for flattening without copy-back
      */
     public static <E extends Exception> void mutateViaFlatArray(final char[][][] a, final Throwables.Consumer<? super char[], E> action)
-            throws IllegalArgumentException, ArithmeticException, E {
+            throws IllegalArgumentException, ArithmeticException, E, IndexOutOfBoundsException {
         N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
@@ -6940,8 +7051,15 @@ public sealed class Arrays permits Arrays.f {
      * This is useful for operations that need to be applied to all elements regardless of structure.
      *
      * <p>The action receives a temporary flat copy. No elements are copied back unless the action returns normally.
+     * Changes made directly to {@code a} by the action are not rolled back if it throws.
      * For a nonempty outer array, the action is invoked once even when all nested arrays are null or empty.
      * Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.</p>
+     *
+     * <p>Copy-back uses the nested arrays present after the action returns. If the action replaces nested arrays
+     * through another reference to {@code a}, their new structure determines where the flat elements are copied.
+     * If the updated rows need fewer elements, the unused suffix of the flat array is discarded. Copying a row
+     * that needs more than the remaining flat elements throws {@link IndexOutOfBoundsException}; copies into
+     * preceding rows remain applied.</p>
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
@@ -6973,11 +7091,13 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the {@code action} throws an exception.
+     * @throws IndexOutOfBoundsException if the action changes the input structure so that copying the flattened elements into
+     *         its current rows requires more elements than the temporary array contains.
      * @see #mutateViaFlatArray(byte[][][], Throwables.Consumer) for three-dimensional arrays
      * @see #flatten(byte[][]) for flattening without copy-back
      */
     public static <E extends Exception> void mutateViaFlatArray(final byte[][] a, final Throwables.Consumer<? super byte[], E> action)
-            throws IllegalArgumentException, ArithmeticException, E {
+            throws IllegalArgumentException, ArithmeticException, E, IndexOutOfBoundsException {
         N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
@@ -7001,11 +7121,18 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
      * This is useful for operations that need to be applied to all elements regardless of structure,
-     * such as sorting or bulk modifications. The original three-dimensional structure is preserved.
+     * such as sorting or bulk modifications. The method does not replace nested arrays.
      *
      * <p>The action receives a temporary flat copy. No elements are copied back unless the action returns normally.
+     * Changes made directly to {@code a} by the action are not rolled back if it throws.
      * For a nonempty outer array, the action is invoked once even when all nested arrays are null or empty.
      * Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.</p>
+     *
+     * <p>Copy-back uses the nested arrays present after the action returns. If the action replaces nested arrays
+     * through another reference to {@code a}, their new structure determines where the flat elements are copied.
+     * If the updated rows need fewer elements, the unused suffix of the flat array is discarded. Copying a row
+     * that needs more than the remaining flat elements throws {@link IndexOutOfBoundsException}; copies into
+     * preceding rows remain applied.</p>
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
@@ -7037,11 +7164,13 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the {@code action} throws an exception.
+     * @throws IndexOutOfBoundsException if the action changes the input structure so that copying the flattened elements into
+     *         its current rows requires more elements than the temporary array contains.
      * @see #mutateViaFlatArray(byte[][], Throwables.Consumer) for two-dimensional arrays
      * @see #flatten(byte[][][]) for flattening without copy-back
      */
     public static <E extends Exception> void mutateViaFlatArray(final byte[][][] a, final Throwables.Consumer<? super byte[], E> action)
-            throws IllegalArgumentException, ArithmeticException, E {
+            throws IllegalArgumentException, ArithmeticException, E, IndexOutOfBoundsException {
         N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
@@ -8746,8 +8875,15 @@ public sealed class Arrays permits Arrays.f {
      * This is useful for operations that need to be applied to all elements regardless of structure.
      *
      * <p>The action receives a temporary flat copy. No elements are copied back unless the action returns normally.
+     * Changes made directly to {@code a} by the action are not rolled back if it throws.
      * For a nonempty outer array, the action is invoked once even when all nested arrays are null or empty.
      * Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.</p>
+     *
+     * <p>Copy-back uses the nested arrays present after the action returns. If the action replaces nested arrays
+     * through another reference to {@code a}, their new structure determines where the flat elements are copied.
+     * If the updated rows need fewer elements, the unused suffix of the flat array is discarded. Copying a row
+     * that needs more than the remaining flat elements throws {@link IndexOutOfBoundsException}; copies into
+     * preceding rows remain applied.</p>
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
@@ -8777,11 +8913,13 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the {@code action} throws an exception.
+     * @throws IndexOutOfBoundsException if the action changes the input structure so that copying the flattened elements into
+     *         its current rows requires more elements than the temporary array contains.
      * @see #mutateViaFlatArray(short[][][], Throwables.Consumer) for three-dimensional arrays
      * @see #flatten(short[][]) for flattening without copy-back
      */
     public static <E extends Exception> void mutateViaFlatArray(final short[][] a, final Throwables.Consumer<? super short[], E> action)
-            throws IllegalArgumentException, ArithmeticException, E {
+            throws IllegalArgumentException, ArithmeticException, E, IndexOutOfBoundsException {
         N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
@@ -8805,11 +8943,18 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
      * This is useful for operations that need to be applied to all elements regardless of structure,
-     * such as sorting or bulk modifications. The original three-dimensional structure is preserved.
+     * such as sorting or bulk modifications. The method does not replace nested arrays.
      *
      * <p>The action receives a temporary flat copy. No elements are copied back unless the action returns normally.
+     * Changes made directly to {@code a} by the action are not rolled back if it throws.
      * For a nonempty outer array, the action is invoked once even when all nested arrays are null or empty.
      * Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.</p>
+     *
+     * <p>Copy-back uses the nested arrays present after the action returns. If the action replaces nested arrays
+     * through another reference to {@code a}, their new structure determines where the flat elements are copied.
+     * If the updated rows need fewer elements, the unused suffix of the flat array is discarded. Copying a row
+     * that needs more than the remaining flat elements throws {@link IndexOutOfBoundsException}; copies into
+     * preceding rows remain applied.</p>
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
@@ -8840,11 +8985,13 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the {@code action} throws an exception.
+     * @throws IndexOutOfBoundsException if the action changes the input structure so that copying the flattened elements into
+     *         its current rows requires more elements than the temporary array contains.
      * @see #mutateViaFlatArray(short[][], Throwables.Consumer) for two-dimensional arrays
      * @see #flatten(short[][][]) for flattening without copy-back
      */
     public static <E extends Exception> void mutateViaFlatArray(final short[][][] a, final Throwables.Consumer<? super short[], E> action)
-            throws IllegalArgumentException, ArithmeticException, E {
+            throws IllegalArgumentException, ArithmeticException, E, IndexOutOfBoundsException {
         N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
@@ -10640,8 +10787,15 @@ public sealed class Arrays permits Arrays.f {
      * are copied back to the original two-dimensional array structure.</p>
      *
      * <p>The action receives a temporary flat copy. No elements are copied back unless the action returns normally.
+     * Changes made directly to {@code a} by the action are not rolled back if it throws.
      * For a nonempty outer array, the action is invoked once even when all nested arrays are null or empty.
      * Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.</p>
+     *
+     * <p>Copy-back uses the nested arrays present after the action returns. If the action replaces nested arrays
+     * through another reference to {@code a}, their new structure determines where the flat elements are copied.
+     * If the updated rows need fewer elements, the unused suffix of the flat array is discarded. Copying a row
+     * that needs more than the remaining flat elements throws {@link IndexOutOfBoundsException}; copies into
+     * preceding rows remain applied.</p>
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
@@ -10673,11 +10827,13 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the {@code action} throws an exception.
+     * @throws IndexOutOfBoundsException if the action changes the input structure so that copying the flattened elements into
+     *         its current rows requires more elements than the temporary array contains.
      * @see #mutateViaFlatArray(int[][][], Throwables.Consumer) for three-dimensional arrays
      * @see #flatten(int[][]) for flattening without copy-back
      */
     public static <E extends Exception> void mutateViaFlatArray(final int[][] a, final Throwables.Consumer<? super int[], E> action)
-            throws IllegalArgumentException, ArithmeticException, E {
+            throws IllegalArgumentException, ArithmeticException, E, IndexOutOfBoundsException {
         N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
@@ -10706,8 +10862,15 @@ public sealed class Arrays permits Arrays.f {
      * are copied back to the original three-dimensional array structure.</p>
      *
      * <p>The action receives a temporary flat copy. No elements are copied back unless the action returns normally.
+     * Changes made directly to {@code a} by the action are not rolled back if it throws.
      * For a nonempty outer array, the action is invoked once even when all nested arrays are null or empty.
      * Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.</p>
+     *
+     * <p>Copy-back uses the nested arrays present after the action returns. If the action replaces nested arrays
+     * through another reference to {@code a}, their new structure determines where the flat elements are copied.
+     * If the updated rows need fewer elements, the unused suffix of the flat array is discarded. Copying a row
+     * that needs more than the remaining flat elements throws {@link IndexOutOfBoundsException}; copies into
+     * preceding rows remain applied.</p>
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
@@ -10739,11 +10902,13 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the {@code action} throws an exception.
+     * @throws IndexOutOfBoundsException if the action changes the input structure so that copying the flattened elements into
+     *         its current rows requires more elements than the temporary array contains.
      * @see #mutateViaFlatArray(int[][], Throwables.Consumer) for two-dimensional arrays
      * @see #flatten(int[][][]) for flattening without copy-back
      */
     public static <E extends Exception> void mutateViaFlatArray(final int[][][] a, final Throwables.Consumer<? super int[], E> action)
-            throws IllegalArgumentException, ArithmeticException, E {
+            throws IllegalArgumentException, ArithmeticException, E, IndexOutOfBoundsException {
         N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
@@ -12440,8 +12605,15 @@ public sealed class Arrays permits Arrays.f {
      * Flattens a two-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
      *
      * <p>The action receives a temporary flat copy. No elements are copied back unless the action returns normally.
+     * Changes made directly to {@code a} by the action are not rolled back if it throws.
      * For a nonempty outer array, the action is invoked once even when all nested arrays are null or empty.
      * Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.</p>
+     *
+     * <p>Copy-back uses the nested arrays present after the action returns. If the action replaces nested arrays
+     * through another reference to {@code a}, their new structure determines where the flat elements are copied.
+     * If the updated rows need fewer elements, the unused suffix of the flat array is discarded. Copying a row
+     * that needs more than the remaining flat elements throws {@link IndexOutOfBoundsException}; copies into
+     * preceding rows remain applied.</p>
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
@@ -12471,11 +12643,13 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the {@code action} throws an exception.
+     * @throws IndexOutOfBoundsException if the action changes the input structure so that copying the flattened elements into
+     *         its current rows requires more elements than the temporary array contains.
      * @see #mutateViaFlatArray(long[][][], Throwables.Consumer) for three-dimensional arrays
      * @see #flatten(long[][]) for flattening without copy-back
      */
     public static <E extends Exception> void mutateViaFlatArray(final long[][] a, final Throwables.Consumer<? super long[], E> action)
-            throws IllegalArgumentException, ArithmeticException, E {
+            throws IllegalArgumentException, ArithmeticException, E, IndexOutOfBoundsException {
         N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
@@ -12500,8 +12674,15 @@ public sealed class Arrays permits Arrays.f {
      * Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
      *
      * <p>The action receives a temporary flat copy. No elements are copied back unless the action returns normally.
+     * Changes made directly to {@code a} by the action are not rolled back if it throws.
      * For a nonempty outer array, the action is invoked once even when all nested arrays are null or empty.
      * Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.</p>
+     *
+     * <p>Copy-back uses the nested arrays present after the action returns. If the action replaces nested arrays
+     * through another reference to {@code a}, their new structure determines where the flat elements are copied.
+     * If the updated rows need fewer elements, the unused suffix of the flat array is discarded. Copying a row
+     * that needs more than the remaining flat elements throws {@link IndexOutOfBoundsException}; copies into
+     * preceding rows remain applied.</p>
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
@@ -12531,11 +12712,13 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the {@code action} throws an exception.
+     * @throws IndexOutOfBoundsException if the action changes the input structure so that copying the flattened elements into
+     *         its current rows requires more elements than the temporary array contains.
      * @see #mutateViaFlatArray(long[][], Throwables.Consumer) for two-dimensional arrays
      * @see #flatten(long[][][]) for flattening without copy-back
      */
     public static <E extends Exception> void mutateViaFlatArray(final long[][][] a, final Throwables.Consumer<? super long[], E> action)
-            throws IllegalArgumentException, ArithmeticException, E {
+            throws IllegalArgumentException, ArithmeticException, E, IndexOutOfBoundsException {
         N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
@@ -14227,8 +14410,15 @@ public sealed class Arrays permits Arrays.f {
      * in a multi-dimensional array.
      *
      * <p>The action receives a temporary flat copy. No elements are copied back unless the action returns normally.
+     * Changes made directly to {@code a} by the action are not rolled back if it throws.
      * For a nonempty outer array, the action is invoked once even when all nested arrays are null or empty.
      * Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.</p>
+     *
+     * <p>Copy-back uses the nested arrays present after the action returns. If the action replaces nested arrays
+     * through another reference to {@code a}, their new structure determines where the flat elements are copied.
+     * If the updated rows need fewer elements, the unused suffix of the flat array is discarded. Copying a row
+     * that needs more than the remaining flat elements throws {@link IndexOutOfBoundsException}; copies into
+     * preceding rows remain applied.</p>
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
@@ -14258,11 +14448,13 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the {@code action} throws an exception.
+     * @throws IndexOutOfBoundsException if the action changes the input structure so that copying the flattened elements into
+     *         its current rows requires more elements than the temporary array contains.
      * @see #mutateViaFlatArray(float[][][], Throwables.Consumer) for three-dimensional arrays
      * @see #flatten(float[][]) for flattening without copy-back
      */
     public static <E extends Exception> void mutateViaFlatArray(final float[][] a, final Throwables.Consumer<? super float[], E> action)
-            throws IllegalArgumentException, ArithmeticException, E {
+            throws IllegalArgumentException, ArithmeticException, E, IndexOutOfBoundsException {
         N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
@@ -14289,8 +14481,15 @@ public sealed class Arrays permits Arrays.f {
      * in a multi-dimensional array.
      *
      * <p>The action receives a temporary flat copy. No elements are copied back unless the action returns normally.
+     * Changes made directly to {@code a} by the action are not rolled back if it throws.
      * For a nonempty outer array, the action is invoked once even when all nested arrays are null or empty.
      * Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.</p>
+     *
+     * <p>Copy-back uses the nested arrays present after the action returns. If the action replaces nested arrays
+     * through another reference to {@code a}, their new structure determines where the flat elements are copied.
+     * If the updated rows need fewer elements, the unused suffix of the flat array is discarded. Copying a row
+     * that needs more than the remaining flat elements throws {@link IndexOutOfBoundsException}; copies into
+     * preceding rows remain applied.</p>
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
@@ -14320,11 +14519,13 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the {@code action} throws an exception.
+     * @throws IndexOutOfBoundsException if the action changes the input structure so that copying the flattened elements into
+     *         its current rows requires more elements than the temporary array contains.
      * @see #mutateViaFlatArray(float[][], Throwables.Consumer) for two-dimensional arrays
      * @see #flatten(float[][][]) for flattening without copy-back
      */
     public static <E extends Exception> void mutateViaFlatArray(final float[][][] a, final Throwables.Consumer<? super float[], E> action)
-            throws IllegalArgumentException, ArithmeticException, E {
+            throws IllegalArgumentException, ArithmeticException, E, IndexOutOfBoundsException {
         N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
@@ -16070,8 +16271,15 @@ public sealed class Arrays permits Arrays.f {
      * This allows for operations like sorting across the entire two-dimensional array.
      *
      * <p>The action receives a temporary flat copy. No elements are copied back unless the action returns normally.
+     * Changes made directly to {@code a} by the action are not rolled back if it throws.
      * For a nonempty outer array, the action is invoked once even when all nested arrays are null or empty.
      * Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.</p>
+     *
+     * <p>Copy-back uses the nested arrays present after the action returns. If the action replaces nested arrays
+     * through another reference to {@code a}, their new structure determines where the flat elements are copied.
+     * If the updated rows need fewer elements, the unused suffix of the flat array is discarded. Copying a row
+     * that needs more than the remaining flat elements throws {@link IndexOutOfBoundsException}; copies into
+     * preceding rows remain applied.</p>
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
@@ -16102,11 +16310,13 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the {@code action} throws an exception.
+     * @throws IndexOutOfBoundsException if the action changes the input structure so that copying the flattened elements into
+     *         its current rows requires more elements than the temporary array contains.
      * @see #mutateViaFlatArray(double[][][], Throwables.Consumer) for three-dimensional arrays
      * @see #flatten(double[][]) for flattening without copy-back
      */
     public static <E extends Exception> void mutateViaFlatArray(final double[][] a, final Throwables.Consumer<? super double[], E> action)
-            throws IllegalArgumentException, ArithmeticException, E {
+            throws IllegalArgumentException, ArithmeticException, E, IndexOutOfBoundsException {
         N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
@@ -16132,8 +16342,15 @@ public sealed class Arrays permits Arrays.f {
      * This allows for operations like sorting across the entire three-dimensional array.
      *
      * <p>The action receives a temporary flat copy. No elements are copied back unless the action returns normally.
+     * Changes made directly to {@code a} by the action are not rolled back if it throws.
      * For a nonempty outer array, the action is invoked once even when all nested arrays are null or empty.
      * Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.</p>
+     *
+     * <p>Copy-back uses the nested arrays present after the action returns. If the action replaces nested arrays
+     * through another reference to {@code a}, their new structure determines where the flat elements are copied.
+     * If the updated rows need fewer elements, the unused suffix of the flat array is discarded. Copying a row
+     * that needs more than the remaining flat elements throws {@link IndexOutOfBoundsException}; copies into
+     * preceding rows remain applied.</p>
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
      * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
@@ -16164,11 +16381,13 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code action} is {@code null}.
      * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
      * @throws E if the {@code action} throws an exception.
+     * @throws IndexOutOfBoundsException if the action changes the input structure so that copying the flattened elements into
+     *         its current rows requires more elements than the temporary array contains.
      * @see #mutateViaFlatArray(double[][], Throwables.Consumer) for two-dimensional arrays
      * @see #flatten(double[][][]) for flattening without copy-back
      */
     public static <E extends Exception> void mutateViaFlatArray(final double[][][] a, final Throwables.Consumer<? super double[], E> action)
-            throws IllegalArgumentException, ArithmeticException, E {
+            throws IllegalArgumentException, ArithmeticException, E, IndexOutOfBoundsException {
         N.checkArgNotNull(action, cs.action);
 
         if (N.isEmpty(a)) {
@@ -20960,7 +21179,7 @@ public sealed class Arrays permits Arrays.f {
      * returned through the object-array return types used by the mapping and zipping APIs.
      *
      * @param targetElementType the requested result component type
-     * @throws IllegalArgumentException if the type is {@code null} or primitive
+     * @throws IllegalArgumentException if {@code targetElementType} is {@code null} or primitive.
      */
     private static void checkTargetElementType(final Class<?> targetElementType) throws IllegalArgumentException {
         N.checkArgNotNull(targetElementType, "targetElementType");
@@ -20974,7 +21193,7 @@ public sealed class Arrays permits Arrays.f {
      * Requires a positive column count for a reshape operation.
      *
      * @param m the column count to validate
-     * @throws IllegalArgumentException if {@code m} is not positive
+     * @throws IllegalArgumentException if {@code m} is not positive.
      */
     private static void checkColsForReshape(final int m) throws IllegalArgumentException { // NOSONAR
         N.checkArgument(m > 0, "columnCount must be a positive number, but got: {}", m);
@@ -20985,11 +21204,23 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param rowCount the row count to validate
      * @param columnCount the column count to validate
-     * @throws IllegalArgumentException if either count is not positive
+     * @throws IllegalArgumentException if {@code rowCount} or {@code columnCount} is not positive.
      */
     private static void checkRowsAndColsForReshape(final int rowCount, final int columnCount) throws IllegalArgumentException {
         N.checkArgument(rowCount > 0 && columnCount > 0, "rowCount and columnCount must be positive numbers: rowCount = {}, columnCount = {}", rowCount,
                 columnCount);
+    }
+
+    /**
+     * Checks that the first input or its default value supplies a runtime element type for zipping.
+     *
+     * @param a the first input array, which may be {@code null}.
+     * @param defaultValueA the first input's default value, which may be {@code null}.
+     * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null}.
+     */
+    private static void checkArgsForZipTypeInference(final Object a, final Object defaultValueA) throws IllegalArgumentException {
+        N.checkArgument(a != null || defaultValueA != null,
+                "Unable to infer target element type: both 'a' and 'defaultValueA' are null. Use the overload with targetElementType.");
     }
 
     /**
@@ -21053,12 +21284,15 @@ public sealed class Arrays permits Arrays.f {
          * @param mapper the mapping function to apply to each element (must not be {@code null}).
          * @param targetElementType the class of the target element type (must not be {@code null}).
          * @return a new array containing the mapped elements, or an empty array if input is {@code null} or empty.
-         * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
+         * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if
+         *         {@code targetElementType} is primitive, or if the result would exceed 255 array dimensions.
          * @throws E if the mapping function throws an exception.
+         * @throws ArrayStoreException if a value returned by {@code mapper} cannot be stored in an array with component type
+         *         {@code targetElementType}.
          * @see Arrays.ff#map(Object[][], Throwables.Function, Class) for two-dimensional arrays
          */
         public static <T, R, E extends Exception> R[] map(final T[] a, final Throwables.Function<? super T, ? extends R, E> mapper,
-                final Class<R> targetElementType) throws IllegalArgumentException, E {
+                final Class<R> targetElementType) throws IllegalArgumentException, E, ArrayStoreException {
             N.checkArgNotNull(mapper, cs.mapper);
             checkTargetElementType(targetElementType);
 
@@ -21714,7 +21948,8 @@ public sealed class Arrays permits Arrays.f {
          * @return a new two-dimensional array with the specified column structure. Its innermost element type is the runtime
          *         component type of {@code a}, which may be narrower than {@code T}; storing a value there
          *         that is not assignable to that type throws {@link ArrayStoreException}.
-         * @throws IllegalArgumentException if {@code a} is {@code null}, or if {@code columnCount} is not positive ({@code columnCount <= 0}).
+         * @throws IllegalArgumentException if {@code a} is {@code null}, or if {@code columnCount} is not positive ({@code columnCount <=
+         *         0}), or if the result would exceed 255 array dimensions.
          * @see Arrays.fff#reshape(Object[], int, int) for three-dimensional arrays
          */
         public static <T> T[][] reshape(final T[] a, final int columnCount) throws IllegalArgumentException {
@@ -21804,9 +22039,16 @@ public sealed class Arrays permits Arrays.f {
          * as a single sequence, such as sorting all elements across the entire two-dimensional array.</p>
          *
          * <p>The action receives a temporary flat copy. No elements are copied back unless the action returns normally.
+         * Changes made directly to {@code a} by the action are not rolled back if it throws.
          * For a nonempty outer array, the action is invoked once even when all nested arrays are null or empty.
          * Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.
          * The copy is shallow: mutations to referenced element objects are visible immediately.</p>
+         *
+         * <p>Copy-back uses the nested arrays present after the action returns. If the action replaces nested arrays
+         * through another reference to {@code a}, their new structure determines where the flat elements are copied.
+         * If the updated rows need fewer elements, the unused suffix of the flat array is discarded. Copying a row
+         * that needs more than the remaining flat elements throws {@link IndexOutOfBoundsException}; copies into
+         * preceding rows remain applied.</p>
          *
          * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
          * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
@@ -21843,15 +22085,17 @@ public sealed class Arrays permits Arrays.f {
          * @throws IllegalArgumentException if {@code action} is {@code null}.
          * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
          * @throws E if the {@code action} throws an exception.
+         * @throws IndexOutOfBoundsException if the action changes the input structure so that copying the flattened elements into
+         *         its current rows requires more elements than the temporary array contains.
          * @throws ArrayStoreException if the action stores an incompatible value in the temporary array, or a value
-         *         cannot be stored when copied back to an original row. The temporary array's component type is
+         *         cannot be stored when copied back to a destination row. The temporary array's component type is
          *         obtained by removing two dimensions from the runtime type of {@code a}; it may be wider than
          *         an individual row's component type. Copying back can partially modify the input: rows copied
          *         before the failure retain their new values, as does the assignable prefix of the failing row.
          * @see Arrays.fff#mutateViaFlatArray(Object[][][], Throwables.Consumer) for three-dimensional arrays
          */
         public static <T, E extends Exception> void mutateViaFlatArray(final T[][] a, final Throwables.Consumer<? super T[], E> action)
-                throws IllegalArgumentException, ArithmeticException, E, ArrayStoreException {
+                throws IllegalArgumentException, ArithmeticException, E, IndexOutOfBoundsException, ArrayStoreException {
             N.checkArgNotNull(action, cs.action);
 
             if (N.isEmpty(a)) {
@@ -21909,11 +22153,15 @@ public sealed class Arrays permits Arrays.f {
          * @param a the source two-dimensional array (must not be {@code null}).
          * @param mapper the unary operator to apply to each element (must not be {@code null}).
          * @return a new two-dimensional array with mapped elements; the element type is inferred from the runtime component type of {@code a}.
-         * @throws IllegalArgumentException if {@code a} or {@code mapper} is {@code null}, or if a mapped value is not assignable to the inferred runtime element type (if the mapper itself throws {@link ArrayStoreException}, that exception propagates).
+         * @throws IllegalArgumentException if {@code a} or {@code mapper} is {@code null}, or if a mapped value is not assignable to the
+         *         inferred runtime element type.
          * @throws E if the function throws an exception during mapping.
+         * @throws ArrayStoreException if {@code mapper} itself throws an {@code ArrayStoreException}; incompatible returned values are
+         *         translated to {@code IllegalArgumentException} instead.
          * @see Arrays.fff#map(Object[][][], Throwables.UnaryOperator) for three-dimensional arrays
          */
-        public static <T, E extends Exception> T[][] map(final T[][] a, final Throwables.UnaryOperator<T, E> mapper) throws IllegalArgumentException, E {
+        public static <T, E extends Exception> T[][] map(final T[][] a, final Throwables.UnaryOperator<T, E> mapper)
+                throws IllegalArgumentException, E, ArrayStoreException {
             N.checkArgNotNull(a, cs.a);
 
             N.checkArgNotNull(mapper, cs.mapper);
@@ -21972,13 +22220,16 @@ public sealed class Arrays permits Arrays.f {
          * @param mapper the function to transform each element (must not be {@code null}).
          * @param targetElementType the class of the target element type (must not be {@code null}).
          * @return a new two-dimensional array with transformed elements, or an empty array if input is {@code null} or empty.
-         * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
+         * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if
+         *         {@code targetElementType} is primitive, or if the result would exceed 255 array dimensions.
          * @throws E if the function throws an exception during mapping.
+         * @throws ArrayStoreException if a value returned by {@code mapper} cannot be stored in an array with component type
+         *         {@code targetElementType}.
          * @see Arrays.fff#map(Object[][][], Throwables.Function, Class) for three-dimensional arrays
          * @see Arrays.f#map(Object[], Throwables.Function, Class) for one-dimensional arrays
          */
         public static <T, R, E extends Exception> R[][] map(final T[][] a, final Throwables.Function<? super T, ? extends R, E> mapper,
-                final Class<R> targetElementType) throws IllegalArgumentException, E {
+                final Class<R> targetElementType) throws IllegalArgumentException, E, ArrayStoreException {
             N.checkArgNotNull(mapper, cs.mapper);
             checkTargetElementType(targetElementType);
 
@@ -22459,12 +22710,15 @@ public sealed class Arrays permits Arrays.f {
          * @param b the second two-dimensional array (can be {@code null}, treated as empty).
          * @param zipFunction the function to combine paired elements (must not be {@code null}).
          * @return a new two-dimensional array containing the combined elements.
-         * @throws IllegalArgumentException if {@code a} or {@code zipFunction} is {@code null}, or if a combined value is not assignable to the inferred runtime element type (if the zip function itself throws {@link ArrayStoreException}, that exception propagates).
+         * @throws IllegalArgumentException if {@code a} or {@code zipFunction} is {@code null}, or if a combined value is not assignable
+         *         to the inferred runtime element type.
          * @throws E if the zip function throws an exception.
+         * @throws ArrayStoreException if {@code zipFunction} itself throws an {@code ArrayStoreException}; incompatible returned values
+         *         are translated to {@code IllegalArgumentException} instead.
          * @see Arrays.fff#zip(Object[][][], Object[][][], Throwables.BiFunction) for three-dimensional arrays
          */
         public static <A, B, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction)
-                throws IllegalArgumentException, E {
+                throws IllegalArgumentException, E, ArrayStoreException {
             N.checkArgNotNull(a, cs.a);
 
             N.checkArgNotNull(zipFunction, cs.zipFunction);
@@ -22523,13 +22777,16 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine paired elements (must not be {@code null}).
          * @param targetElementType the class of the result element type (must not be {@code null}).
          * @return a new two-dimensional array of the specified type containing combined elements.
-         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
+         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}, or if
+         *         {@code targetElementType} is primitive, or if the result would exceed 255 array dimensions.
          * @throws E if the zip function throws an exception.
+         * @throws ArrayStoreException if a value returned by {@code zipFunction} cannot be stored in an array with component type
+         *         {@code targetElementType}.
          * @see Arrays.fff#zip(Object[][][], Object[][][], Throwables.BiFunction, Class) for three-dimensional arrays
          */
         public static <A, B, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b,
                 final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType)
-                throws IllegalArgumentException, E {
+                throws IllegalArgumentException, E, ArrayStoreException {
             N.checkArgNotNull(zipFunction, cs.zipFunction);
             checkTargetElementType(targetElementType);
 
@@ -22596,15 +22853,20 @@ public sealed class Arrays permits Arrays.f {
          * @param defaultValueB default value used when second array has no element at a position.
          * @param zipFunction the function to combine elements (must not be {@code null}).
          * @return a new two-dimensional array with combined elements using defaults where needed; the element type is inferred from the runtime component type of {@code a}, or from the runtime class of {@code defaultValueA} if {@code a} is {@code null}.
-         * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null} and target element type cannot be inferred, or if {@code zipFunction} is {@code null}, or if a combined value is not assignable to the inferred runtime element type (if the zip function itself throws {@link ArrayStoreException}, that exception propagates).
+         * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null}, if {@code zipFunction} is
+         *         {@code null}, if the type inferred from {@code defaultValueA} would make the result exceed 255 array dimensions, or if
+         *         a combined value is not assignable to the inferred runtime element type.
          * @throws E if the zip function throws an exception.
+         * @throws ArrayStoreException if {@code zipFunction} itself throws an {@code ArrayStoreException}; incompatible returned values
+         *         are translated to {@code IllegalArgumentException} instead.
          * @see Arrays.fff#zip(Object[][][], Object[][][], Object, Object, Throwables.BiFunction) for three-dimensional arrays
          */
         public static <A, B, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final A defaultValueA, final B defaultValueB,
-                final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws IllegalArgumentException, E {
-            final Class<A> targetElementType = resolveTargetElementTypeForZipWithDefaults(a, defaultValueA);
-
+                final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws IllegalArgumentException, E, ArrayStoreException {
+            checkArgsForZipTypeInference(a, defaultValueA);
             N.checkArgNotNull(zipFunction, cs.zipFunction);
+
+            final Class<A> targetElementType = resolveTargetElementTypeForZipWithDefaults(a, defaultValueA);
             try {
                 return ff.<A, B, A, E> zip(a, b, defaultValueA, defaultValueB, (left, right) -> {
                     try {
@@ -22665,13 +22927,16 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine elements (must not be {@code null}).
          * @param targetElementType the class of the result element type (must not be {@code null}).
          * @return a new two-dimensional array of the specified type with combined elements.
-         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
+         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}, or if
+         *         {@code targetElementType} is primitive, or if the result would exceed 255 array dimensions.
          * @throws E if the zip function throws an exception.
+         * @throws ArrayStoreException if a value returned by {@code zipFunction} cannot be stored in an array with component type
+         *         {@code targetElementType}.
          * @see Arrays.fff#zip(Object[][][], Object[][][], Object, Object, Throwables.BiFunction, Class) for three-dimensional arrays
          */
         public static <A, B, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final A defaultValueA, final B defaultValueB,
                 final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType)
-                throws IllegalArgumentException, E {
+                throws IllegalArgumentException, E, ArrayStoreException {
             N.checkArgNotNull(zipFunction, cs.zipFunction);
             checkTargetElementType(targetElementType);
 
@@ -22736,12 +23001,15 @@ public sealed class Arrays permits Arrays.f {
          * @param c the third two-dimensional array (can be {@code null}, treated as empty).
          * @param zipFunction the function to combine three elements (must not be {@code null}).
          * @return a new two-dimensional array containing the combined elements.
-         * @throws IllegalArgumentException if {@code a} or {@code zipFunction} is {@code null}, or if a combined value is not assignable to the inferred runtime element type (if the zip function itself throws {@link ArrayStoreException}, that exception propagates).
+         * @throws IllegalArgumentException if {@code a} or {@code zipFunction} is {@code null}, or if a combined value is not assignable
+         *         to the inferred runtime element type.
          * @throws E if the zip function throws an exception.
+         * @throws ArrayStoreException if {@code zipFunction} itself throws an {@code ArrayStoreException}; incompatible returned values
+         *         are translated to {@code IllegalArgumentException} instead.
          * @see Arrays.fff#zip(Object[][][], Object[][][], Object[][][], Throwables.TriFunction) for three-dimensional arrays
          */
         public static <A, B, C, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final C[][] c,
-                final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws IllegalArgumentException, E {
+                final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws IllegalArgumentException, E, ArrayStoreException {
             N.checkArgNotNull(a, cs.a);
 
             N.checkArgNotNull(zipFunction, cs.zipFunction);
@@ -22807,13 +23075,16 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine three elements (must not be {@code null}).
          * @param targetElementType the class of the result element type (must not be {@code null}).
          * @return a new two-dimensional array of the specified type.
-         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
+         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}, or if
+         *         {@code targetElementType} is primitive, or if the result would exceed 255 array dimensions.
          * @throws E if the zip function throws an exception.
+         * @throws ArrayStoreException if a value returned by {@code zipFunction} cannot be stored in an array with component type
+         *         {@code targetElementType}.
          * @see Arrays.fff#zip(Object[][][], Object[][][], Object[][][], Throwables.TriFunction, Class) for three-dimensional arrays
          */
         public static <A, B, C, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final C[][] c,
                 final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction, final Class<R> targetElementType)
-                throws IllegalArgumentException, E {
+                throws IllegalArgumentException, E, ArrayStoreException {
             N.checkArgNotNull(zipFunction, cs.zipFunction);
             checkTargetElementType(targetElementType);
 
@@ -22885,15 +23156,21 @@ public sealed class Arrays permits Arrays.f {
          * @param defaultValueC default value for the third array.
          * @param zipFunction the function to combine three elements (must not be {@code null}).
          * @return a new two-dimensional array with combined elements using defaults where needed; the element type is inferred from the runtime component type of {@code a}, or from the runtime class of {@code defaultValueA} if {@code a} is {@code null}.
-         * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null} and target element type cannot be inferred, or if {@code zipFunction} is {@code null}, or if a combined value is not assignable to the inferred runtime element type (if the zip function itself throws {@link ArrayStoreException}, that exception propagates).
+         * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null}, if {@code zipFunction} is
+         *         {@code null}, if the type inferred from {@code defaultValueA} would make the result exceed 255 array dimensions, or if
+         *         a combined value is not assignable to the inferred runtime element type.
          * @throws E if the zip function throws an exception.
+         * @throws ArrayStoreException if {@code zipFunction} itself throws an {@code ArrayStoreException}; incompatible returned values
+         *         are translated to {@code IllegalArgumentException} instead.
          * @see Arrays.fff#zip(Object[][][], Object[][][], Object[][][], Object, Object, Object, Throwables.TriFunction) for three-dimensional arrays
          */
         public static <A, B, C, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final C[][] c, final A defaultValueA, final B defaultValueB,
-                final C defaultValueC, final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws IllegalArgumentException, E {
-            final Class<A> targetElementType = resolveTargetElementTypeForZipWithDefaults(a, defaultValueA);
-
+                final C defaultValueC, final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction)
+                throws IllegalArgumentException, E, ArrayStoreException {
+            checkArgsForZipTypeInference(a, defaultValueA);
             N.checkArgNotNull(zipFunction, cs.zipFunction);
+
+            final Class<A> targetElementType = resolveTargetElementTypeForZipWithDefaults(a, defaultValueA);
             try {
                 return ff.<A, B, C, A, E> zip(a, b, c, defaultValueA, defaultValueB, defaultValueC, (first, second, third) -> {
                     try {
@@ -22959,13 +23236,16 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine three elements (must not be {@code null}).
          * @param targetElementType the class of the result element type (must not be {@code null}).
          * @return a new two-dimensional array of the specified type with combined elements.
-         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
+         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}, or if
+         *         {@code targetElementType} is primitive, or if the result would exceed 255 array dimensions.
          * @throws E if the zip function throws an exception.
+         * @throws ArrayStoreException if a value returned by {@code zipFunction} cannot be stored in an array with component type
+         *         {@code targetElementType}.
          * @see Arrays.fff#zip(Object[][][], Object[][][], Object[][][], Object, Object, Object, Throwables.TriFunction, Class) for three-dimensional arrays
          */
         public static <A, B, C, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final C[][] c, final A defaultValueA, final B defaultValueB,
                 final C defaultValueC, final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction,
-                final Class<R> targetElementType) throws IllegalArgumentException, E {
+                final Class<R> targetElementType) throws IllegalArgumentException, E, ArrayStoreException {
             N.checkArgNotNull(zipFunction, cs.zipFunction);
             checkTargetElementType(targetElementType);
 
@@ -23003,16 +23283,12 @@ public sealed class Arrays permits Arrays.f {
          */
         @SuppressWarnings("unchecked")
         private static <A> Class<A> resolveTargetElementTypeForZipWithDefaults(final A[][] a, final A defaultValueA) throws IllegalArgumentException {
+            checkArgsForZipTypeInference(a, defaultValueA);
             if (a != null) {
                 return (Class<A>) a.getClass().getComponentType().getComponentType();
             }
 
-            if (defaultValueA != null) {
-                return (Class<A>) defaultValueA.getClass();
-            }
-
-            throw new IllegalArgumentException(
-                    "Unable to infer target element type: both 'a' and 'defaultValueA' are null. Use the overload with targetElementType.");
+            return (Class<A>) defaultValueA.getClass();
         }
 
         /**
@@ -23031,9 +23307,11 @@ public sealed class Arrays permits Arrays.f {
          * @param targetElementType the class of the result element type (must not be {@code null}).
          * @return a new array of zipped elements with length equal to the longer input array.
          * @throws E if the zip function throws an exception.
+         * @throws ArrayStoreException if a value returned by {@code zipFunction} cannot be stored in an array with component type
+         *         {@code targetElementType}.
          */
         private static <A, B, R, E extends Exception> R[] zip(final A[] a, final B[] b, final A defaultValueA, final B defaultValueB,
-                final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
+                final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E, ArrayStoreException {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
             final int len = N.max(lenA, lenB); // Use max to ensure we cover the longer array
@@ -23076,10 +23354,12 @@ public sealed class Arrays permits Arrays.f {
          * @param targetElementType the class of the result element type (must not be {@code null}).
          * @return a new array of zipped elements with length equal to the longest input array.
          * @throws E if the zip function throws an exception.
+         * @throws ArrayStoreException if a value returned by {@code zipFunction} cannot be stored in an array with component type
+         *         {@code targetElementType}.
          */
         private static <A, B, C, R, E extends Exception> R[] zip(final A[] a, final B[] b, final C[] c, final A defaultValueA, final B defaultValueB,
                 final C defaultValueC, final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction,
-                final Class<R> targetElementType) throws E {
+                final Class<R> targetElementType) throws E, ArrayStoreException {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
             final int lenC = N.len(c);
@@ -23251,8 +23531,9 @@ public sealed class Arrays permits Arrays.f {
          *
          * @param a the two-dimensional array to print (can be {@code null}).
          * @return the string representation that was printed.
+         * @throws RuntimeException if converting a non-null array element to a string throws a runtime exception.
          */
-        static String println(final Object[][] a) {
+        static String println(final Object[][] a) throws RuntimeException {
             if (a == null) {
                 return N.println("null");
             } else if (a.length == 0) {
@@ -23464,7 +23745,8 @@ public sealed class Arrays permits Arrays.f {
          * @return a new three-dimensional array containing all elements from the input. Its innermost element type is the runtime
          *         component type of {@code a}, which may be narrower than {@code T}; storing a value there
          *         that is not assignable to that type throws {@link ArrayStoreException}.
-         * @throws IllegalArgumentException if {@code a} is {@code null}, {@code rowCount <= 0}, or {@code columnCount <= 0}.
+         * @throws IllegalArgumentException if {@code a} is {@code null}, {@code rowCount <= 0}, or {@code columnCount <= 0}, or if the
+         *         result would exceed 255 array dimensions.
          * @see Arrays.ff#reshape(Object[], int) for two-dimensional arrays
          */
         public static <T> T[][][] reshape(final T[] a, final int rowCount, final int columnCount) throws IllegalArgumentException {
@@ -23564,13 +23846,19 @@ public sealed class Arrays permits Arrays.f {
          * is particularly useful for operations that are easier to perform on a linear array,
          * such as sorting all elements regardless of their position in the three-dimensional structure.
          *
-         * <p>The operation preserves the original shape of the three-dimensional array while allowing
-         * transformations that work on the entire dataset as a single unit.</p>
+         * <p>The method itself preserves the original shape; an action that replaces nested arrays can change it.</p>
          *
          * <p>The action receives a temporary flat copy. No elements are copied back unless the action returns normally.
+         * Changes made directly to {@code a} by the action are not rolled back if it throws.
          * For a nonempty outer array, the action is invoked once even when all nested arrays are null or empty.
          * Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.
          * The copy is shallow: mutations to referenced element objects are visible immediately.</p>
+         *
+         * <p>Copy-back uses the nested arrays present after the action returns. If the action replaces nested arrays
+         * through another reference to {@code a}, their new structure determines where the flat elements are copied.
+         * If the updated rows need fewer elements, the unused suffix of the flat array is discarded. Copying a row
+         * that needs more than the remaining flat elements throws {@link IndexOutOfBoundsException}; copies into
+         * preceding rows remain applied.</p>
          *
          * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
          * this method throws {@link ArithmeticException} before invoking the action or copying elements back.</p>
@@ -23602,15 +23890,17 @@ public sealed class Arrays permits Arrays.f {
          * @throws IllegalArgumentException if {@code action} is {@code null}.
          * @throws ArithmeticException if the logical element count exceeds {@code Integer.MAX_VALUE}.
          * @throws E if the {@code action} throws an exception.
+         * @throws IndexOutOfBoundsException if the action changes the input structure so that copying the flattened elements into
+         *         its current rows requires more elements than the temporary array contains.
          * @throws ArrayStoreException if the action stores an incompatible value in the temporary array, or a value
-         *         cannot be stored when copied back to an original row. The temporary array's component type is
+         *         cannot be stored when copied back to a destination row. The temporary array's component type is
          *         obtained by removing three dimensions from the runtime type of {@code a}; it may be wider than
          *         an individual row's component type. Copying back can partially modify the input: rows copied
          *         before the failure retain their new values, as does the assignable prefix of the failing row.
          * @see Arrays.ff#mutateViaFlatArray(Object[][], Throwables.Consumer) for two-dimensional arrays
          */
         public static <T, E extends Exception> void mutateViaFlatArray(final T[][][] a, final Throwables.Consumer<? super T[], E> action)
-                throws IllegalArgumentException, ArithmeticException, E, ArrayStoreException {
+                throws IllegalArgumentException, ArithmeticException, E, IndexOutOfBoundsException, ArrayStoreException {
             N.checkArgNotNull(action, cs.action);
 
             if (N.isEmpty(a)) {
@@ -23670,11 +23960,15 @@ public sealed class Arrays permits Arrays.f {
          * @param a the source three-dimensional array (must not be {@code null}).
          * @param mapper the unary operator to apply to each element (must not be {@code null}).
          * @return a new three-dimensional array with mapped elements; the element type is inferred from the runtime component type of {@code a}.
-         * @throws IllegalArgumentException if {@code a} or {@code mapper} is {@code null}, or if a mapped value is not assignable to the inferred runtime element type (if the mapper itself throws {@link ArrayStoreException}, that exception propagates).
+         * @throws IllegalArgumentException if {@code a} or {@code mapper} is {@code null}, or if a mapped value is not assignable to the
+         *         inferred runtime element type.
          * @throws E if the function throws an exception during mapping.
+         * @throws ArrayStoreException if {@code mapper} itself throws an {@code ArrayStoreException}; incompatible returned values are
+         *         translated to {@code IllegalArgumentException} instead.
          * @see Arrays.ff#map(Object[][], Throwables.UnaryOperator) for two-dimensional arrays
          */
-        public static <T, E extends Exception> T[][][] map(final T[][][] a, final Throwables.UnaryOperator<T, E> mapper) throws IllegalArgumentException, E {
+        public static <T, E extends Exception> T[][][] map(final T[][][] a, final Throwables.UnaryOperator<T, E> mapper)
+                throws IllegalArgumentException, E, ArrayStoreException {
             N.checkArgNotNull(a, cs.a);
 
             N.checkArgNotNull(mapper, cs.mapper);
@@ -23735,12 +24029,15 @@ public sealed class Arrays permits Arrays.f {
          * @param mapper the function to transform each element (must not be {@code null}).
          * @param targetElementType the class of the result array's element type (must not be {@code null}).
          * @return a new three-dimensional array with transformed elements, or an empty array if input is {@code null} or empty.
-         * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
+         * @throws IllegalArgumentException if {@code mapper} or {@code targetElementType} is {@code null}, or if
+         *         {@code targetElementType} is primitive, or if the result would exceed 255 array dimensions.
          * @throws E if the function throws an exception during mapping.
+         * @throws ArrayStoreException if a value returned by {@code mapper} cannot be stored in an array with component type
+         *         {@code targetElementType}.
          * @see Arrays.ff#map(Object[][], Throwables.Function, Class) for two-dimensional arrays
          */
         public static <T, R, E extends Exception> R[][][] map(final T[][][] a, final Throwables.Function<? super T, ? extends R, E> mapper,
-                final Class<R> targetElementType) throws IllegalArgumentException, E {
+                final Class<R> targetElementType) throws IllegalArgumentException, E, ArrayStoreException {
             N.checkArgNotNull(mapper, cs.mapper);
             checkTargetElementType(targetElementType);
 
@@ -24247,12 +24544,15 @@ public sealed class Arrays permits Arrays.f {
          * @param b the second three-dimensional array (can be {@code null}, treated as empty).
          * @param zipFunction the binary function to combine corresponding elements (must not be {@code null}).
          * @return a new three-dimensional array with combined elements.
-         * @throws IllegalArgumentException if {@code a} or {@code zipFunction} is {@code null}, or if a combined value is not assignable to the inferred runtime element type (if the zip function itself throws {@link ArrayStoreException}, that exception propagates).
+         * @throws IllegalArgumentException if {@code a} or {@code zipFunction} is {@code null}, or if a combined value is not assignable
+         *         to the inferred runtime element type.
          * @throws E if the zip function throws an exception.
+         * @throws ArrayStoreException if {@code zipFunction} itself throws an {@code ArrayStoreException}; incompatible returned values
+         *         are translated to {@code IllegalArgumentException} instead.
          * @see Arrays.ff#zip(Object[][], Object[][], Throwables.BiFunction) for two-dimensional arrays
          */
         public static <A, B, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b,
-                final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws IllegalArgumentException, E {
+                final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws IllegalArgumentException, E, ArrayStoreException {
             N.checkArgNotNull(a, cs.a);
 
             N.checkArgNotNull(zipFunction, cs.zipFunction);
@@ -24318,13 +24618,16 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine corresponding elements (must not be {@code null}).
          * @param targetElementType the class of the result array's element type (must not be {@code null}).
          * @return a new three-dimensional array with combined elements of type R.
-         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
+         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}, or if
+         *         {@code targetElementType} is primitive, or if the result would exceed 255 array dimensions.
          * @throws E if the zip function throws an exception.
+         * @throws ArrayStoreException if a value returned by {@code zipFunction} cannot be stored in an array with component type
+         *         {@code targetElementType}.
          * @see Arrays.ff#zip(Object[][], Object[][], Throwables.BiFunction, Class) for two-dimensional arrays
          */
         public static <A, B, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b,
                 final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType)
-                throws IllegalArgumentException, E {
+                throws IllegalArgumentException, E, ArrayStoreException {
             N.checkArgNotNull(zipFunction, cs.zipFunction);
             checkTargetElementType(targetElementType);
 
@@ -24383,15 +24686,20 @@ public sealed class Arrays permits Arrays.f {
          * @param defaultValueB default value when second array element is missing.
          * @param zipFunction the function to combine elements (must not be {@code null}).
          * @return a new three-dimensional array with combined elements; the element type is inferred from the runtime component type of {@code a}, or from the runtime class of {@code defaultValueA} if {@code a} is {@code null}.
-         * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null} and the target element type cannot be inferred, or if {@code zipFunction} is {@code null}, or if a combined value is not assignable to the inferred runtime element type (if the zip function itself throws {@link ArrayStoreException}, that exception propagates).
+         * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null}, if {@code zipFunction} is
+         *         {@code null}, if the type inferred from {@code defaultValueA} would make the result exceed 255 array dimensions, or if
+         *         a combined value is not assignable to the inferred runtime element type.
          * @throws E if the zip function throws an exception.
+         * @throws ArrayStoreException if {@code zipFunction} itself throws an {@code ArrayStoreException}; incompatible returned values
+         *         are translated to {@code IllegalArgumentException} instead.
          * @see Arrays.ff#zip(Object[][], Object[][], Object, Object, Throwables.BiFunction) for two-dimensional arrays
          */
         public static <A, B, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final A defaultValueA, final B defaultValueB,
-                final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws IllegalArgumentException, E {
-            final Class<A> targetElementType = resolveTargetElementTypeForZipWithDefaults(a, defaultValueA);
-
+                final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws IllegalArgumentException, E, ArrayStoreException {
+            checkArgsForZipTypeInference(a, defaultValueA);
             N.checkArgNotNull(zipFunction, cs.zipFunction);
+
+            final Class<A> targetElementType = resolveTargetElementTypeForZipWithDefaults(a, defaultValueA);
             try {
                 return zip(a, b, defaultValueA, defaultValueB, (left, right) -> {
                     try {
@@ -24453,13 +24761,16 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine elements (must not be {@code null}).
          * @param targetElementType the class of the result array's element type (must not be {@code null}).
          * @return a new three-dimensional array with combined elements of type R.
-         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
+         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}, or if
+         *         {@code targetElementType} is primitive, or if the result would exceed 255 array dimensions.
          * @throws E if the zip function throws an exception.
+         * @throws ArrayStoreException if a value returned by {@code zipFunction} cannot be stored in an array with component type
+         *         {@code targetElementType}.
          * @see Arrays.ff#zip(Object[][], Object[][], Object, Object, Throwables.BiFunction, Class) for two-dimensional arrays
          */
         public static <A, B, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b, final A defaultValueA, final B defaultValueB,
                 final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType)
-                throws IllegalArgumentException, E {
+                throws IllegalArgumentException, E, ArrayStoreException {
             N.checkArgNotNull(zipFunction, cs.zipFunction);
             checkTargetElementType(targetElementType);
 
@@ -24531,12 +24842,15 @@ public sealed class Arrays permits Arrays.f {
          * @param c the third three-dimensional array (can be {@code null}, treated as empty).
          * @param zipFunction the tri-function to combine corresponding elements (must not be {@code null}).
          * @return a new three-dimensional array with combined elements.
-         * @throws IllegalArgumentException if {@code a} or {@code zipFunction} is {@code null}, or if a combined value is not assignable to the inferred runtime element type (if the zip function itself throws {@link ArrayStoreException}, that exception propagates).
+         * @throws IllegalArgumentException if {@code a} or {@code zipFunction} is {@code null}, or if a combined value is not assignable
+         *         to the inferred runtime element type.
          * @throws E if the zip function throws an exception.
+         * @throws ArrayStoreException if {@code zipFunction} itself throws an {@code ArrayStoreException}; incompatible returned values
+         *         are translated to {@code IllegalArgumentException} instead.
          * @see Arrays.ff#zip(Object[][], Object[][], Object[][], Throwables.TriFunction) for two-dimensional arrays
          */
         public static <A, B, C, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c,
-                final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws IllegalArgumentException, E {
+                final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws IllegalArgumentException, E, ArrayStoreException {
             N.checkArgNotNull(a, cs.a);
 
             N.checkArgNotNull(zipFunction, cs.zipFunction);
@@ -24607,13 +24921,16 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine corresponding elements (must not be {@code null}).
          * @param targetElementType the class of the result array's element type (must not be {@code null}).
          * @return a new three-dimensional array with combined elements of type R.
-         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
+         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}, or if
+         *         {@code targetElementType} is primitive, or if the result would exceed 255 array dimensions.
          * @throws E if the zip function throws an exception.
+         * @throws ArrayStoreException if a value returned by {@code zipFunction} cannot be stored in an array with component type
+         *         {@code targetElementType}.
          * @see Arrays.ff#zip(Object[][], Object[][], Object[][], Throwables.TriFunction, Class) for two-dimensional arrays
          */
         public static <A, B, C, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c,
                 final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction, final Class<R> targetElementType)
-                throws IllegalArgumentException, E {
+                throws IllegalArgumentException, E, ArrayStoreException {
             N.checkArgNotNull(zipFunction, cs.zipFunction);
             checkTargetElementType(targetElementType);
 
@@ -24677,16 +24994,21 @@ public sealed class Arrays permits Arrays.f {
          * @param defaultValueC default value when third array element is missing.
          * @param zipFunction the function to combine elements (must not be {@code null}).
          * @return a new three-dimensional array with combined elements; the element type is inferred from the runtime component type of {@code a}, or from the runtime class of {@code defaultValueA} if {@code a} is {@code null}.
-         * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null} and the target element type cannot be inferred, or if {@code zipFunction} is {@code null}, or if a combined value is not assignable to the inferred runtime element type (if the zip function itself throws {@link ArrayStoreException}, that exception propagates).
+         * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null}, if {@code zipFunction} is
+         *         {@code null}, if the type inferred from {@code defaultValueA} would make the result exceed 255 array dimensions, or if
+         *         a combined value is not assignable to the inferred runtime element type.
          * @throws E if the zip function throws an exception.
+         * @throws ArrayStoreException if {@code zipFunction} itself throws an {@code ArrayStoreException}; incompatible returned values
+         *         are translated to {@code IllegalArgumentException} instead.
          * @see Arrays.ff#zip(Object[][], Object[][], Object[][], Object, Object, Object, Throwables.TriFunction) for two-dimensional arrays
          */
         public static <A, B, C, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c, final A defaultValueA,
                 final B defaultValueB, final C defaultValueC, final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction)
-                throws IllegalArgumentException, E {
-            final Class<A> targetElementType = resolveTargetElementTypeForZipWithDefaults(a, defaultValueA);
-
+                throws IllegalArgumentException, E, ArrayStoreException {
+            checkArgsForZipTypeInference(a, defaultValueA);
             N.checkArgNotNull(zipFunction, cs.zipFunction);
+
+            final Class<A> targetElementType = resolveTargetElementTypeForZipWithDefaults(a, defaultValueA);
             try {
                 return zip(a, b, c, defaultValueA, defaultValueB, defaultValueC, (first, second, third) -> {
                     try {
@@ -24755,13 +25077,16 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine elements (must not be {@code null}).
          * @param targetElementType the class of the result array's element type (must not be {@code null}).
          * @return a new three-dimensional array with combined elements of type R.
-         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}, or if {@code targetElementType} is primitive.
+         * @throws IllegalArgumentException if {@code zipFunction} or {@code targetElementType} is {@code null}, or if
+         *         {@code targetElementType} is primitive, or if the result would exceed 255 array dimensions.
          * @throws E if the zip function throws an exception.
+         * @throws ArrayStoreException if a value returned by {@code zipFunction} cannot be stored in an array with component type
+         *         {@code targetElementType}.
          * @see Arrays.ff#zip(Object[][], Object[][], Object[][], Object, Object, Object, Throwables.TriFunction, Class) for two-dimensional arrays
          */
         public static <A, B, C, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c, final A defaultValueA,
                 final B defaultValueB, final C defaultValueC, final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction,
-                final Class<R> targetElementType) throws IllegalArgumentException, E {
+                final Class<R> targetElementType) throws IllegalArgumentException, E, ArrayStoreException {
             N.checkArgNotNull(zipFunction, cs.zipFunction);
             checkTargetElementType(targetElementType);
 
@@ -24799,16 +25124,12 @@ public sealed class Arrays permits Arrays.f {
          */
         @SuppressWarnings("unchecked")
         private static <A> Class<A> resolveTargetElementTypeForZipWithDefaults(final A[][][] a, final A defaultValueA) throws IllegalArgumentException {
+            checkArgsForZipTypeInference(a, defaultValueA);
             if (a != null) {
                 return (Class<A>) a.getClass().getComponentType().getComponentType().getComponentType();
             }
 
-            if (defaultValueA != null) {
-                return (Class<A>) defaultValueA.getClass();
-            }
-
-            throw new IllegalArgumentException(
-                    "Unable to infer target element type: both 'a' and 'defaultValueA' are null. Use the overload with targetElementType.");
+            return (Class<A>) defaultValueA.getClass();
         }
 
         /**
@@ -24894,8 +25215,9 @@ public sealed class Arrays permits Arrays.f {
          *
          * @param a the three-dimensional array to print (can be {@code null}).
          * @return the string representation that was printed to console.
+         * @throws RuntimeException if converting a non-null array element to a string throws a runtime exception.
          */
-        static String println(final Object[][][] a) {
+        static String println(final Object[][][] a) throws RuntimeException {
             if (a == null) {
                 return N.println("null");
             } else if (a.length == 0) {

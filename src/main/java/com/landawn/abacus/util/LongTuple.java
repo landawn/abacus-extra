@@ -874,7 +874,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * @param <E> the type of exception that may be thrown by the action
      * @param action the action to be performed for each element, must not be {@code null}
      * @throws IllegalArgumentException if {@code action} is {@code null}
-     * @throws E if the action throws an exception during execution
+     * @throws E if {@code action} throws while processing an element of this tuple
      * @see #stream()
      */
     public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws IllegalArgumentException, E {
@@ -1777,7 +1777,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
-         * @throws E if the action throws an exception
+         * @throws E if {@code action} throws while processing an element of this tuple
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws IllegalArgumentException, E {
@@ -1819,7 +1819,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @param <E> the type of exception that may be thrown by the action
          * @param action the bi-consumer to apply to both elements, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
-         * @throws E if the action throws an exception
+         * @throws E if {@code action} throws when invoked with this tuple's elements
          * @see #forEach(Throwables.LongConsumer)
          * @see #map(Throwables.LongBiFunction)
          * @see PrimitiveTuple#accept(Throwables.Consumer)
@@ -1859,7 +1859,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @param mapper the bi-function to apply to both elements, must not be {@code null}
          * @return the result of applying the bi-function to both elements (may be {@code null})
          * @throws IllegalArgumentException if {@code mapper} is {@code null}
-         * @throws E if the mapper throws an exception
+         * @throws E if {@code mapper} throws when applied to this tuple's elements
          * @see #accept(Throwables.LongBiConsumer)
          * @see #filter(Throwables.LongBiPredicate)
          * @see PrimitiveTuple#map(Throwables.Function)
@@ -1900,7 +1900,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @param predicate the bi-predicate to test both elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
          * @throws IllegalArgumentException if {@code predicate} is {@code null}
-         * @throws E if the predicate throws an exception during evaluation
+         * @throws E if {@code predicate} throws when testing this tuple's elements
          * @see #accept(Throwables.LongBiConsumer)
          * @see #map(Throwables.LongBiFunction)
          * @see PrimitiveTuple#filter(Throwables.Predicate)
@@ -2296,7 +2296,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
-         * @throws E if the action throws an exception
+         * @throws E if {@code action} throws while processing an element of this tuple
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws IllegalArgumentException, E {
@@ -2339,7 +2339,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @param <E> the type of exception that may be thrown by the action
          * @param action the tri-consumer to apply to all three elements, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
-         * @throws E if the action throws an exception
+         * @throws E if {@code action} throws when invoked with this tuple's elements
          * @see #forEach(Throwables.LongConsumer)
          * @see #map(Throwables.LongTriFunction)
          * @see PrimitiveTuple#accept(Throwables.Consumer)
@@ -2379,7 +2379,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @param mapper the tri-function to apply to all three elements, must not be {@code null}
          * @return the result of applying the tri-function to all three elements (may be {@code null})
          * @throws IllegalArgumentException if {@code mapper} is {@code null}
-         * @throws E if the mapper throws an exception
+         * @throws E if {@code mapper} throws when applied to this tuple's elements
          * @see #accept(Throwables.LongTriConsumer)
          * @see #filter(Throwables.LongTriPredicate)
          * @see PrimitiveTuple#map(Throwables.Function)
@@ -2420,7 +2420,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @param predicate the tri-predicate to test all three elements, must not be {@code null}
          * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
          * @throws IllegalArgumentException if {@code predicate} is {@code null}
-         * @throws E if the predicate throws an exception during evaluation
+         * @throws E if {@code predicate} throws when testing this tuple's elements
          * @see #accept(Throwables.LongTriConsumer)
          * @see #map(Throwables.LongTriFunction)
          * @see PrimitiveTuple#filter(Throwables.Predicate)
@@ -2788,7 +2788,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
-         * @throws E if the action throws an exception
+         * @throws E if {@code action} throws while processing an element of this tuple
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws IllegalArgumentException, E {
@@ -3160,7 +3160,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
-         * @throws E if the action throws an exception
+         * @throws E if {@code action} throws while processing an element of this tuple
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws IllegalArgumentException, E {
@@ -3536,7 +3536,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
-         * @throws E if the action throws an exception
+         * @throws E if {@code action} throws while processing an element of this tuple
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws IllegalArgumentException, E {
@@ -3882,7 +3882,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
-         * @throws E if the action throws an exception
+         * @throws E if {@code action} throws while processing an element of this tuple
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws IllegalArgumentException, E {
@@ -4227,7 +4227,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
-         * @throws E if the action throws an exception
+         * @throws E if {@code action} throws while processing an element of this tuple
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws IllegalArgumentException, E {
@@ -4580,7 +4580,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @param <E> the type of exception that may be thrown by the action
          * @param action the action to be performed for each element, must not be {@code null}
          * @throws IllegalArgumentException if {@code action} is {@code null}
-         * @throws E if the action throws an exception
+         * @throws E if {@code action} throws while processing an element of this tuple
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws IllegalArgumentException, E {

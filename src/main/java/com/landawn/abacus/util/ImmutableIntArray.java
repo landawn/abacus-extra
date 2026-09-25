@@ -348,7 +348,7 @@ public final class ImmutableIntArray implements Immutable {
      * }</pre>
      *
      * @return the sum of all elements in this array as an {@code int}, or {@code 0} if empty
-     * @throws ArithmeticException if the sum overflows the {@code int} range
+     * @throws ArithmeticException if the final sum is outside the {@code int} range
      * @see #average()
      * @see #min()
      * @see #max()
@@ -472,7 +472,7 @@ public final class ImmutableIntArray implements Immutable {
      * @param <E> the type of exception that the action may throw
      * @param action the action to be performed for each element, must not be {@code null}
      * @throws IllegalArgumentException if {@code action} is {@code null}
-     * @throws E if the action throws an exception during execution
+     * @throws E if {@code action.accept(element)} throws for an element of this array
      * @see #forEachIndexed(Throwables.IntIntConsumer)
      * @see #stream()
      */
@@ -527,7 +527,7 @@ public final class ImmutableIntArray implements Immutable {
      * @param action the action to be performed for each element, receiving the index (first parameter)
      *               and value (second parameter) as primitive ints, must not be {@code null}
      * @throws IllegalArgumentException if {@code action} is {@code null}
-     * @throws E if the action throws an exception during execution
+     * @throws E if {@code action.accept(index, element)} throws for an index and element of this array
      * @see #forEach(Throwables.IntConsumer)
      */
     public <E extends Exception> void forEachIndexed(final Throwables.IntIntConsumer<E> action) throws IllegalArgumentException, E {

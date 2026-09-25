@@ -37,6 +37,19 @@ class FloatTupleTest extends TestBase {
     private static final float DELTA = 0.0001f;
 
     @Test
+    public void testHashCode_signChangesCanCollideForUnequalTuples() {
+        final FloatTuple.FloatTuple4 positive4 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
+        final FloatTuple.FloatTuple4 negative4 = FloatTuple.of(-1.0f, -2.0f, -3.0f, -4.0f);
+        assertNotEquals(positive4, negative4);
+        assertEquals(positive4.hashCode(), negative4.hashCode());
+
+        final FloatTuple.FloatTuple6 positive6 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
+        final FloatTuple.FloatTuple6 negative6 = FloatTuple.of(-1.0f, -2.0f, -3.0f, -4.0f, -5.0f, -6.0f);
+        assertNotEquals(positive6, negative6);
+        assertEquals(positive6.hashCode(), negative6.hashCode());
+    }
+
+    @Test
     public void testOf1() {
         FloatTuple.FloatTuple1 tuple = FloatTuple.of(1.5f);
         assertEquals(1, tuple.arity());

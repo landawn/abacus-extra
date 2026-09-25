@@ -43,6 +43,105 @@ import com.landawn.abacus.util.stream.Stream;
 class ArraysTest extends TestBase {
 
     @Test
+    public void testDefaultedZipValidatesNullCallbackWithEmptyTypedInputs() {
+        final Number[][] first2D = new Number[0][];
+        final Integer[][] other2D = new Integer[0][];
+        final Number[][][] first3D = new Number[0][][];
+        final Integer[][][] other3D = new Integer[0][][];
+        final List<Executable> operations = List.of(//
+                () -> Arrays.ff.<Number, Integer, RuntimeException> zip(first2D, other2D, null, 0, null),
+                () -> Arrays.ff.<Number, Integer, Integer, RuntimeException> zip(first2D, other2D, other2D, null, 0, 0, null),
+                () -> Arrays.fff.<Number, Integer, RuntimeException> zip(first3D, other3D, null, 0, null),
+                () -> Arrays.fff.<Number, Integer, Integer, RuntimeException> zip(first3D, other3D, other3D, null, 0, 0, null));
+
+        for (final Executable operation : operations) {
+            final IllegalArgumentException failure = assertThrows(IllegalArgumentException.class, operation);
+            assertEquals("'zipFunction' cannot be null", failure.getMessage());
+        }
+    }
+
+    @Test
+    public void testDefaultedZipInfersArrayValuedDefaultsWithoutLosingADimension() {
+        final String[] defaultValue = { "default" };
+        final Integer[][] other2D = { { 1, 2 } };
+        final Integer[][][] other3D = { other2D };
+        final String[][][] binary2D = Arrays.ff.<String[], Integer, RuntimeException> zip(null, other2D, defaultValue, 0, (left, right) -> left);
+        final String[][][] ternary2D = Arrays.ff.<String[], Integer, Integer, RuntimeException> zip(null, other2D, other2D, defaultValue, 0, 0,
+                (first, second, third) -> first);
+        final String[][][][] binary3D = Arrays.fff.<String[], Integer, RuntimeException> zip(null, other3D, defaultValue, 0, (left, right) -> left);
+        final String[][][][] ternary3D = Arrays.fff.<String[], Integer, Integer, RuntimeException> zip(null, other3D, other3D, defaultValue, 0, 0,
+                (first, second, third) -> first);
+
+        assertEquals(String[][][].class, binary2D.getClass());
+        assertEquals(String[][][].class, ternary2D.getClass());
+        assertEquals(String[][][][].class, binary3D.getClass());
+        assertEquals(String[][][][].class, ternary3D.getClass());
+        assertSame(defaultValue, binary2D[0][0]);
+        assertSame(defaultValue, binary2D[0][1]);
+        assertSame(defaultValue, ternary2D[0][0]);
+        assertSame(defaultValue, ternary2D[0][1]);
+        assertSame(defaultValue, binary3D[0][0][0]);
+        assertSame(defaultValue, binary3D[0][0][1]);
+        assertSame(defaultValue, ternary3D[0][0][0]);
+        assertSame(defaultValue, ternary3D[0][0][1]);
+    }
+
+    @Test
+    public void testFlatMutationDoesNotRollbackStructuralChangesWhenActionThrows() {
+        final IOException failure = new IOException("action changed the structure");
+        final int[] originalRow = { 1, 2 };
+        final int[] replacementRow = { 7 };
+        final int[][] grid = { originalRow };
+        assertSame(failure, assertThrows(IOException.class, () -> Arrays.mutateViaFlatArray(grid, flat -> {
+            flat[0] = 99;
+            grid[0] = replacementRow;
+            throw failure;
+        })));
+        assertSame(replacementRow, grid[0]);
+        assertArrayEquals(new int[] { 7 }, replacementRow);
+        assertArrayEquals(new int[] { 1, 2 }, originalRow);
+
+        final String[][] originalBlock = { { "original" } };
+        final String[][] replacementBlock = { { "replacement" }, { "kept" } };
+        final String[][][] cube = { originalBlock };
+        assertSame(failure, assertThrows(IOException.class, () -> Arrays.fff.mutateViaFlatArray(cube, flat -> {
+            flat[0] = "temporary";
+            cube[0] = replacementBlock;
+            throw failure;
+        })));
+        assertSame(replacementBlock, cube[0]);
+        assertArrayEquals(new String[] { "replacement" }, replacementBlock[0]);
+        assertArrayEquals(new String[] { "kept" }, replacementBlock[1]);
+        assertArrayEquals(new String[] { "original" }, originalBlock[0]);
+    }
+
+    @Test
+    public void testFlatMutationCopiesIntoRowsPresentAfterAction() {
+        final int[][] grid = { { 1, 2 }, { 3 } };
+        Arrays.mutateViaFlatArray(grid, flat -> {
+            flat[0] = 10;
+            flat[1] = 20;
+            flat[2] = 30;
+            grid[0] = new int[1];
+        });
+
+        // The shorter replacement row consumes one element; the unused suffix is not copied.
+        assertArrayEquals(new int[] { 10 }, grid[0]);
+        assertArrayEquals(new int[] { 20 }, grid[1]);
+
+        final String[][][] cube = { { { "a", "b" } } };
+        Arrays.fff.mutateViaFlatArray(cube, flat -> {
+            flat[0] = "updated";
+            cube[0] = new String[][] { new String[1], new String[1] };
+        });
+
+        // Copy-back follows the replacement block's two rows, not the original one-row shape.
+        assertEquals(2, cube[0].length);
+        assertArrayEquals(new String[] { "updated" }, cube[0][0]);
+        assertArrayEquals(new String[] { "b" }, cube[0][1]);
+    }
+
+    @Test
     public void testPrimitiveFlatMutationUsesTemporaryCopyAndLastSharedRowWins() {
         final int[] row = { 1, 2 };
         final int[][] grid = { row, null, row };

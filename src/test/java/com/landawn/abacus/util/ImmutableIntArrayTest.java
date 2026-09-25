@@ -7,9 +7,11 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -502,6 +504,21 @@ class ImmutableIntArrayTest extends TestBase {
         }
 
         @Test
+        public void testForEach_PropagatesCheckedExceptionAndStops() {
+            final ImmutableIntArray array = ImmutableIntArray.copyOf(new int[] { 10, 20, 30 });
+            final IOException failure = new IOException("stop at the second element");
+            final List<Integer> visited = new ArrayList<>();
+
+            assertSame(failure, assertThrows(IOException.class, () -> array.forEach(value -> {
+                visited.add(value);
+                if (value == 20) {
+                    throw failure;
+                }
+            })));
+            assertEquals(List.of(10, 20), visited);
+        }
+
+        @Test
         public void testForEach_OrderPreserved() {
             int[] data = { 10, 20, 30, 40, 50 };
             ImmutableIntArray immutable = ImmutableIntArray.unsafeWrap(data);
@@ -559,6 +576,21 @@ class ImmutableIntArrayTest extends TestBase {
             ImmutableIntArray immutable = ImmutableIntArray.unsafeWrap(data);
 
             assertThrows(IllegalArgumentException.class, () -> immutable.forEachIndexed(null));
+        }
+
+        @Test
+        public void testForEachIndexed_PropagatesCheckedExceptionAndStops() {
+            final ImmutableIntArray array = ImmutableIntArray.copyOf(new int[] { 10, 20, 30 });
+            final IOException failure = new IOException("stop at index one");
+            final List<String> visited = new ArrayList<>();
+
+            assertSame(failure, assertThrows(IOException.class, () -> array.forEachIndexed((index, value) -> {
+                visited.add(index + ":" + value);
+                if (index == 1) {
+                    throw failure;
+                }
+            })));
+            assertEquals(List.of("0:10", "1:20"), visited);
         }
 
         @Test
