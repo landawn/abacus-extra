@@ -61,7 +61,7 @@ class FunctionalInterfaceNullValidationTest extends TestBase {
             }
         }
 
-        assertEquals(378, validationCount, "Every public source method with a functional-interface parameter must be exercised");
+        assertEquals(386, validationCount, "Every public source method with a functional-interface parameter must be exercised");
     }
 
     private static IllegalArgumentException invokeExpectingIllegalArgumentException(final Method method, final Object[] arguments) throws Exception {

@@ -649,13 +649,14 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * @see N#lowerMedian(int...)
      */
     public int lowerMedian() throws NoSuchElementException {
-        final int[] a = elements();
+        final int[] a = toArray();
 
         if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
         }
 
-        return N.lowerMedian(a);
+        java.util.Arrays.sort(a);
+        return a[(a.length - 1) / 2];
     }
 
     /**
@@ -782,7 +783,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * @see #stream()
      */
     public IntList toList() {
-        return IntList.of(elements().clone());
+        return IntList.of(toArray());
     }
 
     /**
@@ -1307,6 +1308,16 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         }
 
         /**
+         * {@inheritDoc}
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws IllegalArgumentException, E {
+            N.checkArgNotNull(action, cs.action);
+
+            action.accept(_1);
+        }
+
+        /**
          * Returns a hash code value for this tuple.
          *
          * <p><b>Usage Examples:</b></p>
@@ -1366,6 +1377,14 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         @Override
         public String toString() {
             return "(" + _1 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int[] toArray() {
+            return new int[] { _1 };
         }
 
         /**
@@ -1809,6 +1828,14 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int[] toArray() {
+            return new int[] { _1, _2 };
         }
 
         /**
@@ -2259,6 +2286,14 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         }
 
         /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int[] toArray() {
+            return new int[] { _1, _2, _3 };
+        }
+
+        /**
          * Returns the internal array of int elements.
          * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
@@ -2609,6 +2644,14 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int[] toArray() {
+            return new int[] { _1, _2, _3, _4 };
         }
 
         /**
@@ -2968,6 +3011,14 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int[] toArray() {
+            return new int[] { _1, _2, _3, _4, _5 };
         }
 
         /**
@@ -3332,6 +3383,14 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int[] toArray() {
+            return new int[] { _1, _2, _3, _4, _5, _6 };
         }
 
         /**
@@ -3704,6 +3763,14 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int[] toArray() {
+            return new int[] { _1, _2, _3, _4, _5, _6, _7 };
         }
 
         /**
@@ -4084,6 +4151,14 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int[] toArray() {
+            return new int[] { _1, _2, _3, _4, _5, _6, _7, _8 };
         }
 
         /**
@@ -4469,6 +4544,14 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ", " + _9 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int[] toArray() {
+            return new int[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
         }
 
         /**

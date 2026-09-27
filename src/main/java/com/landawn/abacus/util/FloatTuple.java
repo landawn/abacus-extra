@@ -708,13 +708,14 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * @see N#lowerMedian(float...)
      */
     public float lowerMedian() throws NoSuchElementException {
-        final float[] a = elements();
+        final float[] a = toArray();
 
         if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
         }
 
-        return N.lowerMedian(a);
+        java.util.Arrays.sort(a);
+        return a[(a.length - 1) / 2];
     }
 
     /**
@@ -841,7 +842,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * @see #stream()
      */
     public FloatList toList() {
-        return FloatList.of(elements().clone());
+        return FloatList.of(toArray());
     }
 
     /**
@@ -1398,6 +1399,16 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         }
 
         /**
+         * {@inheritDoc}
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws IllegalArgumentException, E {
+            N.checkArgNotNull(action, cs.action);
+
+            action.accept(_1);
+        }
+
+        /**
          * Returns a hash code for this tuple based on its single element.
          *
          * <p><b>Usage Examples:</b></p>
@@ -1478,6 +1489,14 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         @Override
         public String toString() {
             return "(" + _1 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public float[] toArray() {
+            return new float[] { _1 };
         }
 
         /**
@@ -2019,6 +2038,14 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public float[] toArray() {
+            return new float[] { _1, _2 };
         }
 
         /**
@@ -2566,6 +2593,14 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         }
 
         /**
+         * {@inheritDoc}
+         */
+        @Override
+        public float[] toArray() {
+            return new float[] { _1, _2, _3 };
+        }
+
+        /**
          * Returns the internal array of float elements.
          * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
@@ -2941,6 +2976,14 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public float[] toArray() {
+            return new float[] { _1, _2, _3, _4 };
         }
 
         /**
@@ -3323,6 +3366,14 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public float[] toArray() {
+            return new float[] { _1, _2, _3, _4, _5 };
         }
 
         /**
@@ -3714,6 +3765,14 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public float[] toArray() {
+            return new float[] { _1, _2, _3, _4, _5, _6 };
         }
 
         /**
@@ -4110,6 +4169,14 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public float[] toArray() {
+            return new float[] { _1, _2, _3, _4, _5, _6, _7 };
         }
 
         /**
@@ -4520,6 +4587,14 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public float[] toArray() {
+            return new float[] { _1, _2, _3, _4, _5, _6, _7, _8 };
         }
 
         /**
@@ -4937,6 +5012,14 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ", " + _9 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public float[] toArray() {
+            return new float[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
         }
 
         /**

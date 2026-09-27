@@ -698,13 +698,14 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * @see N#lowerMedian(long...)
      */
     public long lowerMedian() throws NoSuchElementException {
-        final long[] a = elements();
+        final long[] a = toArray();
 
         if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
         }
 
-        return N.lowerMedian(a);
+        java.util.Arrays.sort(a);
+        return a[(a.length - 1) / 2];
     }
 
     /**
@@ -836,7 +837,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * @see #stream()
      */
     public LongList toList() {
-        return LongList.of(elements().clone());
+        return LongList.of(toArray());
     }
 
     /**
@@ -1397,6 +1398,16 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         }
 
         /**
+         * {@inheritDoc}
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws IllegalArgumentException, E {
+            N.checkArgNotNull(action, cs.action);
+
+            action.accept(_1);
+        }
+
+        /**
          * Returns a hash code value for this tuple.
          *
          * <p><b>Usage Examples:</b></p>
@@ -1474,6 +1485,14 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         @Override
         public String toString() {
             return "(" + _1 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public long[] toArray() {
+            return new long[] { _1 };
         }
 
         /**
@@ -1682,7 +1701,10 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public double median() {
-            return N.median(_1, _2);
+            final long sum = _1 + _2;
+
+            // Convert the exact sum before dividing; widening the operands first loses near-cancelling values.
+            return ((_1 ^ sum) & (_2 ^ sum)) < 0 ? N.median(_1, _2) : sum / 2d;
         }
 
         /**
@@ -1991,6 +2013,14 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public long[] toArray() {
+            return new long[] { _1, _2 };
         }
 
         /**
@@ -2514,6 +2544,14 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         }
 
         /**
+         * {@inheritDoc}
+         */
+        @Override
+        public long[] toArray() {
+            return new long[] { _1, _2, _3 };
+        }
+
+        /**
          * Returns the internal array of long elements.
          * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
@@ -2879,6 +2917,14 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public long[] toArray() {
+            return new long[] { _1, _2, _3, _4 };
         }
 
         /**
@@ -3252,6 +3298,14 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public long[] toArray() {
+            return new long[] { _1, _2, _3, _4, _5 };
         }
 
         /**
@@ -3633,6 +3687,14 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         }
 
         /**
+         * {@inheritDoc}
+         */
+        @Override
+        public long[] toArray() {
+            return new long[] { _1, _2, _3, _4, _5, _6 };
+        }
+
+        /**
          * Returns the internal array of long elements.
          * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
@@ -3968,6 +4030,14 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public long[] toArray() {
+            return new long[] { _1, _2, _3, _4, _5, _6, _7 };
         }
 
         /**
@@ -4317,6 +4387,14 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public long[] toArray() {
+            return new long[] { _1, _2, _3, _4, _5, _6, _7, _8 };
         }
 
         /**
@@ -4671,6 +4749,14 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ", " + _9 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public long[] toArray() {
+            return new long[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
         }
 
         /**

@@ -687,13 +687,15 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * @see N#lowerMedian(short...)
      */
     public short lowerMedian() throws NoSuchElementException {
-        final short[] a = elements();
+        final short[] a = toArray();
 
         if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
         }
 
-        return N.lowerMedian(a);
+        N.sort(a);
+
+        return a[(a.length - 1) / 2];
     }
 
     /**
@@ -827,7 +829,7 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * @see #stream()
      */
     public ShortList toList() {
-        return ShortList.of(elements().clone());
+        return ShortList.of(toArray());
     }
 
     /**
@@ -1490,6 +1492,24 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         }
 
         /**
+         * {@inheritDoc}
+         */
+        @Override
+        public short[] toArray() {
+            return new short[] { _1 };
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.ShortConsumer<E> action) throws IllegalArgumentException, E {
+            N.checkArgNotNull(action, cs.action);
+
+            action.accept(_1);
+        }
+
+        /**
          * Returns the internal array of short elements.
          * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
@@ -2020,6 +2040,14 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public short[] toArray() {
+            return new short[] { _1, _2 };
         }
 
         /**
@@ -2559,6 +2587,14 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         }
 
         /**
+         * {@inheritDoc}
+         */
+        @Override
+        public short[] toArray() {
+            return new short[] { _1, _2, _3 };
+        }
+
+        /**
          * Returns the internal array of short elements.
          * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
@@ -2884,6 +2920,14 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public short[] toArray() {
+            return new short[] { _1, _2, _3, _4 };
         }
 
         /**
@@ -3217,6 +3261,14 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public short[] toArray() {
+            return new short[] { _1, _2, _3, _4, _5 };
         }
 
         /**
@@ -3555,6 +3607,14 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public short[] toArray() {
+            return new short[] { _1, _2, _3, _4, _5, _6 };
         }
 
         /**
@@ -3916,6 +3976,14 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public short[] toArray() {
+            return new short[] { _1, _2, _3, _4, _5, _6, _7 };
         }
 
         /**
@@ -4290,6 +4358,14 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public short[] toArray() {
+            return new short[] { _1, _2, _3, _4, _5, _6, _7, _8 };
         }
 
         /**
@@ -4670,6 +4746,14 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ", " + _9 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public short[] toArray() {
+            return new short[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
         }
 
         /**

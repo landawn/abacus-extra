@@ -593,13 +593,15 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
             return result;
         }
 
-        BigDecimal exact = BigDecimal.ZERO;
-
         for (final double e : a) {
             if (!Double.isFinite(e)) {
                 return result;
             }
+        }
 
+        BigDecimal exact = BigDecimal.ZERO;
+
+        for (final double e : a) {
             exact = exact.add(new BigDecimal(e)); // NOSONAR - the exact binary64 value is required here.
         }
 
@@ -729,13 +731,14 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * @see N#lowerMedian(double...)
      */
     public double lowerMedian() throws NoSuchElementException {
-        final double[] a = elements();
+        final double[] a = toArray();
 
         if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
         }
 
-        return N.lowerMedian(a);
+        java.util.Arrays.sort(a);
+        return a[(a.length - 1) / 2];
     }
 
     /**
@@ -872,7 +875,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * @see #stream()
      */
     public DoubleList toList() {
-        return DoubleList.of(elements().clone());
+        return DoubleList.of(toArray());
     }
 
     /**
@@ -1443,6 +1446,16 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         }
 
         /**
+         * {@inheritDoc}
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws IllegalArgumentException, E {
+            N.checkArgNotNull(action, cs.action);
+
+            action.accept(_1);
+        }
+
+        /**
          * Returns a hash code for this tuple based on its single element.
          *
          * <p><b>Usage Examples:</b></p>
@@ -1519,6 +1532,14 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         @Override
         public String toString() {
             return "(" + _1 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public double[] toArray() {
+            return new double[] { _1 };
         }
 
         /**
@@ -2048,6 +2069,14 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         }
 
         /**
+         * {@inheritDoc}
+         */
+        @Override
+        public double[] toArray() {
+            return new double[] { _1, _2 };
+        }
+
+        /**
          * Returns the internal array of double elements.
          * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
@@ -2574,6 +2603,14 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         }
 
         /**
+         * {@inheritDoc}
+         */
+        @Override
+        public double[] toArray() {
+            return new double[] { _1, _2, _3 };
+        }
+
+        /**
          * Returns the internal array of double elements.
          * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
@@ -2907,6 +2944,14 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public double[] toArray() {
+            return new double[] { _1, _2, _3, _4 };
         }
 
         /**
@@ -3249,6 +3294,14 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public double[] toArray() {
+            return new double[] { _1, _2, _3, _4, _5 };
         }
 
         /**
@@ -3598,6 +3651,14 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public double[] toArray() {
+            return new double[] { _1, _2, _3, _4, _5, _6 };
         }
 
         /**
@@ -3996,6 +4057,14 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public double[] toArray() {
+            return new double[] { _1, _2, _3, _4, _5, _6, _7 };
         }
 
         /**
@@ -4403,6 +4472,14 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public double[] toArray() {
+            return new double[] { _1, _2, _3, _4, _5, _6, _7, _8 };
         }
 
         /**
@@ -4817,6 +4894,14 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ", " + _9 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public double[] toArray() {
+            return new double[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
         }
 
         /**

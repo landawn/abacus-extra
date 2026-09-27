@@ -732,13 +732,15 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * @see N#lowerMedian(byte...)
      */
     public byte lowerMedian() throws NoSuchElementException {
-        final byte[] a = elements();
+        final byte[] a = toArray();
 
         if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute lowerMedian() for an empty tuple");
         }
 
-        return N.lowerMedian(a);
+        N.sort(a);
+
+        return a[(a.length - 1) / 2];
     }
 
     /**
@@ -871,7 +873,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * @see #stream()
      */
     public ByteList toList() {
-        return ByteList.of(elements().clone());
+        return ByteList.of(toArray());
     }
 
     /**
@@ -1515,6 +1517,24 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         }
 
         /**
+         * {@inheritDoc}
+         */
+        @Override
+        public byte[] toArray() {
+            return new byte[] { _1 };
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws IllegalArgumentException, E {
+            N.checkArgNotNull(action, cs.action);
+
+            action.accept(_1);
+        }
+
+        /**
          * Returns the internal array of byte elements.
          * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
@@ -2024,6 +2044,14 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public byte[] toArray() {
+            return new byte[] { _1, _2 };
         }
 
         /**
@@ -2553,6 +2581,14 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         }
 
         /**
+         * {@inheritDoc}
+         */
+        @Override
+        public byte[] toArray() {
+            return new byte[] { _1, _2, _3 };
+        }
+
+        /**
          * Returns the internal array of byte elements.
          * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
@@ -2905,6 +2941,14 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public byte[] toArray() {
+            return new byte[] { _1, _2, _3, _4 };
         }
 
         /**
@@ -3264,6 +3308,14 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public byte[] toArray() {
+            return new byte[] { _1, _2, _3, _4, _5 };
         }
 
         /**
@@ -3628,6 +3680,14 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public byte[] toArray() {
+            return new byte[] { _1, _2, _3, _4, _5, _6 };
         }
 
         /**
@@ -4021,6 +4081,14 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public byte[] toArray() {
+            return new byte[] { _1, _2, _3, _4, _5, _6, _7 };
         }
 
         /**
@@ -4432,6 +4500,14 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public byte[] toArray() {
+            return new byte[] { _1, _2, _3, _4, _5, _6, _7, _8 };
         }
 
         /**
@@ -4855,6 +4931,14 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ", " + _9 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public byte[] toArray() {
+            return new byte[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
         }
 
         /**

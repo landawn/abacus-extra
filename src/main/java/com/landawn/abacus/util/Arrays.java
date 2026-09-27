@@ -3124,6 +3124,11 @@ public sealed class Arrays permits Arrays.f {
         final int count = Numbers.toIntExact(totalElementCount(a));
 
         final boolean[] result = new boolean[count];
+
+        if (count == 0) {
+            return result;
+        }
+
         int from = 0;
 
         for (final boolean[] element : a) {
@@ -3182,6 +3187,11 @@ public sealed class Arrays permits Arrays.f {
         final int count = Numbers.toIntExact(totalElementCount(a));
 
         final boolean[] result = new boolean[count];
+
+        if (count == 0) {
+            return result;
+        }
+
         int from = 0;
 
         for (final boolean[][] element : a) {
@@ -4301,7 +4311,11 @@ public sealed class Arrays permits Arrays.f {
         int minLen = Integer.MAX_VALUE;
 
         for (final boolean[] ae : a) {
-            minLen = N.min(minLen, ae == null ? 0 : ae.length);
+            if (N.isEmpty(ae)) {
+                return 0;
+            }
+
+            minLen = N.min(minLen, ae.length);
         }
 
         return minLen;
@@ -5036,6 +5050,11 @@ public sealed class Arrays permits Arrays.f {
         final int count = Numbers.toIntExact(totalElementCount(a));
 
         final char[] result = new char[count];
+
+        if (count == 0) {
+            return result;
+        }
+
         int from = 0;
 
         for (final char[] element : a) {
@@ -5094,6 +5113,11 @@ public sealed class Arrays permits Arrays.f {
         final int count = Numbers.toIntExact(totalElementCount(a));
 
         final char[] result = new char[count];
+
+        if (count == 0) {
+            return result;
+        }
+
         int from = 0;
 
         for (final char[][] element : a) {
@@ -6207,7 +6231,11 @@ public sealed class Arrays permits Arrays.f {
         int minLen = Integer.MAX_VALUE;
 
         for (final char[] ae : a) {
-            minLen = N.min(minLen, ae == null ? 0 : ae.length);
+            if (N.isEmpty(ae)) {
+                return 0;
+            }
+
+            minLen = N.min(minLen, ae.length);
         }
 
         return minLen;
@@ -6964,6 +6992,11 @@ public sealed class Arrays permits Arrays.f {
         final int count = Numbers.toIntExact(totalElementCount(a));
 
         final byte[] result = new byte[count];
+
+        if (count == 0) {
+            return result;
+        }
+
         int from = 0;
 
         for (final byte[] element : a) {
@@ -7025,6 +7058,11 @@ public sealed class Arrays permits Arrays.f {
         final int count = Numbers.toIntExact(totalElementCount(a));
 
         final byte[] result = new byte[count];
+
+        if (count == 0) {
+            return result;
+        }
+
         int from = 0;
 
         for (final byte[][] element : a) {
@@ -8056,7 +8094,11 @@ public sealed class Arrays permits Arrays.f {
         int minLen = Integer.MAX_VALUE;
 
         for (final byte[] ae : a) {
-            minLen = N.min(minLen, ae == null ? 0 : ae.length);
+            if (N.isEmpty(ae)) {
+                return 0;
+            }
+
+            minLen = N.min(minLen, ae.length);
         }
 
         return minLen;
@@ -8791,6 +8833,11 @@ public sealed class Arrays permits Arrays.f {
         final int count = Numbers.toIntExact(totalElementCount(a));
 
         final short[] result = new short[count];
+
+        if (count == 0) {
+            return result;
+        }
+
         int from = 0;
 
         for (final short[] element : a) {
@@ -8849,6 +8896,11 @@ public sealed class Arrays permits Arrays.f {
         final int count = Numbers.toIntExact(totalElementCount(a));
 
         final short[] result = new short[count];
+
+        if (count == 0) {
+            return result;
+        }
+
         int from = 0;
 
         for (final short[][] element : a) {
@@ -9900,7 +9952,11 @@ public sealed class Arrays permits Arrays.f {
         int minLen = Integer.MAX_VALUE;
 
         for (final short[] ae : a) {
-            minLen = N.min(minLen, ae == null ? 0 : ae.length);
+            if (N.isEmpty(ae)) {
+                return 0;
+            }
+
+            minLen = N.min(minLen, ae.length);
         }
 
         return minLen;
@@ -10693,6 +10749,11 @@ public sealed class Arrays permits Arrays.f {
         final int count = Numbers.toIntExact(totalElementCount(a));
 
         final int[] result = new int[count];
+
+        if (count == 0) {
+            return result;
+        }
+
         int from = 0;
 
         for (final int[] element : a) {
@@ -10758,6 +10819,11 @@ public sealed class Arrays permits Arrays.f {
         final int count = Numbers.toIntExact(totalElementCount(a));
 
         final int[] result = new int[count];
+
+        if (count == 0) {
+            return result;
+        }
+
         int from = 0;
 
         for (final int[][] element : a) {
@@ -11812,7 +11878,11 @@ public sealed class Arrays permits Arrays.f {
         int minLen = Integer.MAX_VALUE;
 
         for (final int[] ae : a) {
-            minLen = N.min(minLen, ae == null ? 0 : ae.length);
+            if (N.isEmpty(ae)) {
+                return 0;
+            }
+
+            minLen = N.min(minLen, ae.length);
         }
 
         return minLen;
@@ -12524,6 +12594,11 @@ public sealed class Arrays permits Arrays.f {
         final int count = Numbers.toIntExact(totalElementCount(a));
 
         final long[] result = new long[count];
+
+        if (count == 0) {
+            return result;
+        }
+
         int from = 0;
 
         for (final long[] element : a) {
@@ -12580,6 +12655,11 @@ public sealed class Arrays permits Arrays.f {
         final int count = Numbers.toIntExact(totalElementCount(a));
 
         final long[] result = new long[count];
+
+        if (count == 0) {
+            return result;
+        }
+
         int from = 0;
 
         for (final long[][] element : a) {
@@ -13581,7 +13661,11 @@ public sealed class Arrays permits Arrays.f {
         int minLen = Integer.MAX_VALUE;
 
         for (final long[] ae : a) {
-            minLen = N.min(minLen, ae == null ? 0 : ae.length);
+            if (N.isEmpty(ae)) {
+                return 0;
+            }
+
+            minLen = N.min(minLen, ae.length);
         }
 
         return minLen;
@@ -14319,6 +14403,11 @@ public sealed class Arrays permits Arrays.f {
         final int count = Numbers.toIntExact(totalElementCount(a));
 
         final float[] result = new float[count];
+
+        if (count == 0) {
+            return result;
+        }
+
         int from = 0;
 
         for (final float[] element : a) {
@@ -14383,6 +14472,11 @@ public sealed class Arrays permits Arrays.f {
         final int count = Numbers.toIntExact(totalElementCount(a));
 
         final float[] result = new float[count];
+
+        if (count == 0) {
+            return result;
+        }
+
         int from = 0;
 
         for (final float[][] element : a) {
@@ -15435,7 +15529,11 @@ public sealed class Arrays permits Arrays.f {
         int minLen = Integer.MAX_VALUE;
 
         for (final float[] ae : a) {
-            minLen = N.min(minLen, ae == null ? 0 : ae.length);
+            if (N.isEmpty(ae)) {
+                return 0;
+            }
+
+            minLen = N.min(minLen, ae.length);
         }
 
         return minLen;
@@ -16187,6 +16285,11 @@ public sealed class Arrays permits Arrays.f {
         final int count = Numbers.toIntExact(totalElementCount(a));
 
         final double[] result = new double[count];
+
+        if (count == 0) {
+            return result;
+        }
+
         int from = 0;
 
         for (final double[] element : a) {
@@ -16245,6 +16348,11 @@ public sealed class Arrays permits Arrays.f {
         final int count = Numbers.toIntExact(totalElementCount(a));
 
         final double[] result = new double[count];
+
+        if (count == 0) {
+            return result;
+        }
+
         int from = 0;
 
         for (final double[][] element : a) {
@@ -17274,7 +17382,11 @@ public sealed class Arrays permits Arrays.f {
         int minLen = Integer.MAX_VALUE;
 
         for (final double[] ae : a) {
-            minLen = N.min(minLen, ae == null ? 0 : ae.length);
+            if (N.isEmpty(ae)) {
+                return 0;
+            }
+
+            minLen = N.min(minLen, ae.length);
         }
 
         return minLen;
@@ -22016,6 +22128,11 @@ public sealed class Arrays permits Arrays.f {
 
             final Class<T> componentType = runtimeComponentType2D(a);
             final T[] c = N.newArray(componentType, count);
+
+            if (count == 0) {
+                return c;
+            }
+
             int from = 0;
 
             for (final T[] element : a) {
@@ -23462,7 +23579,11 @@ public sealed class Arrays permits Arrays.f {
             int minLen = Integer.MAX_VALUE;
 
             for (final Object[] ae : a) {
-                minLen = N.min(minLen, ae == null ? 0 : ae.length);
+                if (N.isEmpty(ae)) {
+                    return 0;
+                }
+
+                minLen = N.min(minLen, ae.length);
             }
 
             return minLen;
@@ -23819,6 +23940,11 @@ public sealed class Arrays permits Arrays.f {
 
             final Class<T> componentType = runtimeComponentType3D(a);
             final T[] c = N.newArray(componentType, count);
+
+            if (count == 0) {
+                return c;
+            }
+
             int from = 0;
 
             for (final T[][] element : a) {

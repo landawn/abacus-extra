@@ -596,7 +596,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * @see #stream()
      */
     public BooleanList toList() {
-        return BooleanList.of(elements().clone());
+        return BooleanList.of(toArray());
     }
 
     /**
@@ -999,6 +999,24 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         }
 
         /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean[] toArray() {
+            return new boolean[] { _1 };
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws IllegalArgumentException, E {
+            N.checkArgNotNull(action, cs.action);
+
+            action.accept(_1);
+        }
+
+        /**
          * Returns the internal array of boolean elements.
          * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
@@ -1369,6 +1387,14 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean[] toArray() {
+            return new boolean[] { _1, _2 };
         }
 
         /**
@@ -1752,6 +1778,14 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         }
 
         /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean[] toArray() {
+            return new boolean[] { _1, _2, _3 };
+        }
+
+        /**
          * Returns the internal array of boolean elements.
          * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
@@ -2001,6 +2035,14 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean[] toArray() {
+            return new boolean[] { _1, _2, _3, _4 };
         }
 
         /**
@@ -2269,6 +2311,14 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean[] toArray() {
+            return new boolean[] { _1, _2, _3, _4, _5 };
         }
 
         /**
@@ -2558,6 +2608,14 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean[] toArray() {
+            return new boolean[] { _1, _2, _3, _4, _5, _6 };
         }
 
         /**
@@ -2855,6 +2913,14 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean[] toArray() {
+            return new boolean[] { _1, _2, _3, _4, _5, _6, _7 };
         }
 
         /**
@@ -3161,6 +3227,14 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean[] toArray() {
+            return new boolean[] { _1, _2, _3, _4, _5, _6, _7, _8 };
         }
 
         /**
@@ -3472,6 +3546,14 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         @Override
         public String toString() {
             return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ", " + _9 + ")";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean[] toArray() {
+            return new boolean[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
         }
 
         /**
