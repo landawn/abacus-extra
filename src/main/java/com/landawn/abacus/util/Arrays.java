@@ -31,6 +31,14 @@ import com.landawn.abacus.annotation.SuppressFBWarnings;
  * <p>Element-wise transforms are named by source and result type: {@code updateAll} rewrites an array
  * in place, {@code mapToObj}/{@code mapToInt}/{@code mapToLong}/... return a new array of a different type, and
  * {@code map} on {@link Arrays.f}/{@link Arrays.ff}/{@link Arrays.fff} transforms object arrays into a new array.</p>
+ *
+ * <p>Element-wise callbacks run in increasing index order, row by row for nested arrays. Each occurrence of a
+ * shared row is visited independently; in-place updates can therefore process the same storage more than once.
+ * The {@code updateAll} and {@code replaceIf} methods apply each write immediately. If a callback or array store
+ * throws, earlier writes remain applied. These traversal rules also apply to the nested object-array helpers.</p>
+ *
+ * <p>Object-array operations copy or store element references, not copies of the element objects. Mapping callbacks
+ * receive the original objects and may mutate them, even when the result uses newly allocated array storage.</p>
  */
 @Beta
 public sealed class Arrays permits Arrays.f {
@@ -21363,6 +21371,9 @@ public sealed class Arrays permits Arrays.f {
          * Returns a new array of {@code targetElementType}; {@code null} or empty input yields an empty array.
          * A {@code null} mapper throws {@link IllegalArgumentException}.
          *
+         * <p>The result stores the references returned by {@code mapper} without cloning them. The mapper receives
+         * the original element objects, so any mutations it makes to those objects are visible through the input.</p>
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * // basic: parse strings to integers
@@ -22235,7 +22246,10 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Maps each element of a two-dimensional array to a new value using the provided function.
-         * Returns a NEW array; the original array is not modified.
+         * Stores the mapped values in newly allocated rows without assigning to the input array's slots.
+         *
+         * <p>The result stores the references returned by {@code mapper} without cloning them. The mapper receives
+         * the original element objects, so any mutations it makes to those objects are visible through the input.</p>
          *
          * <p>This method creates a new array with the same outer length as the input array,
          * where each element is the result of applying the function to the corresponding input element.
@@ -22303,6 +22317,9 @@ public sealed class Arrays permits Arrays.f {
         /**
          * Maps each element of a two-dimensional array to a new type using the provided function.
          * This method allows transformation between different element types.
+         *
+         * <p>The result stores the references returned by {@code mapper} without cloning them. The mapper receives
+         * the original element objects, so any mutations it makes to those objects are visible through the input.</p>
          *
          * <p>The resulting array has the same outer length as the input array but with elements
          * of the target type. If the input is {@code null} or empty, an empty 2D array of the target
@@ -22737,7 +22754,8 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Maps each element of a two-dimensional array to a double value using the provided function.
-         * This method provides the highest precision for numeric conversions.
+         * The mapper determines the conversion and any rounding or loss of precision; this method stores its
+         * returned {@code double} values without further conversion.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -24054,7 +24072,10 @@ public sealed class Arrays permits Arrays.f {
         /**
          * Maps each element in a three-dimensional array to a new value using the provided
          * unary operator, creating a new array with the same structure but transformed elements.
-         * The original array is not modified.
+         * The method stores mapped values in newly allocated rows without assigning to the input array's slots.
+         *
+         * <p>The result stores the references returned by {@code mapper} without cloning them. The mapper receives
+         * the original element objects, so any mutations it makes to those objects are visible through the input.</p>
          *
          * <p>The result array has the same outer length as the input. {@code null} or empty inner
          * sub-arrays at any level are mapped to empty arrays in the result; otherwise the operator
@@ -24120,6 +24141,9 @@ public sealed class Arrays permits Arrays.f {
          * Maps each element in a three-dimensional array of type T to a new three-dimensional
          * array of type R by applying a transformation function. This method allows for type
          * conversion while preserving the array structure.
+         *
+         * <p>The result stores the references returned by {@code mapper} without cloning them. The mapper receives
+         * the original element objects, so any mutations it makes to those objects are visible through the input.</p>
          *
          * <p>The resulting array has the same outer length as the input array, with each element
          * transformed according to the provided function. This is useful for converting between
@@ -24575,11 +24599,12 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Maps a three-dimensional array to a three-dimensional double array by applying
-         * a function that converts each element to a double value. This provides the
-         * highest precision for floating-point operations.
+         * a function that converts each element to a double value. The mapper determines the
+         * conversion and any rounding or loss of precision; this method stores its returned
+         * {@code double} values without further conversion.
          *
-         * <p>Double provides approximately 15-17 decimal digits of precision and is
-         * the standard choice for scientific computing and high-precision calculations.</p>
+         * <p>The {@code double} type has a 53-bit significand. Converting larger integers or
+         * arbitrary-precision values to {@code double} can lose information.</p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code

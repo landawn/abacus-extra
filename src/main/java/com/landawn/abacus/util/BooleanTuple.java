@@ -608,6 +608,9 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * the iteration does not modify this tuple.
      * </p>
      *
+     * <p>If the action throws, the exception is propagated immediately and the remaining elements
+     * are not visited. An empty tuple invokes no action, but still rejects a {@code null} action.</p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanTuple.BooleanTuple3 tuple = BooleanTuple.of(true, false, true);

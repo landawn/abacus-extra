@@ -593,6 +593,11 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * Infinities follow standard IEEE-754 rules.
      * </p>
      * <p>
+     * Widening each {@code float} to {@code double} preserves its actual binary value, not the decimal
+     * spelling used to create it. For example, {@code FloatTuple.of(0.1f).average().getAsDouble()}
+     * is {@code 0.10000000149011612}, not {@code 0.1d}. The result is not narrowed back to {@code float}.
+     * </p>
+     * <p>
      * Unlike {@link #sum()}, the mean is not reported as infinity merely because the total exceeds the
      * {@code float} range: {@code FloatTuple.of(Float.MAX_VALUE, Float.MAX_VALUE)} has a {@code sum()} of
      * {@code Infinity} but its {@code average()} contains {@code 3.4028234663852886E38}. As with {@code sum()},
@@ -853,6 +858,9 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * consumer action to each element. The action is performed for its side effects only.
      * For an empty tuple this method returns immediately without invoking the consumer.
      * </p>
+     *
+     * <p>If the action throws, the exception is propagated immediately and the remaining elements
+     * are not visited. An empty tuple invokes no action, but still rejects a {@code null} action.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code

@@ -648,6 +648,22 @@ class ImmutableIntArrayTest extends TestBase {
         }
 
         @Test
+        public void testStream_IndependentLifecycleForEmptyAndNonEmptyArrays() {
+            for (final int[] data : new int[][] { {}, { 3, 1, 2 } }) {
+                final ImmutableIntArray immutable = ImmutableIntArray.copyOf(data);
+                final IntStream first = immutable.stream();
+                final IntStream second = immutable.stream();
+
+                assertNotSame(first, second);
+                first.close();
+                assertThrows(IllegalStateException.class, first::count);
+                assertArrayEquals(data, second.toArray());
+                assertThrows(IllegalStateException.class, second::count);
+                assertArrayEquals(data, immutable.stream().toArray());
+            }
+        }
+
+        @Test
         public void testStream_Max() {
             int[] data = { 10, 50, 30, 20, 40 };
             ImmutableIntArray immutable = ImmutableIntArray.unsafeWrap(data);

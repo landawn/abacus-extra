@@ -840,6 +840,9 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * external state. A {@code null} action results in {@link IllegalArgumentException}.
      * </p>
      *
+     * <p>If the action throws, the exception is propagated immediately and the remaining elements
+     * are not visited. An empty tuple invokes no action, but still rejects a {@code null} action.</p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortTuple.ShortTuple3 t = ShortTuple.of((short) 1, (short) 2, (short) 3);

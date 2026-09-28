@@ -885,6 +885,9 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * the iteration does not modify this tuple.
      * </p>
      *
+     * <p>If the action throws, the exception is propagated immediately and the remaining elements
+     * are not visited. An empty tuple invokes no action, but still rejects a {@code null} action.</p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteTuple.ByteTuple3 t = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);

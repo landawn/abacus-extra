@@ -440,6 +440,9 @@ public final class ImmutableIntArray implements Immutable {
      * from index 0 and proceeding to index {@code length() - 1}. The action receives
      * each element value as a primitive int.</p>
      *
+     * <p>If the action throws, traversal stops immediately and the same exception is propagated.
+     * Side effects from earlier invocations are not rolled back.</p>
+     *
      * <p>This method is useful for performing side effects on each element, such as
      * printing, accumulating values, or updating external state. For transformations
      * or filtering, consider using the {@link #stream()} method instead.</p>
@@ -490,6 +493,9 @@ public final class ImmutableIntArray implements Immutable {
      * <p>The action is executed sequentially for each element in array order, starting from index 0
      * and proceeding to index {@code length() - 1}. For each element, the action receives two int parameters:
      * the element's index (first parameter) and the element's value (second parameter).</p>
+     *
+     * <p>If the action throws, later indices are not visited and the same exception is propagated.
+     * Side effects from earlier invocations are not rolled back.</p>
      *
      * <p>This method is useful when you need to know the position of each element during iteration,
      * such as for creating index-based mappings or when the index is needed for computation.</p>
@@ -545,6 +551,10 @@ public final class ImmutableIntArray implements Immutable {
      * the array elements, supporting operations such as filtering, mapping, reduction,
      * and collection. The stream processes elements in array order (from index 0 to
      * {@code length() - 1}).</p>
+     *
+     * <p>Each call creates a fresh stream, including for an empty array. A stream is single-use:
+     * after a terminal operation or an explicit close, obtain another stream from this method
+     * for another traversal. Closing one stream does not close other streams from this wrapper.</p>
      *
      * <p>This method is useful for applying functional transformations and operations
      * on the array elements without manually iterating through them.</p>

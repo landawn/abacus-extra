@@ -543,7 +543,10 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * </p>
      * <p>
      * The elements are added with compensated (Kahan) summation rather than plain left-to-right
-     * addition, so the result can differ from {@code _1 + _2 + ...}; it is generally the more accurate.
+     * addition, so the result can differ from {@code _1 + _2 + ...}; it generally reduces rounding error.
+     * Compensation does not guarantee an exact or order-independent result: for example,
+     * {@code DoubleTuple.of(1.0E16, 1.0, -1.0E16).sum()} is {@code 0.0}, whereas placing {@code 1.0}
+     * last gives {@code 1.0}.
      * If that compensated result is not finite although every element is finite (the compensation term
      * itself can overflow, e.g. for {@code DoubleTuple.of(-3.0E307, Double.MAX_VALUE)}), the exact total is
      * recomputed and rounded once, so an infinity is returned only when the exact total is outside the
@@ -886,6 +889,9 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * consumer action to each element. The action is performed for its side effects only.
      * For an empty tuple this method returns immediately without invoking the consumer.
      * </p>
+     *
+     * <p>If the action throws, the exception is propagated immediately and the remaining elements
+     * are not visited. An empty tuple invokes no action, but still rejects a {@code null} action.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -2533,7 +2539,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * // equal tuples always have equal hash codes
          * boolean same = DoubleTuple.of(1.0, 2.0, 3.0).hashCode() == DoubleTuple.of(1.0, 2.0, 3.0).hashCode(); // true
          *
-         * // order matters: different permutations yield different hash codes
+         * // These permutations have different hash codes; other unequal tuples can collide
          * boolean diff = DoubleTuple.of(1.0, 2.0, 3.0).hashCode() != DoubleTuple.of(3.0, 2.0, 1.0).hashCode(); // true
          *
          * // NaN has a consistent hash code

@@ -27,6 +27,10 @@ package com.landawn.abacus.util;
  *
  * <p>Primitive-valued records are fully immutable and thread-safe.</p>
  *
+ * <p>Factories and canonical record constructors preserve the supplied coordinates and payloads
+ * without validation or normalization. In particular, {@code double} components accept infinities,
+ * {@code NaN}, and signed zero; object payloads may be {@code null}.</p>
+ *
  * <p><b>&#9888;&#65039; Shallow immutability:</b> In object-valued variants ({@code *ObjPoint}), the coordinate fields are fixed but the referenced
  * value is stored as supplied without defensive copying, so thread-safety depends on the payload.</p>
  *

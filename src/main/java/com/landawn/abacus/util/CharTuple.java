@@ -610,6 +610,9 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * original tuple remains unchanged as tuples are immutable.
      * </p>
      *
+     * <p>Reversal operates on individual UTF-16 code units. It reverses the two halves of a
+     * surrogate pair as well, so it does not preserve supplementary Unicode characters.</p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Basic: three-element reversal
@@ -755,6 +758,9 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * such as logging, printing, or updating external state. Because tuples are immutable,
      * the iteration does not modify this tuple.
      * </p>
+     *
+     * <p>If the action throws, the exception is propagated immediately and the remaining elements
+     * are not visited. An empty tuple invokes no action, but still rejects a {@code null} action.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code

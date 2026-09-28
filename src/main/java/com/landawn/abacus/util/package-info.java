@@ -44,6 +44,9 @@
  *       {@code zip}, or {@code toXxx} return a result array without modifying the supplied array.
  *       Empty results may use a shared empty-array constant. Operations named {@code updateAll},
  *       {@code replaceIf}, or {@code mutateViaFlatArray} modify the supplied array.</li>
+ *   <li>Object-array transformations do not defensively copy the element objects. Callbacks receive
+ *       the original references and may mutate those objects; callback side effects are not rolled
+ *       back if a later invocation throws.</li>
  *   <li>{@link com.landawn.abacus.util.ImmutableIntArray#copyOf(int[]) ImmutableIntArray.copyOf}
  *       makes a defensive copy. In contrast,
  *       {@link com.landawn.abacus.util.ImmutableIntArray#unsafeWrap(int[]) ImmutableIntArray.unsafeWrap}

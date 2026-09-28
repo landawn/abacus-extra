@@ -539,6 +539,13 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * The mean uses {@code double} precision to retain fractional values; the returned
      * {@code OptionalDouble} is empty if this tuple has no elements.
      * </p>
+     * <p>
+     * The total is accumulated exactly in a {@code long} before division, so this method succeeds even
+     * when {@link #sum()} throws because the total exceeds the {@code int} range. With at most nine
+     * {@code int} elements, the total also fits exactly in a {@code double}; only the division may round.
+     * For example, {@code IntTuple.of(Integer.MAX_VALUE, Integer.MAX_VALUE).average()} contains
+     * {@code 2147483647.0}.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -793,6 +800,9 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * tuple. Primarily used for side effects such as logging, printing, or updating
      * external state. A {@code null} action results in {@link IllegalArgumentException}.
      * </p>
+     *
+     * <p>If the action throws, the exception is propagated immediately and the remaining elements
+     * are not visited. An empty tuple invokes no action, but still rejects a {@code null} action.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code

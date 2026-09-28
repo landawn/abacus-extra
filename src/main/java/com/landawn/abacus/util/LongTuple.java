@@ -849,6 +849,9 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * the iteration does not modify this tuple.
      * </p>
      *
+     * <p>If the action throws, the exception is propagated immediately and the remaining elements
+     * are not visited. An empty tuple invokes no action, but still rejects a {@code null} action.</p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
@@ -932,7 +935,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * LongTuple.LongTuple3 b = LongTuple.of(1L, 2L, 3L);
      * assert a.hashCode() == b.hashCode(); // returns true (equal tuples have equal hash codes)
      *
-     * // different element order produces a different hash code
+     * // These different element orders produce different hashes; collisions remain possible
      * LongTuple.LongTuple3 c = LongTuple.of(3L, 2L, 1L);
      * assert a.hashCode() != c.hashCode(); // returns true
      *
@@ -1284,7 +1287,9 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
         /**
          * Returns the average of all values in this tuple.
-         * For a single-element tuple, this is the element value wrapped in an {@code OptionalDouble}.
+         * For a single-element tuple, this is the element widened to {@code double} and wrapped in an
+         * {@code OptionalDouble}. Values outside the exact integer range of {@code double} may be rounded;
+         * use {@code _1} or {@link #lowerMedian()} when the exact {@code long} value is required.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -1301,7 +1306,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * boundary.average();   // returns OptionalDouble.of((double) Long.MAX_VALUE)
          * }</pre>
          *
-         * @return {@code _1} wrapped in an {@code OptionalDouble}
+         * @return {@code (double) _1} wrapped in an {@code OptionalDouble}
          */
         @Override
         public OptionalDouble average() {

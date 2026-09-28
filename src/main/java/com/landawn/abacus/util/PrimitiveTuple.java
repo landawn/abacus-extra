@@ -56,6 +56,7 @@ abstract sealed class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements I
 
     /**
      * Passes this tuple to the given action.
+     * The action is invoked exactly once, including when this tuple has arity zero.
      *
      * @param <E> the type of exception that may be thrown by the action
      * @param action the action to invoke with this tuple as its input, must not be {@code null}
@@ -72,6 +73,7 @@ abstract sealed class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements I
 
     /**
      * Applies the supplied mapper to this tuple and returns the result.
+     * The mapper is invoked exactly once, including when this tuple has arity zero.
      *
      * @param <U> the type of the result produced by the mapping function
      * @param <E> the type of exception that may be thrown by the mapper
@@ -92,6 +94,7 @@ abstract sealed class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements I
     /**
      * Tests this tuple with the given predicate and returns it wrapped in an {@link Optional}
      * if the predicate is satisfied, or an empty {@link Optional} otherwise.
+     * The predicate is invoked exactly once, including when this tuple has arity zero.
      *
      * @param <E> the type of exception that may be thrown by the predicate
      * @param predicate the predicate to evaluate against this tuple, must not be {@code null}
@@ -112,6 +115,7 @@ abstract sealed class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements I
 
     /**
      * Returns this tuple wrapped in a non-empty {@link Optional}.
+     * A tuple with arity zero is still a value, so its optional is also non-empty.
      *
      * @return an {@link Optional} containing this tuple; never empty
      * @see #filter(Throwables.Predicate)
