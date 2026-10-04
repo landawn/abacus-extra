@@ -581,7 +581,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     }
 
     /**
-     * Returns {@link N#sum(double...)} of the given values, falling back to the exact total rounded once
+     * Returns the compensated sum of the given values, falling back to the exact total rounded once
      * when the compensated result is not finite although every value is finite. Kahan summation can
      * overflow in its compensation term ({@code (t - sum) - y}) for large values of opposite signs, which
      * would otherwise turn a finite total into an infinity or {@code NaN}.
@@ -590,7 +590,9 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * @return the sum of {@code a}
      */
     private static double sumOf(final double... a) {
-        final double result = N.sum(a);
+        // Inspect the compensated result directly: N.sum can hide overflow behind a rounded-prefix fallback,
+        // which loses low-order terms that become significant after later cancellation.
+        final double result = KahanSummation.of(a).sum();
 
         if (Double.isFinite(result)) {
             return result;
