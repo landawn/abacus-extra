@@ -15,6 +15,8 @@
 package com.landawn.abacus.util;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.NoSuchElementException;
 
 import com.landawn.abacus.annotation.MayReturnNull;
@@ -71,6 +73,9 @@ import com.landawn.abacus.util.stream.DoubleStream;
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveTuple<TP>
         permits DoubleTuple0, DoubleTuple1, DoubleTuple2, DoubleTuple3, DoubleTuple4, DoubleTuple5, DoubleTuple6, DoubleTuple7, DoubleTuple8, DoubleTuple9 {
+
+    // Nine exact binary64 values span at most 1384 decimal digits; leave guard digits for division near a double midpoint.
+    private static final MathContext OVERFLOW_AVERAGE_CONTEXT = new MathContext(1400, RoundingMode.HALF_EVEN);
 
     /** Internal element storage; lazily initialized when {@link #elements()} is first called. */
     protected volatile double[] elements;
@@ -613,6 +618,30 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         return exact.doubleValue();
     }
 
+    private static double averageOf(final double... a) {
+        final double sum = KahanSummation.of(a).sum();
+
+        if (Double.isFinite(sum)) {
+            return sum / a.length;
+        }
+
+        for (final double e : a) {
+            if (!Double.isFinite(e)) {
+                return sum / a.length;
+            }
+        }
+
+        // Recompute from every element: a rounded-prefix or simple-sum fallback can lose the entire result after cancellation.
+        // Divide before narrowing so a finite mean survives even when the exact total exceeds the double range.
+        BigDecimal exact = BigDecimal.ZERO;
+
+        for (final double e : a) {
+            exact = exact.add(new BigDecimal(e)); // NOSONAR - the exact binary64 value is required here.
+        }
+
+        return exact.divide(BigDecimal.valueOf(a.length), OVERFLOW_AVERAGE_CONTEXT).doubleValue();
+    }
+
     /**
      * Returns the arithmetic mean of all double values in this tuple.
      * <p>
@@ -623,7 +652,9 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * Unlike {@link #sum()}, the mean is not reported as infinity merely because the intermediate total
      * overflows: {@code DoubleTuple.of(Double.MAX_VALUE, Double.MAX_VALUE)} has a {@code sum()} of
      * {@code Infinity} but its {@code average()} contains {@code Double.MAX_VALUE}. For arities two and above,
-     * averaging only negative zeros produces a mean of {@code +0.0}. When the computed (rounded) total is
+     * averaging only negative zeros produces a mean of {@code +0.0}. If the compensated total overflows,
+     * the mean is recovered from the exact values of all elements before division and rounding.
+     * When the computed (rounded) total is
      * negative and the mean underflows to zero, the result is {@code -0.0}, as in
      * {@code DoubleTuple.of(-Double.MIN_VALUE, 0.0).average().getAsDouble()}; a total that itself rounds to
      * zero, as in {@code DoubleTuple.of(-1.0, -Double.MIN_VALUE, 1.0)}, gives {@code +0.0}.
@@ -652,7 +683,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     public OptionalDouble average() {
         final double[] a = elements();
 
-        return a.length == 0 ? OptionalDouble.empty() : OptionalDouble.of(N.average(a));
+        return a.length == 0 ? OptionalDouble.empty() : OptionalDouble.of(averageOf(a));
     }
 
     /**
@@ -1734,7 +1765,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2));
+            return OptionalDouble.of(averageOf(_1, _2));
         }
 
         /**
@@ -2264,7 +2295,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3));
+            return OptionalDouble.of(averageOf(_1, _2, _3));
         }
 
         /**
@@ -2799,7 +2830,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4));
+            return OptionalDouble.of(averageOf(_1, _2, _3, _4));
         }
 
         /**
@@ -3147,7 +3178,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5));
+            return OptionalDouble.of(averageOf(_1, _2, _3, _4, _5));
         }
 
         /**
@@ -3501,7 +3532,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6));
+            return OptionalDouble.of(averageOf(_1, _2, _3, _4, _5, _6));
         }
 
         /**
@@ -3874,7 +3905,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7));
+            return OptionalDouble.of(averageOf(_1, _2, _3, _4, _5, _6, _7));
         }
 
         /**
@@ -4287,7 +4318,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7, _8));
+            return OptionalDouble.of(averageOf(_1, _2, _3, _4, _5, _6, _7, _8));
         }
 
         /**
@@ -4707,7 +4738,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7, _8, _9));
+            return OptionalDouble.of(averageOf(_1, _2, _3, _4, _5, _6, _7, _8, _9));
         }
 
         /**

@@ -156,6 +156,9 @@ public sealed class Arrays permits Arrays.f {
      * nested bracket notation. Each sub-array is displayed on its own line for better readability.
      * The method handles null arrays, empty arrays, null sub-arrays, and empty sub-arrays gracefully.</p>
      *
+     * <p>Array-valued elements are rendered by content, with cyclic array references shown as {@code [...]};
+     * other elements use their own {@code toString()} representation.</p>
+     *
      * <p>The output format follows this pattern:</p>
      * <ul>
      *   <li>Null array: "null"</li>
@@ -207,6 +210,9 @@ public sealed class Arrays permits Arrays.f {
      * nested bracket notation. Each two-dimensional sub-array and its inner one-dimensional arrays are displayed with
      * appropriate line separators and indentation for better readability. The method handles
      * null arrays, empty arrays, null sub-arrays at any level, and empty sub-arrays gracefully.</p>
+     *
+     * <p>Array-valued elements are rendered by content, with cyclic array references shown as {@code [...]};
+     * other elements use their own {@code toString()} representation.</p>
      *
      * <p>The output format follows this pattern:</p>
      * <ul>
@@ -23703,7 +23709,8 @@ public sealed class Arrays permits Arrays.f {
                                     sb.append(", ");
                                 }
 
-                                sb.append(row[j]);
+                                // Expand array-valued elements without recursing indefinitely through array cycles.
+                                sb.append(N.deepToString(row[j]));
                             }
 
                             sb.append(']');
@@ -25412,7 +25419,8 @@ public sealed class Arrays permits Arrays.f {
                                             sb.append(", ");
                                         }
 
-                                        sb.append(subRow[k]);
+                                        // Expand array-valued elements without recursing indefinitely through array cycles.
+                                        sb.append(N.deepToString(subRow[k]));
                                     }
 
                                     sb.append(']');
