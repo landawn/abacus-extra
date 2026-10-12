@@ -41,12 +41,8 @@ import com.landawn.abacus.util.u.OptionalDouble;
 @Beta
 public final class ImmutableIntArray implements Immutable {
     /**
-     * The number of elements in this array; equals {@code elements.length}.
-     */
-    private final int length;
-
-    /**
-     * Backing storage for this wrapper.
+     * Backing storage for this wrapper. Its fixed length also supplies the bounds, avoiding
+     * a redundant length field in every wrapper.
      */
     private final int[] elements;
 
@@ -58,7 +54,6 @@ public final class ImmutableIntArray implements Immutable {
      */
     ImmutableIntArray(final int[] array) {
         elements = array == null ? N.EMPTY_INT_ARRAY : array;
-        length = elements.length;
     }
 
     /**
@@ -140,7 +135,7 @@ public final class ImmutableIntArray implements Immutable {
      * @see #unsafeWrap(int[])
      */
     public static ImmutableIntArray copyOf(final int[] array) {
-        return new ImmutableIntArray(array == null ? N.EMPTY_INT_ARRAY : array.clone());
+        return new ImmutableIntArray(array == null || array.length == 0 ? N.EMPTY_INT_ARRAY : array.clone());
     }
 
     /**
@@ -169,7 +164,7 @@ public final class ImmutableIntArray implements Immutable {
      * @see #length()
      */
     public boolean isEmpty() {
-        return length == 0;
+        return elements.length == 0;
     }
 
     /**
@@ -201,7 +196,7 @@ public final class ImmutableIntArray implements Immutable {
      * @see #isEmpty()
      */
     public int length() {
-        return length;
+        return elements.length;
     }
 
     /**
@@ -236,7 +231,7 @@ public final class ImmutableIntArray implements Immutable {
      *         (including when the array is empty)
      */
     public boolean contains(final int value) {
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < elements.length; i++) {
             if (elements[i] == value) {
                 return true;
             }
@@ -274,7 +269,7 @@ public final class ImmutableIntArray implements Immutable {
      * @see #average()
      */
     public int min() throws NoSuchElementException {
-        if (length == 0) {
+        if (elements.length == 0) {
             throw new NoSuchElementException("ImmutableIntArray is empty");
         }
         return N.min(elements);
@@ -309,7 +304,7 @@ public final class ImmutableIntArray implements Immutable {
      * @see #average()
      */
     public int max() throws NoSuchElementException {
-        if (length == 0) {
+        if (elements.length == 0) {
             throw new NoSuchElementException("ImmutableIntArray is empty");
         }
         return N.max(elements);
@@ -430,7 +425,7 @@ public final class ImmutableIntArray implements Immutable {
      * @see #length()
      */
     public int get(final int index) throws ArrayIndexOutOfBoundsException {
-        return elements[index]; // No need to call N.checkElementIndex(index, length)
+        return elements[index];
     }
 
     /**
@@ -482,7 +477,7 @@ public final class ImmutableIntArray implements Immutable {
     public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws IllegalArgumentException, E {
         N.checkArgNotNull(action, cs.action);
 
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < elements.length; i++) {
             action.accept(elements[i]);
         }
     }
@@ -539,7 +534,7 @@ public final class ImmutableIntArray implements Immutable {
     public <E extends Exception> void forEachIndexed(final Throwables.IntIntConsumer<E> action) throws IllegalArgumentException, E {
         N.checkArgNotNull(action, cs.action);
 
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < elements.length; i++) {
             action.accept(i, elements[i]);
         }
     }
@@ -612,7 +607,7 @@ public final class ImmutableIntArray implements Immutable {
      * @see #copyOfRange(int, int) to obtain the same range as a plain {@code int[]} instead
      */
     public ImmutableIntArray subArray(final int fromIndex, final int toIndex) throws IndexOutOfBoundsException {
-        N.checkFromToIndex(fromIndex, toIndex, length);
+        N.checkFromToIndex(fromIndex, toIndex, elements.length);
 
         return new ImmutableIntArray(N.copyOfRange(elements, fromIndex, toIndex));
     }
@@ -636,7 +631,7 @@ public final class ImmutableIntArray implements Immutable {
      * @see #subArray(int, int) to obtain the same range as an ImmutableIntArray instead
      */
     public int[] copyOfRange(final int fromIndex, final int toIndex) throws IndexOutOfBoundsException {
-        N.checkFromToIndex(fromIndex, toIndex, length);
+        N.checkFromToIndex(fromIndex, toIndex, elements.length);
 
         return N.copyOfRange(elements, fromIndex, toIndex);
     }

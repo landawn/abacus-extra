@@ -683,13 +683,17 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * @see #lowerMedian()
      */
     public double median() throws NoSuchElementException {
-        final byte[] a = elements();
+        final byte[] a = toArray();
 
         if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute median() for an empty tuple");
         }
 
-        return N.median(a);
+        // Sort the detached copy directly instead of retaining a cache and copying it again for selection.
+        N.sort(a);
+        final int middle = a.length / 2;
+
+        return a.length % 2 == 0 ? (a[middle - 1] + a[middle]) / 2d : a[middle];
     }
 
     /**

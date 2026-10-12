@@ -597,7 +597,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     private static double sumOf(final double... a) {
         // Inspect the compensated result directly: N.sum can hide overflow behind a rounded-prefix fallback,
         // which loses low-order terms that become significant after later cancellation.
-        final double result = KahanSummation.of(a).sum();
+        final double result = compensatedSum(a);
 
         if (Double.isFinite(result)) {
             return result;
@@ -618,8 +618,27 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         return exact.doubleValue();
     }
 
+    private static double compensatedSum(final double[] a) {
+        // Keep the Kahan operation order and nonfinite fallback without allocating an accumulator.
+        // Its overflow recovery state would be discarded: these tuples recompute from every exact input below.
+        double sum = 0d;
+        double correction = 0d;
+        double simpleSum = 0d;
+
+        for (final double value : a) {
+            simpleSum += value;
+            final double adjusted = value - correction;
+            final double next = sum + adjusted;
+            correction = (next - sum) - adjusted;
+            sum = next;
+        }
+
+        final double result = sum - correction;
+        return Double.isNaN(result) && Double.isInfinite(simpleSum) ? simpleSum : result;
+    }
+
     private static double averageOf(final double... a) {
-        final double sum = KahanSummation.of(a).sum();
+        final double sum = compensatedSum(a);
 
         if (Double.isFinite(sum)) {
             return sum / a.length;
@@ -722,13 +741,24 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * @see #lowerMedian()
      */
     public double median() throws NoSuchElementException {
-        final double[] a = elements();
+        final double[] a = toArray();
 
         if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute median() for an empty tuple");
         }
 
-        return N.median(a);
+        // Sort the detached copy directly instead of retaining a cache and copying it again for selection.
+        java.util.Arrays.sort(a);
+        final int middle = a.length / 2;
+
+        return a.length % 2 == 0 ? medianOf(a[middle - 1], a[middle]) : a[middle];
+    }
+
+    private static double medianOf(final double first, final double second) {
+        final double sum = first + second;
+
+        // Halve first only after finite addition overflows; doing so unconditionally loses subnormal values.
+        return Double.isInfinite(sum) && Double.isFinite(first) && Double.isFinite(second) ? first / 2d + second / 2d : sum / 2d;
     }
 
     /**
@@ -1785,7 +1815,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double median() {
-            return N.median(_1, _2);
+            return medianOf(_1, _2);
         }
 
         /**

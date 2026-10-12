@@ -638,13 +638,17 @@ public abstract sealed class ShortTuple<TP extends ShortTuple<TP>> extends Primi
      * @see #lowerMedian()
      */
     public double median() throws NoSuchElementException {
-        final short[] a = elements();
+        final short[] a = toArray();
 
         if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute median() for an empty tuple");
         }
 
-        return N.median(a);
+        // Sort the detached copy directly instead of retaining a cache and copying it again for selection.
+        N.sort(a);
+        final int middle = a.length / 2;
+
+        return a.length % 2 == 0 ? (a[middle - 1] + a[middle]) / 2d : a[middle];
     }
 
     /**

@@ -607,13 +607,17 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * @see #lowerMedian()
      */
     public double median() throws NoSuchElementException {
-        final int[] a = elements();
+        final int[] a = toArray();
 
         if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute median() for an empty tuple");
         }
 
-        return N.median(a);
+        // Sort the detached copy directly instead of retaining a cache and copying it again for selection.
+        java.util.Arrays.sort(a);
+        final int middle = a.length / 2;
+
+        return a.length % 2 == 0 ? ((double) a[middle - 1] + a[middle]) / 2d : a[middle];
     }
 
     /**

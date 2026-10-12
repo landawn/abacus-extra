@@ -649,13 +649,24 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * @see #lowerMedian()
      */
     public double median() throws NoSuchElementException {
-        final long[] a = elements();
+        final long[] a = toArray();
 
         if (a.length == 0) {
             throw new NoSuchElementException("Cannot compute median() for an empty tuple");
         }
 
-        return N.median(a);
+        // Sort the detached copy directly instead of retaining a cache and copying it again for selection.
+        java.util.Arrays.sort(a);
+        final int middle = a.length / 2;
+
+        return a.length % 2 == 0 ? medianOf(a[middle - 1], a[middle]) : a[middle];
+    }
+
+    private static double medianOf(final long first, final long second) {
+        final long sum = first + second;
+
+        // Convert the exact sum before dividing; widening the operands first loses near-cancelling values.
+        return ((first ^ sum) & (second ^ sum)) < 0 ? N.median(first, second) : sum / 2d;
     }
 
     /**
@@ -1706,10 +1717,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public double median() {
-            final long sum = _1 + _2;
-
-            // Convert the exact sum before dividing; widening the operands first loses near-cancelling values.
-            return ((_1 ^ sum) & (_2 ^ sum)) < 0 ? N.median(_1, _2) : sum / 2d;
+            return medianOf(_1, _2);
         }
 
         /**
