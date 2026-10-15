@@ -28,14 +28,12 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import com.landawn.abacus.TestBase;
-
-class FunctionalInterfaceNullValidationTest extends TestBase {
+class FunctionalInterfaceNullValidationTest {
 
     private static final List<Class<?>> SOURCE_TYPES = sourceTypes();
 
     @Test
-    public void testEveryPublicMethodRejectsNullFunctionalInterfaceParameters() throws Exception {
+    void everyPublicMethodRejectsNullFunctionalInterfaceParameters() throws Exception {
         int validationCount = 0;
 
         for (final Class<?> sourceType : SOURCE_TYPES) {

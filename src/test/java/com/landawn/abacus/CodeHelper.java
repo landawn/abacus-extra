@@ -3,16 +3,14 @@ package com.landawn.abacus;
 import java.io.File;
 import java.io.IOException;
 
-import org.junit.jupiter.api.Test;
-
 import com.landawn.abacus.util.IOUtil;
 import com.landawn.abacus.util.Strings;
 import com.landawn.abacus.util.stream.Stream;
 
+/** Manually invoked source maintenance utility. Never run as a unit test. */
 class CodeHelper {
 
-    @Test
-    void test_00() {
+    public static void main(String[] args) {
         File dir = new File("./src/main/java/com/landawn/abacus/");
 
         Stream.listFiles(dir, true).filter(f -> f.getName().endsWith("java")).forEach(f -> {
