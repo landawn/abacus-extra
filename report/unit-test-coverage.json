@@ -1,0 +1,1324 @@
+{
+  "baselineCommit": "bc50cbe05906aeeba39487f2a72a3e4573bbaa5b",
+  "scope": "All classes compiled by a clean Maven build from src/main/java; no coverage exclusions",
+  "baseline": {
+    "testExecutions": 5941,
+    "testMethods": 5631,
+    "counters": {
+      "INSTRUCTION": {
+        "missed": 1565,
+        "covered": 49299
+      },
+      "BRANCH": {
+        "missed": 647,
+        "covered": 4255
+      },
+      "LINE": {
+        "missed": 330,
+        "covered": 7379
+      },
+      "COMPLEXITY": {
+        "missed": 630,
+        "covered": 3822
+      },
+      "METHOD": {
+        "missed": 32,
+        "covered": 1937
+      },
+      "CLASS": {
+        "missed": 0,
+        "covered": 135
+      }
+    }
+  },
+  "final": {
+    "testExecutions": 6345,
+    "testMethods": 5661,
+    "counters": {
+      "INSTRUCTION": {
+        "missed": 513,
+        "covered": 50351
+      },
+      "BRANCH": {
+        "missed": 71,
+        "covered": 4831
+      },
+      "LINE": {
+        "missed": 110,
+        "covered": 7599
+      },
+      "COMPLEXITY": {
+        "missed": 74,
+        "covered": 4378
+      },
+      "METHOD": {
+        "missed": 28,
+        "covered": 1941
+      },
+      "CLASS": {
+        "missed": 0,
+        "covered": 135
+      }
+    },
+    "sourceCoverage": [
+      {
+        "file": "PrimitiveTuple.java",
+        "counters": {
+          "INSTRUCTION": {
+            "missed": 0,
+            "covered": 43
+          },
+          "BRANCH": {
+            "missed": 0,
+            "covered": 2
+          },
+          "LINE": {
+            "missed": 0,
+            "covered": 11
+          },
+          "COMPLEXITY": {
+            "missed": 0,
+            "covered": 7
+          },
+          "METHOD": {
+            "missed": 0,
+            "covered": 6
+          },
+          "CLASS": {
+            "missed": 0,
+            "covered": 1
+          }
+        }
+      },
+      {
+        "file": "BooleanTuple.java",
+        "counters": {
+          "INSTRUCTION": {
+            "missed": 9,
+            "covered": 2677
+          },
+          "BRANCH": {
+            "missed": 1,
+            "covered": 349
+          },
+          "LINE": {
+            "missed": 1,
+            "covered": 338
+          },
+          "COMPLEXITY": {
+            "missed": 1,
+            "covered": 307
+          },
+          "METHOD": {
+            "missed": 0,
+            "covered": 129
+          },
+          "CLASS": {
+            "missed": 0,
+            "covered": 11
+          }
+        }
+      },
+      {
+        "file": "ByteTuple.java",
+        "counters": {
+          "INSTRUCTION": {
+            "missed": 63,
+            "covered": 3606
+          },
+          "BRANCH": {
+            "missed": 9,
+            "covered": 263
+          },
+          "LINE": {
+            "missed": 14,
+            "covered": 385
+          },
+          "COMPLEXITY": {
+            "missed": 10,
+            "covered": 313
+          },
+          "METHOD": {
+            "missed": 4,
+            "covered": 179
+          },
+          "CLASS": {
+            "missed": 0,
+            "covered": 11
+          }
+        }
+      },
+      {
+        "file": "LongTuple.java",
+        "counters": {
+          "INSTRUCTION": {
+            "missed": 63,
+            "covered": 3765
+          },
+          "BRANCH": {
+            "missed": 9,
+            "covered": 265
+          },
+          "LINE": {
+            "missed": 14,
+            "covered": 395
+          },
+          "COMPLEXITY": {
+            "missed": 10,
+            "covered": 315
+          },
+          "METHOD": {
+            "missed": 4,
+            "covered": 180
+          },
+          "CLASS": {
+            "missed": 0,
+            "covered": 11
+          }
+        }
+      },
+      {
+        "file": "FloatTuple.java",
+        "counters": {
+          "INSTRUCTION": {
+            "missed": 97,
+            "covered": 3619
+          },
+          "BRANCH": {
+            "missed": 13,
+            "covered": 261
+          },
+          "LINE": {
+            "missed": 20,
+            "covered": 428
+          },
+          "COMPLEXITY": {
+            "missed": 12,
+            "covered": 312
+          },
+          "METHOD": {
+            "missed": 4,
+            "covered": 179
+          },
+          "CLASS": {
+            "missed": 0,
+            "covered": 11
+          }
+        }
+      },
+      {
+        "file": "Arrays.java",
+        "counters": {
+          "INSTRUCTION": {
+            "missed": 0,
+            "covered": 21032
+          },
+          "BRANCH": {
+            "missed": 0,
+            "covered": 2590
+          },
+          "LINE": {
+            "missed": 0,
+            "covered": 4318
+          },
+          "COMPLEXITY": {
+            "missed": 0,
+            "covered": 1748
+          },
+          "METHOD": {
+            "missed": 0,
+            "covered": 453
+          },
+          "CLASS": {
+            "missed": 0,
+            "covered": 5
+          }
+        }
+      },
+      {
+        "file": "ImmutableIntArray.java",
+        "counters": {
+          "INSTRUCTION": {
+            "missed": 0,
+            "covered": 202
+          },
+          "BRANCH": {
+            "missed": 0,
+            "covered": 26
+          },
+          "LINE": {
+            "missed": 0,
+            "covered": 36
+          },
+          "COMPLEXITY": {
+            "missed": 0,
+            "covered": 32
+          },
+          "METHOD": {
+            "missed": 0,
+            "covered": 19
+          },
+          "CLASS": {
+            "missed": 0,
+            "covered": 1
+          }
+        }
+      },
+      {
+        "file": "DoubleTuple.java",
+        "counters": {
+          "INSTRUCTION": {
+            "missed": 97,
+            "covered": 3812
+          },
+          "BRANCH": {
+            "missed": 13,
+            "covered": 289
+          },
+          "LINE": {
+            "missed": 20,
+            "covered": 462
+          },
+          "COMPLEXITY": {
+            "missed": 12,
+            "covered": 331
+          },
+          "METHOD": {
+            "missed": 4,
+            "covered": 184
+          },
+          "CLASS": {
+            "missed": 0,
+            "covered": 11
+          }
+        }
+      },
+      {
+        "file": "Points.java",
+        "counters": {
+          "INSTRUCTION": {
+            "missed": 0,
+            "covered": 840
+          },
+          "LINE": {
+            "missed": 0,
+            "covered": 80
+          },
+          "COMPLEXITY": {
+            "missed": 0,
+            "covered": 80
+          },
+          "METHOD": {
+            "missed": 0,
+            "covered": 80
+          },
+          "CLASS": {
+            "missed": 0,
+            "covered": 40
+          }
+        }
+      },
+      {
+        "file": "ShortTuple.java",
+        "counters": {
+          "INSTRUCTION": {
+            "missed": 63,
+            "covered": 3606
+          },
+          "BRANCH": {
+            "missed": 9,
+            "covered": 263
+          },
+          "LINE": {
+            "missed": 14,
+            "covered": 385
+          },
+          "COMPLEXITY": {
+            "missed": 10,
+            "covered": 313
+          },
+          "METHOD": {
+            "missed": 4,
+            "covered": 179
+          },
+          "CLASS": {
+            "missed": 0,
+            "covered": 11
+          }
+        }
+      },
+      {
+        "file": "CharTuple.java",
+        "counters": {
+          "INSTRUCTION": {
+            "missed": 58,
+            "covered": 3542
+          },
+          "BRANCH": {
+            "missed": 8,
+            "covered": 260
+          },
+          "LINE": {
+            "missed": 13,
+            "covered": 376
+          },
+          "COMPLEXITY": {
+            "missed": 9,
+            "covered": 307
+          },
+          "METHOD": {
+            "missed": 4,
+            "covered": 174
+          },
+          "CLASS": {
+            "missed": 0,
+            "covered": 11
+          }
+        }
+      },
+      {
+        "file": "IntTuple.java",
+        "counters": {
+          "INSTRUCTION": {
+            "missed": 63,
+            "covered": 3607
+          },
+          "BRANCH": {
+            "missed": 9,
+            "covered": 263
+          },
+          "LINE": {
+            "missed": 14,
+            "covered": 385
+          },
+          "COMPLEXITY": {
+            "missed": 10,
+            "covered": 313
+          },
+          "METHOD": {
+            "missed": 4,
+            "covered": 179
+          },
+          "CLASS": {
+            "missed": 0,
+            "covered": 11
+          }
+        }
+      }
+    ]
+  },
+  "addedParameterizedAndRegularMethods": 30,
+  "addedExecutedCases": 404,
+  "remainingUncovered": [
+    {
+      "type": "ByteTuple",
+      "missedLines": 14,
+      "missedBranches": 9,
+      "methods": [
+        {
+          "method": "min",
+          "line": 526,
+          "missedLines": 4,
+          "missedBranches": 2,
+          "overriddenBy": [
+            "ByteTuple0",
+            "ByteTuple1",
+            "ByteTuple2",
+            "ByteTuple3",
+            "ByteTuple4",
+            "ByteTuple5",
+            "ByteTuple6",
+            "ByteTuple7",
+            "ByteTuple8",
+            "ByteTuple9"
+          ],
+          "reason": "Every permitted concrete subtype overrides this implementation; none calls the base implementation."
+        },
+        {
+          "method": "max",
+          "line": 569,
+          "missedLines": 4,
+          "missedBranches": 2,
+          "overriddenBy": [
+            "ByteTuple0",
+            "ByteTuple1",
+            "ByteTuple2",
+            "ByteTuple3",
+            "ByteTuple4",
+            "ByteTuple5",
+            "ByteTuple6",
+            "ByteTuple7",
+            "ByteTuple8",
+            "ByteTuple9"
+          ],
+          "reason": "Every permitted concrete subtype overrides this implementation; none calls the base implementation."
+        },
+        {
+          "method": "sum",
+          "line": 609,
+          "missedLines": 1,
+          "missedBranches": 0,
+          "overriddenBy": [
+            "ByteTuple0",
+            "ByteTuple1",
+            "ByteTuple2",
+            "ByteTuple3",
+            "ByteTuple4",
+            "ByteTuple5",
+            "ByteTuple6",
+            "ByteTuple7",
+            "ByteTuple8",
+            "ByteTuple9"
+          ],
+          "reason": "Every permitted concrete subtype overrides this implementation; none calls the base implementation."
+        },
+        {
+          "method": "average",
+          "line": 645,
+          "missedLines": 2,
+          "missedBranches": 2,
+          "overriddenBy": [
+            "ByteTuple0",
+            "ByteTuple1",
+            "ByteTuple2",
+            "ByteTuple3",
+            "ByteTuple4",
+            "ByteTuple5",
+            "ByteTuple6",
+            "ByteTuple7",
+            "ByteTuple8",
+            "ByteTuple9"
+          ],
+          "reason": "Every permitted concrete subtype overrides this implementation; none calls the base implementation."
+        },
+        {
+          "method": "median",
+          "line": 686,
+          "missedLines": 1,
+          "missedBranches": 1,
+          "overriddenBy": [
+            "ByteTuple0",
+            "ByteTuple1",
+            "ByteTuple2",
+            "ByteTuple3"
+          ],
+          "reason": "The empty tuple overrides this method. Instances using the base implementation always have elements, so the empty-input exception branch is unreachable for valid instances."
+        },
+        {
+          "method": "lowerMedian",
+          "line": 739,
+          "missedLines": 1,
+          "missedBranches": 1,
+          "overriddenBy": [
+            "ByteTuple0",
+            "ByteTuple1",
+            "ByteTuple2",
+            "ByteTuple3"
+          ],
+          "reason": "The empty tuple overrides this method. Instances using the base implementation always have elements, so the empty-input exception branch is unreachable for valid instances."
+        },
+        {
+          "method": "forEach",
+          "line": 924,
+          "missedLines": 1,
+          "missedBranches": 1,
+          "overriddenBy": [
+            "ByteTuple1",
+            "ByteTuple2",
+            "ByteTuple3",
+            "ByteTuple4",
+            "ByteTuple5",
+            "ByteTuple6",
+            "ByteTuple7",
+            "ByteTuple8",
+            "ByteTuple9"
+          ],
+          "reason": "Only the empty tuple inherits this implementation. All nonempty tuples override it, so its loop body is unreachable for valid instances."
+        }
+      ]
+    },
+    {
+      "type": "CharTuple",
+      "missedLines": 13,
+      "missedBranches": 8,
+      "methods": [
+        {
+          "method": "min",
+          "line": 442,
+          "missedLines": 4,
+          "missedBranches": 2,
+          "overriddenBy": [
+            "CharTuple0",
+            "CharTuple1",
+            "CharTuple2",
+            "CharTuple3",
+            "CharTuple4",
+            "CharTuple5",
+            "CharTuple6",
+            "CharTuple7",
+            "CharTuple8",
+            "CharTuple9"
+          ],
+          "reason": "Every permitted concrete subtype overrides this implementation; none calls the base implementation."
+        },
+        {
+          "method": "max",
+          "line": 483,
+          "missedLines": 4,
+          "missedBranches": 2,
+          "overriddenBy": [
+            "CharTuple0",
+            "CharTuple1",
+            "CharTuple2",
+            "CharTuple3",
+            "CharTuple4",
+            "CharTuple5",
+            "CharTuple6",
+            "CharTuple7",
+            "CharTuple8",
+            "CharTuple9"
+          ],
+          "reason": "Every permitted concrete subtype overrides this implementation; none calls the base implementation."
+        },
+        {
+          "method": "sum",
+          "line": 522,
+          "missedLines": 1,
+          "missedBranches": 0,
+          "overriddenBy": [
+            "CharTuple0",
+            "CharTuple1",
+            "CharTuple2",
+            "CharTuple3",
+            "CharTuple4",
+            "CharTuple5",
+            "CharTuple6",
+            "CharTuple7",
+            "CharTuple8",
+            "CharTuple9"
+          ],
+          "reason": "Every permitted concrete subtype overrides this implementation; none calls the base implementation."
+        },
+        {
+          "method": "average",
+          "line": 555,
+          "missedLines": 2,
+          "missedBranches": 2,
+          "overriddenBy": [
+            "CharTuple0",
+            "CharTuple1",
+            "CharTuple2",
+            "CharTuple3",
+            "CharTuple4",
+            "CharTuple5",
+            "CharTuple6",
+            "CharTuple7",
+            "CharTuple8",
+            "CharTuple9"
+          ],
+          "reason": "Every permitted concrete subtype overrides this implementation; none calls the base implementation."
+        },
+        {
+          "method": "lowerMedian",
+          "line": 594,
+          "missedLines": 1,
+          "missedBranches": 1,
+          "overriddenBy": [
+            "CharTuple0",
+            "CharTuple1",
+            "CharTuple2",
+            "CharTuple3"
+          ],
+          "reason": "The empty tuple overrides this method. Instances using the base implementation always have elements, so the empty-input exception branch is unreachable for valid instances."
+        },
+        {
+          "method": "forEach",
+          "line": 794,
+          "missedLines": 1,
+          "missedBranches": 1,
+          "overriddenBy": [
+            "CharTuple1",
+            "CharTuple2",
+            "CharTuple3",
+            "CharTuple4",
+            "CharTuple5",
+            "CharTuple6",
+            "CharTuple7",
+            "CharTuple8",
+            "CharTuple9"
+          ],
+          "reason": "Only the empty tuple inherits this implementation. All nonempty tuples override it, so its loop body is unreachable for valid instances."
+        }
+      ]
+    },
+    {
+      "type": "LongTuple",
+      "missedLines": 14,
+      "missedBranches": 9,
+      "methods": [
+        {
+          "method": "min",
+          "line": 472,
+          "missedLines": 4,
+          "missedBranches": 2,
+          "overriddenBy": [
+            "LongTuple0",
+            "LongTuple1",
+            "LongTuple2",
+            "LongTuple3",
+            "LongTuple4",
+            "LongTuple5",
+            "LongTuple6",
+            "LongTuple7",
+            "LongTuple8",
+            "LongTuple9"
+          ],
+          "reason": "Every permitted concrete subtype overrides this implementation; none calls the base implementation."
+        },
+        {
+          "method": "max",
+          "line": 511,
+          "missedLines": 4,
+          "missedBranches": 2,
+          "overriddenBy": [
+            "LongTuple0",
+            "LongTuple1",
+            "LongTuple2",
+            "LongTuple3",
+            "LongTuple4",
+            "LongTuple5",
+            "LongTuple6",
+            "LongTuple7",
+            "LongTuple8",
+            "LongTuple9"
+          ],
+          "reason": "Every permitted concrete subtype overrides this implementation; none calls the base implementation."
+        },
+        {
+          "method": "sum",
+          "line": 554,
+          "missedLines": 1,
+          "missedBranches": 0,
+          "overriddenBy": [
+            "LongTuple0",
+            "LongTuple1",
+            "LongTuple2",
+            "LongTuple3",
+            "LongTuple4",
+            "LongTuple5",
+            "LongTuple6",
+            "LongTuple7",
+            "LongTuple8",
+            "LongTuple9"
+          ],
+          "reason": "Every permitted concrete subtype overrides this implementation; none calls the base implementation."
+        },
+        {
+          "method": "average",
+          "line": 610,
+          "missedLines": 2,
+          "missedBranches": 2,
+          "overriddenBy": [
+            "LongTuple0",
+            "LongTuple1",
+            "LongTuple2",
+            "LongTuple3",
+            "LongTuple4",
+            "LongTuple5",
+            "LongTuple6",
+            "LongTuple7",
+            "LongTuple8",
+            "LongTuple9"
+          ],
+          "reason": "Every permitted concrete subtype overrides this implementation; none calls the base implementation."
+        },
+        {
+          "method": "median",
+          "line": 652,
+          "missedLines": 1,
+          "missedBranches": 1,
+          "overriddenBy": [
+            "LongTuple0",
+            "LongTuple1",
+            "LongTuple2",
+            "LongTuple3"
+          ],
+          "reason": "The empty tuple overrides this method. Instances using the base implementation always have elements, so the empty-input exception branch is unreachable for valid instances."
+        },
+        {
+          "method": "lowerMedian",
+          "line": 712,
+          "missedLines": 1,
+          "missedBranches": 1,
+          "overriddenBy": [
+            "LongTuple0",
+            "LongTuple1",
+            "LongTuple2",
+            "LongTuple3"
+          ],
+          "reason": "The empty tuple overrides this method. Instances using the base implementation always have elements, so the empty-input exception branch is unreachable for valid instances."
+        },
+        {
+          "method": "forEach",
+          "line": 896,
+          "missedLines": 1,
+          "missedBranches": 1,
+          "overriddenBy": [
+            "LongTuple1",
+            "LongTuple2",
+            "LongTuple3",
+            "LongTuple4",
+            "LongTuple5",
+            "LongTuple6",
+            "LongTuple7",
+            "LongTuple8",
+            "LongTuple9"
+          ],
+          "reason": "Only the empty tuple inherits this implementation. All nonempty tuples override it, so its loop body is unreachable for valid instances."
+        }
+      ]
+    },
+    {
+      "type": "ShortTuple",
+      "missedLines": 14,
+      "missedBranches": 9,
+      "methods": [
+        {
+          "method": "min",
+          "line": 493,
+          "missedLines": 4,
+          "missedBranches": 2,
+          "overriddenBy": [
+            "ShortTuple0",
+            "ShortTuple1",
+            "ShortTuple2",
+            "ShortTuple3",
+            "ShortTuple4",
+            "ShortTuple5",
+            "ShortTuple6",
+            "ShortTuple7",
+            "ShortTuple8",
+            "ShortTuple9"
+          ],
+          "reason": "Every permitted concrete subtype overrides this implementation; none calls the base implementation."
+        },
+        {
+          "method": "max",
+          "line": 531,
+          "missedLines": 4,
+          "missedBranches": 2,
+          "overriddenBy": [
+            "ShortTuple0",
+            "ShortTuple1",
+            "ShortTuple2",
+            "ShortTuple3",
+            "ShortTuple4",
+            "ShortTuple5",
+            "ShortTuple6",
+            "ShortTuple7",
+            "ShortTuple8",
+            "ShortTuple9"
+          ],
+          "reason": "Every permitted concrete subtype overrides this implementation; none calls the base implementation."
+        },
+        {
+          "method": "sum",
+          "line": 569,
+          "missedLines": 1,
+          "missedBranches": 0,
+          "overriddenBy": [
+            "ShortTuple0",
+            "ShortTuple1",
+            "ShortTuple2",
+            "ShortTuple3",
+            "ShortTuple4",
+            "ShortTuple5",
+            "ShortTuple6",
+            "ShortTuple7",
+            "ShortTuple8",
+            "ShortTuple9"
+          ],
+          "reason": "Every permitted concrete subtype overrides this implementation; none calls the base implementation."
+        },
+        {
+          "method": "average",
+          "line": 600,
+          "missedLines": 2,
+          "missedBranches": 2,
+          "overriddenBy": [
+            "ShortTuple0",
+            "ShortTuple1",
+            "ShortTuple2",
+            "ShortTuple3",
+            "ShortTuple4",
+            "ShortTuple5",
+            "ShortTuple6",
+            "ShortTuple7",
+            "ShortTuple8",
+            "ShortTuple9"
+          ],
+          "reason": "Every permitted concrete subtype overrides this implementation; none calls the base implementation."
+        },
+        {
+          "method": "median",
+          "line": 641,
+          "missedLines": 1,
+          "missedBranches": 1,
+          "overriddenBy": [
+            "ShortTuple0",
+            "ShortTuple1",
+            "ShortTuple2",
+            "ShortTuple3"
+          ],
+          "reason": "The empty tuple overrides this method. Instances using the base implementation always have elements, so the empty-input exception branch is unreachable for valid instances."
+        },
+        {
+          "method": "lowerMedian",
+          "line": 694,
+          "missedLines": 1,
+          "missedBranches": 1,
+          "overriddenBy": [
+            "ShortTuple0",
+            "ShortTuple1",
+            "ShortTuple2",
+            "ShortTuple3"
+          ],
+          "reason": "The empty tuple overrides this method. Instances using the base implementation always have elements, so the empty-input exception branch is unreachable for valid instances."
+        },
+        {
+          "method": "forEach",
+          "line": 882,
+          "missedLines": 1,
+          "missedBranches": 1,
+          "overriddenBy": [
+            "ShortTuple1",
+            "ShortTuple2",
+            "ShortTuple3",
+            "ShortTuple4",
+            "ShortTuple5",
+            "ShortTuple6",
+            "ShortTuple7",
+            "ShortTuple8",
+            "ShortTuple9"
+          ],
+          "reason": "Only the empty tuple inherits this implementation. All nonempty tuples override it, so its loop body is unreachable for valid instances."
+        }
+      ]
+    },
+    {
+      "type": "IntTuple",
+      "missedLines": 14,
+      "missedBranches": 9,
+      "methods": [
+        {
+          "method": "min",
+          "line": 458,
+          "missedLines": 4,
+          "missedBranches": 2,
+          "overriddenBy": [
+            "IntTuple0",
+            "IntTuple1",
+            "IntTuple2",
+            "IntTuple3",
+            "IntTuple4",
+            "IntTuple5",
+            "IntTuple6",
+            "IntTuple7",
+            "IntTuple8",
+            "IntTuple9"
+          ],
+          "reason": "Every permitted concrete subtype overrides this implementation; none calls the base implementation."
+        },
+        {
+          "method": "max",
+          "line": 494,
+          "missedLines": 4,
+          "missedBranches": 2,
+          "overriddenBy": [
+            "IntTuple0",
+            "IntTuple1",
+            "IntTuple2",
+            "IntTuple3",
+            "IntTuple4",
+            "IntTuple5",
+            "IntTuple6",
+            "IntTuple7",
+            "IntTuple8",
+            "IntTuple9"
+          ],
+          "reason": "Every permitted concrete subtype overrides this implementation; none calls the base implementation."
+        },
+        {
+          "method": "sum",
+          "line": 533,
+          "missedLines": 1,
+          "missedBranches": 0,
+          "overriddenBy": [
+            "IntTuple0",
+            "IntTuple1",
+            "IntTuple2",
+            "IntTuple3",
+            "IntTuple4",
+            "IntTuple5",
+            "IntTuple6",
+            "IntTuple7",
+            "IntTuple8",
+            "IntTuple9"
+          ],
+          "reason": "Every permitted concrete subtype overrides this implementation; none calls the base implementation."
+        },
+        {
+          "method": "average",
+          "line": 569,
+          "missedLines": 2,
+          "missedBranches": 2,
+          "overriddenBy": [
+            "IntTuple0",
+            "IntTuple1",
+            "IntTuple2",
+            "IntTuple3",
+            "IntTuple4",
+            "IntTuple5",
+            "IntTuple6",
+            "IntTuple7",
+            "IntTuple8",
+            "IntTuple9"
+          ],
+          "reason": "Every permitted concrete subtype overrides this implementation; none calls the base implementation."
+        },
+        {
+          "method": "median",
+          "line": 610,
+          "missedLines": 1,
+          "missedBranches": 1,
+          "overriddenBy": [
+            "IntTuple0",
+            "IntTuple1",
+            "IntTuple2",
+            "IntTuple3"
+          ],
+          "reason": "The empty tuple overrides this method. Instances using the base implementation always have elements, so the empty-input exception branch is unreachable for valid instances."
+        },
+        {
+          "method": "lowerMedian",
+          "line": 663,
+          "missedLines": 1,
+          "missedBranches": 1,
+          "overriddenBy": [
+            "IntTuple0",
+            "IntTuple1",
+            "IntTuple2",
+            "IntTuple3"
+          ],
+          "reason": "The empty tuple overrides this method. Instances using the base implementation always have elements, so the empty-input exception branch is unreachable for valid instances."
+        },
+        {
+          "method": "forEach",
+          "line": 837,
+          "missedLines": 1,
+          "missedBranches": 1,
+          "overriddenBy": [
+            "IntTuple1",
+            "IntTuple2",
+            "IntTuple3",
+            "IntTuple4",
+            "IntTuple5",
+            "IntTuple6",
+            "IntTuple7",
+            "IntTuple8",
+            "IntTuple9"
+          ],
+          "reason": "Only the empty tuple inherits this implementation. All nonempty tuples override it, so its loop body is unreachable for valid instances."
+        }
+      ]
+    },
+    {
+      "type": "BooleanTuple",
+      "missedLines": 1,
+      "missedBranches": 1,
+      "methods": [
+        {
+          "method": "forEach",
+          "line": 640,
+          "missedLines": 1,
+          "missedBranches": 1,
+          "overriddenBy": [
+            "BooleanTuple1",
+            "BooleanTuple2",
+            "BooleanTuple3",
+            "BooleanTuple4",
+            "BooleanTuple5",
+            "BooleanTuple6",
+            "BooleanTuple7",
+            "BooleanTuple8",
+            "BooleanTuple9"
+          ],
+          "reason": "Only the empty tuple inherits this implementation. All nonempty tuples override it, so its loop body is unreachable for valid instances."
+        }
+      ]
+    },
+    {
+      "type": "FloatTuple",
+      "missedLines": 20,
+      "missedBranches": 13,
+      "methods": [
+        {
+          "method": "min",
+          "line": 486,
+          "missedLines": 7,
+          "missedBranches": 4,
+          "overriddenBy": [
+            "FloatTuple0",
+            "FloatTuple1",
+            "FloatTuple2",
+            "FloatTuple3",
+            "FloatTuple4",
+            "FloatTuple5",
+            "FloatTuple6",
+            "FloatTuple7",
+            "FloatTuple8",
+            "FloatTuple9"
+          ],
+          "reason": "Every permitted concrete subtype overrides this implementation; none calls the base implementation."
+        },
+        {
+          "method": "max",
+          "line": 535,
+          "missedLines": 7,
+          "missedBranches": 4,
+          "overriddenBy": [
+            "FloatTuple0",
+            "FloatTuple1",
+            "FloatTuple2",
+            "FloatTuple3",
+            "FloatTuple4",
+            "FloatTuple5",
+            "FloatTuple6",
+            "FloatTuple7",
+            "FloatTuple8",
+            "FloatTuple9"
+          ],
+          "reason": "Every permitted concrete subtype overrides this implementation; none calls the base implementation."
+        },
+        {
+          "method": "sum",
+          "line": 585,
+          "missedLines": 1,
+          "missedBranches": 0,
+          "overriddenBy": [
+            "FloatTuple0",
+            "FloatTuple1",
+            "FloatTuple2",
+            "FloatTuple3",
+            "FloatTuple4",
+            "FloatTuple5",
+            "FloatTuple6",
+            "FloatTuple7",
+            "FloatTuple8",
+            "FloatTuple9"
+          ],
+          "reason": "Every permitted concrete subtype overrides this implementation; none calls the base implementation."
+        },
+        {
+          "method": "average",
+          "line": 626,
+          "missedLines": 2,
+          "missedBranches": 2,
+          "overriddenBy": [
+            "FloatTuple0",
+            "FloatTuple1",
+            "FloatTuple2",
+            "FloatTuple3",
+            "FloatTuple4",
+            "FloatTuple5",
+            "FloatTuple6",
+            "FloatTuple7",
+            "FloatTuple8",
+            "FloatTuple9"
+          ],
+          "reason": "Every permitted concrete subtype overrides this implementation; none calls the base implementation."
+        },
+        {
+          "method": "median",
+          "line": 671,
+          "missedLines": 1,
+          "missedBranches": 1,
+          "overriddenBy": [
+            "FloatTuple0",
+            "FloatTuple1",
+            "FloatTuple2",
+            "FloatTuple3"
+          ],
+          "reason": "The empty tuple overrides this method. Instances using the base implementation always have elements, so the empty-input exception branch is unreachable for valid instances."
+        },
+        {
+          "method": "lowerMedian",
+          "line": 720,
+          "missedLines": 1,
+          "missedBranches": 1,
+          "overriddenBy": [
+            "FloatTuple0",
+            "FloatTuple1",
+            "FloatTuple2",
+            "FloatTuple3"
+          ],
+          "reason": "The empty tuple overrides this method. Instances using the base implementation always have elements, so the empty-input exception branch is unreachable for valid instances."
+        },
+        {
+          "method": "forEach",
+          "line": 898,
+          "missedLines": 1,
+          "missedBranches": 1,
+          "overriddenBy": [
+            "FloatTuple1",
+            "FloatTuple2",
+            "FloatTuple3",
+            "FloatTuple4",
+            "FloatTuple5",
+            "FloatTuple6",
+            "FloatTuple7",
+            "FloatTuple8",
+            "FloatTuple9"
+          ],
+          "reason": "Only the empty tuple inherits this implementation. All nonempty tuples override it, so its loop body is unreachable for valid instances."
+        }
+      ]
+    },
+    {
+      "type": "DoubleTuple",
+      "missedLines": 20,
+      "missedBranches": 13,
+      "methods": [
+        {
+          "method": "min",
+          "line": 476,
+          "missedLines": 7,
+          "missedBranches": 4,
+          "overriddenBy": [
+            "DoubleTuple0",
+            "DoubleTuple1",
+            "DoubleTuple2",
+            "DoubleTuple3",
+            "DoubleTuple4",
+            "DoubleTuple5",
+            "DoubleTuple6",
+            "DoubleTuple7",
+            "DoubleTuple8",
+            "DoubleTuple9"
+          ],
+          "reason": "Every permitted concrete subtype overrides this implementation; none calls the base implementation."
+        },
+        {
+          "method": "max",
+          "line": 527,
+          "missedLines": 7,
+          "missedBranches": 4,
+          "overriddenBy": [
+            "DoubleTuple0",
+            "DoubleTuple1",
+            "DoubleTuple2",
+            "DoubleTuple3",
+            "DoubleTuple4",
+            "DoubleTuple5",
+            "DoubleTuple6",
+            "DoubleTuple7",
+            "DoubleTuple8",
+            "DoubleTuple9"
+          ],
+          "reason": "Every permitted concrete subtype overrides this implementation; none calls the base implementation."
+        },
+        {
+          "method": "sum",
+          "line": 585,
+          "missedLines": 1,
+          "missedBranches": 0,
+          "overriddenBy": [
+            "DoubleTuple0",
+            "DoubleTuple1",
+            "DoubleTuple2",
+            "DoubleTuple3",
+            "DoubleTuple4",
+            "DoubleTuple5",
+            "DoubleTuple6",
+            "DoubleTuple7",
+            "DoubleTuple8",
+            "DoubleTuple9"
+          ],
+          "reason": "Every permitted concrete subtype overrides this implementation; none calls the base implementation."
+        },
+        {
+          "method": "average",
+          "line": 703,
+          "missedLines": 2,
+          "missedBranches": 2,
+          "overriddenBy": [
+            "DoubleTuple0",
+            "DoubleTuple1",
+            "DoubleTuple2",
+            "DoubleTuple3",
+            "DoubleTuple4",
+            "DoubleTuple5",
+            "DoubleTuple6",
+            "DoubleTuple7",
+            "DoubleTuple8",
+            "DoubleTuple9"
+          ],
+          "reason": "Every permitted concrete subtype overrides this implementation; none calls the base implementation."
+        },
+        {
+          "method": "median",
+          "line": 744,
+          "missedLines": 1,
+          "missedBranches": 1,
+          "overriddenBy": [
+            "DoubleTuple0",
+            "DoubleTuple1",
+            "DoubleTuple2",
+            "DoubleTuple3"
+          ],
+          "reason": "The empty tuple overrides this method. Instances using the base implementation always have elements, so the empty-input exception branch is unreachable for valid instances."
+        },
+        {
+          "method": "lowerMedian",
+          "line": 800,
+          "missedLines": 1,
+          "missedBranches": 1,
+          "overriddenBy": [
+            "DoubleTuple0",
+            "DoubleTuple1",
+            "DoubleTuple2",
+            "DoubleTuple3"
+          ],
+          "reason": "The empty tuple overrides this method. Instances using the base implementation always have elements, so the empty-input exception branch is unreachable for valid instances."
+        },
+        {
+          "method": "forEach",
+          "line": 987,
+          "missedLines": 1,
+          "missedBranches": 1,
+          "overriddenBy": [
+            "DoubleTuple1",
+            "DoubleTuple2",
+            "DoubleTuple3",
+            "DoubleTuple4",
+            "DoubleTuple5",
+            "DoubleTuple6",
+            "DoubleTuple7",
+            "DoubleTuple8",
+            "DoubleTuple9"
+          ],
+          "reason": "Only the empty tuple inherits this implementation. All nonempty tuples override it, so its loop body is unreachable for valid instances."
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "fullCleanBuild": true,
+    "randomClassAndMethodOrder": true,
+    "randomSeed": 20261015,
+    "locale": "de_DE",
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  }
+}

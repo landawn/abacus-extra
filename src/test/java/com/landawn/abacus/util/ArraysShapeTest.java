@@ -16,7 +16,12 @@
 package com.landawn.abacus.util;
 
 import static com.landawn.abacus.util.ArrayTestSupport.ITERATIONS;
+import static com.landawn.abacus.util.ArrayTestSupport.arrayMethod;
+import static com.landawn.abacus.util.ArrayTestSupport.arrayType;
+import static com.landawn.abacus.util.ArrayTestSupport.invokeArrayMethod;
+import static com.landawn.abacus.util.ArrayTestSupport.nestedArray;
 import static com.landawn.abacus.util.ArrayTestSupport.newArray;
+import static com.landawn.abacus.util.ArrayTestSupport.primitiveArray;
 import static com.landawn.abacus.util.ArrayTestSupport.randomIntArray;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -43,6 +48,19 @@ class ArraysShapeTest {
 
     @Nested
     class ReshapeTests {
+
+        @ParameterizedTest(name = "{0}: empty reshape")
+        @MethodSource("com.landawn.abacus.util.ArrayTestSupport#primitiveTypes")
+        void reshape_nullOrEmptyVector_returnsEmptyArrayOfRequestedDimension(Class<?> elementType) throws Throwable {
+            for (Object input : new Object[] { null, primitiveArray(elementType) }) {
+                Object grid = invokeArrayMethod(arrayMethod("reshape", elementType, 1, 2), input, 2);
+                Object cube = invokeArrayMethod(arrayMethod("reshape", elementType, 1, 3), input, 2, 3);
+                assertEquals(arrayType(elementType, 2), grid.getClass());
+                assertEquals(arrayType(elementType, 3), cube.getClass());
+                assertEquals(0, java.lang.reflect.Array.getLength(grid));
+                assertEquals(0, java.lang.reflect.Array.getLength(cube));
+            }
+        }
 
         @Test
         void booleanReshape2D() {
@@ -1174,6 +1192,18 @@ class ArraysShapeTest {
 
     @Nested
     class FlattenTests {
+
+        @ParameterizedTest(name = "{0}: no elements in nonempty cube")
+        @MethodSource("com.landawn.abacus.util.ArrayTestSupport#primitiveTypes")
+        void flatten_nullEmptyAndMissingBranches_returnsEmptyVector(Class<?> elementType) throws Throwable {
+            Object rows = nestedArray(elementType, 2, null, primitiveArray(elementType));
+            Object cube = nestedArray(elementType, 3, null, nestedArray(elementType, 2), rows);
+            for (Object input : new Object[] { null, nestedArray(elementType, 3), cube }) {
+                Object flattened = invokeArrayMethod(arrayMethod("flatten", elementType, 3, 1), input);
+                assertEquals(arrayType(elementType, 1), flattened.getClass());
+                assertEquals(0, java.lang.reflect.Array.getLength(flattened));
+            }
+        }
 
         @Test
         void aWideInputKeepsTheWideComponentType() {

@@ -30,6 +30,8 @@ Keep regressions with the unit or contract they protect. Do not create another d
 
 `ArrayTestSupport` contains only shared array fixtures and deterministic input generation. Keep helpers local unless multiple test classes use them. `CodeHelper.main` is a manual source-generation utility, not a test; running it rewrites production source files.
 
+Cross-overload array tests use shared reflection fixtures to select the public primitive overloads. Keep expected values independent of the library under test; the zip matrix checks callback arguments and traversal order as well as output shape. Its shape oracle and case provider stay local to `ArraysZipTest`.
+
 ## Layout and names
 
 Use package-private JUnit Jupiter test classes and methods, explicit static assertion imports, and `@Nested` groups ending in `Tests`. Name the operation, scenario, and expected behavior when that makes the failure easier to identify. Omit the redundant `test` prefix and dated tags.
@@ -54,3 +56,5 @@ Array groups follow their operation families. Point groups follow dimension and 
 - Compare a fresh full-suite coverage report before and after removals. Coverage is a guard against losing exercised paths; it does not establish assertion quality by itself.
 
 Run `node tools/check-test-layout.js` and `node --test tools/java-test-tools.test.js` from the repository root. The layout check enforces discovery names, tuple group order, package-private methods, assertion style, and duplicate review. See [the audit tools](../../tools/README.md) for deeper review commands and their limitations.
+
+The [coverage report](../../report/unit-test-coverage.md) records the current measurements and explains the remaining unreachable paths in sealed tuple base implementations. Always clean production classes as well as execution data before comparing coverage: unrelated stale classes under `target/classes` also enter a JaCoCo report.

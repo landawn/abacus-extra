@@ -15,7 +15,11 @@
  */
 package com.landawn.abacus.util;
 
+import static com.landawn.abacus.util.ArrayTestSupport.arrayMethod;
+import static com.landawn.abacus.util.ArrayTestSupport.invokeArrayMethod;
+import static com.landawn.abacus.util.ArrayTestSupport.nestedArray;
 import static com.landawn.abacus.util.ArrayTestSupport.newArray;
+import static com.landawn.abacus.util.ArrayTestSupport.primitiveArray;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -35,6 +39,19 @@ class ArraysStructureTest {
 
     @Nested
     class TotalElementCountTests {
+
+        @ParameterizedTest(name = "{0}: null and ragged element counts")
+        @MethodSource("com.landawn.abacus.util.ArrayTestSupport#primitiveTypes")
+        void totalElementCount_nullAndRaggedArrays_countOnlyPresentValues(Class<?> elementType) throws Throwable {
+            java.lang.reflect.Method gridCount = arrayMethod("totalElementCount", elementType, 2, 1);
+            java.lang.reflect.Method cubeCount = arrayMethod("totalElementCount", elementType, 3, 1);
+            assertEquals(0L, invokeArrayMethod(gridCount, (Object) null));
+            assertEquals(0L, invokeArrayMethod(cubeCount, (Object) null));
+            Object rows = nestedArray(elementType, 2, null, primitiveArray(elementType), primitiveArray(elementType, 1), primitiveArray(elementType, 2, 3, 4));
+            Object cube = nestedArray(elementType, 3, null, nestedArray(elementType, 2), rows);
+            assertEquals(4L, invokeArrayMethod(gridCount, rows));
+            assertEquals(4L, invokeArrayMethod(cubeCount, cube));
+        }
 
         @Test
         void booleanTotalCountOfElements2D() {
@@ -657,6 +674,16 @@ class ArraysStructureTest {
 
     @Nested
     class MaxRowLengthTests {
+
+        @ParameterizedTest(name = "{0}: maximum row length")
+        @MethodSource("com.landawn.abacus.util.ArrayTestSupport#primitiveTypes")
+        void maxRowLength_nullEmptyAndRaggedArrays_ignoreMissingRows(Class<?> elementType) throws Throwable {
+            java.lang.reflect.Method method = arrayMethod("maxRowLength", elementType, 2, 1);
+            assertEquals(0, invokeArrayMethod(method, (Object) null));
+            assertEquals(0, invokeArrayMethod(method, nestedArray(elementType, 2)));
+            Object rows = nestedArray(elementType, 2, null, primitiveArray(elementType), primitiveArray(elementType, 1), primitiveArray(elementType, 2, 3, 4));
+            assertEquals(3, invokeArrayMethod(method, rows));
+        }
 
         @Test
         void booleanmaxRowLength() {

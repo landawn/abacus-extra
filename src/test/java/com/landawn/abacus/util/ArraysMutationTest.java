@@ -13,6 +13,12 @@
  */
 package com.landawn.abacus.util;
 
+import static com.landawn.abacus.util.ArrayTestSupport.arrayMethod;
+import static com.landawn.abacus.util.ArrayTestSupport.callback;
+import static com.landawn.abacus.util.ArrayTestSupport.invokeArrayMethod;
+import static com.landawn.abacus.util.ArrayTestSupport.nestedArray;
+import static com.landawn.abacus.util.ArrayTestSupport.primitiveArray;
+import static com.landawn.abacus.util.ArrayTestSupport.primitiveValue;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,6 +36,8 @@ import java.util.List;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import com.landawn.abacus.util.Arrays.f;
 import com.landawn.abacus.util.Arrays.ff;
@@ -39,6 +47,21 @@ class ArraysMutationTest {
 
     @Nested
     class UpdateAllTests {
+
+        @ParameterizedTest(name = "{0}, dimension {1}: updateAll skips empty input")
+        @MethodSource("com.landawn.abacus.util.ArrayTestSupport#primitiveArrayCases")
+        void updateAll_nullOrEmptyOuterArray_doesNotInvokeCallback(Class<?> elementType, int dimensions) throws Throwable {
+            java.lang.reflect.Method method = arrayMethod("updateAll", elementType, dimensions, 2);
+            int[] calls = { 0 };
+            Object action = callback(method.getParameterTypes()[1], values -> {
+                calls[0]++;
+                return primitiveValue(elementType, 1);
+            });
+            for (Object input : new Object[] { null, java.lang.reflect.Array.newInstance(elementType, new int[dimensions]) }) {
+                invokeArrayMethod(method, input, action);
+            }
+            assertEquals(0, calls[0]);
+        }
 
         @Test
         void classJavadoc_updateAll() {
@@ -1007,6 +1030,21 @@ class ArraysMutationTest {
     @Nested
     class ReplaceIfTests {
 
+        @ParameterizedTest(name = "{0}, dimension {1}: replaceIf skips empty input")
+        @MethodSource("com.landawn.abacus.util.ArrayTestSupport#primitiveArrayCases")
+        void replaceIf_nullOrEmptyOuterArray_doesNotInvokeCallback(Class<?> elementType, int dimensions) throws Throwable {
+            java.lang.reflect.Method method = arrayMethod("replaceIf", elementType, dimensions, 3);
+            int[] calls = { 0 };
+            Object action = callback(method.getParameterTypes()[1], values -> {
+                calls[0]++;
+                return true;
+            });
+            for (Object input : new Object[] { null, java.lang.reflect.Array.newInstance(elementType, new int[dimensions]) }) {
+                invokeArrayMethod(method, input, action, primitiveValue(elementType, 1));
+            }
+            assertEquals(0, calls[0]);
+        }
+
         @Test
         void doubleReplaceIf_naN_infinity() throws Exception {
             double[][] grid = { { 1.0, -2.0 }, { Double.NaN, 4.0 } };
@@ -1965,6 +2003,47 @@ class ArraysMutationTest {
 
     @Nested
     class MutateViaFlatArrayTests {
+
+        @ParameterizedTest(name = "{0}, dimension {1}: empty flat mutation")
+        @MethodSource("com.landawn.abacus.util.ArrayTestSupport#nestedPrimitiveArrayCases")
+        void mutateViaFlatArray_nullOrEmptyOuterArray_skipsAction(Class<?> elementType, int dimensions) throws Throwable {
+            java.lang.reflect.Method method = arrayMethod("mutateViaFlatArray", elementType, dimensions, 2);
+            int[] calls = { 0 };
+            Object action = callback(method.getParameterTypes()[1], values -> {
+                calls[0]++;
+                return null;
+            });
+            invokeArrayMethod(method, null, action);
+            invokeArrayMethod(method, java.lang.reflect.Array.newInstance(elementType, new int[dimensions]), action);
+            assertEquals(0, calls[0]);
+        }
+
+        @ParameterizedTest(name = "{0}, dimension {1}: ragged flat mutation")
+        @MethodSource("com.landawn.abacus.util.ArrayTestSupport#nestedPrimitiveArrayCases")
+        void mutateViaFlatArray_raggedInput_updatesValuesAndPreservesEmptyBranches(Class<?> elementType, int dimensions) throws Throwable {
+            Object row = primitiveArray(elementType, 1, 2);
+            Object rows = nestedArray(elementType, 2, null, primitiveArray(elementType), row);
+            Object input = dimensions == 2 ? rows : nestedArray(elementType, 3, null, nestedArray(elementType, 2), rows);
+            java.lang.reflect.Method method = arrayMethod("mutateViaFlatArray", elementType, dimensions, 2);
+            int[] calls = { 0 };
+            Object action = callback(method.getParameterTypes()[1], values -> {
+                calls[0]++;
+                Object flat = values[0];
+                assertEquals(2, java.lang.reflect.Array.getLength(flat));
+                assertEquals(primitiveValue(elementType, 1), java.lang.reflect.Array.get(flat, 0));
+                assertEquals(primitiveValue(elementType, 2), java.lang.reflect.Array.get(flat, 1));
+                java.lang.reflect.Array.set(flat, 0, primitiveValue(elementType, 3));
+                java.lang.reflect.Array.set(flat, 1, primitiveValue(elementType, 4));
+                return null;
+            });
+            invokeArrayMethod(method, input, action);
+            assertEquals(1, calls[0]);
+            assertEquals(primitiveValue(elementType, 3), java.lang.reflect.Array.get(row, 0));
+            assertEquals(primitiveValue(elementType, 4), java.lang.reflect.Array.get(row, 1));
+            assertNull(java.lang.reflect.Array.get(rows, 0));
+            assertEquals(0, java.lang.reflect.Array.getLength(java.lang.reflect.Array.get(rows, 1)));
+            assertSame(row, java.lang.reflect.Array.get(rows, 2));
+        }
 
         @Test
         void ff_mutateViaFlatArray_assignableValue_succeeds() {

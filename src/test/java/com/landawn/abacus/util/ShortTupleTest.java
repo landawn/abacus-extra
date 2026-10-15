@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import com.landawn.abacus.util.ShortTuple.ShortTuple0;
 import com.landawn.abacus.util.ShortTuple.ShortTuple1;
@@ -1362,6 +1363,20 @@ class ShortTupleTest {
     @Nested
     class ContainsTests {
 
+        @ParameterizedTest(name = "arity {0}: contains checks every component")
+        @ValueSource(ints = { 1, 2, 3, 4, 5, 6, 7, 8, 9 })
+        void contains_checksEveryComponentAndRejectsMissingValue(int arity) {
+            short[] values = new short[arity];
+            for (int i = 0; i < arity; i++) {
+                values[i] = (short) (i + 1);
+            }
+            ShortTuple<?> tuple = ShortTuple.from(values);
+            for (short value : values) {
+                assertTrue(tuple.contains(value), "missing component " + value);
+            }
+            assertFalse(tuple.contains((short) 100));
+        }
+
         @Test
         void arity0_contains() {
             ShortTuple0 tuple = ShortTuple.from(new short[0]);
@@ -2650,6 +2665,33 @@ class ShortTupleTest {
 
     @Nested
     class EqualsTests {
+
+        @ParameterizedTest(name = "arity {0}: equality checks every component")
+        @ValueSource(ints = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 })
+        void equals_rejectsEverySingleComponentDifference(int arity) {
+            short[] values = new short[arity];
+            for (int i = 0; i < arity; i++) {
+                values[i] = (short) (i + 1);
+            }
+            ShortTuple<?> tuple = ShortTuple.from(values);
+            // A separately constructed empty value verifies equality independently of the factory singleton.
+            ShortTuple<?> equal = arity == 0 ? new ShortTuple.ShortTuple0() : ShortTuple.from(values.clone());
+            assertNotSame(tuple, equal);
+            assertTrue(tuple.equals(tuple));
+            assertTrue(tuple.equals(equal));
+            assertTrue(equal.equals(tuple));
+            assertEquals(tuple.hashCode(), equal.hashCode());
+            assertFalse(tuple.equals(null));
+            assertFalse(tuple.equals(new Object()));
+
+            for (int i = 0; i < arity; i++) {
+                short[] changed = values.clone();
+                changed[i] = (short) 100;
+                ShortTuple<?> different = ShortTuple.from(changed);
+                assertFalse(tuple.equals(different), "component " + i);
+                assertFalse(different.equals(tuple), "component " + i);
+            }
+        }
 
         @Test
         void arity1_equals() {

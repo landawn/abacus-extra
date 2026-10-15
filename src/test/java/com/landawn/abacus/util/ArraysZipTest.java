@@ -14,6 +14,13 @@
 package com.landawn.abacus.util;
 
 import static com.landawn.abacus.util.ArrayTestSupport.ITERATIONS;
+import static com.landawn.abacus.util.ArrayTestSupport.arrayMethod;
+import static com.landawn.abacus.util.ArrayTestSupport.arrayType;
+import static com.landawn.abacus.util.ArrayTestSupport.callback;
+import static com.landawn.abacus.util.ArrayTestSupport.invokeArrayMethod;
+import static com.landawn.abacus.util.ArrayTestSupport.nestedArray;
+import static com.landawn.abacus.util.ArrayTestSupport.primitiveArray;
+import static com.landawn.abacus.util.ArrayTestSupport.primitiveValue;
 import static com.landawn.abacus.util.ArrayTestSupport.randomIntArray;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,6 +35,8 @@ import java.util.List;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import com.landawn.abacus.util.Arrays.f;
 import com.landawn.abacus.util.Arrays.ff;
@@ -37,6 +46,62 @@ class ArraysZipTest {
 
     @Nested
     class ZipTests {
+
+        @Test
+        void objectZipGrid_shorterRightInput_suppliesDefaultsForRemainingRows() {
+            String[][] left = { { "a" }, { "b", "c" } };
+            String[][] right = { { "x" } };
+            String[][] result = ff.zip(left, right, "missing-left", "missing-right", (a, b) -> a + ":" + b, String.class);
+            assertArrayEquals(new String[][] { { "a:x" }, { "b:missing-right", "c:missing-right" } }, result);
+        }
+
+        @Test
+        void objectZipCube_shorterRightInput_suppliesDefaultsForRemainingPlanes() {
+            String[][][] left = { { { "a" } }, { { "b" }, { "c", "d" } } };
+            String[][][] right = { { { "x" } } };
+            String[][][] result = fff.zip(left, right, "missing-left", "missing-right", (a, b) -> a + ":" + b, String.class);
+            assertArrayEquals(new String[][][] { { { "a:x" } }, { { "b:missing-right" }, { "c:missing-right", "d:missing-right" } } }, result);
+        }
+
+        @ParameterizedTest(name = "{0}, dimension {1}, {2} operands, defaults={3}")
+        @MethodSource("com.landawn.abacus.util.ArraysZipTest#raggedZipCases")
+        void zip_raggedInputs_preservesShapeCallbackOrderAndDefaults(Class<?> elementType, int dimensions, int operands, boolean padded) throws Throwable {
+            int parameterCount = operands * (padded ? 2 : 1) + 1;
+            java.lang.reflect.Method method = arrayMethod("zip", elementType, dimensions, parameterCount);
+            Object[] fixtures = zipFixtures(elementType, dimensions);
+            Object[] defaults = new Object[operands];
+            for (int i = 0; i < operands; i++) {
+                defaults[i] = primitiveValue(elementType, 9 + i);
+            }
+            Object marker = primitiveValue(elementType, 42);
+            int combinations = operands == 2 ? fixtures.length * fixtures.length : fixtures.length * fixtures.length * fixtures.length;
+            for (int scenario = 0; scenario < combinations; scenario++) {
+                Object[] inputs = new Object[operands];
+                int choices = scenario;
+                for (int i = 0; i < operands; i++) {
+                    inputs[i] = fixtures[choices % fixtures.length];
+                    choices /= fixtures.length;
+                }
+                List<List<Object>> expectedCalls = new java.util.ArrayList<>();
+                Object expected = expectedZip(elementType, dimensions, inputs, defaults, padded, marker, expectedCalls);
+                String inputsBefore = java.util.Arrays.deepToString(inputs);
+                List<List<Object>> actualCalls = new java.util.ArrayList<>();
+                Object function = callback(method.getParameterTypes()[parameterCount - 1], values -> {
+                    actualCalls.add(java.util.Arrays.asList(values.clone()));
+                    return marker;
+                });
+                Object[] arguments = new Object[parameterCount];
+                System.arraycopy(inputs, 0, arguments, 0, operands);
+                if (padded) {
+                    System.arraycopy(defaults, 0, arguments, operands, operands);
+                }
+                arguments[parameterCount - 1] = function;
+                Object actual = invokeArrayMethod(method, arguments);
+                assertArrayEquals(new Object[] { expected }, new Object[] { actual }, "scenario " + scenario);
+                assertEquals(expectedCalls, actualCalls, "callback order and values for scenario " + scenario);
+                assertEquals(inputsBefore, java.util.Arrays.deepToString(inputs), "zip must preserve input arrays");
+            }
+        }
 
         @Test
         void booleanZipBinary() {
@@ -4049,5 +4114,58 @@ class ArraysZipTest {
 
     private static Object[] arrayWithDimensions(final int dimensions) {
         return (Object[]) java.lang.reflect.Array.newInstance(Object.class, new int[dimensions]);
+    }
+
+    private static java.util.stream.Stream<org.junit.jupiter.params.provider.Arguments> raggedZipCases() {
+        return ArrayTestSupport.primitiveTypes()
+                .flatMap(type -> java.util.stream.IntStream.rangeClosed(1, 3)
+                        .boxed()
+                        .flatMap(dimensions -> java.util.stream.Stream.of(2, 3)
+                                .flatMap(operands -> java.util.stream.Stream.of(false, true)
+                                        .map(padded -> org.junit.jupiter.params.provider.Arguments.of(type, dimensions, operands, padded)))));
+    }
+
+    private static Object[] zipFixtures(Class<?> type, int dimensions) {
+        Object single = primitiveArray(type, 1);
+        Object ragged = primitiveArray(type, 2, 3);
+        for (int depth = 2; depth <= dimensions; depth++) {
+            single = nestedArray(type, depth, single);
+            Object empty = java.lang.reflect.Array.newInstance(type, new int[depth - 1]);
+            ragged = nestedArray(type, depth, null, empty, ragged, singleChild(type, depth - 1));
+        }
+        return new Object[] { null, java.lang.reflect.Array.newInstance(type, new int[dimensions]), single, ragged };
+    }
+
+    private static Object singleChild(Class<?> type, int dimensions) {
+        Object result = primitiveArray(type, 4);
+        for (int depth = 2; depth <= dimensions; depth++) {
+            result = nestedArray(type, depth, result);
+        }
+        return result;
+    }
+
+    // Declarative shape oracle: each dimension uses the shortest input without
+    // defaults and the longest input with defaults, independently of the optimized
+    // typed overloads. Record every leaf argument tuple as well as the result shape.
+    private static Object expectedZip(Class<?> type, int dimensions, Object[] inputs, Object[] defaults, boolean padded, Object marker,
+            List<List<Object>> calls) {
+        int[] lengths = java.util.Arrays.stream(inputs).mapToInt(input -> input == null ? 0 : java.lang.reflect.Array.getLength(input)).toArray();
+        int length = padded ? java.util.Arrays.stream(lengths).max().orElseThrow() : java.util.Arrays.stream(lengths).min().orElseThrow();
+        Class<?> componentType = dimensions == 1 ? type : arrayType(type, dimensions - 1);
+        Object result = java.lang.reflect.Array.newInstance(componentType, length);
+        for (int position = 0; position < length; position++) {
+            Object[] values = new Object[inputs.length];
+            for (int operand = 0; operand < inputs.length; operand++) {
+                values[operand] = position < lengths[operand] ? java.lang.reflect.Array.get(inputs[operand], position)
+                        : dimensions == 1 ? defaults[operand] : null;
+            }
+            if (dimensions == 1) {
+                calls.add(java.util.Arrays.asList(values));
+                java.lang.reflect.Array.set(result, position, marker);
+            } else {
+                java.lang.reflect.Array.set(result, position, expectedZip(type, dimensions - 1, values, defaults, padded, marker, calls));
+            }
+        }
+        return result;
     }
 }

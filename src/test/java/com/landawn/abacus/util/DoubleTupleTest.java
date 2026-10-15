@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import com.landawn.abacus.util.DoubleTuple.DoubleTuple0;
 import com.landawn.abacus.util.DoubleTuple.DoubleTuple1;
@@ -1609,6 +1610,20 @@ class DoubleTupleTest {
     @Nested
     class ContainsTests {
 
+        @ParameterizedTest(name = "arity {0}: contains checks every component")
+        @ValueSource(ints = { 1, 2, 3, 4, 5, 6, 7, 8, 9 })
+        void contains_checksEveryComponentAndRejectsMissingValue(int arity) {
+            double[] values = new double[arity];
+            for (int i = 0; i < arity; i++) {
+                values[i] = (double) (i + 1);
+            }
+            DoubleTuple<?> tuple = DoubleTuple.from(values);
+            for (double value : values) {
+                assertTrue(tuple.contains(value), "missing component " + value);
+            }
+            assertFalse(tuple.contains((double) 100));
+        }
+
         @Test
         void arity1_contains() {
             DoubleTuple.DoubleTuple1 tuple = DoubleTuple.of(1.0);
@@ -2985,6 +3000,33 @@ class DoubleTupleTest {
 
     @Nested
     class EqualsTests {
+
+        @ParameterizedTest(name = "arity {0}: equality checks every component")
+        @ValueSource(ints = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 })
+        void equals_rejectsEverySingleComponentDifference(int arity) {
+            double[] values = new double[arity];
+            for (int i = 0; i < arity; i++) {
+                values[i] = (double) (i + 1);
+            }
+            DoubleTuple<?> tuple = DoubleTuple.from(values);
+            // A separately constructed empty value verifies equality independently of the factory singleton.
+            DoubleTuple<?> equal = arity == 0 ? new DoubleTuple.DoubleTuple0() : DoubleTuple.from(values.clone());
+            assertNotSame(tuple, equal);
+            assertTrue(tuple.equals(tuple));
+            assertTrue(tuple.equals(equal));
+            assertTrue(equal.equals(tuple));
+            assertEquals(tuple.hashCode(), equal.hashCode());
+            assertFalse(tuple.equals(null));
+            assertFalse(tuple.equals(new Object()));
+
+            for (int i = 0; i < arity; i++) {
+                double[] changed = values.clone();
+                changed[i] = (double) 100;
+                DoubleTuple<?> different = DoubleTuple.from(changed);
+                assertFalse(tuple.equals(different), "component " + i);
+                assertFalse(different.equals(tuple), "component " + i);
+            }
+        }
 
         @Test
         void arity1_equals() {

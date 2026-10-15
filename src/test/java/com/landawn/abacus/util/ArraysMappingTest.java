@@ -13,6 +13,10 @@
  */
 package com.landawn.abacus.util;
 
+import static com.landawn.abacus.util.ArrayTestSupport.arrayMethod;
+import static com.landawn.abacus.util.ArrayTestSupport.arrayType;
+import static com.landawn.abacus.util.ArrayTestSupport.callback;
+import static com.landawn.abacus.util.ArrayTestSupport.invokeArrayMethod;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -25,6 +29,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import com.landawn.abacus.util.ArrayTestSupport.Value;
 import com.landawn.abacus.util.Arrays.f;
@@ -35,6 +42,38 @@ class ArraysMappingTest {
 
     @Nested
     class MapToObjTests {
+
+        @ParameterizedTest(name = "reject primitive target {0}")
+        @ValueSource(classes = { boolean.class, char.class, byte.class, short.class, int.class, long.class, float.class, double.class, void.class })
+        void mapToObj_primitiveTargetType_isRejectedBeforeCallingMapper(Class<?> targetType) {
+            java.lang.reflect.Method method = arrayMethod("mapToObj", int.class, 1, 3);
+            int[] calls = { 0 };
+            Object mapper = callback(method.getParameterTypes()[1], values -> {
+                calls[0]++;
+                return values[0];
+            });
+            IllegalArgumentException failure = assertThrows(IllegalArgumentException.class,
+                    () -> invokeArrayMethod(method, new int[] { 1 }, mapper, targetType));
+            assertTrue(failure.getMessage().contains("reference type"));
+            assertEquals(0, calls[0]);
+        }
+
+        @ParameterizedTest(name = "{0}, dimension {1}: empty mapping")
+        @MethodSource("com.landawn.abacus.util.ArrayTestSupport#primitiveArrayCases")
+        void mapToObj_nullOrEmptyOuterArray_preservesResultTypeWithoutCallingMapper(Class<?> elementType, int dimensions) throws Throwable {
+            java.lang.reflect.Method method = arrayMethod("mapToObj", elementType, dimensions, 3);
+            int[] calls = { 0 };
+            Object mapper = callback(method.getParameterTypes()[1], values -> {
+                calls[0]++;
+                return "unexpected";
+            });
+            for (Object input : new Object[] { null, java.lang.reflect.Array.newInstance(elementType, new int[dimensions]) }) {
+                Object result = invokeArrayMethod(method, input, mapper, String.class);
+                assertEquals(arrayType(String.class, dimensions), result.getClass());
+                assertEquals(0, java.lang.reflect.Array.getLength(result));
+            }
+            assertEquals(0, calls[0]);
+        }
 
         @Test
         void edgeCase_largeArray() {

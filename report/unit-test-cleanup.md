@@ -2,6 +2,8 @@
 
 Baseline: commit `984de56b096a6d7faef8db0848574d3a9df15c14`. Verification completed on 2026-10-15 with Maven 3.9.16 and JDK 25, compiling the project for Java 21.
 
+Coverage scope correction: the historical counts below included stale `ApiDocGenerator` classes in `target/classes`. A subsequent full clean build established the production-only baseline and added further tests. See [the current coverage report](unit-test-coverage.md) for corrected scope and current results.
+
 | Measure | Before | After |
 | --- | ---: | ---: |
 | Utility test classes | 26 | 22 |
@@ -57,4 +59,4 @@ Full-suite verification used `mvn test jacoco:report` after clearing generated t
 mvn '-Djunit.jupiter.testmethod.order.default=org.junit.jupiter.api.MethodOrderer$Random' '-Djunit.jupiter.testclass.order.default=org.junit.jupiter.api.ClassOrderer$Random' '-Djunit.jupiter.execution.order.random.seed=20261015' '-Duser.language=de' '-Duser.country=DE' test
 ```
 
-Local run logs and baseline/final coverage snapshots are under ignored `target/test-cleanup`; the generated HTML report is `target/site/jacoco/index.html`. Coverage preservation does not prove complete behavioral coverage, and semantic duplicates can remain beyond the exact-duplicate audit. See [test conventions](../src/test/README.md) and [audit tool limitations](../tools/README.md).
+The initial run logs and snapshots were stored under ignored `target/test-cleanup`; a later clean build removes those temporary files. The current HTML report is `target/site/jacoco/index.html`. Coverage preservation does not prove complete behavioral coverage, and semantic duplicates can remain beyond the exact-duplicate audit. See [test conventions](../src/test/README.md) and [audit tool limitations](../tools/README.md).

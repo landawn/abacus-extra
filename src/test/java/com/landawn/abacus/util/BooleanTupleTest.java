@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import com.landawn.abacus.util.BooleanTuple.BooleanTuple0;
 import com.landawn.abacus.util.BooleanTuple.BooleanTuple1;
@@ -949,6 +950,17 @@ class BooleanTupleTest {
 
     @Nested
     class ContainsTests {
+
+        @ParameterizedTest(name = "arity {0}: contains checks every component")
+        @ValueSource(ints = { 1, 2, 3, 4, 5, 6, 7, 8, 9 })
+        void contains_checksEveryComponentAndRejectsMissingValue(int arity) {
+            for (int position = 0; position < arity; position++) {
+                boolean[] values = new boolean[arity];
+                values[position] = true;
+                assertTrue(BooleanTuple.from(values).contains(true), "position " + position);
+            }
+            assertFalse(BooleanTuple.from(new boolean[arity]).contains(true));
+        }
 
         @Test
         void arity1_contains() {
@@ -2262,6 +2274,33 @@ class BooleanTupleTest {
 
     @Nested
     class EqualsTests {
+
+        @ParameterizedTest(name = "arity {0}: equality checks every component")
+        @ValueSource(ints = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 })
+        void equals_rejectsEverySingleComponentDifference(int arity) {
+            boolean[] values = new boolean[arity];
+            for (int i = 0; i < arity; i++) {
+                values[i] = false;
+            }
+            BooleanTuple<?> tuple = BooleanTuple.from(values);
+            // A separately constructed empty value verifies equality independently of the factory singleton.
+            BooleanTuple<?> equal = arity == 0 ? new BooleanTuple.BooleanTuple0() : BooleanTuple.from(values.clone());
+            assertNotSame(tuple, equal);
+            assertTrue(tuple.equals(tuple));
+            assertTrue(tuple.equals(equal));
+            assertTrue(equal.equals(tuple));
+            assertEquals(tuple.hashCode(), equal.hashCode());
+            assertFalse(tuple.equals(null));
+            assertFalse(tuple.equals(new Object()));
+
+            for (int i = 0; i < arity; i++) {
+                boolean[] changed = values.clone();
+                changed[i] = !changed[i];
+                BooleanTuple<?> different = BooleanTuple.from(changed);
+                assertFalse(tuple.equals(different), "component " + i);
+                assertFalse(different.equals(tuple), "component " + i);
+            }
+        }
 
         @Test
         void arity1_equals() {

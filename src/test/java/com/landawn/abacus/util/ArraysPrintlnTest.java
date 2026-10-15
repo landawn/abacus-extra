@@ -13,6 +13,11 @@
  */
 package com.landawn.abacus.util;
 
+import static com.landawn.abacus.util.ArrayTestSupport.arrayMethod;
+import static com.landawn.abacus.util.ArrayTestSupport.invokeArrayMethod;
+import static com.landawn.abacus.util.ArrayTestSupport.nestedArray;
+import static com.landawn.abacus.util.ArrayTestSupport.primitiveArray;
+import static com.landawn.abacus.util.ArrayTestSupport.primitiveValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -37,6 +42,23 @@ class ArraysPrintlnTest {
 
     @Nested
     class PrintlnTests {
+
+        @ParameterizedTest(name = "{0}: null, empty, and ragged printing")
+        @MethodSource("com.landawn.abacus.util.ArrayTestSupport#printableTypes")
+        void println_nullEmptyAndRaggedArrays_preservesStructureAndIndentation(Class<?> elementType) throws Throwable {
+            for (int dimensions = 1; dimensions <= 3; dimensions++) {
+                java.lang.reflect.Method method = arrayMethod("println", elementType, dimensions, 1);
+                assertEquals("null", invokeArrayMethod(method, (Object) null));
+                assertEquals("[]", invokeArrayMethod(method, java.lang.reflect.Array.newInstance(elementType, new int[dimensions])));
+            }
+            Object row = primitiveArray(elementType, 1);
+            Object grid = nestedArray(elementType, 2, null, primitiveArray(elementType), row, primitiveArray(elementType));
+            String value = String.valueOf(primitiveValue(elementType, 1));
+            assertEquals("[null,\n [],\n [" + value + "],\n []]", invokeArrayMethod(arrayMethod("println", elementType, 2, 1), grid));
+            Object cube = nestedArray(elementType, 3, null, nestedArray(elementType, 2), grid, nestedArray(elementType, 2, row, row));
+            assertEquals("[null,\n [],\n [null,\n  [],\n  [" + value + "],\n  []],\n [[" + value + "],\n  [" + value + "]]]",
+                    invokeArrayMethod(arrayMethod("println", elementType, 3, 1), cube));
+        }
 
         @Test
         void doublePrintln_3D_withNulls() {
