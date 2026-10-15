@@ -32,8 +32,8 @@ import com.landawn.abacus.util.CharTuple.CharTuple6;
 import com.landawn.abacus.util.CharTuple.CharTuple7;
 import com.landawn.abacus.util.CharTuple.CharTuple8;
 import com.landawn.abacus.util.CharTuple.CharTuple9;
-import com.landawn.abacus.util.stream.CharStream;
 import com.landawn.abacus.util.u.Optional;
+import com.landawn.abacus.util.stream.CharStream;
 
 class CharTupleTest {
 
@@ -1877,8 +1877,9 @@ class CharTupleTest {
             CharTuple2 tuple = CharTuple.of('A', 'B');
             assertThrows(RuntimeException.class, () -> {
                 tuple.forEach(c -> {
-                    if (c == 'B')
+                    if (c == 'B') {
                         throw new RuntimeException("test exception");
+                    }
                 });
             });
         }

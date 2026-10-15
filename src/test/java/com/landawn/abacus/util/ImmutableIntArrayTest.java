@@ -560,7 +560,7 @@ class ImmutableIntArrayTest {
         void average_noOverflowOnLargeValues() {
             // sum() would overflow int, but average() uses long internally, so it should not
             ImmutableIntArray array = ImmutableIntArray.unsafeWrap(new int[] { Integer.MAX_VALUE, Integer.MAX_VALUE });
-            assertEquals((double) Integer.MAX_VALUE, array.average().getAsDouble(), 0.0);
+            assertEquals(Integer.MAX_VALUE, array.average().getAsDouble(), 0.0);
         }
 
         @Test
@@ -1402,10 +1402,8 @@ class ImmutableIntArrayTest {
                     futures.add(pool.submit(() -> {
                         start.await();
                         for (int i = 0; i < 2000; i++) {
-                            if (array.sum() != finalSum || array.min() != finalMin || array.max() != finalMax) {
-                                return Boolean.FALSE;
-                            }
-                            if (!java.util.Arrays.equals(data, array.stream().toArray())) {
+                            if (array.sum() != finalSum || array.min() != finalMin || array.max() != finalMax
+                                    || !java.util.Arrays.equals(data, array.stream().toArray())) {
                                 return Boolean.FALSE;
                             }
                         }

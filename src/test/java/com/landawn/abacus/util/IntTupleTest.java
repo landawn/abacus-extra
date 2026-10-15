@@ -32,8 +32,8 @@ import com.landawn.abacus.util.IntTuple.IntTuple6;
 import com.landawn.abacus.util.IntTuple.IntTuple7;
 import com.landawn.abacus.util.IntTuple.IntTuple8;
 import com.landawn.abacus.util.IntTuple.IntTuple9;
-import com.landawn.abacus.util.stream.IntStream;
 import com.landawn.abacus.util.u.Optional;
+import com.landawn.abacus.util.stream.IntStream;
 
 class IntTupleTest {
 
@@ -1118,8 +1118,8 @@ class IntTupleTest {
 
         @Test
         void pairMedianWidensOperandsBeforeAddition() {
-            assertEquals((double) Integer.MAX_VALUE, IntTuple.of(Integer.MAX_VALUE, Integer.MAX_VALUE).median());
-            assertEquals((double) Integer.MIN_VALUE, IntTuple.of(Integer.MIN_VALUE, Integer.MIN_VALUE).median());
+            assertEquals(Integer.MAX_VALUE, IntTuple.of(Integer.MAX_VALUE, Integer.MAX_VALUE).median());
+            assertEquals(Integer.MIN_VALUE, IntTuple.of(Integer.MIN_VALUE, Integer.MIN_VALUE).median());
             assertEquals(-0.5d, IntTuple.of(Integer.MIN_VALUE, Integer.MAX_VALUE).median());
         }
 
@@ -1380,13 +1380,13 @@ class IntTupleTest {
         void contains_checksEveryComponentAndRejectsMissingValue(int arity) {
             int[] values = new int[arity];
             for (int i = 0; i < arity; i++) {
-                values[i] = (int) (i + 1);
+                values[i] = i + 1;
             }
             IntTuple<?> tuple = IntTuple.from(values);
             for (int value : values) {
                 assertTrue(tuple.contains(value), "missing component " + value);
             }
-            assertFalse(tuple.contains((int) 100));
+            assertFalse(tuple.contains(100));
         }
 
         @Test
@@ -2815,7 +2815,7 @@ class IntTupleTest {
         void equals_rejectsEverySingleComponentDifference(int arity) {
             int[] values = new int[arity];
             for (int i = 0; i < arity; i++) {
-                values[i] = (int) (i + 1);
+                values[i] = i + 1;
             }
             IntTuple<?> tuple = IntTuple.from(values);
             // A separately constructed empty value verifies equality independently of the factory singleton.
@@ -2830,7 +2830,7 @@ class IntTupleTest {
 
             for (int i = 0; i < arity; i++) {
                 int[] changed = values.clone();
-                changed[i] = (int) 100;
+                changed[i] = 100;
                 IntTuple<?> different = IntTuple.from(changed);
                 assertFalse(tuple.equals(different), "component " + i);
                 assertFalse(different.equals(tuple), "component " + i);

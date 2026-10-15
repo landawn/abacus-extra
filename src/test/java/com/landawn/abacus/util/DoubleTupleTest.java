@@ -31,8 +31,8 @@ import com.landawn.abacus.util.DoubleTuple.DoubleTuple6;
 import com.landawn.abacus.util.DoubleTuple.DoubleTuple7;
 import com.landawn.abacus.util.DoubleTuple.DoubleTuple8;
 import com.landawn.abacus.util.DoubleTuple.DoubleTuple9;
-import com.landawn.abacus.util.stream.DoubleStream;
 import com.landawn.abacus.util.u.Optional;
+import com.landawn.abacus.util.stream.DoubleStream;
 
 class DoubleTupleTest {
 
@@ -1615,13 +1615,13 @@ class DoubleTupleTest {
         void contains_checksEveryComponentAndRejectsMissingValue(int arity) {
             double[] values = new double[arity];
             for (int i = 0; i < arity; i++) {
-                values[i] = (double) (i + 1);
+                values[i] = i + 1;
             }
             DoubleTuple<?> tuple = DoubleTuple.from(values);
             for (double value : values) {
                 assertTrue(tuple.contains(value), "missing component " + value);
             }
-            assertFalse(tuple.contains((double) 100));
+            assertFalse(tuple.contains(100));
         }
 
         @Test
@@ -2179,8 +2179,9 @@ class DoubleTupleTest {
             DoubleTuple2 tuple = DoubleTuple.of(1.0, 2.0);
             assertThrows(RuntimeException.class, () -> {
                 tuple.forEach(d -> {
-                    if (d == 2.0)
+                    if (d == 2.0) {
                         throw new RuntimeException("test exception");
+                    }
                 });
             });
         }
@@ -3006,7 +3007,7 @@ class DoubleTupleTest {
         void equals_rejectsEverySingleComponentDifference(int arity) {
             double[] values = new double[arity];
             for (int i = 0; i < arity; i++) {
-                values[i] = (double) (i + 1);
+                values[i] = i + 1;
             }
             DoubleTuple<?> tuple = DoubleTuple.from(values);
             // A separately constructed empty value verifies equality independently of the factory singleton.
@@ -3021,7 +3022,7 @@ class DoubleTupleTest {
 
             for (int i = 0; i < arity; i++) {
                 double[] changed = values.clone();
-                changed[i] = (double) 100;
+                changed[i] = 100;
                 DoubleTuple<?> different = DoubleTuple.from(changed);
                 assertFalse(tuple.equals(different), "component " + i);
                 assertFalse(different.equals(tuple), "component " + i);

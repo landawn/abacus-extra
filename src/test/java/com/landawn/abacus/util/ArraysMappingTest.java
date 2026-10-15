@@ -33,7 +33,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import com.landawn.abacus.util.ArrayTestSupport.Value;
 import com.landawn.abacus.util.Arrays.f;
 import com.landawn.abacus.util.Arrays.ff;
 import com.landawn.abacus.util.Arrays.fff;
@@ -1789,7 +1788,7 @@ class ArraysMappingTest {
         @Test
         void mapToLong_int_2D_widening() {
             final int[][] a = { { 1, 2 }, { 3 } };
-            final long[][] r = Arrays.mapToLong(a, i -> (long) i * 1_000_000_000L);
+            final long[][] r = Arrays.mapToLong(a, i -> i * 1_000_000_000L);
             assertEquals(2, r.length);
             assertArrayEquals(new long[] { 1_000_000_000L, 2_000_000_000L }, r[0]);
             assertArrayEquals(new long[] { 3_000_000_000L }, r[1]);
@@ -1812,7 +1811,7 @@ class ArraysMappingTest {
 
         @Test
         void mapToLong_int_widening() {
-            final long[] r = Arrays.mapToLong(new int[] { 1, 2, 3 }, i -> (long) i * 1_000_000_000L);
+            final long[] r = Arrays.mapToLong(new int[] { 1, 2, 3 }, i -> i * 1_000_000_000L);
             assertArrayEquals(new long[] { 1_000_000_000L, 2_000_000_000L, 3_000_000_000L }, r);
         }
 
@@ -1929,8 +1928,9 @@ class ArraysMappingTest {
         void mapToLong_intArray_withException() {
             int[] input = { 1, 2, 3 };
             Throwables.IntToLongFunction<Exception> mapper = i -> {
-                if (i == 2)
+                if (i == 2) {
                     throw new Exception("Test exception");
+                }
                 return i * 1000L;
             };
 

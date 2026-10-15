@@ -32,8 +32,8 @@ import com.landawn.abacus.util.ShortTuple.ShortTuple6;
 import com.landawn.abacus.util.ShortTuple.ShortTuple7;
 import com.landawn.abacus.util.ShortTuple.ShortTuple8;
 import com.landawn.abacus.util.ShortTuple.ShortTuple9;
-import com.landawn.abacus.util.stream.ShortStream;
 import com.landawn.abacus.util.u.Optional;
+import com.landawn.abacus.util.stream.ShortStream;
 
 class ShortTupleTest {
 

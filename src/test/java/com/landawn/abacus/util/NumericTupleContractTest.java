@@ -325,7 +325,7 @@ class NumericTupleContractTest {
                     final IntTuple<?> tuple = IntTuple.from(values);
 
                     assertThrows(ArithmeticException.class, tuple::sum);
-                    assertEquals((double) value, tuple.average().getAsDouble(), "arity " + arity);
+                    assertEquals(value, tuple.average().getAsDouble(), "arity " + arity);
                 }
             }
         }

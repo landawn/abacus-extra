@@ -30,8 +30,8 @@ import com.landawn.abacus.util.BooleanTuple.BooleanTuple6;
 import com.landawn.abacus.util.BooleanTuple.BooleanTuple7;
 import com.landawn.abacus.util.BooleanTuple.BooleanTuple8;
 import com.landawn.abacus.util.BooleanTuple.BooleanTuple9;
-import com.landawn.abacus.util.stream.Stream;
 import com.landawn.abacus.util.u.Optional;
+import com.landawn.abacus.util.stream.Stream;
 
 class BooleanTupleTest {
 
@@ -1456,8 +1456,9 @@ class BooleanTupleTest {
             BooleanTuple2 tuple = BooleanTuple.of(true, false);
             assertThrows(RuntimeException.class, () -> {
                 tuple.forEach(b -> {
-                    if (!b)
+                    if (!b) {
                         throw new RuntimeException("test exception");
+                    }
                 });
             });
         }

@@ -38,7 +38,6 @@ import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import com.landawn.abacus.util.Arrays.f;
 import com.landawn.abacus.util.Arrays.ff;
 import com.landawn.abacus.util.Arrays.fff;
 
@@ -577,9 +576,9 @@ class ArraysZipTest {
             Number[][][] second = new Number[][][] { { { 10L } }, { { 30L } } };
             Number[][][] third = new Number[][][] { { { 100L } } };
 
-            assertThrows(IllegalArgumentException.class, () -> fff.zip(left, second, third, (Number) 0, (Number) 0L, (Number) 0L, (x, y, z) -> y));
+            assertThrows(IllegalArgumentException.class, () -> fff.zip(left, second, third, 0, 0L, 0L, (x, y, z) -> y));
 
-            Number[][][] out = fff.zip(left, second, third, (Number) 0, (Number) 0L, (Number) 0L, (x, y, z) -> y, Number.class);
+            Number[][][] out = fff.zip(left, second, third, 0, 0L, 0L, (x, y, z) -> y, Number.class);
 
             assertEquals(10L, out[0][0][0]);
             assertEquals(30L, out[1][0][0]);
@@ -612,7 +611,7 @@ class ArraysZipTest {
         void fffZipWithDefaults_resultElementTypeComesFromAOrElseFromDefaultValueA() throws Exception {
             final Number[][][] b = { { { 10L, 20L } } };
 
-            final Number[][][] fromA = fff.zip(new Number[][][] { { { 1 } } }, b, (Number) 0, (Number) 0L, (x, y) -> y);
+            final Number[][][] fromA = fff.zip(new Number[][][] { { { 1 } } }, b, 0, 0L, (x, y) -> y);
             assertEquals(Number[][][].class, fromA.getClass());
             assertEquals(20L, fromA[0][0][1]);
 
@@ -622,7 +621,7 @@ class ArraysZipTest {
             final Number[][][] fromDefault3 = fff.zip((Number[][][]) null, b, b, (Number) 0, (Number) 0L, (Number) 0L, (x, y, z) -> x);
             assertEquals(Integer[][][].class, fromDefault3.getClass());
 
-            final Number[][][] fromA3 = fff.zip(new Number[][][] { { { 1 } } }, b, b, (Number) 0, (Number) 0L, (Number) 0L, (x, y, z) -> z);
+            final Number[][][] fromA3 = fff.zip(new Number[][][] { { { 1 } } }, b, b, 0, 0L, 0L, (x, y, z) -> z);
             assertEquals(Number[][][].class, fromA3.getClass());
         }
 
@@ -631,9 +630,9 @@ class ArraysZipTest {
             Number[][][] left = new Integer[][][] { { { 1 } } };
             Number[][][] right = new Number[][][] { { { 10L, 20L } } };
 
-            assertThrows(IllegalArgumentException.class, () -> fff.zip(left, right, (Number) 0, (Number) 0L, (x, y) -> y));
+            assertThrows(IllegalArgumentException.class, () -> fff.zip(left, right, 0, 0L, (x, y) -> y));
 
-            Number[][][] out = fff.zip(left, right, (Number) 0, (Number) 0L, (x, y) -> y, Number.class);
+            Number[][][] out = fff.zip(left, right, 0, 0L, (x, y) -> y, Number.class);
 
             assertEquals(10L, out[0][0][0]);
             assertEquals(20L, out[0][0][1]);
@@ -677,9 +676,9 @@ class ArraysZipTest {
             Number[][] second = new Number[][] { { 10L }, { 30L } };
             Number[][] third = new Number[][] { { 100L } };
 
-            assertThrows(IllegalArgumentException.class, () -> ff.zip(left, second, third, (Number) 0, (Number) 0L, (Number) 0L, (x, y, z) -> y));
+            assertThrows(IllegalArgumentException.class, () -> ff.zip(left, second, third, 0, 0L, 0L, (x, y, z) -> y));
 
-            Number[][] out = ff.zip(left, second, third, (Number) 0, (Number) 0L, (Number) 0L, (x, y, z) -> y, Number.class);
+            Number[][] out = ff.zip(left, second, third, 0, 0L, 0L, (x, y, z) -> y, Number.class);
 
             assertEquals(10L, out[0][0]);
             assertEquals(30L, out[1][0]);
@@ -713,7 +712,7 @@ class ArraysZipTest {
         void ffZipWithDefaults_resultElementTypeComesFromAOrElseFromDefaultValueA() throws Exception {
             final Number[][] b = { { 10L, 20L } };
 
-            final Number[][] fromA = ff.zip(new Number[][] { { 1 } }, b, (Number) 0, (Number) 0L, (x, y) -> y);
+            final Number[][] fromA = ff.zip(new Number[][] { { 1 } }, b, 0, 0L, (x, y) -> y);
             assertEquals(Number[][].class, fromA.getClass());
             assertEquals(20L, fromA[0][1]);
 
@@ -723,7 +722,7 @@ class ArraysZipTest {
             final Number[][] fromDefault3 = ff.zip((Number[][]) null, b, b, (Number) 0, (Number) 0L, (Number) 0L, (x, y, z) -> x);
             assertEquals(Integer[][].class, fromDefault3.getClass());
 
-            final Number[][] fromA3 = ff.zip(new Number[][] { { 1 } }, b, b, (Number) 0, (Number) 0L, (Number) 0L, (x, y, z) -> z);
+            final Number[][] fromA3 = ff.zip(new Number[][] { { 1 } }, b, b, 0, 0L, 0L, (x, y, z) -> z);
             assertEquals(Number[][].class, fromA3.getClass());
         }
 
@@ -4104,8 +4103,9 @@ class ArraysZipTest {
 
             assertThrows(RuntimeException.class, () -> {
                 Arrays.zip(a, b, (x, y) -> {
-                    if (x == 2)
+                    if (x == 2) {
                         throw new RuntimeException("Test exception");
+                    }
                     return x + y;
                 });
             });

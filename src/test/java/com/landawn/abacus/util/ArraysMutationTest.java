@@ -39,7 +39,6 @@ import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import com.landawn.abacus.util.Arrays.f;
 import com.landawn.abacus.util.Arrays.ff;
 import com.landawn.abacus.util.Arrays.fff;
 
@@ -2680,8 +2679,9 @@ class ArraysMutationTest {
             int[] trueCount = { 0 };
             Arrays.mutateViaFlatArray(countArr, flatArr -> {
                 for (boolean b : flatArr) {
-                    if (b)
+                    if (b) {
                         trueCount[0]++;
+                    }
                 }
             });
             assertEquals(2, trueCount[0]);

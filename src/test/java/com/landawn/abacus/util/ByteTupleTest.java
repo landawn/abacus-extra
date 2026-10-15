@@ -31,8 +31,8 @@ import com.landawn.abacus.util.ByteTuple.ByteTuple6;
 import com.landawn.abacus.util.ByteTuple.ByteTuple7;
 import com.landawn.abacus.util.ByteTuple.ByteTuple8;
 import com.landawn.abacus.util.ByteTuple.ByteTuple9;
-import com.landawn.abacus.util.stream.ByteStream;
 import com.landawn.abacus.util.u.Optional;
+import com.landawn.abacus.util.stream.ByteStream;
 
 class ByteTupleTest {
 
@@ -1897,8 +1897,9 @@ class ByteTupleTest {
             ByteTuple2 tuple = ByteTuple.of((byte) 10, (byte) 20);
             assertThrows(RuntimeException.class, () -> {
                 tuple.forEach(b -> {
-                    if (b == 20)
+                    if (b == 20) {
                         throw new RuntimeException("test exception");
+                    }
                 });
             });
         }
@@ -2580,10 +2581,10 @@ class ByteTupleTest {
         void subclassHashCodeDiffersFromArrayBasedHash() {
             // the non-empty overrides are self-consistent but NOT numerically equal to N.hashCode(byte[])
             assertEquals(33, ByteTuple.of((byte) 1, (byte) 2).hashCode());
-            assertNotEquals(N.hashCode(ByteTuple.of((byte) 1, (byte) 2).toArray()), ByteTuple.of((byte) 1, (byte) 2).hashCode());
+            assertNotEquals(CommonUtil.hashCode(ByteTuple.of((byte) 1, (byte) 2).toArray()), ByteTuple.of((byte) 1, (byte) 2).hashCode());
 
             assertEquals(5, ByteTuple.of((byte) 5).hashCode());
-            assertNotEquals(N.hashCode(ByteTuple.of((byte) 5).toArray()), ByteTuple.of((byte) 5).hashCode());
+            assertNotEquals(CommonUtil.hashCode(ByteTuple.of((byte) 5).toArray()), ByteTuple.of((byte) 5).hashCode());
         }
 
         @Test
@@ -3166,7 +3167,7 @@ class ByteTupleTest {
         void emptyTupleUsesTheArrayBasedHash() {
             final ByteTuple<?> empty = ByteTuple.from(new byte[0]);
             assertEquals(1, empty.hashCode());
-            assertEquals(N.hashCode(empty.toArray()), empty.hashCode());
+            assertEquals(CommonUtil.hashCode(empty.toArray()), empty.hashCode());
         }
 
         @Test

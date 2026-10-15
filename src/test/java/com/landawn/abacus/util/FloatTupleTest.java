@@ -31,8 +31,8 @@ import com.landawn.abacus.util.FloatTuple.FloatTuple6;
 import com.landawn.abacus.util.FloatTuple.FloatTuple7;
 import com.landawn.abacus.util.FloatTuple.FloatTuple8;
 import com.landawn.abacus.util.FloatTuple.FloatTuple9;
-import com.landawn.abacus.util.stream.FloatStream;
 import com.landawn.abacus.util.u.Optional;
+import com.landawn.abacus.util.stream.FloatStream;
 
 class FloatTupleTest {
 
@@ -1002,13 +1002,13 @@ class FloatTupleTest {
                     values[i] = Float.MAX_VALUE;
                 }
 
-                assertEquals((double) Float.MAX_VALUE, FloatTuple.from(values).average().getAsDouble(), "average for arity " + len);
-                assertEquals((double) Float.MAX_VALUE, FloatTuple.from(values).median(), "median for arity " + len);
+                assertEquals(Float.MAX_VALUE, FloatTuple.from(values).average().getAsDouble(), "average for arity " + len);
+                assertEquals(Float.MAX_VALUE, FloatTuple.from(values).median(), "median for arity " + len);
             }
 
             assertEquals(-(double) Float.MAX_VALUE, FloatTuple.of(-Float.MAX_VALUE, -Float.MAX_VALUE).median());
-            assertEquals((double) Float.MIN_VALUE, FloatTuple.of(Float.MIN_VALUE, Float.MIN_VALUE).median());
-            assertEquals((double) Float.MAX_VALUE, FloatTuple.of(0f, Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE).median());
+            assertEquals(Float.MIN_VALUE, FloatTuple.of(Float.MIN_VALUE, Float.MIN_VALUE).median());
+            assertEquals(Float.MAX_VALUE, FloatTuple.of(0f, Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE).median());
         }
 
         @Test
@@ -1436,13 +1436,13 @@ class FloatTupleTest {
         void contains_checksEveryComponentAndRejectsMissingValue(int arity) {
             float[] values = new float[arity];
             for (int i = 0; i < arity; i++) {
-                values[i] = (float) (i + 1);
+                values[i] = i + 1;
             }
             FloatTuple<?> tuple = FloatTuple.from(values);
             for (float value : values) {
                 assertTrue(tuple.contains(value), "missing component " + value);
             }
-            assertFalse(tuple.contains((float) 100));
+            assertFalse(tuple.contains(100));
         }
 
         @Test
@@ -2697,7 +2697,7 @@ class FloatTupleTest {
         void equals_rejectsEverySingleComponentDifference(int arity) {
             float[] values = new float[arity];
             for (int i = 0; i < arity; i++) {
-                values[i] = (float) (i + 1);
+                values[i] = i + 1;
             }
             FloatTuple<?> tuple = FloatTuple.from(values);
             // A separately constructed empty value verifies equality independently of the factory singleton.
@@ -2712,7 +2712,7 @@ class FloatTupleTest {
 
             for (int i = 0; i < arity; i++) {
                 float[] changed = values.clone();
-                changed[i] = (float) 100;
+                changed[i] = 100;
                 FloatTuple<?> different = FloatTuple.from(changed);
                 assertFalse(tuple.equals(different), "component " + i);
                 assertFalse(different.equals(tuple), "component " + i);

@@ -32,8 +32,8 @@ import com.landawn.abacus.util.LongTuple.LongTuple6;
 import com.landawn.abacus.util.LongTuple.LongTuple7;
 import com.landawn.abacus.util.LongTuple.LongTuple8;
 import com.landawn.abacus.util.LongTuple.LongTuple9;
-import com.landawn.abacus.util.stream.LongStream;
 import com.landawn.abacus.util.u.Optional;
+import com.landawn.abacus.util.stream.LongStream;
 
 class LongTupleTest {
 
@@ -976,8 +976,8 @@ class LongTupleTest {
 
         @Test
         void averageDoesNotOverflow() {
-            assertEquals((double) Long.MAX_VALUE, LongTuple.of(Long.MAX_VALUE, Long.MAX_VALUE).average().getAsDouble());
-            assertEquals((double) Long.MIN_VALUE, LongTuple.of(Long.MIN_VALUE, Long.MIN_VALUE).average().getAsDouble());
+            assertEquals(Long.MAX_VALUE, LongTuple.of(Long.MAX_VALUE, Long.MAX_VALUE).average().getAsDouble());
+            assertEquals(Long.MIN_VALUE, LongTuple.of(Long.MIN_VALUE, Long.MIN_VALUE).average().getAsDouble());
             assertEquals(-0.5d, LongTuple.of(Long.MAX_VALUE, Long.MIN_VALUE).average().getAsDouble());
 
             LongTuple.LongTuple8 tuple8 = LongTuple.of(Long.MAX_VALUE, Long.MIN_VALUE, 1L, -1L, 5L, -5L, 9L, -9L);
@@ -985,7 +985,7 @@ class LongTupleTest {
 
             LongTuple.LongTuple9 tuple9 = LongTuple.of(Long.MAX_VALUE, Long.MAX_VALUE, Long.MAX_VALUE, Long.MAX_VALUE, Long.MAX_VALUE, Long.MAX_VALUE,
                     Long.MAX_VALUE, Long.MAX_VALUE, Long.MAX_VALUE);
-            assertEquals((double) Long.MAX_VALUE, tuple9.average().getAsDouble());
+            assertEquals(Long.MAX_VALUE, tuple9.average().getAsDouble());
         }
 
         @Test
@@ -1141,8 +1141,8 @@ class LongTupleTest {
             @Test
             void average_avoidsLongOverflow() {
                 // the first documented sentence: overflow is genuinely avoided (unlike sum(), which wraps)
-                assertEquals((double) Long.MAX_VALUE, LongTuple.of(Long.MAX_VALUE, Long.MAX_VALUE, Long.MAX_VALUE).average().getAsDouble());
-                assertEquals((double) Long.MIN_VALUE, LongTuple.of(Long.MIN_VALUE, Long.MIN_VALUE, Long.MIN_VALUE).average().getAsDouble());
+                assertEquals(Long.MAX_VALUE, LongTuple.of(Long.MAX_VALUE, Long.MAX_VALUE, Long.MAX_VALUE).average().getAsDouble());
+                assertEquals(Long.MIN_VALUE, LongTuple.of(Long.MIN_VALUE, Long.MIN_VALUE, Long.MIN_VALUE).average().getAsDouble());
             }
 
             @Test
@@ -1150,7 +1150,7 @@ class LongTupleTest {
                 assertFalse(LongTuple.from(new long[0]).average().isPresent());
                 assertEquals(7.0, LongTuple.of(7L).average().getAsDouble());
                 // arity 1 is a single widening, so it is exact even above 2^53
-                assertEquals((double) 9007199254740993L, LongTuple.of(9007199254740993L).average().getAsDouble());
+                assertEquals(9007199254740993L, LongTuple.of(9007199254740993L).average().getAsDouble());
             }
         }
     }
@@ -1338,8 +1338,8 @@ class LongTupleTest {
 
             @Test
             void pairMedian_extremesAndNearCancelling() {
-                assertEquals((double) Long.MAX_VALUE, LongTuple.of(Long.MAX_VALUE, Long.MAX_VALUE).median());
-                assertEquals((double) Long.MIN_VALUE, LongTuple.of(Long.MIN_VALUE, Long.MIN_VALUE).median());
+                assertEquals(Long.MAX_VALUE, LongTuple.of(Long.MAX_VALUE, Long.MAX_VALUE).median());
+                assertEquals(Long.MIN_VALUE, LongTuple.of(Long.MIN_VALUE, Long.MIN_VALUE).median());
                 assertEquals(0.0, LongTuple.of(0L, 0L).median());
                 assertEquals(500.0, LongTuple.of(-5614431094282083852L, 5614431094282084852L).median());
                 assertEquals(-3.5, LongTuple.of(-3L, -4L).median());
@@ -1612,13 +1612,13 @@ class LongTupleTest {
         void contains_checksEveryComponentAndRejectsMissingValue(int arity) {
             long[] values = new long[arity];
             for (int i = 0; i < arity; i++) {
-                values[i] = (long) (i + 1);
+                values[i] = i + 1;
             }
             LongTuple<?> tuple = LongTuple.from(values);
             for (long value : values) {
                 assertTrue(tuple.contains(value), "missing component " + value);
             }
-            assertFalse(tuple.contains((long) 100));
+            assertFalse(tuple.contains(100));
         }
 
         @Test
@@ -2981,7 +2981,7 @@ class LongTupleTest {
         void equals_rejectsEverySingleComponentDifference(int arity) {
             long[] values = new long[arity];
             for (int i = 0; i < arity; i++) {
-                values[i] = (long) (i + 1);
+                values[i] = i + 1;
             }
             LongTuple<?> tuple = LongTuple.from(values);
             // A separately constructed empty value verifies equality independently of the factory singleton.
@@ -2996,7 +2996,7 @@ class LongTupleTest {
 
             for (int i = 0; i < arity; i++) {
                 long[] changed = values.clone();
-                changed[i] = (long) 100;
+                changed[i] = 100;
                 LongTuple<?> different = LongTuple.from(changed);
                 assertFalse(tuple.equals(different), "component " + i);
                 assertFalse(different.equals(tuple), "component " + i);

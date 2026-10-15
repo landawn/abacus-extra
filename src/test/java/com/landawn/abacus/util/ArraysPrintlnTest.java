@@ -111,7 +111,7 @@ class ArraysPrintlnTest {
 
         @Test
         void nestedObjectPrintingPreservesNonArrayToStringRepresentations() {
-            final Object value = new AbstractCollection<Object>() {
+            final Object value = new AbstractCollection<>() {
                 @Override
                 public Iterator<Object> iterator() {
                     throw new AssertionError("Printing a non-array element must use its toString method");

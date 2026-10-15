@@ -1556,7 +1556,7 @@ class ArraysConversionTest {
         void toLong_short_signExtended() {
             short[] a = { -1, Short.MIN_VALUE, Short.MAX_VALUE };
             long[] result = Arrays.toLong(a);
-            assertArrayEquals(new long[] { -1L, (long) Short.MIN_VALUE, (long) Short.MAX_VALUE }, result);
+            assertArrayEquals(new long[] { -1L, Short.MIN_VALUE, Short.MAX_VALUE }, result);
         }
 
         @Test
@@ -1798,8 +1798,8 @@ class ArraysConversionTest {
         @Test
         void toFloat_intArr_minMax() {
             final float[] r = Arrays.toFloat(new int[] { Integer.MIN_VALUE, Integer.MAX_VALUE, 0, -1 });
-            assertEquals((float) Integer.MIN_VALUE, r[0], 0f);
-            assertEquals((float) Integer.MAX_VALUE, r[1], 0f);
+            assertEquals(Integer.MIN_VALUE, r[0], 0f);
+            assertEquals(Integer.MAX_VALUE, r[1], 0f);
             assertEquals(0f, r[2], 0f);
             assertEquals(-1f, r[3], 0f);
         }
@@ -1862,7 +1862,7 @@ class ArraysConversionTest {
             assertEquals(1.0f, result[1], 0.0f);
             assertEquals(-1.0f, result[2], 0.0f);
             // Long.MAX_VALUE rounds to 2^63 in float (loss of precision is documented).
-            assertEquals((float) Long.MAX_VALUE, result[3], 0.0f);
+            assertEquals(Long.MAX_VALUE, result[3], 0.0f);
         }
 
         @Test
@@ -1894,8 +1894,8 @@ class ArraysConversionTest {
         void toFloat_longArr_minMax() {
             // (float) Long.MAX_VALUE and Long.MIN_VALUE are finite (large) per JLS widening.
             final float[] r = Arrays.toFloat(new long[] { Long.MIN_VALUE, Long.MAX_VALUE });
-            assertEquals((float) Long.MIN_VALUE, r[0], 0f);
-            assertEquals((float) Long.MAX_VALUE, r[1], 0f);
+            assertEquals(Long.MIN_VALUE, r[0], 0f);
+            assertEquals(Long.MAX_VALUE, r[1], 0f);
             assertFalse(Float.isNaN(r[0]));
             assertFalse(Float.isNaN(r[1]));
         }
@@ -2350,8 +2350,8 @@ class ArraysConversionTest {
         @Test
         void toDouble_longArr_minMax() {
             final double[] r = Arrays.toDouble(new long[] { Long.MIN_VALUE, Long.MAX_VALUE });
-            assertEquals((double) Long.MIN_VALUE, r[0], 0d);
-            assertEquals((double) Long.MAX_VALUE, r[1], 0d);
+            assertEquals(Long.MIN_VALUE, r[0], 0d);
+            assertEquals(Long.MAX_VALUE, r[1], 0d);
         }
 
         @Test
@@ -2365,9 +2365,9 @@ class ArraysConversionTest {
             // 2^53 + 1 = 9007199254740993 cannot be represented; widens to 9007199254740992.0.
             final long pow53 = 1L << 53; // 9007199254740992
             final double[] r = Arrays.toDouble(new long[] { pow53, pow53 + 1L, pow53 + 2L });
-            assertEquals((double) pow53, r[0], 0d);
-            assertEquals((double) pow53, r[1], 0d); // documented precision loss
-            assertEquals((double) (pow53 + 2L), r[2], 0d);
+            assertEquals(pow53, r[0], 0d);
+            assertEquals(pow53, r[1], 0d); // documented precision loss
+            assertEquals(pow53 + 2L, r[2], 0d);
         }
 
         @Test

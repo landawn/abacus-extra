@@ -14,6 +14,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import com.landawn.abacus.util.Points.D2;
 import com.landawn.abacus.util.Points.D2.ByteBytePoint;
 import com.landawn.abacus.util.Points.D2.ByteDoublePoint;
 import com.landawn.abacus.util.Points.D2.ByteIntPoint;
@@ -34,7 +35,6 @@ import com.landawn.abacus.util.Points.D2.LongDoublePoint;
 import com.landawn.abacus.util.Points.D2.LongIntPoint;
 import com.landawn.abacus.util.Points.D2.LongLongPoint;
 import com.landawn.abacus.util.Points.D2.LongObjPoint;
-import com.landawn.abacus.util.Points.D2;
 import com.landawn.abacus.util.Points.D3;
 
 class PointsTest {
