@@ -64,7 +64,7 @@ class ArraysMutationTest {
 
         @Test
         void classJavadoc_updateAll() {
-            // Line 125-128: updateAll({1,2,3,4,5}, x -> x * x) => {1,4,9,16,25}
+            // updateAll({1,2,3,4,5}, x -> x * x) => {1,4,9,16,25}
             int[] numbers = { 1, 2, 3, 4, 5 };
             Arrays.updateAll(numbers, x -> x * x);
             assertArrayEquals(new int[] { 1, 4, 9, 16, 25 }, numbers);
@@ -159,7 +159,7 @@ class ArraysMutationTest {
 
         @Test
         void intUpdateAll1D() {
-            // Line 7095-7096: updateAll({1,2,3}, x -> x*x) => {1,4,9}
+            // updateAll({1,2,3}, x -> x*x) => {1,4,9}
             int[] arr = { 1, 2, 3 };
             Arrays.updateAll(arr, x -> x * x);
             assertArrayEquals(new int[] { 1, 4, 9 }, arr);
@@ -167,7 +167,7 @@ class ArraysMutationTest {
 
         @Test
         void intUpdateAll2D() {
-            // Line 7122-7125: updateAll({{1,2},{3,4}}, x -> x+10) => {{11,12},{13,14}}
+            // updateAll({{1,2},{3,4}}, x -> x+10) => {{11,12},{13,14}}
             int[][] arr = { { 1, 2 }, { 3, 4 } };
             Arrays.updateAll(arr, x -> x + 10);
             assertArrayEquals(new int[] { 11, 12 }, arr[0]);
@@ -2940,6 +2940,32 @@ class ArraysMutationTest {
             });
             assertArrayEquals(new int[] { 22, 23 }, cubeRow);
             assertSame(cube[0][0], cube[2][0]);
+        }
+
+        @Test
+        void mutateViaFlatArray_byteGrid_sortsValuesInRowOrder() {
+            // mutateViaFlatArray({{3,1},{4,2}}, t -> sort(t)) => {{1,2},{3,4}}
+            byte[][] arr = { { 3, 1 }, { 4, 2 } };
+            Arrays.mutateViaFlatArray(arr, t -> java.util.Arrays.sort(t));
+            assertArrayEquals(new byte[] { 1, 2 }, arr[0]);
+            assertArrayEquals(new byte[] { 3, 4 }, arr[1]);
+        }
+
+        @Test
+        void mutateViaFlatArray_doubleCube_sortsValuesInRowOrder() {
+            double[][][] cube = { { { 9.0, 2.0 } }, { { 5.0 }, { 1.0 } } };
+            Arrays.mutateViaFlatArray(cube, arr -> java.util.Arrays.sort(arr));
+            assertArrayEquals(new double[] { 1.0, 2.0 }, cube[0][0], 0.0);
+            assertArrayEquals(new double[] { 5.0 }, cube[1][0], 0.0);
+            assertArrayEquals(new double[] { 9.0 }, cube[1][1], 0.0);
+        }
+
+        @Test
+        void mutateViaFlatArray_floatGrid_sortsValuesInRowOrder() {
+            float[][] grid = { { 4.0f, 1.0f }, { 3.0f, 2.0f } };
+            Arrays.mutateViaFlatArray(grid, t -> java.util.Arrays.sort(t));
+            assertArrayEquals(new float[] { 1.0f, 2.0f }, grid[0], 0.0f);
+            assertArrayEquals(new float[] { 3.0f, 4.0f }, grid[1], 0.0f);
         }
     }
 }

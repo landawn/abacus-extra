@@ -63,7 +63,7 @@ class ArraysShapeTest {
 
         @Test
         void booleanReshape2D() {
-            // Line 2057-2060: reshape({true,false,true,false,true}, 2)
+            // reshape({true,false,true,false,true}, 2)
             boolean[] arr = { true, false, true, false, true };
             boolean[][] reshaped = Arrays.reshape(arr, 2);
             assertEquals(3, reshaped.length);
@@ -74,7 +74,7 @@ class ArraysShapeTest {
 
         @Test
         void booleanReshape3D() {
-            // Line 2091-2094: reshape({true,false,true,false,true,false}, 2, 2)
+            // reshape({true,false,true,false,true,false}, 2, 2)
             boolean[] arr = { true, false, true, false, true, false };
             boolean[][][] reshaped = Arrays.reshape(arr, 2, 2);
             assertEquals(2, reshaped.length);
@@ -85,7 +85,6 @@ class ArraysShapeTest {
 
         @Test
         void byteReshape2D() {
-            // Line 4885-4888
             byte[] arr = { 1, 2, 3, 4, 5 };
             byte[][] reshaped = Arrays.reshape(arr, 2);
             assertArrayEquals(new byte[] { 1, 2 }, reshaped[0]);
@@ -95,7 +94,7 @@ class ArraysShapeTest {
 
         @Test
         void byteReshape3D() {
-            // Line 4920-4922: reshape({1,2,3,4,5,6}, 2, 2) => {{{1,2},{3,4}},{{5,6}}}
+            // reshape({1,2,3,4,5,6}, 2, 2) => {{{1,2},{3,4}},{{5,6}}}
             byte[] arr = { 1, 2, 3, 4, 5, 6 };
             byte[][][] reshaped = Arrays.reshape(arr, 2, 2);
             assertEquals(2, reshaped.length);
@@ -106,7 +105,7 @@ class ArraysShapeTest {
 
         @Test
         void classJavadoc_reshapeInt2D() {
-            // Line 114-115: reshape({1,2,3,4,5,6}, 2) => {{1,2},{3,4},{5,6}}
+            // reshape({1,2,3,4,5,6}, 2) => {{1,2},{3,4},{5,6}}
             int[] linear = { 1, 2, 3, 4, 5, 6 };
             int[][] reshaped2D = Arrays.reshape(linear, 2);
             assertArrayEquals(new int[] { 1, 2 }, reshaped2D[0]);
@@ -116,7 +115,7 @@ class ArraysShapeTest {
 
         @Test
         void classJavadoc_reshapeInt3D() {
-            // Line 118-119: reshape({1,2,3,4,5,6,7,8}, 2, 2) => {{{1,2},{3,4}},{{5,6},{7,8}}}
+            // reshape({1,2,3,4,5,6,7,8}, 2, 2) => {{{1,2},{3,4}},{{5,6},{7,8}}}
             int[] arr = { 1, 2, 3, 4, 5, 6, 7, 8 };
             int[][][] reshaped3D = Arrays.reshape(arr, 2, 2);
             assertArrayEquals(new int[] { 1, 2 }, reshaped3D[0][0]);
@@ -273,7 +272,7 @@ class ArraysShapeTest {
 
         @Test
         void intReshape2D() {
-            // Line 7278-7281: reshape({1,2,3,4,5,6,7}, 3) => {{1,2,3},{4,5,6},{7}}
+            // reshape({1,2,3,4,5,6,7}, 3) => {{1,2,3},{4,5,6},{7}}
             int[] arr = { 1, 2, 3, 4, 5, 6, 7 };
             int[][] result = Arrays.reshape(arr, 3);
             assertArrayEquals(new int[] { 1, 2, 3 }, result[0]);
@@ -283,7 +282,7 @@ class ArraysShapeTest {
 
         @Test
         void intReshape3D() {
-            // Line 7316-7318: reshape({1,2,3,4,5,6,7,8}, 2, 2) => {{{1,2},{3,4}},{{5,6},{7,8}}}
+            // reshape({1,2,3,4,5,6,7,8}, 2, 2) => {{{1,2},{3,4}},{{5,6},{7,8}}}
             int[] arr = { 1, 2, 3, 4, 5, 6, 7, 8 };
             int[][][] result = Arrays.reshape(arr, 2, 2);
             assertArrayEquals(new int[] { 1, 2 }, result[0][0]);
@@ -1180,7 +1179,7 @@ class ArraysShapeTest {
 
         @Test
         void shortReshape2D() {
-            // Line 5993: reshape({1,2,3,4,5}, 2) => {{1,2},{3,4},{5}}
+            // reshape({1,2,3,4,5}, 2) => {{1,2},{3,4},{5}}
             short[] array = { 1, 2, 3, 4, 5 };
             short[][] reshaped = Arrays.reshape(array, 2);
             assertArrayEquals(new short[] { 1, 2 }, reshaped[0]);
@@ -1215,7 +1214,7 @@ class ArraysShapeTest {
 
         @Test
         void booleanFlatten2D() {
-            // Line 2131-2134: flatten({{true,false},{true},{false,true}}) => {true,false,true,false,true}
+            // flatten({{true,false},{true},{false,true}}) => {true,false,true,false,true}
             boolean[][] arr = { { true, false }, { true }, { false, true } };
             boolean[] flattened = Arrays.flatten(arr);
             assertArrayEquals(new boolean[] { true, false, true, false, true }, flattened);
@@ -1223,24 +1222,14 @@ class ArraysShapeTest {
 
         @Test
         void booleanFlatten3D() {
-            // Line 2170-2173: flatten({{{true,false},{true}},{{false,true}}}) => {true,false,true,false,true}
+            // flatten({{{true,false},{true}},{{false,true}}}) => {true,false,true,false,true}
             boolean[][][] cube = { { { true, false }, { true } }, { { false, true } } };
             boolean[] flattened = Arrays.flatten(cube);
             assertArrayEquals(new boolean[] { true, false, true, false, true }, flattened);
         }
 
         @Test
-        void byteApplyOnFlattened() {
-            // Line 4807-4809: mutateViaFlatArray({{3,1},{4,2}}, t -> sort(t)) => {{1,2},{3,4}}
-            byte[][] arr = { { 3, 1 }, { 4, 2 } };
-            Arrays.mutateViaFlatArray(arr, t -> java.util.Arrays.sort(t));
-            assertArrayEquals(new byte[] { 1, 2 }, arr[0]);
-            assertArrayEquals(new byte[] { 3, 4 }, arr[1]);
-        }
-
-        @Test
         void byteFlatten2D() {
-            // Line 4722-4725
             byte[][] arr = { { 1, 2 }, { 3 }, { 4, 5 } };
             byte[] flattened = Arrays.flatten(arr);
             assertArrayEquals(new byte[] { 1, 2, 3, 4, 5 }, flattened);
@@ -1248,19 +1237,10 @@ class ArraysShapeTest {
 
         @Test
         void classJavadoc_flattenIntGrid() {
-            // Line 101-102: int[][] grid = {{1, 2, 3}, {4, 5, 6}}; => flatten => {1, 2, 3, 4, 5, 6}
+            // int[][] grid = {{1, 2, 3}, {4, 5, 6}}; => flatten => {1, 2, 3, 4, 5, 6}
             int[][] grid = { { 1, 2, 3 }, { 4, 5, 6 } };
             int[] flattened = Arrays.flatten(grid);
             assertArrayEquals(new int[] { 1, 2, 3, 4, 5, 6 }, flattened);
-        }
-
-        @Test
-        void doubleApplyOnFlattened_3D() {
-            double[][][] cube = { { { 9.0, 2.0 } }, { { 5.0 }, { 1.0 } } };
-            Arrays.mutateViaFlatArray(cube, arr -> java.util.Arrays.sort(arr));
-            assertArrayEquals(new double[] { 1.0, 2.0 }, cube[0][0], 0.0);
-            assertArrayEquals(new double[] { 5.0 }, cube[1][0], 0.0);
-            assertArrayEquals(new double[] { 9.0 }, cube[1][1], 0.0);
         }
 
         @Test
@@ -1996,14 +1976,6 @@ class ArraysShapeTest {
         }
 
         @Test
-        void floatApplyOnFlattened_sort() {
-            float[][] grid = { { 4.0f, 1.0f }, { 3.0f, 2.0f } };
-            Arrays.mutateViaFlatArray(grid, t -> java.util.Arrays.sort(t));
-            assertArrayEquals(new float[] { 1.0f, 2.0f }, grid[0], 0.0f);
-            assertArrayEquals(new float[] { 3.0f, 4.0f }, grid[1], 0.0f);
-        }
-
-        @Test
         void floatFlatten_preservesNaN() {
             float[][] grid = { { 1.0f, Float.NaN }, { 3.0f, 4.0f } };
             float[] flat = Arrays.flatten(grid);
@@ -2054,7 +2026,7 @@ class ArraysShapeTest {
 
         @Test
         void intFlatten2D() {
-            // Line 7358-7361: flatten({{1,2,3},{4,5},{6,7,8}}) => {1,2,3,4,5,6,7,8}
+            // flatten({{1,2,3},{4,5},{6,7,8}}) => {1,2,3,4,5,6,7,8}
             int[][] arr = { { 1, 2, 3 }, { 4, 5 }, { 6, 7, 8 } };
             int[] result = Arrays.flatten(arr);
             assertArrayEquals(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 }, result);
@@ -2167,7 +2139,7 @@ class ArraysShapeTest {
 
         @Test
         void shortFlatten2D() {
-            // Line 6066: flatten({{1,2,3},{4,5}}) => {1,2,3,4,5}
+            // flatten({{1,2,3},{4,5}}) => {1,2,3,4,5}
             short[][] array = { { 1, 2, 3 }, { 4, 5 } };
             short[] flat = Arrays.flatten(array);
             assertArrayEquals(new short[] { 1, 2, 3, 4, 5 }, flat);

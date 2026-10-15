@@ -384,93 +384,22 @@ class IntTupleTest {
     @Nested
     class ArityTests {
 
-        @Test
-        void arity_returnsElementCount() {
-            assertEquals(0, IntTuple.from(new int[0]).arity());
-            assertEquals(1, IntTuple.of(1).arity());
-            assertEquals(2, IntTuple.of(1, 2).arity());
-            assertEquals(3, IntTuple.of(1, 2, 3).arity());
-            assertEquals(4, IntTuple.of(1, 2, 3, 4).arity());
-            assertEquals(5, IntTuple.of(1, 2, 3, 4, 5).arity());
-            assertEquals(6, IntTuple.of(1, 2, 3, 4, 5, 6).arity());
-            assertEquals(7, IntTuple.of(1, 2, 3, 4, 5, 6, 7).arity());
-            assertEquals(8, IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8).arity());
-            assertEquals(9, IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9).arity());
+        @ParameterizedTest(name = "{0}")
+        @MethodSource("arityCases")
+        void arity_inputCases_returnsElementCount(String scenario, IntTuple<?> tuple, int expected) {
+            assertEquals(expected, tuple.arity(), scenario);
         }
 
-        @Test
-        void arity0_arity() {
-            IntTuple0 tuple = IntTuple.from(new int[0]);
-            assertEquals(0, tuple.arity());
+        private static java.util.stream.Stream<Arguments> arityCases() {
+            return java.util.stream.Stream.of(Arguments.of("from(new int[0])", IntTuple.from(new int[0]), 0), Arguments.of("of(1)", IntTuple.of(1), 1),
+                    Arguments.of("of(1, 2)", IntTuple.of(1, 2), 2), Arguments.of("of(1, 2, 3)", IntTuple.of(1, 2, 3), 3),
+                    Arguments.of("of(1, 2, 3, 4)", IntTuple.of(1, 2, 3, 4), 4), Arguments.of("of(1, 2, 3, 4, 5)", IntTuple.of(1, 2, 3, 4, 5), 5),
+                    Arguments.of("of(1, 2, 3, 4, 5, 6)", IntTuple.of(1, 2, 3, 4, 5, 6), 6),
+                    Arguments.of("of(1, 2, 3, 4, 5, 6, 7)", IntTuple.of(1, 2, 3, 4, 5, 6, 7), 7),
+                    Arguments.of("of(1, 2, 3, 4, 5, 6, 7, 8)", IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8), 8),
+                    Arguments.of("of(1, 2, 3, 4, 5, 6, 7, 8, 9)", IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9), 9));
         }
 
-        @Test
-        void coverageRegression_highArityEqualsBranches() {
-            IntTuple.IntTuple4 tuple4 = IntTuple.of(1, 2, 3, 4);
-            assertTrue(tuple4.equals(tuple4));
-            assertTrue(tuple4.equals(IntTuple.of(1, 2, 3, 4)));
-            assertFalse(tuple4.equals(IntTuple.of(1, 2, 3, 9)));
-            assertFalse(tuple4.equals("tuple4"));
-
-            IntTuple.IntTuple5 tuple5 = IntTuple.of(1, 2, 3, 4, 5);
-            assertTrue(tuple5.equals(tuple5));
-            assertTrue(tuple5.equals(IntTuple.of(1, 2, 3, 4, 5)));
-            assertFalse(tuple5.equals(IntTuple.of(1, 2, 3, 4, 9)));
-            assertFalse(tuple5.equals("tuple5"));
-
-            IntTuple.IntTuple6 tuple6 = IntTuple.of(1, 2, 3, 4, 5, 6);
-            assertTrue(tuple6.equals(tuple6));
-            assertTrue(tuple6.equals(IntTuple.of(1, 2, 3, 4, 5, 6)));
-            assertFalse(tuple6.equals(IntTuple.of(1, 2, 3, 4, 5, 9)));
-            assertFalse(tuple6.equals("tuple6"));
-
-            IntTuple.IntTuple7 tuple7 = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
-            assertTrue(tuple7.equals(tuple7));
-            assertTrue(tuple7.equals(IntTuple.of(1, 2, 3, 4, 5, 6, 7)));
-            assertFalse(tuple7.equals(IntTuple.of(1, 2, 3, 4, 5, 6, 9)));
-            assertFalse(tuple7.equals("tuple7"));
-
-            IntTuple.IntTuple8 tuple8 = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8);
-            assertTrue(tuple8.equals(tuple8));
-            assertTrue(tuple8.equals(IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8)));
-            assertFalse(tuple8.equals(IntTuple.of(1, 2, 3, 4, 5, 6, 7, 9)));
-            assertFalse(tuple8.equals("tuple8"));
-
-            IntTuple.IntTuple9 tuple9 = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
-            assertTrue(tuple9.equals(tuple9));
-            assertTrue(tuple9.equals(IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9)));
-            assertFalse(tuple9.equals(IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 0)));
-            assertFalse(tuple9.equals("tuple9"));
-        }
-
-        @Test
-        void coverageRegression_highArityOperations() {
-            IntTuple.IntTuple4 tuple4 = IntTuple.of(9, 1, 7, 3);
-            assertEquals(1, tuple4.min());
-            assertEquals(9, tuple4.max());
-            assertEquals(3, tuple4.lowerMedian());
-            assertEquals(20, tuple4.sum());
-            assertEquals(5.0, tuple4.average().getAsDouble());
-            assertTrue(tuple4.contains(3));
-
-            IntTuple.IntTuple5 tuple5 = IntTuple.of(1, 2, 3, 4, 5);
-            assertTrue(tuple5.contains(5));
-
-            IntTuple.IntTuple6 tuple6 = IntTuple.of(9, 1, 7, 3, 5, 11);
-            assertEquals(5, tuple6.lowerMedian());
-            assertTrue(tuple6.contains(11));
-
-            IntTuple.IntTuple7 tuple7 = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
-            assertTrue(tuple7.contains(7));
-
-            IntTuple.IntTuple8 tuple8 = IntTuple.of(9, 1, 7, 3, 5, 11, 13, 15);
-            assertEquals(7, tuple8.lowerMedian());
-            assertTrue(tuple8.contains(15));
-
-            IntTuple.IntTuple9 tuple9 = IntTuple.of(9, 1, 7, 3, 5, 11, 13, 15, 17);
-            assertEquals(9, tuple9.lowerMedian());
-            assertTrue(tuple9.contains(17));
-        }
     }
 
     @Nested
@@ -1376,7 +1305,7 @@ class IntTupleTest {
     class ContainsTests {
 
         @ParameterizedTest(name = "arity {0}: contains checks every component")
-        @ValueSource(ints = { 1, 2, 3, 4, 5, 6, 7, 8, 9 })
+        @ValueSource(ints = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 })
         void contains_checksEveryComponentAndRejectsMissingValue(int arity) {
             int[] values = new int[arity];
             for (int i = 0; i < arity; i++) {
@@ -1389,310 +1318,40 @@ class IntTupleTest {
             assertFalse(tuple.contains(100));
         }
 
-        @Test
-        void arity0_contains() {
-            IntTuple0 tuple = IntTuple.from(new int[0]);
-            assertFalse(tuple.contains(1));
+        @ParameterizedTest(name = "{0}")
+        @MethodSource("containsCases")
+        void contains_inputCases_matchExpectedMembership(String scenario, IntTuple<?> tuple, int[] present, int[] absent) {
+            for (int value : present) {
+                assertTrue(tuple.contains(value), scenario + ": expected to contain " + value);
+            }
+            for (int value : absent) {
+                assertFalse(tuple.contains(value), scenario + ": expected to exclude " + value);
+            }
         }
 
-        @Test
-        void arity1_contains() {
-            IntTuple.IntTuple1 tuple = IntTuple.of(1);
-            assertTrue(tuple.contains(1));
-        }
-
-        @Test
-        void arity1_contains_found() {
-            IntTuple1 tuple = IntTuple.of(5);
-            assertTrue(tuple.contains(5));
-        }
-
-        @Test
-        void arity1_contains_notFound() {
-            IntTuple1 tuple = IntTuple.of(5);
-            assertFalse(tuple.contains(10));
-        }
-
-        @Test
-        void arity2_contains() {
-            IntTuple.IntTuple2 tuple = IntTuple.of(1, 2);
-            assertTrue(tuple.contains(1));
-        }
-
-        @Test
-        void arity2_contains_found() {
-            IntTuple2 tuple = IntTuple.of(1, 2);
-            assertTrue(tuple.contains(1));
-            assertTrue(tuple.contains(2));
-        }
-
-        @Test
-        void arity2_contains_notFound() {
-            IntTuple2 tuple = IntTuple.of(1, 2);
-            assertFalse(tuple.contains(3));
-        }
-
-        @Test
-        void arity3_contains() {
-            IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
-            assertTrue(tuple.contains(1));
-        }
-
-        @Test
-        void arity3_contains_values_1_2_3() {
-            IntTuple3 tuple = IntTuple.of(1, 2, 3);
-            assertTrue(tuple.contains(2));
-            assertFalse(tuple.contains(5));
-        }
-
-        @Test
-        void arity4_contains() {
-            IntTuple.IntTuple4 tuple = IntTuple.of(1, 2, 3, 4);
-            assertTrue(tuple.contains(1));
-        }
-
-        @Test
-        void arity5_contains() {
-            IntTuple.IntTuple5 tuple = IntTuple.of(1, 2, 3, 4, 5);
-            assertTrue(tuple.contains(1));
-        }
-
-        @Test
-        void arity6_contains() {
-            IntTuple.IntTuple6 tuple = IntTuple.of(1, 2, 3, 4, 5, 6);
-            assertTrue(tuple.contains(1));
-        }
-
-        @Test
-        void arity7_contains() {
-            IntTuple.IntTuple7 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
-            assertTrue(tuple.contains(1));
-        }
-
-        @Test
-        void arity8_contains() {
-            IntTuple.IntTuple8 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8);
-            assertTrue(tuple.contains(1));
-        }
-
-        @Test
-        void arity9_contains() {
-            IntTuple.IntTuple9 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
-            assertTrue(tuple.contains(1));
-        }
-
-        @Test
-        void contains_allElements() {
-            IntTuple5 tuple = IntTuple.of(10, 20, 30, 40, 50);
-            assertTrue(tuple.contains(10));
-            assertTrue(tuple.contains(20));
-            assertTrue(tuple.contains(30));
-            assertTrue(tuple.contains(40));
-            assertTrue(tuple.contains(50));
-            assertFalse(tuple.contains(99));
-        }
-
-        @Test
-        void contains_empty() {
-            IntTuple0 tuple = IntTuple.from(new int[0]);
-            assertFalse(tuple.contains(42));
-        }
-
-        @Test
-        void contains_findsPresentElements() {
-            // Test Tuple0
-            IntTuple.IntTuple0 empty = IntTuple.from(new int[0]);
-            assertFalse(empty.contains(10));
-
-            // Test Tuple1
-            IntTuple.IntTuple1 tuple1 = IntTuple.of(10);
-            assertTrue(tuple1.contains(10));
-            assertFalse(tuple1.contains(20));
-
-            // Test Tuple3
-            IntTuple.IntTuple3 tuple3 = IntTuple.of(10, 20, 30);
-            assertTrue(tuple3.contains(10));
-            assertTrue(tuple3.contains(20));
-            assertTrue(tuple3.contains(30));
-            assertFalse(tuple3.contains(40));
-
-            // Test larger tuples
-            IntTuple.IntTuple7 tuple7 = IntTuple.of(10, 20, 30, 40, 50, 60, 70);
-            assertTrue(tuple7.contains(70));
-            assertFalse(tuple7.contains(80));
-        }
-
-        @Test
-        void contains_findsPresentElements_values_1_2_3() {
-            // IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
-            // boolean has2 = tuple.contains(2);   // true
-            // boolean has5 = tuple.contains(5);   // false
-            IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
-            assertTrue(tuple.contains(2));
-            assertFalse(tuple.contains(5));
-
-            // IntTuple.IntTuple2 pair = IntTuple.of(10, 10);
-            // boolean hasTen = pair.contains(10);   // true
-            // boolean hasOne = pair.contains(1);    // false
-            IntTuple.IntTuple2 pair = IntTuple.of(10, 10);
-            assertTrue(pair.contains(10));
-            assertFalse(pair.contains(1));
-        }
-
-        @Test
-        void contains_higherArityTrailingElements() {
-            IntTuple.IntTuple7 tuple7 = IntTuple.of(10, 20, 30, 40, 50, 60, 70);
-            IntTuple.IntTuple8 tuple8 = IntTuple.of(10, 20, 30, 40, 50, 60, 70, 80);
-            IntTuple.IntTuple9 tuple9 = IntTuple.of(10, 20, 30, 40, 50, 60, 70, 80, 90);
-
-            assertTrue(tuple7.contains(70));
-            assertFalse(tuple7.contains(100));
-            assertTrue(tuple8.contains(80));
-            assertFalse(tuple8.contains(100));
-            assertTrue(tuple9.contains(90));
-            assertFalse(tuple9.contains(100));
-        }
-
-        @Test
-        void contains_multiple_found() {
-            IntTuple3 tuple = IntTuple.of(10, 20, 30);
-            assertTrue(tuple.contains(10));
-            assertTrue(tuple.contains(20));
-            assertTrue(tuple.contains(30));
-        }
-
-        @Test
-        void contains_multiple_notfound() {
-            IntTuple3 tuple = IntTuple.of(10, 20, 30);
-            assertFalse(tuple.contains(99));
-        }
-
-        @Test
-        void contains_negatives() {
-            IntTuple3 tuple = IntTuple.of(-10, 0, 10);
-            assertTrue(tuple.contains(-10));
-            assertTrue(tuple.contains(0));
-            assertTrue(tuple.contains(10));
-            assertFalse(tuple.contains(5));
-        }
-
-        @Test
-        void contains_single_notfound() {
-            IntTuple1 tuple = IntTuple.of(42);
-            assertFalse(tuple.contains(99));
-        }
-
-        @Test
-        void contains_tuple1_notFound() {
-            IntTuple1 tuple = IntTuple.of(42);
-            assertFalse(tuple.contains(100));
-        }
-
-        @Test
-        void contains_tuple2_found() {
-            IntTuple2 tuple = IntTuple.of(1, 2);
-            assertTrue(tuple.contains(2));
-        }
-
-        @Test
-        void contains_tuple2_notFound() {
-            IntTuple2 tuple = IntTuple.of(1, 2);
-            assertFalse(tuple.contains(5));
-        }
-
-        @Test
-        void contains_tuple3_found() {
-            IntTuple3 tuple = IntTuple.of(1, 2, 3);
-            assertTrue(tuple.contains(2));
-        }
-
-        @Test
-        void contains_tuple3_notFound() {
-            IntTuple3 tuple = IntTuple.of(1, 2, 3);
-            assertFalse(tuple.contains(5));
-        }
-
-        @Test
-        void contains_tuple4() {
-            IntTuple4 tuple = IntTuple.of(1, 2, 3, 4);
-            assertTrue(tuple.contains(1));
-            assertTrue(tuple.contains(4));
-            assertFalse(tuple.contains(5));
-        }
-
-        @Test
-        void contains_tuple5() {
-            IntTuple5 tuple = IntTuple.of(1, 2, 3, 4, 5);
-            assertTrue(tuple.contains(5));
-            assertFalse(tuple.contains(10));
-        }
-
-        @Test
-        void contains_tuple6() {
-            IntTuple6 tuple = IntTuple.of(1, 2, 3, 4, 5, 6);
-            assertTrue(tuple.contains(6));
-            assertFalse(tuple.contains(7));
-        }
-
-        @Test
-        void contains_tuple7() {
-            IntTuple7 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
-            assertTrue(tuple.contains(7));
-            assertFalse(tuple.contains(8));
-        }
-
-        @Test
-        void contains_tuple8() {
-            IntTuple8 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8);
-            assertTrue(tuple.contains(8));
-            assertFalse(tuple.contains(9));
-        }
-
-        @Test
-        void contains_tuple9() {
-            IntTuple9 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
-            assertTrue(tuple.contains(9));
-            assertFalse(tuple.contains(10));
-        }
-
-        @Test
-        void containsTuple0() {
-            IntTuple<IntTuple0> tuple = IntTuple.from(new int[0]);
-            assertFalse(tuple.contains(1));
-        }
-
-        @Test
-        void containsTuple1False() {
-            IntTuple1 tuple = IntTuple.of(42);
-            assertFalse(tuple.contains(41));
-        }
-
-        @Test
-        void containsTuple1True() {
-            IntTuple1 tuple = IntTuple.of(42);
-            assertTrue(tuple.contains(42));
-        }
-
-        @Test
-        void containsTuple3() {
-            IntTuple3 tuple = IntTuple.of(1, 2, 3);
-            assertTrue(tuple.contains(1));
-            assertTrue(tuple.contains(2));
-            assertTrue(tuple.contains(3));
-            assertFalse(tuple.contains(4));
-        }
-
-        @Test
-        void containsTuple9() {
-            IntTuple9 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
-            assertTrue(tuple.contains(5));
-            assertFalse(tuple.contains(10));
-        }
-
-        @Test
-        void tuple0_contains() {
-            IntTuple<?> tuple = IntTuple.from(null);
-            assertFalse(tuple.contains(1));
+        private static java.util.stream.Stream<Arguments> containsCases() {
+            return java.util.stream.Stream.of(Arguments.of("from(new int[0])", IntTuple.from(new int[0]), new int[] {}, new int[] { 1, 42, 10 }),
+                    Arguments.of("from(null)", IntTuple.from(null), new int[] {}, new int[] { 1 }),
+                    Arguments.of("of(1)", IntTuple.of(1), new int[] { 1 }, new int[] {}),
+                    Arguments.of("of(10)", IntTuple.of(10), new int[] { 10 }, new int[] { 20 }),
+                    Arguments.of("of(42)", IntTuple.of(42), new int[] { 42 }, new int[] { 99, 100, 41 }),
+                    Arguments.of("of(5)", IntTuple.of(5), new int[] { 5 }, new int[] { 10 }),
+                    Arguments.of("of(1, 2)", IntTuple.of(1, 2), new int[] { 1, 2 }, new int[] { 3, 5 }),
+                    Arguments.of("of(10, 10)", IntTuple.of(10, 10), new int[] { 10 }, new int[] { 1 }),
+                    Arguments.of("of(-10, 0, 10)", IntTuple.of(-10, 0, 10), new int[] { -10, 0, 10 }, new int[] { 5 }),
+                    Arguments.of("of(1, 2, 3)", IntTuple.of(1, 2, 3), new int[] { 1, 2, 3 }, new int[] { 5, 4 }),
+                    Arguments.of("of(10, 20, 30)", IntTuple.of(10, 20, 30), new int[] { 10, 20, 30 }, new int[] { 40, 99 }),
+                    Arguments.of("of(1, 2, 3, 4)", IntTuple.of(1, 2, 3, 4), new int[] { 1, 4 }, new int[] { 5 }),
+                    Arguments.of("of(1, 2, 3, 4, 5)", IntTuple.of(1, 2, 3, 4, 5), new int[] { 1, 5 }, new int[] { 10 }),
+                    Arguments.of("of(10, 20, 30, 40, 50)", IntTuple.of(10, 20, 30, 40, 50), new int[] { 10, 20, 30, 40, 50 }, new int[] { 99 }),
+                    Arguments.of("of(1, 2, 3, 4, 5, 6)", IntTuple.of(1, 2, 3, 4, 5, 6), new int[] { 1, 6 }, new int[] { 7 }),
+                    Arguments.of("of(1, 2, 3, 4, 5, 6, 7)", IntTuple.of(1, 2, 3, 4, 5, 6, 7), new int[] { 1, 7 }, new int[] { 8 }),
+                    Arguments.of("of(10, 20, 30, 40, 50, 60, 70)", IntTuple.of(10, 20, 30, 40, 50, 60, 70), new int[] { 70 }, new int[] { 80, 100 }),
+                    Arguments.of("of(1, 2, 3, 4, 5, 6, 7, 8)", IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8), new int[] { 1, 8 }, new int[] { 9 }),
+                    Arguments.of("of(10, 20, 30, 40, 50, 60, 70, 80)", IntTuple.of(10, 20, 30, 40, 50, 60, 70, 80), new int[] { 80 }, new int[] { 100 }),
+                    Arguments.of("of(1, 2, 3, 4, 5, 6, 7, 8, 9)", IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9), new int[] { 1, 9, 5 }, new int[] { 10 }),
+                    Arguments.of("of(10, 20, 30, 40, 50, 60, 70, 80, 90)", IntTuple.of(10, 20, 30, 40, 50, 60, 70, 80, 90), new int[] { 90 },
+                            new int[] { 100 }));
         }
     }
 
@@ -2810,9 +2469,9 @@ class IntTupleTest {
     @Nested
     class EqualsTests {
 
-        @ParameterizedTest(name = "arity {0}: equality checks every component")
+        @ParameterizedTest(name = "arity {0}: equality value contract")
         @ValueSource(ints = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 })
-        void equals_rejectsEverySingleComponentDifference(int arity) {
+        void equals_allArities_obeysValueContract(int arity) {
             int[] values = new int[arity];
             for (int i = 0; i < arity; i++) {
                 values[i] = i + 1;
@@ -2824,6 +2483,10 @@ class IntTupleTest {
             assertTrue(tuple.equals(tuple));
             assertTrue(tuple.equals(equal));
             assertTrue(equal.equals(tuple));
+            IntTuple<?> third = arity == 0 ? new IntTuple.IntTuple0() : IntTuple.from(values.clone());
+            assertNotSame(equal, third);
+            assertTrue(equal.equals(third));
+            assertTrue(tuple.equals(third), "equality must be transitive");
             assertEquals(tuple.hashCode(), equal.hashCode());
             assertFalse(tuple.equals(null));
             assertFalse(tuple.equals(new Object()));
@@ -2835,319 +2498,97 @@ class IntTupleTest {
                 assertFalse(tuple.equals(different), "component " + i);
                 assertFalse(different.equals(tuple), "component " + i);
             }
+
+            for (int otherArity = 0; otherArity <= 9; otherArity++) {
+                if (otherArity != arity) {
+                    IntTuple<?> differentArity = IntTuple.from(java.util.Arrays.copyOf(values, otherArity));
+                    assertFalse(tuple.equals(differentArity), "different arity " + otherArity);
+                    assertFalse(differentArity.equals(tuple), "reverse comparison with arity " + otherArity);
+                }
+            }
         }
 
-        @Test
-        void arity1_equals() {
-            IntTuple.IntTuple1 tuple1 = IntTuple.of(1);
-            IntTuple.IntTuple1 tuple2 = IntTuple.of(1);
-            assertEquals(tuple1, tuple2);
+        @ParameterizedTest(name = "{0}")
+        @MethodSource("equalityCases")
+        void equals_inputCases_comparesValuesAndTypes(String scenario, IntTuple<?> tuple, Object other, boolean expected) {
+            assertTrue(tuple.equals(tuple), scenario + ": reflexivity");
+            assertEquals(expected, tuple.equals(other), scenario + ": forward comparison");
+            if (other != null) {
+                assertEquals(expected, other.equals(tuple), scenario + ": reverse comparison");
+            }
+            if (expected) {
+                assertEquals(tuple.hashCode(), other.hashCode(), scenario + ": equal values must have equal hashes");
+            }
         }
 
-        @Test
-        void arity1_equals_differentType() {
-            IntTuple1 tuple = IntTuple.of(5);
-            assertNotEquals("string", tuple);
-        }
-
-        @Test
-        void arity1_equals_equal() {
-            IntTuple1 tuple1 = IntTuple.of(5);
-            IntTuple1 tuple2 = IntTuple.of(5);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity1_equals_notEqual() {
-            IntTuple1 tuple1 = IntTuple.of(5);
-            IntTuple1 tuple2 = IntTuple.of(10);
-            assertNotEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity1_equals_null() {
-            IntTuple1 tuple = IntTuple.of(5);
-            assertNotEquals(null, tuple);
-        }
-
-        @Test
-        void arity1_equals_same() {
-            IntTuple1 tuple = IntTuple.of(5);
-            assertTrue(tuple.equals(tuple));
-        }
-
-        @Test
-        void arity2_equals() {
-            IntTuple.IntTuple2 tuple1 = IntTuple.of(1, 2);
-            IntTuple.IntTuple2 tuple2 = IntTuple.of(1, 2);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity2_equals_values_1_2() {
-            IntTuple2 tuple1 = IntTuple.of(1, 2);
-            IntTuple2 tuple2 = IntTuple.of(1, 2);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity3_equals() {
-            IntTuple.IntTuple3 tuple1 = IntTuple.of(1, 2, 3);
-            IntTuple.IntTuple3 tuple2 = IntTuple.of(1, 2, 3);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity4_equals() {
-            IntTuple.IntTuple4 tuple1 = IntTuple.of(1, 2, 3, 4);
-            IntTuple.IntTuple4 tuple2 = IntTuple.of(1, 2, 3, 4);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity5_equals() {
-            IntTuple.IntTuple5 tuple1 = IntTuple.of(1, 2, 3, 4, 5);
-            IntTuple.IntTuple5 tuple2 = IntTuple.of(1, 2, 3, 4, 5);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity6_equals() {
-            IntTuple.IntTuple6 tuple1 = IntTuple.of(1, 2, 3, 4, 5, 6);
-            IntTuple.IntTuple6 tuple2 = IntTuple.of(1, 2, 3, 4, 5, 6);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity7_equals() {
-            IntTuple.IntTuple7 tuple1 = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
-            IntTuple.IntTuple7 tuple2 = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity8_equals() {
-            IntTuple.IntTuple8 tuple1 = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8);
-            IntTuple.IntTuple8 tuple2 = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity9_equals() {
-            IntTuple.IntTuple9 tuple1 = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
-            IntTuple.IntTuple9 tuple2 = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equals_comparesValues() {
-            IntTuple.IntTuple3 tuple1 = IntTuple.of(10, 20, 30);
-            IntTuple.IntTuple3 tuple2 = IntTuple.of(10, 20, 30);
-            IntTuple.IntTuple3 tuple3 = IntTuple.of(10, 20, 31);
-            IntTuple.IntTuple2 tuple4 = IntTuple.of(10, 20);
-
-            assertTrue(tuple1.equals(tuple1));
-            assertTrue(tuple1.equals(tuple2));
-            assertFalse(tuple1.equals(tuple3));
-            assertFalse(tuple1.equals(tuple4));
-            assertFalse(tuple1.equals(null));
-            assertFalse(tuple1.equals("not a tuple"));
-
-            // Test specific equals for coverage
-            IntTuple.IntTuple1 single1 = IntTuple.of(10);
-            IntTuple.IntTuple1 single2 = IntTuple.of(10);
-            IntTuple.IntTuple1 single3 = IntTuple.of(20);
-            assertTrue(single1.equals(single2));
-            assertFalse(single1.equals(single3));
-            assertFalse(single1.equals("not a tuple"));
-
-            IntTuple.IntTuple2 pair1 = IntTuple.of(10, 20);
-            IntTuple.IntTuple2 pair2 = IntTuple.of(10, 20);
-            IntTuple.IntTuple2 pair3 = IntTuple.of(10, 21);
-            assertTrue(pair1.equals(pair2));
-            assertFalse(pair1.equals(pair3));
-        }
-
-        @Test
-        void equals_differentClass() {
-            IntTuple2 tuple2 = IntTuple.of(1, 2);
-            IntTuple3 tuple3 = IntTuple.of(1, 2, 3);
-            assertNotEquals(tuple2, tuple3);
-        }
-
-        @Test
-        void equals_differentTypes() {
-            IntTuple1 tuple1 = IntTuple.of(10);
-            IntTuple2 tuple2 = IntTuple.of(10, 20);
-            assertNotEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equals_differentValues() {
-            IntTuple2 tuple1 = IntTuple.of(10, 20);
-            IntTuple2 tuple2 = IntTuple.of(30, 40);
-            assertNotEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equals_higherArityIdentityAndTypeMismatch() {
-            IntTuple.IntTuple7 tuple7 = IntTuple.of(10, 20, 30, 40, 50, 60, 70);
-            IntTuple.IntTuple8 tuple8 = IntTuple.of(10, 20, 30, 40, 50, 60, 70, 80);
-            IntTuple.IntTuple9 tuple9 = IntTuple.of(10, 20, 30, 40, 50, 60, 70, 80, 90);
-
-            assertTrue(tuple7.equals(tuple7));
-            assertEquals(tuple7, IntTuple.of(10, 20, 30, 40, 50, 60, 70));
-            assertNotEquals(tuple7, IntTuple.of(10, 20, 30, 40, 50, 60, 71));
-            assertNotEquals(tuple7, "tuple");
-
-            assertTrue(tuple8.equals(tuple8));
-            assertEquals(tuple8, IntTuple.of(10, 20, 30, 40, 50, 60, 70, 80));
-            assertNotEquals(tuple8, IntTuple.of(10, 20, 30, 40, 50, 60, 70, 81));
-            assertNotEquals(tuple8, "tuple");
-
-            assertTrue(tuple9.equals(tuple9));
-            assertEquals(tuple9, IntTuple.of(10, 20, 30, 40, 50, 60, 70, 80, 90));
-            assertNotEquals(tuple9, IntTuple.of(10, 20, 30, 40, 50, 60, 70, 80, 91));
-            assertNotEquals(tuple9, "tuple");
-        }
-
-        @Test
-        void equals_null() {
-            IntTuple2 tuple = IntTuple.of(10, 20);
-            assertNotEquals(tuple, null);
-        }
-
-        @Test
-        void equals_otherObject() {
-            IntTuple2 tuple = IntTuple.of(10, 20);
-            assertNotEquals(tuple, "10,20");
-        }
-
-        @Test
-        void equals_sameInstance() {
-            IntTuple2 tuple = IntTuple.of(10, 20);
-            assertTrue(tuple.equals(tuple));
-        }
-
-        @Test
-        void equals_sameValues() {
-            IntTuple2 tuple1 = IntTuple.of(10, 20);
-            IntTuple2 tuple2 = IntTuple.of(10, 20);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equals_symmetric() {
-            IntTuple3 tuple1 = IntTuple.of(1, 2, 3);
-            IntTuple3 tuple2 = IntTuple.of(1, 2, 3);
-            assertEquals(tuple1, tuple2);
-            assertEquals(tuple2, tuple1);
-        }
-
-        @Test
-        void equals_tuple1_different() {
-            IntTuple1 tuple1 = IntTuple.of(42);
-            IntTuple1 tuple2 = IntTuple.of(100);
-            assertNotEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equals_tuple1_null() {
-            IntTuple1 tuple = IntTuple.of(42);
-            assertNotEquals(null, tuple);
-        }
-
-        @Test
-        void equals_tuple1_same() {
-            IntTuple1 tuple1 = IntTuple.of(42);
-            IntTuple1 tuple2 = IntTuple.of(42);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equals_tuple1_sameObject() {
-            IntTuple1 tuple = IntTuple.of(42);
-            assertTrue(tuple.equals(tuple));
-        }
-
-        @Test
-        void equals_tuple2_different() {
-            IntTuple2 tuple1 = IntTuple.of(1, 2);
-            IntTuple2 tuple2 = IntTuple.of(1, 3);
-            assertNotEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equals_tuple3_different() {
-            IntTuple3 tuple1 = IntTuple.of(1, 2, 3);
-            IntTuple3 tuple2 = IntTuple.of(1, 2, 4);
-            assertNotEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equals_tuple3_same() {
-            IntTuple3 tuple1 = IntTuple.of(1, 2, 3);
-            IntTuple3 tuple2 = IntTuple.of(1, 2, 3);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equals_tuple4() {
-            IntTuple4 tuple1 = IntTuple.of(1, 2, 3, 4);
-            IntTuple4 tuple2 = IntTuple.of(1, 2, 3, 4);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equals_tuple5() {
-            IntTuple5 tuple1 = IntTuple.of(1, 2, 3, 4, 5);
-            IntTuple5 tuple2 = IntTuple.of(1, 2, 3, 4, 5);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equalsDifferentClass() {
-            IntTuple3 tuple = IntTuple.of(1, 2, 3);
-            assertNotEquals("not a tuple", tuple);
-        }
-
-        @Test
-        void equalsNull() {
-            IntTuple3 tuple = IntTuple.of(1, 2, 3);
-            assertNotEquals(null, tuple);
-        }
-
-        @Test
-        void equalsSameObject() {
-            IntTuple3 tuple = IntTuple.of(1, 2, 3);
-            assertTrue(tuple.equals(tuple));
-        }
-
-        @Test
-        void equalsTuple1() {
-            IntTuple1 tuple1 = IntTuple.of(42);
-            IntTuple1 tuple2 = IntTuple.of(42);
-            IntTuple1 tuple3 = IntTuple.of(41);
-            assertEquals(tuple1, tuple2);
-            assertNotEquals(tuple1, tuple3);
-        }
-
-        @Test
-        void equalsTuple2() {
-            IntTuple2 tuple1 = IntTuple.of(1, 2);
-            IntTuple2 tuple2 = IntTuple.of(1, 2);
-            IntTuple2 tuple3 = IntTuple.of(1, 3);
-            assertEquals(tuple1, tuple2);
-            assertNotEquals(tuple1, tuple3);
-        }
-
-        @Test
-        void equalsTuple3() {
-            IntTuple3 tuple1 = IntTuple.of(1, 2, 3);
-            IntTuple3 tuple2 = IntTuple.of(1, 2, 3);
-            IntTuple3 tuple3 = IntTuple.of(1, 2, 4);
-            assertEquals(tuple1, tuple2);
-            assertNotEquals(tuple1, tuple3);
+        private static java.util.stream.Stream<Arguments> equalityCases() {
+            return java.util.stream.Stream.of(Arguments.of("of(1) versus of(1)", IntTuple.of(1), IntTuple.of(1), true),
+                    Arguments.of("of(10) versus \"not a tuple\"", IntTuple.of(10), "not a tuple", false),
+                    Arguments.of("of(10) versus of(10, 20)", IntTuple.of(10), IntTuple.of(10, 20), false),
+                    Arguments.of("of(10) versus of(10)", IntTuple.of(10), IntTuple.of(10), true),
+                    Arguments.of("of(10) versus of(20)", IntTuple.of(10), IntTuple.of(20), false),
+                    Arguments.of("of(42) versus of(100)", IntTuple.of(42), IntTuple.of(100), false),
+                    Arguments.of("of(42) versus of(41)", IntTuple.of(42), IntTuple.of(41), false),
+                    Arguments.of("of(42) versus of(42)", IntTuple.of(42), IntTuple.of(42), true),
+                    Arguments.of("of(42) versus null", IntTuple.of(42), null, false), Arguments.of("of(5) versus \"string\"", IntTuple.of(5), "string", false),
+                    Arguments.of("of(5) versus of(10)", IntTuple.of(5), IntTuple.of(10), false),
+                    Arguments.of("of(5) versus of(5)", IntTuple.of(5), IntTuple.of(5), true), Arguments.of("of(5) versus null", IntTuple.of(5), null, false),
+                    Arguments.of("of(1, 2) versus of(1, 2, 3)", IntTuple.of(1, 2), IntTuple.of(1, 2, 3), false),
+                    Arguments.of("of(1, 2) versus of(1, 2)", IntTuple.of(1, 2), IntTuple.of(1, 2), true),
+                    Arguments.of("of(1, 2) versus of(1, 3)", IntTuple.of(1, 2), IntTuple.of(1, 3), false),
+                    Arguments.of("of(10, 20) versus \"10,20\"", IntTuple.of(10, 20), "10,20", false),
+                    Arguments.of("of(10, 20) versus of(10, 20)", IntTuple.of(10, 20), IntTuple.of(10, 20), true),
+                    Arguments.of("of(10, 20) versus of(10, 21)", IntTuple.of(10, 20), IntTuple.of(10, 21), false),
+                    Arguments.of("of(10, 20) versus of(30, 40)", IntTuple.of(10, 20), IntTuple.of(30, 40), false),
+                    Arguments.of("of(10, 20) versus null", IntTuple.of(10, 20), null, false),
+                    Arguments.of("of(1, 2, 3) versus \"not a tuple\"", IntTuple.of(1, 2, 3), "not a tuple", false),
+                    Arguments.of("of(1, 2, 3) versus of(1, 2, 3)", IntTuple.of(1, 2, 3), IntTuple.of(1, 2, 3), true),
+                    Arguments.of("of(1, 2, 3) versus of(1, 2, 4)", IntTuple.of(1, 2, 3), IntTuple.of(1, 2, 4), false),
+                    Arguments.of("of(1, 2, 3) versus null", IntTuple.of(1, 2, 3), null, false),
+                    Arguments.of("of(10, 20, 30) versus \"not a tuple\"", IntTuple.of(10, 20, 30), "not a tuple", false),
+                    Arguments.of("of(10, 20, 30) versus of(10, 20, 30)", IntTuple.of(10, 20, 30), IntTuple.of(10, 20, 30), true),
+                    Arguments.of("of(10, 20, 30) versus of(10, 20, 31)", IntTuple.of(10, 20, 30), IntTuple.of(10, 20, 31), false),
+                    Arguments.of("of(10, 20, 30) versus of(10, 20)", IntTuple.of(10, 20, 30), IntTuple.of(10, 20), false),
+                    Arguments.of("of(10, 20, 30) versus null", IntTuple.of(10, 20, 30), null, false),
+                    Arguments.of("of(1, 2, 3, 4) versus \"tuple4\"", IntTuple.of(1, 2, 3, 4), "tuple4", false),
+                    Arguments.of("of(1, 2, 3, 4) versus of(1, 2, 3, 4)", IntTuple.of(1, 2, 3, 4), IntTuple.of(1, 2, 3, 4), true),
+                    Arguments.of("of(1, 2, 3, 4) versus of(1, 2, 3, 9)", IntTuple.of(1, 2, 3, 4), IntTuple.of(1, 2, 3, 9), false),
+                    Arguments.of("of(1, 2, 3, 4, 5) versus \"tuple5\"", IntTuple.of(1, 2, 3, 4, 5), "tuple5", false),
+                    Arguments.of("of(1, 2, 3, 4, 5) versus of(1, 2, 3, 4, 5)", IntTuple.of(1, 2, 3, 4, 5), IntTuple.of(1, 2, 3, 4, 5), true),
+                    Arguments.of("of(1, 2, 3, 4, 5) versus of(1, 2, 3, 4, 9)", IntTuple.of(1, 2, 3, 4, 5), IntTuple.of(1, 2, 3, 4, 9), false),
+                    Arguments.of("of(1, 2, 3, 4, 5, 6) versus \"tuple6\"", IntTuple.of(1, 2, 3, 4, 5, 6), "tuple6", false),
+                    Arguments.of("of(1, 2, 3, 4, 5, 6) versus of(1, 2, 3, 4, 5, 6)", IntTuple.of(1, 2, 3, 4, 5, 6), IntTuple.of(1, 2, 3, 4, 5, 6), true),
+                    Arguments.of("of(1, 2, 3, 4, 5, 6) versus of(1, 2, 3, 4, 5, 9)", IntTuple.of(1, 2, 3, 4, 5, 6), IntTuple.of(1, 2, 3, 4, 5, 9), false),
+                    Arguments.of("of(1, 2, 3, 4, 5, 6, 7) versus \"tuple7\"", IntTuple.of(1, 2, 3, 4, 5, 6, 7), "tuple7", false),
+                    Arguments.of("of(1, 2, 3, 4, 5, 6, 7) versus of(1, 2, 3, 4, 5, 6, 7)", IntTuple.of(1, 2, 3, 4, 5, 6, 7), IntTuple.of(1, 2, 3, 4, 5, 6, 7),
+                            true),
+                    Arguments.of("of(1, 2, 3, 4, 5, 6, 7) versus of(1, 2, 3, 4, 5, 6, 9)", IntTuple.of(1, 2, 3, 4, 5, 6, 7), IntTuple.of(1, 2, 3, 4, 5, 6, 9),
+                            false),
+                    Arguments.of("of(10, 20, 30, 40, 50, 60, 70) versus \"tuple\"", IntTuple.of(10, 20, 30, 40, 50, 60, 70), "tuple", false),
+                    Arguments.of("of(10, 20, 30, 40, 50, 60, 70) versus of(10, 20, 30, 40, 50, 60, 70)", IntTuple.of(10, 20, 30, 40, 50, 60, 70),
+                            IntTuple.of(10, 20, 30, 40, 50, 60, 70), true),
+                    Arguments.of("of(10, 20, 30, 40, 50, 60, 70) versus of(10, 20, 30, 40, 50, 60, 71)", IntTuple.of(10, 20, 30, 40, 50, 60, 70),
+                            IntTuple.of(10, 20, 30, 40, 50, 60, 71), false),
+                    Arguments.of("of(1, 2, 3, 4, 5, 6, 7, 8) versus \"tuple8\"", IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8), "tuple8", false),
+                    Arguments.of("of(1, 2, 3, 4, 5, 6, 7, 8) versus of(1, 2, 3, 4, 5, 6, 7, 8)", IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8),
+                            IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8), true),
+                    Arguments.of("of(1, 2, 3, 4, 5, 6, 7, 8) versus of(1, 2, 3, 4, 5, 6, 7, 9)", IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8),
+                            IntTuple.of(1, 2, 3, 4, 5, 6, 7, 9), false),
+                    Arguments.of("of(10, 20, 30, 40, 50, 60, 70, 80) versus \"tuple\"", IntTuple.of(10, 20, 30, 40, 50, 60, 70, 80), "tuple", false),
+                    Arguments.of("of(10, 20, 30, 40, 50, 60, 70, 80) versus of(10, 20, 30, 40, 50, 60, 70, 80)", IntTuple.of(10, 20, 30, 40, 50, 60, 70, 80),
+                            IntTuple.of(10, 20, 30, 40, 50, 60, 70, 80), true),
+                    Arguments.of("of(10, 20, 30, 40, 50, 60, 70, 80) versus of(10, 20, 30, 40, 50, 60, 70, 81)", IntTuple.of(10, 20, 30, 40, 50, 60, 70, 80),
+                            IntTuple.of(10, 20, 30, 40, 50, 60, 70, 81), false),
+                    Arguments.of("of(1, 2, 3, 4, 5, 6, 7, 8, 9) versus \"tuple9\"", IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9), "tuple9", false),
+                    Arguments.of("of(1, 2, 3, 4, 5, 6, 7, 8, 9) versus of(1, 2, 3, 4, 5, 6, 7, 8, 0)", IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9),
+                            IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 0), false),
+                    Arguments.of("of(1, 2, 3, 4, 5, 6, 7, 8, 9) versus of(1, 2, 3, 4, 5, 6, 7, 8, 9)", IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9),
+                            IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9), true),
+                    Arguments.of("of(10, 20, 30, 40, 50, 60, 70, 80, 90) versus \"tuple\"", IntTuple.of(10, 20, 30, 40, 50, 60, 70, 80, 90), "tuple", false),
+                    Arguments.of("of(10, 20, 30, 40, 50, 60, 70, 80, 90) versus of(10, 20, 30, 40, 50, 60, 70, 80, 90)",
+                            IntTuple.of(10, 20, 30, 40, 50, 60, 70, 80, 90), IntTuple.of(10, 20, 30, 40, 50, 60, 70, 80, 90), true),
+                    Arguments.of("of(10, 20, 30, 40, 50, 60, 70, 80, 90) versus of(10, 20, 30, 40, 50, 60, 70, 80, 91)",
+                            IntTuple.of(10, 20, 30, 40, 50, 60, 70, 80, 90), IntTuple.of(10, 20, 30, 40, 50, 60, 70, 80, 91), false));
         }
     }
 
@@ -3324,47 +2765,36 @@ class IntTupleTest {
             assertEquals(2.0, triple.average().getAsDouble(), 0.001);
         }
 
-        @Test
-        void coverageRegression_defaultConstructorsAndCachedArrays() {
-            IntTuple.IntTuple1 tuple1 = new IntTuple.IntTuple1();
-            assertArrayEquals(new int[] { 0 }, tuple1.toArray());
-            assertArrayEquals(new int[] { 0 }, tuple1.toArray());
+        @ParameterizedTest(name = "arity {0}: default exports are detached")
+        @ValueSource(ints = { 1, 2, 3, 4, 5, 6, 7, 8, 9 })
+        void defaultConstructors_exportDefaultValuesInIndependentArrays(int arity) {
+            IntTuple<?> tuple = switch (arity) {
+                case 1 -> new IntTuple.IntTuple1();
+                case 2 -> new IntTuple.IntTuple2();
+                case 3 -> new IntTuple.IntTuple3();
+                case 4 -> new IntTuple.IntTuple4();
+                case 5 -> new IntTuple.IntTuple5();
+                case 6 -> new IntTuple.IntTuple6();
+                case 7 -> new IntTuple.IntTuple7();
+                case 8 -> new IntTuple.IntTuple8();
+                case 9 -> new IntTuple.IntTuple9();
+                default -> throw new IllegalArgumentException("Unsupported tuple arity: " + arity);
+            };
+            int[] expected = new int[arity];
+            int[] first = tuple.toArray();
+            int[] second = tuple.toArray();
 
-            IntTuple.IntTuple2 tuple2 = new IntTuple.IntTuple2();
-            assertArrayEquals(new int[] { 0, 0 }, tuple2.toArray());
-            assertArrayEquals(new int[] { 0, 0 }, tuple2.toArray());
-
-            IntTuple.IntTuple3 tuple3 = new IntTuple.IntTuple3();
-            assertArrayEquals(new int[] { 0, 0, 0 }, tuple3.toArray());
-            assertArrayEquals(new int[] { 0, 0, 0 }, tuple3.toArray());
-
-            IntTuple.IntTuple4 tuple4 = new IntTuple.IntTuple4();
-            assertArrayEquals(new int[] { 0, 0, 0, 0 }, tuple4.toArray());
-            assertArrayEquals(new int[] { 0, 0, 0, 0 }, tuple4.toArray());
-
-            IntTuple.IntTuple5 tuple5 = new IntTuple.IntTuple5();
-            assertArrayEquals(new int[] { 0, 0, 0, 0, 0 }, tuple5.toArray());
-            assertArrayEquals(new int[] { 0, 0, 0, 0, 0 }, tuple5.toArray());
-
-            IntTuple.IntTuple6 tuple6 = new IntTuple.IntTuple6();
-            assertArrayEquals(new int[] { 0, 0, 0, 0, 0, 0 }, tuple6.toArray());
-            assertArrayEquals(new int[] { 0, 0, 0, 0, 0, 0 }, tuple6.toArray());
-
-            IntTuple.IntTuple7 tuple7 = new IntTuple.IntTuple7();
-            assertArrayEquals(new int[] { 0, 0, 0, 0, 0, 0, 0 }, tuple7.toArray());
-            assertArrayEquals(new int[] { 0, 0, 0, 0, 0, 0, 0 }, tuple7.toArray());
-
-            IntTuple.IntTuple8 tuple8 = new IntTuple.IntTuple8();
-            assertArrayEquals(new int[] { 0, 0, 0, 0, 0, 0, 0, 0 }, tuple8.toArray());
-            assertArrayEquals(new int[] { 0, 0, 0, 0, 0, 0, 0, 0 }, tuple8.toArray());
-
-            IntTuple.IntTuple9 tuple9 = new IntTuple.IntTuple9();
-            assertArrayEquals(new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, tuple9.toArray());
-            assertArrayEquals(new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, tuple9.toArray());
+            assertEquals(arity, tuple.arity());
+            assertArrayEquals(expected, first);
+            assertArrayEquals(expected, second);
+            assertNotSame(first, second);
+            first[0] = 1;
+            assertArrayEquals(expected, second, "each export must have independent storage");
+            assertArrayEquals(expected, tuple.toArray(), "mutating an export must not affect the tuple");
         }
 
         @Test
-        void coverageRegression_emptyTupleBaseMethods() {
+        void emptyTuple_operations_obeyEmptyValueContract() {
             IntTuple<?> empty = IntTuple.from((int[]) null);
             assertEquals(IntTuple.from(new int[0]), empty);
             assertFalse(empty.equals("int"));
@@ -3442,7 +2872,7 @@ class IntTupleTest {
         }
 
         @Test
-        void largerArities_branchCoverage() {
+        void highArity_aggregatesAndExports_preserveValues() {
             final IntTuple4 tuple4 = IntTuple.of(1, 2, 3, 4);
             final IntTuple5 tuple5 = IntTuple.of(1, 2, 3, 4, 5);
             final IntTuple6 tuple6 = IntTuple.of(1, 2, 3, 4, 5, 6);
@@ -3913,6 +3343,35 @@ class IntTupleTest {
             assertEquals(0, tuple.min());
             assertEquals(0, tuple.max());
             assertEquals(0, tuple.sum());
+        }
+
+        @Test
+        void highArity_aggregatesAndMembership_preserveValues() {
+            IntTuple.IntTuple4 tuple4 = IntTuple.of(9, 1, 7, 3);
+            assertEquals(1, tuple4.min());
+            assertEquals(9, tuple4.max());
+            assertEquals(3, tuple4.lowerMedian());
+            assertEquals(20, tuple4.sum());
+            assertEquals(5.0, tuple4.average().getAsDouble());
+            assertTrue(tuple4.contains(3));
+
+            IntTuple.IntTuple5 tuple5 = IntTuple.of(1, 2, 3, 4, 5);
+            assertTrue(tuple5.contains(5));
+
+            IntTuple.IntTuple6 tuple6 = IntTuple.of(9, 1, 7, 3, 5, 11);
+            assertEquals(5, tuple6.lowerMedian());
+            assertTrue(tuple6.contains(11));
+
+            IntTuple.IntTuple7 tuple7 = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
+            assertTrue(tuple7.contains(7));
+
+            IntTuple.IntTuple8 tuple8 = IntTuple.of(9, 1, 7, 3, 5, 11, 13, 15);
+            assertEquals(7, tuple8.lowerMedian());
+            assertTrue(tuple8.contains(15));
+
+            IntTuple.IntTuple9 tuple9 = IntTuple.of(9, 1, 7, 3, 5, 11, 13, 15, 17);
+            assertEquals(9, tuple9.lowerMedian());
+            assertTrue(tuple9.contains(17));
         }
     }
 }

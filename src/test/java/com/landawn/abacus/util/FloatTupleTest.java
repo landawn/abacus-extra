@@ -355,99 +355,25 @@ class FloatTupleTest {
     @Nested
     class ArityTests {
 
-        @Test
-        void arity_returnsElementCount() {
-            assertEquals(0, FloatTuple.from(new float[0]).arity());
-            assertEquals(1, FloatTuple.of(1.0f).arity());
-            assertEquals(2, FloatTuple.of(1.0f, 2.0f).arity());
-            assertEquals(3, FloatTuple.of(1.0f, 2.0f, 3.0f).arity());
-            assertEquals(4, FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f).arity());
-            assertEquals(5, FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f).arity());
-            assertEquals(6, FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f).arity());
-            assertEquals(7, FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f).arity());
-            assertEquals(8, FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f).arity());
-            assertEquals(9, FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f).arity());
+        @ParameterizedTest(name = "{0}")
+        @MethodSource("arityCases")
+        void arity_inputCases_returnsElementCount(String scenario, FloatTuple<?> tuple, int expected) {
+            assertEquals(expected, tuple.arity(), scenario);
         }
 
-        @Test
-        void arity_tuple0() {
-            FloatTuple<?> tuple = FloatTuple.from(new float[0]);
-            assertEquals(0, tuple.arity());
+        private static java.util.stream.Stream<Arguments> arityCases() {
+            return java.util.stream.Stream.of(Arguments.of("from(new float[0])", FloatTuple.from(new float[0]), 0),
+                    Arguments.of("of(1.0F)", FloatTuple.of(1.0F), 1), Arguments.of("of(1.0F, 2.0F)", FloatTuple.of(1.0F, 2.0F), 2),
+                    Arguments.of("of(1.0F, 2.0F, 3.0F)", FloatTuple.of(1.0F, 2.0F, 3.0F), 3),
+                    Arguments.of("of(1.0F, 2.0F, 3.0F, 4.0F)", FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F), 4),
+                    Arguments.of("of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F)", FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F), 5),
+                    Arguments.of("of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F)", FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F), 6),
+                    Arguments.of("of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F)", FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F), 7),
+                    Arguments.of("of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F, 8.0F)", FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F, 8.0F), 8),
+                    Arguments.of("of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F, 8.0F, 9.0F)",
+                            FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F, 8.0F, 9.0F), 9));
         }
 
-        @Test
-        void arity0_arity() {
-            FloatTuple0 tuple = FloatTuple.from(new float[0]);
-            assertEquals(0, tuple.arity());
-        }
-
-        @Test
-        void coverageRegression_highArityEqualsBranches() {
-            FloatTuple.FloatTuple4 tuple4 = FloatTuple.of(1f, 2f, 3f, 4f);
-            assertTrue(tuple4.equals(tuple4));
-            assertTrue(tuple4.equals(FloatTuple.of(1f, 2f, 3f, 4f)));
-            assertFalse(tuple4.equals(FloatTuple.of(1f, 2f, 3f, 9f)));
-            assertFalse(tuple4.equals("tuple4"));
-
-            FloatTuple.FloatTuple5 tuple5 = FloatTuple.of(1f, 2f, 3f, 4f, 5f);
-            assertTrue(tuple5.equals(tuple5));
-            assertTrue(tuple5.equals(FloatTuple.of(1f, 2f, 3f, 4f, 5f)));
-            assertFalse(tuple5.equals(FloatTuple.of(1f, 2f, 3f, 4f, 9f)));
-            assertFalse(tuple5.equals("tuple5"));
-
-            FloatTuple.FloatTuple6 tuple6 = FloatTuple.of(1f, 2f, 3f, 4f, 5f, 6f);
-            assertTrue(tuple6.equals(tuple6));
-            assertTrue(tuple6.equals(FloatTuple.of(1f, 2f, 3f, 4f, 5f, 6f)));
-            assertFalse(tuple6.equals(FloatTuple.of(1f, 2f, 3f, 4f, 5f, 9f)));
-            assertFalse(tuple6.equals("tuple6"));
-
-            FloatTuple.FloatTuple7 tuple7 = FloatTuple.of(1f, 2f, 3f, 4f, 5f, 6f, 7f);
-            assertTrue(tuple7.equals(tuple7));
-            assertTrue(tuple7.equals(FloatTuple.of(1f, 2f, 3f, 4f, 5f, 6f, 7f)));
-            assertFalse(tuple7.equals(FloatTuple.of(1f, 2f, 3f, 4f, 5f, 6f, 9f)));
-            assertFalse(tuple7.equals("tuple7"));
-
-            FloatTuple.FloatTuple8 tuple8 = FloatTuple.of(1f, 2f, 3f, 4f, 5f, 6f, 7f, 8f);
-            assertTrue(tuple8.equals(tuple8));
-            assertTrue(tuple8.equals(FloatTuple.of(1f, 2f, 3f, 4f, 5f, 6f, 7f, 8f)));
-            assertFalse(tuple8.equals(FloatTuple.of(1f, 2f, 3f, 4f, 5f, 6f, 7f, 9f)));
-            assertFalse(tuple8.equals("tuple8"));
-
-            FloatTuple.FloatTuple9 tuple9 = FloatTuple.of(1f, 2f, 3f, 4f, 5f, 6f, 7f, 8f, 9f);
-            assertTrue(tuple9.equals(tuple9));
-            assertTrue(tuple9.equals(FloatTuple.of(1f, 2f, 3f, 4f, 5f, 6f, 7f, 8f, 9f)));
-            assertFalse(tuple9.equals(FloatTuple.of(1f, 2f, 3f, 4f, 5f, 6f, 7f, 8f, 0f)));
-            assertFalse(tuple9.equals("tuple9"));
-        }
-
-        @Test
-        void coverageRegression_highArityOperations() {
-            FloatTuple.FloatTuple4 tuple4 = FloatTuple.of(9f, 1f, 7f, 3f);
-            assertEquals(1f, tuple4.min(), 0.0f);
-            assertEquals(9f, tuple4.max(), 0.0f);
-            assertEquals(3f, tuple4.lowerMedian(), 0.0f);
-            assertEquals(20f, tuple4.sum(), 0.0f);
-            assertEquals(5.0, tuple4.average().getAsDouble());
-            assertTrue(tuple4.contains(3f));
-
-            FloatTuple.FloatTuple5 tuple5 = FloatTuple.of(1f, 2f, 3f, 4f, 5f);
-            assertTrue(tuple5.contains(5f));
-
-            FloatTuple.FloatTuple6 tuple6 = FloatTuple.of(9f, 1f, 7f, 3f, 5f, 11f);
-            assertEquals(5f, tuple6.lowerMedian(), 0.0f);
-            assertTrue(tuple6.contains(11f));
-
-            FloatTuple.FloatTuple7 tuple7 = FloatTuple.of(1f, 2f, 3f, 4f, 5f, 6f, 7f);
-            assertTrue(tuple7.contains(7f));
-
-            FloatTuple.FloatTuple8 tuple8 = FloatTuple.of(9f, 1f, 7f, 3f, 5f, 11f, 13f, 15f);
-            assertEquals(7f, tuple8.lowerMedian(), 0.0f);
-            assertTrue(tuple8.contains(15f));
-
-            FloatTuple.FloatTuple9 tuple9 = FloatTuple.of(9f, 1f, 7f, 3f, 5f, 11f, 13f, 15f, 17f);
-            assertEquals(9f, tuple9.lowerMedian(), 0.0f);
-            assertTrue(tuple9.contains(17f));
-        }
     }
 
     @Nested
@@ -1432,7 +1358,7 @@ class FloatTupleTest {
     class ContainsTests {
 
         @ParameterizedTest(name = "arity {0}: contains checks every component")
-        @ValueSource(ints = { 1, 2, 3, 4, 5, 6, 7, 8, 9 })
+        @ValueSource(ints = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 })
         void contains_checksEveryComponentAndRejectsMissingValue(int arity) {
             float[] values = new float[arity];
             for (int i = 0; i < arity; i++) {
@@ -1445,213 +1371,67 @@ class FloatTupleTest {
             assertFalse(tuple.contains(100));
         }
 
-        @Test
-        void arity0_contains() {
-            FloatTuple0 tuple = FloatTuple.from(new float[0]);
-            assertFalse(tuple.contains(1.0f));
+        @ParameterizedTest(name = "{0}")
+        @MethodSource("containsCases")
+        void contains_inputCases_matchExpectedMembership(String scenario, FloatTuple<?> tuple, float[] present, float[] absent) {
+            for (float value : present) {
+                assertTrue(tuple.contains(value), scenario + ": expected to contain " + value);
+            }
+            for (float value : absent) {
+                assertFalse(tuple.contains(value), scenario + ": expected to exclude " + value);
+            }
         }
 
-        @Test
-        void arity1_contains() {
-            FloatTuple.FloatTuple1 tuple = FloatTuple.of(1.0f);
-            assertTrue(tuple.contains(1.0f));
+        @ParameterizedTest(name = "arity {0}: special values at every position")
+        @ValueSource(ints = { 1, 2, 3, 4, 5, 6, 7, 8, 9 })
+        void contains_specialValues_matchesNaNAndDistinguishesSignedZero(int arity) {
+            float[] specialValues = { Float.NaN, Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY, 0.0F, -0.0F };
+            for (float special : specialValues) {
+                for (int position = 0; position < arity; position++) {
+                    float[] values = new float[arity];
+                    java.util.Arrays.fill(values, 42.0F);
+                    values[position] = special;
+                    FloatTuple<?> tuple = FloatTuple.from(values);
+                    String scenario = "component " + position + ": " + special;
+                    assertTrue(tuple.contains(special), scenario);
+                    if (Float.isNaN(special)) {
+                        assertTrue(tuple.contains(Float.intBitsToFloat(0x7fc00001)), scenario + ": alternate NaN payload");
+                    } else if (special == 0.0F) {
+                        assertFalse(tuple.contains(-special), scenario + ": opposite signed zero");
+                    }
+                }
+            }
         }
 
-        @Test
-        void arity1_contains_found() {
-            FloatTuple1 tuple = FloatTuple.of(5.0f);
-            assertTrue(tuple.contains(5.0f));
-        }
-
-        @Test
-        void arity1_contains_notFound() {
-            FloatTuple1 tuple = FloatTuple.of(5.0f);
-            assertFalse(tuple.contains(10.0f));
-        }
-
-        @Test
-        void arity2_contains() {
-            FloatTuple.FloatTuple2 tuple = FloatTuple.of(1.0f, 2.0f);
-            assertTrue(tuple.contains(1.0f));
-        }
-
-        @Test
-        void arity2_contains_found() {
-            FloatTuple2 tuple = FloatTuple.of(1.0f, 2.0f);
-            assertTrue(tuple.contains(1.0f));
-            assertTrue(tuple.contains(2.0f));
-        }
-
-        @Test
-        void arity2_contains_notFound() {
-            FloatTuple2 tuple = FloatTuple.of(1.0f, 2.0f);
-            assertFalse(tuple.contains(3.0f));
-        }
-
-        @Test
-        void arity3_contains() {
-            FloatTuple.FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            assertTrue(tuple.contains(1.0f));
-        }
-
-        @Test
-        void arity3_contains_values_1_0F_2_0F_3_0F() {
-            FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            assertTrue(tuple.contains(2.0f));
-            assertFalse(tuple.contains(5.0f));
-        }
-
-        @Test
-        void arity4_contains() {
-            FloatTuple.FloatTuple4 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
-            assertTrue(tuple.contains(1.0f));
-        }
-
-        @Test
-        void arity5_contains() {
-            FloatTuple.FloatTuple5 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
-            assertTrue(tuple.contains(1.0f));
-        }
-
-        @Test
-        void arity6_contains() {
-            FloatTuple.FloatTuple6 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
-            assertTrue(tuple.contains(1.0f));
-        }
-
-        @Test
-        void arity7_contains() {
-            FloatTuple.FloatTuple7 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f);
-            assertTrue(tuple.contains(1.0f));
-        }
-
-        @Test
-        void arity8_contains() {
-            FloatTuple.FloatTuple8 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f);
-            assertTrue(tuple.contains(1.0f));
-        }
-
-        @Test
-        void arity9_contains() {
-            FloatTuple.FloatTuple9 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f);
-            assertTrue(tuple.contains(1.0f));
-        }
-
-        @Test
-        void contains_emptyTuple() {
-            FloatTuple<?> tuple = FloatTuple.from(new float[0]);
-            assertFalse(tuple.contains(1.0f));
-        }
-
-        @Test
-        void contains_findsPresentElements() {
-            // Test Tuple0
-            FloatTuple.FloatTuple0 empty = FloatTuple.from(new float[0]);
-            assertFalse(empty.contains(1.5f));
-
-            // Test Tuple1
-            FloatTuple.FloatTuple1 tuple1 = FloatTuple.of(1.5f);
-            assertTrue(tuple1.contains(1.5f));
-            assertFalse(tuple1.contains(2.5f));
-
-            // Test Tuple3
-            FloatTuple.FloatTuple3 tuple3 = FloatTuple.of(1.5f, 2.5f, 3.5f);
-            assertTrue(tuple3.contains(1.5f));
-            assertTrue(tuple3.contains(2.5f));
-            assertTrue(tuple3.contains(3.5f));
-            assertFalse(tuple3.contains(4.5f));
-
-            // Test larger tuples
-            FloatTuple.FloatTuple7 tuple7 = FloatTuple.of(1.5f, 2.5f, 3.5f, 4.5f, 5.5f, 6.5f, 7.5f);
-            assertTrue(tuple7.contains(7.5f));
-            assertFalse(tuple7.contains(8.5f));
-        }
-
-        @Test
-        void contains_higherArityTrailingElements() {
-            FloatTuple.FloatTuple6 tuple6 = FloatTuple.of(1.5f, 2.5f, 3.5f, 4.5f, 5.5f, 6.5f);
-            FloatTuple.FloatTuple8 tuple8 = FloatTuple.of(1.5f, 2.5f, 3.5f, 4.5f, 5.5f, 6.5f, 7.5f, 8.5f);
-            FloatTuple.FloatTuple9 tuple9 = FloatTuple.of(1.5f, 2.5f, 3.5f, 4.5f, 5.5f, 6.5f, 7.5f, 8.5f, 9.5f);
-
-            assertTrue(tuple6.contains(6.5f));
-            assertFalse(tuple6.contains(10.5f));
-            assertTrue(tuple8.contains(8.5f));
-            assertFalse(tuple8.contains(10.5f));
-            assertTrue(tuple9.contains(9.5f));
-            assertFalse(tuple9.contains(10.5f));
-        }
-
-        @Test
-        void contains_tuple1_found() {
-            FloatTuple1 tuple = FloatTuple.of(5.5f);
-            assertTrue(tuple.contains(5.5f));
-        }
-
-        @Test
-        void contains_tuple1_notFound() {
-            FloatTuple1 tuple = FloatTuple.of(5.5f);
-            assertFalse(tuple.contains(3.3f));
-        }
-
-        @Test
-        void contains_tuple3() {
-            FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            assertTrue(tuple.contains(1.0f));
-            assertTrue(tuple.contains(2.0f));
-            assertTrue(tuple.contains(3.0f));
-            assertFalse(tuple.contains(4.0f));
-        }
-
-        @Test
-        void contains_withNaN() {
-            FloatTuple2 tuple = FloatTuple.of(Float.NaN, 1.0f);
-            assertTrue(tuple.contains(Float.NaN));
-        }
-
-        @Test
-        void containsTuple0() {
-            FloatTuple<FloatTuple0> tuple = FloatTuple.from(new float[0]);
-            assertFalse(tuple.contains(1.0f));
-        }
-
-        @Test
-        void containsTuple1False() {
-            FloatTuple1 tuple = FloatTuple.of(1.0f);
-            assertFalse(tuple.contains(99.0f));
-        }
-
-        @Test
-        void containsTuple1False_values_42_0F() {
-            FloatTuple1 tuple = FloatTuple.of(42.0f);
-            assertFalse(tuple.contains(41.0f));
-        }
-
-        @Test
-        void containsTuple1True() {
-            FloatTuple1 tuple = FloatTuple.of(1.0f);
-            assertTrue(tuple.contains(1.0f));
-        }
-
-        @Test
-        void containsTuple1True_values_42_0F() {
-            FloatTuple1 tuple = FloatTuple.of(42.0f);
-            assertTrue(tuple.contains(42.0f));
-        }
-
-        @Test
-        void containsTuple3() {
-            FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            assertTrue(tuple.contains(1.0f));
-            assertTrue(tuple.contains(2.0f));
-            assertTrue(tuple.contains(3.0f));
-            assertFalse(tuple.contains(99.0f));
-        }
-
-        @Test
-        void containsTuple9() {
-            FloatTuple9 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f);
-            assertTrue(tuple.contains(5.0f));
-            assertFalse(tuple.contains(10.0f));
+        private static java.util.stream.Stream<Arguments> containsCases() {
+            return java.util.stream.Stream.of(Arguments.of("from(new float[0])", FloatTuple.from(new float[0]), new float[] {}, new float[] { 1.0F, 1.5F }),
+                    Arguments.of("of(1.0F)", FloatTuple.of(1.0F), new float[] { 1.0F }, new float[] { 99.0F }),
+                    Arguments.of("of(1.5F)", FloatTuple.of(1.5F), new float[] { 1.5F }, new float[] { 2.5F }),
+                    Arguments.of("of(42.0F)", FloatTuple.of(42.0F), new float[] { 42.0F }, new float[] { 41.0F }),
+                    Arguments.of("of(5.0F)", FloatTuple.of(5.0F), new float[] { 5.0F }, new float[] { 10.0F }),
+                    Arguments.of("of(5.5F)", FloatTuple.of(5.5F), new float[] { 5.5F }, new float[] { 3.3F }),
+                    Arguments.of("of(1.0F, 2.0F)", FloatTuple.of(1.0F, 2.0F), new float[] { 1.0F, 2.0F }, new float[] { 3.0F }),
+                    Arguments.of("of(Float.NaN, 1.0F)", FloatTuple.of(Float.NaN, 1.0F), new float[] { Float.NaN }, new float[] {}),
+                    Arguments.of("of(1.0F, 2.0F, 3.0F)", FloatTuple.of(1.0F, 2.0F, 3.0F), new float[] { 1.0F, 2.0F, 3.0F }, new float[] { 5.0F, 4.0F, 99.0F }),
+                    Arguments.of("of(1.5F, 2.5F, 3.5F)", FloatTuple.of(1.5F, 2.5F, 3.5F), new float[] { 1.5F, 2.5F, 3.5F }, new float[] { 4.5F }),
+                    Arguments.of("of(1.0F, 2.0F, 3.0F, 4.0F)", FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F), new float[] { 1.0F }, new float[] {}),
+                    Arguments.of("of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F)", FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F), new float[] { 1.0F }, new float[] {}),
+                    Arguments.of("of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F)", FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F), new float[] { 1.0F },
+                            new float[] {}),
+                    Arguments.of("of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 6.5F)", FloatTuple.of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 6.5F), new float[] { 6.5F },
+                            new float[] { 10.5F }),
+                    Arguments.of("of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F)", FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F), new float[] { 1.0F },
+                            new float[] {}),
+                    Arguments.of("of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 6.5F, 7.5F)", FloatTuple.of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 6.5F, 7.5F), new float[] { 7.5F },
+                            new float[] { 8.5F }),
+                    Arguments.of("of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F, 8.0F)", FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F, 8.0F),
+                            new float[] { 1.0F }, new float[] {}),
+                    Arguments.of("of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 6.5F, 7.5F, 8.5F)", FloatTuple.of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 6.5F, 7.5F, 8.5F),
+                            new float[] { 8.5F }, new float[] { 10.5F }),
+                    Arguments.of("of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F, 8.0F, 9.0F)",
+                            FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F, 8.0F, 9.0F), new float[] { 1.0F, 5.0F }, new float[] { 10.0F }),
+                    Arguments.of("of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 6.5F, 7.5F, 8.5F, 9.5F)",
+                            FloatTuple.of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 6.5F, 7.5F, 8.5F, 9.5F), new float[] { 9.5F }, new float[] { 10.5F }));
         }
     }
 
@@ -2692,9 +2472,9 @@ class FloatTupleTest {
     @Nested
     class EqualsTests {
 
-        @ParameterizedTest(name = "arity {0}: equality checks every component")
+        @ParameterizedTest(name = "arity {0}: equality value contract")
         @ValueSource(ints = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 })
-        void equals_rejectsEverySingleComponentDifference(int arity) {
+        void equals_allArities_obeysValueContract(int arity) {
             float[] values = new float[arity];
             for (int i = 0; i < arity; i++) {
                 values[i] = i + 1;
@@ -2706,6 +2486,10 @@ class FloatTupleTest {
             assertTrue(tuple.equals(tuple));
             assertTrue(tuple.equals(equal));
             assertTrue(equal.equals(tuple));
+            FloatTuple<?> third = arity == 0 ? new FloatTuple.FloatTuple0() : FloatTuple.from(values.clone());
+            assertNotSame(equal, third);
+            assertTrue(equal.equals(third));
+            assertTrue(tuple.equals(third), "equality must be transitive");
             assertEquals(tuple.hashCode(), equal.hashCode());
             assertFalse(tuple.equals(null));
             assertFalse(tuple.equals(new Object()));
@@ -2717,108 +2501,54 @@ class FloatTupleTest {
                 assertFalse(tuple.equals(different), "component " + i);
                 assertFalse(different.equals(tuple), "component " + i);
             }
+
+            for (int otherArity = 0; otherArity <= 9; otherArity++) {
+                if (otherArity != arity) {
+                    FloatTuple<?> differentArity = FloatTuple.from(java.util.Arrays.copyOf(values, otherArity));
+                    assertFalse(tuple.equals(differentArity), "different arity " + otherArity);
+                    assertFalse(differentArity.equals(tuple), "reverse comparison with arity " + otherArity);
+                }
+            }
         }
 
-        @Test
-        void arity1_equals() {
-            FloatTuple.FloatTuple1 tuple1 = FloatTuple.of(1.0f);
-            FloatTuple.FloatTuple1 tuple2 = FloatTuple.of(1.0f);
-            assertEquals(tuple1, tuple2);
+        @ParameterizedTest(name = "{0}")
+        @MethodSource("equalityCases")
+        void equals_inputCases_comparesValuesAndTypes(String scenario, FloatTuple<?> tuple, Object other, boolean expected) {
+            assertTrue(tuple.equals(tuple), scenario + ": reflexivity");
+            assertEquals(expected, tuple.equals(other), scenario + ": forward comparison");
+            if (other != null) {
+                assertEquals(expected, other.equals(tuple), scenario + ": reverse comparison");
+            }
+            if (expected) {
+                assertEquals(tuple.hashCode(), other.hashCode(), scenario + ": equal values must have equal hashes");
+            }
         }
 
-        @Test
-        void arity1_equals_differentType() {
-            FloatTuple1 tuple = FloatTuple.of(5.0f);
-            assertNotEquals("string", tuple);
-        }
-
-        @Test
-        void arity1_equals_equal() {
-            FloatTuple1 tuple1 = FloatTuple.of(5.0f);
-            FloatTuple1 tuple2 = FloatTuple.of(5.0f);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity1_equals_notEqual() {
-            FloatTuple1 tuple1 = FloatTuple.of(5.0f);
-            FloatTuple1 tuple2 = FloatTuple.of(10.0f);
-            assertNotEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity1_equals_null() {
-            FloatTuple1 tuple = FloatTuple.of(5.0f);
-            assertNotEquals(null, tuple);
-        }
-
-        @Test
-        void arity1_equals_same() {
-            FloatTuple1 tuple = FloatTuple.of(5.0f);
-            assertTrue(tuple.equals(tuple));
-        }
-
-        @Test
-        void arity2_equals() {
-            FloatTuple.FloatTuple2 tuple1 = FloatTuple.of(1.0f, 2.0f);
-            FloatTuple.FloatTuple2 tuple2 = FloatTuple.of(1.0f, 2.0f);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity2_equals_values_1_0F_2_0F() {
-            FloatTuple2 tuple1 = FloatTuple.of(1.0f, 2.0f);
-            FloatTuple2 tuple2 = FloatTuple.of(1.0f, 2.0f);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity3_equals() {
-            FloatTuple.FloatTuple3 tuple1 = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            FloatTuple.FloatTuple3 tuple2 = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity4_equals() {
-            FloatTuple.FloatTuple4 tuple1 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
-            FloatTuple.FloatTuple4 tuple2 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity5_equals() {
-            FloatTuple.FloatTuple5 tuple1 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
-            FloatTuple.FloatTuple5 tuple2 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity6_equals() {
-            FloatTuple.FloatTuple6 tuple1 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
-            FloatTuple.FloatTuple6 tuple2 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity7_equals() {
-            FloatTuple.FloatTuple7 tuple1 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f);
-            FloatTuple.FloatTuple7 tuple2 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity8_equals() {
-            FloatTuple.FloatTuple8 tuple1 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f);
-            FloatTuple.FloatTuple8 tuple2 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity9_equals() {
-            FloatTuple.FloatTuple9 tuple1 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f);
-            FloatTuple.FloatTuple9 tuple2 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f);
-            assertEquals(tuple1, tuple2);
+        @ParameterizedTest(name = "arity {0}: special values at every position")
+        @ValueSource(ints = { 1, 2, 3, 4, 5, 6, 7, 8, 9 })
+        void equals_specialValues_preservesFloatingPointValueSemantics(int arity) {
+            float[] specialValues = { Float.NaN, Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY, 0.0F, -0.0F };
+            for (float special : specialValues) {
+                for (int position = 0; position < arity; position++) {
+                    float[] values = new float[arity];
+                    java.util.Arrays.fill(values, 42.0F);
+                    values[position] = special;
+                    FloatTuple<?> tuple = FloatTuple.from(values);
+                    String scenario = "component " + position + ": " + special;
+                    float[] matchingValues = values.clone();
+                    if (Float.isNaN(special)) {
+                        matchingValues[position] = Float.intBitsToFloat(0x7fc00001);
+                    }
+                    FloatTuple<?> equal = FloatTuple.from(matchingValues);
+                    assertTrue(tuple.equals(equal), scenario);
+                    assertTrue(equal.equals(tuple), scenario + ": reverse comparison");
+                    assertEquals(tuple.hashCode(), equal.hashCode(), scenario);
+                    matchingValues[position] = special == 0.0F ? -special : 0.0F;
+                    FloatTuple<?> different = FloatTuple.from(matchingValues);
+                    assertFalse(tuple.equals(different), scenario);
+                    assertFalse(different.equals(tuple), scenario + ": reverse comparison");
+                }
+            }
         }
 
         @Test
@@ -2835,49 +2565,6 @@ class FloatTupleTest {
         }
 
         @Test
-        void equals_comparesValues() {
-            FloatTuple.FloatTuple3 tuple1 = FloatTuple.of(1.5f, 2.5f, 3.5f);
-            FloatTuple.FloatTuple3 tuple2 = FloatTuple.of(1.5f, 2.5f, 3.5f);
-            FloatTuple.FloatTuple3 tuple3 = FloatTuple.of(1.5f, 2.5f, 3.6f);
-            FloatTuple.FloatTuple2 tuple4 = FloatTuple.of(1.5f, 2.5f);
-
-            assertTrue(tuple1.equals(tuple1));
-            assertTrue(tuple1.equals(tuple2));
-            assertFalse(tuple1.equals(tuple3));
-            assertFalse(tuple1.equals(tuple4));
-            assertFalse(tuple1.equals(null));
-            assertFalse(tuple1.equals("not a tuple"));
-
-            // Test specific equals for coverage
-            FloatTuple.FloatTuple1 single1 = FloatTuple.of(1.5f);
-            FloatTuple.FloatTuple1 single2 = FloatTuple.of(1.5f);
-            FloatTuple.FloatTuple1 single3 = FloatTuple.of(2.5f);
-            assertTrue(single1.equals(single2));
-            assertFalse(single1.equals(single3));
-            assertFalse(single1.equals("not a tuple"));
-
-            FloatTuple.FloatTuple2 pair1 = FloatTuple.of(1.5f, 2.5f);
-            FloatTuple.FloatTuple2 pair2 = FloatTuple.of(1.5f, 2.5f);
-            FloatTuple.FloatTuple2 pair3 = FloatTuple.of(1.5f, 2.6f);
-            assertTrue(pair1.equals(pair2));
-            assertFalse(pair1.equals(pair3));
-        }
-
-        @Test
-        void equals_differentTuple3() {
-            FloatTuple3 tuple1 = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            FloatTuple3 tuple2 = FloatTuple.of(1.0f, 2.0f, 4.0f);
-            assertNotEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equals_differentTypes() {
-            FloatTuple1 tuple1 = FloatTuple.of(5.5f);
-            FloatTuple2 tuple2 = FloatTuple.of(5.5f, 1.0f);
-            assertNotEquals(tuple1, tuple2);
-        }
-
-        @Test
         void equals_followsFloatCompareSemanticsAtArities4And9() {
             // identical to DoubleTuple's documented rule: NaN == NaN, but +0.0f != -0.0f
             assertEquals(FloatTuple.of(Float.NaN, 2f, 3f, 4f), FloatTuple.of(Float.NaN, 2f, 3f, 4f));
@@ -2888,139 +2575,95 @@ class FloatTupleTest {
             assertNotEquals(FloatTuple.of(0.0f, 2f, 3f, 4f, 5f, 6f, 7f, 8f, 9f), FloatTuple.of(-0.0f, 2f, 3f, 4f, 5f, 6f, 7f, 8f, 9f));
         }
 
-        @Test
-        void equals_higherArityIdentityAndTypeMismatch() {
-            FloatTuple.FloatTuple6 tuple6 = FloatTuple.of(1.5f, 2.5f, 3.5f, 4.5f, 5.5f, 6.5f);
-            FloatTuple.FloatTuple8 tuple8 = FloatTuple.of(1.5f, 2.5f, 3.5f, 4.5f, 5.5f, 6.5f, 7.5f, 8.5f);
-            FloatTuple.FloatTuple9 tuple9 = FloatTuple.of(1.5f, 2.5f, 3.5f, 4.5f, 5.5f, 6.5f, 7.5f, 8.5f, 9.5f);
-
-            assertTrue(tuple6.equals(tuple6));
-            assertEquals(tuple6, FloatTuple.of(1.5f, 2.5f, 3.5f, 4.5f, 5.5f, 6.5f));
-            assertNotEquals(tuple6, FloatTuple.of(1.5f, 2.5f, 3.5f, 4.5f, 5.5f, 7.5f));
-            assertNotEquals(tuple6, "tuple");
-
-            assertTrue(tuple8.equals(tuple8));
-            assertEquals(tuple8, FloatTuple.of(1.5f, 2.5f, 3.5f, 4.5f, 5.5f, 6.5f, 7.5f, 8.5f));
-            assertNotEquals(tuple8, FloatTuple.of(1.5f, 2.5f, 3.5f, 4.5f, 5.5f, 6.5f, 7.5f, 9.5f));
-            assertNotEquals(tuple8, "tuple");
-
-            assertTrue(tuple9.equals(tuple9));
-            assertEquals(tuple9, FloatTuple.of(1.5f, 2.5f, 3.5f, 4.5f, 5.5f, 6.5f, 7.5f, 8.5f, 9.5f));
-            assertNotEquals(tuple9, FloatTuple.of(1.5f, 2.5f, 3.5f, 4.5f, 5.5f, 6.5f, 7.5f, 8.5f, 10.5f));
-            assertNotEquals(tuple9, "tuple");
-        }
-
-        @Test
-        void equals_null() {
-            FloatTuple1 tuple = FloatTuple.of(5.5f);
-            assertNotEquals(tuple, null);
-        }
-
-        @Test
-        void equals_sameTuple1() {
-            FloatTuple1 tuple1 = FloatTuple.of(5.5f);
-            FloatTuple1 tuple2 = FloatTuple.of(5.5f);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equals_sameTuple3() {
-            FloatTuple3 tuple1 = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            FloatTuple3 tuple2 = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equals_symmetric() {
-            FloatTuple3 tuple1 = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            FloatTuple3 tuple2 = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            assertEquals(tuple1, tuple2);
-            assertEquals(tuple2, tuple1);
-        }
-
-        @Test
-        void equalsDifferentClass() {
-            FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            assertNotEquals("not a tuple", tuple);
-        }
-
-        @Test
-        void equalsNull() {
-            FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            assertNotEquals(null, tuple);
-        }
-
-        @Test
-        void equalsNull_values_1_0F_2_0F() {
-            FloatTuple2 tuple = FloatTuple.of(1.0f, 2.0f);
-            assertNotEquals(tuple, null);
-        }
-
-        @Test
-        void equalsSameObject() {
-            FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            assertTrue(tuple.equals(tuple));
-        }
-
-        @Test
-        void equalsSelf() {
-            FloatTuple2 tuple = FloatTuple.of(1.0f, 2.0f);
-            assertTrue(tuple.equals(tuple));
-        }
-
-        @Test
-        void equalsTuple0() {
-            FloatTuple<FloatTuple0> tuple1 = FloatTuple.from(new float[0]);
-            FloatTuple<FloatTuple0> tuple2 = FloatTuple.from(new float[0]);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equalsTuple1() {
-            FloatTuple1 tuple1 = FloatTuple.of(1.0f);
-            FloatTuple1 tuple2 = FloatTuple.of(1.0f);
-            FloatTuple1 tuple3 = FloatTuple.of(99.0f);
-            assertEquals(tuple1, tuple2);
-            assertNotEquals(tuple1, tuple3);
-        }
-
-        @Test
-        void equalsTuple1_values_42_0F() {
-            FloatTuple1 tuple1 = FloatTuple.of(42.0f);
-            FloatTuple1 tuple2 = FloatTuple.of(42.0f);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equalsTuple2() {
-            FloatTuple2 tuple1 = FloatTuple.of(1.0f, 2.0f);
-            FloatTuple2 tuple2 = FloatTuple.of(1.0f, 2.0f);
-            FloatTuple2 tuple3 = FloatTuple.of(1.0f, 3.0f);
-            assertEquals(tuple1, tuple2);
-            assertNotEquals(tuple1, tuple3);
-        }
-
-        @Test
-        void equalsTuple3() {
-            FloatTuple3 tuple1 = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            FloatTuple3 tuple2 = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            FloatTuple3 tuple3 = FloatTuple.of(1.0f, 2.0f, 4.0f);
-            assertEquals(tuple1, tuple2);
-            assertNotEquals(tuple1, tuple3);
-        }
-
-        @Test
-        void notEqualsDifferentTypes() {
-            FloatTuple2 tuple2 = FloatTuple.of(1.0f, 2.0f);
-            FloatTuple3 tuple3 = FloatTuple.of(1.0f, 2.0f, 3.0f);
-            assertNotEquals(tuple2, tuple3);
-        }
-
-        @Test
-        void notEqualsDifferentValues() {
-            FloatTuple2 tuple1 = FloatTuple.of(1.0f, 2.0f);
-            FloatTuple2 tuple2 = FloatTuple.of(2.0f, 3.0f);
-            assertNotEquals(tuple1, tuple2);
+        private static java.util.stream.Stream<Arguments> equalityCases() {
+            return java.util.stream.Stream.of(
+                    Arguments.of("from(new float[0]) versus from(new float[0])", FloatTuple.from(new float[0]), FloatTuple.from(new float[0]), true),
+                    Arguments.of("of(1.0F) versus of(1.0F)", FloatTuple.of(1.0F), FloatTuple.of(1.0F), true),
+                    Arguments.of("of(1.0F) versus of(99.0F)", FloatTuple.of(1.0F), FloatTuple.of(99.0F), false),
+                    Arguments.of("of(1.5F) versus \"not a tuple\"", FloatTuple.of(1.5F), "not a tuple", false),
+                    Arguments.of("of(1.5F) versus of(1.5F)", FloatTuple.of(1.5F), FloatTuple.of(1.5F), true),
+                    Arguments.of("of(1.5F) versus of(2.5F)", FloatTuple.of(1.5F), FloatTuple.of(2.5F), false),
+                    Arguments.of("of(42.0F) versus of(42.0F)", FloatTuple.of(42.0F), FloatTuple.of(42.0F), true),
+                    Arguments.of("of(5.0F) versus \"string\"", FloatTuple.of(5.0F), "string", false),
+                    Arguments.of("of(5.0F) versus of(10.0F)", FloatTuple.of(5.0F), FloatTuple.of(10.0F), false),
+                    Arguments.of("of(5.0F) versus of(5.0F)", FloatTuple.of(5.0F), FloatTuple.of(5.0F), true),
+                    Arguments.of("of(5.0F) versus null", FloatTuple.of(5.0F), null, false),
+                    Arguments.of("of(5.5F) versus of(5.5F, 1.0F)", FloatTuple.of(5.5F), FloatTuple.of(5.5F, 1.0F), false),
+                    Arguments.of("of(5.5F) versus of(5.5F)", FloatTuple.of(5.5F), FloatTuple.of(5.5F), true),
+                    Arguments.of("of(5.5F) versus null", FloatTuple.of(5.5F), null, false),
+                    Arguments.of("of(1.0F, 2.0F) versus of(1.0F, 2.0F, 3.0F)", FloatTuple.of(1.0F, 2.0F), FloatTuple.of(1.0F, 2.0F, 3.0F), false),
+                    Arguments.of("of(1.0F, 2.0F) versus of(1.0F, 2.0F)", FloatTuple.of(1.0F, 2.0F), FloatTuple.of(1.0F, 2.0F), true),
+                    Arguments.of("of(1.0F, 2.0F) versus of(1.0F, 3.0F)", FloatTuple.of(1.0F, 2.0F), FloatTuple.of(1.0F, 3.0F), false),
+                    Arguments.of("of(1.0F, 2.0F) versus of(2.0F, 3.0F)", FloatTuple.of(1.0F, 2.0F), FloatTuple.of(2.0F, 3.0F), false),
+                    Arguments.of("of(1.0F, 2.0F) versus null", FloatTuple.of(1.0F, 2.0F), null, false),
+                    Arguments.of("of(1.5F, 2.5F) versus of(1.5F, 2.5F)", FloatTuple.of(1.5F, 2.5F), FloatTuple.of(1.5F, 2.5F), true),
+                    Arguments.of("of(1.5F, 2.5F) versus of(1.5F, 2.6F)", FloatTuple.of(1.5F, 2.5F), FloatTuple.of(1.5F, 2.6F), false),
+                    Arguments.of("of(1.0F, 2.0F, 3.0F) versus \"not a tuple\"", FloatTuple.of(1.0F, 2.0F, 3.0F), "not a tuple", false),
+                    Arguments.of("of(1.0F, 2.0F, 3.0F) versus of(1.0F, 2.0F, 3.0F)", FloatTuple.of(1.0F, 2.0F, 3.0F), FloatTuple.of(1.0F, 2.0F, 3.0F), true),
+                    Arguments.of("of(1.0F, 2.0F, 3.0F) versus of(1.0F, 2.0F, 4.0F)", FloatTuple.of(1.0F, 2.0F, 3.0F), FloatTuple.of(1.0F, 2.0F, 4.0F), false),
+                    Arguments.of("of(1.0F, 2.0F, 3.0F) versus null", FloatTuple.of(1.0F, 2.0F, 3.0F), null, false),
+                    Arguments.of("of(1.5F, 2.5F, 3.5F) versus \"not a tuple\"", FloatTuple.of(1.5F, 2.5F, 3.5F), "not a tuple", false),
+                    Arguments.of("of(1.5F, 2.5F, 3.5F) versus of(1.5F, 2.5F, 3.5F)", FloatTuple.of(1.5F, 2.5F, 3.5F), FloatTuple.of(1.5F, 2.5F, 3.5F), true),
+                    Arguments.of("of(1.5F, 2.5F, 3.5F) versus of(1.5F, 2.5F, 3.6F)", FloatTuple.of(1.5F, 2.5F, 3.5F), FloatTuple.of(1.5F, 2.5F, 3.6F), false),
+                    Arguments.of("of(1.5F, 2.5F, 3.5F) versus of(1.5F, 2.5F)", FloatTuple.of(1.5F, 2.5F, 3.5F), FloatTuple.of(1.5F, 2.5F), false),
+                    Arguments.of("of(1.5F, 2.5F, 3.5F) versus null", FloatTuple.of(1.5F, 2.5F, 3.5F), null, false),
+                    Arguments.of("of(1.0F, 2.0F, 3.0F, 4.0F) versus \"tuple4\"", FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F), "tuple4", false),
+                    Arguments.of("of(1.0F, 2.0F, 3.0F, 4.0F) versus of(1.0F, 2.0F, 3.0F, 4.0F)", FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F),
+                            FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F), true),
+                    Arguments.of("of(1.0F, 2.0F, 3.0F, 4.0F) versus of(1.0F, 2.0F, 3.0F, 9.0F)", FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F),
+                            FloatTuple.of(1.0F, 2.0F, 3.0F, 9.0F), false),
+                    Arguments.of("of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F) versus \"tuple5\"", FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F), "tuple5", false),
+                    Arguments.of("of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F) versus of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F)", FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F),
+                            FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F), true),
+                    Arguments.of("of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F) versus of(1.0F, 2.0F, 3.0F, 4.0F, 9.0F)", FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F),
+                            FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F, 9.0F), false),
+                    Arguments.of("of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F) versus \"tuple6\"", FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F), "tuple6",
+                            false),
+                    Arguments.of("of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F) versus of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F)",
+                            FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F), FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F), true),
+                    Arguments.of("of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F) versus of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 9.0F)",
+                            FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F), FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 9.0F), false),
+                    Arguments.of("of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 6.5F) versus \"tuple\"", FloatTuple.of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 6.5F), "tuple", false),
+                    Arguments.of("of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 6.5F) versus of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 6.5F)",
+                            FloatTuple.of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 6.5F), FloatTuple.of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 6.5F), true),
+                    Arguments.of("of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 6.5F) versus of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 7.5F)",
+                            FloatTuple.of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 6.5F), FloatTuple.of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 7.5F), false),
+                    Arguments.of("of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F) versus \"tuple7\"", FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F),
+                            "tuple7", false),
+                    Arguments.of("of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F) versus of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F)",
+                            FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F), FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F), true),
+                    Arguments.of("of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F) versus of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 9.0F)",
+                            FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F), FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 9.0F), false),
+                    Arguments.of("of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F, 8.0F) versus \"tuple8\"",
+                            FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F, 8.0F), "tuple8", false),
+                    Arguments.of("of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F, 8.0F) versus of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F, 8.0F)",
+                            FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F, 8.0F), FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F, 8.0F), true),
+                    Arguments.of("of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F, 8.0F) versus of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F, 9.0F)",
+                            FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F, 8.0F), FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F, 9.0F),
+                            false),
+                    Arguments.of("of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 6.5F, 7.5F, 8.5F) versus \"tuple\"",
+                            FloatTuple.of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 6.5F, 7.5F, 8.5F), "tuple", false),
+                    Arguments.of("of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 6.5F, 7.5F, 8.5F) versus of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 6.5F, 7.5F, 8.5F)",
+                            FloatTuple.of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 6.5F, 7.5F, 8.5F), FloatTuple.of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 6.5F, 7.5F, 8.5F), true),
+                    Arguments.of("of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 6.5F, 7.5F, 8.5F) versus of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 6.5F, 7.5F, 9.5F)",
+                            FloatTuple.of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 6.5F, 7.5F, 8.5F), FloatTuple.of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 6.5F, 7.5F, 9.5F),
+                            false),
+                    Arguments.of("of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F, 8.0F, 9.0F) versus \"tuple9\"",
+                            FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F, 8.0F, 9.0F), "tuple9", false),
+                    Arguments.of("of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F, 8.0F, 9.0F) versus of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F, 8.0F, 0.0F)",
+                            FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F, 8.0F, 9.0F),
+                            FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F, 8.0F, 0.0F), false),
+                    Arguments.of("of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F, 8.0F, 9.0F) versus of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F, 8.0F, 9.0F)",
+                            FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F, 8.0F, 9.0F),
+                            FloatTuple.of(1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F, 8.0F, 9.0F), true),
+                    Arguments.of("of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 6.5F, 7.5F, 8.5F, 9.5F) versus \"tuple\"",
+                            FloatTuple.of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 6.5F, 7.5F, 8.5F, 9.5F), "tuple", false),
+                    Arguments.of("of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 6.5F, 7.5F, 8.5F, 9.5F) versus of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 6.5F, 7.5F, 8.5F, 10.5F)",
+                            FloatTuple.of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 6.5F, 7.5F, 8.5F, 9.5F),
+                            FloatTuple.of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 6.5F, 7.5F, 8.5F, 10.5F), false),
+                    Arguments.of("of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 6.5F, 7.5F, 8.5F, 9.5F) versus of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 6.5F, 7.5F, 8.5F, 9.5F)",
+                            FloatTuple.of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 6.5F, 7.5F, 8.5F, 9.5F),
+                            FloatTuple.of(1.5F, 2.5F, 3.5F, 4.5F, 5.5F, 6.5F, 7.5F, 8.5F, 9.5F), true));
         }
     }
 
@@ -3217,47 +2860,36 @@ class FloatTupleTest {
             assertEquals(2.0, triple.average().getAsDouble(), 0.001);
         }
 
-        @Test
-        void coverageRegression_defaultConstructorsAndCachedArrays() {
-            FloatTuple.FloatTuple1 tuple1 = new FloatTuple.FloatTuple1();
-            assertArrayEquals(new float[] { 0f }, tuple1.toArray(), 0.0f);
-            assertArrayEquals(new float[] { 0f }, tuple1.toArray(), 0.0f);
+        @ParameterizedTest(name = "arity {0}: default exports are detached")
+        @ValueSource(ints = { 1, 2, 3, 4, 5, 6, 7, 8, 9 })
+        void defaultConstructors_exportDefaultValuesInIndependentArrays(int arity) {
+            FloatTuple<?> tuple = switch (arity) {
+                case 1 -> new FloatTuple.FloatTuple1();
+                case 2 -> new FloatTuple.FloatTuple2();
+                case 3 -> new FloatTuple.FloatTuple3();
+                case 4 -> new FloatTuple.FloatTuple4();
+                case 5 -> new FloatTuple.FloatTuple5();
+                case 6 -> new FloatTuple.FloatTuple6();
+                case 7 -> new FloatTuple.FloatTuple7();
+                case 8 -> new FloatTuple.FloatTuple8();
+                case 9 -> new FloatTuple.FloatTuple9();
+                default -> throw new IllegalArgumentException("Unsupported tuple arity: " + arity);
+            };
+            float[] expected = new float[arity];
+            float[] first = tuple.toArray();
+            float[] second = tuple.toArray();
 
-            FloatTuple.FloatTuple2 tuple2 = new FloatTuple.FloatTuple2();
-            assertArrayEquals(new float[] { 0f, 0f }, tuple2.toArray(), 0.0f);
-            assertArrayEquals(new float[] { 0f, 0f }, tuple2.toArray(), 0.0f);
-
-            FloatTuple.FloatTuple3 tuple3 = new FloatTuple.FloatTuple3();
-            assertArrayEquals(new float[] { 0f, 0f, 0f }, tuple3.toArray(), 0.0f);
-            assertArrayEquals(new float[] { 0f, 0f, 0f }, tuple3.toArray(), 0.0f);
-
-            FloatTuple.FloatTuple4 tuple4 = new FloatTuple.FloatTuple4();
-            assertArrayEquals(new float[] { 0f, 0f, 0f, 0f }, tuple4.toArray(), 0.0f);
-            assertArrayEquals(new float[] { 0f, 0f, 0f, 0f }, tuple4.toArray(), 0.0f);
-
-            FloatTuple.FloatTuple5 tuple5 = new FloatTuple.FloatTuple5();
-            assertArrayEquals(new float[] { 0f, 0f, 0f, 0f, 0f }, tuple5.toArray(), 0.0f);
-            assertArrayEquals(new float[] { 0f, 0f, 0f, 0f, 0f }, tuple5.toArray(), 0.0f);
-
-            FloatTuple.FloatTuple6 tuple6 = new FloatTuple.FloatTuple6();
-            assertArrayEquals(new float[] { 0f, 0f, 0f, 0f, 0f, 0f }, tuple6.toArray(), 0.0f);
-            assertArrayEquals(new float[] { 0f, 0f, 0f, 0f, 0f, 0f }, tuple6.toArray(), 0.0f);
-
-            FloatTuple.FloatTuple7 tuple7 = new FloatTuple.FloatTuple7();
-            assertArrayEquals(new float[] { 0f, 0f, 0f, 0f, 0f, 0f, 0f }, tuple7.toArray(), 0.0f);
-            assertArrayEquals(new float[] { 0f, 0f, 0f, 0f, 0f, 0f, 0f }, tuple7.toArray(), 0.0f);
-
-            FloatTuple.FloatTuple8 tuple8 = new FloatTuple.FloatTuple8();
-            assertArrayEquals(new float[] { 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f }, tuple8.toArray(), 0.0f);
-            assertArrayEquals(new float[] { 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f }, tuple8.toArray(), 0.0f);
-
-            FloatTuple.FloatTuple9 tuple9 = new FloatTuple.FloatTuple9();
-            assertArrayEquals(new float[] { 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f }, tuple9.toArray(), 0.0f);
-            assertArrayEquals(new float[] { 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f }, tuple9.toArray(), 0.0f);
+            assertEquals(arity, tuple.arity());
+            assertArrayEquals(expected, first);
+            assertArrayEquals(expected, second);
+            assertNotSame(first, second);
+            first[0] = 1;
+            assertArrayEquals(expected, second, "each export must have independent storage");
+            assertArrayEquals(expected, tuple.toArray(), "mutating an export must not affect the tuple");
         }
 
         @Test
-        void coverageRegression_emptyTupleBaseMethods() {
+        void emptyTuple_operations_obeyEmptyValueContract() {
             FloatTuple<?> empty = FloatTuple.from((float[]) null);
             assertEquals(FloatTuple.from(new float[0]), empty);
             assertFalse(empty.equals("float"));
@@ -3354,7 +2986,7 @@ class FloatTupleTest {
         }
 
         @Test
-        void largerArities_branchCoverage() {
+        void highArity_aggregatesAndExports_preserveValues() {
             final FloatTuple4 tuple4 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
             final FloatTuple5 tuple5 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
             final FloatTuple6 tuple6 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
@@ -3665,6 +3297,35 @@ class FloatTupleTest {
             assertEquals(0.0f, tuple.min(), 0.0001f);
             assertEquals(0.0f, tuple.max(), 0.0001f);
             assertEquals(0.0f, tuple.sum(), 0.0001f);
+        }
+
+        @Test
+        void highArity_aggregatesAndMembership_preserveValues() {
+            FloatTuple.FloatTuple4 tuple4 = FloatTuple.of(9f, 1f, 7f, 3f);
+            assertEquals(1f, tuple4.min(), 0.0f);
+            assertEquals(9f, tuple4.max(), 0.0f);
+            assertEquals(3f, tuple4.lowerMedian(), 0.0f);
+            assertEquals(20f, tuple4.sum(), 0.0f);
+            assertEquals(5.0, tuple4.average().getAsDouble());
+            assertTrue(tuple4.contains(3f));
+
+            FloatTuple.FloatTuple5 tuple5 = FloatTuple.of(1f, 2f, 3f, 4f, 5f);
+            assertTrue(tuple5.contains(5f));
+
+            FloatTuple.FloatTuple6 tuple6 = FloatTuple.of(9f, 1f, 7f, 3f, 5f, 11f);
+            assertEquals(5f, tuple6.lowerMedian(), 0.0f);
+            assertTrue(tuple6.contains(11f));
+
+            FloatTuple.FloatTuple7 tuple7 = FloatTuple.of(1f, 2f, 3f, 4f, 5f, 6f, 7f);
+            assertTrue(tuple7.contains(7f));
+
+            FloatTuple.FloatTuple8 tuple8 = FloatTuple.of(9f, 1f, 7f, 3f, 5f, 11f, 13f, 15f);
+            assertEquals(7f, tuple8.lowerMedian(), 0.0f);
+            assertTrue(tuple8.contains(15f));
+
+            FloatTuple.FloatTuple9 tuple9 = FloatTuple.of(9f, 1f, 7f, 3f, 5f, 11f, 13f, 15f, 17f);
+            assertEquals(9f, tuple9.lowerMedian(), 0.0f);
+            assertTrue(tuple9.contains(17f));
         }
     }
 

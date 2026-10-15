@@ -3,17 +3,11 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
-const { root, javaFiles, indexFiles, testMethods, location, relative, duplicateGroups, hasAssertion } = require("./java-test-tools");
+const { root, javaFiles, indexFiles, testMethods, location, relative, duplicateGroups, hasAssertion, groupOrderIssues } = require("./java-test-tools");
 
 const index = indexFiles(javaFiles(path.join(root, "src/test/java")));
 const methods = testMethods(index);
 const issues = [];
-const tupleOrder = [
-    "OfTests", "FromTests", "ArityTests", "ElementsTests", "MinTests", "MaxTests", "SumTests", "AverageTests",
-    "MedianTests", "LowerMedianTests", "ReversedTests", "ContainsTests", "ToArrayTests", "ToListTests", "ForEachTests",
-    "StreamTests", "AcceptTests", "MapTests", "FilterTests", "ToOptionalTests", "HashCodeTests", "EqualsTests",
-    "ToStringTests", "TypeHierarchyTests", "ContractTests"
-];
 
 for (const unit of index) {
     const tests = unit.methods.filter(method => method.test);
@@ -30,20 +24,14 @@ for (const unit of index) {
             issues.push({ file, owner: cls.owner, rule: "Nested test groups must end in Tests" });
         }
     }
-    if (/(?:Boolean|Byte|Char|Short|Int|Long|Float|Double|Primitive)TupleTest\.java$/.test(unit.file)) {
-        const outer = unit.classes[0].owner;
-        const groups = unit.classes.filter(c => c.parent === outer && c.annotations.includes("@Nested"));
-        const ranks = groups.map(c => tupleOrder.indexOf(c.name));
-        if (ranks.some((rank, i) => rank < 0 || i > 0 && rank < ranks[i - 1])) {
-            issues.push({ file, rule: "Keep tuple API groups in the shared order documented in src/test/README.md" });
-        }
-    }
+    issues.push(...groupOrderIssues(unit));
 }
 
 for (const method of methods) {
     const at = location(method);
     if (method.modifiers.some(modifier => ["public", "protected", "private", "static"].includes(modifier))) issues.push({ ...at, rule: "JUnit test methods must be package-private instance methods" });
     if (/^test(?:$|_|[A-Z])/.test(method.name)) issues.push({ ...at, rule: "Name the behavior without the redundant test prefix" });
+    if (/coverage/i.test(method.name)) issues.push({ ...at, rule: "Name the behavior being protected instead of the coverage goal" });
     if (method.calls.some(call => call.select.startsWith("Assertions."))) issues.push({ ...at, rule: "Use static JUnit assertion imports" });
     if (/assertEquals\((\w+),\s*\1\)/.test(method.body)) issues.push({ ...at, rule: "Call equals directly when testing reflexivity" });
     if (!hasAssertion(method)) issues.push({ ...at, rule: "No assertion or asserting local helper found; review the behavior check" });

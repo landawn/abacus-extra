@@ -399,169 +399,30 @@ class ShortTupleTest {
     @Nested
     class ArityTests {
 
-        @Test
-        void arity_returnsElementCount() {
-            assertEquals(0, ShortTuple.from(new short[0]).arity());
-            assertEquals(1, ShortTuple.of((short) 1).arity());
-            assertEquals(2, ShortTuple.of((short) 1, (short) 2).arity());
-            assertEquals(3, ShortTuple.of((short) 1, (short) 2, (short) 3).arity());
-            assertEquals(4, ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4).arity());
-            assertEquals(5, ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5).arity());
-            assertEquals(6, ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6).arity());
-            assertEquals(7, ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7).arity());
-            assertEquals(8, ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8).arity());
-            assertEquals(9, ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 9).arity());
+        @ParameterizedTest(name = "{0}")
+        @MethodSource("arityCases")
+        void arity_inputCases_returnsElementCount(String scenario, ShortTuple<?> tuple, int expected) {
+            assertEquals(expected, tuple.arity(), scenario);
         }
 
-        @Test
-        void arity0() {
-            ShortTuple<?> empty = ShortTuple.from(null);
-            assertEquals(0, empty.arity());
+        private static java.util.stream.Stream<Arguments> arityCases() {
+            return java.util.stream.Stream.of(Arguments.of("from(null)", ShortTuple.from(null), 0),
+                    Arguments.of("from(new short[0])", ShortTuple.from(new short[0]), 0), Arguments.of("of((short)1)", ShortTuple.of((short) 1), 1),
+                    Arguments.of("of((short)1, (short)2)", ShortTuple.of((short) 1, (short) 2), 2),
+                    Arguments.of("of((short)1, (short)2, (short)3)", ShortTuple.of((short) 1, (short) 2, (short) 3), 3),
+                    Arguments.of("of((short)1, (short)2, (short)3, (short)4)", ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4), 4),
+                    Arguments.of("of((short)1, (short)2, (short)3, (short)4, (short)5)", ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5),
+                            5),
+                    Arguments.of("of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6)",
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6), 6),
+                    Arguments.of("of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7)",
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7), 7),
+                    Arguments.of("of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8)",
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8), 8),
+                    Arguments.of("of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8, (short)9)",
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 9), 9));
         }
 
-        @Test
-        void arity0_arity() {
-            ShortTuple0 tuple = ShortTuple.from(new short[0]);
-            assertEquals(0, tuple.arity());
-        }
-
-        @Test
-        void coverageRegression_highArityEqualsBranches() {
-            ShortTuple.ShortTuple4 tuple4 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4);
-            assertTrue(tuple4.equals(tuple4));
-            assertTrue(tuple4.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4)));
-            assertFalse(tuple4.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 9)));
-            assertFalse(tuple4.equals("tuple4"));
-
-            ShortTuple.ShortTuple5 tuple5 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5);
-            assertTrue(tuple5.equals(tuple5));
-            assertTrue(tuple5.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5)));
-            assertFalse(tuple5.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 9)));
-            assertFalse(tuple5.equals("tuple5"));
-
-            ShortTuple.ShortTuple6 tuple6 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6);
-            assertTrue(tuple6.equals(tuple6));
-            assertTrue(tuple6.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6)));
-            assertFalse(tuple6.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 9)));
-            assertFalse(tuple6.equals("tuple6"));
-
-            ShortTuple.ShortTuple7 tuple7 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7);
-            assertTrue(tuple7.equals(tuple7));
-            assertTrue(tuple7.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7)));
-            assertFalse(tuple7.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 9)));
-            assertFalse(tuple7.equals("tuple7"));
-
-            ShortTuple.ShortTuple8 tuple8 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8);
-            assertTrue(tuple8.equals(tuple8));
-            assertTrue(tuple8.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8)));
-            assertFalse(tuple8.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 9)));
-            assertFalse(tuple8.equals("tuple8"));
-
-            ShortTuple.ShortTuple9 tuple9 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 9);
-            assertTrue(tuple9.equals(tuple9));
-            assertTrue(tuple9.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 9)));
-            assertFalse(tuple9.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 0)));
-            assertFalse(tuple9.equals("tuple9"));
-        }
-
-        @Test
-        void coverageRegression_highArityOperations() {
-            ShortTuple.ShortTuple4 tuple4 = ShortTuple.of((short) 9, (short) 1, (short) 7, (short) 3);
-            assertEquals((short) 1, tuple4.min());
-            assertEquals((short) 9, tuple4.max());
-            assertEquals((short) 3, tuple4.lowerMedian());
-            assertEquals(20, tuple4.sum());
-            assertEquals(5.0, tuple4.average().getAsDouble());
-            assertTrue(tuple4.contains((short) 3));
-
-            ShortTuple.ShortTuple5 tuple5 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5);
-            assertTrue(tuple5.contains((short) 5));
-
-            ShortTuple.ShortTuple6 tuple6 = ShortTuple.of((short) 9, (short) 1, (short) 7, (short) 3, (short) 5, (short) 11);
-            assertEquals((short) 5, tuple6.lowerMedian());
-            assertTrue(tuple6.contains((short) 11));
-
-            ShortTuple.ShortTuple7 tuple7 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7);
-            assertTrue(tuple7.contains((short) 7));
-
-            ShortTuple.ShortTuple8 tuple8 = ShortTuple.of((short) 9, (short) 1, (short) 7, (short) 3, (short) 5, (short) 11, (short) 13, (short) 15);
-            assertEquals((short) 7, tuple8.lowerMedian());
-            assertTrue(tuple8.contains((short) 15));
-
-            ShortTuple.ShortTuple9 tuple9 = ShortTuple.of((short) 9, (short) 1, (short) 7, (short) 3, (short) 5, (short) 11, (short) 13, (short) 15,
-                    (short) 17);
-            assertEquals((short) 9, tuple9.lowerMedian());
-            assertTrue(tuple9.contains((short) 17));
-        }
-
-        @Test
-        void largeArityContainsAndEqualsBranchesForCoverage() {
-            final ShortTuple4 tuple4 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4);
-            final ShortTuple5 tuple5 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5);
-            final ShortTuple6 tuple6 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6);
-            final ShortTuple7 tuple7 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7);
-            final ShortTuple8 tuple8 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8);
-            final ShortTuple9 tuple9 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 9);
-
-            assertTrue(tuple4.contains((short) 2));
-            assertTrue(tuple4.contains((short) 3));
-            assertTrue(tuple4.contains((short) 4));
-            assertFalse(tuple4.contains((short) 99));
-            assertTrue(tuple5.contains((short) 2));
-            assertTrue(tuple5.contains((short) 3));
-            assertTrue(tuple5.contains((short) 4));
-            assertTrue(tuple5.contains((short) 5));
-            assertFalse(tuple5.contains((short) 99));
-            assertTrue(tuple6.contains((short) 2));
-            assertTrue(tuple6.contains((short) 3));
-            assertTrue(tuple6.contains((short) 4));
-            assertTrue(tuple6.contains((short) 5));
-            assertTrue(tuple6.contains((short) 6));
-            assertFalse(tuple6.contains((short) 99));
-            assertTrue(tuple7.contains((short) 2));
-            assertTrue(tuple7.contains((short) 3));
-            assertTrue(tuple7.contains((short) 4));
-            assertTrue(tuple7.contains((short) 5));
-            assertTrue(tuple7.contains((short) 6));
-            assertTrue(tuple7.contains((short) 7));
-            assertFalse(tuple7.contains((short) 99));
-            assertTrue(tuple8.contains((short) 2));
-            assertTrue(tuple8.contains((short) 3));
-            assertTrue(tuple8.contains((short) 4));
-            assertTrue(tuple8.contains((short) 5));
-            assertTrue(tuple8.contains((short) 6));
-            assertTrue(tuple8.contains((short) 7));
-            assertTrue(tuple8.contains((short) 8));
-            assertFalse(tuple8.contains((short) 99));
-            assertTrue(tuple9.contains((short) 2));
-            assertTrue(tuple9.contains((short) 3));
-            assertTrue(tuple9.contains((short) 4));
-            assertTrue(tuple9.contains((short) 5));
-            assertTrue(tuple9.contains((short) 6));
-            assertTrue(tuple9.contains((short) 7));
-            assertTrue(tuple9.contains((short) 8));
-            assertTrue(tuple9.contains((short) 9));
-            assertFalse(tuple9.contains((short) 99));
-
-            assertTrue(tuple4.equals(tuple4));
-            assertFalse(tuple4.equals("not a tuple"));
-            assertFalse(tuple4.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 9)));
-            assertTrue(tuple5.equals(tuple5));
-            assertFalse(tuple5.equals("not a tuple"));
-            assertFalse(tuple5.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 9)));
-            assertTrue(tuple6.equals(tuple6));
-            assertFalse(tuple6.equals("not a tuple"));
-            assertFalse(tuple6.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 9)));
-            assertTrue(tuple7.equals(tuple7));
-            assertFalse(tuple7.equals("not a tuple"));
-            assertFalse(tuple7.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 9)));
-            assertTrue(tuple8.equals(tuple8));
-            assertFalse(tuple8.equals("not a tuple"));
-            assertFalse(tuple8.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 9)));
-            assertTrue(tuple9.equals(tuple9));
-            assertFalse(tuple9.equals("not a tuple"));
-            assertFalse(tuple9.equals(ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 0)));
-        }
     }
 
     @Nested
@@ -1364,7 +1225,7 @@ class ShortTupleTest {
     class ContainsTests {
 
         @ParameterizedTest(name = "arity {0}: contains checks every component")
-        @ValueSource(ints = { 1, 2, 3, 4, 5, 6, 7, 8, 9 })
+        @ValueSource(ints = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 })
         void contains_checksEveryComponentAndRejectsMissingValue(int arity) {
             short[] values = new short[arity];
             for (int i = 0; i < arity; i++) {
@@ -1377,247 +1238,53 @@ class ShortTupleTest {
             assertFalse(tuple.contains((short) 100));
         }
 
-        @Test
-        void arity0_contains() {
-            ShortTuple0 tuple = ShortTuple.from(new short[0]);
-            assertFalse(tuple.contains((short) 1));
+        @ParameterizedTest(name = "{0}")
+        @MethodSource("containsCases")
+        void contains_inputCases_matchExpectedMembership(String scenario, ShortTuple<?> tuple, short[] present, short[] absent) {
+            for (short value : present) {
+                assertTrue(tuple.contains(value), scenario + ": expected to contain " + value);
+            }
+            for (short value : absent) {
+                assertFalse(tuple.contains(value), scenario + ": expected to exclude " + value);
+            }
         }
 
-        @Test
-        void arity1_contains() {
-            ShortTuple.ShortTuple1 tuple = ShortTuple.of((short) 1);
-            assertTrue(tuple.contains((short) 1));
-        }
-
-        @Test
-        void arity1_contains_found() {
-            ShortTuple1 tuple = ShortTuple.of((short) 5);
-            assertTrue(tuple.contains((short) 5));
-        }
-
-        @Test
-        void arity1_contains_notFound() {
-            ShortTuple1 tuple = ShortTuple.of((short) 5);
-            assertFalse(tuple.contains((short) 10));
-        }
-
-        @Test
-        void arity2_contains() {
-            ShortTuple.ShortTuple2 tuple = ShortTuple.of((short) 1, (short) 2);
-            assertTrue(tuple.contains((short) 1));
-        }
-
-        @Test
-        void arity2_contains_found() {
-            ShortTuple2 tuple = ShortTuple.of((short) 1, (short) 2);
-            assertTrue(tuple.contains((short) 1));
-            assertTrue(tuple.contains((short) 2));
-        }
-
-        @Test
-        void arity2_contains_notFound() {
-            ShortTuple2 tuple = ShortTuple.of((short) 1, (short) 2);
-            assertFalse(tuple.contains((short) 3));
-        }
-
-        @Test
-        void arity3_contains() {
-            ShortTuple.ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            assertTrue(tuple.contains((short) 1));
-        }
-
-        @Test
-        void arity3_contains_values_1_2_3() {
-            ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            assertTrue(tuple.contains((short) 2));
-            assertFalse(tuple.contains((short) 5));
-        }
-
-        @Test
-        void arity4_contains() {
-            ShortTuple.ShortTuple4 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4);
-            assertTrue(tuple.contains((short) 1));
-        }
-
-        @Test
-        void arity5_contains() {
-            ShortTuple.ShortTuple5 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5);
-            assertTrue(tuple.contains((short) 1));
-        }
-
-        @Test
-        void arity6_contains() {
-            ShortTuple.ShortTuple6 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6);
-            assertTrue(tuple.contains((short) 1));
-        }
-
-        @Test
-        void arity7_contains() {
-            ShortTuple.ShortTuple7 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7);
-            assertTrue(tuple.contains((short) 1));
-        }
-
-        @Test
-        void arity8_contains() {
-            ShortTuple.ShortTuple8 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8);
-            assertTrue(tuple.contains((short) 1));
-        }
-
-        @Test
-        void arity9_contains() {
-            ShortTuple.ShortTuple9 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 9);
-            assertTrue(tuple.contains((short) 1));
-        }
-
-        @Test
-        void contains_empty() {
-            assertFalse(ShortTuple.from(null).contains((short) 10));
-        }
-
-        @Test
-        void contains_findsPresentElements() {
-            // Test Tuple0
-            ShortTuple.ShortTuple0 empty = ShortTuple.from(new short[0]);
-            assertFalse(empty.contains((short) 5));
-
-            // Test Tuple1
-            ShortTuple.ShortTuple1 tuple1 = ShortTuple.of((short) 5);
-            assertTrue(tuple1.contains((short) 5));
-            assertFalse(tuple1.contains((short) 10));
-
-            // Test Tuple3
-            ShortTuple.ShortTuple3 tuple3 = ShortTuple.of((short) 5, (short) 10, (short) 15);
-            assertTrue(tuple3.contains((short) 5));
-            assertTrue(tuple3.contains((short) 10));
-            assertTrue(tuple3.contains((short) 15));
-            assertFalse(tuple3.contains((short) 20));
-
-            // Test larger tuples
-            ShortTuple.ShortTuple7 tuple7 = ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20, (short) 25, (short) 30, (short) 35);
-            assertTrue(tuple7.contains((short) 35));
-            assertFalse(tuple7.contains((short) 40));
-        }
-
-        @Test
-        void contains_findsPresentElements_values_10_20_30() {
-            ShortTuple3 tuple = ShortTuple.of((short) 10, (short) 20, (short) 30);
-            assertTrue(tuple.contains((short) 20));
-            assertFalse(tuple.contains((short) 40));
-            assertTrue(tuple.contains((short) 10));
-            assertTrue(tuple.contains((short) 30));
-        }
-
-        @Test
-        void contains_single() {
-            ShortTuple1 tuple = ShortTuple.of((short) 42);
-            assertTrue(tuple.contains((short) 42));
-            assertFalse(tuple.contains((short) 43));
-        }
-
-        @Test
-        void contains_tuple1_notFound() {
-            ShortTuple1 tuple = ShortTuple.of((short) 1);
-            assertFalse(tuple.contains((short) 2));
-        }
-
-        @Test
-        void contains_tuple2_found() {
-            ShortTuple2 tuple = ShortTuple.of((short) 1, (short) 2);
-            assertTrue(tuple.contains((short) 2));
-        }
-
-        @Test
-        void contains_tuple2_notFound() {
-            ShortTuple2 tuple = ShortTuple.of((short) 1, (short) 2);
-            assertFalse(tuple.contains((short) 5));
-        }
-
-        @Test
-        void contains_tuple3_found() {
-            ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            assertTrue(tuple.contains((short) 2));
-        }
-
-        @Test
-        void contains_tuple3_notFound() {
-            ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            assertFalse(tuple.contains((short) 5));
-        }
-
-        @Test
-        void contains_tuple4() {
-            ShortTuple4 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4);
-            assertTrue(tuple.contains((short) 1));
-            assertTrue(tuple.contains((short) 4));
-            assertFalse(tuple.contains((short) 5));
-        }
-
-        @Test
-        void contains_tuple5() {
-            ShortTuple5 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5);
-            assertTrue(tuple.contains((short) 5));
-            assertFalse(tuple.contains((short) 10));
-        }
-
-        @Test
-        void contains_tuple6() {
-            ShortTuple6 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6);
-            assertTrue(tuple.contains((short) 6));
-            assertFalse(tuple.contains((short) 7));
-        }
-
-        @Test
-        void contains_tuple7() {
-            ShortTuple7 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7);
-            assertTrue(tuple.contains((short) 7));
-            assertFalse(tuple.contains((short) 8));
-        }
-
-        @Test
-        void contains_tuple8() {
-            ShortTuple8 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8);
-            assertTrue(tuple.contains((short) 8));
-            assertFalse(tuple.contains((short) 9));
-        }
-
-        @Test
-        void contains_tuple9() {
-            ShortTuple9 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 9);
-            assertTrue(tuple.contains((short) 9));
-            assertFalse(tuple.contains((short) 10));
-        }
-
-        @Test
-        void containsTuple0() {
-            ShortTuple<ShortTuple0> tuple = ShortTuple.from(new short[0]);
-            assertFalse(tuple.contains((short) 1));
-        }
-
-        @Test
-        void containsTuple1False() {
-            ShortTuple1 tuple = ShortTuple.of((short) 1);
-            assertFalse(tuple.contains((short) 99));
-        }
-
-        @Test
-        void containsTuple1True() {
-            ShortTuple1 tuple = ShortTuple.of((short) 1);
-            assertTrue(tuple.contains((short) 1));
-        }
-
-        @Test
-        void containsTuple3() {
-            ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            assertTrue(tuple.contains((short) 1));
-            assertTrue(tuple.contains((short) 2));
-            assertTrue(tuple.contains((short) 3));
-            assertFalse(tuple.contains((short) 99));
-        }
-
-        @Test
-        void tuple0_contains() {
-            ShortTuple<?> tuple = ShortTuple.from(null);
-            assertFalse(tuple.contains((short) 1));
+        private static java.util.stream.Stream<Arguments> containsCases() {
+            return java.util.stream.Stream.of(
+                    Arguments.of("from(new short[0])", ShortTuple.from(new short[0]), new short[] {}, new short[] { (short) 1, (short) 5 }),
+                    Arguments.of("from(null)", ShortTuple.from(null), new short[] {}, new short[] { (short) 10, (short) 1 }),
+                    Arguments.of("of((short)1)", ShortTuple.of((short) 1), new short[] { (short) 1 }, new short[] { (short) 2, (short) 99 }),
+                    Arguments.of("of((short)42)", ShortTuple.of((short) 42), new short[] { (short) 42 }, new short[] { (short) 43 }),
+                    Arguments.of("of((short)5)", ShortTuple.of((short) 5), new short[] { (short) 5 }, new short[] { (short) 10 }),
+                    Arguments.of("of((short)1, (short)2)", ShortTuple.of((short) 1, (short) 2), new short[] { (short) 1, (short) 2 },
+                            new short[] { (short) 3, (short) 5 }),
+                    Arguments.of("of((short)1, (short)2, (short)3)", ShortTuple.of((short) 1, (short) 2, (short) 3),
+                            new short[] { (short) 1, (short) 2, (short) 3 }, new short[] { (short) 5, (short) 99 }),
+                    Arguments.of("of((short)10, (short)20, (short)30)", ShortTuple.of((short) 10, (short) 20, (short) 30),
+                            new short[] { (short) 20, (short) 10, (short) 30 }, new short[] { (short) 40 }),
+                    Arguments.of("of((short)5, (short)10, (short)15)", ShortTuple.of((short) 5, (short) 10, (short) 15),
+                            new short[] { (short) 5, (short) 10, (short) 15 }, new short[] { (short) 20 }),
+                    Arguments.of("of((short)1, (short)2, (short)3, (short)4)", ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4),
+                            new short[] { (short) 2, (short) 3, (short) 4, (short) 1 }, new short[] { (short) 99, (short) 5 }),
+                    Arguments.of("of((short)1, (short)2, (short)3, (short)4, (short)5)", ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5),
+                            new short[] { (short) 2, (short) 3, (short) 4, (short) 5, (short) 1 }, new short[] { (short) 99, (short) 10 }),
+                    Arguments.of("of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6)",
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6),
+                            new short[] { (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 1 }, new short[] { (short) 99, (short) 7 }),
+                    Arguments.of("of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7)",
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7),
+                            new short[] { (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 1 }, new short[] { (short) 99, (short) 8 }),
+                    Arguments.of("of((short)5, (short)10, (short)15, (short)20, (short)25, (short)30, (short)35)",
+                            ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20, (short) 25, (short) 30, (short) 35), new short[] { (short) 35 },
+                            new short[] { (short) 40 }),
+                    Arguments.of("of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8)",
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8),
+                            new short[] { (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 1 },
+                            new short[] { (short) 99, (short) 9 }),
+                    Arguments.of("of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8, (short)9)",
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 9),
+                            new short[] { (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 9, (short) 1 },
+                            new short[] { (short) 99, (short) 10 }));
         }
     }
 
@@ -2666,9 +2333,9 @@ class ShortTupleTest {
     @Nested
     class EqualsTests {
 
-        @ParameterizedTest(name = "arity {0}: equality checks every component")
+        @ParameterizedTest(name = "arity {0}: equality value contract")
         @ValueSource(ints = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 })
-        void equals_rejectsEverySingleComponentDifference(int arity) {
+        void equals_allArities_obeysValueContract(int arity) {
             short[] values = new short[arity];
             for (int i = 0; i < arity; i++) {
                 values[i] = (short) (i + 1);
@@ -2680,6 +2347,10 @@ class ShortTupleTest {
             assertTrue(tuple.equals(tuple));
             assertTrue(tuple.equals(equal));
             assertTrue(equal.equals(tuple));
+            ShortTuple<?> third = arity == 0 ? new ShortTuple.ShortTuple0() : ShortTuple.from(values.clone());
+            assertNotSame(equal, third);
+            assertTrue(equal.equals(third));
+            assertTrue(tuple.equals(third), "equality must be transitive");
             assertEquals(tuple.hashCode(), equal.hashCode());
             assertFalse(tuple.equals(null));
             assertFalse(tuple.equals(new Object()));
@@ -2691,108 +2362,27 @@ class ShortTupleTest {
                 assertFalse(tuple.equals(different), "component " + i);
                 assertFalse(different.equals(tuple), "component " + i);
             }
+
+            for (int otherArity = 0; otherArity <= 9; otherArity++) {
+                if (otherArity != arity) {
+                    ShortTuple<?> differentArity = ShortTuple.from(java.util.Arrays.copyOf(values, otherArity));
+                    assertFalse(tuple.equals(differentArity), "different arity " + otherArity);
+                    assertFalse(differentArity.equals(tuple), "reverse comparison with arity " + otherArity);
+                }
+            }
         }
 
-        @Test
-        void arity1_equals() {
-            ShortTuple.ShortTuple1 tuple1 = ShortTuple.of((short) 1);
-            ShortTuple.ShortTuple1 tuple2 = ShortTuple.of((short) 1);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity1_equals_differentType() {
-            ShortTuple1 tuple = ShortTuple.of((short) 5);
-            assertNotEquals("string", tuple);
-        }
-
-        @Test
-        void arity1_equals_equal() {
-            ShortTuple1 tuple1 = ShortTuple.of((short) 5);
-            ShortTuple1 tuple2 = ShortTuple.of((short) 5);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity1_equals_notEqual() {
-            ShortTuple1 tuple1 = ShortTuple.of((short) 5);
-            ShortTuple1 tuple2 = ShortTuple.of((short) 10);
-            assertNotEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity1_equals_null() {
-            ShortTuple1 tuple = ShortTuple.of((short) 5);
-            assertNotEquals(null, tuple);
-        }
-
-        @Test
-        void arity1_equals_same() {
-            ShortTuple1 tuple = ShortTuple.of((short) 5);
-            assertTrue(tuple.equals(tuple));
-        }
-
-        @Test
-        void arity2_equals() {
-            ShortTuple.ShortTuple2 tuple1 = ShortTuple.of((short) 1, (short) 2);
-            ShortTuple.ShortTuple2 tuple2 = ShortTuple.of((short) 1, (short) 2);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity2_equals_values_1_2() {
-            ShortTuple2 tuple1 = ShortTuple.of((short) 1, (short) 2);
-            ShortTuple2 tuple2 = ShortTuple.of((short) 1, (short) 2);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity3_equals() {
-            ShortTuple.ShortTuple3 tuple1 = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            ShortTuple.ShortTuple3 tuple2 = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity4_equals() {
-            ShortTuple.ShortTuple4 tuple1 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4);
-            ShortTuple.ShortTuple4 tuple2 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity5_equals() {
-            ShortTuple.ShortTuple5 tuple1 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5);
-            ShortTuple.ShortTuple5 tuple2 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity6_equals() {
-            ShortTuple.ShortTuple6 tuple1 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6);
-            ShortTuple.ShortTuple6 tuple2 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity7_equals() {
-            ShortTuple.ShortTuple7 tuple1 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7);
-            ShortTuple.ShortTuple7 tuple2 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity8_equals() {
-            ShortTuple.ShortTuple8 tuple1 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8);
-            ShortTuple.ShortTuple8 tuple2 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity9_equals() {
-            ShortTuple.ShortTuple9 tuple1 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 9);
-            ShortTuple.ShortTuple9 tuple2 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 9);
-            assertEquals(tuple1, tuple2);
+        @ParameterizedTest(name = "{0}")
+        @MethodSource("equalityCases")
+        void equals_inputCases_comparesValuesAndTypes(String scenario, ShortTuple<?> tuple, Object other, boolean expected) {
+            assertTrue(tuple.equals(tuple), scenario + ": reflexivity");
+            assertEquals(expected, tuple.equals(other), scenario + ": forward comparison");
+            if (other != null) {
+                assertEquals(expected, other.equals(tuple), scenario + ": reverse comparison");
+            }
+            if (expected) {
+                assertEquals(tuple.hashCode(), other.hashCode(), scenario + ": equal values must have equal hashes");
+            }
         }
 
         @Test
@@ -2808,182 +2398,141 @@ class ShortTupleTest {
             }
         }
 
-        @Test
-        void equals_comparesValues() {
-            ShortTuple.ShortTuple3 tuple1 = ShortTuple.of((short) 5, (short) 10, (short) 15);
-            ShortTuple.ShortTuple3 tuple2 = ShortTuple.of((short) 5, (short) 10, (short) 15);
-            ShortTuple.ShortTuple3 tuple3 = ShortTuple.of((short) 5, (short) 10, (short) 16);
-            ShortTuple.ShortTuple2 tuple4 = ShortTuple.of((short) 5, (short) 10);
-
-            assertTrue(tuple1.equals(tuple1));
-            assertTrue(tuple1.equals(tuple2));
-            assertFalse(tuple1.equals(tuple3));
-            assertFalse(tuple1.equals(tuple4));
-            assertFalse(tuple1.equals(null));
-            assertFalse(tuple1.equals("not a tuple"));
-
-            // Test specific equals for coverage
-            ShortTuple.ShortTuple1 single1 = ShortTuple.of((short) 5);
-            ShortTuple.ShortTuple1 single2 = ShortTuple.of((short) 5);
-            ShortTuple.ShortTuple1 single3 = ShortTuple.of((short) 10);
-            assertTrue(single1.equals(single2));
-            assertFalse(single1.equals(single3));
-            assertFalse(single1.equals("not a tuple"));
-
-            ShortTuple.ShortTuple2 pair1 = ShortTuple.of((short) 5, (short) 10);
-            ShortTuple.ShortTuple2 pair2 = ShortTuple.of((short) 5, (short) 10);
-            ShortTuple.ShortTuple2 pair3 = ShortTuple.of((short) 5, (short) 11);
-            assertTrue(pair1.equals(pair2));
-            assertFalse(pair1.equals(pair3));
-        }
-
-        @Test
-        void equals_comparesValues_values_1_2_3() {
-            ShortTuple3 tuple1 = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            ShortTuple3 tuple2 = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            ShortTuple3 tuple3 = ShortTuple.of((short) 1, (short) 2, (short) 4);
-
-            assertEquals(tuple1, tuple2);
-            assertNotEquals(tuple1, tuple3);
-            assertTrue(tuple1.equals(tuple1));
-            assertNotEquals(tuple1, null);
-        }
-
-        @Test
-        void equals_differentClass() {
-            ShortTuple2 tuple2 = ShortTuple.of((short) 1, (short) 2);
-            ShortTuple3 tuple3 = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            assertNotEquals(tuple2, tuple3);
-        }
-
-        @Test
-        void equals_empty() {
-            ShortTuple<?> empty1 = ShortTuple.from(null);
-            ShortTuple<?> empty2 = ShortTuple.from(new short[0]);
-            assertEquals(empty1, empty2);
-        }
-
-        @Test
-        void equals_higherArityIdentityAndTypeMismatch() {
-            ShortTuple.ShortTuple7 tuple7 = ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20, (short) 25, (short) 30, (short) 35);
-            ShortTuple.ShortTuple8 tuple8 = ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20, (short) 25, (short) 30, (short) 35, (short) 40);
-            ShortTuple.ShortTuple9 tuple9 = ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20, (short) 25, (short) 30, (short) 35, (short) 40,
-                    (short) 45);
-
-            assertTrue(tuple7.equals(tuple7));
-            assertEquals(tuple7, ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20, (short) 25, (short) 30, (short) 35));
-            assertNotEquals(tuple7, ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20, (short) 25, (short) 30, (short) 36));
-            assertNotEquals(tuple7, "tuple");
-
-            assertTrue(tuple8.equals(tuple8));
-            assertEquals(tuple8, ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20, (short) 25, (short) 30, (short) 35, (short) 40));
-            assertNotEquals(tuple8, ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20, (short) 25, (short) 30, (short) 35, (short) 41));
-            assertNotEquals(tuple8, "tuple");
-
-            assertTrue(tuple9.equals(tuple9));
-            assertEquals(tuple9, ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20, (short) 25, (short) 30, (short) 35, (short) 40, (short) 45));
-            assertNotEquals(tuple9, ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20, (short) 25, (short) 30, (short) 35, (short) 40, (short) 46));
-            assertNotEquals(tuple9, "tuple");
-        }
-
-        @Test
-        void equals_symmetric() {
-            ShortTuple3 tuple1 = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            ShortTuple3 tuple2 = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            assertEquals(tuple1, tuple2);
-            assertEquals(tuple2, tuple1);
-        }
-
-        @Test
-        void equals_tuple1_different() {
-            ShortTuple1 tuple1 = ShortTuple.of((short) 1);
-            ShortTuple1 tuple2 = ShortTuple.of((short) 2);
-            assertNotEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equals_tuple1_null() {
-            ShortTuple1 tuple = ShortTuple.of((short) 1);
-            assertNotEquals(null, tuple);
-        }
-
-        @Test
-        void equals_tuple1_same() {
-            ShortTuple1 tuple1 = ShortTuple.of((short) 1);
-            ShortTuple1 tuple2 = ShortTuple.of((short) 1);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equals_tuple1_sameObject() {
-            ShortTuple1 tuple = ShortTuple.of((short) 1);
-            assertTrue(tuple.equals(tuple));
-        }
-
-        @Test
-        void equals_tuple2_different() {
-            ShortTuple2 tuple1 = ShortTuple.of((short) 1, (short) 2);
-            ShortTuple2 tuple2 = ShortTuple.of((short) 1, (short) 3);
-            assertNotEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equals_tuple3_different() {
-            ShortTuple3 tuple1 = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            ShortTuple3 tuple2 = ShortTuple.of((short) 1, (short) 2, (short) 4);
-            assertNotEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equals_tuple3_same() {
-            ShortTuple3 tuple1 = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            ShortTuple3 tuple2 = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equalsDifferentClass() {
-            ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            assertNotEquals("not a tuple", tuple);
-        }
-
-        @Test
-        void equalsNull() {
-            ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            assertNotEquals(null, tuple);
-        }
-
-        @Test
-        void equalsSameObject() {
-            ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            assertTrue(tuple.equals(tuple));
-        }
-
-        @Test
-        void equalsTuple1() {
-            ShortTuple1 tuple1 = ShortTuple.of((short) 1);
-            ShortTuple1 tuple2 = ShortTuple.of((short) 1);
-            ShortTuple1 tuple3 = ShortTuple.of((short) 99);
-            assertEquals(tuple1, tuple2);
-            assertNotEquals(tuple1, tuple3);
-        }
-
-        @Test
-        void equalsTuple2() {
-            ShortTuple2 tuple1 = ShortTuple.of((short) 1, (short) 2);
-            ShortTuple2 tuple2 = ShortTuple.of((short) 1, (short) 2);
-            ShortTuple2 tuple3 = ShortTuple.of((short) 1, (short) 3);
-            assertEquals(tuple1, tuple2);
-            assertNotEquals(tuple1, tuple3);
-        }
-
-        @Test
-        void equalsTuple3() {
-            ShortTuple3 tuple1 = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            ShortTuple3 tuple2 = ShortTuple.of((short) 1, (short) 2, (short) 3);
-            ShortTuple3 tuple3 = ShortTuple.of((short) 1, (short) 2, (short) 4);
-            assertEquals(tuple1, tuple2);
-            assertNotEquals(tuple1, tuple3);
+        private static java.util.stream.Stream<Arguments> equalityCases() {
+            return java.util.stream.Stream.of(Arguments.of("from(null) versus from(new short[0])", ShortTuple.from(null), ShortTuple.from(new short[0]), true),
+                    Arguments.of("of((short)1) versus null", ShortTuple.of((short) 1), null, false),
+                    Arguments.of("of((short)1) versus of((short)1)", ShortTuple.of((short) 1), ShortTuple.of((short) 1), true),
+                    Arguments.of("of((short)1) versus of((short)2)", ShortTuple.of((short) 1), ShortTuple.of((short) 2), false),
+                    Arguments.of("of((short)1) versus of((short)99)", ShortTuple.of((short) 1), ShortTuple.of((short) 99), false),
+                    Arguments.of("of((short)5) versus \"not a tuple\"", ShortTuple.of((short) 5), "not a tuple", false),
+                    Arguments.of("of((short)5) versus \"string\"", ShortTuple.of((short) 5), "string", false),
+                    Arguments.of("of((short)5) versus null", ShortTuple.of((short) 5), null, false),
+                    Arguments.of("of((short)5) versus of((short)10)", ShortTuple.of((short) 5), ShortTuple.of((short) 10), false),
+                    Arguments.of("of((short)5) versus of((short)5)", ShortTuple.of((short) 5), ShortTuple.of((short) 5), true),
+                    Arguments.of("of((short)1, (short)2) versus of((short)1, (short)2, (short)3)", ShortTuple.of((short) 1, (short) 2),
+                            ShortTuple.of((short) 1, (short) 2, (short) 3), false),
+                    Arguments.of("of((short)1, (short)2) versus of((short)1, (short)2)", ShortTuple.of((short) 1, (short) 2),
+                            ShortTuple.of((short) 1, (short) 2), true),
+                    Arguments.of("of((short)1, (short)2) versus of((short)1, (short)3)", ShortTuple.of((short) 1, (short) 2),
+                            ShortTuple.of((short) 1, (short) 3), false),
+                    Arguments.of("of((short)5, (short)10) versus of((short)5, (short)10)", ShortTuple.of((short) 5, (short) 10),
+                            ShortTuple.of((short) 5, (short) 10), true),
+                    Arguments.of("of((short)5, (short)10) versus of((short)5, (short)11)", ShortTuple.of((short) 5, (short) 10),
+                            ShortTuple.of((short) 5, (short) 11), false),
+                    Arguments.of(
+                            "of((short)1, (short)2, (short)3) versus \"not a tuple\"", ShortTuple.of((short) 1, (short) 2, (short) 3), "not a tuple", false),
+                    Arguments.of("of((short)1, (short)2, (short)3) versus null", ShortTuple.of((short) 1, (short) 2, (short) 3), null, false),
+                    Arguments.of("of((short)1, (short)2, (short)3) versus of((short)1, (short)2, (short)3)", ShortTuple.of((short) 1, (short) 2, (short) 3),
+                            ShortTuple.of((short) 1, (short) 2, (short) 3), true),
+                    Arguments.of("of((short)1, (short)2, (short)3) versus of((short)1, (short)2, (short)4)", ShortTuple.of((short) 1, (short) 2, (short) 3),
+                            ShortTuple.of((short) 1, (short) 2, (short) 4), false),
+                    Arguments.of("of((short)5, (short)10, (short)15) versus \"not a tuple\"", ShortTuple.of((short) 5, (short) 10, (short) 15), "not a tuple",
+                            false),
+                    Arguments.of("of((short)5, (short)10, (short)15) versus null", ShortTuple.of((short) 5, (short) 10, (short) 15), null, false),
+                    Arguments.of("of((short)5, (short)10, (short)15) versus of((short)5, (short)10, (short)15)",
+                            ShortTuple.of((short) 5, (short) 10, (short) 15), ShortTuple.of((short) 5, (short) 10, (short) 15), true),
+                    Arguments.of("of((short)5, (short)10, (short)15) versus of((short)5, (short)10, (short)16)",
+                            ShortTuple.of((short) 5, (short) 10, (short) 15), ShortTuple.of((short) 5, (short) 10, (short) 16), false),
+                    Arguments.of("of((short)5, (short)10, (short)15) versus of((short)5, (short)10)", ShortTuple.of((short) 5, (short) 10, (short) 15),
+                            ShortTuple.of((short) 5, (short) 10), false),
+                    Arguments.of("of((short)1, (short)2, (short)3, (short)4) versus \"not a tuple\"", ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4),
+                            "not a tuple", false),
+                    Arguments.of("of((short)1, (short)2, (short)3, (short)4) versus \"tuple4\"", ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4),
+                            "tuple4", false),
+                    Arguments.of("of((short)1, (short)2, (short)3, (short)4) versus of((short)1, (short)2, (short)3, (short)4)",
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4), ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4), true),
+                    Arguments.of("of((short)1, (short)2, (short)3, (short)4) versus of((short)1, (short)2, (short)3, (short)9)",
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4), ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 9), false),
+                    Arguments.of("of((short)1, (short)2, (short)3, (short)4, (short)5) versus \"not a tuple\"",
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5), "not a tuple", false),
+                    Arguments.of("of((short)1, (short)2, (short)3, (short)4, (short)5) versus \"tuple5\"",
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5), "tuple5", false),
+                    Arguments.of("of((short)1, (short)2, (short)3, (short)4, (short)5) versus of((short)1, (short)2, (short)3, (short)4, (short)5)",
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5),
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5), true),
+                    Arguments.of("of((short)1, (short)2, (short)3, (short)4, (short)5) versus of((short)1, (short)2, (short)3, (short)4, (short)9)",
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5),
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 9), false),
+                    Arguments.of("of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6) versus \"not a tuple\"",
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6), "not a tuple", false),
+                    Arguments.of("of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6) versus \"tuple6\"",
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6), "tuple6", false),
+                    Arguments.of(
+                            "of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6) versus of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6)",
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6),
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6), true),
+                    Arguments.of(
+                            "of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6) versus of((short)1, (short)2, (short)3, (short)4, (short)5, (short)9)",
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6),
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 9), false),
+                    Arguments.of("of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7) versus \"not a tuple\"",
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7), "not a tuple", false),
+                    Arguments.of("of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7) versus \"tuple7\"",
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7), "tuple7", false),
+                    Arguments.of(
+                            "of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7) versus of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7)",
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7),
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7), true),
+                    Arguments.of(
+                            "of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7) versus of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)9)",
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7),
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 9), false),
+                    Arguments.of("of((short)5, (short)10, (short)15, (short)20, (short)25, (short)30, (short)35) versus \"tuple\"",
+                            ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20, (short) 25, (short) 30, (short) 35), "tuple", false),
+                    Arguments.of(
+                            "of((short)5, (short)10, (short)15, (short)20, (short)25, (short)30, (short)35) versus of((short)5, (short)10, (short)15, (short)20, (short)25, (short)30, (short)35)",
+                            ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20, (short) 25, (short) 30, (short) 35),
+                            ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20, (short) 25, (short) 30, (short) 35), true),
+                    Arguments.of(
+                            "of((short)5, (short)10, (short)15, (short)20, (short)25, (short)30, (short)35) versus of((short)5, (short)10, (short)15, (short)20, (short)25, (short)30, (short)36)",
+                            ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20, (short) 25, (short) 30, (short) 35),
+                            ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20, (short) 25, (short) 30, (short) 36), false),
+                    Arguments.of("of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8) versus \"not a tuple\"",
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8), "not a tuple", false),
+                    Arguments.of("of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8) versus \"tuple8\"",
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8), "tuple8", false),
+                    Arguments.of(
+                            "of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8) versus of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8)",
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8),
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8), true),
+                    Arguments.of(
+                            "of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8) versus of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)9)",
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8),
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 9), false),
+                    Arguments.of("of((short)5, (short)10, (short)15, (short)20, (short)25, (short)30, (short)35, (short)40) versus \"tuple\"",
+                            ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20, (short) 25, (short) 30, (short) 35, (short) 40), "tuple", false),
+                    Arguments.of(
+                            "of((short)5, (short)10, (short)15, (short)20, (short)25, (short)30, (short)35, (short)40) versus of((short)5, (short)10, (short)15, (short)20, (short)25, (short)30, (short)35, (short)40)",
+                            ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20, (short) 25, (short) 30, (short) 35, (short) 40),
+                            ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20, (short) 25, (short) 30, (short) 35, (short) 40), true),
+                    Arguments.of(
+                            "of((short)5, (short)10, (short)15, (short)20, (short)25, (short)30, (short)35, (short)40) versus of((short)5, (short)10, (short)15, (short)20, (short)25, (short)30, (short)35, (short)41)",
+                            ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20, (short) 25, (short) 30, (short) 35, (short) 40),
+                            ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20, (short) 25, (short) 30, (short) 35, (short) 41), false),
+                    Arguments.of("of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8, (short)9) versus \"not a tuple\"",
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 9), "not a tuple",
+                            false),
+                    Arguments.of("of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8, (short)9) versus \"tuple9\"",
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 9), "tuple9", false),
+                    Arguments.of(
+                            "of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8, (short)9) versus of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8, (short)0)",
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 9),
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 0), false),
+                    Arguments.of(
+                            "of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8, (short)9) versus of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8, (short)9)",
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 9),
+                            ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 9), true),
+                    Arguments.of("of((short)5, (short)10, (short)15, (short)20, (short)25, (short)30, (short)35, (short)40, (short)45) versus \"tuple\"",
+                            ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20, (short) 25, (short) 30, (short) 35, (short) 40, (short) 45), "tuple",
+                            false),
+                    Arguments.of(
+                            "of((short)5, (short)10, (short)15, (short)20, (short)25, (short)30, (short)35, (short)40, (short)45) versus of((short)5, (short)10, (short)15, (short)20, (short)25, (short)30, (short)35, (short)40, (short)45)",
+                            ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20, (short) 25, (short) 30, (short) 35, (short) 40, (short) 45),
+                            ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20, (short) 25, (short) 30, (short) 35, (short) 40, (short) 45), true),
+                    Arguments.of(
+                            "of((short)5, (short)10, (short)15, (short)20, (short)25, (short)30, (short)35, (short)40, (short)45) versus of((short)5, (short)10, (short)15, (short)20, (short)25, (short)30, (short)35, (short)40, (short)46)",
+                            ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20, (short) 25, (short) 30, (short) 35, (short) 40, (short) 45),
+                            ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20, (short) 25, (short) 30, (short) 35, (short) 40, (short) 46), false));
         }
     }
 
@@ -3174,47 +2723,36 @@ class ShortTupleTest {
             assertEquals(2.0, triple.average().getAsDouble(), 0.001);
         }
 
-        @Test
-        void coverageRegression_defaultConstructorsAndCachedArrays() {
-            ShortTuple.ShortTuple1 tuple1 = new ShortTuple.ShortTuple1();
-            assertArrayEquals(new short[] { 0 }, tuple1.toArray());
-            assertArrayEquals(new short[] { 0 }, tuple1.toArray());
+        @ParameterizedTest(name = "arity {0}: default exports are detached")
+        @ValueSource(ints = { 1, 2, 3, 4, 5, 6, 7, 8, 9 })
+        void defaultConstructors_exportDefaultValuesInIndependentArrays(int arity) {
+            ShortTuple<?> tuple = switch (arity) {
+                case 1 -> new ShortTuple.ShortTuple1();
+                case 2 -> new ShortTuple.ShortTuple2();
+                case 3 -> new ShortTuple.ShortTuple3();
+                case 4 -> new ShortTuple.ShortTuple4();
+                case 5 -> new ShortTuple.ShortTuple5();
+                case 6 -> new ShortTuple.ShortTuple6();
+                case 7 -> new ShortTuple.ShortTuple7();
+                case 8 -> new ShortTuple.ShortTuple8();
+                case 9 -> new ShortTuple.ShortTuple9();
+                default -> throw new IllegalArgumentException("Unsupported tuple arity: " + arity);
+            };
+            short[] expected = new short[arity];
+            short[] first = tuple.toArray();
+            short[] second = tuple.toArray();
 
-            ShortTuple.ShortTuple2 tuple2 = new ShortTuple.ShortTuple2();
-            assertArrayEquals(new short[] { 0, 0 }, tuple2.toArray());
-            assertArrayEquals(new short[] { 0, 0 }, tuple2.toArray());
-
-            ShortTuple.ShortTuple3 tuple3 = new ShortTuple.ShortTuple3();
-            assertArrayEquals(new short[] { 0, 0, 0 }, tuple3.toArray());
-            assertArrayEquals(new short[] { 0, 0, 0 }, tuple3.toArray());
-
-            ShortTuple.ShortTuple4 tuple4 = new ShortTuple.ShortTuple4();
-            assertArrayEquals(new short[] { 0, 0, 0, 0 }, tuple4.toArray());
-            assertArrayEquals(new short[] { 0, 0, 0, 0 }, tuple4.toArray());
-
-            ShortTuple.ShortTuple5 tuple5 = new ShortTuple.ShortTuple5();
-            assertArrayEquals(new short[] { 0, 0, 0, 0, 0 }, tuple5.toArray());
-            assertArrayEquals(new short[] { 0, 0, 0, 0, 0 }, tuple5.toArray());
-
-            ShortTuple.ShortTuple6 tuple6 = new ShortTuple.ShortTuple6();
-            assertArrayEquals(new short[] { 0, 0, 0, 0, 0, 0 }, tuple6.toArray());
-            assertArrayEquals(new short[] { 0, 0, 0, 0, 0, 0 }, tuple6.toArray());
-
-            ShortTuple.ShortTuple7 tuple7 = new ShortTuple.ShortTuple7();
-            assertArrayEquals(new short[] { 0, 0, 0, 0, 0, 0, 0 }, tuple7.toArray());
-            assertArrayEquals(new short[] { 0, 0, 0, 0, 0, 0, 0 }, tuple7.toArray());
-
-            ShortTuple.ShortTuple8 tuple8 = new ShortTuple.ShortTuple8();
-            assertArrayEquals(new short[] { 0, 0, 0, 0, 0, 0, 0, 0 }, tuple8.toArray());
-            assertArrayEquals(new short[] { 0, 0, 0, 0, 0, 0, 0, 0 }, tuple8.toArray());
-
-            ShortTuple.ShortTuple9 tuple9 = new ShortTuple.ShortTuple9();
-            assertArrayEquals(new short[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, tuple9.toArray());
-            assertArrayEquals(new short[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, tuple9.toArray());
+            assertEquals(arity, tuple.arity());
+            assertArrayEquals(expected, first);
+            assertArrayEquals(expected, second);
+            assertNotSame(first, second);
+            first[0] = 1;
+            assertArrayEquals(expected, second, "each export must have independent storage");
+            assertArrayEquals(expected, tuple.toArray(), "mutating an export must not affect the tuple");
         }
 
         @Test
-        void coverageRegression_emptyTupleBaseMethods() {
+        void emptyTuple_operations_obeyEmptyValueContract() {
             ShortTuple<?> empty = ShortTuple.from((short[]) null);
             assertEquals(ShortTuple.from(new short[0]), empty);
             assertFalse(empty.equals("short"));
@@ -3242,7 +2780,7 @@ class ShortTupleTest {
         }
 
         @Test
-        void inheritedOuterMethodsForCoverage() throws Exception {
+        void inheritedOperations_preserveTupleValues() throws Exception {
             final ShortTuple.ShortTuple4 tuple = ShortTuple.of((short) 9, (short) 2, (short) 5, (short) 1);
             final short[] firstArray = tuple.toArray();
             final short[] secondArray = tuple.toArray();
@@ -3590,35 +3128,41 @@ class ShortTupleTest {
         }
 
         @Test
-        void zeroArgConstructorsForCoverage() {
-            final ShortTuple1 tuple1 = new ShortTuple1();
-            final ShortTuple2 tuple2 = new ShortTuple2();
-            final ShortTuple3 tuple3 = new ShortTuple3();
-            final ShortTuple4 tuple4 = new ShortTuple4();
-            final ShortTuple5 tuple5 = new ShortTuple5();
-            final ShortTuple6 tuple6 = new ShortTuple6();
-            final ShortTuple7 tuple7 = new ShortTuple7();
-            final ShortTuple8 tuple8 = new ShortTuple8();
-            final ShortTuple9 tuple9 = new ShortTuple9();
-
-            assertArrayEquals(new short[] { 0 }, tuple1.toArray());
-            assertArrayEquals(new short[] { 0 }, tuple1.toArray());
-            assertArrayEquals(new short[] { 0, 0 }, tuple2.toArray());
-            assertArrayEquals(new short[] { 0, 0, 0 }, tuple3.toArray());
-            assertArrayEquals(new short[] { 0, 0, 0, 0 }, tuple4.toArray());
-            assertArrayEquals(new short[] { 0, 0, 0, 0, 0 }, tuple5.toArray());
-            assertArrayEquals(new short[] { 0, 0, 0, 0, 0, 0 }, tuple6.toArray());
-            assertArrayEquals(new short[] { 0, 0, 0, 0, 0, 0, 0 }, tuple7.toArray());
-            assertArrayEquals(new short[] { 0, 0, 0, 0, 0, 0, 0, 0 }, tuple8.toArray());
-            assertArrayEquals(new short[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, tuple9.toArray());
-        }
-
-        @Test
         void zeroValues() {
             ShortTuple3 tuple = ShortTuple.of((short) 0, (short) 0, (short) 0);
             assertEquals((short) 0, tuple.min());
             assertEquals((short) 0, tuple.max());
             assertEquals(0, tuple.sum());
+        }
+
+        @Test
+        void highArity_aggregatesAndMembership_preserveValues() {
+            ShortTuple.ShortTuple4 tuple4 = ShortTuple.of((short) 9, (short) 1, (short) 7, (short) 3);
+            assertEquals((short) 1, tuple4.min());
+            assertEquals((short) 9, tuple4.max());
+            assertEquals((short) 3, tuple4.lowerMedian());
+            assertEquals(20, tuple4.sum());
+            assertEquals(5.0, tuple4.average().getAsDouble());
+            assertTrue(tuple4.contains((short) 3));
+
+            ShortTuple.ShortTuple5 tuple5 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5);
+            assertTrue(tuple5.contains((short) 5));
+
+            ShortTuple.ShortTuple6 tuple6 = ShortTuple.of((short) 9, (short) 1, (short) 7, (short) 3, (short) 5, (short) 11);
+            assertEquals((short) 5, tuple6.lowerMedian());
+            assertTrue(tuple6.contains((short) 11));
+
+            ShortTuple.ShortTuple7 tuple7 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7);
+            assertTrue(tuple7.contains((short) 7));
+
+            ShortTuple.ShortTuple8 tuple8 = ShortTuple.of((short) 9, (short) 1, (short) 7, (short) 3, (short) 5, (short) 11, (short) 13, (short) 15);
+            assertEquals((short) 7, tuple8.lowerMedian());
+            assertTrue(tuple8.contains((short) 15));
+
+            ShortTuple.ShortTuple9 tuple9 = ShortTuple.of((short) 9, (short) 1, (short) 7, (short) 3, (short) 5, (short) 11, (short) 13, (short) 15,
+                    (short) 17);
+            assertEquals((short) 9, tuple9.lowerMedian());
+            assertTrue(tuple9.contains((short) 17));
         }
     }
 }

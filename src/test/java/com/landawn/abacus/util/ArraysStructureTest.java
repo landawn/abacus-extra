@@ -54,35 +54,33 @@ class ArraysStructureTest {
 
         @Test
         void booleanTotalCountOfElements2D() {
-            // Line 2833-2835
             boolean[][] array = { { true, false, true }, null, { false, true, false } };
             assertEquals(6, Arrays.totalElementCount(array));
         }
 
         @Test
         void booleanTotalCountOfElements3D() {
-            // Line 2861-2863
             boolean[][][] array = { { { true, false }, { true } }, { { false, true, false } } };
             assertEquals(6, Arrays.totalElementCount(array));
         }
 
         @Test
         void byteTotalCountOfElements2D() {
-            // Line 5451-5452: {{1,2,3}, null, {4,5}} => 5
+            // {{1,2,3}, null, {4,5}} => 5
             byte[][] array = { { 1, 2, 3 }, null, { 4, 5 } };
             assertEquals(5, Arrays.totalElementCount(array));
         }
 
         @Test
         void byteTotalCountOfElements3D() {
-            // Line 5478-5479: {{{1,2},{3}},{{4,5,6}}} => 6
+            // {{{1,2},{3}},{{4,5,6}}} => 6
             byte[][][] array = { { { 1, 2 }, { 3 } }, { { 4, 5, 6 } } };
             assertEquals(6, Arrays.totalElementCount(array));
         }
 
         @Test
         void classJavadoc_totalElementCount3D() {
-            // Line 152-153: 2x3x4 cube => 24 total elements
+            // 2x3x4 cube => 24 total elements
             int[][][] cube = new int[2][3][4];
             long totalElements = Arrays.totalElementCount(cube);
             assertEquals(24, totalElements);
@@ -140,14 +138,14 @@ class ArraysStructureTest {
 
         @Test
         void intTotalCountOfElements2D() {
-            // Line 8020-8022: {{1,2},{3,4,5},null,{}} => 5
+            // {{1,2},{3,4,5},null,{}} => 5
             int[][] a = { { 1, 2 }, { 3, 4, 5 }, null, {} };
             assertEquals(5, Arrays.totalElementCount(a));
         }
 
         @Test
         void intTotalCountOfElements3D() {
-            // Line 8048-8050: {{{1},{2,3}},null,{{4,5,6}}} => 6
+            // {{{1},{2,3}},null,{{4,5,6}}} => 6
             int[][][] a = { { { 1 }, { 2, 3 } }, null, { { 4, 5, 6 } } };
             assertEquals(6, Arrays.totalElementCount(a));
         }
@@ -458,14 +456,13 @@ class ArraysStructureTest {
 
         @Test
         void booleanminRowLength() {
-            // Line 2899-2901
             boolean[][] array = { { true, false, true }, { false }, { true, false } };
             assertEquals(1, Arrays.minRowLength(array));
         }
 
         @Test
         void byteminRowLength() {
-            // Line 5516-5517: {{1,2,3},{4,5},{6,7,8,9}} => minLen 2
+            // {{1,2,3},{4,5},{6,7,8,9}} => minLen 2
             byte[][] array = { { 1, 2, 3 }, { 4, 5 }, { 6, 7, 8, 9 } };
             assertEquals(2, Arrays.minRowLength(array));
         }
@@ -497,7 +494,7 @@ class ArraysStructureTest {
 
         @Test
         void intminRowLength() {
-            // Line 8085-8088: {{1,2,3},{4,5},null,{6}} => 0 (null sub-array has length 0)
+            // {{1,2,3},{4,5},null,{6}} => 0 (null sub-array has length 0)
             int[][] a = { { 1, 2, 3 }, { 4, 5 }, null, { 6 } };
             assertEquals(0, Arrays.minRowLength(a));
         }
@@ -686,21 +683,20 @@ class ArraysStructureTest {
 
         @Test
         void booleanmaxRowLength() {
-            // Line 2927-2929
             boolean[][] array = { { true, false, true }, { false }, { true, false } };
             assertEquals(3, Arrays.maxRowLength(array));
         }
 
         @Test
         void bytemaxRowLength() {
-            // Line 5544-5545: {{1,2}, null, {3,4,5,6}} => maxLen 4
+            // {{1,2}, null, {3,4,5,6}} => maxLen 4
             byte[][] array = { { 1, 2 }, null, { 3, 4, 5, 6 } };
             assertEquals(4, Arrays.maxRowLength(array));
         }
 
         @Test
         void classJavadoc_minmaxRowLength() {
-            // Line 156-158: {{1,2,3,4},{5,6,7,8},{9,10,11,12}} => minLen=4, maxLen=4
+            // {{1,2,3,4},{5,6,7,8},{9,10,11,12}} => minLen=4, maxLen=4
             int[][] array2D = { { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 } };
             assertEquals(4, Arrays.minRowLength(array2D));
             assertEquals(4, Arrays.maxRowLength(array2D));
@@ -730,7 +726,7 @@ class ArraysStructureTest {
 
         @Test
         void intmaxRowLength() {
-            // Line 8113-8116: {{1},{2,3},null,{4,5,6}} => 3
+            // {{1},{2,3},null,{4,5,6}} => 3
             int[][] a = { { 1 }, { 2, 3 }, null, { 4, 5, 6 } };
             assertEquals(3, Arrays.maxRowLength(a));
         }

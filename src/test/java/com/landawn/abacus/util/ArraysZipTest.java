@@ -104,7 +104,7 @@ class ArraysZipTest {
 
         @Test
         void booleanZipBinary() {
-            // Line 2296-2299: zip({true,false,true,false}, {false,true,false}, (x,y) -> x&&y) => {false,false,false}
+            // zip({true,false,true,false}, {false,true,false}, (x,y) -> x&&y) => {false,false,false}
             boolean[] a = { true, false, true, false };
             boolean[] b = { false, true, false };
             boolean[] result = Arrays.zip(a, b, (x, y) -> x && y);
@@ -113,26 +113,16 @@ class ArraysZipTest {
 
         @Test
         void booleanZipBinaryWithDefaults() {
-            // Line 2332-2336: zip({true,false,true,false}, {false,true}, false, true, (x,y) -> x||y) => {true,true,true,false}
-            // (using true for missing b elements): index0: true||false=true, index1: false||true=true, index2: true||true=true, index3: false||true(default)=true
-            // Wait - Javadoc says result is {true, true, true, false}
-            // Let me check: a={true,false,true,false}, b={false,true}, defaultA=false, defaultB=true
-            // i=0: true||false=true, i=1: false||true=true, i=2: true||true(defaultB)=true, i=3: false||true(defaultB)=true
-            // That should be {true,true,true,true}, but Javadoc says {true,true,true,false}
-            // The Javadoc comment says "(using true for missing b elements)" which would mean defaultB=true
-            // With defaultB=true: {true||false, false||true, true||true, false||true} = {true, true, true, true}
-            // But Javadoc says {true, true, true, false}. This seems like a Javadoc bug.
-            // Let me test what actually happens:
+            // The shorter right input supplies true for missing values, so every OR result is true.
             boolean[] a = { true, false, true, false };
             boolean[] b = { false, true };
             boolean[] result = Arrays.zip(a, b, false, true, (x, y) -> x || y);
-            // Actual result should be {true, true, true, true} since false||true=true
             assertArrayEquals(new boolean[] { true, true, true, true }, result);
         }
 
         @Test
         void booleanZipTernary() {
-            // Line 2383-2386: zip({true,false,true,false}, {false,true,false}, {true,true}, (x,y,z)->x||y||z) => {true,true}
+            // zip({true,false,true,false}, {false,true,false}, {true,true}, (x,y,z)->x||y||z) => {true,true}
             boolean[] a = { true, false, true, false };
             boolean[] b = { false, true, false };
             boolean[] c = { true, true };
@@ -142,7 +132,7 @@ class ArraysZipTest {
 
         @Test
         void byteZipBinary() {
-            // Line 4960-4963: zip({1,2,3,4}, {5,6,7}, (x,y) -> (byte)(x+y)) => {6,8,10}
+            // zip({1,2,3,4}, {5,6,7}, (x,y) -> (byte)(x+y)) => {6,8,10}
             byte[] a = { 1, 2, 3, 4 };
             byte[] b = { 5, 6, 7 };
             byte[] result = Arrays.zip(a, b, (x, y) -> (byte) (x + y));
@@ -151,7 +141,7 @@ class ArraysZipTest {
 
         @Test
         void byteZipBinaryWithDefaults() {
-            // Line 4992-4996: zip({1,2,3,4}, {5,6}, 0, 10, (x,y) -> (byte)(x+y)) => {6,8,13,14}
+            // zip({1,2,3,4}, {5,6}, 0, 10, (x,y) -> (byte)(x+y)) => {6,8,13,14}
             byte[] a = { 1, 2, 3, 4 };
             byte[] b = { 5, 6 };
             byte[] result = Arrays.zip(a, b, (byte) 0, (byte) 10, (x, y) -> (byte) (x + y));
@@ -160,7 +150,7 @@ class ArraysZipTest {
 
         @Test
         void byteZipTernary() {
-            // Line 5040-5044: zip({1,2,3,4}, {5,6,7}, {8,9}, (x,y,z) -> (byte)(x+y+z)) => {14,17}
+            // zip({1,2,3,4}, {5,6,7}, {8,9}, (x,y,z) -> (byte)(x+y+z)) => {14,17}
             byte[] a = { 1, 2, 3, 4 };
             byte[] b = { 5, 6, 7 };
             byte[] c = { 8, 9 };
@@ -170,7 +160,7 @@ class ArraysZipTest {
 
         @Test
         void byteZipTernaryWithDefaults() {
-            // Line 5077-5081: zip({1,2,3,4}, {5,6}, {8,9,10}, 0, 10, 20, ...) => {14,17,23,34}
+            // zip({1,2,3,4}, {5,6}, {8,9,10}, 0, 10, 20, ...) => {14,17,23,34}
             byte[] a = { 1, 2, 3, 4 };
             byte[] b = { 5, 6 };
             byte[] c = { 8, 9, 10 };
@@ -180,7 +170,7 @@ class ArraysZipTest {
 
         @Test
         void classJavadoc_zipIntBinary() {
-            // Line 133-136: zip({1,2,3}, {4,5,6}, (x,y) -> x + y*2) => {9,12,15}
+            // zip({1,2,3}, {4,5,6}, (x,y) -> x + y*2) => {9,12,15}
             int[] a = { 1, 2, 3 };
             int[] b = { 4, 5, 6 };
             int[] zipped = Arrays.zip(a, b, (x, y) -> x + y * 2);
@@ -775,7 +765,7 @@ class ArraysZipTest {
 
         @Test
         void intZipBinary() {
-            // Line 7530-7533: zip({1,2,3,4}, {5,6,7}, (x,y) -> x+y) => {6,8,10}
+            // zip({1,2,3,4}, {5,6,7}, (x,y) -> x+y) => {6,8,10}
             int[] a = { 1, 2, 3, 4 };
             int[] b = { 5, 6, 7 };
             int[] result = Arrays.zip(a, b, (x, y) -> x + y);
@@ -784,7 +774,7 @@ class ArraysZipTest {
 
         @Test
         void intZipBinaryWithDefaults() {
-            // Line 7562-7566: zip({1,2,3,4}, {5,6}, 0, 10, (x,y) -> x+y) => {6,8,13,14}
+            // zip({1,2,3,4}, {5,6}, 0, 10, (x,y) -> x+y) => {6,8,13,14}
             int[] a = { 1, 2, 3, 4 };
             int[] b = { 5, 6 };
             int[] result = Arrays.zip(a, b, 0, 10, (x, y) -> x + y);

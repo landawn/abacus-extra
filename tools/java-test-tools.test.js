@@ -4,7 +4,7 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
-const { root, indexFiles, testMethods, duplicateGroups, hasAssertion } = require("./java-test-tools");
+const { root, indexFiles, testMethods, duplicateGroups, hasAssertion, groupOrderIssues } = require("./java-test-tools");
 
 fs.mkdirSync(path.join(root, "target"), { recursive: true });
 const directory = fs.mkdtempSync(path.join(root, "target/test-audit-fixture-"));
@@ -92,4 +92,40 @@ test("array parameters and variable arguments stay distinct in call-site audits"
     assert.equal(helpers.find(m => m.name === "variableArguments").parameters[0].varargs, true);
     const call = methods.find(m => m.name === "sameOne").calls[0];
     assert.ok(call.selectEnd > call.selectStart);
+});
+
+test("array API groups follow operation and primitive order while allowing omitted groups", () => {
+    const unit = {
+        file: path.join(root, "ArraysMappingTest.java"),
+        classes: [
+            { name: "ArraysMappingTest", owner: "ArraysMappingTest", parent: null, annotations: [] },
+            { name: "MapTests", parent: "ArraysMappingTest", annotations: ["@Nested"] },
+            { name: "MapToIntTests", parent: "ArraysMappingTest", annotations: ["@Nested"] },
+            { name: "MapToDoubleTests", parent: "ArraysMappingTest", annotations: ["@Nested"] },
+            { name: "MappingContractTests", parent: "ArraysMappingTest", annotations: ["@Nested"] }
+        ]
+    };
+    assert.deepEqual(groupOrderIssues(unit), []);
+    [unit.classes[2], unit.classes[3]] = [unit.classes[3], unit.classes[2]];
+    assert.equal(groupOrderIssues(unit).length, 1);
+    unit.classes[2].name = "UnknownOperationTests";
+    assert.equal(groupOrderIssues(unit).length, 1);
+});
+
+test("tuple ordering ignores local fixture groups and helpers but rejects misplaced API groups", () => {
+    const unit = {
+        file: path.join(root, "LongTupleTest.java"),
+        classes: [
+            { name: "LongTupleTest", owner: "LongTupleTest", parent: null, annotations: [] },
+            { name: "AverageTests", parent: "LongTupleTest", annotations: ["@Nested"] },
+            { name: "RoundingTests", parent: "LongTupleTest.AverageTests", annotations: ["@Nested"] },
+            { name: "Helper", parent: "LongTupleTest", annotations: [] },
+            { name: "MedianTests", parent: "LongTupleTest", annotations: ["@Nested"] }
+        ]
+    };
+    assert.deepEqual(groupOrderIssues(unit), []);
+    [unit.classes[1], unit.classes[4]] = [unit.classes[4], unit.classes[1]];
+    assert.equal(groupOrderIssues(unit).length, 1);
+    unit.file = path.join(root, "UnrelatedTest.java");
+    assert.deepEqual(groupOrderIssues(unit), []);
 });

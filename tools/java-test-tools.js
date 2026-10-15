@@ -82,4 +82,36 @@ function hasAssertion(method, seen = new Set()) {
     });
 }
 
-module.exports = { root, testRoot, javaFiles, relative, indexFiles, testMethods, location, contextKey, duplicateGroups, hasAssertion };
+const tupleGroupOrder = [
+    "OfTests", "FromTests", "ArityTests", "ElementsTests", "MinTests", "MaxTests", "SumTests", "AverageTests",
+    "MedianTests", "LowerMedianTests", "ReversedTests", "ContainsTests", "ToArrayTests", "ToListTests", "ForEachTests",
+    "StreamTests", "AcceptTests", "MapTests", "FilterTests", "ToOptionalTests", "HashCodeTests", "EqualsTests",
+    "ToStringTests", "TypeHierarchyTests", "ContractTests"
+];
+
+const arrayGroupOrders = {
+    ArraysStructureTest: ["TotalElementCountTests", "MinRowLengthTests", "MaxRowLengthTests"],
+    ArraysMappingTest: ["MapTests", "MapToObjTests", "MapToBooleanTests", "MapToCharTests", "MapToByteTests", "MapToShortTests",
+        "MapToIntTests", "MapToLongTests", "MapToFloatTests", "MapToDoubleTests", "MappingContractTests"],
+    ArraysConversionTest: ["ToBooleanTests", "ToCharTests", "ToByteTests", "ToShortTests", "ToIntTests", "ToLongTests",
+        "ToFloatTests", "ToDoubleTests", "ConversionContractTests"],
+    ArraysShapeTest: ["ReshapeTests", "FlattenTests", "ShapeContractTests"],
+    ArraysMutationTest: ["UpdateAllTests", "ReplaceIfTests", "MutateViaFlatArrayTests"],
+    ArraysZipTest: ["ZipTests"],
+    ArraysPrintlnTest: ["PrintlnTests"],
+    ArraysContractTest: ["CrossOperationContractTests"]
+};
+
+function groupOrderIssues(unit) {
+    const name = path.basename(unit.file, ".java");
+    const order = /^(?:Boolean|Byte|Char|Short|Int|Long|Float|Double|Primitive)TupleTest$/.test(name)
+        ? tupleGroupOrder : arrayGroupOrders[name];
+    if (!order || !unit.classes.length) return [];
+    const outer = unit.classes[0].owner;
+    const groups = unit.classes.filter(c => c.parent === outer && c.annotations.includes("@Nested"));
+    const ranks = groups.map(c => order.indexOf(c.name));
+    return ranks.some((rank, i) => rank < 0 || i > 0 && rank < ranks[i - 1])
+        ? [{ file: relative(unit.file), rule: "Keep API groups in the shared order documented in src/test/README.md" }] : [];
+}
+
+module.exports = { root, testRoot, javaFiles, relative, indexFiles, testMethods, location, contextKey, duplicateGroups, hasAssertion, groupOrderIssues };

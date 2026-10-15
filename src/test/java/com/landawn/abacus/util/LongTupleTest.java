@@ -451,99 +451,24 @@ class LongTupleTest {
     @Nested
     class ArityTests {
 
-        @Test
-        void arity_returnsElementCount() {
-            assertEquals(0, LongTuple.from(new long[0]).arity());
-            assertEquals(1, LongTuple.of(1L).arity());
-            assertEquals(2, LongTuple.of(1L, 2L).arity());
-            assertEquals(3, LongTuple.of(1L, 2L, 3L).arity());
-            assertEquals(4, LongTuple.of(1L, 2L, 3L, 4L).arity());
-            assertEquals(5, LongTuple.of(1L, 2L, 3L, 4L, 5L).arity());
-            assertEquals(6, LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L).arity());
-            assertEquals(7, LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L).arity());
-            assertEquals(8, LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L).arity());
-            assertEquals(9, LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L).arity());
+        @ParameterizedTest(name = "{0}")
+        @MethodSource("arityCases")
+        void arity_inputCases_returnsElementCount(String scenario, LongTuple<?> tuple, int expected) {
+            assertEquals(expected, tuple.arity(), scenario);
         }
 
-        @Test
-        void arity0() {
-            LongTuple<?> empty = LongTuple.from(null);
-            assertEquals(0, empty.arity());
+        private static java.util.stream.Stream<Arguments> arityCases() {
+            return java.util.stream.Stream.of(Arguments.of("from(null)", LongTuple.from(null), 0),
+                    Arguments.of("from(new long[0])", LongTuple.from(new long[0]), 0), Arguments.of("of(1L)", LongTuple.of(1L), 1),
+                    Arguments.of("of(1L, 2L)", LongTuple.of(1L, 2L), 2), Arguments.of("of(1L, 2L, 3L)", LongTuple.of(1L, 2L, 3L), 3),
+                    Arguments.of("of(1L, 2L, 3L, 4L)", LongTuple.of(1L, 2L, 3L, 4L), 4),
+                    Arguments.of("of(1L, 2L, 3L, 4L, 5L)", LongTuple.of(1L, 2L, 3L, 4L, 5L), 5),
+                    Arguments.of("of(1L, 2L, 3L, 4L, 5L, 6L)", LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L), 6),
+                    Arguments.of("of(1L, 2L, 3L, 4L, 5L, 6L, 7L)", LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L), 7),
+                    Arguments.of("of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L)", LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L), 8),
+                    Arguments.of("of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L)", LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L), 9));
         }
 
-        @Test
-        void arity0_arity() {
-            LongTuple0 tuple = LongTuple.from(new long[0]);
-            assertEquals(0, tuple.arity());
-        }
-
-        @Test
-        void coverageRegression_highArityEqualsBranches() {
-            LongTuple.LongTuple4 tuple4 = LongTuple.of(1L, 2L, 3L, 4L);
-            assertTrue(tuple4.equals(tuple4));
-            assertTrue(tuple4.equals(LongTuple.of(1L, 2L, 3L, 4L)));
-            assertFalse(tuple4.equals(LongTuple.of(1L, 2L, 3L, 9L)));
-            assertFalse(tuple4.equals("tuple4"));
-
-            LongTuple.LongTuple5 tuple5 = LongTuple.of(1L, 2L, 3L, 4L, 5L);
-            assertTrue(tuple5.equals(tuple5));
-            assertTrue(tuple5.equals(LongTuple.of(1L, 2L, 3L, 4L, 5L)));
-            assertFalse(tuple5.equals(LongTuple.of(1L, 2L, 3L, 4L, 9L)));
-            assertFalse(tuple5.equals("tuple5"));
-
-            LongTuple.LongTuple6 tuple6 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
-            assertTrue(tuple6.equals(tuple6));
-            assertTrue(tuple6.equals(LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L)));
-            assertFalse(tuple6.equals(LongTuple.of(1L, 2L, 3L, 4L, 5L, 9L)));
-            assertFalse(tuple6.equals("tuple6"));
-
-            LongTuple.LongTuple7 tuple7 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
-            assertTrue(tuple7.equals(tuple7));
-            assertTrue(tuple7.equals(LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L)));
-            assertFalse(tuple7.equals(LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 9L)));
-            assertFalse(tuple7.equals("tuple7"));
-
-            LongTuple.LongTuple8 tuple8 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
-            assertTrue(tuple8.equals(tuple8));
-            assertTrue(tuple8.equals(LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L)));
-            assertFalse(tuple8.equals(LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 9L)));
-            assertFalse(tuple8.equals("tuple8"));
-
-            LongTuple.LongTuple9 tuple9 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
-            assertTrue(tuple9.equals(tuple9));
-            assertTrue(tuple9.equals(LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L)));
-            assertFalse(tuple9.equals(LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 0L)));
-            assertFalse(tuple9.equals("tuple9"));
-        }
-
-        @Test
-        void coverageRegression_highArityOperations() {
-            LongTuple.LongTuple4 tuple4 = LongTuple.of(9L, 1L, 7L, 3L);
-            assertEquals(1L, tuple4.min());
-            assertEquals(9L, tuple4.max());
-            assertEquals(3L, tuple4.lowerMedian());
-            assertEquals(20L, tuple4.sum());
-            assertEquals(5.0, tuple4.average().getAsDouble());
-            assertTrue(tuple4.contains(3L));
-
-            LongTuple.LongTuple5 tuple5 = LongTuple.of(1L, 2L, 3L, 4L, 5L);
-            assertTrue(tuple5.contains(5L));
-
-            LongTuple.LongTuple6 tuple6 = LongTuple.of(9L, 1L, 7L, 3L, 5L, 11L);
-            assertEquals(5L, tuple6.lowerMedian());
-            assertTrue(tuple6.contains(11L));
-
-            LongTuple.LongTuple7 tuple7 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
-            assertTrue(tuple7.contains(7L));
-
-            LongTuple.LongTuple8 tuple8 = LongTuple.of(9L, 1L, 7L, 3L, 5L, 11L, 13L, 15L);
-            assertEquals(7L, tuple8.lowerMedian());
-            assertTrue(tuple8.contains(15L));
-
-            LongTuple.LongTuple9 tuple9 = LongTuple.of(9L, 1L, 7L, 3L, 5L, 11L, 13L, 15L, 17L);
-            assertEquals(9L, tuple9.lowerMedian());
-            assertTrue(tuple9.contains(17L));
-        }
     }
 
     @Nested
@@ -1608,7 +1533,7 @@ class LongTupleTest {
     class ContainsTests {
 
         @ParameterizedTest(name = "arity {0}: contains checks every component")
-        @ValueSource(ints = { 1, 2, 3, 4, 5, 6, 7, 8, 9 })
+        @ValueSource(ints = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 })
         void contains_checksEveryComponentAndRejectsMissingValue(int arity) {
             long[] values = new long[arity];
             for (int i = 0; i < arity; i++) {
@@ -1621,261 +1546,38 @@ class LongTupleTest {
             assertFalse(tuple.contains(100));
         }
 
-        @Test
-        void arity0_contains() {
-            LongTuple0 tuple = LongTuple.from(new long[0]);
-            assertFalse(tuple.contains(1L));
+        @ParameterizedTest(name = "{0}")
+        @MethodSource("containsCases")
+        void contains_inputCases_matchExpectedMembership(String scenario, LongTuple<?> tuple, long[] present, long[] absent) {
+            for (long value : present) {
+                assertTrue(tuple.contains(value), scenario + ": expected to contain " + value);
+            }
+            for (long value : absent) {
+                assertFalse(tuple.contains(value), scenario + ": expected to exclude " + value);
+            }
         }
 
-        @Test
-        void arity1_contains() {
-            LongTuple.LongTuple1 tuple = LongTuple.of(1L);
-            assertTrue(tuple.contains(1L));
-        }
-
-        @Test
-        void arity1_contains_found() {
-            LongTuple1 tuple = LongTuple.of(5L);
-            assertTrue(tuple.contains(5L));
-        }
-
-        @Test
-        void arity1_contains_notFound() {
-            LongTuple1 tuple = LongTuple.of(5L);
-            assertFalse(tuple.contains(10L));
-        }
-
-        @Test
-        void arity2_contains() {
-            LongTuple.LongTuple2 tuple = LongTuple.of(1L, 2L);
-            assertTrue(tuple.contains(1L));
-        }
-
-        @Test
-        void arity2_contains_found() {
-            LongTuple2 tuple = LongTuple.of(1L, 2L);
-            assertTrue(tuple.contains(1L));
-            assertTrue(tuple.contains(2L));
-        }
-
-        @Test
-        void arity2_contains_notFound() {
-            LongTuple2 tuple = LongTuple.of(1L, 2L);
-            assertFalse(tuple.contains(3L));
-        }
-
-        @Test
-        void arity3_contains() {
-            LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-            assertTrue(tuple.contains(1L));
-        }
-
-        @Test
-        void arity3_contains_values_1L_2L_3L() {
-            LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-            assertTrue(tuple.contains(2L));
-            assertFalse(tuple.contains(5L));
-        }
-
-        @Test
-        void arity4_contains() {
-            LongTuple.LongTuple4 tuple = LongTuple.of(1L, 2L, 3L, 4L);
-            assertTrue(tuple.contains(1L));
-        }
-
-        @Test
-        void arity5_contains() {
-            LongTuple.LongTuple5 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L);
-            assertTrue(tuple.contains(1L));
-        }
-
-        @Test
-        void arity6_contains() {
-            LongTuple.LongTuple6 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
-            assertTrue(tuple.contains(1L));
-        }
-
-        @Test
-        void arity7_contains() {
-            LongTuple.LongTuple7 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
-            assertTrue(tuple.contains(1L));
-        }
-
-        @Test
-        void arity8_contains() {
-            LongTuple.LongTuple8 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
-            assertTrue(tuple.contains(1L));
-        }
-
-        @Test
-        void arity9_contains() {
-            LongTuple.LongTuple9 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
-            assertTrue(tuple.contains(1L));
-        }
-
-        @Test
-        void contains_empty() {
-            assertFalse(LongTuple.from(null).contains(10L));
-        }
-
-        @Test
-        void contains_findsPresentElements() {
-            // Test Tuple0
-            LongTuple.LongTuple0 empty = LongTuple.from(new long[0]);
-            assertFalse(empty.contains(100L));
-
-            // Test Tuple1
-            LongTuple.LongTuple1 tuple1 = LongTuple.of(100L);
-            assertTrue(tuple1.contains(100L));
-            assertFalse(tuple1.contains(200L));
-
-            // Test Tuple3
-            LongTuple.LongTuple3 tuple3 = LongTuple.of(100L, 200L, 300L);
-            assertTrue(tuple3.contains(100L));
-            assertTrue(tuple3.contains(200L));
-            assertTrue(tuple3.contains(300L));
-            assertFalse(tuple3.contains(400L));
-
-            // Test larger tuples
-            LongTuple.LongTuple7 tuple7 = LongTuple.of(100L, 200L, 300L, 400L, 500L, 600L, 700L);
-            assertTrue(tuple7.contains(700L));
-            assertFalse(tuple7.contains(800L));
-        }
-
-        @Test
-        void contains_findsPresentElements_values_10L_20L_30L() {
-            LongTuple3 tuple = LongTuple.of(10L, 20L, 30L);
-            assertTrue(tuple.contains(20L));
-            assertFalse(tuple.contains(40L));
-            assertTrue(tuple.contains(10L));
-            assertTrue(tuple.contains(30L));
-        }
-
-        @Test
-        void contains_higherArityTrailingElements() {
-            LongTuple.LongTuple7 tuple7 = LongTuple.of(100L, 200L, 300L, 400L, 500L, 600L, 700L);
-
-            assertTrue(tuple7.contains(700L));
-            assertFalse(tuple7.contains(800L));
-        }
-
-        @Test
-        void contains_single() {
-            LongTuple1 tuple = LongTuple.of(42L);
-            assertTrue(tuple.contains(42L));
-            assertFalse(tuple.contains(43L));
-        }
-
-        @Test
-        void contains_tuple1_found() {
-            LongTuple1 tuple = LongTuple.of(42L);
-            assertTrue(tuple.contains(42L));
-        }
-
-        @Test
-        void contains_tuple1_notFound() {
-            LongTuple1 tuple = LongTuple.of(42L);
-            assertFalse(tuple.contains(100L));
-        }
-
-        @Test
-        void contains_tuple2_found() {
-            LongTuple2 tuple = LongTuple.of(10L, 20L);
-            assertTrue(tuple.contains(20L));
-        }
-
-        @Test
-        void contains_tuple2_notFound() {
-            LongTuple2 tuple = LongTuple.of(10L, 20L);
-            assertFalse(tuple.contains(40L));
-        }
-
-        @Test
-        void contains_tuple3_found() {
-            LongTuple3 tuple = LongTuple.of(10L, 20L, 30L);
-            assertTrue(tuple.contains(20L));
-        }
-
-        @Test
-        void contains_tuple3_notFound() {
-            LongTuple3 tuple = LongTuple.of(10L, 20L, 30L);
-            assertFalse(tuple.contains(40L));
-        }
-
-        @Test
-        void contains_tuple4() {
-            LongTuple4 tuple = LongTuple.of(1L, 2L, 3L, 4L);
-            assertTrue(tuple.contains(1L));
-            assertTrue(tuple.contains(4L));
-            assertFalse(tuple.contains(5L));
-        }
-
-        @Test
-        void contains_tuple5() {
-            LongTuple5 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L);
-            assertTrue(tuple.contains(5L));
-            assertFalse(tuple.contains(10L));
-        }
-
-        @Test
-        void contains_tuple6() {
-            LongTuple6 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
-            assertTrue(tuple.contains(6L));
-            assertFalse(tuple.contains(7L));
-        }
-
-        @Test
-        void contains_tuple7() {
-            LongTuple7 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
-            assertTrue(tuple.contains(7L));
-            assertFalse(tuple.contains(8L));
-        }
-
-        @Test
-        void contains_tuple8() {
-            LongTuple8 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
-            assertTrue(tuple.contains(8L));
-            assertFalse(tuple.contains(9L));
-        }
-
-        @Test
-        void contains_tuple9() {
-            LongTuple9 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
-            assertTrue(tuple.contains(9L));
-            assertFalse(tuple.contains(10L));
-        }
-
-        @Test
-        void containsTuple0() {
-            LongTuple<LongTuple0> tuple = LongTuple.from(new long[0]);
-            assertFalse(tuple.contains(1L));
-        }
-
-        @Test
-        void containsTuple1False() {
-            LongTuple1 tuple = LongTuple.of(1L);
-            assertFalse(tuple.contains(99L));
-        }
-
-        @Test
-        void containsTuple1True() {
-            LongTuple1 tuple = LongTuple.of(1L);
-            assertTrue(tuple.contains(1L));
-        }
-
-        @Test
-        void containsTuple3() {
-            LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-            assertTrue(tuple.contains(1L));
-            assertTrue(tuple.contains(2L));
-            assertTrue(tuple.contains(3L));
-            assertFalse(tuple.contains(99L));
-        }
-
-        @Test
-        void tuple0_contains() {
-            LongTuple<?> tuple = LongTuple.from(null);
-            assertFalse(tuple.contains(1L));
+        private static java.util.stream.Stream<Arguments> containsCases() {
+            return java.util.stream.Stream.of(Arguments.of("from(new long[0])", LongTuple.from(new long[0]), new long[] {}, new long[] { 1L, 100L }),
+                    Arguments.of("from(null)", LongTuple.from(null), new long[] {}, new long[] { 10L, 1L }),
+                    Arguments.of("of(100L)", LongTuple.of(100L), new long[] { 100L }, new long[] { 200L }),
+                    Arguments.of("of(1L)", LongTuple.of(1L), new long[] { 1L }, new long[] { 99L }),
+                    Arguments.of("of(42L)", LongTuple.of(42L), new long[] { 42L }, new long[] { 43L, 100L }),
+                    Arguments.of("of(5L)", LongTuple.of(5L), new long[] { 5L }, new long[] { 10L }),
+                    Arguments.of("of(10L, 20L)", LongTuple.of(10L, 20L), new long[] { 20L }, new long[] { 40L }),
+                    Arguments.of("of(1L, 2L)", LongTuple.of(1L, 2L), new long[] { 1L, 2L }, new long[] { 3L }),
+                    Arguments.of("of(100L, 200L, 300L)", LongTuple.of(100L, 200L, 300L), new long[] { 100L, 200L, 300L }, new long[] { 400L }),
+                    Arguments.of("of(10L, 20L, 30L)", LongTuple.of(10L, 20L, 30L), new long[] { 20L, 10L, 30L }, new long[] { 40L }),
+                    Arguments.of("of(1L, 2L, 3L)", LongTuple.of(1L, 2L, 3L), new long[] { 1L, 2L, 3L }, new long[] { 5L, 99L }),
+                    Arguments.of("of(1L, 2L, 3L, 4L)", LongTuple.of(1L, 2L, 3L, 4L), new long[] { 1L, 4L }, new long[] { 5L }),
+                    Arguments.of("of(1L, 2L, 3L, 4L, 5L)", LongTuple.of(1L, 2L, 3L, 4L, 5L), new long[] { 1L, 5L }, new long[] { 10L }),
+                    Arguments.of("of(1L, 2L, 3L, 4L, 5L, 6L)", LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L), new long[] { 1L, 6L }, new long[] { 7L }),
+                    Arguments.of("of(100L, 200L, 300L, 400L, 500L, 600L, 700L)", LongTuple.of(100L, 200L, 300L, 400L, 500L, 600L, 700L), new long[] { 700L },
+                            new long[] { 800L }),
+                    Arguments.of("of(1L, 2L, 3L, 4L, 5L, 6L, 7L)", LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L), new long[] { 1L, 7L }, new long[] { 8L }),
+                    Arguments.of("of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L)", LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L), new long[] { 1L, 8L }, new long[] { 9L }),
+                    Arguments.of("of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L)", LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L), new long[] { 1L, 9L },
+                            new long[] { 10L }));
         }
     }
 
@@ -2976,9 +2678,9 @@ class LongTupleTest {
     @Nested
     class EqualsTests {
 
-        @ParameterizedTest(name = "arity {0}: equality checks every component")
+        @ParameterizedTest(name = "arity {0}: equality value contract")
         @ValueSource(ints = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 })
-        void equals_rejectsEverySingleComponentDifference(int arity) {
+        void equals_allArities_obeysValueContract(int arity) {
             long[] values = new long[arity];
             for (int i = 0; i < arity; i++) {
                 values[i] = i + 1;
@@ -2990,6 +2692,10 @@ class LongTupleTest {
             assertTrue(tuple.equals(tuple));
             assertTrue(tuple.equals(equal));
             assertTrue(equal.equals(tuple));
+            LongTuple<?> third = arity == 0 ? new LongTuple.LongTuple0() : LongTuple.from(values.clone());
+            assertNotSame(equal, third);
+            assertTrue(equal.equals(third));
+            assertTrue(tuple.equals(third), "equality must be transitive");
             assertEquals(tuple.hashCode(), equal.hashCode());
             assertFalse(tuple.equals(null));
             assertFalse(tuple.equals(new Object()));
@@ -3001,108 +2707,27 @@ class LongTupleTest {
                 assertFalse(tuple.equals(different), "component " + i);
                 assertFalse(different.equals(tuple), "component " + i);
             }
+
+            for (int otherArity = 0; otherArity <= 9; otherArity++) {
+                if (otherArity != arity) {
+                    LongTuple<?> differentArity = LongTuple.from(java.util.Arrays.copyOf(values, otherArity));
+                    assertFalse(tuple.equals(differentArity), "different arity " + otherArity);
+                    assertFalse(differentArity.equals(tuple), "reverse comparison with arity " + otherArity);
+                }
+            }
         }
 
-        @Test
-        void arity1_equals() {
-            LongTuple.LongTuple1 tuple1 = LongTuple.of(1L);
-            LongTuple.LongTuple1 tuple2 = LongTuple.of(1L);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity1_equals_differentType() {
-            LongTuple1 tuple = LongTuple.of(5L);
-            assertNotEquals("string", tuple);
-        }
-
-        @Test
-        void arity1_equals_equal() {
-            LongTuple1 tuple1 = LongTuple.of(5L);
-            LongTuple1 tuple2 = LongTuple.of(5L);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity1_equals_notEqual() {
-            LongTuple1 tuple1 = LongTuple.of(5L);
-            LongTuple1 tuple2 = LongTuple.of(10L);
-            assertNotEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity1_equals_null() {
-            LongTuple1 tuple = LongTuple.of(5L);
-            assertNotEquals(null, tuple);
-        }
-
-        @Test
-        void arity1_equals_same() {
-            LongTuple1 tuple = LongTuple.of(5L);
-            assertTrue(tuple.equals(tuple));
-        }
-
-        @Test
-        void arity2_equals() {
-            LongTuple.LongTuple2 tuple1 = LongTuple.of(1L, 2L);
-            LongTuple.LongTuple2 tuple2 = LongTuple.of(1L, 2L);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity2_equals_values_1L_2L() {
-            LongTuple2 tuple1 = LongTuple.of(1L, 2L);
-            LongTuple2 tuple2 = LongTuple.of(1L, 2L);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity3_equals() {
-            LongTuple.LongTuple3 tuple1 = LongTuple.of(1L, 2L, 3L);
-            LongTuple.LongTuple3 tuple2 = LongTuple.of(1L, 2L, 3L);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity4_equals() {
-            LongTuple.LongTuple4 tuple1 = LongTuple.of(1L, 2L, 3L, 4L);
-            LongTuple.LongTuple4 tuple2 = LongTuple.of(1L, 2L, 3L, 4L);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity5_equals() {
-            LongTuple.LongTuple5 tuple1 = LongTuple.of(1L, 2L, 3L, 4L, 5L);
-            LongTuple.LongTuple5 tuple2 = LongTuple.of(1L, 2L, 3L, 4L, 5L);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity6_equals() {
-            LongTuple.LongTuple6 tuple1 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
-            LongTuple.LongTuple6 tuple2 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity7_equals() {
-            LongTuple.LongTuple7 tuple1 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
-            LongTuple.LongTuple7 tuple2 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity8_equals() {
-            LongTuple.LongTuple8 tuple1 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
-            LongTuple.LongTuple8 tuple2 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity9_equals() {
-            LongTuple.LongTuple9 tuple1 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
-            LongTuple.LongTuple9 tuple2 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
-            assertEquals(tuple1, tuple2);
+        @ParameterizedTest(name = "{0}")
+        @MethodSource("equalityCases")
+        void equals_inputCases_comparesValuesAndTypes(String scenario, LongTuple<?> tuple, Object other, boolean expected) {
+            assertTrue(tuple.equals(tuple), scenario + ": reflexivity");
+            assertEquals(expected, tuple.equals(other), scenario + ": forward comparison");
+            if (other != null) {
+                assertEquals(expected, other.equals(tuple), scenario + ": reverse comparison");
+            }
+            if (expected) {
+                assertEquals(tuple.hashCode(), other.hashCode(), scenario + ": equal values must have equal hashes");
+            }
         }
 
         @Test
@@ -3118,190 +2743,70 @@ class LongTupleTest {
             }
         }
 
-        @Test
-        void equals_comparesValues() {
-            LongTuple.LongTuple3 tuple1 = LongTuple.of(100L, 200L, 300L);
-            LongTuple.LongTuple3 tuple2 = LongTuple.of(100L, 200L, 300L);
-            LongTuple.LongTuple3 tuple3 = LongTuple.of(100L, 200L, 301L);
-            LongTuple.LongTuple2 tuple4 = LongTuple.of(100L, 200L);
-
-            assertTrue(tuple1.equals(tuple1));
-            assertTrue(tuple1.equals(tuple2));
-            assertFalse(tuple1.equals(tuple3));
-            assertFalse(tuple1.equals(tuple4));
-            assertFalse(tuple1.equals(null));
-            assertFalse(tuple1.equals("not a tuple"));
-
-            // Test specific equals for coverage
-            LongTuple.LongTuple1 single1 = LongTuple.of(100L);
-            LongTuple.LongTuple1 single2 = LongTuple.of(100L);
-            LongTuple.LongTuple1 single3 = LongTuple.of(200L);
-            assertTrue(single1.equals(single2));
-            assertFalse(single1.equals(single3));
-            assertFalse(single1.equals("not a tuple"));
-
-            LongTuple.LongTuple2 pair1 = LongTuple.of(100L, 200L);
-            LongTuple.LongTuple2 pair2 = LongTuple.of(100L, 200L);
-            LongTuple.LongTuple2 pair3 = LongTuple.of(100L, 201L);
-            assertTrue(pair1.equals(pair2));
-            assertFalse(pair1.equals(pair3));
-        }
-
-        @Test
-        void equals_comparesValues_values_1L_2L_3L() {
-            LongTuple3 tuple1 = LongTuple.of(1L, 2L, 3L);
-            LongTuple3 tuple2 = LongTuple.of(1L, 2L, 3L);
-            LongTuple3 tuple3 = LongTuple.of(1L, 2L, 4L);
-
-            assertEquals(tuple1, tuple2);
-            assertNotEquals(tuple1, tuple3);
-            assertTrue(tuple1.equals(tuple1));
-            assertNotEquals(tuple1, null);
-        }
-
-        @Test
-        void equals_differentClass() {
-            LongTuple2 tuple2 = LongTuple.of(1L, 2L);
-            LongTuple3 tuple3 = LongTuple.of(1L, 2L, 3L);
-            assertNotEquals(tuple2, tuple3);
-        }
-
-        @Test
-        void equals_empty() {
-            LongTuple<?> empty1 = LongTuple.from(null);
-            LongTuple<?> empty2 = LongTuple.from(new long[0]);
-            assertEquals(empty1, empty2);
-        }
-
-        @Test
-        void equals_higherArityIdentityAndTypeMismatch() {
-            LongTuple.LongTuple7 tuple7 = LongTuple.of(100L, 200L, 300L, 400L, 500L, 600L, 700L);
-
-            assertTrue(tuple7.equals(tuple7));
-            assertEquals(tuple7, LongTuple.of(100L, 200L, 300L, 400L, 500L, 600L, 700L));
-            assertNotEquals(tuple7, LongTuple.of(100L, 200L, 300L, 400L, 500L, 600L, 701L));
-            assertNotEquals(tuple7, "tuple");
-        }
-
-        @Test
-        void equals_symmetric() {
-            LongTuple3 tuple1 = LongTuple.of(1L, 2L, 3L);
-            LongTuple3 tuple2 = LongTuple.of(1L, 2L, 3L);
-            assertEquals(tuple1, tuple2);
-            assertEquals(tuple2, tuple1);
-        }
-
-        @Test
-        void equals_tuple1_different() {
-            LongTuple1 tuple1 = LongTuple.of(42L);
-            LongTuple1 tuple2 = LongTuple.of(100L);
-            assertNotEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equals_tuple1_null() {
-            LongTuple1 tuple = LongTuple.of(42L);
-            assertNotEquals(null, tuple);
-        }
-
-        @Test
-        void equals_tuple1_same() {
-            LongTuple1 tuple1 = LongTuple.of(42L);
-            LongTuple1 tuple2 = LongTuple.of(42L);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equals_tuple1_sameObject() {
-            LongTuple1 tuple = LongTuple.of(42L);
-            assertTrue(tuple.equals(tuple));
-        }
-
-        @Test
-        void equals_tuple2_different() {
-            LongTuple2 tuple1 = LongTuple.of(10L, 20L);
-            LongTuple2 tuple2 = LongTuple.of(10L, 30L);
-            assertNotEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equals_tuple2_same() {
-            LongTuple2 tuple1 = LongTuple.of(10L, 20L);
-            LongTuple2 tuple2 = LongTuple.of(10L, 20L);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equals_tuple3_different() {
-            LongTuple3 tuple1 = LongTuple.of(1L, 2L, 3L);
-            LongTuple3 tuple2 = LongTuple.of(1L, 2L, 4L);
-            assertNotEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equals_tuple3_same() {
-            LongTuple3 tuple1 = LongTuple.of(1L, 2L, 3L);
-            LongTuple3 tuple2 = LongTuple.of(1L, 2L, 3L);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equals_tuple4() {
-            LongTuple4 tuple1 = LongTuple.of(1L, 2L, 3L, 4L);
-            LongTuple4 tuple2 = LongTuple.of(1L, 2L, 3L, 4L);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equals_tuple5() {
-            LongTuple5 tuple1 = LongTuple.of(1L, 2L, 3L, 4L, 5L);
-            LongTuple5 tuple2 = LongTuple.of(1L, 2L, 3L, 4L, 5L);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equalsDifferentClass() {
-            LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-            assertNotEquals("not a tuple", tuple);
-        }
-
-        @Test
-        void equalsNull() {
-            LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-            assertNotEquals(null, tuple);
-        }
-
-        @Test
-        void equalsSameObject() {
-            LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-            assertTrue(tuple.equals(tuple));
-        }
-
-        @Test
-        void equalsTuple1() {
-            LongTuple1 tuple1 = LongTuple.of(1L);
-            LongTuple1 tuple2 = LongTuple.of(1L);
-            LongTuple1 tuple3 = LongTuple.of(99L);
-            assertEquals(tuple1, tuple2);
-            assertNotEquals(tuple1, tuple3);
-        }
-
-        @Test
-        void equalsTuple2() {
-            LongTuple2 tuple1 = LongTuple.of(1L, 2L);
-            LongTuple2 tuple2 = LongTuple.of(1L, 2L);
-            LongTuple2 tuple3 = LongTuple.of(1L, 3L);
-            assertEquals(tuple1, tuple2);
-            assertNotEquals(tuple1, tuple3);
-        }
-
-        @Test
-        void equalsTuple3() {
-            LongTuple3 tuple1 = LongTuple.of(1L, 2L, 3L);
-            LongTuple3 tuple2 = LongTuple.of(1L, 2L, 3L);
-            LongTuple3 tuple3 = LongTuple.of(1L, 2L, 4L);
-            assertEquals(tuple1, tuple2);
-            assertNotEquals(tuple1, tuple3);
+        private static java.util.stream.Stream<Arguments> equalityCases() {
+            return java.util.stream.Stream.of(Arguments.of("from(null) versus from(new long[0])", LongTuple.from(null), LongTuple.from(new long[0]), true),
+                    Arguments.of("of(100L) versus \"not a tuple\"", LongTuple.of(100L), "not a tuple", false),
+                    Arguments.of("of(100L) versus of(100L)", LongTuple.of(100L), LongTuple.of(100L), true),
+                    Arguments.of("of(100L) versus of(200L)", LongTuple.of(100L), LongTuple.of(200L), false),
+                    Arguments.of("of(1L) versus of(1L)", LongTuple.of(1L), LongTuple.of(1L), true),
+                    Arguments.of("of(1L) versus of(99L)", LongTuple.of(1L), LongTuple.of(99L), false),
+                    Arguments.of("of(42L) versus of(100L)", LongTuple.of(42L), LongTuple.of(100L), false),
+                    Arguments.of("of(42L) versus of(42L)", LongTuple.of(42L), LongTuple.of(42L), true),
+                    Arguments.of("of(42L) versus null", LongTuple.of(42L), null, false),
+                    Arguments.of("of(5L) versus \"string\"", LongTuple.of(5L), "string", false),
+                    Arguments.of("of(5L) versus of(10L)", LongTuple.of(5L), LongTuple.of(10L), false),
+                    Arguments.of("of(5L) versus of(5L)", LongTuple.of(5L), LongTuple.of(5L), true),
+                    Arguments.of("of(5L) versus null", LongTuple.of(5L), null, false),
+                    Arguments.of("of(100L, 200L) versus of(100L, 200L)", LongTuple.of(100L, 200L), LongTuple.of(100L, 200L), true),
+                    Arguments.of("of(100L, 200L) versus of(100L, 201L)", LongTuple.of(100L, 200L), LongTuple.of(100L, 201L), false),
+                    Arguments.of("of(10L, 20L) versus of(10L, 20L)", LongTuple.of(10L, 20L), LongTuple.of(10L, 20L), true),
+                    Arguments.of("of(10L, 20L) versus of(10L, 30L)", LongTuple.of(10L, 20L), LongTuple.of(10L, 30L), false),
+                    Arguments.of("of(1L, 2L) versus of(1L, 2L, 3L)", LongTuple.of(1L, 2L), LongTuple.of(1L, 2L, 3L), false),
+                    Arguments.of("of(1L, 2L) versus of(1L, 2L)", LongTuple.of(1L, 2L), LongTuple.of(1L, 2L), true),
+                    Arguments.of("of(1L, 2L) versus of(1L, 3L)", LongTuple.of(1L, 2L), LongTuple.of(1L, 3L), false),
+                    Arguments.of("of(100L, 200L, 300L) versus \"not a tuple\"", LongTuple.of(100L, 200L, 300L), "not a tuple", false),
+                    Arguments.of("of(100L, 200L, 300L) versus of(100L, 200L, 300L)", LongTuple.of(100L, 200L, 300L), LongTuple.of(100L, 200L, 300L), true),
+                    Arguments.of("of(100L, 200L, 300L) versus of(100L, 200L, 301L)", LongTuple.of(100L, 200L, 300L), LongTuple.of(100L, 200L, 301L), false),
+                    Arguments.of("of(100L, 200L, 300L) versus of(100L, 200L)", LongTuple.of(100L, 200L, 300L), LongTuple.of(100L, 200L), false),
+                    Arguments.of("of(100L, 200L, 300L) versus null", LongTuple.of(100L, 200L, 300L), null, false),
+                    Arguments.of("of(1L, 2L, 3L) versus \"not a tuple\"", LongTuple.of(1L, 2L, 3L), "not a tuple", false),
+                    Arguments.of("of(1L, 2L, 3L) versus of(1L, 2L, 3L)", LongTuple.of(1L, 2L, 3L), LongTuple.of(1L, 2L, 3L), true),
+                    Arguments.of("of(1L, 2L, 3L) versus of(1L, 2L, 4L)", LongTuple.of(1L, 2L, 3L), LongTuple.of(1L, 2L, 4L), false),
+                    Arguments.of("of(1L, 2L, 3L) versus null", LongTuple.of(1L, 2L, 3L), null, false),
+                    Arguments.of("of(1L, 2L, 3L, 4L) versus \"tuple4\"", LongTuple.of(1L, 2L, 3L, 4L), "tuple4", false),
+                    Arguments.of("of(1L, 2L, 3L, 4L) versus of(1L, 2L, 3L, 4L)", LongTuple.of(1L, 2L, 3L, 4L), LongTuple.of(1L, 2L, 3L, 4L), true),
+                    Arguments.of("of(1L, 2L, 3L, 4L) versus of(1L, 2L, 3L, 9L)", LongTuple.of(1L, 2L, 3L, 4L), LongTuple.of(1L, 2L, 3L, 9L), false),
+                    Arguments.of("of(1L, 2L, 3L, 4L, 5L) versus \"tuple5\"", LongTuple.of(1L, 2L, 3L, 4L, 5L), "tuple5", false),
+                    Arguments.of("of(1L, 2L, 3L, 4L, 5L) versus of(1L, 2L, 3L, 4L, 5L)", LongTuple.of(1L, 2L, 3L, 4L, 5L), LongTuple.of(1L, 2L, 3L, 4L, 5L),
+                            true),
+                    Arguments.of(
+                            "of(1L, 2L, 3L, 4L, 5L) versus of(1L, 2L, 3L, 4L, 9L)", LongTuple.of(1L, 2L, 3L, 4L, 5L), LongTuple.of(1L, 2L, 3L, 4L, 9L), false),
+                    Arguments.of("of(1L, 2L, 3L, 4L, 5L, 6L) versus \"tuple6\"", LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L), "tuple6", false),
+                    Arguments.of("of(1L, 2L, 3L, 4L, 5L, 6L) versus of(1L, 2L, 3L, 4L, 5L, 6L)", LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L),
+                            LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L), true),
+                    Arguments.of("of(1L, 2L, 3L, 4L, 5L, 6L) versus of(1L, 2L, 3L, 4L, 5L, 9L)", LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L),
+                            LongTuple.of(1L, 2L, 3L, 4L, 5L, 9L), false),
+                    Arguments.of("of(100L, 200L, 300L, 400L, 500L, 600L, 700L) versus \"tuple\"", LongTuple.of(100L, 200L, 300L, 400L, 500L, 600L, 700L),
+                            "tuple", false),
+                    Arguments.of("of(100L, 200L, 300L, 400L, 500L, 600L, 700L) versus of(100L, 200L, 300L, 400L, 500L, 600L, 700L)",
+                            LongTuple.of(100L, 200L, 300L, 400L, 500L, 600L, 700L), LongTuple.of(100L, 200L, 300L, 400L, 500L, 600L, 700L), true),
+                    Arguments.of("of(100L, 200L, 300L, 400L, 500L, 600L, 700L) versus of(100L, 200L, 300L, 400L, 500L, 600L, 701L)",
+                            LongTuple.of(100L, 200L, 300L, 400L, 500L, 600L, 700L), LongTuple.of(100L, 200L, 300L, 400L, 500L, 600L, 701L), false),
+                    Arguments.of("of(1L, 2L, 3L, 4L, 5L, 6L, 7L) versus \"tuple7\"", LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L), "tuple7", false),
+                    Arguments.of("of(1L, 2L, 3L, 4L, 5L, 6L, 7L) versus of(1L, 2L, 3L, 4L, 5L, 6L, 7L)", LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L),
+                            LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L), true),
+                    Arguments.of("of(1L, 2L, 3L, 4L, 5L, 6L, 7L) versus of(1L, 2L, 3L, 4L, 5L, 6L, 9L)", LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L),
+                            LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 9L), false),
+                    Arguments.of("of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L) versus \"tuple8\"", LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L), "tuple8", false),
+                    Arguments.of("of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L) versus of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L)", LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L),
+                            LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L), true),
+                    Arguments.of("of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L) versus of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 9L)", LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L),
+                            LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 9L), false),
+                    Arguments.of("of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L) versus \"tuple9\"", LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L), "tuple9", false),
+                    Arguments.of("of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L) versus of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 0L)",
+                            LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L), LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 0L), false),
+                    Arguments.of("of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L) versus of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L)",
+                            LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L), LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L), true));
         }
     }
 
@@ -3551,47 +3056,36 @@ class LongTupleTest {
             assertEquals(2.0, triple.average().getAsDouble(), 0.001);
         }
 
-        @Test
-        void coverageRegression_defaultConstructorsAndCachedArrays() {
-            LongTuple.LongTuple1 tuple1 = new LongTuple.LongTuple1();
-            assertArrayEquals(new long[] { 0L }, tuple1.toArray());
-            assertArrayEquals(new long[] { 0L }, tuple1.toArray());
+        @ParameterizedTest(name = "arity {0}: default exports are detached")
+        @ValueSource(ints = { 1, 2, 3, 4, 5, 6, 7, 8, 9 })
+        void defaultConstructors_exportDefaultValuesInIndependentArrays(int arity) {
+            LongTuple<?> tuple = switch (arity) {
+                case 1 -> new LongTuple.LongTuple1();
+                case 2 -> new LongTuple.LongTuple2();
+                case 3 -> new LongTuple.LongTuple3();
+                case 4 -> new LongTuple.LongTuple4();
+                case 5 -> new LongTuple.LongTuple5();
+                case 6 -> new LongTuple.LongTuple6();
+                case 7 -> new LongTuple.LongTuple7();
+                case 8 -> new LongTuple.LongTuple8();
+                case 9 -> new LongTuple.LongTuple9();
+                default -> throw new IllegalArgumentException("Unsupported tuple arity: " + arity);
+            };
+            long[] expected = new long[arity];
+            long[] first = tuple.toArray();
+            long[] second = tuple.toArray();
 
-            LongTuple.LongTuple2 tuple2 = new LongTuple.LongTuple2();
-            assertArrayEquals(new long[] { 0L, 0L }, tuple2.toArray());
-            assertArrayEquals(new long[] { 0L, 0L }, tuple2.toArray());
-
-            LongTuple.LongTuple3 tuple3 = new LongTuple.LongTuple3();
-            assertArrayEquals(new long[] { 0L, 0L, 0L }, tuple3.toArray());
-            assertArrayEquals(new long[] { 0L, 0L, 0L }, tuple3.toArray());
-
-            LongTuple.LongTuple4 tuple4 = new LongTuple.LongTuple4();
-            assertArrayEquals(new long[] { 0L, 0L, 0L, 0L }, tuple4.toArray());
-            assertArrayEquals(new long[] { 0L, 0L, 0L, 0L }, tuple4.toArray());
-
-            LongTuple.LongTuple5 tuple5 = new LongTuple.LongTuple5();
-            assertArrayEquals(new long[] { 0L, 0L, 0L, 0L, 0L }, tuple5.toArray());
-            assertArrayEquals(new long[] { 0L, 0L, 0L, 0L, 0L }, tuple5.toArray());
-
-            LongTuple.LongTuple6 tuple6 = new LongTuple.LongTuple6();
-            assertArrayEquals(new long[] { 0L, 0L, 0L, 0L, 0L, 0L }, tuple6.toArray());
-            assertArrayEquals(new long[] { 0L, 0L, 0L, 0L, 0L, 0L }, tuple6.toArray());
-
-            LongTuple.LongTuple7 tuple7 = new LongTuple.LongTuple7();
-            assertArrayEquals(new long[] { 0L, 0L, 0L, 0L, 0L, 0L, 0L }, tuple7.toArray());
-            assertArrayEquals(new long[] { 0L, 0L, 0L, 0L, 0L, 0L, 0L }, tuple7.toArray());
-
-            LongTuple.LongTuple8 tuple8 = new LongTuple.LongTuple8();
-            assertArrayEquals(new long[] { 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L }, tuple8.toArray());
-            assertArrayEquals(new long[] { 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L }, tuple8.toArray());
-
-            LongTuple.LongTuple9 tuple9 = new LongTuple.LongTuple9();
-            assertArrayEquals(new long[] { 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L }, tuple9.toArray());
-            assertArrayEquals(new long[] { 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L }, tuple9.toArray());
+            assertEquals(arity, tuple.arity());
+            assertArrayEquals(expected, first);
+            assertArrayEquals(expected, second);
+            assertNotSame(first, second);
+            first[0] = 1;
+            assertArrayEquals(expected, second, "each export must have independent storage");
+            assertArrayEquals(expected, tuple.toArray(), "mutating an export must not affect the tuple");
         }
 
         @Test
-        void coverageRegression_emptyTupleBaseMethods() {
+        void emptyTuple_operations_obeyEmptyValueContract() {
             LongTuple<?> empty = LongTuple.from((long[]) null);
             assertEquals(LongTuple.from(new long[0]), empty);
             assertFalse(empty.equals("long"));
@@ -3651,7 +3145,7 @@ class LongTupleTest {
         }
 
         @Test
-        void largerArities_branchCoverage() {
+        void highArity_aggregatesAndExports_preserveValues() {
             final LongTuple4 tuple4 = LongTuple.of(1L, 2L, 3L, 4L);
             final LongTuple5 tuple5 = LongTuple.of(1L, 2L, 3L, 4L, 5L);
             final LongTuple6 tuple6 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
@@ -4004,6 +3498,35 @@ class LongTupleTest {
             assertEquals(0L, tuple.min());
             assertEquals(0L, tuple.max());
             assertEquals(0L, tuple.sum());
+        }
+
+        @Test
+        void highArity_aggregatesAndMembership_preserveValues() {
+            LongTuple.LongTuple4 tuple4 = LongTuple.of(9L, 1L, 7L, 3L);
+            assertEquals(1L, tuple4.min());
+            assertEquals(9L, tuple4.max());
+            assertEquals(3L, tuple4.lowerMedian());
+            assertEquals(20L, tuple4.sum());
+            assertEquals(5.0, tuple4.average().getAsDouble());
+            assertTrue(tuple4.contains(3L));
+
+            LongTuple.LongTuple5 tuple5 = LongTuple.of(1L, 2L, 3L, 4L, 5L);
+            assertTrue(tuple5.contains(5L));
+
+            LongTuple.LongTuple6 tuple6 = LongTuple.of(9L, 1L, 7L, 3L, 5L, 11L);
+            assertEquals(5L, tuple6.lowerMedian());
+            assertTrue(tuple6.contains(11L));
+
+            LongTuple.LongTuple7 tuple7 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
+            assertTrue(tuple7.contains(7L));
+
+            LongTuple.LongTuple8 tuple8 = LongTuple.of(9L, 1L, 7L, 3L, 5L, 11L, 13L, 15L);
+            assertEquals(7L, tuple8.lowerMedian());
+            assertTrue(tuple8.contains(15L));
+
+            LongTuple.LongTuple9 tuple9 = LongTuple.of(9L, 1L, 7L, 3L, 5L, 11L, 13L, 15L, 17L);
+            assertEquals(9L, tuple9.lowerMedian());
+            assertTrue(tuple9.contains(17L));
         }
     }
 }

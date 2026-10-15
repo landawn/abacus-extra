@@ -1634,7 +1634,7 @@ class ArraysConversionTest {
 
         @Test
         void classJavadoc_toFloat() {
-            // Line 107: int[] integers = {1, 2, 3, 4}; => toFloat => {1.0f, 2.0f, 3.0f, 4.0f}
+            // int[] integers = {1, 2, 3, 4}; => toFloat => {1.0f, 2.0f, 3.0f, 4.0f}
             int[] integers = { 1, 2, 3, 4 };
             float[] floats = Arrays.toFloat(integers);
             assertArrayEquals(new float[] { 1.0f, 2.0f, 3.0f, 4.0f }, floats);
@@ -1642,7 +1642,7 @@ class ArraysConversionTest {
 
         @Test
         void intToFloatConversion2D() {
-            // Line 13847-13849: toFloat({{1,2},{3,4}}) => {{1.0f,2.0f},{3.0f,4.0f}}
+            // toFloat({{1,2},{3,4}}) => {{1.0f,2.0f},{3.0f,4.0f}}
             int[][] source = { { 1, 2 }, { 3, 4 } };
             float[][] result = Arrays.toFloat(source);
             assertArrayEquals(new float[] { 1.0f, 2.0f }, result[0]);
@@ -2022,7 +2022,7 @@ class ArraysConversionTest {
 
         @Test
         void classJavadoc_toDouble() {
-            // Line 105-106: int[] integers = {1, 2, 3, 4}; => toDouble => {1.0, 2.0, 3.0, 4.0}
+            // int[] integers = {1, 2, 3, 4}; => toDouble => {1.0, 2.0, 3.0, 4.0}
             int[] integers = { 1, 2, 3, 4 };
             double[] doubles = Arrays.toDouble(integers);
             assertArrayEquals(new double[] { 1.0, 2.0, 3.0, 4.0 }, doubles);
@@ -2030,7 +2030,7 @@ class ArraysConversionTest {
 
         @Test
         void intToDoubleConversion2D() {
-            // Line 14195-14197: toDouble({{1,2},{3,4}}) => {{1.0,2.0},{3.0,4.0}}
+            // toDouble({{1,2},{3,4}}) => {{1.0,2.0},{3.0,4.0}}
             int[][] source = { { 1, 2 }, { 3, 4 } };
             double[][] result = Arrays.toDouble(source);
             assertArrayEquals(new double[] { 1.0, 2.0 }, result[0]);

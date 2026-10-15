@@ -384,168 +384,28 @@ class ByteTupleTest {
     @Nested
     class ArityTests {
 
-        @Test
-        void arity_returnsElementCount() {
-            assertEquals(0, ByteTuple.from(new byte[0]).arity());
-            assertEquals(1, ByteTuple.of((byte) 1).arity());
-            assertEquals(2, ByteTuple.of((byte) 1, (byte) 2).arity());
-            assertEquals(3, ByteTuple.of((byte) 1, (byte) 2, (byte) 3).arity());
-            assertEquals(4, ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4).arity());
-            assertEquals(5, ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5).arity());
-            assertEquals(6, ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6).arity());
-            assertEquals(7, ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7).arity());
-            assertEquals(8, ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8).arity());
-            assertEquals(9, ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9).arity());
+        @ParameterizedTest(name = "{0}")
+        @MethodSource("arityCases")
+        void arity_inputCases_returnsElementCount(String scenario, ByteTuple<?> tuple, int expected) {
+            assertEquals(expected, tuple.arity(), scenario);
         }
 
-        @Test
-        void coverageRegression_highArityEqualsBranches() {
-            ByteTuple.ByteTuple4 tuple4 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4);
-            assertTrue(tuple4.equals(tuple4));
-            assertTrue(tuple4.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4)));
-            assertFalse(tuple4.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 9)));
-            assertFalse(tuple4.equals("tuple4"));
-
-            ByteTuple.ByteTuple5 tuple5 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5);
-            assertTrue(tuple5.equals(tuple5));
-            assertTrue(tuple5.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5)));
-            assertFalse(tuple5.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 9)));
-            assertFalse(tuple5.equals("tuple5"));
-
-            ByteTuple.ByteTuple6 tuple6 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6);
-            assertTrue(tuple6.equals(tuple6));
-            assertTrue(tuple6.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6)));
-            assertFalse(tuple6.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 9)));
-            assertFalse(tuple6.equals("tuple6"));
-
-            ByteTuple.ByteTuple7 tuple7 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7);
-            assertTrue(tuple7.equals(tuple7));
-            assertTrue(tuple7.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7)));
-            assertFalse(tuple7.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 9)));
-            assertFalse(tuple7.equals("tuple7"));
-
-            ByteTuple.ByteTuple8 tuple8 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8);
-            assertTrue(tuple8.equals(tuple8));
-            assertTrue(tuple8.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8)));
-            assertFalse(tuple8.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 9)));
-            assertFalse(tuple8.equals("tuple8"));
-
-            ByteTuple.ByteTuple9 tuple9 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9);
-            assertTrue(tuple9.equals(tuple9));
-            assertTrue(tuple9.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9)));
-            assertFalse(tuple9.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 0)));
-            assertFalse(tuple9.equals("tuple9"));
+        private static java.util.stream.Stream<Arguments> arityCases() {
+            return java.util.stream.Stream.of(Arguments.of("from(new byte[0])", ByteTuple.from(new byte[0]), 0),
+                    Arguments.of("of((byte)1)", ByteTuple.of((byte) 1), 1), Arguments.of("of((byte)1, (byte)2)", ByteTuple.of((byte) 1, (byte) 2), 2),
+                    Arguments.of("of((byte)1, (byte)2, (byte)3)", ByteTuple.of((byte) 1, (byte) 2, (byte) 3), 3),
+                    Arguments.of("of((byte)1, (byte)2, (byte)3, (byte)4)", ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4), 4),
+                    Arguments.of("of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5)", ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5), 5),
+                    Arguments.of("of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6)",
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6), 6),
+                    Arguments.of("of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6, (byte)7)",
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7), 7),
+                    Arguments.of("of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6, (byte)7, (byte)8)",
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8), 8),
+                    Arguments.of("of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6, (byte)7, (byte)8, (byte)9)",
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9), 9));
         }
 
-        @Test
-        void coverageRegression_highArityOperations() {
-            ByteTuple.ByteTuple4 tuple4 = ByteTuple.of((byte) 9, (byte) 1, (byte) 7, (byte) 3);
-            assertEquals((byte) 1, tuple4.min());
-            assertEquals((byte) 9, tuple4.max());
-            assertEquals((byte) 3, tuple4.lowerMedian());
-            assertEquals(20, tuple4.sum());
-            assertEquals(5.0, tuple4.average().getAsDouble());
-            assertTrue(tuple4.contains((byte) 3));
-
-            ByteTuple.ByteTuple5 tuple5 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5);
-            assertTrue(tuple5.contains((byte) 5));
-
-            ByteTuple.ByteTuple6 tuple6 = ByteTuple.of((byte) 9, (byte) 1, (byte) 7, (byte) 3, (byte) 5, (byte) 11);
-            assertEquals((byte) 5, tuple6.lowerMedian());
-            assertTrue(tuple6.contains((byte) 11));
-
-            ByteTuple.ByteTuple7 tuple7 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7);
-            assertTrue(tuple7.contains((byte) 7));
-
-            ByteTuple.ByteTuple8 tuple8 = ByteTuple.of((byte) 9, (byte) 1, (byte) 7, (byte) 3, (byte) 5, (byte) 11, (byte) 13, (byte) 15);
-            assertEquals((byte) 7, tuple8.lowerMedian());
-            assertTrue(tuple8.contains((byte) 15));
-
-            ByteTuple.ByteTuple9 tuple9 = ByteTuple.of((byte) 9, (byte) 1, (byte) 7, (byte) 3, (byte) 5, (byte) 11, (byte) 13, (byte) 15, (byte) 17);
-            assertEquals((byte) 9, tuple9.lowerMedian());
-            assertTrue(tuple9.contains((byte) 17));
-        }
-
-        @Test
-        void largeArityContainsAndEqualsBranchesForCoverage() {
-            final ByteTuple4 tuple4 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4);
-            final ByteTuple5 tuple5 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5);
-            final ByteTuple6 tuple6 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6);
-            final ByteTuple7 tuple7 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7);
-            final ByteTuple8 tuple8 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8);
-            final ByteTuple9 tuple9 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9);
-
-            assertTrue(tuple4.contains((byte) 2));
-            assertTrue(tuple4.contains((byte) 3));
-            assertTrue(tuple4.contains((byte) 4));
-            assertFalse(tuple4.contains((byte) 99));
-            assertTrue(tuple5.contains((byte) 2));
-            assertTrue(tuple5.contains((byte) 3));
-            assertTrue(tuple5.contains((byte) 4));
-            assertTrue(tuple5.contains((byte) 5));
-            assertFalse(tuple5.contains((byte) 99));
-            assertTrue(tuple6.contains((byte) 2));
-            assertTrue(tuple6.contains((byte) 3));
-            assertTrue(tuple6.contains((byte) 4));
-            assertTrue(tuple6.contains((byte) 5));
-            assertTrue(tuple6.contains((byte) 6));
-            assertFalse(tuple6.contains((byte) 99));
-            assertTrue(tuple7.contains((byte) 2));
-            assertTrue(tuple7.contains((byte) 3));
-            assertTrue(tuple7.contains((byte) 4));
-            assertTrue(tuple7.contains((byte) 5));
-            assertTrue(tuple7.contains((byte) 6));
-            assertTrue(tuple7.contains((byte) 7));
-            assertFalse(tuple7.contains((byte) 99));
-            assertTrue(tuple8.contains((byte) 2));
-            assertTrue(tuple8.contains((byte) 3));
-            assertTrue(tuple8.contains((byte) 4));
-            assertTrue(tuple8.contains((byte) 5));
-            assertTrue(tuple8.contains((byte) 6));
-            assertTrue(tuple8.contains((byte) 7));
-            assertTrue(tuple8.contains((byte) 8));
-            assertFalse(tuple8.contains((byte) 99));
-            assertTrue(tuple9.contains((byte) 2));
-            assertTrue(tuple9.contains((byte) 3));
-            assertTrue(tuple9.contains((byte) 4));
-            assertTrue(tuple9.contains((byte) 5));
-            assertTrue(tuple9.contains((byte) 6));
-            assertTrue(tuple9.contains((byte) 7));
-            assertTrue(tuple9.contains((byte) 8));
-            assertTrue(tuple9.contains((byte) 9));
-            assertFalse(tuple9.contains((byte) 99));
-
-            assertTrue(tuple4.equals(tuple4));
-            assertFalse(tuple4.equals("not a tuple"));
-            assertFalse(tuple4.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 9)));
-            assertTrue(tuple5.equals(tuple5));
-            assertFalse(tuple5.equals("not a tuple"));
-            assertFalse(tuple5.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 9)));
-            assertTrue(tuple6.equals(tuple6));
-            assertFalse(tuple6.equals("not a tuple"));
-            assertFalse(tuple6.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 9)));
-            assertTrue(tuple7.equals(tuple7));
-            assertFalse(tuple7.equals("not a tuple"));
-            assertFalse(tuple7.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 9)));
-            assertTrue(tuple8.equals(tuple8));
-            assertFalse(tuple8.equals("not a tuple"));
-            assertFalse(tuple8.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 9)));
-            assertTrue(tuple9.equals(tuple9));
-            assertFalse(tuple9.equals("not a tuple"));
-            assertFalse(tuple9.equals(ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 0)));
-        }
-
-        @Test
-        void tuple0_arity() {
-            ByteTuple<?> tuple = ByteTuple.from(new byte[0]);
-            assertEquals(0, tuple.arity());
-        }
-
-        @Test
-        void tuple0_arity_values_ByteTuple_from() {
-            ByteTuple0 tuple = ByteTuple.from(new byte[0]);
-            assertEquals(0, tuple.arity());
-        }
     }
 
     @Nested
@@ -1334,7 +1194,7 @@ class ByteTupleTest {
     class ContainsTests {
 
         @ParameterizedTest(name = "arity {0}: contains checks every component")
-        @ValueSource(ints = { 1, 2, 3, 4, 5, 6, 7, 8, 9 })
+        @ValueSource(ints = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 })
         void contains_checksEveryComponentAndRejectsMissingValue(int arity) {
             byte[] values = new byte[arity];
             for (int i = 0; i < arity; i++) {
@@ -1347,216 +1207,50 @@ class ByteTupleTest {
             assertFalse(tuple.contains((byte) 100));
         }
 
-        @Test
-        void arity1_contains() {
-            ByteTuple.ByteTuple1 tuple = ByteTuple.of((byte) 1);
-            assertTrue(tuple.contains((byte) 1));
+        @ParameterizedTest(name = "{0}")
+        @MethodSource("containsCases")
+        void contains_inputCases_matchExpectedMembership(String scenario, ByteTuple<?> tuple, byte[] present, byte[] absent) {
+            for (byte value : present) {
+                assertTrue(tuple.contains(value), scenario + ": expected to contain " + value);
+            }
+            for (byte value : absent) {
+                assertFalse(tuple.contains(value), scenario + ": expected to exclude " + value);
+            }
         }
 
-        @Test
-        void arity2_contains() {
-            ByteTuple.ByteTuple2 tuple = ByteTuple.of((byte) 1, (byte) 2);
-            assertTrue(tuple.contains((byte) 1));
-        }
-
-        @Test
-        void arity3_contains() {
-            ByteTuple.ByteTuple3 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3);
-            assertTrue(tuple.contains((byte) 1));
-        }
-
-        @Test
-        void arity4_contains() {
-            ByteTuple.ByteTuple4 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4);
-            assertTrue(tuple.contains((byte) 1));
-        }
-
-        @Test
-        void arity5_contains() {
-            ByteTuple.ByteTuple5 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5);
-            assertTrue(tuple.contains((byte) 1));
-        }
-
-        @Test
-        void arity6_contains() {
-            ByteTuple.ByteTuple6 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6);
-            assertTrue(tuple.contains((byte) 1));
-        }
-
-        @Test
-        void arity7_contains() {
-            ByteTuple.ByteTuple7 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7);
-            assertTrue(tuple.contains((byte) 1));
-        }
-
-        @Test
-        void arity8_contains() {
-            ByteTuple.ByteTuple8 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8);
-            assertTrue(tuple.contains((byte) 1));
-        }
-
-        @Test
-        void arity9_contains() {
-            ByteTuple.ByteTuple9 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9);
-            assertTrue(tuple.contains((byte) 1));
-        }
-
-        @Test
-        void contains_findsPresentElements() {
-            // Test Tuple0
-            ByteTuple.ByteTuple0 empty = ByteTuple.from(new byte[0]);
-            assertFalse(empty.contains((byte) 10));
-
-            // Test Tuple1
-            ByteTuple.ByteTuple1 tuple1 = ByteTuple.of((byte) 10);
-            assertTrue(tuple1.contains((byte) 10));
-            assertFalse(tuple1.contains((byte) 20));
-
-            // Test Tuple3
-            ByteTuple.ByteTuple3 tuple3 = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-            assertTrue(tuple3.contains((byte) 10));
-            assertTrue(tuple3.contains((byte) 20));
-            assertTrue(tuple3.contains((byte) 30));
-            assertFalse(tuple3.contains((byte) 40));
-
-            // Test larger tuples
-            ByteTuple.ByteTuple7 tuple7 = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70);
-            assertTrue(tuple7.contains((byte) 70));
-            assertFalse(tuple7.contains((byte) 80));
-        }
-
-        @Test
-        void containsTuple0() {
-            ByteTuple<ByteTuple0> tuple = ByteTuple.from(new byte[0]);
-            assertFalse(tuple.contains((byte) 1));
-        }
-
-        @Test
-        void containsTuple1False() {
-            ByteTuple1 tuple = ByteTuple.of((byte) 1);
-            assertFalse(tuple.contains((byte) 99));
-        }
-
-        @Test
-        void containsTuple1True() {
-            ByteTuple1 tuple = ByteTuple.of((byte) 1);
-            assertTrue(tuple.contains((byte) 1));
-        }
-
-        @Test
-        void containsTuple3() {
-            ByteTuple3 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3);
-            assertTrue(tuple.contains((byte) 1));
-            assertTrue(tuple.contains((byte) 2));
-            assertTrue(tuple.contains((byte) 3));
-            assertFalse(tuple.contains((byte) 99));
-        }
-
-        @Test
-        void tuple0_contains_values_ByteTuple_from() {
-            ByteTuple0 tuple = ByteTuple.from(new byte[0]);
-            assertFalse(tuple.contains((byte) 10));
-            assertFalse(tuple.contains((byte) 20));
-        }
-
-        @Test
-        void tuple1_contains() {
-            ByteTuple1 tuple = ByteTuple.of((byte) 10);
-            assertTrue(tuple.contains((byte) 10));
-            assertFalse(tuple.contains((byte) 20));
-        }
-
-        @Test
-        void tuple1_contains_false() {
-            ByteTuple1 tuple = ByteTuple.of((byte) 10);
-            assertFalse(tuple.contains((byte) 20));
-        }
-
-        @Test
-        void tuple1_contains_true() {
-            ByteTuple1 tuple = ByteTuple.of((byte) 10);
-            assertTrue(tuple.contains((byte) 10));
-        }
-
-        @Test
-        void tuple2_contains() {
-            ByteTuple2 tuple = ByteTuple.of((byte) 10, (byte) 20);
-            assertTrue(tuple.contains((byte) 10));
-            assertTrue(tuple.contains((byte) 20));
-            assertFalse(tuple.contains((byte) 30));
-        }
-
-        @Test
-        void tuple2_contains_found() {
-            ByteTuple2 tuple = ByteTuple.of((byte) 10, (byte) 20);
-            assertTrue(tuple.contains((byte) 10));
-            assertTrue(tuple.contains((byte) 20));
-        }
-
-        @Test
-        void tuple2_contains_notFound() {
-            ByteTuple2 tuple = ByteTuple.of((byte) 10, (byte) 20);
-            assertFalse(tuple.contains((byte) 30));
-        }
-
-        @Test
-        void tuple3_contains() {
-            ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-            assertTrue(tuple.contains((byte) 10));
-            assertTrue(tuple.contains((byte) 20));
-            assertTrue(tuple.contains((byte) 30));
-            assertFalse(tuple.contains((byte) 40));
-        }
-
-        @Test
-        void tuple4_contains() {
-            ByteTuple4 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4);
-            assertTrue(tuple.contains((byte) 1));
-            assertTrue(tuple.contains((byte) 4));
-            assertFalse(tuple.contains((byte) 5));
-        }
-
-        @Test
-        void tuple5_contains() {
-            ByteTuple5 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5);
-            assertTrue(tuple.contains((byte) 5));
-            assertFalse(tuple.contains((byte) 6));
-        }
-
-        @Test
-        void tuple5_contains_values_10_20_30_40_50() {
-            ByteTuple5 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50);
-            assertTrue(tuple.contains((byte) 10));
-            assertTrue(tuple.contains((byte) 50));
-            assertFalse(tuple.contains((byte) 60));
-        }
-
-        @Test
-        void tuple6_contains() {
-            ByteTuple6 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6);
-            assertTrue(tuple.contains((byte) 6));
-            assertFalse(tuple.contains((byte) 7));
-        }
-
-        @Test
-        void tuple7_contains() {
-            ByteTuple7 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7);
-            assertTrue(tuple.contains((byte) 7));
-            assertFalse(tuple.contains((byte) 8));
-        }
-
-        @Test
-        void tuple8_contains() {
-            ByteTuple8 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8);
-            assertTrue(tuple.contains((byte) 8));
-            assertFalse(tuple.contains((byte) 9));
-        }
-
-        @Test
-        void tuple9_contains() {
-            ByteTuple9 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9);
-            assertTrue(tuple.contains((byte) 9));
-            assertFalse(tuple.contains((byte) 10));
+        private static java.util.stream.Stream<Arguments> containsCases() {
+            return java.util.stream.Stream.of(
+                    Arguments.of("from(new byte[0])", ByteTuple.from(new byte[0]), new byte[] {}, new byte[] { (byte) 10, (byte) 1, (byte) 20 }),
+                    Arguments.of("of((byte)1)", ByteTuple.of((byte) 1), new byte[] { (byte) 1 }, new byte[] { (byte) 99 }),
+                    Arguments.of("of((byte)10)", ByteTuple.of((byte) 10), new byte[] { (byte) 10 }, new byte[] { (byte) 20 }),
+                    Arguments.of("of((byte)1, (byte)2)", ByteTuple.of((byte) 1, (byte) 2), new byte[] { (byte) 1 }, new byte[] {}),
+                    Arguments.of("of((byte)10, (byte)20)", ByteTuple.of((byte) 10, (byte) 20), new byte[] { (byte) 10, (byte) 20 }, new byte[] { (byte) 30 }),
+                    Arguments.of("of((byte)1, (byte)2, (byte)3)", ByteTuple.of((byte) 1, (byte) 2, (byte) 3), new byte[] { (byte) 1, (byte) 2, (byte) 3 },
+                            new byte[] { (byte) 99 }),
+                    Arguments.of("of((byte)10, (byte)20, (byte)30)", ByteTuple.of((byte) 10, (byte) 20, (byte) 30),
+                            new byte[] { (byte) 10, (byte) 20, (byte) 30 }, new byte[] { (byte) 40 }),
+                    Arguments.of("of((byte)1, (byte)2, (byte)3, (byte)4)", ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4),
+                            new byte[] { (byte) 2, (byte) 3, (byte) 4, (byte) 1 }, new byte[] { (byte) 99, (byte) 5 }),
+                    Arguments.of("of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5)", ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5),
+                            new byte[] { (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 1 }, new byte[] { (byte) 99, (byte) 6 }),
+                    Arguments.of("of((byte)10, (byte)20, (byte)30, (byte)40, (byte)50)", ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50),
+                            new byte[] { (byte) 10, (byte) 50 }, new byte[] { (byte) 60 }),
+                    Arguments.of("of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6)",
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6),
+                            new byte[] { (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 1 }, new byte[] { (byte) 99, (byte) 7 }),
+                    Arguments.of("of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6, (byte)7)",
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7),
+                            new byte[] { (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 1 }, new byte[] { (byte) 99, (byte) 8 }),
+                    Arguments.of("of((byte)10, (byte)20, (byte)30, (byte)40, (byte)50, (byte)60, (byte)70)",
+                            ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70), new byte[] { (byte) 70 },
+                            new byte[] { (byte) 80 }),
+                    Arguments.of("of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6, (byte)7, (byte)8)",
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8),
+                            new byte[] { (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 1 }, new byte[] { (byte) 99, (byte) 9 }),
+                    Arguments.of("of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6, (byte)7, (byte)8, (byte)9)",
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9),
+                            new byte[] { (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9, (byte) 1 },
+                            new byte[] { (byte) 99, (byte) 10 }));
         }
     }
 
@@ -2630,9 +2324,9 @@ class ByteTupleTest {
     @Nested
     class EqualsTests {
 
-        @ParameterizedTest(name = "arity {0}: equality checks every component")
+        @ParameterizedTest(name = "arity {0}: equality value contract")
         @ValueSource(ints = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 })
-        void equals_rejectsEverySingleComponentDifference(int arity) {
+        void equals_allArities_obeysValueContract(int arity) {
             byte[] values = new byte[arity];
             for (int i = 0; i < arity; i++) {
                 values[i] = (byte) (i + 1);
@@ -2644,6 +2338,10 @@ class ByteTupleTest {
             assertTrue(tuple.equals(tuple));
             assertTrue(tuple.equals(equal));
             assertTrue(equal.equals(tuple));
+            ByteTuple<?> third = arity == 0 ? new ByteTuple.ByteTuple0() : ByteTuple.from(values.clone());
+            assertNotSame(equal, third);
+            assertTrue(equal.equals(third));
+            assertTrue(tuple.equals(third), "equality must be transitive");
             assertEquals(tuple.hashCode(), equal.hashCode());
             assertFalse(tuple.equals(null));
             assertFalse(tuple.equals(new Object()));
@@ -2655,69 +2353,27 @@ class ByteTupleTest {
                 assertFalse(tuple.equals(different), "component " + i);
                 assertFalse(different.equals(tuple), "component " + i);
             }
+
+            for (int otherArity = 0; otherArity <= 9; otherArity++) {
+                if (otherArity != arity) {
+                    ByteTuple<?> differentArity = ByteTuple.from(java.util.Arrays.copyOf(values, otherArity));
+                    assertFalse(tuple.equals(differentArity), "different arity " + otherArity);
+                    assertFalse(differentArity.equals(tuple), "reverse comparison with arity " + otherArity);
+                }
+            }
         }
 
-        @Test
-        void arity1_equals() {
-            ByteTuple.ByteTuple1 tuple1 = ByteTuple.of((byte) 1);
-            ByteTuple.ByteTuple1 tuple2 = ByteTuple.of((byte) 1);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity2_equals() {
-            ByteTuple.ByteTuple2 tuple1 = ByteTuple.of((byte) 1, (byte) 2);
-            ByteTuple.ByteTuple2 tuple2 = ByteTuple.of((byte) 1, (byte) 2);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity3_equals() {
-            ByteTuple.ByteTuple3 tuple1 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3);
-            ByteTuple.ByteTuple3 tuple2 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity4_equals() {
-            ByteTuple.ByteTuple4 tuple1 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4);
-            ByteTuple.ByteTuple4 tuple2 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity5_equals() {
-            ByteTuple.ByteTuple5 tuple1 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5);
-            ByteTuple.ByteTuple5 tuple2 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity6_equals() {
-            ByteTuple.ByteTuple6 tuple1 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6);
-            ByteTuple.ByteTuple6 tuple2 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity7_equals() {
-            ByteTuple.ByteTuple7 tuple1 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7);
-            ByteTuple.ByteTuple7 tuple2 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity8_equals() {
-            ByteTuple.ByteTuple8 tuple1 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8);
-            ByteTuple.ByteTuple8 tuple2 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity9_equals() {
-            ByteTuple.ByteTuple9 tuple1 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9);
-            ByteTuple.ByteTuple9 tuple2 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9);
-            assertEquals(tuple1, tuple2);
+        @ParameterizedTest(name = "{0}")
+        @MethodSource("equalityCases")
+        void equals_inputCases_comparesValuesAndTypes(String scenario, ByteTuple<?> tuple, Object other, boolean expected) {
+            assertTrue(tuple.equals(tuple), scenario + ": reflexivity");
+            assertEquals(expected, tuple.equals(other), scenario + ": forward comparison");
+            if (other != null) {
+                assertEquals(expected, other.equals(tuple), scenario + ": reverse comparison");
+            }
+            if (expected) {
+                assertEquals(tuple.hashCode(), other.hashCode(), scenario + ": equal values must have equal hashes");
+            }
         }
 
         @Test
@@ -2733,246 +2389,142 @@ class ByteTupleTest {
             }
         }
 
-        @Test
-        void equals_comparesValues() {
-            ByteTuple.ByteTuple3 tuple1 = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-            ByteTuple.ByteTuple3 tuple2 = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-            ByteTuple.ByteTuple3 tuple3 = ByteTuple.of((byte) 10, (byte) 20, (byte) 31);
-            ByteTuple.ByteTuple2 tuple4 = ByteTuple.of((byte) 10, (byte) 20);
-
-            assertTrue(tuple1.equals(tuple1));
-            assertTrue(tuple1.equals(tuple2));
-            assertFalse(tuple1.equals(tuple3));
-            assertFalse(tuple1.equals(tuple4));
-            assertFalse(tuple1.equals(null));
-            assertFalse(tuple1.equals("not a tuple"));
-
-            // Test specific equals for coverage
-            ByteTuple.ByteTuple1 single1 = ByteTuple.of((byte) 10);
-            ByteTuple.ByteTuple1 single2 = ByteTuple.of((byte) 10);
-            ByteTuple.ByteTuple1 single3 = ByteTuple.of((byte) 20);
-            assertTrue(single1.equals(single2));
-            assertFalse(single1.equals(single3));
-            assertFalse(single1.equals("not a tuple"));
-
-            ByteTuple.ByteTuple2 pair1 = ByteTuple.of((byte) 10, (byte) 20);
-            ByteTuple.ByteTuple2 pair2 = ByteTuple.of((byte) 10, (byte) 20);
-            ByteTuple.ByteTuple2 pair3 = ByteTuple.of((byte) 10, (byte) 21);
-            assertTrue(pair1.equals(pair2));
-            assertFalse(pair1.equals(pair3));
-        }
-
-        @Test
-        void equals_differentArity() {
-            ByteTuple1 tuple1 = ByteTuple.of((byte) 10);
-            ByteTuple2 tuple2 = ByteTuple.of((byte) 10, (byte) 20);
-            assertFalse(tuple1.equals(tuple2));
-        }
-
-        @Test
-        void equals_higherArityIdentityAndTypeMismatch() {
-            ByteTuple.ByteTuple7 tuple7 = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70);
-            ByteTuple.ByteTuple8 tuple8 = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80);
-            ByteTuple.ByteTuple9 tuple9 = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80, (byte) 90);
-
-            assertTrue(tuple7.equals(tuple7));
-            assertEquals(tuple7, ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70));
-            assertNotEquals(tuple7, ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 71));
-            assertNotEquals(tuple7, "tuple");
-
-            assertTrue(tuple8.equals(tuple8));
-            assertEquals(tuple8, ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80));
-            assertNotEquals(tuple8, ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 81));
-            assertNotEquals(tuple8, "tuple");
-
-            assertTrue(tuple9.equals(tuple9));
-            assertEquals(tuple9, ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80, (byte) 90));
-            assertNotEquals(tuple9, ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80, (byte) 91));
-            assertNotEquals(tuple9, "tuple");
-        }
-
-        @Test
-        void equals_symmetry() {
-            ByteTuple2 tuple1 = ByteTuple.of((byte) 10, (byte) 20);
-            ByteTuple2 tuple2 = ByteTuple.of((byte) 10, (byte) 20);
-            assertEquals(tuple1, tuple2);
-            assertEquals(tuple2, tuple1);
-        }
-
-        @Test
-        void equalsDifferentClass() {
-            ByteTuple3 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3);
-            assertNotEquals("not a tuple", tuple);
-        }
-
-        @Test
-        void equalsNull() {
-            ByteTuple3 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3);
-            assertNotEquals(null, tuple);
-        }
-
-        @Test
-        void equalsSameObject() {
-            ByteTuple3 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3);
-            assertTrue(tuple.equals(tuple));
-        }
-
-        @Test
-        void equalsTuple1() {
-            ByteTuple1 tuple1 = ByteTuple.of((byte) 1);
-            ByteTuple1 tuple2 = ByteTuple.of((byte) 1);
-            ByteTuple1 tuple3 = ByteTuple.of((byte) 99);
-            assertEquals(tuple1, tuple2);
-            assertNotEquals(tuple1, tuple3);
-        }
-
-        @Test
-        void equalsTuple2() {
-            ByteTuple2 tuple1 = ByteTuple.of((byte) 1, (byte) 2);
-            ByteTuple2 tuple2 = ByteTuple.of((byte) 1, (byte) 2);
-            ByteTuple2 tuple3 = ByteTuple.of((byte) 1, (byte) 3);
-            assertEquals(tuple1, tuple2);
-            assertNotEquals(tuple1, tuple3);
-        }
-
-        @Test
-        void equalsTuple3() {
-            ByteTuple3 tuple1 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3);
-            ByteTuple3 tuple2 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3);
-            ByteTuple3 tuple3 = ByteTuple.of((byte) 1, (byte) 2, (byte) 4);
-            assertEquals(tuple1, tuple2);
-            assertNotEquals(tuple1, tuple3);
-        }
-
-        @Test
-        void tuple_notEquals_differentType() {
-            ByteTuple1 tuple = ByteTuple.of((byte) 10);
-            assertNotEquals(tuple, "10");
-            assertNotEquals(tuple, 10);
-        }
-
-        @Test
-        void tuple_notEquals_null() {
-            ByteTuple1 tuple = ByteTuple.of((byte) 10);
-            assertNotEquals(tuple, null);
-            assertFalse(tuple.equals(null));
-        }
-
-        @Test
-        void tuple0_equals() {
-            ByteTuple0 tuple1 = ByteTuple.from(new byte[0]);
-            ByteTuple0 tuple2 = ByteTuple.from(new byte[0]);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void tuple1_equals() {
-            ByteTuple1 tuple1 = ByteTuple.of((byte) 10);
-            ByteTuple1 tuple2 = ByteTuple.of((byte) 10);
-            ByteTuple1 tuple3 = ByteTuple.of((byte) 20);
-
-            assertTrue(tuple1.equals(tuple1));
-            assertEquals(tuple1, tuple2);
-            assertNotEquals(tuple1, tuple3);
-            assertNotEquals(tuple1, null);
-            assertNotEquals(tuple1, "not a tuple");
-        }
-
-        @Test
-        void tuple1_equals_differentClass() {
-            ByteTuple1 tuple = ByteTuple.of((byte) 10);
-            assertFalse(tuple.equals("not a tuple"));
-        }
-
-        @Test
-        void tuple1_equals_equal() {
-            ByteTuple1 tuple1 = ByteTuple.of((byte) 10);
-            ByteTuple1 tuple2 = ByteTuple.of((byte) 10);
-            assertTrue(tuple1.equals(tuple2));
-            assertTrue(tuple2.equals(tuple1));
-        }
-
-        @Test
-        void tuple1_equals_notEqual() {
-            ByteTuple1 tuple1 = ByteTuple.of((byte) 10);
-            ByteTuple1 tuple2 = ByteTuple.of((byte) 20);
-            assertFalse(tuple1.equals(tuple2));
-        }
-
-        @Test
-        void tuple1_equals_null() {
-            ByteTuple1 tuple = ByteTuple.of((byte) 10);
-            assertFalse(tuple.equals(null));
-        }
-
-        @Test
-        void tuple1_equals_same() {
-            ByteTuple1 tuple = ByteTuple.of((byte) 10);
-            assertTrue(tuple.equals(tuple));
-        }
-
-        @Test
-        void tuple1_notEquals() {
-            ByteTuple1 tuple1 = ByteTuple.of((byte) 10);
-            ByteTuple1 tuple2 = ByteTuple.of((byte) 20);
-            assertNotEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void tuple2_equals() {
-            ByteTuple2 tuple1 = ByteTuple.of((byte) 10, (byte) 20);
-            ByteTuple2 tuple2 = ByteTuple.of((byte) 10, (byte) 20);
-            ByteTuple2 tuple3 = ByteTuple.of((byte) 20, (byte) 10);
-
-            assertTrue(tuple1.equals(tuple1));
-            assertEquals(tuple1, tuple2);
-            assertNotEquals(tuple1, tuple3);
-        }
-
-        @Test
-        void tuple2_equals_rejectsNullAndDifferentOrder() {
-            ByteTuple2 tuple1 = ByteTuple.of((byte) 10, (byte) 20);
-            ByteTuple2 tuple2 = ByteTuple.of((byte) 10, (byte) 20);
-            ByteTuple2 tuple3 = ByteTuple.of((byte) 20, (byte) 10);
-
-            assertTrue(tuple1.equals(tuple2));
-            assertFalse(tuple1.equals(tuple3));
-            assertFalse(tuple1.equals(null));
-        }
-
-        @Test
-        void tuple2_notEquals_different_values() {
-            ByteTuple2 tuple1 = ByteTuple.of((byte) 10, (byte) 20);
-            ByteTuple2 tuple2 = ByteTuple.of((byte) 20, (byte) 10);
-            assertNotEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void tuple2_notEquals_differentTuple() {
-            ByteTuple2 tuple2 = ByteTuple.of((byte) 10, (byte) 20);
-            ByteTuple3 tuple3 = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-            assertNotEquals(tuple2, tuple3);
-        }
-
-        @Test
-        void tuple3_equals() {
-            ByteTuple3 tuple1 = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-            ByteTuple3 tuple2 = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-            ByteTuple3 tuple3 = ByteTuple.of((byte) 30, (byte) 20, (byte) 10);
-
-            assertTrue(tuple1.equals(tuple1));
-            assertEquals(tuple1, tuple2);
-            assertNotEquals(tuple1, tuple3);
-        }
-
-        @Test
-        void tuple3_equals_lastFieldDiffers() {
-            ByteTuple3 tuple1 = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-            ByteTuple3 tuple2 = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-            ByteTuple3 tuple3 = ByteTuple.of((byte) 10, (byte) 20, (byte) 40);
-
-            assertTrue(tuple1.equals(tuple2));
-            assertFalse(tuple1.equals(tuple3));
+        private static java.util.stream.Stream<Arguments> equalityCases() {
+            return java.util.stream.Stream.of(
+                    Arguments.of("from(new byte[0]) versus from(new byte[0])", ByteTuple.from(new byte[0]), ByteTuple.from(new byte[0]), true),
+                    Arguments.of("of((byte)1) versus of((byte)1)", ByteTuple.of((byte) 1), ByteTuple.of((byte) 1), true),
+                    Arguments.of("of((byte)1) versus of((byte)99)", ByteTuple.of((byte) 1), ByteTuple.of((byte) 99), false),
+                    Arguments.of("of((byte)10) versus \"10\"", ByteTuple.of((byte) 10), "10", false),
+                    Arguments.of("of((byte)10) versus \"not a tuple\"", ByteTuple.of((byte) 10), "not a tuple", false),
+                    Arguments.of("of((byte)10) versus 10", ByteTuple.of((byte) 10), 10, false),
+                    Arguments.of("of((byte)10) versus of((byte)10, (byte)20)", ByteTuple.of((byte) 10), ByteTuple.of((byte) 10, (byte) 20), false),
+                    Arguments.of("of((byte)10) versus of((byte)10)", ByteTuple.of((byte) 10), ByteTuple.of((byte) 10), true),
+                    Arguments.of("of((byte)10) versus of((byte)20)", ByteTuple.of((byte) 10), ByteTuple.of((byte) 20), false),
+                    Arguments.of("of((byte)10) versus null", ByteTuple.of((byte) 10), null, false),
+                    Arguments.of("of((byte)1, (byte)2) versus of((byte)1, (byte)2)", ByteTuple.of((byte) 1, (byte) 2), ByteTuple.of((byte) 1, (byte) 2), true),
+                    Arguments.of("of((byte)1, (byte)2) versus of((byte)1, (byte)3)", ByteTuple.of((byte) 1, (byte) 2), ByteTuple.of((byte) 1, (byte) 3), false),
+                    Arguments.of("of((byte)10, (byte)20) versus of((byte)10, (byte)20, (byte)30)", ByteTuple.of((byte) 10, (byte) 20),
+                            ByteTuple.of((byte) 10, (byte) 20, (byte) 30), false),
+                    Arguments.of("of((byte)10, (byte)20) versus of((byte)10, (byte)20)", ByteTuple.of((byte) 10, (byte) 20), ByteTuple.of((byte) 10, (byte) 20),
+                            true),
+                    Arguments.of("of((byte)10, (byte)20) versus of((byte)10, (byte)21)", ByteTuple.of((byte) 10, (byte) 20), ByteTuple.of((byte) 10, (byte) 21),
+                            false),
+                    Arguments.of("of((byte)10, (byte)20) versus of((byte)20, (byte)10)", ByteTuple.of((byte) 10, (byte) 20), ByteTuple.of((byte) 20, (byte) 10),
+                            false),
+                    Arguments.of("of((byte)10, (byte)20) versus null", ByteTuple.of((byte) 10, (byte) 20), null, false),
+                    Arguments.of("of((byte)1, (byte)2, (byte)3) versus \"not a tuple\"", ByteTuple.of((byte) 1, (byte) 2, (byte) 3), "not a tuple", false),
+                    Arguments.of("of((byte)1, (byte)2, (byte)3) versus of((byte)1, (byte)2, (byte)3)", ByteTuple.of((byte) 1, (byte) 2, (byte) 3),
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3), true),
+                    Arguments.of("of((byte)1, (byte)2, (byte)3) versus of((byte)1, (byte)2, (byte)4)", ByteTuple.of((byte) 1, (byte) 2, (byte) 3),
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 4), false),
+                    Arguments.of("of((byte)1, (byte)2, (byte)3) versus null", ByteTuple.of((byte) 1, (byte) 2, (byte) 3), null, false),
+                    Arguments.of("of((byte)10, (byte)20, (byte)30) versus \"not a tuple\"", ByteTuple.of((byte) 10, (byte) 20, (byte) 30), "not a tuple",
+                            false),
+                    Arguments.of("of((byte)10, (byte)20, (byte)30) versus of((byte)10, (byte)20, (byte)30)", ByteTuple.of((byte) 10, (byte) 20, (byte) 30),
+                            ByteTuple.of((byte) 10, (byte) 20, (byte) 30), true),
+                    Arguments.of("of((byte)10, (byte)20, (byte)30) versus of((byte)10, (byte)20, (byte)31)", ByteTuple.of((byte) 10, (byte) 20, (byte) 30),
+                            ByteTuple.of((byte) 10, (byte) 20, (byte) 31), false),
+                    Arguments.of("of((byte)10, (byte)20, (byte)30) versus of((byte)10, (byte)20, (byte)40)", ByteTuple.of((byte) 10, (byte) 20, (byte) 30),
+                            ByteTuple.of((byte) 10, (byte) 20, (byte) 40), false),
+                    Arguments.of("of((byte)10, (byte)20, (byte)30) versus of((byte)10, (byte)20)", ByteTuple.of((byte) 10, (byte) 20, (byte) 30),
+                            ByteTuple.of((byte) 10, (byte) 20), false),
+                    Arguments.of("of((byte)10, (byte)20, (byte)30) versus of((byte)30, (byte)20, (byte)10)", ByteTuple.of((byte) 10, (byte) 20, (byte) 30),
+                            ByteTuple.of((byte) 30, (byte) 20, (byte) 10), false),
+                    Arguments.of("of((byte)10, (byte)20, (byte)30) versus null", ByteTuple.of((byte) 10, (byte) 20, (byte) 30), null, false),
+                    Arguments.of("of((byte)1, (byte)2, (byte)3, (byte)4) versus \"not a tuple\"", ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4),
+                            "not a tuple", false),
+                    Arguments.of("of((byte)1, (byte)2, (byte)3, (byte)4) versus \"tuple4\"", ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4), "tuple4",
+                            false),
+                    Arguments.of("of((byte)1, (byte)2, (byte)3, (byte)4) versus of((byte)1, (byte)2, (byte)3, (byte)4)",
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4), ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4), true),
+                    Arguments.of("of((byte)1, (byte)2, (byte)3, (byte)4) versus of((byte)1, (byte)2, (byte)3, (byte)9)",
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4), ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 9), false),
+                    Arguments.of("of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5) versus \"not a tuple\"",
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5), "not a tuple", false),
+                    Arguments.of("of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5) versus \"tuple5\"",
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5), "tuple5", false),
+                    Arguments.of("of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5) versus of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5)",
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5), ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5),
+                            true),
+                    Arguments.of("of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5) versus of((byte)1, (byte)2, (byte)3, (byte)4, (byte)9)",
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5), ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 9),
+                            false),
+                    Arguments.of("of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6) versus \"not a tuple\"",
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6), "not a tuple", false),
+                    Arguments.of("of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6) versus \"tuple6\"",
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6), "tuple6", false),
+                    Arguments.of("of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6) versus of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6)",
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6),
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6), true),
+                    Arguments.of("of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6) versus of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)9)",
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6),
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 9), false),
+                    Arguments.of("of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6, (byte)7) versus \"not a tuple\"",
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7), "not a tuple", false),
+                    Arguments.of("of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6, (byte)7) versus \"tuple7\"",
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7), "tuple7", false),
+                    Arguments.of(
+                            "of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6, (byte)7) versus of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6, (byte)7)",
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7),
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7), true),
+                    Arguments.of(
+                            "of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6, (byte)7) versus of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6, (byte)9)",
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7),
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 9), false),
+                    Arguments.of("of((byte)10, (byte)20, (byte)30, (byte)40, (byte)50, (byte)60, (byte)70) versus \"tuple\"",
+                            ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70), "tuple", false),
+                    Arguments.of(
+                            "of((byte)10, (byte)20, (byte)30, (byte)40, (byte)50, (byte)60, (byte)70) versus of((byte)10, (byte)20, (byte)30, (byte)40, (byte)50, (byte)60, (byte)70)",
+                            ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70),
+                            ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70), true),
+                    Arguments.of(
+                            "of((byte)10, (byte)20, (byte)30, (byte)40, (byte)50, (byte)60, (byte)70) versus of((byte)10, (byte)20, (byte)30, (byte)40, (byte)50, (byte)60, (byte)71)",
+                            ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70),
+                            ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 71), false),
+                    Arguments.of("of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6, (byte)7, (byte)8) versus \"not a tuple\"",
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8), "not a tuple", false),
+                    Arguments.of("of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6, (byte)7, (byte)8) versus \"tuple8\"",
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8), "tuple8", false),
+                    Arguments.of(
+                            "of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6, (byte)7, (byte)8) versus of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6, (byte)7, (byte)8)",
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8),
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8), true),
+                    Arguments.of(
+                            "of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6, (byte)7, (byte)8) versus of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6, (byte)7, (byte)9)",
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8),
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 9), false),
+                    Arguments.of("of((byte)10, (byte)20, (byte)30, (byte)40, (byte)50, (byte)60, (byte)70, (byte)80) versus \"tuple\"",
+                            ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80), "tuple", false),
+                    Arguments.of(
+                            "of((byte)10, (byte)20, (byte)30, (byte)40, (byte)50, (byte)60, (byte)70, (byte)80) versus of((byte)10, (byte)20, (byte)30, (byte)40, (byte)50, (byte)60, (byte)70, (byte)80)",
+                            ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80),
+                            ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80), true),
+                    Arguments.of(
+                            "of((byte)10, (byte)20, (byte)30, (byte)40, (byte)50, (byte)60, (byte)70, (byte)80) versus of((byte)10, (byte)20, (byte)30, (byte)40, (byte)50, (byte)60, (byte)70, (byte)81)",
+                            ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80),
+                            ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 81), false),
+                    Arguments.of("of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6, (byte)7, (byte)8, (byte)9) versus \"not a tuple\"",
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9), "not a tuple", false),
+                    Arguments.of("of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6, (byte)7, (byte)8, (byte)9) versus \"tuple9\"",
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9), "tuple9", false),
+                    Arguments.of(
+                            "of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6, (byte)7, (byte)8, (byte)9) versus of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6, (byte)7, (byte)8, (byte)0)",
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9),
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 0), false),
+                    Arguments.of(
+                            "of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6, (byte)7, (byte)8, (byte)9) versus of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6, (byte)7, (byte)8, (byte)9)",
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9),
+                            ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9), true),
+                    Arguments.of("of((byte)10, (byte)20, (byte)30, (byte)40, (byte)50, (byte)60, (byte)70, (byte)80, (byte)90) versus \"tuple\"",
+                            ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80, (byte) 90), "tuple", false),
+                    Arguments.of(
+                            "of((byte)10, (byte)20, (byte)30, (byte)40, (byte)50, (byte)60, (byte)70, (byte)80, (byte)90) versus of((byte)10, (byte)20, (byte)30, (byte)40, (byte)50, (byte)60, (byte)70, (byte)80, (byte)90)",
+                            ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80, (byte) 90),
+                            ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80, (byte) 90), true),
+                    Arguments.of(
+                            "of((byte)10, (byte)20, (byte)30, (byte)40, (byte)50, (byte)60, (byte)70, (byte)80, (byte)90) versus of((byte)10, (byte)20, (byte)30, (byte)40, (byte)50, (byte)60, (byte)70, (byte)80, (byte)91)",
+                            ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80, (byte) 90),
+                            ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80, (byte) 91), false));
         }
     }
 
@@ -3115,47 +2667,36 @@ class ByteTupleTest {
             assertEquals(20.0, triple.average().getAsDouble(), 0.001);
         }
 
-        @Test
-        void coverageRegression_defaultConstructorsAndCachedArrays() {
-            ByteTuple.ByteTuple1 tuple1 = new ByteTuple.ByteTuple1();
-            assertArrayEquals(new byte[] { 0 }, tuple1.toArray());
-            assertArrayEquals(new byte[] { 0 }, tuple1.toArray());
+        @ParameterizedTest(name = "arity {0}: default exports are detached")
+        @ValueSource(ints = { 1, 2, 3, 4, 5, 6, 7, 8, 9 })
+        void defaultConstructors_exportDefaultValuesInIndependentArrays(int arity) {
+            ByteTuple<?> tuple = switch (arity) {
+                case 1 -> new ByteTuple.ByteTuple1();
+                case 2 -> new ByteTuple.ByteTuple2();
+                case 3 -> new ByteTuple.ByteTuple3();
+                case 4 -> new ByteTuple.ByteTuple4();
+                case 5 -> new ByteTuple.ByteTuple5();
+                case 6 -> new ByteTuple.ByteTuple6();
+                case 7 -> new ByteTuple.ByteTuple7();
+                case 8 -> new ByteTuple.ByteTuple8();
+                case 9 -> new ByteTuple.ByteTuple9();
+                default -> throw new IllegalArgumentException("Unsupported tuple arity: " + arity);
+            };
+            byte[] expected = new byte[arity];
+            byte[] first = tuple.toArray();
+            byte[] second = tuple.toArray();
 
-            ByteTuple.ByteTuple2 tuple2 = new ByteTuple.ByteTuple2();
-            assertArrayEquals(new byte[] { 0, 0 }, tuple2.toArray());
-            assertArrayEquals(new byte[] { 0, 0 }, tuple2.toArray());
-
-            ByteTuple.ByteTuple3 tuple3 = new ByteTuple.ByteTuple3();
-            assertArrayEquals(new byte[] { 0, 0, 0 }, tuple3.toArray());
-            assertArrayEquals(new byte[] { 0, 0, 0 }, tuple3.toArray());
-
-            ByteTuple.ByteTuple4 tuple4 = new ByteTuple.ByteTuple4();
-            assertArrayEquals(new byte[] { 0, 0, 0, 0 }, tuple4.toArray());
-            assertArrayEquals(new byte[] { 0, 0, 0, 0 }, tuple4.toArray());
-
-            ByteTuple.ByteTuple5 tuple5 = new ByteTuple.ByteTuple5();
-            assertArrayEquals(new byte[] { 0, 0, 0, 0, 0 }, tuple5.toArray());
-            assertArrayEquals(new byte[] { 0, 0, 0, 0, 0 }, tuple5.toArray());
-
-            ByteTuple.ByteTuple6 tuple6 = new ByteTuple.ByteTuple6();
-            assertArrayEquals(new byte[] { 0, 0, 0, 0, 0, 0 }, tuple6.toArray());
-            assertArrayEquals(new byte[] { 0, 0, 0, 0, 0, 0 }, tuple6.toArray());
-
-            ByteTuple.ByteTuple7 tuple7 = new ByteTuple.ByteTuple7();
-            assertArrayEquals(new byte[] { 0, 0, 0, 0, 0, 0, 0 }, tuple7.toArray());
-            assertArrayEquals(new byte[] { 0, 0, 0, 0, 0, 0, 0 }, tuple7.toArray());
-
-            ByteTuple.ByteTuple8 tuple8 = new ByteTuple.ByteTuple8();
-            assertArrayEquals(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 }, tuple8.toArray());
-            assertArrayEquals(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 }, tuple8.toArray());
-
-            ByteTuple.ByteTuple9 tuple9 = new ByteTuple.ByteTuple9();
-            assertArrayEquals(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, tuple9.toArray());
-            assertArrayEquals(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, tuple9.toArray());
+            assertEquals(arity, tuple.arity());
+            assertArrayEquals(expected, first);
+            assertArrayEquals(expected, second);
+            assertNotSame(first, second);
+            first[0] = 1;
+            assertArrayEquals(expected, second, "each export must have independent storage");
+            assertArrayEquals(expected, tuple.toArray(), "mutating an export must not affect the tuple");
         }
 
         @Test
-        void coverageRegression_emptyTupleBaseMethods() {
+        void emptyTuple_operations_obeyEmptyValueContract() {
             ByteTuple<?> empty = ByteTuple.from((byte[]) null);
             assertEquals(ByteTuple.from(new byte[0]), empty);
             assertFalse(empty.equals("byte"));
@@ -3189,7 +2730,7 @@ class ByteTupleTest {
         }
 
         @Test
-        void inheritedOuterMethodsForCoverage() throws Exception {
+        void inheritedOperations_preserveTupleValues() throws Exception {
             final ByteTuple.ByteTuple4 tuple = ByteTuple.of((byte) 9, (byte) 2, (byte) 5, (byte) 1);
             final byte[] firstArray = tuple.toArray();
             final byte[] secondArray = tuple.toArray();
@@ -3540,27 +3081,32 @@ class ByteTupleTest {
         }
 
         @Test
-        void zeroArgConstructorsForCoverage() {
-            final ByteTuple1 tuple1 = new ByteTuple1();
-            final ByteTuple2 tuple2 = new ByteTuple2();
-            final ByteTuple3 tuple3 = new ByteTuple3();
-            final ByteTuple4 tuple4 = new ByteTuple4();
-            final ByteTuple5 tuple5 = new ByteTuple5();
-            final ByteTuple6 tuple6 = new ByteTuple6();
-            final ByteTuple7 tuple7 = new ByteTuple7();
-            final ByteTuple8 tuple8 = new ByteTuple8();
-            final ByteTuple9 tuple9 = new ByteTuple9();
+        void highArity_aggregatesAndMembership_preserveValues() {
+            ByteTuple.ByteTuple4 tuple4 = ByteTuple.of((byte) 9, (byte) 1, (byte) 7, (byte) 3);
+            assertEquals((byte) 1, tuple4.min());
+            assertEquals((byte) 9, tuple4.max());
+            assertEquals((byte) 3, tuple4.lowerMedian());
+            assertEquals(20, tuple4.sum());
+            assertEquals(5.0, tuple4.average().getAsDouble());
+            assertTrue(tuple4.contains((byte) 3));
 
-            assertArrayEquals(new byte[] { 0 }, tuple1.toArray());
-            assertArrayEquals(new byte[] { 0 }, tuple1.toArray());
-            assertArrayEquals(new byte[] { 0, 0 }, tuple2.toArray());
-            assertArrayEquals(new byte[] { 0, 0, 0 }, tuple3.toArray());
-            assertArrayEquals(new byte[] { 0, 0, 0, 0 }, tuple4.toArray());
-            assertArrayEquals(new byte[] { 0, 0, 0, 0, 0 }, tuple5.toArray());
-            assertArrayEquals(new byte[] { 0, 0, 0, 0, 0, 0 }, tuple6.toArray());
-            assertArrayEquals(new byte[] { 0, 0, 0, 0, 0, 0, 0 }, tuple7.toArray());
-            assertArrayEquals(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 }, tuple8.toArray());
-            assertArrayEquals(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, tuple9.toArray());
+            ByteTuple.ByteTuple5 tuple5 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5);
+            assertTrue(tuple5.contains((byte) 5));
+
+            ByteTuple.ByteTuple6 tuple6 = ByteTuple.of((byte) 9, (byte) 1, (byte) 7, (byte) 3, (byte) 5, (byte) 11);
+            assertEquals((byte) 5, tuple6.lowerMedian());
+            assertTrue(tuple6.contains((byte) 11));
+
+            ByteTuple.ByteTuple7 tuple7 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7);
+            assertTrue(tuple7.contains((byte) 7));
+
+            ByteTuple.ByteTuple8 tuple8 = ByteTuple.of((byte) 9, (byte) 1, (byte) 7, (byte) 3, (byte) 5, (byte) 11, (byte) 13, (byte) 15);
+            assertEquals((byte) 7, tuple8.lowerMedian());
+            assertTrue(tuple8.contains((byte) 15));
+
+            ByteTuple.ByteTuple9 tuple9 = ByteTuple.of((byte) 9, (byte) 1, (byte) 7, (byte) 3, (byte) 5, (byte) 11, (byte) 13, (byte) 15, (byte) 17);
+            assertEquals((byte) 9, tuple9.lowerMedian());
+            assertTrue(tuple9.contains((byte) 17));
         }
     }
 }

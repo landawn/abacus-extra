@@ -4,8 +4,8 @@ Run these commands from the repository root with Node.js and JDK 21 or later on 
 
 | Command | Purpose |
 | --- | --- |
-| `node tools/check-test-layout.js` | Check discovery, grouping, naming, assertion conventions, and exact duplicate candidates; nonzero exit on violations. |
-| `node --test tools/java-test-tools.test.js` | Check parsing, literal preservation, fixture separation, helper assertions, syntax errors, and varargs metadata. |
+| `node tools/check-test-layout.js` | Check discovery, tuple/array operation order, behavior names, assertion conventions, and exact duplicate candidates; nonzero exit on violations. |
+| `node --test tools/java-test-tools.test.js` | Check parsing, literal preservation, fixture separation, helper assertions, syntax errors, varargs metadata, and operation-group ordering. |
 | `node tools/find-duplicate-tests.js` | Report exact parsed-body duplicate candidates with fixture context. |
 | `node tools/find-duplicate-tests.js --scope=same-file --summary-by-file` | Summarize candidates within files. |
 | `node tools/find-duplicate-tests.js --scope=cross-file --exclude-type-variants` | Review cross-file candidates while retaining primitive-family variants. |
@@ -36,4 +36,4 @@ Assertion discovery follows unqualified and `this` helper calls through enclosin
 
 The public-method audit includes explicitly public methods in nested production types and distinguishes varargs from ordinary array parameters. Calls are matched by name and argument count without symbol resolution. Helper calls, implicit record accessors, generic dispatch, and same-arity overloads can produce false positives or negatives. Use fresh JaCoCo reports and a behavior matrix to assess coverage.
 
-For test ownership and conventions, see [src/test/README.md](../src/test/README.md). The cleanup's removal mapping and measured results are in [report/unit-test-cleanup.md](../report/unit-test-cleanup.md).
+For test ownership and conventions, see [src/test/README.md](../src/test/README.md). The original cleanup is recorded in [report/unit-test-cleanup.md](../report/unit-test-cleanup.md). The latest plan, consolidation mapping, and measurements are in [report/unit-test-maintenance.md](../report/unit-test-maintenance.md).

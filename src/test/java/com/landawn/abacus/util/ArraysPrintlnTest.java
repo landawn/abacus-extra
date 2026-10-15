@@ -924,7 +924,7 @@ class ArraysPrintlnTest {
 
         @Test
         void printlnBooleanArray() {
-            // Line 2965-2967: println({true,false,true}) => "[true, false, true]"
+            // println({true,false,true}) => "[true, false, true]"
             boolean[] arr = { true, false, true };
             String result = Arrays.println(arr);
             assertTrue(result.contains("[true, false, true]"));
@@ -932,7 +932,7 @@ class ArraysPrintlnTest {
 
         @Test
         void printlnByteArray() {
-            // Line 5581-5583: println({1,2,3,4,5}) => "[1, 2, 3, 4, 5]"
+            // println({1,2,3,4,5}) => "[1, 2, 3, 4, 5]"
             byte[] array = { 1, 2, 3, 4, 5 };
             String result = Arrays.println(array);
             assertTrue(result.contains("[1, 2, 3, 4, 5]"));
@@ -940,7 +940,7 @@ class ArraysPrintlnTest {
 
         @Test
         void printlnObjectArrayEmpty() {
-            // Line 284-285: println(empty Object[]) => "[]"
+            // println(empty Object[]) => "[]"
             Object[] empty = new Object[0];
             String result = Arrays.println(empty);
             assertTrue(result.contains("[]"));
@@ -948,7 +948,7 @@ class ArraysPrintlnTest {
 
         @Test
         void printlnObjectArrayNull() {
-            // Line 279-280: println((Object[]) null) => "null"
+            // println((Object[]) null) => "null"
             String result = Arrays.println((Object[]) null);
             assertTrue(result.contains("null"));
         }

@@ -40,6 +40,399 @@ import com.landawn.abacus.util.Arrays.fff;
 class ArraysMappingTest {
 
     @Nested
+    class MapTests {
+
+        @Test
+        void f_map_null() {
+            String[] arr = null;
+            Integer[] result = Arrays.f.map(arr, Integer::valueOf, Integer.class);
+            assertEquals(0, result.length);
+        }
+
+        @Test
+        void f_map_valid() {
+            String[] arr = { "1", "2", "3" };
+            Integer[] result = Arrays.f.map(arr, Integer::valueOf, Integer.class);
+            assertArrayEquals(new Integer[] { 1, 2, 3 }, result);
+        }
+
+        @Test
+        void f_mapPrimitiveTypes() throws Exception {
+            String[] strings = { "1", "2", "3" };
+            Integer[] ints = f.map(strings, Integer::valueOf, Integer.class);
+            assertArrayEquals(new Integer[] { 1, 2, 3 }, ints);
+
+            assertArrayEquals(new boolean[] { true, false, true }, f.mapToBoolean(new String[] { "hello", "hi", "world" }, s -> s.length() > 3));
+            assertArrayEquals(new char[] { 'a', 'b', 'c' }, f.mapToChar(new String[] { "apple", "banana", "cherry" }, s -> s.charAt(0)));
+            assertArrayEquals(new byte[] { 10, 20, 30 }, f.mapToByte(new String[] { "10", "20", "30" }, Byte::parseByte));
+            assertArrayEquals(new short[] { 100, 200, 300 }, f.mapToShort(new String[] { "100", "200", "300" }, Short::parseShort));
+            assertArrayEquals(new int[] { 10, 20, 30 }, f.mapToInt(new String[] { "10", "20", "30" }, Integer::parseInt));
+            assertArrayEquals(new long[] { 1000L, 2000L, 3000L }, f.mapToLong(new String[] { "1000", "2000", "3000" }, Long::parseLong));
+            assertArrayEquals(new float[] { 1.5f, 2.5f, 3.5f }, f.mapToFloat(new String[] { "1.5", "2.5", "3.5" }, Float::parseFloat), 0.0f);
+            assertArrayEquals(new double[] { 1.5, 2.5, 3.5 }, f.mapToDouble(new String[] { "1.5", "2.5", "3.5" }, Double::parseDouble), 0.0);
+        }
+
+        @Test
+        void ff_map_allIntegers_resultIsIntegerArray() {
+            final Number[][] in = { { 1, 2 }, { 3, 4 } };
+            final Number[][] out = ff.map(in, n -> n);
+            assertEquals(Number[][].class, out.getClass());
+            // target = Number (runtime component type of the input array); no narrowing happens.
+        }
+
+        @Test
+        void ff_map_emptyInnerRows_preservesStructure() {
+            final Integer[][] in = { {}, {}, {} };
+            final Integer[][] out = ff.map(in, n -> n + 1);
+            assertEquals(Integer[][].class, out.getClass());
+            assertEquals(3, out.length);
+            for (int i = 0; i < 3; i++) {
+                assertEquals(0, out[i].length);
+            }
+        }
+
+        @Test
+        void ff_map_emptyInput_returnsEmptyOfDeclaredType() {
+            final Integer[][] in = new Integer[0][];
+            final Integer[][] out = ff.map(in, n -> n + 1);
+            assertEquals(Integer[][].class, out.getClass());
+            assertEquals(0, out.length);
+        }
+
+        @Test
+        void fF_map_function() {
+            String[][] arr = { { "1", "2" }, { "3", "4" } };
+            Integer[][] result = Arrays.ff.map(arr, Integer::valueOf, Integer.class);
+            assertEquals(1, result[0][0]);
+            assertEquals(2, result[0][1]);
+            assertEquals(3, result[1][0]);
+            assertEquals(4, result[1][1]);
+        }
+
+        @Test
+        void ff_map_mixedNumberSubtypes_resultArrayCanHoldAllValues() {
+            // Object[][] declared, mapper returns Integer for first cell, Long for second.
+            // The element type is inferred as Object from the runtime component type,
+            // so the result array correctly holds both Integer and Long.
+            final Object[][] in = { { "a", "b" } };
+            final Object[][] out = ff.map(in, s -> ((String) s).length() % 2 == 0 ? (Object) 1L : (Object) 1);
+            assertEquals(Object[][].class, out.getClass());
+            assertNotNull(out[0][0]);
+            assertNotNull(out[0][1]);
+        }
+
+        @Test
+        void ff_map_nullsInResult_doNotWidenTarget() {
+            // Number[][] in, mapper returns nulls for some, Integer for others.
+            // target = Number (runtime component type); nulls and Integers both store fine.
+            final Number[][] in = { { 1, 2 }, { 3, 4 } };
+            final Number[][] out = ff.map(in, n -> n.intValue() % 2 == 0 ? null : n);
+            assertEquals(Number[][].class, out.getClass());
+            assertNull(out[0][1]); // value 2 -> null
+            assertEquals(1, out[0][0]);
+        }
+
+        @Test
+        void fF_map_preservesShape() throws Exception {
+            Integer[][] arr = { { 1, 2 }, { 3, 4, 5 } };
+            Integer[][] doubled = ff.map(arr, x -> x * 2);
+            assertArrayEquals(new Integer[] { 2, 4 }, doubled[0]);
+            assertArrayEquals(new Integer[] { 6, 8, 10 }, doubled[1]);
+        }
+
+        @Test
+        void fF_map_unaryOperator() {
+            String[][] arr = { { "a", "b" }, { "c", "d" } };
+            String[][] result = Arrays.ff.map(arr, String::toUpperCase);
+            assertEquals("A", result[0][0]);
+            assertEquals("B", result[0][1]);
+            assertEquals("C", result[1][0]);
+            assertEquals("D", result[1][1]);
+        }
+
+        @Test
+        void fFF_map_function() {
+            String[][][] arr = { { { "1", "2" } }, { { "3", "4" } } };
+            Integer[][][] result = Arrays.fff.map(arr, Integer::valueOf, Integer.class);
+            assertEquals(1, result[0][0][0]);
+            assertEquals(2, result[0][0][1]);
+            assertEquals(3, result[1][0][0]);
+            assertEquals(4, result[1][0][1]);
+        }
+
+        @Test
+        void fff_map_preservesDeclaredType() {
+            final Integer[][][] in = { { { 1, 2 }, { 3 } }, { { 4 } } };
+            final Integer[][][] out = fff.map(in, n -> n + 1);
+            assertEquals(Integer[][][].class, out.getClass());
+            assertArrayEquals(new Integer[] { 2, 3 }, out[0][0]);
+            assertArrayEquals(new Integer[] { 4 }, out[0][1]);
+            assertArrayEquals(new Integer[] { 5 }, out[1][0]);
+        }
+
+        @Test
+        void fFF_map_unaryOperator() {
+            String[][][] arr = { { { "a", "b" } }, { { "c", "d" } } };
+            String[][][] result = Arrays.fff.map(arr, String::toUpperCase);
+            assertEquals("A", result[0][0][0]);
+            assertEquals("B", result[0][0][1]);
+            assertEquals("C", result[1][0][0]);
+            assertEquals("D", result[1][0][1]);
+        }
+
+        @Test
+        void fffMapInferredTypeRejectsRuntimeComponentWidening() throws Exception {
+            Number[][][] input = new Integer[][][] { { { 1, 2 } } };
+
+            assertThrows(IllegalArgumentException.class, () -> fff.map(input, n -> n.longValue() + 1L));
+
+            Number[][][] out = fff.map(input, n -> n.longValue() + 1L, Number.class);
+
+            assertEquals(2L, out[0][0][0]);
+            assertEquals(3L, out[0][0][1]);
+            assertEquals(Number[][][].class, out.getClass());
+        }
+
+        @Test
+        void ffMapInferredTypeRejectsAmbiguousInterfaceTarget() throws Exception {
+            java.io.Serializable[][] input = new Integer[][] { { 1 } };
+
+            assertThrows(IllegalArgumentException.class, () -> ff.map(input, x -> "s"));
+
+            java.io.Serializable[][] out = ff.map(input, x -> "s", java.io.Serializable.class);
+
+            assertEquals("s", out[0][0]);
+            assertEquals(java.io.Serializable[][].class, out.getClass());
+        }
+
+        @Test
+        void ffMapInferredTypeRejectsRuntimeComponentWidening() throws Exception {
+            Number[][] input = new Integer[][] { { 1, 2 } };
+
+            assertThrows(IllegalArgumentException.class, () -> ff.map(input, n -> n.longValue() + 1L));
+
+            Number[][] out = ff.map(input, n -> n.longValue() + 1L, Number.class);
+
+            assertEquals(2L, out[0][0]);
+            assertEquals(3L, out[0][1]);
+            assertEquals(Number[][].class, out.getClass());
+        }
+
+        @Test
+        void inferredMap_resultArrayAcceptsAllElements() {
+            // Use a Number[][] declared array but stuff Integers and Longs.
+            final Number[][] in = { { 1, 2L }, { 3.0, 4f } };
+            final Number[][] out = ff.map(in, n -> n);
+            assertEquals(Number[][].class, out.getClass());
+            assertEquals(Integer.valueOf(1), out[0][0]);
+            assertEquals(Long.valueOf(2L), out[0][1]);
+            assertEquals(Double.valueOf(3.0), out[1][0]);
+            assertEquals(Float.valueOf(4f), out[1][1]);
+        }
+
+        @Test
+        void integration_mapAndUpdate() {
+            int[] arr = { 1, 2, 3 };
+            long[] mapped = Arrays.mapToLong(arr, i -> i * 1000L);
+
+            assertArrayEquals(new long[] { 1000L, 2000L, 3000L }, mapped);
+        }
+
+        @Test
+        void map_chainedTransformations() throws Exception {
+            // Test chaining multiple transformations
+            String[] input = { "1", "2", "3" };
+            Integer[] intermediate = f.map(input, Integer::valueOf, Integer.class);
+            String[] result = f.map(intermediate, i -> "Value: " + (i * 2), String.class);
+            assertArrayEquals(new String[] { "Value: 2", "Value: 4", "Value: 6" }, result);
+        }
+
+        @Test
+        void map_emptyArray() throws Exception {
+            String[] input = new String[0];
+            Integer[] result = f.map(input, Integer::valueOf, Integer.class);
+            assertNotNull(result);
+            assertEquals(0, result.length);
+        }
+
+        @Test
+        void map_integerToString() throws Exception {
+            Integer[] input = { 1, 2, 3 };
+            String[] result = f.map(input, String::valueOf, String.class);
+            assertArrayEquals(new String[] { "1", "2", "3" }, result);
+        }
+
+        @Test
+        void map_nullArray() throws Exception {
+            String[] input = null;
+            Integer[] result = f.map(input, Integer::valueOf, Integer.class);
+            assertEquals(0, result.length);
+        }
+
+        @Test
+        void map_returnsMappedValue() throws Exception {
+            // Test basic mapping
+            Integer[][] array = { { 1, 2 }, { 3, 4 } };
+            Integer[][] doubled = ff.map(array, x -> x * 2);
+            assertArrayEquals(new Integer[] { 2, 4 }, doubled[0]);
+            assertArrayEquals(new Integer[] { 6, 8 }, doubled[1]);
+
+            // Test null array
+            Integer[][] nullArray = null;
+            assertThrows(IllegalArgumentException.class, () -> ff.map(nullArray, x -> x * 2));
+
+            // Test with null sub-arrays
+            Integer[][] arrayWithNulls = { { 1, 2 }, null, { 3, 4 } };
+            Integer[][] mapped = ff.map(arrayWithNulls, x -> x + 10);
+            assertArrayEquals(new Integer[] { 11, 12 }, mapped[0]);
+            assertEquals(0, mapped[1].length);
+            assertArrayEquals(new Integer[] { 13, 14 }, mapped[2]);
+
+            // Test String transformation
+            String[][] stringArray = { { "hello", "world" }, { "foo", "bar" } };
+            String[][] upperCased = ff.map(stringArray, String::toUpperCase);
+            assertArrayEquals(new String[] { "HELLO", "WORLD" }, upperCased[0]);
+            assertArrayEquals(new String[] { "FOO", "BAR" }, upperCased[1]);
+        }
+
+        @Test
+        void map_stringToInteger() throws Exception {
+            String[] input = { "1", "2", "3" };
+            Integer[] result = f.map(input, Integer::valueOf, Integer.class);
+            assertArrayEquals(new Integer[] { 1, 2, 3 }, result);
+        }
+
+        @Test
+        void map_withException() {
+            String[] input = { "1", "abc", "3" };
+            assertThrows(NumberFormatException.class, () -> {
+                f.map(input, Integer::valueOf, Integer.class);
+            });
+        }
+
+        @Test
+        void map_withNullElements() throws Exception {
+            String[] input = { "1", null, "3" };
+            String[] result = f.map(input, s -> s == null ? "NULL" : s, String.class);
+            assertArrayEquals(new String[] { "1", "NULL", "3" }, result);
+        }
+
+        @Test
+        void mapDifferentType() throws Exception {
+            // Test type conversion
+            String[][][] strings = { { { "1", "2" } }, { { "3", "4" } } };
+            Integer[][][] numbers = fff.map(strings, Integer::parseInt, Integer.class);
+            assertEquals(1, numbers[0][0][0]);
+            assertEquals(2, numbers[0][0][1]);
+            assertEquals(3, numbers[1][0][0]);
+            assertEquals(4, numbers[1][0][1]);
+
+            // Test null input
+            Integer[][][] nullResult = fff.map((String[][][]) null, Integer::parseInt, Integer.class);
+            assertEquals(0, nullResult.length);
+
+            // Test Integer to String conversion
+            Integer[][][] nums = { { { 100, 200 } }, { { 300, 400 } } };
+            String[][][] strs = fff.map(nums, n -> "Number: " + n, String.class);
+            assertEquals("Number: 100", strs[0][0][0]);
+            assertEquals("Number: 200", strs[0][0][1]);
+            assertEquals("Number: 300", strs[1][0][0]);
+            assertEquals("Number: 400", strs[1][0][1]);
+
+            // Test with mixed null elements
+            Integer[][][] mixedNums = { { { 1, null } }, null, { { null, 2 } } };
+            String[][][] mixedStrs = fff.map(mixedNums, n -> n == null ? "NULL" : n.toString(), String.class);
+            assertEquals("1", mixedStrs[0][0][0]);
+            assertEquals("NULL", mixedStrs[0][0][1]);
+            assertEquals(0, mixedStrs[1].length);
+            assertEquals("NULL", mixedStrs[2][0][0]);
+            assertEquals("2", mixedStrs[2][0][1]);
+        }
+
+        @Test
+        void mapSameType() throws Exception {
+            // Test basic mapping
+            Integer[][][] numbers = { { { 1, 2 } }, { { 3, 4 } } };
+            Integer[][][] doubled = fff.map(numbers, n -> n * 2);
+            assertEquals(2, doubled[0][0][0]);
+            assertEquals(4, doubled[0][0][1]);
+            assertEquals(6, doubled[1][0][0]);
+            assertEquals(8, doubled[1][0][1]);
+
+            // Test with null input
+            assertThrows(IllegalArgumentException.class, () -> fff.map((Integer[][][]) null, n -> n * 2));
+
+            // Test with null sub-arrays
+            Integer[][][] mixedArr = { { { 1, 2 } }, null, { { 3, 4 } } };
+            Integer[][][] mappedMixed = fff.map(mixedArr, n -> n + 10);
+            assertEquals(11, mappedMixed[0][0][0]);
+            assertEquals(12, mappedMixed[0][0][1]);
+            assertEquals(0, mappedMixed[1].length);
+            assertEquals(13, mappedMixed[2][0][0]);
+            assertEquals(14, mappedMixed[2][0][1]);
+
+            // Test with String array
+            String[][][] strings = { { { "hello", "world" } }, { { "foo", "bar" } } };
+            String[][][] upperStrings = fff.map(strings, String::toUpperCase);
+            assertEquals("HELLO", upperStrings[0][0][0]);
+            assertEquals("WORLD", upperStrings[0][0][1]);
+            assertEquals("FOO", upperStrings[1][0][0]);
+            assertEquals("BAR", upperStrings[1][0][1]);
+        }
+
+        @Test
+        void mapWithTargetType() throws Exception {
+            // Test type conversion
+            String[][] array = { { "1", "2" }, { "3", "4" } };
+            Integer[][] numbers = ff.map(array, Integer::parseInt, Integer.class);
+            assertArrayEquals(new Integer[] { 1, 2 }, numbers[0]);
+            assertArrayEquals(new Integer[] { 3, 4 }, numbers[1]);
+
+            // Test null array
+            String[][] nullArray = null;
+            assertEquals(0, ff.map(nullArray, Integer::parseInt, Integer.class).length);
+
+            // Test with null sub-arrays
+            String[][] arrayWithNulls = { { "1", "2" }, null, { "3", "4" } };
+            Integer[][] mapped = ff.map(arrayWithNulls, Integer::parseInt, Integer.class);
+            assertArrayEquals(new Integer[] { 1, 2 }, mapped[0]);
+            assertEquals(0, mapped[1].length);
+            assertArrayEquals(new Integer[] { 3, 4 }, mapped[2]);
+
+            // Test Integer to String conversion
+            Integer[][] intArray = { { 10, 20 }, { 30, 40 } };
+            String[][] stringArray = ff.map(intArray, Object::toString, String.class);
+            assertArrayEquals(new String[] { "10", "20" }, stringArray[0]);
+            assertArrayEquals(new String[] { "30", "40" }, stringArray[1]);
+        }
+
+        @Test
+        void objectMappingAllocatesRowsButRetainsReturnedElementReferences() {
+            final StringBuilder value = new StringBuilder("original");
+            final StringBuilder[] row = { value };
+            final StringBuilder[][] grid = { row, row };
+            final StringBuilder[][] inferred = Arrays.ff.map(grid, element -> element.append('!'));
+
+            assertNotSame(grid, inferred);
+            assertNotSame(row, inferred[0]);
+            assertNotSame(inferred[0], inferred[1]);
+            assertSame(value, inferred[0][0]);
+            assertSame(value, inferred[1][0]);
+            assertEquals("original!!", grid[0][0].toString());
+
+            final StringBuilder[][][] cube = { grid };
+            final StringBuilder[][][] explicit = Arrays.fff.map(cube, element -> element, StringBuilder.class);
+
+            assertNotSame(cube, explicit);
+            assertNotSame(grid, explicit[0]);
+            assertNotSame(row, explicit[0][0]);
+            assertNotSame(explicit[0][0], explicit[0][1]);
+            assertSame(value, explicit[0][0][0]);
+            assertSame(value, explicit[0][1][0]);
+        }
+    }
+
+    @Nested
     class MapToObjTests {
 
         @ParameterizedTest(name = "reject primitive target {0}")
@@ -550,7 +943,7 @@ class ArraysMappingTest {
 
         @Test
         void mapToObj_booleanToString() {
-            // Line 420-422: mapToObj({true,false,true}, b -> b?"YES":"NO", String.class) => ["YES","NO","YES"]
+            // mapToObj({true,false,true}, b -> b?"YES":"NO", String.class) => ["YES","NO","YES"]
             boolean[] flags = { true, false, true };
             String[] strings = Arrays.mapToObj(flags, b -> b ? "YES" : "NO", String.class);
             assertArrayEquals(new String[] { "YES", "NO", "YES" }, strings);
@@ -666,7 +1059,7 @@ class ArraysMappingTest {
 
         @Test
         void mapToObj_byteToHex() {
-            // Line 638-641: mapToObj({1,2,3,4}, b -> format("%02X", b), String.class) => ["01","02","03","04"]
+            // mapToObj({1,2,3,4}, b -> format("%02X", b), String.class) => ["01","02","03","04"]
             byte[] bytes = { 1, 2, 3, 4 };
             String[] hex = Arrays.mapToObj(bytes, b -> String.format(java.util.Locale.ROOT, "%02X", b), String.class);
             assertArrayEquals(new String[] { "01", "02", "03", "04" }, hex);
@@ -767,7 +1160,7 @@ class ArraysMappingTest {
 
         @Test
         void mapToObj_charToInt3D() {
-            // Line 604-606: char[][][] cube => Integer[][][] with ASCII values
+            // char[][][] cube => Integer[][][] with ASCII values
             char[][][] cube = { { { 'a', 'b' }, { 'c', 'd' } }, { { 'e', 'f' }, { 'g', 'h' } } };
             Integer[][][] result = Arrays.mapToObj(cube, c -> (int) c, Integer.class);
             assertEquals(97, result[0][0][0]); // 'a'
@@ -778,7 +1171,7 @@ class ArraysMappingTest {
 
         @Test
         void mapToObj_charToString() {
-            // Line 532-534: mapToObj({'a','b','c'}, ...) => ["A","B","C"]
+            // mapToObj({'a','b','c'}, ...) => ["A","B","C"]
             char[] chars = { 'a', 'b', 'c' };
             String[] strings = Arrays.mapToObj(chars, c -> String.valueOf(c).toUpperCase(), String.class);
             assertArrayEquals(new String[] { "A", "B", "C" }, strings);
@@ -993,7 +1386,7 @@ class ArraysMappingTest {
 
         @Test
         void mapToObj_floatToString() {
-            // Line 1180-1182: mapToObj({1.5f,2.5f,3.5f}, f -> String.valueOf(f), String.class) => ["1.5","2.5","3.5"]
+            // mapToObj({1.5f,2.5f,3.5f}, f -> String.valueOf(f), String.class) => ["1.5","2.5","3.5"]
             float[] floats = { 1.5f, 2.5f, 3.5f };
             String[] result = Arrays.mapToObj(floats, f -> String.valueOf(f), String.class);
             assertArrayEquals(new String[] { "1.5", "2.5", "3.5" }, result);
@@ -1206,7 +1599,7 @@ class ArraysMappingTest {
 
         @Test
         void mapToObj_intToString() {
-            // Line 854-856: mapToObj({1,2,3}, i -> "Number: " + i, String.class) => ["Number: 1",...]
+            // mapToObj({1,2,3}, i -> "Number: " + i, String.class) => ["Number: 1",...]
             int[] ints = { 1, 2, 3 };
             String[] result = Arrays.mapToObj(ints, i -> "Number: " + i, String.class);
             assertArrayEquals(new String[] { "Number: 1", "Number: 2", "Number: 3" }, result);
@@ -1339,7 +1732,7 @@ class ArraysMappingTest {
 
         @Test
         void mapToObj_longToString() {
-            // Line 961-963: mapToObj({1000000L,...}, l -> l/1000000 + "M", String.class) => ["1M","2M","3M"]
+            // mapToObj({1000000L,...}, l -> l/1000000 + "M", String.class) => ["1M","2M","3M"]
             long[] longs = { 1000000L, 2000000L, 3000000L };
             String[] result = Arrays.mapToObj(longs, l -> l / 1000000 + "M", String.class);
             assertArrayEquals(new String[] { "1M", "2M", "3M" }, result);
@@ -1503,1781 +1896,6 @@ class ArraysMappingTest {
             assertEquals(String[].class, mappedBytes2d.getClass().getComponentType());
             assertEquals(0, mappedBytes3d.length);
             assertEquals(Integer[][].class, mappedBytes3d.getClass().getComponentType());
-        }
-    }
-
-    @Nested
-    class MapToLongTests {
-
-        @Test
-        void f_mapToLong_null() {
-            String[] arr = null;
-            long[] result = Arrays.f.mapToLong(arr, s -> (long) s.length());
-            assertEquals(0, result.length);
-        }
-
-        @Test
-        void f_mapToLong_valid() {
-            String[] arr = { "abc", "defg" };
-            long[] result = Arrays.f.mapToLong(arr, s -> (long) s.length());
-            assertArrayEquals(new long[] { 3L, 4L }, result);
-        }
-
-        @Test
-        void fF_mapToLong() {
-            String[][] arr = { { "abc", "defg" } };
-            long[][] result = Arrays.ff.mapToLong(arr, s -> (long) s.length());
-            assertArrayEquals(new long[] { 3L, 4L }, result[0]);
-        }
-
-        @Test
-        void fFF_mapToLong() {
-            String[][][] arr = { { { "abc", "defg" } } };
-            long[][][] result = Arrays.fff.mapToLong(arr, s -> (long) s.length());
-            assertArrayEquals(new long[] { 3L, 4L }, result[0][0]);
-        }
-
-        @Test
-        void mapToLong() throws Exception {
-            // Test String to long
-            String[][] array = { { "1000000", "2000000" }, { "3000000", "4000000" } };
-            long[][] longs = ff.mapToLong(array, Long::parseLong);
-            assertArrayEquals(new long[] { 1000000L, 2000000L }, longs[0]);
-            assertArrayEquals(new long[] { 3000000L, 4000000L }, longs[1]);
-
-            // Test null array
-            String[][] nullArray = null;
-            assertEquals(0, ff.mapToLong(nullArray, Long::parseLong).length);
-
-            // Test with null sub-arrays
-            String[][] arrayWithNulls = { { "100", "200" }, null, { "300", "400" } };
-            long[][] mapped = ff.mapToLong(arrayWithNulls, Long::parseLong);
-            assertArrayEquals(new long[] { 100L, 200L }, mapped[0]);
-            assertEquals(0, mapped[1].length);
-            assertArrayEquals(new long[] { 300L, 400L }, mapped[2]);
-
-            // Test Integer to long
-            Integer[][] intArray = { { 100, 200 }, { 300, 400 } };
-            long[][] longValues = ff.mapToLong(intArray, Integer::longValue);
-            assertArrayEquals(new long[] { 100L, 200L }, longValues[0]);
-            assertArrayEquals(new long[] { 300L, 400L }, longValues[1]);
-        }
-
-        @Test
-        void mapToLong_1D_double_normal() {
-            double[] arr = { 1.5, 2.7, 3.9 };
-            long[] result = Arrays.mapToLong(arr, d -> Math.round(d * 100));
-            assertNotNull(result);
-            assertEquals(150L, result[0]);
-            assertEquals(390L, result[2]);
-        }
-
-        @Test
-        void mapToLong_1D_double_null() {
-            double[] arr = null;
-            long[] result = Arrays.mapToLong(arr, d -> (long) d);
-            assertEquals(0, result.length);
-        }
-
-        @Test
-        void mapToLong_1D_int_normal() {
-            int[] arr = { 1, 2, 3, 4, 5 };
-            long[] result = Arrays.mapToLong(arr, i -> (long) i * 100);
-            assertNotNull(result);
-            assertEquals(5, result.length);
-            assertEquals(100L, result[0]);
-            assertEquals(500L, result[4]);
-        }
-
-        @Test
-        void mapToLong_1D_int_null() {
-            int[] arr = null;
-            long[] result = Arrays.mapToLong(arr, i -> (long) i);
-            assertEquals(0, result.length);
-        }
-
-        @Test
-        void mapToLong_2D_double_normal() {
-            double[][] arr = { { 10.5, 20.5 }, { 30.5, 40.5 } };
-            long[][] result = Arrays.mapToLong(arr, d -> Math.round(d));
-            assertNotNull(result);
-            assertEquals(11L, result[0][0]);
-            assertEquals(41L, result[1][1]);
-        }
-
-        @Test
-        void mapToLong_2D_int_normal() {
-            int[][] arr = { { 1, 2 }, { 3, 4 } };
-            long[][] result = Arrays.mapToLong(arr, i -> (long) i * 1000);
-            assertNotNull(result);
-            assertEquals(1000L, result[0][0]);
-            assertEquals(4000L, result[1][1]);
-        }
-
-        @Test
-        void mapToLong_3D_double_normal() {
-            double[][][] arr = { { { 99.9, 199.9 } } };
-            long[][][] result = Arrays.mapToLong(arr, d -> (long) Math.floor(d));
-            assertNotNull(result);
-            assertEquals(99L, result[0][0][0]);
-        }
-
-        @Test
-        void mapToLong_3D_int_normal() {
-            int[][][] arr = { { { 10, 20 } } };
-            long[][][] result = Arrays.mapToLong(arr, i -> (long) i + 5);
-            assertNotNull(result);
-            assertEquals(15L, result[0][0][0]);
-        }
-
-        @Test
-        void mapToLong_double_1D() {
-            double[] arr = { 1.5, 2.7, 3.9 };
-            long[] result = Arrays.mapToLong(arr, d -> Math.round(d));
-            assertArrayEquals(new long[] { 2L, 3L, 4L }, result);
-        }
-
-        @Test
-        void mapToLong_double_3D() {
-            final double[][][] a = { { { 1.5, 2.5 } }, { { 3.5 } } };
-            final long[][][] r = Arrays.mapToLong(a, d -> (long) d);
-            assertEquals(2, r.length);
-            assertArrayEquals(new long[] { 1L, 2L }, r[0][0]);
-            assertArrayEquals(new long[] { 3L }, r[1][0]);
-        }
-
-        @Test
-        void mapToLong_double_truncation() {
-            final long[] r = Arrays.mapToLong(new double[] { 1.7, -2.3, 1e10 }, d -> (long) d);
-            assertArrayEquals(new long[] { 1L, -2L, 10_000_000_000L }, r);
-        }
-
-        @Test
-        void mapToLong_double2DArray() {
-            // Test with normal two-dimensional array
-            double[][] input = { { 1.1, 2.2 }, { 3.3 } };
-            long[][] result = Arrays.mapToLong(input, (double d) -> Math.round(d));
-            assertArrayEquals(new long[] { 1L, 2L }, result[0]);
-            assertArrayEquals(new long[] { 3L }, result[1]);
-
-            // Test with null two-dimensional array
-            double[][] nullInput = null;
-            long[][] nullResult = Arrays.mapToLong(nullInput, (double d) -> Math.round(d));
-            assertEquals(0, nullResult.length);
-        }
-
-        @Test
-        void mapToLong_double3DArray() {
-            // Test with normal three-dimensional array
-            double[][][] input = { { { 10.5, 20.5 } }, { { 30.5 } } };
-            long[][][] result = Arrays.mapToLong(input, (double d) -> Math.round(d));
-            assertArrayEquals(new long[] { 11L, 21L }, result[0][0]);
-            assertArrayEquals(new long[] { 31L }, result[1][0]);
-
-            // Test with null three-dimensional array
-            double[][][] nullInput = null;
-            long[][][] nullResult = Arrays.mapToLong(nullInput, (double d) -> Math.round(d));
-            assertEquals(0, nullResult.length);
-        }
-
-        @Test
-        void mapToLong_doubleArray() {
-            // Test with normal array
-            double[] input = { 1.5, 2.7, 3.2 };
-            long[] result = Arrays.mapToLong(input, d -> Math.round(d));
-            assertArrayEquals(new long[] { 2L, 3L, 3L }, result);
-
-            // Test with empty array
-            double[] emptyInput = {};
-            long[] emptyResult = Arrays.mapToLong(emptyInput, d -> Math.round(d));
-            assertArrayEquals(new long[] {}, emptyResult);
-
-            // Test with null array
-            double[] nullInput = null;
-            long[] nullResult = Arrays.mapToLong(nullInput, d -> Math.round(d));
-            assertEquals(0, nullResult.length);
-
-            // Test with large values
-            double[] largeInput = { 1e10, 2e10, 3e10 };
-            long[] largeResult = Arrays.mapToLong(largeInput, d -> (long) d);
-            assertArrayEquals(new long[] { 10000000000L, 20000000000L, 30000000000L }, largeResult);
-        }
-
-        @Test
-        void mapToLong_doubleArray_values_1_5_2_5_3_5() {
-            double[] a = { 1.5, 2.5, 3.5 };
-            long[] result = Arrays.mapToLong(a, d -> (long) (d * 10));
-
-            assertArrayEquals(new long[] { 15L, 25L, 35L }, result);
-        }
-
-        @Test
-        void mapToLong_doubleToLong() {
-            // Line 1787-1789: mapToLong({10.50,20.75,30.25}, d -> (long)(d*100)) => {1050,2075,3025}
-            double[] prices = { 10.50, 20.75, 30.25 };
-            long[] cents = Arrays.mapToLong(prices, d -> (long) (d * 100));
-            assertArrayEquals(new long[] { 1050, 2075, 3025 }, cents);
-        }
-
-        @Test
-        void mapToLong_doubleToLong2D() {
-            // Line 1819-1822: mapToLong({{10.50,20.75},{30.25,40.50}}, d -> (long)(d*100))
-            double[][] prices = { { 10.50, 20.75 }, { 30.25, 40.50 } };
-            long[][] cents = Arrays.mapToLong(prices, d -> (long) (d * 100));
-            assertArrayEquals(new long[] { 1050, 2075 }, cents[0]);
-            assertArrayEquals(new long[] { 3025, 4050 }, cents[1]);
-        }
-
-        @Test
-        void mapToLong_doubleToLong3D() {
-            // Line 1852-1855: mapToLong(cube, d -> (long)(d*1000))
-            double[][][] cube = { { { 1.5, 2.7 }, { 3.2, 4.9 } }, { { 5.1, 6.8 }, { 7.3, 8.6 } } };
-            long[][][] result = Arrays.mapToLong(cube, d -> (long) (d * 1000));
-            assertArrayEquals(new long[] { 1500, 2700 }, result[0][0]);
-            assertArrayEquals(new long[] { 3200, 4900 }, result[0][1]);
-            assertArrayEquals(new long[] { 5100, 6800 }, result[1][0]);
-            assertArrayEquals(new long[] { 7300, 8600 }, result[1][1]);
-        }
-
-        @Test
-        void mapToLong_emptyArray() throws Exception {
-            String[] input = new String[0];
-            long[] result = f.mapToLong(input, s -> 0L);
-            assertNotNull(result);
-            assertEquals(0, result.length);
-        }
-
-        @Test
-        void mapToLong_errorHandling_exceptionInMapper() {
-            int[] input = { 1, 2, 3 };
-            Throwables.IntToLongFunction<RuntimeException> faultyMapper = i -> {
-                if (i == 2) {
-                    throw new RuntimeException("Test exception");
-                }
-                return i * 1000L;
-            };
-
-            assertThrows(RuntimeException.class, () -> {
-                Arrays.mapToLong(input, faultyMapper);
-            });
-        }
-
-        @Test
-        void mapToLong_int_1D_null() {
-            int[] arr = null;
-            long[] result = Arrays.mapToLong(arr, i -> i * 2L);
-            assertEquals(0, result.length);
-        }
-
-        @Test
-        void mapToLong_int_1D_valid() {
-            int[] arr = { 1, 2, 3 };
-            long[] result = Arrays.mapToLong(arr, i -> i * 10L);
-            assertArrayEquals(new long[] { 10L, 20L, 30L }, result);
-        }
-
-        @Test
-        void mapToLong_int_2D_valid() {
-            int[][] arr = { { 1, 2 }, { 3, 4 } };
-            long[][] result = Arrays.mapToLong(arr, i -> i * 100L);
-            assertEquals(2, result.length);
-            assertArrayEquals(new long[] { 100L, 200L }, result[0]);
-            assertArrayEquals(new long[] { 300L, 400L }, result[1]);
-        }
-
-        @Test
-        void mapToLong_int_2D_widening() {
-            final int[][] a = { { 1, 2 }, { 3 } };
-            final long[][] r = Arrays.mapToLong(a, i -> i * 1_000_000_000L);
-            assertEquals(2, r.length);
-            assertArrayEquals(new long[] { 1_000_000_000L, 2_000_000_000L }, r[0]);
-            assertArrayEquals(new long[] { 3_000_000_000L }, r[1]);
-        }
-
-        @Test
-        void mapToLong_int_3D_valid() {
-            int[][][] arr = { { { 1, 2 } } };
-            long[][][] result = Arrays.mapToLong(arr, i -> i * 5L);
-            assertEquals(5L, result[0][0][0]);
-            assertEquals(10L, result[0][0][1]);
-        }
-
-        @Test
-        void mapToLong_int_nullInput_empty() {
-            final long[] r = Arrays.mapToLong((int[]) null, i -> (long) i);
-            assertNotNull(r);
-            assertEquals(0, r.length);
-        }
-
-        @Test
-        void mapToLong_int_widening() {
-            final long[] r = Arrays.mapToLong(new int[] { 1, 2, 3 }, i -> i * 1_000_000_000L);
-            assertArrayEquals(new long[] { 1_000_000_000L, 2_000_000_000L, 3_000_000_000L }, r);
-        }
-
-        @Test
-        void mapToLong_int2D() {
-            int[][] a = { { 1, 2 }, { 3, 4 } };
-            long[][] result = Arrays.mapToLong(a, i -> (long) i * 10);
-
-            assertEquals(2, result.length);
-            assertEquals(10L, result[0][0]);
-            assertEquals(40L, result[1][1]);
-        }
-
-        @Test
-        void mapToLong_int2DArray() {
-            // Test with normal two-dimensional array
-            int[][] input = { { 1, 2 }, { 3, 4 }, { 5 } };
-            long[][] result = Arrays.mapToLong(input, (int i) -> i * 100L);
-            assertArrayEquals(new long[] { 100L, 200L }, result[0]);
-            assertArrayEquals(new long[] { 300L, 400L }, result[1]);
-            assertArrayEquals(new long[] { 500L }, result[2]);
-
-            // Test with empty two-dimensional array
-            int[][] emptyInput = {};
-            long[][] emptyResult = Arrays.mapToLong(emptyInput, (int i) -> i * 100L);
-            assertEquals(0, emptyResult.length);
-
-            // Test with null two-dimensional array
-            int[][] nullInput = null;
-            long[][] nullResult = Arrays.mapToLong(nullInput, (int i) -> i * 100L);
-            assertEquals(0, nullResult.length);
-
-            // Test with jagged array containing empty arrays
-            int[][] jaggedInput = { { 1, 2 }, {}, { 3 } };
-            long[][] jaggedResult = Arrays.mapToLong(jaggedInput, (int i) -> i * 10L);
-            assertArrayEquals(new long[] { 10L, 20L }, jaggedResult[0]);
-            assertArrayEquals(new long[] {}, jaggedResult[1]);
-            assertArrayEquals(new long[] { 30L }, jaggedResult[2]);
-        }
-
-        @Test
-        void mapToLong_int3D() {
-            int[][][] a = { { { 1, 2 } } };
-            long[][][] result = Arrays.mapToLong(a, i -> (long) i * 100);
-
-            assertEquals(100L, result[0][0][0]);
-        }
-
-        @Test
-        void mapToLong_int3DArray() {
-            // Test with normal three-dimensional array
-            int[][][] input = { { { 1, 2 }, { 3 } }, { { 4, 5, 6 } } };
-            long[][][] result = Arrays.mapToLong(input, (int i) -> i * 10L);
-            assertArrayEquals(new long[] { 10L, 20L }, result[0][0]);
-            assertArrayEquals(new long[] { 30L }, result[0][1]);
-            assertArrayEquals(new long[] { 40L, 50L, 60L }, result[1][0]);
-
-            // Test with null three-dimensional array
-            int[][][] nullInput = null;
-            long[][][] nullResult = Arrays.mapToLong(nullInput, (int i) -> i * 10L);
-            assertEquals(0, nullResult.length);
-
-            // Test with empty three-dimensional array
-            int[][][] emptyInput = {};
-            long[][][] emptyResult = Arrays.mapToLong(emptyInput, (int i) -> i * 10L);
-            assertEquals(0, emptyResult.length);
-        }
-
-        @Test
-        void mapToLong_intArray() {
-            // Test with normal array
-            int[] input = { 1, 2, 3, 4, 5 };
-            long[] result = Arrays.mapToLong(input, i -> i * 1000L);
-            assertArrayEquals(new long[] { 1000L, 2000L, 3000L, 4000L, 5000L }, result);
-
-            // Test with empty array
-            int[] emptyInput = {};
-            long[] emptyResult = Arrays.mapToLong(emptyInput, i -> i * 1000L);
-            assertArrayEquals(new long[] {}, emptyResult);
-
-            // Test with null array
-            int[] nullInput = null;
-            long[] nullResult = Arrays.mapToLong(nullInput, i -> i * 1000L);
-            assertEquals(0, nullResult.length);
-
-            // Test with single element
-            int[] singleInput = { 42 };
-            long[] singleResult = Arrays.mapToLong(singleInput, i -> i * 100L);
-            assertArrayEquals(new long[] { 4200L }, singleResult);
-
-            // Test with negative values
-            int[] negativeInput = { -1, -2, -3 };
-            long[] negativeResult = Arrays.mapToLong(negativeInput, i -> i * 1000L);
-            assertArrayEquals(new long[] { -1000L, -2000L, -3000L }, negativeResult);
-        }
-
-        @Test
-        void mapToLong_intArray_values_1_2_3() {
-            int[] arr = { 1, 2, 3 };
-            long[] result = Arrays.mapToLong(arr, i -> i * 1000L);
-
-            assertArrayEquals(new long[] { 1000L, 2000L, 3000L }, result);
-        }
-
-        @Test
-        void mapToLong_intArray_values_1_2_3_4_5() {
-            int[] a = { 1, 2, 3, 4, 5 };
-            long[] result = Arrays.mapToLong(a, i -> (long) i * 2);
-
-            assertArrayEquals(new long[] { 2L, 4L, 6L, 8L, 10L }, result);
-        }
-
-        @Test
-        void mapToLong_intArray_withException() {
-            int[] input = { 1, 2, 3 };
-            Throwables.IntToLongFunction<Exception> mapper = i -> {
-                if (i == 2) {
-                    throw new Exception("Test exception");
-                }
-                return i * 1000L;
-            };
-
-            assertThrows(Exception.class, () -> Arrays.mapToLong(input, mapper));
-        }
-
-        @Test
-        void mapToLong_intArray2D() {
-            int[][] arr = { { 1, 2 }, { 3, 4 } };
-            long[][] result = Arrays.mapToLong(arr, i -> i * 1000L);
-
-            assertEquals(2, result.length);
-            assertArrayEquals(new long[] { 1000L, 2000L }, result[0]);
-            assertArrayEquals(new long[] { 3000L, 4000L }, result[1]);
-        }
-
-        @Test
-        void mapToLong_intArray2DNull() {
-            long[][] result = Arrays.mapToLong((int[][]) null, i -> 0L);
-            assertNotNull(result);
-            assertEquals(0, result.length);
-        }
-
-        @Test
-        void mapToLong_intArrayEmpty() {
-            int[] arr = {};
-            long[] result = Arrays.mapToLong(arr, i -> i * 1000L);
-            assertNotNull(result);
-            assertEquals(0, result.length);
-        }
-
-        @Test
-        void mapToLong_intArrayNull() {
-            long[] result = Arrays.mapToLong((int[]) null, i -> 0L);
-            assertNotNull(result);
-            assertEquals(0, result.length);
-        }
-
-        @Test
-        void mapToLong_intToLong() {
-            // Line 1293-1296: mapToLong({1,2,3}, i -> i * 1000000000L) => {1000000000L,...}
-            int[] ints = { 1, 2, 3 };
-            long[] longs = Arrays.mapToLong(ints, i -> i * 1000000000L);
-            assertArrayEquals(new long[] { 1000000000L, 2000000000L, 3000000000L }, longs);
-        }
-
-        @Test
-        void mapToLong_intToLong3D() {
-            // Line 1362-1364: mapToLong(cube, i -> (long)i*i) => {{{1L,4L},{9L,16L}},{{25L,36L},{49L,64L}}}
-            int[][][] cube = { { { 1, 2 }, { 3, 4 } }, { { 5, 6 }, { 7, 8 } } };
-            long[][][] result = Arrays.mapToLong(cube, i -> (long) i * i);
-            assertArrayEquals(new long[] { 1L, 4L }, result[0][0]);
-            assertArrayEquals(new long[] { 9L, 16L }, result[0][1]);
-            assertArrayEquals(new long[] { 25L, 36L }, result[1][0]);
-            assertArrayEquals(new long[] { 49L, 64L }, result[1][1]);
-        }
-
-        @Test
-        void mapToLong_nullArray() throws Exception {
-            String[] input = null;
-            long[] result = f.mapToLong(input, s -> 0L);
-            assertEquals(0, result.length);
-        }
-
-        @Test
-        void mapToLong_stringToLong() throws Exception {
-            String[] input = { "100", "200", "300" };
-            long[] result = f.mapToLong(input, Long::parseLong);
-            assertArrayEquals(new long[] { 100L, 200L, 300L }, result);
-        }
-
-        @Test
-        void mapToLong_values_1000000_2000000() throws Exception {
-            // Test String to long parsing
-            String[][][] timestamps = { { { "1000000" } }, { { "2000000" } } };
-            long[][][] longs = fff.mapToLong(timestamps, Long::parseLong);
-            assertEquals(1000000L, longs[0][0][0]);
-            assertEquals(2000000L, longs[1][0][0]);
-
-            // Test null input
-            long[][][] nullResult = fff.mapToLong(null, s -> 0L);
-            assertEquals(0, nullResult.length);
-
-            // Test Integer to long conversion
-            Integer[][][] numbers = { { { 100, 200 } }, { { 300, 400 } } };
-            long[][][] longNumbers = fff.mapToLong(numbers, Integer::longValue);
-            assertEquals(100L, longNumbers[0][0][0]);
-            assertEquals(200L, longNumbers[0][0][1]);
-            assertEquals(300L, longNumbers[1][0][0]);
-            assertEquals(400L, longNumbers[1][0][1]);
-        }
-
-        @Test
-        void multidimensionalArrays_jaggedArrays() {
-            // Test with jagged arrays - arrays with different sub-array lengths
-            int[][] jaggedArray = { { 1, 2, 3 }, { 4 }, { 5, 6 } };
-            long[][] jaggedLongResult = Arrays.mapToLong(jaggedArray, i -> (long) i * 10);
-
-            assertEquals(3, jaggedLongResult.length);
-            assertArrayEquals(new long[] { 10, 20, 30 }, jaggedLongResult[0]);
-            assertArrayEquals(new long[] { 40 }, jaggedLongResult[1]);
-            assertArrayEquals(new long[] { 50, 60 }, jaggedLongResult[2]);
-        }
-    }
-
-    @Nested
-    class MapToDoubleTests {
-
-        @Test
-        void f_mapToDouble_null() {
-            String[] arr = null;
-            double[] result = Arrays.f.mapToDouble(arr, s -> (double) s.length());
-            assertEquals(0, result.length);
-        }
-
-        @Test
-        void f_mapToDouble_valid() {
-            String[] arr = { "x", "xyz" };
-            double[] result = Arrays.f.mapToDouble(arr, s -> (double) s.length());
-            assertArrayEquals(new double[] { 1.0, 3.0 }, result, 0.001);
-        }
-
-        @Test
-        void fF_mapToDouble() {
-            String[][] arr = { { "x", "xyz" } };
-            double[][] result = Arrays.ff.mapToDouble(arr, s -> (double) s.length());
-            assertArrayEquals(new double[] { 1.0, 3.0 }, result[0], 0.001);
-        }
-
-        @Test
-        void fFF_mapToDouble() {
-            String[][][] arr = { { { "x", "xyz" } } };
-            double[][][] result = Arrays.fff.mapToDouble(arr, s -> (double) s.length());
-            assertArrayEquals(new double[] { 1.0, 3.0 }, result[0][0], 0.001);
-        }
-
-        @Test
-        void mapToDouble() throws Exception {
-            // Test String to double
-            String[][] array = { { "1.234", "2.345" }, { "3.456", "4.567" } };
-            double[][] doubles = ff.mapToDouble(array, Double::parseDouble);
-            assertArrayEquals(new double[] { 1.234, 2.345 }, doubles[0]);
-            assertArrayEquals(new double[] { 3.456, 4.567 }, doubles[1]);
-
-            // Test null array
-            String[][] nullArray = null;
-            assertEquals(0, ff.mapToDouble(nullArray, Double::parseDouble).length);
-
-            // Test with null sub-arrays
-            String[][] arrayWithNulls = { { "1.1", "2.2" }, null, { "3.3", "4.4" } };
-            double[][] mapped = ff.mapToDouble(arrayWithNulls, Double::parseDouble);
-            assertArrayEquals(new double[] { 1.1, 2.2 }, mapped[0]);
-            assertEquals(0, mapped[1].length);
-            assertArrayEquals(new double[] { 3.3, 4.4 }, mapped[2]);
-
-            // Test Integer to double
-            Integer[][] intArray = { { 10, 20 }, { 30, 40 } };
-            double[][] doubleValues = ff.mapToDouble(intArray, Integer::doubleValue);
-            assertArrayEquals(new double[] { 10.0, 20.0 }, doubleValues[0]);
-            assertArrayEquals(new double[] { 30.0, 40.0 }, doubleValues[1]);
-        }
-
-        @Test
-        void mapToDouble_1D_int_normal() {
-            int[] arr = { 1, 2, 3, 4 };
-            double[] result = Arrays.mapToDouble(arr, i -> i * 0.5);
-            assertNotNull(result);
-            assertEquals(4, result.length);
-            assertEquals(0.5, result[0], 0.001);
-            assertEquals(2.0, result[3], 0.001);
-        }
-
-        @Test
-        void mapToDouble_1D_int_null() {
-            int[] arr = null;
-            double[] result = Arrays.mapToDouble(arr, i -> (double) i);
-            assertEquals(0, result.length);
-        }
-
-        @Test
-        void mapToDouble_1D_long_normal() {
-            long[] arr = { 1000L, 2000L, 3000L };
-            double[] result = Arrays.mapToDouble(arr, l -> l / 100.0);
-            assertNotNull(result);
-            assertEquals(10.0, result[0], 0.001);
-            assertEquals(30.0, result[2], 0.001);
-        }
-
-        @Test
-        void mapToDouble_2D_int_normal() {
-            int[][] arr = { { 10, 20 }, { 30, 40 } };
-            double[][] result = Arrays.mapToDouble(arr, i -> i / 10.0);
-            assertNotNull(result);
-            assertEquals(1.0, result[0][0], 0.001);
-            assertEquals(4.0, result[1][1], 0.001);
-        }
-
-        @Test
-        void mapToDouble_2D_long_normal() {
-            long[][] arr = { { 100L, 200L }, { 300L, 400L } };
-            double[][] result = Arrays.mapToDouble(arr, l -> l * 1.5);
-            assertNotNull(result);
-            assertEquals(150.0, result[0][0], 0.001);
-        }
-
-        @Test
-        void mapToDouble_3D_int_normal() {
-            int[][][] arr = { { { 100, 200 } } };
-            double[][][] result = Arrays.mapToDouble(arr, i -> i * 1.5);
-            assertNotNull(result);
-            assertEquals(150.0, result[0][0][0], 0.001);
-        }
-
-        @Test
-        void mapToDouble_3D_long_normal() {
-            long[][][] arr = { { { 50L, 75L } } };
-            double[][][] result = Arrays.mapToDouble(arr, l -> l + 0.5);
-            assertNotNull(result);
-            assertEquals(50.5, result[0][0][0], 0.001);
-        }
-
-        @Test
-        void mapToDouble_emptyArray() throws Exception {
-            String[] input = new String[0];
-            double[] result = f.mapToDouble(input, s -> 0.0);
-            assertNotNull(result);
-            assertEquals(0, result.length);
-        }
-
-        @Test
-        void mapToDouble_errorHandling_exceptionInMapper() {
-            long[] input = { 1L, 2L, 3L };
-            Throwables.LongToDoubleFunction<IllegalArgumentException> faultyMapper = l -> {
-                if (l == 2L) {
-                    throw new IllegalArgumentException("Invalid value");
-                }
-                return l * 0.5;
-            };
-
-            assertThrows(IllegalArgumentException.class, () -> {
-                Arrays.mapToDouble(input, faultyMapper);
-            });
-        }
-
-        @Test
-        void mapToDouble_int_1D_null() {
-            int[] arr = null;
-            double[] result = Arrays.mapToDouble(arr, i -> i * 1.5);
-            assertEquals(0, result.length);
-        }
-
-        @Test
-        void mapToDouble_int_1D_valid() {
-            int[] arr = { 1, 2, 3 };
-            double[] result = Arrays.mapToDouble(arr, i -> i * 1.5);
-            assertArrayEquals(new double[] { 1.5, 3.0, 4.5 }, result, 0.001);
-        }
-
-        @Test
-        void mapToDouble_int_2D_valid() {
-            int[][] arr = { { 2, 4 }, { 6, 8 } };
-            double[][] result = Arrays.mapToDouble(arr, i -> i / 2.0);
-            assertEquals(1.0, result[0][0], 0.001);
-            assertEquals(4.0, result[1][1], 0.001);
-        }
-
-        @Test
-        void mapToDouble_int_3D_valid() {
-            int[][][] arr = { { { 10 } } };
-            double[][][] result = Arrays.mapToDouble(arr, i -> i * 0.1);
-            assertEquals(1.0, result[0][0][0], 0.001);
-        }
-
-        @Test
-        void mapToDouble_int_fractional() {
-            final double[] r = Arrays.mapToDouble(new int[] { 1, 2, 3 }, i -> i / 2.0);
-            assertArrayEquals(new double[] { 0.5, 1.0, 1.5 }, r, 0.0);
-        }
-
-        @Test
-        void mapToDouble_int_mapperThrows_propagates() {
-            assertThrows(RuntimeException.class, () -> Arrays.mapToDouble(new int[] { 1, 2 }, i -> {
-                throw new RuntimeException("boom");
-            }));
-        }
-
-        @Test
-        void mapToDouble_int_nullInput_empty() {
-            final double[] r = Arrays.mapToDouble((int[]) null, i -> (double) i);
-            assertNotNull(r);
-            assertEquals(0, r.length);
-        }
-
-        @Test
-        void mapToDouble_int2D() {
-            int[][] a = { { 1, 2 }, { 3, 4 } };
-            double[][] result = Arrays.mapToDouble(a, i -> i * 0.5);
-
-            assertEquals(2, result.length);
-            assertEquals(0.5, result[0][0], 0.0001);
-            assertEquals(2.0, result[1][1], 0.0001);
-        }
-
-        @Test
-        void mapToDouble_int2DArray() {
-            // Test with normal two-dimensional array
-            int[][] input = { { 1, 2 }, { 3, 4 } };
-            double[][] result = Arrays.mapToDouble(input, (int i) -> i * 0.5);
-            assertArrayEquals(new double[] { 0.5, 1.0 }, result[0]);
-            assertArrayEquals(new double[] { 1.5, 2.0 }, result[1]);
-
-            // Test with null two-dimensional array
-            int[][] nullInput = null;
-            double[][] nullResult = Arrays.mapToDouble(nullInput, (int i) -> i * 0.5);
-            assertEquals(0, nullResult.length);
-        }
-
-        @Test
-        void mapToDouble_int3D() {
-            int[][][] a = { { { 10, 20 } } };
-            double[][][] result = Arrays.mapToDouble(a, i -> i * 0.1);
-
-            assertEquals(1.0, result[0][0][0], 0.0001);
-            assertEquals(2.0, result[0][0][1], 0.0001);
-        }
-
-        @Test
-        void mapToDouble_int3DArray() {
-            // Test with normal three-dimensional array
-            int[][][] input = { { { 1, 2 } }, { { 3, 4 }, { 5, 6 } } };
-            double[][][] result = Arrays.mapToDouble(input, (int i) -> i * 0.1);
-            assertArrayEquals(new double[] { 0.1, 0.2 }, result[0][0], 0.000001);
-            assertArrayEquals(new double[] { 0.3, 0.4 }, result[1][0], 0.000001);
-            assertArrayEquals(new double[] { 0.5, 0.6 }, result[1][1], 0.000001);
-
-            // Test with null three-dimensional array
-            int[][][] nullInput = null;
-            double[][][] nullResult = Arrays.mapToDouble(nullInput, (int i) -> i * 0.1);
-            assertEquals(0, nullResult.length);
-        }
-
-        @Test
-        void mapToDouble_intArray() {
-            // Test with normal array
-            int[] input = { 1, 2, 3, 4 };
-            double[] result = Arrays.mapToDouble(input, i -> i / 2.0);
-            assertArrayEquals(new double[] { 0.5, 1.0, 1.5, 2.0 }, result);
-
-            // Test with empty array
-            int[] emptyInput = {};
-            double[] emptyResult = Arrays.mapToDouble(emptyInput, i -> i / 2.0);
-            assertArrayEquals(new double[] {}, emptyResult);
-
-            // Test with null array
-            int[] nullInput = null;
-            double[] nullResult = Arrays.mapToDouble(nullInput, i -> i / 2.0);
-            assertEquals(0, nullResult.length);
-
-            // Test with mathematical operations
-            int[] mathInput = { 10, 20, 30 };
-            double[] mathResult = Arrays.mapToDouble(mathInput, i -> Math.sqrt(i));
-            assertEquals(Math.sqrt(10), mathResult[0], 0.0001);
-            assertEquals(Math.sqrt(20), mathResult[1], 0.0001);
-            assertEquals(Math.sqrt(30), mathResult[2], 0.0001);
-        }
-
-        @Test
-        void mapToDouble_intArray_preservesExactProducts() {
-            int[] arr = { 1, 2, 3 };
-            double[] result = Arrays.mapToDouble(arr, i -> i * 1.5);
-
-            assertArrayEquals(new double[] { 1.5, 3.0, 4.5 }, result);
-        }
-
-        @Test
-        void mapToDouble_intArrayNull() {
-            double[] result = Arrays.mapToDouble((int[]) null, i -> 0.0);
-            assertNotNull(result);
-            assertEquals(0, result.length);
-        }
-
-        @Test
-        void mapToDouble_intToDouble() {
-            // Line 1396-1398: mapToDouble({1,2,3}, i -> i/2.0) => {0.5, 1.0, 1.5}
-            int[] ints = { 1, 2, 3 };
-            double[] doubles = Arrays.mapToDouble(ints, i -> i / 2.0);
-            assertArrayEquals(new double[] { 0.5, 1.0, 1.5 }, doubles);
-        }
-
-        @Test
-        void mapToDouble_long_1D() {
-            long[] arr = { 1L, 2L, 3L };
-            double[] result = Arrays.mapToDouble(arr, l -> l * 1.5);
-            assertArrayEquals(new double[] { 1.5, 3.0, 4.5 }, result, 0.001);
-        }
-
-        @Test
-        void mapToDouble_long_2D() {
-            final long[][] a = { { 100L, 200L }, { 300L } };
-            final double[][] r = Arrays.mapToDouble(a, l -> l / 100.0);
-            assertEquals(2, r.length);
-            assertArrayEquals(new double[] { 1.0, 2.0 }, r[0], 0.0);
-            assertArrayEquals(new double[] { 3.0 }, r[1], 0.0);
-        }
-
-        @Test
-        void mapToDouble_long_widening() {
-            final double[] r = Arrays.mapToDouble(new long[] { 100L, 200L }, l -> l / 100.0);
-            assertArrayEquals(new double[] { 1.0, 2.0 }, r, 0.0);
-        }
-
-        @Test
-        void mapToDouble_long2DArray() {
-            // Test with normal two-dimensional array
-            long[][] input = { { 10L, 20L }, { 30L } };
-            double[][] result = Arrays.mapToDouble(input, (long l) -> l * 0.1);
-            assertArrayEquals(new double[] { 1.0, 2.0 }, result[0]);
-            assertArrayEquals(new double[] { 3.0 }, result[1]);
-
-            // Test with null two-dimensional array
-            long[][] nullInput = null;
-            double[][] nullResult = Arrays.mapToDouble(nullInput, (long l) -> l * 0.1);
-            assertEquals(0, nullResult.length);
-        }
-
-        @Test
-        void mapToDouble_long3DArray() {
-            // Test with normal three-dimensional array
-            long[][][] input = { { { 100L, 200L } }, { { 300L } } };
-            double[][][] result = Arrays.mapToDouble(input, (long l) -> l * 0.01d);
-            assertArrayEquals(new double[] { 1.0, 2.0 }, result[0][0]);
-            assertArrayEquals(new double[] { 3.0 }, result[1][0]);
-
-            // Test with null three-dimensional array
-            long[][][] nullInput = null;
-            double[][][] nullResult = Arrays.mapToDouble(nullInput, (long l) -> l * 0.01d);
-            assertEquals(0, nullResult.length);
-        }
-
-        @Test
-        void mapToDouble_longArray() {
-            // Test with normal array
-            long[] input = { 1L, 2L, 3L };
-            double[] result = Arrays.mapToDouble(input, l -> l * 0.5);
-            assertArrayEquals(new double[] { 0.5, 1.0, 1.5 }, result);
-
-            // Test with empty array
-            long[] emptyInput = {};
-            double[] emptyResult = Arrays.mapToDouble(emptyInput, l -> l * 0.5);
-            assertArrayEquals(new double[] {}, emptyResult);
-
-            // Test with null array
-            long[] nullInput = null;
-            double[] nullResult = Arrays.mapToDouble(nullInput, l -> l * 0.5);
-            assertEquals(0, nullResult.length);
-        }
-
-        @Test
-        void mapToDouble_longArray_values_10L_20L_30L() {
-            long[] a = { 10L, 20L, 30L };
-            double[] result = Arrays.mapToDouble(a, l -> l * 0.5);
-
-            assertArrayEquals(new double[] { 5.0, 10.0, 15.0 }, result, 0.0001);
-        }
-
-        @Test
-        void mapToDouble_longToDouble() {
-            // Line 1591-1593: mapToDouble({100L,200L,300L}, l -> l/100.0) => {1.0,2.0,3.0}
-            long[] values = { 100L, 200L, 300L };
-            double[] result = Arrays.mapToDouble(values, l -> l / 100.0);
-            assertArrayEquals(new double[] { 1.0, 2.0, 3.0 }, result);
-        }
-
-        @Test
-        void mapToDouble_nullArray() throws Exception {
-            String[] input = null;
-            double[] result = f.mapToDouble(input, s -> 0.0);
-            assertEquals(0, result.length);
-        }
-
-        @Test
-        void mapToDouble_stringToDouble() throws Exception {
-            String[] input = { "1.1", "2.2", "3.3" };
-            double[] result = f.mapToDouble(input, Double::parseDouble);
-            assertArrayEquals(new double[] { 1.1, 2.2, 3.3 }, result);
-        }
-
-        @Test
-        void mapToDouble_values_1_23e10_4_56eminus5_7_89e15() throws Exception {
-            // Test String to double parsing with scientific notation
-            String[][][] scientificData = { { { "1.23e10", "4.56e-5" } }, { { "7.89e15" } } };
-            double[][][] doubles = fff.mapToDouble(scientificData, Double::parseDouble);
-            assertEquals(1.23e10, doubles[0][0][0], 0.001);
-            assertEquals(4.56e-5, doubles[0][0][1], 0.00001);
-            assertEquals(7.89e15, doubles[1][0][0], 0.001);
-
-            // Test null input
-            double[][][] nullResult = fff.mapToDouble(null, s -> 0.0);
-            assertEquals(0, nullResult.length);
-
-            // Test Integer to double conversion
-            Integer[][][] numbers = { { { 100, 200 } }, { { 300, 400 } } };
-            double[][][] doubleNumbers = fff.mapToDouble(numbers, Integer::doubleValue);
-            assertEquals(100.0, doubleNumbers[0][0][0], 0.001);
-            assertEquals(200.0, doubleNumbers[0][0][1], 0.001);
-            assertEquals(300.0, doubleNumbers[1][0][0], 0.001);
-            assertEquals(400.0, doubleNumbers[1][0][1], 0.001);
-        }
-    }
-
-    @Nested
-    class MapToIntTests {
-
-        @Test
-        void f_mapToInt_appliesPerElement() {
-            String[] arr = { "1", "10", "100" };
-            int[] result = f.mapToInt(arr, Integer::parseInt);
-            assertArrayEquals(new int[] { 1, 10, 100 }, result);
-        }
-
-        @Test
-        void f_mapToInt_null() {
-            String[] arr = null;
-            int[] result = Arrays.f.mapToInt(arr, String::length);
-            assertEquals(0, result.length);
-        }
-
-        @Test
-        void f_mapToInt_valid() {
-            String[] arr = { "a", "ab", "abc", "abcd" };
-            int[] result = Arrays.f.mapToInt(arr, String::length);
-            assertArrayEquals(new int[] { 1, 2, 3, 4 }, result);
-        }
-
-        @Test
-        void fF_mapToInt() {
-            String[][] arr = { { "a", "ab", "abc" } };
-            int[][] result = Arrays.ff.mapToInt(arr, String::length);
-            assertArrayEquals(new int[] { 1, 2, 3 }, result[0]);
-        }
-
-        @Test
-        void fF_mapToInt_nullInnerSubArrayBecomesEmpty() {
-            Integer[][] arr = { { 1, 2 }, null, { 3 } };
-            int[][] result = ff.mapToInt(arr, x -> x * 2);
-            assertEquals(3, result.length);
-            assertArrayEquals(new int[] { 2, 4 }, result[0]);
-            assertNotNull(result[1]);
-            assertEquals(0, result[1].length);
-            assertArrayEquals(new int[] { 6 }, result[2]);
-        }
-
-        @Test
-        void fFF_mapToInt() {
-            String[][][] arr = { { { "a", "ab", "abc" } } };
-            int[][][] result = Arrays.fff.mapToInt(arr, String::length);
-            assertArrayEquals(new int[] { 1, 2, 3 }, result[0][0]);
-        }
-
-        @Test
-        void fFF_mapToInt_acrossPrimitiveVariants() throws Exception {
-            String[][][] strs = { { { "1", "2" } }, { { "3", "4" } } };
-            int[][][] ints = fff.mapToInt(strs, Integer::parseInt);
-            assertArrayEquals(new int[] { 1, 2 }, ints[0][0]);
-            assertArrayEquals(new int[] { 3, 4 }, ints[1][0]);
-
-            long[][][] longs = fff.mapToLong(strs, Long::parseLong);
-            assertArrayEquals(new long[] { 1L, 2L }, longs[0][0]);
-
-            boolean[][][] bools = fff.mapToBoolean(strs, s -> Integer.parseInt(s) > 2);
-            assertArrayEquals(new boolean[] { false, false }, bools[0][0]);
-            assertArrayEquals(new boolean[] { true, true }, bools[1][0]);
-        }
-
-        @Test
-        void mapToInt() throws Exception {
-            // Test String to int
-            String[][] array = { { "10", "20" }, { "30", "40" } };
-            int[][] numbers = ff.mapToInt(array, Integer::parseInt);
-            assertArrayEquals(new int[] { 10, 20 }, numbers[0]);
-            assertArrayEquals(new int[] { 30, 40 }, numbers[1]);
-
-            // Test null array
-            String[][] nullArray = null;
-            assertEquals(0, ff.mapToInt(nullArray, Integer::parseInt).length);
-
-            // Test with null sub-arrays
-            String[][] arrayWithNulls = { { "1", "2" }, null, { "3", "4" } };
-            int[][] mapped = ff.mapToInt(arrayWithNulls, Integer::parseInt);
-            assertArrayEquals(new int[] { 1, 2 }, mapped[0]);
-            assertEquals(0, mapped[1].length);
-            assertArrayEquals(new int[] { 3, 4 }, mapped[2]);
-
-            // Test String length to int
-            String[][] stringArray = { { "hi", "hello" }, { "world", "foo" } };
-            int[][] lengths = ff.mapToInt(stringArray, String::length);
-            assertArrayEquals(new int[] { 2, 5 }, lengths[0]);
-            assertArrayEquals(new int[] { 5, 3 }, lengths[1]);
-        }
-
-        @Test
-        void mapToInt_1D_double_normal() {
-            double[] arr = { 1.5, 2.7, 3.2, 4.9 };
-            int[] result = Arrays.mapToInt(arr, d -> (int) Math.round(d));
-            assertNotNull(result);
-            assertEquals(2, result[0]);
-            assertEquals(5, result[3]);
-        }
-
-        @Test
-        void mapToInt_1D_double_null() {
-            double[] arr = null;
-            int[] result = Arrays.mapToInt(arr, d -> (int) d);
-            assertEquals(0, result.length);
-        }
-
-        @Test
-        void mapToInt_1D_long_normal() {
-            long[] arr = { 100L, 200L, 300L };
-            int[] result = Arrays.mapToInt(arr, l -> (int) (l / 10));
-            assertNotNull(result);
-            assertEquals(3, result.length);
-            assertEquals(10, result[0]);
-            assertEquals(30, result[2]);
-        }
-
-        @Test
-        void mapToInt_1D_long_null() {
-            long[] arr = null;
-            int[] result = Arrays.mapToInt(arr, l -> (int) l);
-            assertEquals(0, result.length);
-        }
-
-        @Test
-        void mapToInt_2D_double_normal() {
-            double[][] arr = { { 10.5, 20.5 }, { 30.5, 40.5 } };
-            int[][] result = Arrays.mapToInt(arr, d -> (int) d);
-            assertNotNull(result);
-            assertEquals(10, result[0][0]);
-            assertEquals(40, result[1][1]);
-        }
-
-        @Test
-        void mapToInt_2D_long_normal() {
-            long[][] arr = { { 1000L, 2000L }, { 3000L, 4000L } };
-            int[][] result = Arrays.mapToInt(arr, l -> (int) (l / 100));
-            assertNotNull(result);
-            assertEquals(10, result[0][0]);
-            assertEquals(40, result[1][1]);
-        }
-
-        @Test
-        void mapToInt_3D_double_normal() {
-            double[][][] arr = { { { 100.8, 200.2 } } };
-            int[][][] result = Arrays.mapToInt(arr, d -> (int) Math.ceil(d));
-            assertNotNull(result);
-            assertEquals(101, result[0][0][0]);
-        }
-
-        @Test
-        void mapToInt_3D_long_normal() {
-            long[][][] arr = { { { 500L, 600L } } };
-            int[][][] result = Arrays.mapToInt(arr, l -> (int) l - 100);
-            assertNotNull(result);
-            assertEquals(400, result[0][0][0]);
-        }
-
-        @Test
-        void mapToInt_double_1D() {
-            double[] arr = { 1.5, 2.7, 3.9 };
-            int[] result = Arrays.mapToInt(arr, d -> (int) Math.round(d));
-            assertArrayEquals(new int[] { 2, 3, 4 }, result);
-        }
-
-        @Test
-        void mapToInt_double_2D_preservesShape() {
-            final double[][] a = { { 1.1, 2.2 }, { 3.3 } };
-            final int[][] r = Arrays.mapToInt(a, d -> (int) (d * 10));
-            assertEquals(2, r.length);
-            assertArrayEquals(new int[] { 11, 22 }, r[0]);
-            assertArrayEquals(new int[] { 33 }, r[1]);
-        }
-
-        @Test
-        void mapToInt_double_truncation() {
-            final int[] r = Arrays.mapToInt(new double[] { 1.7, -2.3, 3.999 }, d -> (int) d);
-            assertArrayEquals(new int[] { 1, -2, 3 }, r);
-        }
-
-        @Test
-        void mapToInt_double2DArray() {
-            // Test with normal two-dimensional array
-            double[][] input = { { 1.5, 2.5 }, { 3.5 } };
-            int[][] result = Arrays.mapToInt(input, (double d) -> (int) Math.round(d));
-            assertArrayEquals(new int[] { 2, 3 }, result[0]);
-            assertArrayEquals(new int[] { 4 }, result[1]);
-
-            // Test with null two-dimensional array
-            double[][] nullInput = null;
-            int[][] nullResult = Arrays.mapToInt(nullInput, (double d) -> (int) d);
-            assertEquals(0, nullResult.length);
-        }
-
-        @Test
-        void mapToInt_double3DArray() {
-            // Test with normal three-dimensional array
-            double[][][] input = { { { 1.1, 2.9 } }, { { 3.5 } } };
-            int[][][] result = Arrays.mapToInt(input, (double d) -> (int) Math.round(d));
-            assertArrayEquals(new int[] { 1, 3 }, result[0][0]);
-            assertArrayEquals(new int[] { 4 }, result[1][0]);
-
-            // Test with null three-dimensional array
-            double[][][] nullInput = null;
-            int[][][] nullResult = Arrays.mapToInt(nullInput, (double d) -> (int) d);
-            assertEquals(0, nullResult.length);
-        }
-
-        @Test
-        void mapToInt_doubleArray() {
-            // Test with normal array - rounding
-            double[] input = { 1.7, 2.3, 3.9 };
-            int[] result = Arrays.mapToInt(input, d -> (int) Math.round(d));
-            assertArrayEquals(new int[] { 2, 2, 4 }, result);
-
-            // Test with truncation
-            double[] truncInput = { 1.9, 2.1, 3.7 };
-            int[] truncResult = Arrays.mapToInt(truncInput, d -> (int) d);
-            assertArrayEquals(new int[] { 1, 2, 3 }, truncResult);
-
-            // Test with empty array
-            double[] emptyInput = {};
-            int[] emptyResult = Arrays.mapToInt(emptyInput, d -> (int) d);
-            assertArrayEquals(new int[] {}, emptyResult);
-
-            // Test with null array
-            double[] nullInput = null;
-            int[] nullResult = Arrays.mapToInt(nullInput, d -> (int) d);
-            assertEquals(0, nullResult.length);
-
-            // Test with negative values
-            double[] negativeInput = { 1.7, 2.3, 3.9 };
-            int[] negativeResult = Arrays.mapToInt(negativeInput, d -> (int) Math.round(d));
-            assertArrayEquals(new int[] { 2, 2, 4 }, negativeResult);
-        }
-
-        @Test
-        void mapToInt_doubleArray_values_1_9_2_9_3_9() {
-            double[] a = { 1.9, 2.9, 3.9 };
-            int[] result = Arrays.mapToInt(a, d -> (int) d);
-
-            assertArrayEquals(new int[] { 1, 2, 3 }, result);
-        }
-
-        @Test
-        void mapToInt_doubleArrayNull() {
-            int[] result = Arrays.mapToInt((double[]) null, d -> 0);
-            assertNotNull(result);
-            assertEquals(0, result.length);
-        }
-
-        @Test
-        void mapToInt_doubleToInt() {
-            // Line 1688-1690: mapToInt({1.7,2.3,3.9}, d -> (int)Math.round(d)) => {2,2,4}
-            double[] doubles = { 1.7, 2.3, 3.9 };
-            int[] ints = Arrays.mapToInt(doubles, d -> (int) Math.round(d));
-            assertArrayEquals(new int[] { 2, 2, 4 }, ints);
-        }
-
-        @Test
-        void mapToInt_doubleToInt2D() {
-            // Line 1720-1723: mapToInt({{1.5,2.7},{3.2,4.9}}, d -> (int)Math.round(d)) => {{2,3},{3,5}}
-            double[][] array2D = { { 1.5, 2.7 }, { 3.2, 4.9 } };
-            int[][] result = Arrays.mapToInt(array2D, d -> (int) Math.round(d));
-            assertArrayEquals(new int[] { 2, 3 }, result[0]);
-            assertArrayEquals(new int[] { 3, 5 }, result[1]);
-        }
-
-        @Test
-        void mapToInt_doubleToInt3D() {
-            // Line 1753-1756: mapToInt(cube, d -> (int)Math.ceil(d)) => {{{2,3},{4,5}},{{6,7},{8,9}}}
-            double[][][] cube = { { { 1.5, 2.7 }, { 3.2, 4.9 } }, { { 5.1, 6.8 }, { 7.3, 8.6 } } };
-            int[][][] result = Arrays.mapToInt(cube, d -> (int) Math.ceil(d));
-            assertArrayEquals(new int[] { 2, 3 }, result[0][0]);
-            assertArrayEquals(new int[] { 4, 5 }, result[0][1]);
-            assertArrayEquals(new int[] { 6, 7 }, result[1][0]);
-            assertArrayEquals(new int[] { 8, 9 }, result[1][1]);
-        }
-
-        @Test
-        void mapToInt_emptyArray() throws Exception {
-            String[] input = new String[0];
-            int[] result = f.mapToInt(input, s -> 0);
-            assertNotNull(result);
-            assertEquals(0, result.length);
-        }
-
-        @Test
-        void mapToInt_long_1D() {
-            long[] arr = { 1L, 2L, 3L };
-            int[] result = Arrays.mapToInt(arr, l -> (int) (l * 2));
-            assertArrayEquals(new int[] { 2, 4, 6 }, result);
-        }
-
-        @Test
-        void mapToInt_long_2D_nullSubArrayBecomesEmpty() {
-            final long[][] a = { { 1L, 2L }, null, { 3L } };
-            final int[][] r = Arrays.mapToInt(a, l -> (int) l);
-            assertEquals(3, r.length);
-            assertArrayEquals(new int[] { 1, 2 }, r[0]);
-            assertNotNull(r[1]);
-            assertEquals(0, r[1].length);
-            assertArrayEquals(new int[] { 3 }, r[2]);
-        }
-
-        @Test
-        void mapToInt_long_3D_preservesShape() {
-            final long[][][] a = { { { 1L, 2L } }, { { 3L } } };
-            final int[][][] r = Arrays.mapToInt(a, l -> (int) (l * 10));
-            assertEquals(2, r.length);
-            assertArrayEquals(new int[] { 10, 20 }, r[0][0]);
-            assertArrayEquals(new int[] { 30 }, r[1][0]);
-        }
-
-        @Test
-        void mapToInt_long_extremeValues() {
-            final int[] r = Arrays.mapToInt(new long[] { 1L, 2L, Long.MAX_VALUE }, l -> (int) (l & 0xFFFF));
-            assertArrayEquals(new int[] { 1, 2, 0xFFFF }, r);
-        }
-
-        @Test
-        void mapToInt_long_nullInput_emptyIntArray() {
-            final int[] r = Arrays.mapToInt((long[]) null, l -> (int) l);
-            assertNotNull(r);
-            assertEquals(0, r.length);
-        }
-
-        @Test
-        void mapToInt_long2DArray() {
-            // Test with normal two-dimensional array
-            long[][] input = { { 100L, 200L }, { 300L } };
-            int[][] result = Arrays.mapToInt(input, (long l) -> (int) (l / 100));
-            assertArrayEquals(new int[] { 1, 2 }, result[0]);
-            assertArrayEquals(new int[] { 3 }, result[1]);
-
-            // Test with null two-dimensional array
-            long[][] nullInput = null;
-            int[][] nullResult = Arrays.mapToInt(nullInput, (long l) -> (int) (l / 100));
-            assertEquals(0, nullResult.length);
-        }
-
-        @Test
-        void mapToInt_long3DArray() {
-            // Test with normal three-dimensional array
-            long[][][] input = { { { 1000L, 2000L } } };
-            int[][][] result = Arrays.mapToInt(input, (long l) -> (int) (l / 1000));
-            assertArrayEquals(new int[] { 1, 2 }, result[0][0]);
-
-            // Test with null three-dimensional array
-            long[][][] nullInput = null;
-            int[][][] nullResult = Arrays.mapToInt(nullInput, (long l) -> (int) (l / 1000));
-            assertEquals(0, nullResult.length);
-        }
-
-        @Test
-        void mapToInt_longArray() {
-            // Test with normal array
-            long[] input = { 1000L, 2000L, 3000L };
-            int[] result = Arrays.mapToInt(input, l -> (int) (l / 1000));
-            assertArrayEquals(new int[] { 1, 2, 3 }, result);
-
-            // Test with empty array
-            long[] emptyInput = {};
-            int[] emptyResult = Arrays.mapToInt(emptyInput, l -> (int) (l / 1000));
-            assertArrayEquals(new int[] {}, emptyResult);
-
-            // Test with null array
-            long[] nullInput = null;
-            int[] nullResult = Arrays.mapToInt(nullInput, l -> (int) (l / 1000));
-            assertEquals(0, nullResult.length);
-
-            // Test with overflow scenario
-            long[] overflowInput = { Long.MAX_VALUE, 0L, Long.MIN_VALUE };
-            int[] overflowResult = Arrays.mapToInt(overflowInput, l -> (int) (l));
-            assertEquals(-1, overflowResult[0]); // overflow
-            assertEquals(0, overflowResult[1]);
-            assertEquals(0, overflowResult[2]); // overflow
-        }
-
-        @Test
-        void mapToInt_longArray_values_100L_200L_300L() {
-            long[] a = { 100L, 200L, 300L };
-            int[] result = Arrays.mapToInt(a, l -> (int) (l / 10));
-
-            assertArrayEquals(new int[] { 10, 20, 30 }, result);
-        }
-
-        @Test
-        void mapToInt_longArray_values_1000L_2000L_3000L() {
-            long[] arr = { 1000L, 2000L, 3000L };
-            int[] result = Arrays.mapToInt(arr, l -> (int) (l / 1000));
-
-            assertArrayEquals(new int[] { 1, 2, 3 }, result);
-        }
-
-        @Test
-        void mapToInt_longArrayNull() {
-            int[] result = Arrays.mapToInt((long[]) null, l -> 0);
-            assertNotNull(result);
-            assertEquals(0, result.length);
-        }
-
-        @Test
-        void mapToInt_longToInt() {
-            // Line 1492-1494: mapToInt({1000L,2000L,3000L}, l -> (int)(l/1000)) => {1,2,3}
-            long[] longs = { 1000L, 2000L, 3000L };
-            int[] ints = Arrays.mapToInt(longs, l -> (int) (l / 1000));
-            assertArrayEquals(new int[] { 1, 2, 3 }, ints);
-        }
-
-        @Test
-        void mapToInt_nullArray() throws Exception {
-            String[] input = null;
-            int[] result = f.mapToInt(input, s -> 0);
-            assertEquals(0, result.length);
-        }
-
-        @Test
-        void mapToInt_stringToInt() throws Exception {
-            String[] input = { "10", "20", "30" };
-            int[] result = f.mapToInt(input, Integer::parseInt);
-            assertArrayEquals(new int[] { 10, 20, 30 }, result);
-        }
-
-        @Test
-        void mapToInt_values_1_2_3_4() throws Exception {
-            // Test String to int parsing
-            String[][][] stringNumbers = { { { "1", "2" } }, { { "3", "4" } } };
-            int[][][] integers = fff.mapToInt(stringNumbers, Integer::parseInt);
-            assertEquals(1, integers[0][0][0]);
-            assertEquals(2, integers[0][0][1]);
-            assertEquals(3, integers[1][0][0]);
-            assertEquals(4, integers[1][0][1]);
-
-            // Test null input
-            int[][][] nullResult = fff.mapToInt(null, s -> 0);
-            assertEquals(0, nullResult.length);
-
-            // Test Double to int conversion
-            Double[][][] doubles = { { { 1.5, 2.7 } }, { { 3.1, 4.9 } } };
-            int[][][] ints = fff.mapToInt(doubles, Double::intValue);
-            assertEquals(1, ints[0][0][0]);
-            assertEquals(2, ints[0][0][1]);
-            assertEquals(3, ints[1][0][0]);
-            assertEquals(4, ints[1][0][1]);
-        }
-    }
-
-    @Nested
-    class MapTests {
-
-        @Test
-        void f_map_null() {
-            String[] arr = null;
-            Integer[] result = Arrays.f.map(arr, Integer::valueOf, Integer.class);
-            assertEquals(0, result.length);
-        }
-
-        @Test
-        void f_map_valid() {
-            String[] arr = { "1", "2", "3" };
-            Integer[] result = Arrays.f.map(arr, Integer::valueOf, Integer.class);
-            assertArrayEquals(new Integer[] { 1, 2, 3 }, result);
-        }
-
-        @Test
-        void f_mapPrimitiveTypes() throws Exception {
-            String[] strings = { "1", "2", "3" };
-            Integer[] ints = f.map(strings, Integer::valueOf, Integer.class);
-            assertArrayEquals(new Integer[] { 1, 2, 3 }, ints);
-
-            assertArrayEquals(new boolean[] { true, false, true }, f.mapToBoolean(new String[] { "hello", "hi", "world" }, s -> s.length() > 3));
-            assertArrayEquals(new char[] { 'a', 'b', 'c' }, f.mapToChar(new String[] { "apple", "banana", "cherry" }, s -> s.charAt(0)));
-            assertArrayEquals(new byte[] { 10, 20, 30 }, f.mapToByte(new String[] { "10", "20", "30" }, Byte::parseByte));
-            assertArrayEquals(new short[] { 100, 200, 300 }, f.mapToShort(new String[] { "100", "200", "300" }, Short::parseShort));
-            assertArrayEquals(new int[] { 10, 20, 30 }, f.mapToInt(new String[] { "10", "20", "30" }, Integer::parseInt));
-            assertArrayEquals(new long[] { 1000L, 2000L, 3000L }, f.mapToLong(new String[] { "1000", "2000", "3000" }, Long::parseLong));
-            assertArrayEquals(new float[] { 1.5f, 2.5f, 3.5f }, f.mapToFloat(new String[] { "1.5", "2.5", "3.5" }, Float::parseFloat), 0.0f);
-            assertArrayEquals(new double[] { 1.5, 2.5, 3.5 }, f.mapToDouble(new String[] { "1.5", "2.5", "3.5" }, Double::parseDouble), 0.0);
-        }
-
-        @Test
-        void ff_map_allIntegers_resultIsIntegerArray() {
-            final Number[][] in = { { 1, 2 }, { 3, 4 } };
-            final Number[][] out = ff.map(in, n -> n);
-            assertEquals(Number[][].class, out.getClass());
-            // target = Number (runtime component type of the input array); no narrowing happens.
-        }
-
-        @Test
-        void ff_map_emptyInnerRows_preservesStructure() {
-            final Integer[][] in = { {}, {}, {} };
-            final Integer[][] out = ff.map(in, n -> n + 1);
-            assertEquals(Integer[][].class, out.getClass());
-            assertEquals(3, out.length);
-            for (int i = 0; i < 3; i++) {
-                assertEquals(0, out[i].length);
-            }
-        }
-
-        @Test
-        void ff_map_emptyInput_returnsEmptyOfDeclaredType() {
-            final Integer[][] in = new Integer[0][];
-            final Integer[][] out = ff.map(in, n -> n + 1);
-            assertEquals(Integer[][].class, out.getClass());
-            assertEquals(0, out.length);
-        }
-
-        @Test
-        void fF_map_function() {
-            String[][] arr = { { "1", "2" }, { "3", "4" } };
-            Integer[][] result = Arrays.ff.map(arr, Integer::valueOf, Integer.class);
-            assertEquals(1, result[0][0]);
-            assertEquals(2, result[0][1]);
-            assertEquals(3, result[1][0]);
-            assertEquals(4, result[1][1]);
-        }
-
-        @Test
-        void ff_map_mixedNumberSubtypes_resultArrayCanHoldAllValues() {
-            // Object[][] declared, mapper returns Integer for first cell, Long for second.
-            // The element type is inferred as Object from the runtime component type,
-            // so the result array correctly holds both Integer and Long.
-            final Object[][] in = { { "a", "b" } };
-            final Object[][] out = ff.map(in, s -> ((String) s).length() % 2 == 0 ? (Object) 1L : (Object) 1);
-            assertEquals(Object[][].class, out.getClass());
-            assertNotNull(out[0][0]);
-            assertNotNull(out[0][1]);
-        }
-
-        @Test
-        void ff_map_nullsInResult_doNotWidenTarget() {
-            // Number[][] in, mapper returns nulls for some, Integer for others.
-            // target = Number (runtime component type); nulls and Integers both store fine.
-            final Number[][] in = { { 1, 2 }, { 3, 4 } };
-            final Number[][] out = ff.map(in, n -> n.intValue() % 2 == 0 ? null : n);
-            assertEquals(Number[][].class, out.getClass());
-            assertNull(out[0][1]); // value 2 -> null
-            assertEquals(1, out[0][0]);
-        }
-
-        @Test
-        void fF_map_preservesShape() throws Exception {
-            Integer[][] arr = { { 1, 2 }, { 3, 4, 5 } };
-            Integer[][] doubled = ff.map(arr, x -> x * 2);
-            assertArrayEquals(new Integer[] { 2, 4 }, doubled[0]);
-            assertArrayEquals(new Integer[] { 6, 8, 10 }, doubled[1]);
-        }
-
-        @Test
-        void fF_map_unaryOperator() {
-            String[][] arr = { { "a", "b" }, { "c", "d" } };
-            String[][] result = Arrays.ff.map(arr, String::toUpperCase);
-            assertEquals("A", result[0][0]);
-            assertEquals("B", result[0][1]);
-            assertEquals("C", result[1][0]);
-            assertEquals("D", result[1][1]);
-        }
-
-        @Test
-        void fFF_map_function() {
-            String[][][] arr = { { { "1", "2" } }, { { "3", "4" } } };
-            Integer[][][] result = Arrays.fff.map(arr, Integer::valueOf, Integer.class);
-            assertEquals(1, result[0][0][0]);
-            assertEquals(2, result[0][0][1]);
-            assertEquals(3, result[1][0][0]);
-            assertEquals(4, result[1][0][1]);
-        }
-
-        @Test
-        void fff_map_preservesDeclaredType() {
-            final Integer[][][] in = { { { 1, 2 }, { 3 } }, { { 4 } } };
-            final Integer[][][] out = fff.map(in, n -> n + 1);
-            assertEquals(Integer[][][].class, out.getClass());
-            assertArrayEquals(new Integer[] { 2, 3 }, out[0][0]);
-            assertArrayEquals(new Integer[] { 4 }, out[0][1]);
-            assertArrayEquals(new Integer[] { 5 }, out[1][0]);
-        }
-
-        @Test
-        void fFF_map_unaryOperator() {
-            String[][][] arr = { { { "a", "b" } }, { { "c", "d" } } };
-            String[][][] result = Arrays.fff.map(arr, String::toUpperCase);
-            assertEquals("A", result[0][0][0]);
-            assertEquals("B", result[0][0][1]);
-            assertEquals("C", result[1][0][0]);
-            assertEquals("D", result[1][0][1]);
-        }
-
-        @Test
-        void fffMapInferredTypeRejectsRuntimeComponentWidening() throws Exception {
-            Number[][][] input = new Integer[][][] { { { 1, 2 } } };
-
-            assertThrows(IllegalArgumentException.class, () -> fff.map(input, n -> n.longValue() + 1L));
-
-            Number[][][] out = fff.map(input, n -> n.longValue() + 1L, Number.class);
-
-            assertEquals(2L, out[0][0][0]);
-            assertEquals(3L, out[0][0][1]);
-            assertEquals(Number[][][].class, out.getClass());
-        }
-
-        @Test
-        void ffMapInferredTypeRejectsAmbiguousInterfaceTarget() throws Exception {
-            java.io.Serializable[][] input = new Integer[][] { { 1 } };
-
-            assertThrows(IllegalArgumentException.class, () -> ff.map(input, x -> "s"));
-
-            java.io.Serializable[][] out = ff.map(input, x -> "s", java.io.Serializable.class);
-
-            assertEquals("s", out[0][0]);
-            assertEquals(java.io.Serializable[][].class, out.getClass());
-        }
-
-        @Test
-        void ffMapInferredTypeRejectsRuntimeComponentWidening() throws Exception {
-            Number[][] input = new Integer[][] { { 1, 2 } };
-
-            assertThrows(IllegalArgumentException.class, () -> ff.map(input, n -> n.longValue() + 1L));
-
-            Number[][] out = ff.map(input, n -> n.longValue() + 1L, Number.class);
-
-            assertEquals(2L, out[0][0]);
-            assertEquals(3L, out[0][1]);
-            assertEquals(Number[][].class, out.getClass());
-        }
-
-        @Test
-        void inferredMap_resultArrayAcceptsAllElements() {
-            // Use a Number[][] declared array but stuff Integers and Longs.
-            final Number[][] in = { { 1, 2L }, { 3.0, 4f } };
-            final Number[][] out = ff.map(in, n -> n);
-            assertEquals(Number[][].class, out.getClass());
-            assertEquals(Integer.valueOf(1), out[0][0]);
-            assertEquals(Long.valueOf(2L), out[0][1]);
-            assertEquals(Double.valueOf(3.0), out[1][0]);
-            assertEquals(Float.valueOf(4f), out[1][1]);
-        }
-
-        @Test
-        void integration_mapAndUpdate() {
-            int[] arr = { 1, 2, 3 };
-            long[] mapped = Arrays.mapToLong(arr, i -> i * 1000L);
-
-            assertArrayEquals(new long[] { 1000L, 2000L, 3000L }, mapped);
-        }
-
-        @Test
-        void map_chainedTransformations() throws Exception {
-            // Test chaining multiple transformations
-            String[] input = { "1", "2", "3" };
-            Integer[] intermediate = f.map(input, Integer::valueOf, Integer.class);
-            String[] result = f.map(intermediate, i -> "Value: " + (i * 2), String.class);
-            assertArrayEquals(new String[] { "Value: 2", "Value: 4", "Value: 6" }, result);
-        }
-
-        @Test
-        void map_emptyArray() throws Exception {
-            String[] input = new String[0];
-            Integer[] result = f.map(input, Integer::valueOf, Integer.class);
-            assertNotNull(result);
-            assertEquals(0, result.length);
-        }
-
-        @Test
-        void map_integerToString() throws Exception {
-            Integer[] input = { 1, 2, 3 };
-            String[] result = f.map(input, String::valueOf, String.class);
-            assertArrayEquals(new String[] { "1", "2", "3" }, result);
-        }
-
-        @Test
-        void map_nullArray() throws Exception {
-            String[] input = null;
-            Integer[] result = f.map(input, Integer::valueOf, Integer.class);
-            assertEquals(0, result.length);
-        }
-
-        @Test
-        void map_returnsMappedValue() throws Exception {
-            // Test basic mapping
-            Integer[][] array = { { 1, 2 }, { 3, 4 } };
-            Integer[][] doubled = ff.map(array, x -> x * 2);
-            assertArrayEquals(new Integer[] { 2, 4 }, doubled[0]);
-            assertArrayEquals(new Integer[] { 6, 8 }, doubled[1]);
-
-            // Test null array
-            Integer[][] nullArray = null;
-            assertThrows(IllegalArgumentException.class, () -> ff.map(nullArray, x -> x * 2));
-
-            // Test with null sub-arrays
-            Integer[][] arrayWithNulls = { { 1, 2 }, null, { 3, 4 } };
-            Integer[][] mapped = ff.map(arrayWithNulls, x -> x + 10);
-            assertArrayEquals(new Integer[] { 11, 12 }, mapped[0]);
-            assertEquals(0, mapped[1].length);
-            assertArrayEquals(new Integer[] { 13, 14 }, mapped[2]);
-
-            // Test String transformation
-            String[][] stringArray = { { "hello", "world" }, { "foo", "bar" } };
-            String[][] upperCased = ff.map(stringArray, String::toUpperCase);
-            assertArrayEquals(new String[] { "HELLO", "WORLD" }, upperCased[0]);
-            assertArrayEquals(new String[] { "FOO", "BAR" }, upperCased[1]);
-        }
-
-        @Test
-        void map_stringToInteger() throws Exception {
-            String[] input = { "1", "2", "3" };
-            Integer[] result = f.map(input, Integer::valueOf, Integer.class);
-            assertArrayEquals(new Integer[] { 1, 2, 3 }, result);
-        }
-
-        @Test
-        void map_withException() {
-            String[] input = { "1", "abc", "3" };
-            assertThrows(NumberFormatException.class, () -> {
-                f.map(input, Integer::valueOf, Integer.class);
-            });
-        }
-
-        @Test
-        void map_withNullElements() throws Exception {
-            String[] input = { "1", null, "3" };
-            String[] result = f.map(input, s -> s == null ? "NULL" : s, String.class);
-            assertArrayEquals(new String[] { "1", "NULL", "3" }, result);
-        }
-
-        @Test
-        void mapDifferentType() throws Exception {
-            // Test type conversion
-            String[][][] strings = { { { "1", "2" } }, { { "3", "4" } } };
-            Integer[][][] numbers = fff.map(strings, Integer::parseInt, Integer.class);
-            assertEquals(1, numbers[0][0][0]);
-            assertEquals(2, numbers[0][0][1]);
-            assertEquals(3, numbers[1][0][0]);
-            assertEquals(4, numbers[1][0][1]);
-
-            // Test null input
-            Integer[][][] nullResult = fff.map((String[][][]) null, Integer::parseInt, Integer.class);
-            assertEquals(0, nullResult.length);
-
-            // Test Integer to String conversion
-            Integer[][][] nums = { { { 100, 200 } }, { { 300, 400 } } };
-            String[][][] strs = fff.map(nums, n -> "Number: " + n, String.class);
-            assertEquals("Number: 100", strs[0][0][0]);
-            assertEquals("Number: 200", strs[0][0][1]);
-            assertEquals("Number: 300", strs[1][0][0]);
-            assertEquals("Number: 400", strs[1][0][1]);
-
-            // Test with mixed null elements
-            Integer[][][] mixedNums = { { { 1, null } }, null, { { null, 2 } } };
-            String[][][] mixedStrs = fff.map(mixedNums, n -> n == null ? "NULL" : n.toString(), String.class);
-            assertEquals("1", mixedStrs[0][0][0]);
-            assertEquals("NULL", mixedStrs[0][0][1]);
-            assertEquals(0, mixedStrs[1].length);
-            assertEquals("NULL", mixedStrs[2][0][0]);
-            assertEquals("2", mixedStrs[2][0][1]);
-        }
-
-        @Test
-        void mapSameType() throws Exception {
-            // Test basic mapping
-            Integer[][][] numbers = { { { 1, 2 } }, { { 3, 4 } } };
-            Integer[][][] doubled = fff.map(numbers, n -> n * 2);
-            assertEquals(2, doubled[0][0][0]);
-            assertEquals(4, doubled[0][0][1]);
-            assertEquals(6, doubled[1][0][0]);
-            assertEquals(8, doubled[1][0][1]);
-
-            // Test with null input
-            assertThrows(IllegalArgumentException.class, () -> fff.map((Integer[][][]) null, n -> n * 2));
-
-            // Test with null sub-arrays
-            Integer[][][] mixedArr = { { { 1, 2 } }, null, { { 3, 4 } } };
-            Integer[][][] mappedMixed = fff.map(mixedArr, n -> n + 10);
-            assertEquals(11, mappedMixed[0][0][0]);
-            assertEquals(12, mappedMixed[0][0][1]);
-            assertEquals(0, mappedMixed[1].length);
-            assertEquals(13, mappedMixed[2][0][0]);
-            assertEquals(14, mappedMixed[2][0][1]);
-
-            // Test with String array
-            String[][][] strings = { { { "hello", "world" } }, { { "foo", "bar" } } };
-            String[][][] upperStrings = fff.map(strings, String::toUpperCase);
-            assertEquals("HELLO", upperStrings[0][0][0]);
-            assertEquals("WORLD", upperStrings[0][0][1]);
-            assertEquals("FOO", upperStrings[1][0][0]);
-            assertEquals("BAR", upperStrings[1][0][1]);
-        }
-
-        @Test
-        void mapWithTargetType() throws Exception {
-            // Test type conversion
-            String[][] array = { { "1", "2" }, { "3", "4" } };
-            Integer[][] numbers = ff.map(array, Integer::parseInt, Integer.class);
-            assertArrayEquals(new Integer[] { 1, 2 }, numbers[0]);
-            assertArrayEquals(new Integer[] { 3, 4 }, numbers[1]);
-
-            // Test null array
-            String[][] nullArray = null;
-            assertEquals(0, ff.map(nullArray, Integer::parseInt, Integer.class).length);
-
-            // Test with null sub-arrays
-            String[][] arrayWithNulls = { { "1", "2" }, null, { "3", "4" } };
-            Integer[][] mapped = ff.map(arrayWithNulls, Integer::parseInt, Integer.class);
-            assertArrayEquals(new Integer[] { 1, 2 }, mapped[0]);
-            assertEquals(0, mapped[1].length);
-            assertArrayEquals(new Integer[] { 3, 4 }, mapped[2]);
-
-            // Test Integer to String conversion
-            Integer[][] intArray = { { 10, 20 }, { 30, 40 } };
-            String[][] stringArray = ff.map(intArray, Object::toString, String.class);
-            assertArrayEquals(new String[] { "10", "20" }, stringArray[0]);
-            assertArrayEquals(new String[] { "30", "40" }, stringArray[1]);
-        }
-
-        @Test
-        void objectMappingAllocatesRowsButRetainsReturnedElementReferences() {
-            final StringBuilder value = new StringBuilder("original");
-            final StringBuilder[] row = { value };
-            final StringBuilder[][] grid = { row, row };
-            final StringBuilder[][] inferred = Arrays.ff.map(grid, element -> element.append('!'));
-
-            assertNotSame(grid, inferred);
-            assertNotSame(row, inferred[0]);
-            assertNotSame(inferred[0], inferred[1]);
-            assertSame(value, inferred[0][0]);
-            assertSame(value, inferred[1][0]);
-            assertEquals("original!!", grid[0][0].toString());
-
-            final StringBuilder[][][] cube = { grid };
-            final StringBuilder[][][] explicit = Arrays.fff.map(cube, element -> element, StringBuilder.class);
-
-            assertNotSame(cube, explicit);
-            assertNotSame(grid, explicit[0]);
-            assertNotSame(row, explicit[0][0]);
-            assertNotSame(explicit[0][0], explicit[0][1]);
-            assertSame(value, explicit[0][0][0]);
-            assertSame(value, explicit[0][1][0]);
         }
     }
 
@@ -3872,6 +2490,983 @@ class ArraysMappingTest {
     }
 
     @Nested
+    class MapToIntTests {
+
+        @Test
+        void f_mapToInt_appliesPerElement() {
+            String[] arr = { "1", "10", "100" };
+            int[] result = f.mapToInt(arr, Integer::parseInt);
+            assertArrayEquals(new int[] { 1, 10, 100 }, result);
+        }
+
+        @Test
+        void f_mapToInt_null() {
+            String[] arr = null;
+            int[] result = Arrays.f.mapToInt(arr, String::length);
+            assertEquals(0, result.length);
+        }
+
+        @Test
+        void f_mapToInt_valid() {
+            String[] arr = { "a", "ab", "abc", "abcd" };
+            int[] result = Arrays.f.mapToInt(arr, String::length);
+            assertArrayEquals(new int[] { 1, 2, 3, 4 }, result);
+        }
+
+        @Test
+        void fF_mapToInt() {
+            String[][] arr = { { "a", "ab", "abc" } };
+            int[][] result = Arrays.ff.mapToInt(arr, String::length);
+            assertArrayEquals(new int[] { 1, 2, 3 }, result[0]);
+        }
+
+        @Test
+        void fF_mapToInt_nullInnerSubArrayBecomesEmpty() {
+            Integer[][] arr = { { 1, 2 }, null, { 3 } };
+            int[][] result = ff.mapToInt(arr, x -> x * 2);
+            assertEquals(3, result.length);
+            assertArrayEquals(new int[] { 2, 4 }, result[0]);
+            assertNotNull(result[1]);
+            assertEquals(0, result[1].length);
+            assertArrayEquals(new int[] { 6 }, result[2]);
+        }
+
+        @Test
+        void fFF_mapToInt() {
+            String[][][] arr = { { { "a", "ab", "abc" } } };
+            int[][][] result = Arrays.fff.mapToInt(arr, String::length);
+            assertArrayEquals(new int[] { 1, 2, 3 }, result[0][0]);
+        }
+
+        @Test
+        void fFF_mapToInt_acrossPrimitiveVariants() throws Exception {
+            String[][][] strs = { { { "1", "2" } }, { { "3", "4" } } };
+            int[][][] ints = fff.mapToInt(strs, Integer::parseInt);
+            assertArrayEquals(new int[] { 1, 2 }, ints[0][0]);
+            assertArrayEquals(new int[] { 3, 4 }, ints[1][0]);
+
+            long[][][] longs = fff.mapToLong(strs, Long::parseLong);
+            assertArrayEquals(new long[] { 1L, 2L }, longs[0][0]);
+
+            boolean[][][] bools = fff.mapToBoolean(strs, s -> Integer.parseInt(s) > 2);
+            assertArrayEquals(new boolean[] { false, false }, bools[0][0]);
+            assertArrayEquals(new boolean[] { true, true }, bools[1][0]);
+        }
+
+        @Test
+        void mapToInt() throws Exception {
+            // Test String to int
+            String[][] array = { { "10", "20" }, { "30", "40" } };
+            int[][] numbers = ff.mapToInt(array, Integer::parseInt);
+            assertArrayEquals(new int[] { 10, 20 }, numbers[0]);
+            assertArrayEquals(new int[] { 30, 40 }, numbers[1]);
+
+            // Test null array
+            String[][] nullArray = null;
+            assertEquals(0, ff.mapToInt(nullArray, Integer::parseInt).length);
+
+            // Test with null sub-arrays
+            String[][] arrayWithNulls = { { "1", "2" }, null, { "3", "4" } };
+            int[][] mapped = ff.mapToInt(arrayWithNulls, Integer::parseInt);
+            assertArrayEquals(new int[] { 1, 2 }, mapped[0]);
+            assertEquals(0, mapped[1].length);
+            assertArrayEquals(new int[] { 3, 4 }, mapped[2]);
+
+            // Test String length to int
+            String[][] stringArray = { { "hi", "hello" }, { "world", "foo" } };
+            int[][] lengths = ff.mapToInt(stringArray, String::length);
+            assertArrayEquals(new int[] { 2, 5 }, lengths[0]);
+            assertArrayEquals(new int[] { 5, 3 }, lengths[1]);
+        }
+
+        @Test
+        void mapToInt_1D_double_normal() {
+            double[] arr = { 1.5, 2.7, 3.2, 4.9 };
+            int[] result = Arrays.mapToInt(arr, d -> (int) Math.round(d));
+            assertNotNull(result);
+            assertEquals(2, result[0]);
+            assertEquals(5, result[3]);
+        }
+
+        @Test
+        void mapToInt_1D_double_null() {
+            double[] arr = null;
+            int[] result = Arrays.mapToInt(arr, d -> (int) d);
+            assertEquals(0, result.length);
+        }
+
+        @Test
+        void mapToInt_1D_long_normal() {
+            long[] arr = { 100L, 200L, 300L };
+            int[] result = Arrays.mapToInt(arr, l -> (int) (l / 10));
+            assertNotNull(result);
+            assertEquals(3, result.length);
+            assertEquals(10, result[0]);
+            assertEquals(30, result[2]);
+        }
+
+        @Test
+        void mapToInt_1D_long_null() {
+            long[] arr = null;
+            int[] result = Arrays.mapToInt(arr, l -> (int) l);
+            assertEquals(0, result.length);
+        }
+
+        @Test
+        void mapToInt_2D_double_normal() {
+            double[][] arr = { { 10.5, 20.5 }, { 30.5, 40.5 } };
+            int[][] result = Arrays.mapToInt(arr, d -> (int) d);
+            assertNotNull(result);
+            assertEquals(10, result[0][0]);
+            assertEquals(40, result[1][1]);
+        }
+
+        @Test
+        void mapToInt_2D_long_normal() {
+            long[][] arr = { { 1000L, 2000L }, { 3000L, 4000L } };
+            int[][] result = Arrays.mapToInt(arr, l -> (int) (l / 100));
+            assertNotNull(result);
+            assertEquals(10, result[0][0]);
+            assertEquals(40, result[1][1]);
+        }
+
+        @Test
+        void mapToInt_3D_double_normal() {
+            double[][][] arr = { { { 100.8, 200.2 } } };
+            int[][][] result = Arrays.mapToInt(arr, d -> (int) Math.ceil(d));
+            assertNotNull(result);
+            assertEquals(101, result[0][0][0]);
+        }
+
+        @Test
+        void mapToInt_3D_long_normal() {
+            long[][][] arr = { { { 500L, 600L } } };
+            int[][][] result = Arrays.mapToInt(arr, l -> (int) l - 100);
+            assertNotNull(result);
+            assertEquals(400, result[0][0][0]);
+        }
+
+        @Test
+        void mapToInt_double_1D() {
+            double[] arr = { 1.5, 2.7, 3.9 };
+            int[] result = Arrays.mapToInt(arr, d -> (int) Math.round(d));
+            assertArrayEquals(new int[] { 2, 3, 4 }, result);
+        }
+
+        @Test
+        void mapToInt_double_2D_preservesShape() {
+            final double[][] a = { { 1.1, 2.2 }, { 3.3 } };
+            final int[][] r = Arrays.mapToInt(a, d -> (int) (d * 10));
+            assertEquals(2, r.length);
+            assertArrayEquals(new int[] { 11, 22 }, r[0]);
+            assertArrayEquals(new int[] { 33 }, r[1]);
+        }
+
+        @Test
+        void mapToInt_double_truncation() {
+            final int[] r = Arrays.mapToInt(new double[] { 1.7, -2.3, 3.999 }, d -> (int) d);
+            assertArrayEquals(new int[] { 1, -2, 3 }, r);
+        }
+
+        @Test
+        void mapToInt_double2DArray() {
+            // Test with normal two-dimensional array
+            double[][] input = { { 1.5, 2.5 }, { 3.5 } };
+            int[][] result = Arrays.mapToInt(input, (double d) -> (int) Math.round(d));
+            assertArrayEquals(new int[] { 2, 3 }, result[0]);
+            assertArrayEquals(new int[] { 4 }, result[1]);
+
+            // Test with null two-dimensional array
+            double[][] nullInput = null;
+            int[][] nullResult = Arrays.mapToInt(nullInput, (double d) -> (int) d);
+            assertEquals(0, nullResult.length);
+        }
+
+        @Test
+        void mapToInt_double3DArray() {
+            // Test with normal three-dimensional array
+            double[][][] input = { { { 1.1, 2.9 } }, { { 3.5 } } };
+            int[][][] result = Arrays.mapToInt(input, (double d) -> (int) Math.round(d));
+            assertArrayEquals(new int[] { 1, 3 }, result[0][0]);
+            assertArrayEquals(new int[] { 4 }, result[1][0]);
+
+            // Test with null three-dimensional array
+            double[][][] nullInput = null;
+            int[][][] nullResult = Arrays.mapToInt(nullInput, (double d) -> (int) d);
+            assertEquals(0, nullResult.length);
+        }
+
+        @Test
+        void mapToInt_doubleArray() {
+            // Test with normal array - rounding
+            double[] input = { 1.7, 2.3, 3.9 };
+            int[] result = Arrays.mapToInt(input, d -> (int) Math.round(d));
+            assertArrayEquals(new int[] { 2, 2, 4 }, result);
+
+            // Test with truncation
+            double[] truncInput = { 1.9, 2.1, 3.7 };
+            int[] truncResult = Arrays.mapToInt(truncInput, d -> (int) d);
+            assertArrayEquals(new int[] { 1, 2, 3 }, truncResult);
+
+            // Test with empty array
+            double[] emptyInput = {};
+            int[] emptyResult = Arrays.mapToInt(emptyInput, d -> (int) d);
+            assertArrayEquals(new int[] {}, emptyResult);
+
+            // Test with null array
+            double[] nullInput = null;
+            int[] nullResult = Arrays.mapToInt(nullInput, d -> (int) d);
+            assertEquals(0, nullResult.length);
+
+            // Test with negative values
+            double[] negativeInput = { 1.7, 2.3, 3.9 };
+            int[] negativeResult = Arrays.mapToInt(negativeInput, d -> (int) Math.round(d));
+            assertArrayEquals(new int[] { 2, 2, 4 }, negativeResult);
+        }
+
+        @Test
+        void mapToInt_doubleArray_values_1_9_2_9_3_9() {
+            double[] a = { 1.9, 2.9, 3.9 };
+            int[] result = Arrays.mapToInt(a, d -> (int) d);
+
+            assertArrayEquals(new int[] { 1, 2, 3 }, result);
+        }
+
+        @Test
+        void mapToInt_doubleArrayNull() {
+            int[] result = Arrays.mapToInt((double[]) null, d -> 0);
+            assertNotNull(result);
+            assertEquals(0, result.length);
+        }
+
+        @Test
+        void mapToInt_doubleToInt() {
+            // mapToInt({1.7,2.3,3.9}, d -> (int)Math.round(d)) => {2,2,4}
+            double[] doubles = { 1.7, 2.3, 3.9 };
+            int[] ints = Arrays.mapToInt(doubles, d -> (int) Math.round(d));
+            assertArrayEquals(new int[] { 2, 2, 4 }, ints);
+        }
+
+        @Test
+        void mapToInt_doubleToInt2D() {
+            // mapToInt({{1.5,2.7},{3.2,4.9}}, d -> (int)Math.round(d)) => {{2,3},{3,5}}
+            double[][] array2D = { { 1.5, 2.7 }, { 3.2, 4.9 } };
+            int[][] result = Arrays.mapToInt(array2D, d -> (int) Math.round(d));
+            assertArrayEquals(new int[] { 2, 3 }, result[0]);
+            assertArrayEquals(new int[] { 3, 5 }, result[1]);
+        }
+
+        @Test
+        void mapToInt_doubleToInt3D() {
+            // mapToInt(cube, d -> (int)Math.ceil(d)) => {{{2,3},{4,5}},{{6,7},{8,9}}}
+            double[][][] cube = { { { 1.5, 2.7 }, { 3.2, 4.9 } }, { { 5.1, 6.8 }, { 7.3, 8.6 } } };
+            int[][][] result = Arrays.mapToInt(cube, d -> (int) Math.ceil(d));
+            assertArrayEquals(new int[] { 2, 3 }, result[0][0]);
+            assertArrayEquals(new int[] { 4, 5 }, result[0][1]);
+            assertArrayEquals(new int[] { 6, 7 }, result[1][0]);
+            assertArrayEquals(new int[] { 8, 9 }, result[1][1]);
+        }
+
+        @Test
+        void mapToInt_emptyArray() throws Exception {
+            String[] input = new String[0];
+            int[] result = f.mapToInt(input, s -> 0);
+            assertNotNull(result);
+            assertEquals(0, result.length);
+        }
+
+        @Test
+        void mapToInt_long_1D() {
+            long[] arr = { 1L, 2L, 3L };
+            int[] result = Arrays.mapToInt(arr, l -> (int) (l * 2));
+            assertArrayEquals(new int[] { 2, 4, 6 }, result);
+        }
+
+        @Test
+        void mapToInt_long_2D_nullSubArrayBecomesEmpty() {
+            final long[][] a = { { 1L, 2L }, null, { 3L } };
+            final int[][] r = Arrays.mapToInt(a, l -> (int) l);
+            assertEquals(3, r.length);
+            assertArrayEquals(new int[] { 1, 2 }, r[0]);
+            assertNotNull(r[1]);
+            assertEquals(0, r[1].length);
+            assertArrayEquals(new int[] { 3 }, r[2]);
+        }
+
+        @Test
+        void mapToInt_long_3D_preservesShape() {
+            final long[][][] a = { { { 1L, 2L } }, { { 3L } } };
+            final int[][][] r = Arrays.mapToInt(a, l -> (int) (l * 10));
+            assertEquals(2, r.length);
+            assertArrayEquals(new int[] { 10, 20 }, r[0][0]);
+            assertArrayEquals(new int[] { 30 }, r[1][0]);
+        }
+
+        @Test
+        void mapToInt_long_extremeValues() {
+            final int[] r = Arrays.mapToInt(new long[] { 1L, 2L, Long.MAX_VALUE }, l -> (int) (l & 0xFFFF));
+            assertArrayEquals(new int[] { 1, 2, 0xFFFF }, r);
+        }
+
+        @Test
+        void mapToInt_long_nullInput_emptyIntArray() {
+            final int[] r = Arrays.mapToInt((long[]) null, l -> (int) l);
+            assertNotNull(r);
+            assertEquals(0, r.length);
+        }
+
+        @Test
+        void mapToInt_long2DArray() {
+            // Test with normal two-dimensional array
+            long[][] input = { { 100L, 200L }, { 300L } };
+            int[][] result = Arrays.mapToInt(input, (long l) -> (int) (l / 100));
+            assertArrayEquals(new int[] { 1, 2 }, result[0]);
+            assertArrayEquals(new int[] { 3 }, result[1]);
+
+            // Test with null two-dimensional array
+            long[][] nullInput = null;
+            int[][] nullResult = Arrays.mapToInt(nullInput, (long l) -> (int) (l / 100));
+            assertEquals(0, nullResult.length);
+        }
+
+        @Test
+        void mapToInt_long3DArray() {
+            // Test with normal three-dimensional array
+            long[][][] input = { { { 1000L, 2000L } } };
+            int[][][] result = Arrays.mapToInt(input, (long l) -> (int) (l / 1000));
+            assertArrayEquals(new int[] { 1, 2 }, result[0][0]);
+
+            // Test with null three-dimensional array
+            long[][][] nullInput = null;
+            int[][][] nullResult = Arrays.mapToInt(nullInput, (long l) -> (int) (l / 1000));
+            assertEquals(0, nullResult.length);
+        }
+
+        @Test
+        void mapToInt_longArray() {
+            // Test with normal array
+            long[] input = { 1000L, 2000L, 3000L };
+            int[] result = Arrays.mapToInt(input, l -> (int) (l / 1000));
+            assertArrayEquals(new int[] { 1, 2, 3 }, result);
+
+            // Test with empty array
+            long[] emptyInput = {};
+            int[] emptyResult = Arrays.mapToInt(emptyInput, l -> (int) (l / 1000));
+            assertArrayEquals(new int[] {}, emptyResult);
+
+            // Test with null array
+            long[] nullInput = null;
+            int[] nullResult = Arrays.mapToInt(nullInput, l -> (int) (l / 1000));
+            assertEquals(0, nullResult.length);
+
+            // Test with overflow scenario
+            long[] overflowInput = { Long.MAX_VALUE, 0L, Long.MIN_VALUE };
+            int[] overflowResult = Arrays.mapToInt(overflowInput, l -> (int) (l));
+            assertEquals(-1, overflowResult[0]); // overflow
+            assertEquals(0, overflowResult[1]);
+            assertEquals(0, overflowResult[2]); // overflow
+        }
+
+        @Test
+        void mapToInt_longArray_values_100L_200L_300L() {
+            long[] a = { 100L, 200L, 300L };
+            int[] result = Arrays.mapToInt(a, l -> (int) (l / 10));
+
+            assertArrayEquals(new int[] { 10, 20, 30 }, result);
+        }
+
+        @Test
+        void mapToInt_longArray_values_1000L_2000L_3000L() {
+            long[] arr = { 1000L, 2000L, 3000L };
+            int[] result = Arrays.mapToInt(arr, l -> (int) (l / 1000));
+
+            assertArrayEquals(new int[] { 1, 2, 3 }, result);
+        }
+
+        @Test
+        void mapToInt_longArrayNull() {
+            int[] result = Arrays.mapToInt((long[]) null, l -> 0);
+            assertNotNull(result);
+            assertEquals(0, result.length);
+        }
+
+        @Test
+        void mapToInt_longToInt() {
+            // mapToInt({1000L,2000L,3000L}, l -> (int)(l/1000)) => {1,2,3}
+            long[] longs = { 1000L, 2000L, 3000L };
+            int[] ints = Arrays.mapToInt(longs, l -> (int) (l / 1000));
+            assertArrayEquals(new int[] { 1, 2, 3 }, ints);
+        }
+
+        @Test
+        void mapToInt_nullArray() throws Exception {
+            String[] input = null;
+            int[] result = f.mapToInt(input, s -> 0);
+            assertEquals(0, result.length);
+        }
+
+        @Test
+        void mapToInt_stringToInt() throws Exception {
+            String[] input = { "10", "20", "30" };
+            int[] result = f.mapToInt(input, Integer::parseInt);
+            assertArrayEquals(new int[] { 10, 20, 30 }, result);
+        }
+
+        @Test
+        void mapToInt_values_1_2_3_4() throws Exception {
+            // Test String to int parsing
+            String[][][] stringNumbers = { { { "1", "2" } }, { { "3", "4" } } };
+            int[][][] integers = fff.mapToInt(stringNumbers, Integer::parseInt);
+            assertEquals(1, integers[0][0][0]);
+            assertEquals(2, integers[0][0][1]);
+            assertEquals(3, integers[1][0][0]);
+            assertEquals(4, integers[1][0][1]);
+
+            // Test null input
+            int[][][] nullResult = fff.mapToInt(null, s -> 0);
+            assertEquals(0, nullResult.length);
+
+            // Test Double to int conversion
+            Double[][][] doubles = { { { 1.5, 2.7 } }, { { 3.1, 4.9 } } };
+            int[][][] ints = fff.mapToInt(doubles, Double::intValue);
+            assertEquals(1, ints[0][0][0]);
+            assertEquals(2, ints[0][0][1]);
+            assertEquals(3, ints[1][0][0]);
+            assertEquals(4, ints[1][0][1]);
+        }
+    }
+
+    @Nested
+    class MapToLongTests {
+
+        @Test
+        void f_mapToLong_null() {
+            String[] arr = null;
+            long[] result = Arrays.f.mapToLong(arr, s -> (long) s.length());
+            assertEquals(0, result.length);
+        }
+
+        @Test
+        void f_mapToLong_valid() {
+            String[] arr = { "abc", "defg" };
+            long[] result = Arrays.f.mapToLong(arr, s -> (long) s.length());
+            assertArrayEquals(new long[] { 3L, 4L }, result);
+        }
+
+        @Test
+        void fF_mapToLong() {
+            String[][] arr = { { "abc", "defg" } };
+            long[][] result = Arrays.ff.mapToLong(arr, s -> (long) s.length());
+            assertArrayEquals(new long[] { 3L, 4L }, result[0]);
+        }
+
+        @Test
+        void fFF_mapToLong() {
+            String[][][] arr = { { { "abc", "defg" } } };
+            long[][][] result = Arrays.fff.mapToLong(arr, s -> (long) s.length());
+            assertArrayEquals(new long[] { 3L, 4L }, result[0][0]);
+        }
+
+        @Test
+        void mapToLong() throws Exception {
+            // Test String to long
+            String[][] array = { { "1000000", "2000000" }, { "3000000", "4000000" } };
+            long[][] longs = ff.mapToLong(array, Long::parseLong);
+            assertArrayEquals(new long[] { 1000000L, 2000000L }, longs[0]);
+            assertArrayEquals(new long[] { 3000000L, 4000000L }, longs[1]);
+
+            // Test null array
+            String[][] nullArray = null;
+            assertEquals(0, ff.mapToLong(nullArray, Long::parseLong).length);
+
+            // Test with null sub-arrays
+            String[][] arrayWithNulls = { { "100", "200" }, null, { "300", "400" } };
+            long[][] mapped = ff.mapToLong(arrayWithNulls, Long::parseLong);
+            assertArrayEquals(new long[] { 100L, 200L }, mapped[0]);
+            assertEquals(0, mapped[1].length);
+            assertArrayEquals(new long[] { 300L, 400L }, mapped[2]);
+
+            // Test Integer to long
+            Integer[][] intArray = { { 100, 200 }, { 300, 400 } };
+            long[][] longValues = ff.mapToLong(intArray, Integer::longValue);
+            assertArrayEquals(new long[] { 100L, 200L }, longValues[0]);
+            assertArrayEquals(new long[] { 300L, 400L }, longValues[1]);
+        }
+
+        @Test
+        void mapToLong_1D_double_normal() {
+            double[] arr = { 1.5, 2.7, 3.9 };
+            long[] result = Arrays.mapToLong(arr, d -> Math.round(d * 100));
+            assertNotNull(result);
+            assertEquals(150L, result[0]);
+            assertEquals(390L, result[2]);
+        }
+
+        @Test
+        void mapToLong_1D_double_null() {
+            double[] arr = null;
+            long[] result = Arrays.mapToLong(arr, d -> (long) d);
+            assertEquals(0, result.length);
+        }
+
+        @Test
+        void mapToLong_1D_int_normal() {
+            int[] arr = { 1, 2, 3, 4, 5 };
+            long[] result = Arrays.mapToLong(arr, i -> (long) i * 100);
+            assertNotNull(result);
+            assertEquals(5, result.length);
+            assertEquals(100L, result[0]);
+            assertEquals(500L, result[4]);
+        }
+
+        @Test
+        void mapToLong_1D_int_null() {
+            int[] arr = null;
+            long[] result = Arrays.mapToLong(arr, i -> (long) i);
+            assertEquals(0, result.length);
+        }
+
+        @Test
+        void mapToLong_2D_double_normal() {
+            double[][] arr = { { 10.5, 20.5 }, { 30.5, 40.5 } };
+            long[][] result = Arrays.mapToLong(arr, d -> Math.round(d));
+            assertNotNull(result);
+            assertEquals(11L, result[0][0]);
+            assertEquals(41L, result[1][1]);
+        }
+
+        @Test
+        void mapToLong_2D_int_normal() {
+            int[][] arr = { { 1, 2 }, { 3, 4 } };
+            long[][] result = Arrays.mapToLong(arr, i -> (long) i * 1000);
+            assertNotNull(result);
+            assertEquals(1000L, result[0][0]);
+            assertEquals(4000L, result[1][1]);
+        }
+
+        @Test
+        void mapToLong_3D_double_normal() {
+            double[][][] arr = { { { 99.9, 199.9 } } };
+            long[][][] result = Arrays.mapToLong(arr, d -> (long) Math.floor(d));
+            assertNotNull(result);
+            assertEquals(99L, result[0][0][0]);
+        }
+
+        @Test
+        void mapToLong_3D_int_normal() {
+            int[][][] arr = { { { 10, 20 } } };
+            long[][][] result = Arrays.mapToLong(arr, i -> (long) i + 5);
+            assertNotNull(result);
+            assertEquals(15L, result[0][0][0]);
+        }
+
+        @Test
+        void mapToLong_double_1D() {
+            double[] arr = { 1.5, 2.7, 3.9 };
+            long[] result = Arrays.mapToLong(arr, d -> Math.round(d));
+            assertArrayEquals(new long[] { 2L, 3L, 4L }, result);
+        }
+
+        @Test
+        void mapToLong_double_3D() {
+            final double[][][] a = { { { 1.5, 2.5 } }, { { 3.5 } } };
+            final long[][][] r = Arrays.mapToLong(a, d -> (long) d);
+            assertEquals(2, r.length);
+            assertArrayEquals(new long[] { 1L, 2L }, r[0][0]);
+            assertArrayEquals(new long[] { 3L }, r[1][0]);
+        }
+
+        @Test
+        void mapToLong_double_truncation() {
+            final long[] r = Arrays.mapToLong(new double[] { 1.7, -2.3, 1e10 }, d -> (long) d);
+            assertArrayEquals(new long[] { 1L, -2L, 10_000_000_000L }, r);
+        }
+
+        @Test
+        void mapToLong_double2DArray() {
+            // Test with normal two-dimensional array
+            double[][] input = { { 1.1, 2.2 }, { 3.3 } };
+            long[][] result = Arrays.mapToLong(input, (double d) -> Math.round(d));
+            assertArrayEquals(new long[] { 1L, 2L }, result[0]);
+            assertArrayEquals(new long[] { 3L }, result[1]);
+
+            // Test with null two-dimensional array
+            double[][] nullInput = null;
+            long[][] nullResult = Arrays.mapToLong(nullInput, (double d) -> Math.round(d));
+            assertEquals(0, nullResult.length);
+        }
+
+        @Test
+        void mapToLong_double3DArray() {
+            // Test with normal three-dimensional array
+            double[][][] input = { { { 10.5, 20.5 } }, { { 30.5 } } };
+            long[][][] result = Arrays.mapToLong(input, (double d) -> Math.round(d));
+            assertArrayEquals(new long[] { 11L, 21L }, result[0][0]);
+            assertArrayEquals(new long[] { 31L }, result[1][0]);
+
+            // Test with null three-dimensional array
+            double[][][] nullInput = null;
+            long[][][] nullResult = Arrays.mapToLong(nullInput, (double d) -> Math.round(d));
+            assertEquals(0, nullResult.length);
+        }
+
+        @Test
+        void mapToLong_doubleArray() {
+            // Test with normal array
+            double[] input = { 1.5, 2.7, 3.2 };
+            long[] result = Arrays.mapToLong(input, d -> Math.round(d));
+            assertArrayEquals(new long[] { 2L, 3L, 3L }, result);
+
+            // Test with empty array
+            double[] emptyInput = {};
+            long[] emptyResult = Arrays.mapToLong(emptyInput, d -> Math.round(d));
+            assertArrayEquals(new long[] {}, emptyResult);
+
+            // Test with null array
+            double[] nullInput = null;
+            long[] nullResult = Arrays.mapToLong(nullInput, d -> Math.round(d));
+            assertEquals(0, nullResult.length);
+
+            // Test with large values
+            double[] largeInput = { 1e10, 2e10, 3e10 };
+            long[] largeResult = Arrays.mapToLong(largeInput, d -> (long) d);
+            assertArrayEquals(new long[] { 10000000000L, 20000000000L, 30000000000L }, largeResult);
+        }
+
+        @Test
+        void mapToLong_doubleArray_values_1_5_2_5_3_5() {
+            double[] a = { 1.5, 2.5, 3.5 };
+            long[] result = Arrays.mapToLong(a, d -> (long) (d * 10));
+
+            assertArrayEquals(new long[] { 15L, 25L, 35L }, result);
+        }
+
+        @Test
+        void mapToLong_doubleToLong() {
+            // mapToLong({10.50,20.75,30.25}, d -> (long)(d*100)) => {1050,2075,3025}
+            double[] prices = { 10.50, 20.75, 30.25 };
+            long[] cents = Arrays.mapToLong(prices, d -> (long) (d * 100));
+            assertArrayEquals(new long[] { 1050, 2075, 3025 }, cents);
+        }
+
+        @Test
+        void mapToLong_doubleToLong2D() {
+            // mapToLong({{10.50,20.75},{30.25,40.50}}, d -> (long)(d*100))
+            double[][] prices = { { 10.50, 20.75 }, { 30.25, 40.50 } };
+            long[][] cents = Arrays.mapToLong(prices, d -> (long) (d * 100));
+            assertArrayEquals(new long[] { 1050, 2075 }, cents[0]);
+            assertArrayEquals(new long[] { 3025, 4050 }, cents[1]);
+        }
+
+        @Test
+        void mapToLong_doubleToLong3D() {
+            // mapToLong(cube, d -> (long)(d*1000))
+            double[][][] cube = { { { 1.5, 2.7 }, { 3.2, 4.9 } }, { { 5.1, 6.8 }, { 7.3, 8.6 } } };
+            long[][][] result = Arrays.mapToLong(cube, d -> (long) (d * 1000));
+            assertArrayEquals(new long[] { 1500, 2700 }, result[0][0]);
+            assertArrayEquals(new long[] { 3200, 4900 }, result[0][1]);
+            assertArrayEquals(new long[] { 5100, 6800 }, result[1][0]);
+            assertArrayEquals(new long[] { 7300, 8600 }, result[1][1]);
+        }
+
+        @Test
+        void mapToLong_emptyArray() throws Exception {
+            String[] input = new String[0];
+            long[] result = f.mapToLong(input, s -> 0L);
+            assertNotNull(result);
+            assertEquals(0, result.length);
+        }
+
+        @Test
+        void mapToLong_errorHandling_exceptionInMapper() {
+            int[] input = { 1, 2, 3 };
+            Throwables.IntToLongFunction<RuntimeException> faultyMapper = i -> {
+                if (i == 2) {
+                    throw new RuntimeException("Test exception");
+                }
+                return i * 1000L;
+            };
+
+            assertThrows(RuntimeException.class, () -> {
+                Arrays.mapToLong(input, faultyMapper);
+            });
+        }
+
+        @Test
+        void mapToLong_int_1D_null() {
+            int[] arr = null;
+            long[] result = Arrays.mapToLong(arr, i -> i * 2L);
+            assertEquals(0, result.length);
+        }
+
+        @Test
+        void mapToLong_int_1D_valid() {
+            int[] arr = { 1, 2, 3 };
+            long[] result = Arrays.mapToLong(arr, i -> i * 10L);
+            assertArrayEquals(new long[] { 10L, 20L, 30L }, result);
+        }
+
+        @Test
+        void mapToLong_int_2D_valid() {
+            int[][] arr = { { 1, 2 }, { 3, 4 } };
+            long[][] result = Arrays.mapToLong(arr, i -> i * 100L);
+            assertEquals(2, result.length);
+            assertArrayEquals(new long[] { 100L, 200L }, result[0]);
+            assertArrayEquals(new long[] { 300L, 400L }, result[1]);
+        }
+
+        @Test
+        void mapToLong_int_2D_widening() {
+            final int[][] a = { { 1, 2 }, { 3 } };
+            final long[][] r = Arrays.mapToLong(a, i -> i * 1_000_000_000L);
+            assertEquals(2, r.length);
+            assertArrayEquals(new long[] { 1_000_000_000L, 2_000_000_000L }, r[0]);
+            assertArrayEquals(new long[] { 3_000_000_000L }, r[1]);
+        }
+
+        @Test
+        void mapToLong_int_3D_valid() {
+            int[][][] arr = { { { 1, 2 } } };
+            long[][][] result = Arrays.mapToLong(arr, i -> i * 5L);
+            assertEquals(5L, result[0][0][0]);
+            assertEquals(10L, result[0][0][1]);
+        }
+
+        @Test
+        void mapToLong_int_nullInput_empty() {
+            final long[] r = Arrays.mapToLong((int[]) null, i -> (long) i);
+            assertNotNull(r);
+            assertEquals(0, r.length);
+        }
+
+        @Test
+        void mapToLong_int_widening() {
+            final long[] r = Arrays.mapToLong(new int[] { 1, 2, 3 }, i -> i * 1_000_000_000L);
+            assertArrayEquals(new long[] { 1_000_000_000L, 2_000_000_000L, 3_000_000_000L }, r);
+        }
+
+        @Test
+        void mapToLong_int2D() {
+            int[][] a = { { 1, 2 }, { 3, 4 } };
+            long[][] result = Arrays.mapToLong(a, i -> (long) i * 10);
+
+            assertEquals(2, result.length);
+            assertEquals(10L, result[0][0]);
+            assertEquals(40L, result[1][1]);
+        }
+
+        @Test
+        void mapToLong_int2DArray() {
+            // Test with normal two-dimensional array
+            int[][] input = { { 1, 2 }, { 3, 4 }, { 5 } };
+            long[][] result = Arrays.mapToLong(input, (int i) -> i * 100L);
+            assertArrayEquals(new long[] { 100L, 200L }, result[0]);
+            assertArrayEquals(new long[] { 300L, 400L }, result[1]);
+            assertArrayEquals(new long[] { 500L }, result[2]);
+
+            // Test with empty two-dimensional array
+            int[][] emptyInput = {};
+            long[][] emptyResult = Arrays.mapToLong(emptyInput, (int i) -> i * 100L);
+            assertEquals(0, emptyResult.length);
+
+            // Test with null two-dimensional array
+            int[][] nullInput = null;
+            long[][] nullResult = Arrays.mapToLong(nullInput, (int i) -> i * 100L);
+            assertEquals(0, nullResult.length);
+
+            // Test with jagged array containing empty arrays
+            int[][] jaggedInput = { { 1, 2 }, {}, { 3 } };
+            long[][] jaggedResult = Arrays.mapToLong(jaggedInput, (int i) -> i * 10L);
+            assertArrayEquals(new long[] { 10L, 20L }, jaggedResult[0]);
+            assertArrayEquals(new long[] {}, jaggedResult[1]);
+            assertArrayEquals(new long[] { 30L }, jaggedResult[2]);
+        }
+
+        @Test
+        void mapToLong_int3D() {
+            int[][][] a = { { { 1, 2 } } };
+            long[][][] result = Arrays.mapToLong(a, i -> (long) i * 100);
+
+            assertEquals(100L, result[0][0][0]);
+        }
+
+        @Test
+        void mapToLong_int3DArray() {
+            // Test with normal three-dimensional array
+            int[][][] input = { { { 1, 2 }, { 3 } }, { { 4, 5, 6 } } };
+            long[][][] result = Arrays.mapToLong(input, (int i) -> i * 10L);
+            assertArrayEquals(new long[] { 10L, 20L }, result[0][0]);
+            assertArrayEquals(new long[] { 30L }, result[0][1]);
+            assertArrayEquals(new long[] { 40L, 50L, 60L }, result[1][0]);
+
+            // Test with null three-dimensional array
+            int[][][] nullInput = null;
+            long[][][] nullResult = Arrays.mapToLong(nullInput, (int i) -> i * 10L);
+            assertEquals(0, nullResult.length);
+
+            // Test with empty three-dimensional array
+            int[][][] emptyInput = {};
+            long[][][] emptyResult = Arrays.mapToLong(emptyInput, (int i) -> i * 10L);
+            assertEquals(0, emptyResult.length);
+        }
+
+        @Test
+        void mapToLong_intArray() {
+            // Test with normal array
+            int[] input = { 1, 2, 3, 4, 5 };
+            long[] result = Arrays.mapToLong(input, i -> i * 1000L);
+            assertArrayEquals(new long[] { 1000L, 2000L, 3000L, 4000L, 5000L }, result);
+
+            // Test with empty array
+            int[] emptyInput = {};
+            long[] emptyResult = Arrays.mapToLong(emptyInput, i -> i * 1000L);
+            assertArrayEquals(new long[] {}, emptyResult);
+
+            // Test with null array
+            int[] nullInput = null;
+            long[] nullResult = Arrays.mapToLong(nullInput, i -> i * 1000L);
+            assertEquals(0, nullResult.length);
+
+            // Test with single element
+            int[] singleInput = { 42 };
+            long[] singleResult = Arrays.mapToLong(singleInput, i -> i * 100L);
+            assertArrayEquals(new long[] { 4200L }, singleResult);
+
+            // Test with negative values
+            int[] negativeInput = { -1, -2, -3 };
+            long[] negativeResult = Arrays.mapToLong(negativeInput, i -> i * 1000L);
+            assertArrayEquals(new long[] { -1000L, -2000L, -3000L }, negativeResult);
+        }
+
+        @Test
+        void mapToLong_intArray_values_1_2_3() {
+            int[] arr = { 1, 2, 3 };
+            long[] result = Arrays.mapToLong(arr, i -> i * 1000L);
+
+            assertArrayEquals(new long[] { 1000L, 2000L, 3000L }, result);
+        }
+
+        @Test
+        void mapToLong_intArray_values_1_2_3_4_5() {
+            int[] a = { 1, 2, 3, 4, 5 };
+            long[] result = Arrays.mapToLong(a, i -> (long) i * 2);
+
+            assertArrayEquals(new long[] { 2L, 4L, 6L, 8L, 10L }, result);
+        }
+
+        @Test
+        void mapToLong_intArray_withException() {
+            int[] input = { 1, 2, 3 };
+            Throwables.IntToLongFunction<Exception> mapper = i -> {
+                if (i == 2) {
+                    throw new Exception("Test exception");
+                }
+                return i * 1000L;
+            };
+
+            assertThrows(Exception.class, () -> Arrays.mapToLong(input, mapper));
+        }
+
+        @Test
+        void mapToLong_intArray2D() {
+            int[][] arr = { { 1, 2 }, { 3, 4 } };
+            long[][] result = Arrays.mapToLong(arr, i -> i * 1000L);
+
+            assertEquals(2, result.length);
+            assertArrayEquals(new long[] { 1000L, 2000L }, result[0]);
+            assertArrayEquals(new long[] { 3000L, 4000L }, result[1]);
+        }
+
+        @Test
+        void mapToLong_intArray2DNull() {
+            long[][] result = Arrays.mapToLong((int[][]) null, i -> 0L);
+            assertNotNull(result);
+            assertEquals(0, result.length);
+        }
+
+        @Test
+        void mapToLong_intArrayEmpty() {
+            int[] arr = {};
+            long[] result = Arrays.mapToLong(arr, i -> i * 1000L);
+            assertNotNull(result);
+            assertEquals(0, result.length);
+        }
+
+        @Test
+        void mapToLong_intArrayNull() {
+            long[] result = Arrays.mapToLong((int[]) null, i -> 0L);
+            assertNotNull(result);
+            assertEquals(0, result.length);
+        }
+
+        @Test
+        void mapToLong_intToLong() {
+            // mapToLong({1,2,3}, i -> i * 1000000000L) => {1000000000L,...}
+            int[] ints = { 1, 2, 3 };
+            long[] longs = Arrays.mapToLong(ints, i -> i * 1000000000L);
+            assertArrayEquals(new long[] { 1000000000L, 2000000000L, 3000000000L }, longs);
+        }
+
+        @Test
+        void mapToLong_intToLong3D() {
+            // mapToLong(cube, i -> (long)i*i) => {{{1L,4L},{9L,16L}},{{25L,36L},{49L,64L}}}
+            int[][][] cube = { { { 1, 2 }, { 3, 4 } }, { { 5, 6 }, { 7, 8 } } };
+            long[][][] result = Arrays.mapToLong(cube, i -> (long) i * i);
+            assertArrayEquals(new long[] { 1L, 4L }, result[0][0]);
+            assertArrayEquals(new long[] { 9L, 16L }, result[0][1]);
+            assertArrayEquals(new long[] { 25L, 36L }, result[1][0]);
+            assertArrayEquals(new long[] { 49L, 64L }, result[1][1]);
+        }
+
+        @Test
+        void mapToLong_nullArray() throws Exception {
+            String[] input = null;
+            long[] result = f.mapToLong(input, s -> 0L);
+            assertEquals(0, result.length);
+        }
+
+        @Test
+        void mapToLong_stringToLong() throws Exception {
+            String[] input = { "100", "200", "300" };
+            long[] result = f.mapToLong(input, Long::parseLong);
+            assertArrayEquals(new long[] { 100L, 200L, 300L }, result);
+        }
+
+        @Test
+        void mapToLong_values_1000000_2000000() throws Exception {
+            // Test String to long parsing
+            String[][][] timestamps = { { { "1000000" } }, { { "2000000" } } };
+            long[][][] longs = fff.mapToLong(timestamps, Long::parseLong);
+            assertEquals(1000000L, longs[0][0][0]);
+            assertEquals(2000000L, longs[1][0][0]);
+
+            // Test null input
+            long[][][] nullResult = fff.mapToLong(null, s -> 0L);
+            assertEquals(0, nullResult.length);
+
+            // Test Integer to long conversion
+            Integer[][][] numbers = { { { 100, 200 } }, { { 300, 400 } } };
+            long[][][] longNumbers = fff.mapToLong(numbers, Integer::longValue);
+            assertEquals(100L, longNumbers[0][0][0]);
+            assertEquals(200L, longNumbers[0][0][1]);
+            assertEquals(300L, longNumbers[1][0][0]);
+            assertEquals(400L, longNumbers[1][0][1]);
+        }
+
+        @Test
+        void multidimensionalArrays_jaggedArrays() {
+            // Test with jagged arrays - arrays with different sub-array lengths
+            int[][] jaggedArray = { { 1, 2, 3 }, { 4 }, { 5, 6 } };
+            long[][] jaggedLongResult = Arrays.mapToLong(jaggedArray, i -> (long) i * 10);
+
+            assertEquals(3, jaggedLongResult.length);
+            assertArrayEquals(new long[] { 10, 20, 30 }, jaggedLongResult[0]);
+            assertArrayEquals(new long[] { 40 }, jaggedLongResult[1]);
+            assertArrayEquals(new long[] { 50, 60 }, jaggedLongResult[2]);
+        }
+    }
+
+    @Nested
     class MapToFloatTests {
 
         @Test
@@ -3971,6 +3566,411 @@ class ArraysMappingTest {
             assertEquals(20.0f, floatNumbers[0][0][1], 0.001f);
             assertEquals(30.0f, floatNumbers[1][0][0], 0.001f);
             assertEquals(40.0f, floatNumbers[1][0][1], 0.001f);
+        }
+    }
+
+    @Nested
+    class MapToDoubleTests {
+
+        @Test
+        void f_mapToDouble_null() {
+            String[] arr = null;
+            double[] result = Arrays.f.mapToDouble(arr, s -> (double) s.length());
+            assertEquals(0, result.length);
+        }
+
+        @Test
+        void f_mapToDouble_valid() {
+            String[] arr = { "x", "xyz" };
+            double[] result = Arrays.f.mapToDouble(arr, s -> (double) s.length());
+            assertArrayEquals(new double[] { 1.0, 3.0 }, result, 0.001);
+        }
+
+        @Test
+        void fF_mapToDouble() {
+            String[][] arr = { { "x", "xyz" } };
+            double[][] result = Arrays.ff.mapToDouble(arr, s -> (double) s.length());
+            assertArrayEquals(new double[] { 1.0, 3.0 }, result[0], 0.001);
+        }
+
+        @Test
+        void fFF_mapToDouble() {
+            String[][][] arr = { { { "x", "xyz" } } };
+            double[][][] result = Arrays.fff.mapToDouble(arr, s -> (double) s.length());
+            assertArrayEquals(new double[] { 1.0, 3.0 }, result[0][0], 0.001);
+        }
+
+        @Test
+        void mapToDouble() throws Exception {
+            // Test String to double
+            String[][] array = { { "1.234", "2.345" }, { "3.456", "4.567" } };
+            double[][] doubles = ff.mapToDouble(array, Double::parseDouble);
+            assertArrayEquals(new double[] { 1.234, 2.345 }, doubles[0]);
+            assertArrayEquals(new double[] { 3.456, 4.567 }, doubles[1]);
+
+            // Test null array
+            String[][] nullArray = null;
+            assertEquals(0, ff.mapToDouble(nullArray, Double::parseDouble).length);
+
+            // Test with null sub-arrays
+            String[][] arrayWithNulls = { { "1.1", "2.2" }, null, { "3.3", "4.4" } };
+            double[][] mapped = ff.mapToDouble(arrayWithNulls, Double::parseDouble);
+            assertArrayEquals(new double[] { 1.1, 2.2 }, mapped[0]);
+            assertEquals(0, mapped[1].length);
+            assertArrayEquals(new double[] { 3.3, 4.4 }, mapped[2]);
+
+            // Test Integer to double
+            Integer[][] intArray = { { 10, 20 }, { 30, 40 } };
+            double[][] doubleValues = ff.mapToDouble(intArray, Integer::doubleValue);
+            assertArrayEquals(new double[] { 10.0, 20.0 }, doubleValues[0]);
+            assertArrayEquals(new double[] { 30.0, 40.0 }, doubleValues[1]);
+        }
+
+        @Test
+        void mapToDouble_1D_int_normal() {
+            int[] arr = { 1, 2, 3, 4 };
+            double[] result = Arrays.mapToDouble(arr, i -> i * 0.5);
+            assertNotNull(result);
+            assertEquals(4, result.length);
+            assertEquals(0.5, result[0], 0.001);
+            assertEquals(2.0, result[3], 0.001);
+        }
+
+        @Test
+        void mapToDouble_1D_int_null() {
+            int[] arr = null;
+            double[] result = Arrays.mapToDouble(arr, i -> (double) i);
+            assertEquals(0, result.length);
+        }
+
+        @Test
+        void mapToDouble_1D_long_normal() {
+            long[] arr = { 1000L, 2000L, 3000L };
+            double[] result = Arrays.mapToDouble(arr, l -> l / 100.0);
+            assertNotNull(result);
+            assertEquals(10.0, result[0], 0.001);
+            assertEquals(30.0, result[2], 0.001);
+        }
+
+        @Test
+        void mapToDouble_2D_int_normal() {
+            int[][] arr = { { 10, 20 }, { 30, 40 } };
+            double[][] result = Arrays.mapToDouble(arr, i -> i / 10.0);
+            assertNotNull(result);
+            assertEquals(1.0, result[0][0], 0.001);
+            assertEquals(4.0, result[1][1], 0.001);
+        }
+
+        @Test
+        void mapToDouble_2D_long_normal() {
+            long[][] arr = { { 100L, 200L }, { 300L, 400L } };
+            double[][] result = Arrays.mapToDouble(arr, l -> l * 1.5);
+            assertNotNull(result);
+            assertEquals(150.0, result[0][0], 0.001);
+        }
+
+        @Test
+        void mapToDouble_3D_int_normal() {
+            int[][][] arr = { { { 100, 200 } } };
+            double[][][] result = Arrays.mapToDouble(arr, i -> i * 1.5);
+            assertNotNull(result);
+            assertEquals(150.0, result[0][0][0], 0.001);
+        }
+
+        @Test
+        void mapToDouble_3D_long_normal() {
+            long[][][] arr = { { { 50L, 75L } } };
+            double[][][] result = Arrays.mapToDouble(arr, l -> l + 0.5);
+            assertNotNull(result);
+            assertEquals(50.5, result[0][0][0], 0.001);
+        }
+
+        @Test
+        void mapToDouble_emptyArray() throws Exception {
+            String[] input = new String[0];
+            double[] result = f.mapToDouble(input, s -> 0.0);
+            assertNotNull(result);
+            assertEquals(0, result.length);
+        }
+
+        @Test
+        void mapToDouble_errorHandling_exceptionInMapper() {
+            long[] input = { 1L, 2L, 3L };
+            Throwables.LongToDoubleFunction<IllegalArgumentException> faultyMapper = l -> {
+                if (l == 2L) {
+                    throw new IllegalArgumentException("Invalid value");
+                }
+                return l * 0.5;
+            };
+
+            assertThrows(IllegalArgumentException.class, () -> {
+                Arrays.mapToDouble(input, faultyMapper);
+            });
+        }
+
+        @Test
+        void mapToDouble_int_1D_null() {
+            int[] arr = null;
+            double[] result = Arrays.mapToDouble(arr, i -> i * 1.5);
+            assertEquals(0, result.length);
+        }
+
+        @Test
+        void mapToDouble_int_1D_valid() {
+            int[] arr = { 1, 2, 3 };
+            double[] result = Arrays.mapToDouble(arr, i -> i * 1.5);
+            assertArrayEquals(new double[] { 1.5, 3.0, 4.5 }, result, 0.001);
+        }
+
+        @Test
+        void mapToDouble_int_2D_valid() {
+            int[][] arr = { { 2, 4 }, { 6, 8 } };
+            double[][] result = Arrays.mapToDouble(arr, i -> i / 2.0);
+            assertEquals(1.0, result[0][0], 0.001);
+            assertEquals(4.0, result[1][1], 0.001);
+        }
+
+        @Test
+        void mapToDouble_int_3D_valid() {
+            int[][][] arr = { { { 10 } } };
+            double[][][] result = Arrays.mapToDouble(arr, i -> i * 0.1);
+            assertEquals(1.0, result[0][0][0], 0.001);
+        }
+
+        @Test
+        void mapToDouble_int_fractional() {
+            final double[] r = Arrays.mapToDouble(new int[] { 1, 2, 3 }, i -> i / 2.0);
+            assertArrayEquals(new double[] { 0.5, 1.0, 1.5 }, r, 0.0);
+        }
+
+        @Test
+        void mapToDouble_int_mapperThrows_propagates() {
+            assertThrows(RuntimeException.class, () -> Arrays.mapToDouble(new int[] { 1, 2 }, i -> {
+                throw new RuntimeException("boom");
+            }));
+        }
+
+        @Test
+        void mapToDouble_int_nullInput_empty() {
+            final double[] r = Arrays.mapToDouble((int[]) null, i -> (double) i);
+            assertNotNull(r);
+            assertEquals(0, r.length);
+        }
+
+        @Test
+        void mapToDouble_int2D() {
+            int[][] a = { { 1, 2 }, { 3, 4 } };
+            double[][] result = Arrays.mapToDouble(a, i -> i * 0.5);
+
+            assertEquals(2, result.length);
+            assertEquals(0.5, result[0][0], 0.0001);
+            assertEquals(2.0, result[1][1], 0.0001);
+        }
+
+        @Test
+        void mapToDouble_int2DArray() {
+            // Test with normal two-dimensional array
+            int[][] input = { { 1, 2 }, { 3, 4 } };
+            double[][] result = Arrays.mapToDouble(input, (int i) -> i * 0.5);
+            assertArrayEquals(new double[] { 0.5, 1.0 }, result[0]);
+            assertArrayEquals(new double[] { 1.5, 2.0 }, result[1]);
+
+            // Test with null two-dimensional array
+            int[][] nullInput = null;
+            double[][] nullResult = Arrays.mapToDouble(nullInput, (int i) -> i * 0.5);
+            assertEquals(0, nullResult.length);
+        }
+
+        @Test
+        void mapToDouble_int3D() {
+            int[][][] a = { { { 10, 20 } } };
+            double[][][] result = Arrays.mapToDouble(a, i -> i * 0.1);
+
+            assertEquals(1.0, result[0][0][0], 0.0001);
+            assertEquals(2.0, result[0][0][1], 0.0001);
+        }
+
+        @Test
+        void mapToDouble_int3DArray() {
+            // Test with normal three-dimensional array
+            int[][][] input = { { { 1, 2 } }, { { 3, 4 }, { 5, 6 } } };
+            double[][][] result = Arrays.mapToDouble(input, (int i) -> i * 0.1);
+            assertArrayEquals(new double[] { 0.1, 0.2 }, result[0][0], 0.000001);
+            assertArrayEquals(new double[] { 0.3, 0.4 }, result[1][0], 0.000001);
+            assertArrayEquals(new double[] { 0.5, 0.6 }, result[1][1], 0.000001);
+
+            // Test with null three-dimensional array
+            int[][][] nullInput = null;
+            double[][][] nullResult = Arrays.mapToDouble(nullInput, (int i) -> i * 0.1);
+            assertEquals(0, nullResult.length);
+        }
+
+        @Test
+        void mapToDouble_intArray() {
+            // Test with normal array
+            int[] input = { 1, 2, 3, 4 };
+            double[] result = Arrays.mapToDouble(input, i -> i / 2.0);
+            assertArrayEquals(new double[] { 0.5, 1.0, 1.5, 2.0 }, result);
+
+            // Test with empty array
+            int[] emptyInput = {};
+            double[] emptyResult = Arrays.mapToDouble(emptyInput, i -> i / 2.0);
+            assertArrayEquals(new double[] {}, emptyResult);
+
+            // Test with null array
+            int[] nullInput = null;
+            double[] nullResult = Arrays.mapToDouble(nullInput, i -> i / 2.0);
+            assertEquals(0, nullResult.length);
+
+            // Test with mathematical operations
+            int[] mathInput = { 10, 20, 30 };
+            double[] mathResult = Arrays.mapToDouble(mathInput, i -> Math.sqrt(i));
+            assertEquals(Math.sqrt(10), mathResult[0], 0.0001);
+            assertEquals(Math.sqrt(20), mathResult[1], 0.0001);
+            assertEquals(Math.sqrt(30), mathResult[2], 0.0001);
+        }
+
+        @Test
+        void mapToDouble_intArray_preservesExactProducts() {
+            int[] arr = { 1, 2, 3 };
+            double[] result = Arrays.mapToDouble(arr, i -> i * 1.5);
+
+            assertArrayEquals(new double[] { 1.5, 3.0, 4.5 }, result);
+        }
+
+        @Test
+        void mapToDouble_intArrayNull() {
+            double[] result = Arrays.mapToDouble((int[]) null, i -> 0.0);
+            assertNotNull(result);
+            assertEquals(0, result.length);
+        }
+
+        @Test
+        void mapToDouble_intToDouble() {
+            // mapToDouble({1,2,3}, i -> i/2.0) => {0.5, 1.0, 1.5}
+            int[] ints = { 1, 2, 3 };
+            double[] doubles = Arrays.mapToDouble(ints, i -> i / 2.0);
+            assertArrayEquals(new double[] { 0.5, 1.0, 1.5 }, doubles);
+        }
+
+        @Test
+        void mapToDouble_long_1D() {
+            long[] arr = { 1L, 2L, 3L };
+            double[] result = Arrays.mapToDouble(arr, l -> l * 1.5);
+            assertArrayEquals(new double[] { 1.5, 3.0, 4.5 }, result, 0.001);
+        }
+
+        @Test
+        void mapToDouble_long_2D() {
+            final long[][] a = { { 100L, 200L }, { 300L } };
+            final double[][] r = Arrays.mapToDouble(a, l -> l / 100.0);
+            assertEquals(2, r.length);
+            assertArrayEquals(new double[] { 1.0, 2.0 }, r[0], 0.0);
+            assertArrayEquals(new double[] { 3.0 }, r[1], 0.0);
+        }
+
+        @Test
+        void mapToDouble_long_widening() {
+            final double[] r = Arrays.mapToDouble(new long[] { 100L, 200L }, l -> l / 100.0);
+            assertArrayEquals(new double[] { 1.0, 2.0 }, r, 0.0);
+        }
+
+        @Test
+        void mapToDouble_long2DArray() {
+            // Test with normal two-dimensional array
+            long[][] input = { { 10L, 20L }, { 30L } };
+            double[][] result = Arrays.mapToDouble(input, (long l) -> l * 0.1);
+            assertArrayEquals(new double[] { 1.0, 2.0 }, result[0]);
+            assertArrayEquals(new double[] { 3.0 }, result[1]);
+
+            // Test with null two-dimensional array
+            long[][] nullInput = null;
+            double[][] nullResult = Arrays.mapToDouble(nullInput, (long l) -> l * 0.1);
+            assertEquals(0, nullResult.length);
+        }
+
+        @Test
+        void mapToDouble_long3DArray() {
+            // Test with normal three-dimensional array
+            long[][][] input = { { { 100L, 200L } }, { { 300L } } };
+            double[][][] result = Arrays.mapToDouble(input, (long l) -> l * 0.01d);
+            assertArrayEquals(new double[] { 1.0, 2.0 }, result[0][0]);
+            assertArrayEquals(new double[] { 3.0 }, result[1][0]);
+
+            // Test with null three-dimensional array
+            long[][][] nullInput = null;
+            double[][][] nullResult = Arrays.mapToDouble(nullInput, (long l) -> l * 0.01d);
+            assertEquals(0, nullResult.length);
+        }
+
+        @Test
+        void mapToDouble_longArray() {
+            // Test with normal array
+            long[] input = { 1L, 2L, 3L };
+            double[] result = Arrays.mapToDouble(input, l -> l * 0.5);
+            assertArrayEquals(new double[] { 0.5, 1.0, 1.5 }, result);
+
+            // Test with empty array
+            long[] emptyInput = {};
+            double[] emptyResult = Arrays.mapToDouble(emptyInput, l -> l * 0.5);
+            assertArrayEquals(new double[] {}, emptyResult);
+
+            // Test with null array
+            long[] nullInput = null;
+            double[] nullResult = Arrays.mapToDouble(nullInput, l -> l * 0.5);
+            assertEquals(0, nullResult.length);
+        }
+
+        @Test
+        void mapToDouble_longArray_values_10L_20L_30L() {
+            long[] a = { 10L, 20L, 30L };
+            double[] result = Arrays.mapToDouble(a, l -> l * 0.5);
+
+            assertArrayEquals(new double[] { 5.0, 10.0, 15.0 }, result, 0.0001);
+        }
+
+        @Test
+        void mapToDouble_longToDouble() {
+            // mapToDouble({100L,200L,300L}, l -> l/100.0) => {1.0,2.0,3.0}
+            long[] values = { 100L, 200L, 300L };
+            double[] result = Arrays.mapToDouble(values, l -> l / 100.0);
+            assertArrayEquals(new double[] { 1.0, 2.0, 3.0 }, result);
+        }
+
+        @Test
+        void mapToDouble_nullArray() throws Exception {
+            String[] input = null;
+            double[] result = f.mapToDouble(input, s -> 0.0);
+            assertEquals(0, result.length);
+        }
+
+        @Test
+        void mapToDouble_stringToDouble() throws Exception {
+            String[] input = { "1.1", "2.2", "3.3" };
+            double[] result = f.mapToDouble(input, Double::parseDouble);
+            assertArrayEquals(new double[] { 1.1, 2.2, 3.3 }, result);
+        }
+
+        @Test
+        void mapToDouble_values_1_23e10_4_56eminus5_7_89e15() throws Exception {
+            // Test String to double parsing with scientific notation
+            String[][][] scientificData = { { { "1.23e10", "4.56e-5" } }, { { "7.89e15" } } };
+            double[][][] doubles = fff.mapToDouble(scientificData, Double::parseDouble);
+            assertEquals(1.23e10, doubles[0][0][0], 0.001);
+            assertEquals(4.56e-5, doubles[0][0][1], 0.00001);
+            assertEquals(7.89e15, doubles[1][0][0], 0.001);
+
+            // Test null input
+            double[][][] nullResult = fff.mapToDouble(null, s -> 0.0);
+            assertEquals(0, nullResult.length);
+
+            // Test Integer to double conversion
+            Integer[][][] numbers = { { { 100, 200 } }, { { 300, 400 } } };
+            double[][][] doubleNumbers = fff.mapToDouble(numbers, Integer::doubleValue);
+            assertEquals(100.0, doubleNumbers[0][0][0], 0.001);
+            assertEquals(200.0, doubleNumbers[0][0][1], 0.001);
+            assertEquals(300.0, doubleNumbers[1][0][0], 0.001);
+            assertEquals(400.0, doubleNumbers[1][0][1], 0.001);
         }
     }
 

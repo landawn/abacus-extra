@@ -416,168 +416,23 @@ class CharTupleTest {
     @Nested
     class ArityTests {
 
-        @Test
-        void arity_returnsElementCount() {
-            assertEquals(0, CharTuple.from(new char[0]).arity());
-            assertEquals(1, CharTuple.of('a').arity());
-            assertEquals(2, CharTuple.of('a', 'b').arity());
-            assertEquals(3, CharTuple.of('a', 'b', 'c').arity());
-            assertEquals(4, CharTuple.of('a', 'b', 'c', 'd').arity());
-            assertEquals(5, CharTuple.of('a', 'b', 'c', 'd', 'e').arity());
-            assertEquals(6, CharTuple.of('a', 'b', 'c', 'd', 'e', 'f').arity());
-            assertEquals(7, CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g').arity());
-            assertEquals(8, CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h').arity());
-            assertEquals(9, CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i').arity());
+        @ParameterizedTest(name = "{0}")
+        @MethodSource("arityCases")
+        void arity_inputCases_returnsElementCount(String scenario, CharTuple<?> tuple, int expected) {
+            assertEquals(expected, tuple.arity(), scenario);
         }
 
-        @Test
-        void coverageRegression_highArityEqualsBranches() {
-            CharTuple.CharTuple4 tuple4 = CharTuple.of('a', 'b', 'c', 'd');
-            assertTrue(tuple4.equals(tuple4));
-            assertTrue(tuple4.equals(CharTuple.of('a', 'b', 'c', 'd')));
-            assertFalse(tuple4.equals(CharTuple.of('a', 'b', 'c', 'z')));
-            assertFalse(tuple4.equals("tuple4"));
-
-            CharTuple.CharTuple5 tuple5 = CharTuple.of('a', 'b', 'c', 'd', 'e');
-            assertTrue(tuple5.equals(tuple5));
-            assertTrue(tuple5.equals(CharTuple.of('a', 'b', 'c', 'd', 'e')));
-            assertFalse(tuple5.equals(CharTuple.of('a', 'b', 'c', 'd', 'z')));
-            assertFalse(tuple5.equals("tuple5"));
-
-            CharTuple.CharTuple6 tuple6 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f');
-            assertTrue(tuple6.equals(tuple6));
-            assertTrue(tuple6.equals(CharTuple.of('a', 'b', 'c', 'd', 'e', 'f')));
-            assertFalse(tuple6.equals(CharTuple.of('a', 'b', 'c', 'd', 'e', 'z')));
-            assertFalse(tuple6.equals("tuple6"));
-
-            CharTuple.CharTuple7 tuple7 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g');
-            assertTrue(tuple7.equals(tuple7));
-            assertTrue(tuple7.equals(CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g')));
-            assertFalse(tuple7.equals(CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'z')));
-            assertFalse(tuple7.equals("tuple7"));
-
-            CharTuple.CharTuple8 tuple8 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
-            assertTrue(tuple8.equals(tuple8));
-            assertTrue(tuple8.equals(CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h')));
-            assertFalse(tuple8.equals(CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'z')));
-            assertFalse(tuple8.equals("tuple8"));
-
-            CharTuple.CharTuple9 tuple9 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i');
-            assertTrue(tuple9.equals(tuple9));
-            assertTrue(tuple9.equals(CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i')));
-            assertFalse(tuple9.equals(CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'z')));
-            assertFalse(tuple9.equals("tuple9"));
+        private static java.util.stream.Stream<Arguments> arityCases() {
+            return java.util.stream.Stream.of(Arguments.of("from(new char[0])", CharTuple.from(new char[0]), 0), Arguments.of("of('a')", CharTuple.of('a'), 1),
+                    Arguments.of("of('a', 'b')", CharTuple.of('a', 'b'), 2), Arguments.of("of('a', 'b', 'c')", CharTuple.of('a', 'b', 'c'), 3),
+                    Arguments.of("of('a', 'b', 'c', 'd')", CharTuple.of('a', 'b', 'c', 'd'), 4),
+                    Arguments.of("of('a', 'b', 'c', 'd', 'e')", CharTuple.of('a', 'b', 'c', 'd', 'e'), 5),
+                    Arguments.of("of('a', 'b', 'c', 'd', 'e', 'f')", CharTuple.of('a', 'b', 'c', 'd', 'e', 'f'), 6),
+                    Arguments.of("of('a', 'b', 'c', 'd', 'e', 'f', 'g')", CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g'), 7),
+                    Arguments.of("of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h')", CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'), 8),
+                    Arguments.of("of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i')", CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'), 9));
         }
 
-        @Test
-        void coverageRegression_highArityOperations() {
-            CharTuple.CharTuple4 tuple4 = CharTuple.of('i', 'a', 'g', 'c');
-            assertEquals('a', tuple4.min());
-            assertEquals('i', tuple4.max());
-            assertEquals('c', tuple4.lowerMedian());
-            assertEquals('i' + 'a' + 'g' + 'c', tuple4.sum());
-            assertEquals(((double) 'i' + 'a' + 'g' + 'c') / 4, tuple4.average().getAsDouble());
-            assertTrue(tuple4.contains('c'));
-
-            CharTuple.CharTuple5 tuple5 = CharTuple.of('a', 'b', 'c', 'd', 'e');
-            assertTrue(tuple5.contains('e'));
-
-            CharTuple.CharTuple6 tuple6 = CharTuple.of('i', 'a', 'g', 'c', 'e', 'k');
-            assertEquals('e', tuple6.lowerMedian());
-            assertTrue(tuple6.contains('k'));
-
-            CharTuple.CharTuple7 tuple7 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g');
-            assertTrue(tuple7.contains('g'));
-
-            CharTuple.CharTuple8 tuple8 = CharTuple.of('i', 'a', 'g', 'c', 'e', 'k', 'm', 'o');
-            assertEquals('g', tuple8.lowerMedian());
-            assertTrue(tuple8.contains('o'));
-
-            CharTuple.CharTuple9 tuple9 = CharTuple.of('i', 'a', 'g', 'c', 'e', 'k', 'm', 'o', 'q');
-            assertEquals('i', tuple9.lowerMedian());
-            assertTrue(tuple9.contains('q'));
-        }
-
-        @Test
-        void largeArityContainsAndEqualsBranchesForCoverage() {
-            final CharTuple4 tuple4 = CharTuple.of('a', 'b', 'c', 'd');
-            final CharTuple5 tuple5 = CharTuple.of('a', 'b', 'c', 'd', 'e');
-            final CharTuple6 tuple6 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f');
-            final CharTuple7 tuple7 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g');
-            final CharTuple8 tuple8 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
-            final CharTuple9 tuple9 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i');
-
-            assertTrue(tuple4.contains('b'));
-            assertTrue(tuple4.contains('c'));
-            assertTrue(tuple4.contains('d'));
-            assertFalse(tuple4.contains('z'));
-            assertTrue(tuple5.contains('b'));
-            assertTrue(tuple5.contains('c'));
-            assertTrue(tuple5.contains('d'));
-            assertTrue(tuple5.contains('e'));
-            assertFalse(tuple5.contains('z'));
-            assertTrue(tuple6.contains('b'));
-            assertTrue(tuple6.contains('c'));
-            assertTrue(tuple6.contains('d'));
-            assertTrue(tuple6.contains('e'));
-            assertTrue(tuple6.contains('f'));
-            assertFalse(tuple6.contains('z'));
-            assertTrue(tuple7.contains('b'));
-            assertTrue(tuple7.contains('c'));
-            assertTrue(tuple7.contains('d'));
-            assertTrue(tuple7.contains('e'));
-            assertTrue(tuple7.contains('f'));
-            assertTrue(tuple7.contains('g'));
-            assertFalse(tuple7.contains('z'));
-            assertTrue(tuple8.contains('b'));
-            assertTrue(tuple8.contains('c'));
-            assertTrue(tuple8.contains('d'));
-            assertTrue(tuple8.contains('e'));
-            assertTrue(tuple8.contains('f'));
-            assertTrue(tuple8.contains('g'));
-            assertTrue(tuple8.contains('h'));
-            assertFalse(tuple8.contains('z'));
-            assertTrue(tuple9.contains('b'));
-            assertTrue(tuple9.contains('c'));
-            assertTrue(tuple9.contains('d'));
-            assertTrue(tuple9.contains('e'));
-            assertTrue(tuple9.contains('f'));
-            assertTrue(tuple9.contains('g'));
-            assertTrue(tuple9.contains('h'));
-            assertTrue(tuple9.contains('i'));
-            assertFalse(tuple9.contains('z'));
-
-            assertTrue(tuple4.equals(tuple4));
-            assertFalse(tuple4.equals("not a tuple"));
-            assertFalse(tuple4.equals(CharTuple.of('a', 'b', 'c', 'z')));
-            assertTrue(tuple5.equals(tuple5));
-            assertFalse(tuple5.equals("not a tuple"));
-            assertFalse(tuple5.equals(CharTuple.of('a', 'b', 'c', 'd', 'z')));
-            assertTrue(tuple6.equals(tuple6));
-            assertFalse(tuple6.equals("not a tuple"));
-            assertFalse(tuple6.equals(CharTuple.of('a', 'b', 'c', 'd', 'e', 'z')));
-            assertTrue(tuple7.equals(tuple7));
-            assertFalse(tuple7.equals("not a tuple"));
-            assertFalse(tuple7.equals(CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'z')));
-            assertTrue(tuple8.equals(tuple8));
-            assertFalse(tuple8.equals("not a tuple"));
-            assertFalse(tuple8.equals(CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'z')));
-            assertTrue(tuple9.equals(tuple9));
-            assertFalse(tuple9.equals("not a tuple"));
-            assertFalse(tuple9.equals(CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'z')));
-        }
-
-        @Test
-        void tuple0_arity() {
-            CharTuple<?> tuple = CharTuple.from(new char[0]);
-            assertEquals(0, tuple.arity());
-        }
-
-        @Test
-        void tuple0_arity_values_CharTuple_from() {
-            CharTuple0 tuple = CharTuple.from(new char[0]);
-            assertEquals(0, tuple.arity());
-        }
     }
 
     @Nested
@@ -1285,7 +1140,7 @@ class CharTupleTest {
     class ContainsTests {
 
         @ParameterizedTest(name = "arity {0}: contains checks every component")
-        @ValueSource(ints = { 1, 2, 3, 4, 5, 6, 7, 8, 9 })
+        @ValueSource(ints = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 })
         void contains_checksEveryComponentAndRejectsMissingValue(int arity) {
             char[] values = new char[arity];
             for (int i = 0; i < arity; i++) {
@@ -1298,260 +1153,47 @@ class CharTupleTest {
             assertFalse(tuple.contains((char) 100));
         }
 
-        @Test
-        void arity1_contains() {
-            CharTuple.CharTuple1 tuple = CharTuple.of('a');
-            assertTrue(tuple.contains('a'));
+        @ParameterizedTest(name = "{0}")
+        @MethodSource("containsCases")
+        void contains_inputCases_matchExpectedMembership(String scenario, CharTuple<?> tuple, char[] present, char[] absent) {
+            for (char value : present) {
+                assertTrue(tuple.contains(value), scenario + ": expected to contain " + value);
+            }
+            for (char value : absent) {
+                assertFalse(tuple.contains(value), scenario + ": expected to exclude " + value);
+            }
         }
 
-        @Test
-        void arity2_contains() {
-            CharTuple.CharTuple2 tuple = CharTuple.of('a', 'b');
-            assertTrue(tuple.contains('a'));
-        }
-
-        @Test
-        void arity3_contains() {
-            CharTuple.CharTuple3 tuple = CharTuple.of('a', 'b', 'c');
-            assertTrue(tuple.contains('a'));
-        }
-
-        @Test
-        void arity4_contains() {
-            CharTuple.CharTuple4 tuple = CharTuple.of('a', 'b', 'c', 'd');
-            assertTrue(tuple.contains('a'));
-        }
-
-        @Test
-        void arity5_contains() {
-            CharTuple.CharTuple5 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e');
-            assertTrue(tuple.contains('a'));
-        }
-
-        @Test
-        void arity6_contains() {
-            CharTuple.CharTuple6 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f');
-            assertTrue(tuple.contains('a'));
-        }
-
-        @Test
-        void arity7_contains() {
-            CharTuple.CharTuple7 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g');
-            assertTrue(tuple.contains('a'));
-        }
-
-        @Test
-        void arity8_contains() {
-            CharTuple.CharTuple8 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
-            assertTrue(tuple.contains('a'));
-        }
-
-        @Test
-        void arity9_contains() {
-            CharTuple.CharTuple9 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i');
-            assertTrue(tuple.contains('a'));
-        }
-
-        @Test
-        void contains_allElements() {
-            CharTuple5 tuple = CharTuple.of('X', 'Y', 'Z', 'W', 'V');
-            assertTrue(tuple.contains('X'));
-            assertTrue(tuple.contains('Y'));
-            assertTrue(tuple.contains('Z'));
-            assertTrue(tuple.contains('W'));
-            assertTrue(tuple.contains('V'));
-            assertFalse(tuple.contains('A'));
-        }
-
-        @Test
-        void contains_findsPresentElements() {
-            CharTuple.CharTuple3 tuple = CharTuple.of('a', 'b', 'c');
-
-            assertTrue(tuple.contains('a'));
-            assertTrue(tuple.contains('b'));
-            assertTrue(tuple.contains('c'));
-            assertFalse(tuple.contains('x'));
-        }
-
-        @Test
-        void contains_multiple_found() {
-            CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-            assertTrue(tuple.contains('A'));
-            assertTrue(tuple.contains('B'));
-            assertTrue(tuple.contains('C'));
-        }
-
-        @Test
-        void contains_multiple_notfound() {
-            CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-            assertFalse(tuple.contains('Z'));
-        }
-
-        @Test
-        void containsTuple0() {
-            CharTuple<CharTuple0> tuple = CharTuple.from(new char[0]);
-            assertFalse(tuple.contains('a'));
-        }
-
-        @Test
-        void containsTuple1False() {
-            CharTuple1 tuple = CharTuple.of('a');
-            assertFalse(tuple.contains('z'));
-        }
-
-        @Test
-        void containsTuple1True() {
-            CharTuple1 tuple = CharTuple.of('a');
-            assertTrue(tuple.contains('a'));
-        }
-
-        @Test
-        void containsTuple3() {
-            CharTuple3 tuple = CharTuple.of('a', 'b', 'c');
-            assertTrue(tuple.contains('a'));
-            assertTrue(tuple.contains('b'));
-            assertTrue(tuple.contains('c'));
-            assertFalse(tuple.contains('z'));
-        }
-
-        @Test
-        void containsTuple4() {
-            CharTuple4 tuple = CharTuple.of('a', 'b', 'c', 'd');
-            assertTrue(tuple.contains('a'));
-            assertTrue(tuple.contains('d'));
-            assertFalse(tuple.contains('z'));
-        }
-
-        @Test
-        void containsTuple5() {
-            CharTuple5 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e');
-            assertTrue(tuple.contains('e'));
-            assertFalse(tuple.contains('z'));
-        }
-
-        @Test
-        void containsTuple6() {
-            CharTuple6 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f');
-            assertTrue(tuple.contains('f'));
-            assertFalse(tuple.contains('z'));
-        }
-
-        @Test
-        void containsTuple7() {
-            CharTuple7 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g');
-            assertTrue(tuple.contains('g'));
-            assertFalse(tuple.contains('z'));
-        }
-
-        @Test
-        void containsTuple8() {
-            CharTuple8 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
-            assertTrue(tuple.contains('h'));
-            assertFalse(tuple.contains('z'));
-        }
-
-        @Test
-        void containsTuple9() {
-            CharTuple9 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i');
-            assertTrue(tuple.contains('i'));
-            assertFalse(tuple.contains('z'));
-        }
-
-        @Test
-        void tuple0_contains() {
-            CharTuple<?> tuple = CharTuple.from(new char[0]);
-            assertFalse(tuple.contains('A'));
-        }
-
-        @Test
-        void tuple0_contains_values_CharTuple_from() {
-            CharTuple0 tuple = CharTuple.from(new char[0]);
-            assertFalse(tuple.contains('A'));
-        }
-
-        @Test
-        void tuple1_contains_false() {
-            CharTuple1 tuple = CharTuple.of('A');
-            assertFalse(tuple.contains('B'));
-        }
-
-        @Test
-        void tuple1_contains_true() {
-            CharTuple1 tuple = CharTuple.of('A');
-            assertTrue(tuple.contains('A'));
-        }
-
-        @Test
-        void tuple2_contains() {
-            CharTuple2 tuple = CharTuple.of('A', 'B');
-            assertTrue(tuple.contains('A'));
-            assertTrue(tuple.contains('B'));
-            assertFalse(tuple.contains('C'));
-        }
-
-        @Test
-        void tuple2_contains_found() {
-            CharTuple2 tuple = CharTuple.of('A', 'B');
-            assertTrue(tuple.contains('A'));
-            assertTrue(tuple.contains('B'));
-        }
-
-        @Test
-        void tuple2_contains_notFound() {
-            CharTuple2 tuple = CharTuple.of('A', 'B');
-            assertFalse(tuple.contains('C'));
-        }
-
-        @Test
-        void tuple3_contains() {
-            CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-            assertTrue(tuple.contains('A'));
-            assertTrue(tuple.contains('B'));
-            assertTrue(tuple.contains('C'));
-            assertFalse(tuple.contains('D'));
-        }
-
-        @Test
-        void tuple4_contains() {
-            CharTuple4 tuple = CharTuple.of('A', 'B', 'C', 'D');
-            assertTrue(tuple.contains('A'));
-            assertTrue(tuple.contains('D'));
-            assertFalse(tuple.contains('E'));
-        }
-
-        @Test
-        void tuple5_contains() {
-            CharTuple5 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E');
-            assertTrue(tuple.contains('E'));
-            assertFalse(tuple.contains('F'));
-        }
-
-        @Test
-        void tuple6_contains() {
-            CharTuple6 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F');
-            assertTrue(tuple.contains('F'));
-            assertFalse(tuple.contains('G'));
-        }
-
-        @Test
-        void tuple7_contains() {
-            CharTuple7 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G');
-            assertTrue(tuple.contains('G'));
-            assertFalse(tuple.contains('H'));
-        }
-
-        @Test
-        void tuple8_contains() {
-            CharTuple8 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');
-            assertTrue(tuple.contains('H'));
-            assertFalse(tuple.contains('I'));
-        }
-
-        @Test
-        void tuple9_contains() {
-            CharTuple9 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I');
-            assertTrue(tuple.contains('I'));
-            assertFalse(tuple.contains('J'));
+        private static java.util.stream.Stream<Arguments> containsCases() {
+            return java.util.stream.Stream.of(Arguments.of("from(new char[0])", CharTuple.from(new char[0]), new char[] {}, new char[] { 'a', 'A' }),
+                    Arguments.of("of('a')", CharTuple.of('a'), new char[] { 'a' }, new char[] { 'z' }),
+                    Arguments.of("of('A')", CharTuple.of('A'), new char[] { 'A' }, new char[] { 'B' }),
+                    Arguments.of("of('a', 'b')", CharTuple.of('a', 'b'), new char[] { 'a' }, new char[] {}),
+                    Arguments.of("of('A', 'B')", CharTuple.of('A', 'B'), new char[] { 'A', 'B' }, new char[] { 'C' }),
+                    Arguments.of("of('a', 'b', 'c')", CharTuple.of('a', 'b', 'c'), new char[] { 'a', 'b', 'c' }, new char[] { 'x', 'z' }),
+                    Arguments.of("of('A', 'B', 'C')", CharTuple.of('A', 'B', 'C'), new char[] { 'A', 'B', 'C' }, new char[] { 'Z', 'D' }),
+                    Arguments.of("of('a', 'b', 'c', 'd')", CharTuple.of('a', 'b', 'c', 'd'), new char[] { 'b', 'c', 'd', 'a' }, new char[] { 'z' }),
+                    Arguments.of("of('A', 'B', 'C', 'D')", CharTuple.of('A', 'B', 'C', 'D'), new char[] { 'A', 'D' }, new char[] { 'E' }),
+                    Arguments.of("of('a', 'b', 'c', 'd', 'e')", CharTuple.of('a', 'b', 'c', 'd', 'e'), new char[] { 'b', 'c', 'd', 'e', 'a' },
+                            new char[] { 'z' }),
+                    Arguments.of("of('A', 'B', 'C', 'D', 'E')", CharTuple.of('A', 'B', 'C', 'D', 'E'), new char[] { 'E' }, new char[] { 'F' }),
+                    Arguments.of("of('X', 'Y', 'Z', 'W', 'V')", CharTuple.of('X', 'Y', 'Z', 'W', 'V'), new char[] { 'X', 'Y', 'Z', 'W', 'V' },
+                            new char[] { 'A' }),
+                    Arguments.of("of('a', 'b', 'c', 'd', 'e', 'f')", CharTuple.of('a', 'b', 'c', 'd', 'e', 'f'), new char[] { 'b', 'c', 'd', 'e', 'f', 'a' },
+                            new char[] { 'z' }),
+                    Arguments.of("of('A', 'B', 'C', 'D', 'E', 'F')", CharTuple.of('A', 'B', 'C', 'D', 'E', 'F'), new char[] { 'F' }, new char[] { 'G' }),
+                    Arguments.of("of('a', 'b', 'c', 'd', 'e', 'f', 'g')", CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g'),
+                            new char[] { 'b', 'c', 'd', 'e', 'f', 'g', 'a' }, new char[] { 'z' }),
+                    Arguments.of("of('A', 'B', 'C', 'D', 'E', 'F', 'G')", CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G'), new char[] { 'G' },
+                            new char[] { 'H' }),
+                    Arguments.of("of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h')", CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'),
+                            new char[] { 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'a' }, new char[] { 'z' }),
+                    Arguments.of("of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H')", CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'), new char[] { 'H' },
+                            new char[] { 'I' }),
+                    Arguments.of("of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i')", CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'),
+                            new char[] { 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'a' }, new char[] { 'z' }),
+                    Arguments.of("of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I')", CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'),
+                            new char[] { 'I' }, new char[] { 'J' }));
         }
     }
 
@@ -2605,9 +2247,9 @@ class CharTupleTest {
     @Nested
     class EqualsTests {
 
-        @ParameterizedTest(name = "arity {0}: equality checks every component")
+        @ParameterizedTest(name = "arity {0}: equality value contract")
         @ValueSource(ints = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 })
-        void equals_rejectsEverySingleComponentDifference(int arity) {
+        void equals_allArities_obeysValueContract(int arity) {
             char[] values = new char[arity];
             for (int i = 0; i < arity; i++) {
                 values[i] = (char) (i + 1);
@@ -2619,6 +2261,10 @@ class CharTupleTest {
             assertTrue(tuple.equals(tuple));
             assertTrue(tuple.equals(equal));
             assertTrue(equal.equals(tuple));
+            CharTuple<?> third = arity == 0 ? new CharTuple.CharTuple0() : CharTuple.from(values.clone());
+            assertNotSame(equal, third);
+            assertTrue(equal.equals(third));
+            assertTrue(tuple.equals(third), "equality must be transitive");
             assertEquals(tuple.hashCode(), equal.hashCode());
             assertFalse(tuple.equals(null));
             assertFalse(tuple.equals(new Object()));
@@ -2630,69 +2276,27 @@ class CharTupleTest {
                 assertFalse(tuple.equals(different), "component " + i);
                 assertFalse(different.equals(tuple), "component " + i);
             }
+
+            for (int otherArity = 0; otherArity <= 9; otherArity++) {
+                if (otherArity != arity) {
+                    CharTuple<?> differentArity = CharTuple.from(java.util.Arrays.copyOf(values, otherArity));
+                    assertFalse(tuple.equals(differentArity), "different arity " + otherArity);
+                    assertFalse(differentArity.equals(tuple), "reverse comparison with arity " + otherArity);
+                }
+            }
         }
 
-        @Test
-        void arity1_equals() {
-            CharTuple.CharTuple1 tuple1 = CharTuple.of('a');
-            CharTuple.CharTuple1 tuple2 = CharTuple.of('a');
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity2_equals() {
-            CharTuple.CharTuple2 tuple1 = CharTuple.of('a', 'b');
-            CharTuple.CharTuple2 tuple2 = CharTuple.of('a', 'b');
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity3_equals() {
-            CharTuple.CharTuple3 tuple1 = CharTuple.of('a', 'b', 'c');
-            CharTuple.CharTuple3 tuple2 = CharTuple.of('a', 'b', 'c');
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity4_equals() {
-            CharTuple.CharTuple4 tuple1 = CharTuple.of('a', 'b', 'c', 'd');
-            CharTuple.CharTuple4 tuple2 = CharTuple.of('a', 'b', 'c', 'd');
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity5_equals() {
-            CharTuple.CharTuple5 tuple1 = CharTuple.of('a', 'b', 'c', 'd', 'e');
-            CharTuple.CharTuple5 tuple2 = CharTuple.of('a', 'b', 'c', 'd', 'e');
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity6_equals() {
-            CharTuple.CharTuple6 tuple1 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f');
-            CharTuple.CharTuple6 tuple2 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f');
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity7_equals() {
-            CharTuple.CharTuple7 tuple1 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g');
-            CharTuple.CharTuple7 tuple2 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g');
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity8_equals() {
-            CharTuple.CharTuple8 tuple1 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
-            CharTuple.CharTuple8 tuple2 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity9_equals() {
-            CharTuple.CharTuple9 tuple1 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i');
-            CharTuple.CharTuple9 tuple2 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i');
-            assertEquals(tuple1, tuple2);
+        @ParameterizedTest(name = "{0}")
+        @MethodSource("equalityCases")
+        void equals_inputCases_comparesValuesAndTypes(String scenario, CharTuple<?> tuple, Object other, boolean expected) {
+            assertTrue(tuple.equals(tuple), scenario + ": reflexivity");
+            assertEquals(expected, tuple.equals(other), scenario + ": forward comparison");
+            if (other != null) {
+                assertEquals(expected, other.equals(tuple), scenario + ": reverse comparison");
+            }
+            if (expected) {
+                assertEquals(tuple.hashCode(), other.hashCode(), scenario + ": equal values must have equal hashes");
+            }
         }
 
         @Test
@@ -2708,232 +2312,84 @@ class CharTupleTest {
             }
         }
 
-        @Test
-        void equals_comparesValues() {
-            CharTuple.CharTuple3 tuple1 = CharTuple.of('x', 'y', 'z');
-            CharTuple.CharTuple3 tuple2 = CharTuple.of('x', 'y', 'z');
-            CharTuple.CharTuple3 tuple3 = CharTuple.of('a', 'b', 'c');
-
-            assertEquals(tuple1, tuple2);
-            assertNotEquals(tuple1, tuple3);
-            assertNotEquals(tuple1, null);
-        }
-
-        @Test
-        void equals_differentArity() {
-            CharTuple1 tuple1 = CharTuple.of('A');
-            CharTuple2 tuple2 = CharTuple.of('A', 'B');
-            assertFalse(tuple1.equals(tuple2));
-        }
-
-        @Test
-        void equals_differentTypes() {
-            CharTuple2 tuple2 = CharTuple.of('A', 'B');
-            CharTuple3 tuple3 = CharTuple.of('A', 'B', 'C');
-            assertNotEquals(tuple2, tuple3);
-        }
-
-        @Test
-        void equals_differentTypes_values_A() {
-            CharTuple1 tuple1 = CharTuple.of('A');
-            CharTuple2 tuple2 = CharTuple.of('A', 'B');
-            assertNotEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equals_differentValues() {
-            CharTuple2 tuple1 = CharTuple.of('A', 'B');
-            CharTuple2 tuple2 = CharTuple.of('X', 'Y');
-            assertNotEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equals_higherArityIdentityAndTypeMismatch() {
-            CharTuple.CharTuple7 tuple7 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g');
-            CharTuple.CharTuple8 tuple8 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
-            CharTuple.CharTuple9 tuple9 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i');
-
-            assertTrue(tuple7.equals(tuple7));
-            assertEquals(tuple7, CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g'));
-            assertNotEquals(tuple7, CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'x'));
-            assertNotEquals(tuple7, "tuple");
-
-            assertTrue(tuple8.equals(tuple8));
-            assertEquals(tuple8, CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'));
-            assertNotEquals(tuple8, CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'x'));
-            assertNotEquals(tuple8, "tuple");
-
-            assertTrue(tuple9.equals(tuple9));
-            assertEquals(tuple9, CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'));
-            assertNotEquals(tuple9, CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'x'));
-            assertNotEquals(tuple9, "tuple");
-        }
-
-        @Test
-        void equals_null() {
-            CharTuple2 tuple = CharTuple.of('A', 'B');
-            assertNotEquals(tuple, null);
-        }
-
-        @Test
-        void equals_otherObject() {
-            CharTuple2 tuple = CharTuple.of('A', 'B');
-            assertNotEquals(tuple, "AB");
-        }
-
-        @Test
-        void equals_sameInstance() {
-            CharTuple2 tuple = CharTuple.of('A', 'B');
-            assertTrue(tuple.equals(tuple));
-        }
-
-        @Test
-        void equals_sameValues() {
-            CharTuple2 tuple1 = CharTuple.of('A', 'B');
-            CharTuple2 tuple2 = CharTuple.of('A', 'B');
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equals_symmetry() {
-            CharTuple2 tuple1 = CharTuple.of('A', 'B');
-            CharTuple2 tuple2 = CharTuple.of('A', 'B');
-            assertEquals(tuple1, tuple2);
-            assertEquals(tuple2, tuple1);
-        }
-
-        @Test
-        void equalsDifferentClass() {
-            CharTuple3 tuple = CharTuple.of('a', 'b', 'c');
-            assertNotEquals("not a tuple", tuple);
-        }
-
-        @Test
-        void equalsNull() {
-            CharTuple3 tuple = CharTuple.of('a', 'b', 'c');
-            assertNotEquals(null, tuple);
-        }
-
-        @Test
-        void equalsSameObject() {
-            CharTuple3 tuple = CharTuple.of('a', 'b', 'c');
-            assertTrue(tuple.equals(tuple));
-        }
-
-        @Test
-        void equalsTuple1() {
-            CharTuple1 tuple1 = CharTuple.of('a');
-            CharTuple1 tuple2 = CharTuple.of('a');
-            CharTuple1 tuple3 = CharTuple.of('z');
-            assertEquals(tuple1, tuple2);
-            assertNotEquals(tuple1, tuple3);
-        }
-
-        @Test
-        void equalsTuple2() {
-            CharTuple2 tuple1 = CharTuple.of('a', 'b');
-            CharTuple2 tuple2 = CharTuple.of('a', 'b');
-            CharTuple2 tuple3 = CharTuple.of('a', 'c');
-            assertEquals(tuple1, tuple2);
-            assertNotEquals(tuple1, tuple3);
-        }
-
-        @Test
-        void equalsTuple3() {
-            CharTuple3 tuple1 = CharTuple.of('a', 'b', 'c');
-            CharTuple3 tuple2 = CharTuple.of('a', 'b', 'c');
-            CharTuple3 tuple3 = CharTuple.of('a', 'b', 'd');
-            assertEquals(tuple1, tuple2);
-            assertNotEquals(tuple1, tuple3);
-        }
-
-        @Test
-        void tuple1_equals() {
-            CharTuple1 tuple1 = CharTuple.of('A');
-            CharTuple1 tuple2 = CharTuple.of('A');
-            CharTuple1 tuple3 = CharTuple.of('B');
-
-            assertTrue(tuple1.equals(tuple1));
-            assertEquals(tuple1, tuple2);
-            assertNotEquals(tuple1, tuple3);
-            assertNotEquals(tuple1, null);
-            assertNotEquals(tuple1, "not a tuple");
-        }
-
-        @Test
-        void tuple1_equals_differentClass() {
-            CharTuple1 tuple = CharTuple.of('A');
-            assertFalse(tuple.equals("not a tuple"));
-        }
-
-        @Test
-        void tuple1_equals_equal() {
-            CharTuple1 tuple1 = CharTuple.of('A');
-            CharTuple1 tuple2 = CharTuple.of('A');
-            assertTrue(tuple1.equals(tuple2));
-            assertTrue(tuple2.equals(tuple1));
-        }
-
-        @Test
-        void tuple1_equals_notEqual() {
-            CharTuple1 tuple1 = CharTuple.of('A');
-            CharTuple1 tuple2 = CharTuple.of('B');
-            assertFalse(tuple1.equals(tuple2));
-        }
-
-        @Test
-        void tuple1_equals_null() {
-            CharTuple1 tuple = CharTuple.of('A');
-            assertFalse(tuple.equals(null));
-        }
-
-        @Test
-        void tuple1_equals_same() {
-            CharTuple1 tuple = CharTuple.of('A');
-            assertTrue(tuple.equals(tuple));
-        }
-
-        @Test
-        void tuple2_equals() {
-            CharTuple2 tuple1 = CharTuple.of('A', 'B');
-            CharTuple2 tuple2 = CharTuple.of('A', 'B');
-            CharTuple2 tuple3 = CharTuple.of('B', 'A');
-
-            assertTrue(tuple1.equals(tuple1));
-            assertEquals(tuple1, tuple2);
-            assertNotEquals(tuple1, tuple3);
-        }
-
-        @Test
-        void tuple2_equals_values_A_B() {
-            CharTuple2 tuple1 = CharTuple.of('A', 'B');
-            CharTuple2 tuple2 = CharTuple.of('A', 'B');
-            CharTuple2 tuple3 = CharTuple.of('B', 'A');
-
-            assertTrue(tuple1.equals(tuple2));
-            assertFalse(tuple1.equals(tuple3));
-            assertFalse(tuple1.equals(null));
-        }
-
-        @Test
-        void tuple3_equals() {
-            CharTuple3 tuple1 = CharTuple.of('A', 'B', 'C');
-            CharTuple3 tuple2 = CharTuple.of('A', 'B', 'C');
-            CharTuple3 tuple3 = CharTuple.of('C', 'B', 'A');
-
-            assertTrue(tuple1.equals(tuple1));
-            assertEquals(tuple1, tuple2);
-            assertNotEquals(tuple1, tuple3);
-        }
-
-        @Test
-        void tuple3_equals_values_A_B_C() {
-            CharTuple3 tuple1 = CharTuple.of('A', 'B', 'C');
-            CharTuple3 tuple2 = CharTuple.of('A', 'B', 'C');
-            CharTuple3 tuple3 = CharTuple.of('A', 'B', 'D');
-
-            assertTrue(tuple1.equals(tuple2));
-            assertFalse(tuple1.equals(tuple3));
+        private static java.util.stream.Stream<Arguments> equalityCases() {
+            return java.util.stream.Stream.of(Arguments.of("of('a') versus of('a')", CharTuple.of('a'), CharTuple.of('a'), true),
+                    Arguments.of("of('a') versus of('z')", CharTuple.of('a'), CharTuple.of('z'), false),
+                    Arguments.of("of('A') versus \"not a tuple\"", CharTuple.of('A'), "not a tuple", false),
+                    Arguments.of("of('A') versus of('A', 'B')", CharTuple.of('A'), CharTuple.of('A', 'B'), false),
+                    Arguments.of("of('A') versus of('A')", CharTuple.of('A'), CharTuple.of('A'), true),
+                    Arguments.of("of('A') versus of('B')", CharTuple.of('A'), CharTuple.of('B'), false),
+                    Arguments.of("of('A') versus null", CharTuple.of('A'), null, false),
+                    Arguments.of("of('a', 'b') versus of('a', 'b')", CharTuple.of('a', 'b'), CharTuple.of('a', 'b'), true),
+                    Arguments.of("of('a', 'b') versus of('a', 'c')", CharTuple.of('a', 'b'), CharTuple.of('a', 'c'), false),
+                    Arguments.of("of('A', 'B') versus \"AB\"", CharTuple.of('A', 'B'), "AB", false),
+                    Arguments.of("of('A', 'B') versus of('A', 'B', 'C')", CharTuple.of('A', 'B'), CharTuple.of('A', 'B', 'C'), false),
+                    Arguments.of("of('A', 'B') versus of('A', 'B')", CharTuple.of('A', 'B'), CharTuple.of('A', 'B'), true),
+                    Arguments.of("of('A', 'B') versus of('B', 'A')", CharTuple.of('A', 'B'), CharTuple.of('B', 'A'), false),
+                    Arguments.of("of('A', 'B') versus of('X', 'Y')", CharTuple.of('A', 'B'), CharTuple.of('X', 'Y'), false),
+                    Arguments.of("of('A', 'B') versus null", CharTuple.of('A', 'B'), null, false),
+                    Arguments.of("of('a', 'b', 'c') versus \"not a tuple\"", CharTuple.of('a', 'b', 'c'), "not a tuple", false),
+                    Arguments.of("of('a', 'b', 'c') versus of('a', 'b', 'c')", CharTuple.of('a', 'b', 'c'), CharTuple.of('a', 'b', 'c'), true),
+                    Arguments.of("of('a', 'b', 'c') versus of('a', 'b', 'd')", CharTuple.of('a', 'b', 'c'), CharTuple.of('a', 'b', 'd'), false),
+                    Arguments.of("of('a', 'b', 'c') versus null", CharTuple.of('a', 'b', 'c'), null, false),
+                    Arguments.of("of('A', 'B', 'C') versus of('A', 'B', 'C')", CharTuple.of('A', 'B', 'C'), CharTuple.of('A', 'B', 'C'), true),
+                    Arguments.of("of('A', 'B', 'C') versus of('A', 'B', 'D')", CharTuple.of('A', 'B', 'C'), CharTuple.of('A', 'B', 'D'), false),
+                    Arguments.of("of('A', 'B', 'C') versus of('C', 'B', 'A')", CharTuple.of('A', 'B', 'C'), CharTuple.of('C', 'B', 'A'), false),
+                    Arguments.of("of('x', 'y', 'z') versus of('a', 'b', 'c')", CharTuple.of('x', 'y', 'z'), CharTuple.of('a', 'b', 'c'), false),
+                    Arguments.of("of('x', 'y', 'z') versus of('x', 'y', 'z')", CharTuple.of('x', 'y', 'z'), CharTuple.of('x', 'y', 'z'), true),
+                    Arguments.of("of('x', 'y', 'z') versus null", CharTuple.of('x', 'y', 'z'), null, false),
+                    Arguments.of("of('a', 'b', 'c', 'd') versus \"not a tuple\"", CharTuple.of('a', 'b', 'c', 'd'), "not a tuple", false),
+                    Arguments.of("of('a', 'b', 'c', 'd') versus \"tuple4\"", CharTuple.of('a', 'b', 'c', 'd'), "tuple4", false),
+                    Arguments.of("of('a', 'b', 'c', 'd') versus of('a', 'b', 'c', 'd')", CharTuple.of('a', 'b', 'c', 'd'), CharTuple.of('a', 'b', 'c', 'd'),
+                            true),
+                    Arguments.of("of('a', 'b', 'c', 'd') versus of('a', 'b', 'c', 'z')", CharTuple.of('a', 'b', 'c', 'd'), CharTuple.of('a', 'b', 'c', 'z'),
+                            false),
+                    Arguments.of("of('a', 'b', 'c', 'd', 'e') versus \"not a tuple\"", CharTuple.of('a', 'b', 'c', 'd', 'e'), "not a tuple", false),
+                    Arguments.of("of('a', 'b', 'c', 'd', 'e') versus \"tuple5\"", CharTuple.of('a', 'b', 'c', 'd', 'e'), "tuple5", false),
+                    Arguments.of("of('a', 'b', 'c', 'd', 'e') versus of('a', 'b', 'c', 'd', 'e')", CharTuple.of('a', 'b', 'c', 'd', 'e'),
+                            CharTuple.of('a', 'b', 'c', 'd', 'e'), true),
+                    Arguments.of("of('a', 'b', 'c', 'd', 'e') versus of('a', 'b', 'c', 'd', 'z')", CharTuple.of('a', 'b', 'c', 'd', 'e'),
+                            CharTuple.of('a', 'b', 'c', 'd', 'z'), false),
+                    Arguments.of("of('a', 'b', 'c', 'd', 'e', 'f') versus \"not a tuple\"", CharTuple.of('a', 'b', 'c', 'd', 'e', 'f'), "not a tuple", false),
+                    Arguments.of("of('a', 'b', 'c', 'd', 'e', 'f') versus \"tuple6\"", CharTuple.of('a', 'b', 'c', 'd', 'e', 'f'), "tuple6", false),
+                    Arguments.of("of('a', 'b', 'c', 'd', 'e', 'f') versus of('a', 'b', 'c', 'd', 'e', 'f')", CharTuple.of('a', 'b', 'c', 'd', 'e', 'f'),
+                            CharTuple.of('a', 'b', 'c', 'd', 'e', 'f'), true),
+                    Arguments.of("of('a', 'b', 'c', 'd', 'e', 'f') versus of('a', 'b', 'c', 'd', 'e', 'z')", CharTuple.of('a', 'b', 'c', 'd', 'e', 'f'),
+                            CharTuple.of('a', 'b', 'c', 'd', 'e', 'z'), false),
+                    Arguments.of("of('a', 'b', 'c', 'd', 'e', 'f', 'g') versus \"not a tuple\"", CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g'), "not a tuple",
+                            false),
+                    Arguments.of("of('a', 'b', 'c', 'd', 'e', 'f', 'g') versus \"tuple\"", CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g'), "tuple", false),
+                    Arguments.of("of('a', 'b', 'c', 'd', 'e', 'f', 'g') versus \"tuple7\"", CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g'), "tuple7", false),
+                    Arguments.of("of('a', 'b', 'c', 'd', 'e', 'f', 'g') versus of('a', 'b', 'c', 'd', 'e', 'f', 'g')",
+                            CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g'), CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g'), true),
+                    Arguments.of("of('a', 'b', 'c', 'd', 'e', 'f', 'g') versus of('a', 'b', 'c', 'd', 'e', 'f', 'x')",
+                            CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g'), CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'x'), false),
+                    Arguments.of("of('a', 'b', 'c', 'd', 'e', 'f', 'g') versus of('a', 'b', 'c', 'd', 'e', 'f', 'z')",
+                            CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g'), CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'z'), false),
+                    Arguments.of("of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h') versus \"not a tuple\"", CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'),
+                            "not a tuple", false),
+                    Arguments.of("of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h') versus \"tuple\"", CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'), "tuple",
+                            false),
+                    Arguments.of("of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h') versus \"tuple8\"", CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'), "tuple8",
+                            false),
+                    Arguments.of("of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h') versus of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h')",
+                            CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'), CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'), true),
+                    Arguments.of("of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h') versus of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'x')",
+                            CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'), CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'x'), false),
+                    Arguments.of("of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h') versus of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'z')",
+                            CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'), CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'z'), false),
+                    Arguments.of("of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i') versus \"not a tuple\"",
+                            CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'), "not a tuple", false),
+                    Arguments.of("of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i') versus \"tuple\"", CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'),
+                            "tuple", false),
+                    Arguments.of("of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i') versus \"tuple9\"", CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'),
+                            "tuple9", false),
+                    Arguments.of("of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i') versus of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i')",
+                            CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'), CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'), true),
+                    Arguments.of("of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i') versus of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'x')",
+                            CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'), CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'x'), false),
+                    Arguments.of("of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i') versus of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'z')",
+                            CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'), CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'z'), false));
         }
     }
 
@@ -3110,47 +2566,36 @@ class CharTupleTest {
             assertEquals(66.0, triple.average().getAsDouble(), 0.001);
         }
 
-        @Test
-        void coverageRegression_defaultConstructorsAndCachedArrays() {
-            CharTuple.CharTuple1 tuple1 = new CharTuple.CharTuple1();
-            assertArrayEquals(new char[] { 0 }, tuple1.toArray());
-            assertArrayEquals(new char[] { 0 }, tuple1.toArray());
+        @ParameterizedTest(name = "arity {0}: default exports are detached")
+        @ValueSource(ints = { 1, 2, 3, 4, 5, 6, 7, 8, 9 })
+        void defaultConstructors_exportDefaultValuesInIndependentArrays(int arity) {
+            CharTuple<?> tuple = switch (arity) {
+                case 1 -> new CharTuple.CharTuple1();
+                case 2 -> new CharTuple.CharTuple2();
+                case 3 -> new CharTuple.CharTuple3();
+                case 4 -> new CharTuple.CharTuple4();
+                case 5 -> new CharTuple.CharTuple5();
+                case 6 -> new CharTuple.CharTuple6();
+                case 7 -> new CharTuple.CharTuple7();
+                case 8 -> new CharTuple.CharTuple8();
+                case 9 -> new CharTuple.CharTuple9();
+                default -> throw new IllegalArgumentException("Unsupported tuple arity: " + arity);
+            };
+            char[] expected = new char[arity];
+            char[] first = tuple.toArray();
+            char[] second = tuple.toArray();
 
-            CharTuple.CharTuple2 tuple2 = new CharTuple.CharTuple2();
-            assertArrayEquals(new char[] { 0, 0 }, tuple2.toArray());
-            assertArrayEquals(new char[] { 0, 0 }, tuple2.toArray());
-
-            CharTuple.CharTuple3 tuple3 = new CharTuple.CharTuple3();
-            assertArrayEquals(new char[] { 0, 0, 0 }, tuple3.toArray());
-            assertArrayEquals(new char[] { 0, 0, 0 }, tuple3.toArray());
-
-            CharTuple.CharTuple4 tuple4 = new CharTuple.CharTuple4();
-            assertArrayEquals(new char[] { 0, 0, 0, 0 }, tuple4.toArray());
-            assertArrayEquals(new char[] { 0, 0, 0, 0 }, tuple4.toArray());
-
-            CharTuple.CharTuple5 tuple5 = new CharTuple.CharTuple5();
-            assertArrayEquals(new char[] { 0, 0, 0, 0, 0 }, tuple5.toArray());
-            assertArrayEquals(new char[] { 0, 0, 0, 0, 0 }, tuple5.toArray());
-
-            CharTuple.CharTuple6 tuple6 = new CharTuple.CharTuple6();
-            assertArrayEquals(new char[] { 0, 0, 0, 0, 0, 0 }, tuple6.toArray());
-            assertArrayEquals(new char[] { 0, 0, 0, 0, 0, 0 }, tuple6.toArray());
-
-            CharTuple.CharTuple7 tuple7 = new CharTuple.CharTuple7();
-            assertArrayEquals(new char[] { 0, 0, 0, 0, 0, 0, 0 }, tuple7.toArray());
-            assertArrayEquals(new char[] { 0, 0, 0, 0, 0, 0, 0 }, tuple7.toArray());
-
-            CharTuple.CharTuple8 tuple8 = new CharTuple.CharTuple8();
-            assertArrayEquals(new char[] { 0, 0, 0, 0, 0, 0, 0, 0 }, tuple8.toArray());
-            assertArrayEquals(new char[] { 0, 0, 0, 0, 0, 0, 0, 0 }, tuple8.toArray());
-
-            CharTuple.CharTuple9 tuple9 = new CharTuple.CharTuple9();
-            assertArrayEquals(new char[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, tuple9.toArray());
-            assertArrayEquals(new char[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, tuple9.toArray());
+            assertEquals(arity, tuple.arity());
+            assertArrayEquals(expected, first);
+            assertArrayEquals(expected, second);
+            assertNotSame(first, second);
+            first[0] = 'A';
+            assertArrayEquals(expected, second, "each export must have independent storage");
+            assertArrayEquals(expected, tuple.toArray(), "mutating an export must not affect the tuple");
         }
 
         @Test
-        void coverageRegression_emptyTupleBaseMethods() {
+        void emptyTuple_operations_obeyEmptyValueContract() {
             CharTuple<?> empty = CharTuple.from((char[]) null);
             assertEquals(CharTuple.from(new char[0]), empty);
             assertFalse(empty.equals("char"));
@@ -3177,7 +2622,7 @@ class CharTupleTest {
         }
 
         @Test
-        void inheritedOuterMethodsForCoverage() throws Exception {
+        void inheritedOperations_preserveTupleValues() throws Exception {
             final CharTuple.CharTuple4 tuple = CharTuple.of('d', 'a', 'c', 'b');
             final char[] firstArray = tuple.toArray();
             final char[] secondArray = tuple.toArray();
@@ -3602,27 +3047,32 @@ class CharTupleTest {
         }
 
         @Test
-        void zeroArgConstructorsForCoverage() {
-            final CharTuple1 tuple1 = new CharTuple1();
-            final CharTuple2 tuple2 = new CharTuple2();
-            final CharTuple3 tuple3 = new CharTuple3();
-            final CharTuple4 tuple4 = new CharTuple4();
-            final CharTuple5 tuple5 = new CharTuple5();
-            final CharTuple6 tuple6 = new CharTuple6();
-            final CharTuple7 tuple7 = new CharTuple7();
-            final CharTuple8 tuple8 = new CharTuple8();
-            final CharTuple9 tuple9 = new CharTuple9();
+        void highArity_aggregatesAndMembership_preserveValues() {
+            CharTuple.CharTuple4 tuple4 = CharTuple.of('i', 'a', 'g', 'c');
+            assertEquals('a', tuple4.min());
+            assertEquals('i', tuple4.max());
+            assertEquals('c', tuple4.lowerMedian());
+            assertEquals('i' + 'a' + 'g' + 'c', tuple4.sum());
+            assertEquals(((double) 'i' + 'a' + 'g' + 'c') / 4, tuple4.average().getAsDouble());
+            assertTrue(tuple4.contains('c'));
 
-            assertArrayEquals(new char[] { 0 }, tuple1.toArray());
-            assertArrayEquals(new char[] { 0 }, tuple1.toArray());
-            assertArrayEquals(new char[] { 0, 0 }, tuple2.toArray());
-            assertArrayEquals(new char[] { 0, 0, 0 }, tuple3.toArray());
-            assertArrayEquals(new char[] { 0, 0, 0, 0 }, tuple4.toArray());
-            assertArrayEquals(new char[] { 0, 0, 0, 0, 0 }, tuple5.toArray());
-            assertArrayEquals(new char[] { 0, 0, 0, 0, 0, 0 }, tuple6.toArray());
-            assertArrayEquals(new char[] { 0, 0, 0, 0, 0, 0, 0 }, tuple7.toArray());
-            assertArrayEquals(new char[] { 0, 0, 0, 0, 0, 0, 0, 0 }, tuple8.toArray());
-            assertArrayEquals(new char[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, tuple9.toArray());
+            CharTuple.CharTuple5 tuple5 = CharTuple.of('a', 'b', 'c', 'd', 'e');
+            assertTrue(tuple5.contains('e'));
+
+            CharTuple.CharTuple6 tuple6 = CharTuple.of('i', 'a', 'g', 'c', 'e', 'k');
+            assertEquals('e', tuple6.lowerMedian());
+            assertTrue(tuple6.contains('k'));
+
+            CharTuple.CharTuple7 tuple7 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g');
+            assertTrue(tuple7.contains('g'));
+
+            CharTuple.CharTuple8 tuple8 = CharTuple.of('i', 'a', 'g', 'c', 'e', 'k', 'm', 'o');
+            assertEquals('g', tuple8.lowerMedian());
+            assertTrue(tuple8.contains('o'));
+
+            CharTuple.CharTuple9 tuple9 = CharTuple.of('i', 'a', 'g', 'c', 'e', 'k', 'm', 'o', 'q');
+            assertEquals('i', tuple9.lowerMedian());
+            assertTrue(tuple9.contains('q'));
         }
     }
 }

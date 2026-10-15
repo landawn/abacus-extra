@@ -392,99 +392,24 @@ class DoubleTupleTest {
     @Nested
     class ArityTests {
 
-        @Test
-        void arity_returnsElementCount() {
-            assertEquals(0, DoubleTuple.from(new double[0]).arity());
-            assertEquals(1, DoubleTuple.of(1.0).arity());
-            assertEquals(2, DoubleTuple.of(1.0, 2.0).arity());
-            assertEquals(3, DoubleTuple.of(1.0, 2.0, 3.0).arity());
-            assertEquals(4, DoubleTuple.of(1.0, 2.0, 3.0, 4.0).arity());
-            assertEquals(5, DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0).arity());
-            assertEquals(6, DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0).arity());
-            assertEquals(7, DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0).arity());
-            assertEquals(8, DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0).arity());
-            assertEquals(9, DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0).arity());
+        @ParameterizedTest(name = "{0}")
+        @MethodSource("arityCases")
+        void arity_inputCases_returnsElementCount(String scenario, DoubleTuple<?> tuple, int expected) {
+            assertEquals(expected, tuple.arity(), scenario);
         }
 
-        @Test
-        void arity_tuple0() {
-            DoubleTuple<?> tuple = DoubleTuple.from(new double[0]);
-            assertEquals(0, tuple.arity());
+        private static java.util.stream.Stream<Arguments> arityCases() {
+            return java.util.stream.Stream.of(Arguments.of("from(new double[0])", DoubleTuple.from(new double[0]), 0),
+                    Arguments.of("of(1.0)", DoubleTuple.of(1.0), 1), Arguments.of("of(1.0, 2.0)", DoubleTuple.of(1.0, 2.0), 2),
+                    Arguments.of("of(1.0, 2.0, 3.0)", DoubleTuple.of(1.0, 2.0, 3.0), 3),
+                    Arguments.of("of(1.0, 2.0, 3.0, 4.0)", DoubleTuple.of(1.0, 2.0, 3.0, 4.0), 4),
+                    Arguments.of("of(1.0, 2.0, 3.0, 4.0, 5.0)", DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0), 5),
+                    Arguments.of("of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0)", DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0), 6),
+                    Arguments.of("of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0)", DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0), 7),
+                    Arguments.of("of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0)", DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0), 8),
+                    Arguments.of("of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0)", DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0), 9));
         }
 
-        @Test
-        void coverageRegression_highArityEqualsBranches() {
-            DoubleTuple.DoubleTuple4 tuple4 = DoubleTuple.of(1d, 2d, 3d, 4d);
-            assertTrue(tuple4.equals(tuple4));
-            assertTrue(tuple4.equals(DoubleTuple.of(1d, 2d, 3d, 4d)));
-            assertFalse(tuple4.equals(DoubleTuple.of(1d, 2d, 3d, 9d)));
-            assertFalse(tuple4.equals("tuple4"));
-
-            DoubleTuple.DoubleTuple5 tuple5 = DoubleTuple.of(1d, 2d, 3d, 4d, 5d);
-            assertTrue(tuple5.equals(tuple5));
-            assertTrue(tuple5.equals(DoubleTuple.of(1d, 2d, 3d, 4d, 5d)));
-            assertFalse(tuple5.equals(DoubleTuple.of(1d, 2d, 3d, 4d, 9d)));
-            assertFalse(tuple5.equals("tuple5"));
-
-            DoubleTuple.DoubleTuple6 tuple6 = DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d);
-            assertTrue(tuple6.equals(tuple6));
-            assertTrue(tuple6.equals(DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d)));
-            assertFalse(tuple6.equals(DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 9d)));
-            assertFalse(tuple6.equals("tuple6"));
-
-            DoubleTuple.DoubleTuple7 tuple7 = DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 7d);
-            assertTrue(tuple7.equals(tuple7));
-            assertTrue(tuple7.equals(DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 7d)));
-            assertFalse(tuple7.equals(DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 9d)));
-            assertFalse(tuple7.equals("tuple7"));
-
-            DoubleTuple.DoubleTuple8 tuple8 = DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d);
-            assertTrue(tuple8.equals(tuple8));
-            assertTrue(tuple8.equals(DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d)));
-            assertFalse(tuple8.equals(DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 7d, 9d)));
-            assertFalse(tuple8.equals("tuple8"));
-
-            DoubleTuple.DoubleTuple9 tuple9 = DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d, 9d);
-            assertTrue(tuple9.equals(tuple9));
-            assertTrue(tuple9.equals(DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d, 9d)));
-            assertFalse(tuple9.equals(DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d, 0d)));
-            assertFalse(tuple9.equals("tuple9"));
-        }
-
-        @Test
-        void coverageRegression_highArityOperations() {
-            DoubleTuple.DoubleTuple4 tuple4 = DoubleTuple.of(9d, 1d, 7d, 3d);
-            assertEquals(1d, tuple4.min(), 0.0);
-            assertEquals(9d, tuple4.max(), 0.0);
-            assertEquals(3d, tuple4.lowerMedian(), 0.0);
-            assertEquals(20d, tuple4.sum(), 0.0);
-            assertEquals(5.0, tuple4.average().getAsDouble(), 0.0);
-            assertTrue(tuple4.contains(3d));
-
-            DoubleTuple.DoubleTuple5 tuple5 = DoubleTuple.of(1d, 2d, 3d, 4d, 5d);
-            assertTrue(tuple5.contains(5d));
-
-            DoubleTuple.DoubleTuple6 tuple6 = DoubleTuple.of(9d, 1d, 7d, 3d, 5d, 11d);
-            assertEquals(5d, tuple6.lowerMedian(), 0.0);
-            assertTrue(tuple6.contains(11d));
-
-            DoubleTuple.DoubleTuple7 tuple7 = DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 7d);
-            assertTrue(tuple7.contains(7d));
-
-            DoubleTuple.DoubleTuple8 tuple8 = DoubleTuple.of(9d, 1d, 7d, 3d, 5d, 11d, 13d, 15d);
-            assertEquals(7d, tuple8.lowerMedian(), 0.0);
-            assertTrue(tuple8.contains(15d));
-
-            DoubleTuple.DoubleTuple9 tuple9 = DoubleTuple.of(9d, 1d, 7d, 3d, 5d, 11d, 13d, 15d, 17d);
-            assertEquals(9d, tuple9.lowerMedian(), 0.0);
-            assertTrue(tuple9.contains(17d));
-        }
-
-        @Test
-        void tuple0_arity() {
-            DoubleTuple0 tuple = DoubleTuple.from(new double[0]);
-            assertEquals(0, tuple.arity());
-        }
     }
 
     @Nested
@@ -1611,7 +1536,7 @@ class DoubleTupleTest {
     class ContainsTests {
 
         @ParameterizedTest(name = "arity {0}: contains checks every component")
-        @ValueSource(ints = { 1, 2, 3, 4, 5, 6, 7, 8, 9 })
+        @ValueSource(ints = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 })
         void contains_checksEveryComponentAndRejectsMissingValue(int arity) {
             double[] values = new double[arity];
             for (int i = 0; i < arity; i++) {
@@ -1624,226 +1549,62 @@ class DoubleTupleTest {
             assertFalse(tuple.contains(100));
         }
 
-        @Test
-        void arity1_contains() {
-            DoubleTuple.DoubleTuple1 tuple = DoubleTuple.of(1.0);
-            assertTrue(tuple.contains(1.0));
+        @ParameterizedTest(name = "{0}")
+        @MethodSource("containsCases")
+        void contains_inputCases_matchExpectedMembership(String scenario, DoubleTuple<?> tuple, double[] present, double[] absent) {
+            for (double value : present) {
+                assertTrue(tuple.contains(value), scenario + ": expected to contain " + value);
+            }
+            for (double value : absent) {
+                assertFalse(tuple.contains(value), scenario + ": expected to exclude " + value);
+            }
         }
 
-        @Test
-        void arity2_contains() {
-            DoubleTuple.DoubleTuple2 tuple = DoubleTuple.of(1.0, 2.0);
-            assertTrue(tuple.contains(1.0));
+        @ParameterizedTest(name = "arity {0}: special values at every position")
+        @ValueSource(ints = { 1, 2, 3, 4, 5, 6, 7, 8, 9 })
+        void contains_specialValues_matchesNaNAndDistinguishesSignedZero(int arity) {
+            double[] specialValues = { Double.NaN, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, 0.0, -0.0 };
+            for (double special : specialValues) {
+                for (int position = 0; position < arity; position++) {
+                    double[] values = new double[arity];
+                    java.util.Arrays.fill(values, 42.0);
+                    values[position] = special;
+                    DoubleTuple<?> tuple = DoubleTuple.from(values);
+                    String scenario = "component " + position + ": " + special;
+                    assertTrue(tuple.contains(special), scenario);
+                    if (Double.isNaN(special)) {
+                        assertTrue(tuple.contains(Double.longBitsToDouble(0x7ff8000000000001L)), scenario + ": alternate NaN payload");
+                    } else if (special == 0.0) {
+                        assertFalse(tuple.contains(-special), scenario + ": opposite signed zero");
+                    }
+                }
+            }
         }
 
-        @Test
-        void arity3_contains() {
-            DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
-            assertTrue(tuple.contains(1.0));
-        }
-
-        @Test
-        void arity4_contains() {
-            DoubleTuple.DoubleTuple4 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
-            assertTrue(tuple.contains(1.0));
-        }
-
-        @Test
-        void arity5_contains() {
-            DoubleTuple.DoubleTuple5 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0);
-            assertTrue(tuple.contains(1.0));
-        }
-
-        @Test
-        void arity6_contains() {
-            DoubleTuple.DoubleTuple6 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
-            assertTrue(tuple.contains(1.0));
-        }
-
-        @Test
-        void arity7_contains() {
-            DoubleTuple.DoubleTuple7 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
-            assertTrue(tuple.contains(1.0));
-        }
-
-        @Test
-        void arity8_contains() {
-            DoubleTuple.DoubleTuple8 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
-            assertTrue(tuple.contains(1.0));
-        }
-
-        @Test
-        void arity9_contains() {
-            DoubleTuple.DoubleTuple9 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
-            assertTrue(tuple.contains(1.0));
-        }
-
-        @Test
-        void contains_emptyTuple() {
-            DoubleTuple<?> tuple = DoubleTuple.from(new double[0]);
-            assertFalse(tuple.contains(1.0));
-        }
-
-        @Test
-        void contains_findsPresentElements() {
-            DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.5, 2.5, 3.5);
-
-            assertTrue(tuple.contains(1.5));
-            assertTrue(tuple.contains(2.5));
-            assertTrue(tuple.contains(3.5));
-            assertFalse(tuple.contains(4.5));
-        }
-
-        @Test
-        void contains_higherArityTrailingElements() {
-            DoubleTuple.DoubleTuple7 tuple7 = DoubleTuple.of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5);
-            DoubleTuple.DoubleTuple8 tuple8 = DoubleTuple.of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5);
-
-            assertTrue(tuple7.contains(7.5));
-            assertFalse(tuple7.contains(9.5));
-            assertTrue(tuple8.contains(8.5));
-            assertFalse(tuple8.contains(9.5));
-        }
-
-        @Test
-        void contains_tuple1_found() {
-            DoubleTuple1 tuple = DoubleTuple.of(5.5);
-            assertTrue(tuple.contains(5.5));
-        }
-
-        @Test
-        void contains_tuple1_notFound() {
-            DoubleTuple1 tuple = DoubleTuple.of(5.5);
-            assertFalse(tuple.contains(3.3));
-        }
-
-        @Test
-        void containsTuple0() {
-            DoubleTuple<DoubleTuple0> tuple = DoubleTuple.from(new double[0]);
-            assertFalse(tuple.contains(1.0));
-        }
-
-        @Test
-        void containsTuple1False() {
-            DoubleTuple1 tuple = DoubleTuple.of(1.0);
-            assertFalse(tuple.contains(99.0));
-        }
-
-        @Test
-        void containsTuple1False_values_42_0() {
-            DoubleTuple1 tuple = DoubleTuple.of(42.0);
-            assertFalse(tuple.contains(41.0));
-        }
-
-        @Test
-        void containsTuple1True() {
-            DoubleTuple1 tuple = DoubleTuple.of(1.0);
-            assertTrue(tuple.contains(1.0));
-        }
-
-        @Test
-        void containsTuple1True_values_42_0() {
-            DoubleTuple1 tuple = DoubleTuple.of(42.0);
-            assertTrue(tuple.contains(42.0));
-        }
-
-        @Test
-        void containsTuple3() {
-            DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
-            assertTrue(tuple.contains(1.0));
-            assertTrue(tuple.contains(2.0));
-            assertTrue(tuple.contains(3.0));
-            assertFalse(tuple.contains(99.0));
-        }
-
-        @Test
-        void containsTuple4() {
-            DoubleTuple4 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
-            assertTrue(tuple.contains(1.0));
-            assertTrue(tuple.contains(4.0));
-            assertFalse(tuple.contains(99.0));
-        }
-
-        @Test
-        void containsTuple5() {
-            DoubleTuple5 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0);
-            assertTrue(tuple.contains(5.0));
-            assertFalse(tuple.contains(99.0));
-        }
-
-        @Test
-        void containsTuple6() {
-            DoubleTuple6 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
-            assertTrue(tuple.contains(6.0));
-            assertFalse(tuple.contains(99.0));
-        }
-
-        @Test
-        void containsTuple7() {
-            DoubleTuple7 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
-            assertTrue(tuple.contains(7.0));
-            assertFalse(tuple.contains(99.0));
-        }
-
-        @Test
-        void containsTuple8() {
-            DoubleTuple8 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
-            assertTrue(tuple.contains(8.0));
-            assertFalse(tuple.contains(99.0));
-        }
-
-        @Test
-        void containsTuple9() {
-            DoubleTuple9 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
-            assertTrue(tuple.contains(9.0));
-            assertFalse(tuple.contains(99.0));
-        }
-
-        @Test
-        void containsTuple9_values_1_0_2_0_3_0_4_0_5_0_6_0_7_0_8_0_9_0() {
-            DoubleTuple9 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
-            assertTrue(tuple.contains(5.0));
-            assertFalse(tuple.contains(10.0));
-        }
-
-        @Test
-        void tuple0_contains() {
-            DoubleTuple0 tuple = DoubleTuple.from(new double[0]);
-            assertFalse(tuple.contains(1.0));
-        }
-
-        @Test
-        void tuple1_contains_found() {
-            DoubleTuple1 tuple = DoubleTuple.of(3.14);
-            assertTrue(tuple.contains(3.14));
-        }
-
-        @Test
-        void tuple1_contains_notFound() {
-            DoubleTuple1 tuple = DoubleTuple.of(3.14);
-            assertFalse(tuple.contains(2.71));
-        }
-
-        @Test
-        void tuple2_contains_found() {
-            DoubleTuple2 tuple = DoubleTuple.of(1.5, 2.5);
-            assertTrue(tuple.contains(1.5));
-            assertTrue(tuple.contains(2.5));
-        }
-
-        @Test
-        void tuple2_contains_notFound() {
-            DoubleTuple2 tuple = DoubleTuple.of(1.5, 2.5);
-            assertFalse(tuple.contains(3.5));
-        }
-
-        @Test
-        void tuple3_contains() {
-            DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
-            assertTrue(tuple.contains(1.0));
-            assertTrue(tuple.contains(2.0));
-            assertTrue(tuple.contains(3.0));
-            assertFalse(tuple.contains(4.0));
+        private static java.util.stream.Stream<Arguments> containsCases() {
+            return java.util.stream.Stream.of(Arguments.of("from(new double[0])", DoubleTuple.from(new double[0]), new double[] {}, new double[] { 1.0 }),
+                    Arguments.of("of(1.0)", DoubleTuple.of(1.0), new double[] { 1.0 }, new double[] { 99.0 }),
+                    Arguments.of("of(3.14)", DoubleTuple.of(3.14), new double[] { 3.14 }, new double[] { 2.71 }),
+                    Arguments.of("of(42.0)", DoubleTuple.of(42.0), new double[] { 42.0 }, new double[] { 41.0 }),
+                    Arguments.of("of(5.5)", DoubleTuple.of(5.5), new double[] { 5.5 }, new double[] { 3.3 }),
+                    Arguments.of("of(1.0, 2.0)", DoubleTuple.of(1.0, 2.0), new double[] { 1.0 }, new double[] {}),
+                    Arguments.of("of(1.5, 2.5)", DoubleTuple.of(1.5, 2.5), new double[] { 1.5, 2.5 }, new double[] { 3.5 }),
+                    Arguments.of("of(1.0, 2.0, 3.0)", DoubleTuple.of(1.0, 2.0, 3.0), new double[] { 1.0, 2.0, 3.0 }, new double[] { 99.0, 4.0 }),
+                    Arguments.of("of(1.5, 2.5, 3.5)", DoubleTuple.of(1.5, 2.5, 3.5), new double[] { 1.5, 2.5, 3.5 }, new double[] { 4.5 }),
+                    Arguments.of("of(1.0, 2.0, 3.0, 4.0)", DoubleTuple.of(1.0, 2.0, 3.0, 4.0), new double[] { 1.0, 4.0 }, new double[] { 99.0 }),
+                    Arguments.of("of(1.0, 2.0, 3.0, 4.0, 5.0)", DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0), new double[] { 1.0, 5.0 }, new double[] { 99.0 }),
+                    Arguments.of("of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0)", DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0), new double[] { 1.0, 6.0 },
+                            new double[] { 99.0 }),
+                    Arguments.of("of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0)", DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0), new double[] { 1.0, 7.0 },
+                            new double[] { 99.0 }),
+                    Arguments.of("of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5)", DoubleTuple.of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5), new double[] { 7.5 },
+                            new double[] { 9.5 }),
+                    Arguments.of("of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0)", DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0),
+                            new double[] { 1.0, 8.0 }, new double[] { 99.0 }),
+                    Arguments.of("of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5)", DoubleTuple.of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5), new double[] { 8.5 },
+                            new double[] { 9.5 }),
+                    Arguments.of("of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0)", DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0),
+                            new double[] { 1.0, 9.0, 5.0 }, new double[] { 99.0, 10.0 }));
         }
     }
 
@@ -3002,9 +2763,9 @@ class DoubleTupleTest {
     @Nested
     class EqualsTests {
 
-        @ParameterizedTest(name = "arity {0}: equality checks every component")
+        @ParameterizedTest(name = "arity {0}: equality value contract")
         @ValueSource(ints = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 })
-        void equals_rejectsEverySingleComponentDifference(int arity) {
+        void equals_allArities_obeysValueContract(int arity) {
             double[] values = new double[arity];
             for (int i = 0; i < arity; i++) {
                 values[i] = i + 1;
@@ -3016,6 +2777,10 @@ class DoubleTupleTest {
             assertTrue(tuple.equals(tuple));
             assertTrue(tuple.equals(equal));
             assertTrue(equal.equals(tuple));
+            DoubleTuple<?> third = arity == 0 ? new DoubleTuple.DoubleTuple0() : DoubleTuple.from(values.clone());
+            assertNotSame(equal, third);
+            assertTrue(equal.equals(third));
+            assertTrue(tuple.equals(third), "equality must be transitive");
             assertEquals(tuple.hashCode(), equal.hashCode());
             assertFalse(tuple.equals(null));
             assertFalse(tuple.equals(new Object()));
@@ -3027,69 +2792,54 @@ class DoubleTupleTest {
                 assertFalse(tuple.equals(different), "component " + i);
                 assertFalse(different.equals(tuple), "component " + i);
             }
+
+            for (int otherArity = 0; otherArity <= 9; otherArity++) {
+                if (otherArity != arity) {
+                    DoubleTuple<?> differentArity = DoubleTuple.from(java.util.Arrays.copyOf(values, otherArity));
+                    assertFalse(tuple.equals(differentArity), "different arity " + otherArity);
+                    assertFalse(differentArity.equals(tuple), "reverse comparison with arity " + otherArity);
+                }
+            }
         }
 
-        @Test
-        void arity1_equals() {
-            DoubleTuple.DoubleTuple1 tuple1 = DoubleTuple.of(1.0);
-            DoubleTuple.DoubleTuple1 tuple2 = DoubleTuple.of(1.0);
-            assertEquals(tuple1, tuple2);
+        @ParameterizedTest(name = "{0}")
+        @MethodSource("equalityCases")
+        void equals_inputCases_comparesValuesAndTypes(String scenario, DoubleTuple<?> tuple, Object other, boolean expected) {
+            assertTrue(tuple.equals(tuple), scenario + ": reflexivity");
+            assertEquals(expected, tuple.equals(other), scenario + ": forward comparison");
+            if (other != null) {
+                assertEquals(expected, other.equals(tuple), scenario + ": reverse comparison");
+            }
+            if (expected) {
+                assertEquals(tuple.hashCode(), other.hashCode(), scenario + ": equal values must have equal hashes");
+            }
         }
 
-        @Test
-        void arity2_equals() {
-            DoubleTuple.DoubleTuple2 tuple1 = DoubleTuple.of(1.0, 2.0);
-            DoubleTuple.DoubleTuple2 tuple2 = DoubleTuple.of(1.0, 2.0);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity3_equals() {
-            DoubleTuple.DoubleTuple3 tuple1 = DoubleTuple.of(1.0, 2.0, 3.0);
-            DoubleTuple.DoubleTuple3 tuple2 = DoubleTuple.of(1.0, 2.0, 3.0);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity4_equals() {
-            DoubleTuple.DoubleTuple4 tuple1 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
-            DoubleTuple.DoubleTuple4 tuple2 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity5_equals() {
-            DoubleTuple.DoubleTuple5 tuple1 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0);
-            DoubleTuple.DoubleTuple5 tuple2 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity6_equals() {
-            DoubleTuple.DoubleTuple6 tuple1 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
-            DoubleTuple.DoubleTuple6 tuple2 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity7_equals() {
-            DoubleTuple.DoubleTuple7 tuple1 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
-            DoubleTuple.DoubleTuple7 tuple2 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity8_equals() {
-            DoubleTuple.DoubleTuple8 tuple1 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
-            DoubleTuple.DoubleTuple8 tuple2 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void arity9_equals() {
-            DoubleTuple.DoubleTuple9 tuple1 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
-            DoubleTuple.DoubleTuple9 tuple2 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
-            assertEquals(tuple1, tuple2);
+        @ParameterizedTest(name = "arity {0}: special values at every position")
+        @ValueSource(ints = { 1, 2, 3, 4, 5, 6, 7, 8, 9 })
+        void equals_specialValues_preservesFloatingPointValueSemantics(int arity) {
+            double[] specialValues = { Double.NaN, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, 0.0, -0.0 };
+            for (double special : specialValues) {
+                for (int position = 0; position < arity; position++) {
+                    double[] values = new double[arity];
+                    java.util.Arrays.fill(values, 42.0);
+                    values[position] = special;
+                    DoubleTuple<?> tuple = DoubleTuple.from(values);
+                    String scenario = "component " + position + ": " + special;
+                    double[] matchingValues = values.clone();
+                    if (Double.isNaN(special)) {
+                        matchingValues[position] = Double.longBitsToDouble(0x7ff8000000000001L);
+                    }
+                    DoubleTuple<?> equal = DoubleTuple.from(matchingValues);
+                    assertTrue(tuple.equals(equal), scenario);
+                    assertTrue(equal.equals(tuple), scenario + ": reverse comparison");
+                    assertEquals(tuple.hashCode(), equal.hashCode(), scenario);
+                    matchingValues[position] = special == 0.0 ? -special : 0.0;
+                    DoubleTuple<?> different = DoubleTuple.from(matchingValues);
+                    assertFalse(tuple.equals(different), scenario);
+                    assertFalse(different.equals(tuple), scenario + ": reverse comparison");
+                }
+            }
         }
 
         @Test
@@ -3105,218 +2855,75 @@ class DoubleTupleTest {
             }
         }
 
-        @Test
-        void equals_comparesValues() {
-            DoubleTuple.DoubleTuple3 tuple1 = DoubleTuple.of(1.0, 2.0, 3.0);
-            DoubleTuple.DoubleTuple3 tuple2 = DoubleTuple.of(1.0, 2.0, 3.0);
-            DoubleTuple.DoubleTuple3 tuple3 = DoubleTuple.of(1.0, 2.0, 4.0);
-
-            assertEquals(tuple1, tuple2);
-            assertNotEquals(tuple1, tuple3);
-            assertNotEquals(tuple1, null);
-        }
-
-        @Test
-        void equals_differentArity() {
-            DoubleTuple1 tuple1 = DoubleTuple.of(1.0);
-            DoubleTuple2 tuple2 = DoubleTuple.of(1.0, 2.0);
-            assertFalse(tuple1.equals(tuple2));
-        }
-
-        @Test
-        void equals_differentTuple3() {
-            DoubleTuple3 tuple1 = DoubleTuple.of(1.0, 2.0, 3.0);
-            DoubleTuple3 tuple2 = DoubleTuple.of(1.0, 2.0, 4.0);
-            assertNotEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equals_differentTypes() {
-            DoubleTuple1 tuple1 = DoubleTuple.of(5.5);
-            DoubleTuple2 tuple2 = DoubleTuple.of(5.5, 1.0);
-            assertNotEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equals_higherArityIdentityAndTypeMismatch() {
-            DoubleTuple.DoubleTuple7 tuple7 = DoubleTuple.of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5);
-            DoubleTuple.DoubleTuple8 tuple8 = DoubleTuple.of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5);
-
-            assertTrue(tuple7.equals(tuple7));
-            assertEquals(tuple7, DoubleTuple.of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5));
-            assertNotEquals(tuple7, DoubleTuple.of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 8.5));
-            assertNotEquals(tuple7, "tuple");
-
-            assertTrue(tuple8.equals(tuple8));
-            assertEquals(tuple8, DoubleTuple.of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5));
-            assertNotEquals(tuple8, DoubleTuple.of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 9.5));
-            assertNotEquals(tuple8, "tuple");
-        }
-
-        @Test
-        void equals_null() {
-            DoubleTuple1 tuple = DoubleTuple.of(5.5);
-            assertNotEquals(tuple, null);
-        }
-
-        @Test
-        void equals_sameTuple1() {
-            DoubleTuple1 tuple1 = DoubleTuple.of(5.5);
-            DoubleTuple1 tuple2 = DoubleTuple.of(5.5);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equals_sameTuple3() {
-            DoubleTuple3 tuple1 = DoubleTuple.of(1.0, 2.0, 3.0);
-            DoubleTuple3 tuple2 = DoubleTuple.of(1.0, 2.0, 3.0);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equalsDifferentClass() {
-            DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
-            assertNotEquals("not a tuple", tuple);
-        }
-
-        @Test
-        void equalsNull() {
-            DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
-            assertNotEquals(null, tuple);
-        }
-
-        @Test
-        void equalsNull_values_1_0_2_0() {
-            DoubleTuple2 tuple = DoubleTuple.of(1.0, 2.0);
-            assertNotEquals(tuple, null);
-        }
-
-        @Test
-        void equalsSameObject() {
-            DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
-            assertTrue(tuple.equals(tuple));
-        }
-
-        @Test
-        void equalsSelf() {
-            DoubleTuple2 tuple = DoubleTuple.of(1.0, 2.0);
-            assertTrue(tuple.equals(tuple));
-        }
-
-        @Test
-        void equalsTuple0() {
-            DoubleTuple<DoubleTuple0> tuple1 = DoubleTuple.from(new double[0]);
-            DoubleTuple<DoubleTuple0> tuple2 = DoubleTuple.from(new double[0]);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equalsTuple1() {
-            DoubleTuple1 tuple1 = DoubleTuple.of(1.0);
-            DoubleTuple1 tuple2 = DoubleTuple.of(1.0);
-            DoubleTuple1 tuple3 = DoubleTuple.of(99.0);
-            assertEquals(tuple1, tuple2);
-            assertNotEquals(tuple1, tuple3);
-        }
-
-        @Test
-        void equalsTuple1_values_42_0() {
-            DoubleTuple1 tuple1 = DoubleTuple.of(42.0);
-            DoubleTuple1 tuple2 = DoubleTuple.of(42.0);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equalsTuple2() {
-            DoubleTuple2 tuple1 = DoubleTuple.of(1.0, 2.0);
-            DoubleTuple2 tuple2 = DoubleTuple.of(1.0, 2.0);
-            DoubleTuple2 tuple3 = DoubleTuple.of(1.0, 3.0);
-            assertEquals(tuple1, tuple2);
-            assertNotEquals(tuple1, tuple3);
-        }
-
-        @Test
-        void equalsTuple2_values_1_0_2_0() {
-            DoubleTuple2 tuple1 = DoubleTuple.of(1.0, 2.0);
-            DoubleTuple2 tuple2 = DoubleTuple.of(1.0, 2.0);
-            assertEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void equalsTuple3() {
-            DoubleTuple3 tuple1 = DoubleTuple.of(1.0, 2.0, 3.0);
-            DoubleTuple3 tuple2 = DoubleTuple.of(1.0, 2.0, 3.0);
-            DoubleTuple3 tuple3 = DoubleTuple.of(1.0, 2.0, 4.0);
-            assertEquals(tuple1, tuple2);
-            assertNotEquals(tuple1, tuple3);
-        }
-
-        @Test
-        void notEqualsDifferentTypes() {
-            DoubleTuple2 tuple2 = DoubleTuple.of(1.0, 2.0);
-            DoubleTuple3 tuple3 = DoubleTuple.of(1.0, 2.0, 3.0);
-            assertNotEquals(tuple2, tuple3);
-        }
-
-        @Test
-        void notEqualsDifferentValues() {
-            DoubleTuple2 tuple1 = DoubleTuple.of(1.0, 2.0);
-            DoubleTuple2 tuple2 = DoubleTuple.of(2.0, 3.0);
-            assertNotEquals(tuple1, tuple2);
-        }
-
-        @Test
-        void tuple1_equals_differentClass() {
-            DoubleTuple1 tuple = DoubleTuple.of(3.14);
-            assertFalse(tuple.equals("not a tuple"));
-        }
-
-        @Test
-        void tuple1_equals_equal() {
-            DoubleTuple1 tuple1 = DoubleTuple.of(3.14);
-            DoubleTuple1 tuple2 = DoubleTuple.of(3.14);
-            assertTrue(tuple1.equals(tuple2));
-            assertTrue(tuple2.equals(tuple1));
-        }
-
-        @Test
-        void tuple1_equals_notEqual() {
-            DoubleTuple1 tuple1 = DoubleTuple.of(3.14);
-            DoubleTuple1 tuple2 = DoubleTuple.of(2.71);
-            assertFalse(tuple1.equals(tuple2));
-        }
-
-        @Test
-        void tuple1_equals_null() {
-            DoubleTuple1 tuple = DoubleTuple.of(3.14);
-            assertFalse(tuple.equals(null));
-        }
-
-        @Test
-        void tuple1_equals_same() {
-            DoubleTuple1 tuple = DoubleTuple.of(3.14);
-            assertTrue(tuple.equals(tuple));
-        }
-
-        @Test
-        void tuple2_equals() {
-            DoubleTuple2 tuple1 = DoubleTuple.of(1.5, 2.5);
-            DoubleTuple2 tuple2 = DoubleTuple.of(1.5, 2.5);
-            DoubleTuple2 tuple3 = DoubleTuple.of(2.5, 1.5);
-
-            assertTrue(tuple1.equals(tuple2));
-            assertFalse(tuple1.equals(tuple3));
-            assertFalse(tuple1.equals(null));
-        }
-
-        @Test
-        void tuple3_equals() {
-            DoubleTuple3 tuple1 = DoubleTuple.of(1.0, 2.0, 3.0);
-            DoubleTuple3 tuple2 = DoubleTuple.of(1.0, 2.0, 3.0);
-            DoubleTuple3 tuple3 = DoubleTuple.of(1.0, 2.0, 4.0);
-
-            assertTrue(tuple1.equals(tuple2));
-            assertFalse(tuple1.equals(tuple3));
+        private static java.util.stream.Stream<Arguments> equalityCases() {
+            return java.util.stream.Stream.of(
+                    Arguments.of("from(new double[0]) versus from(new double[0])", DoubleTuple.from(new double[0]), DoubleTuple.from(new double[0]), true),
+                    Arguments.of("of(1.0) versus of(1.0, 2.0)", DoubleTuple.of(1.0), DoubleTuple.of(1.0, 2.0), false),
+                    Arguments.of("of(1.0) versus of(1.0)", DoubleTuple.of(1.0), DoubleTuple.of(1.0), true),
+                    Arguments.of("of(1.0) versus of(99.0)", DoubleTuple.of(1.0), DoubleTuple.of(99.0), false),
+                    Arguments.of("of(3.14) versus \"not a tuple\"", DoubleTuple.of(3.14), "not a tuple", false),
+                    Arguments.of("of(3.14) versus of(2.71)", DoubleTuple.of(3.14), DoubleTuple.of(2.71), false),
+                    Arguments.of("of(3.14) versus of(3.14)", DoubleTuple.of(3.14), DoubleTuple.of(3.14), true),
+                    Arguments.of("of(3.14) versus null", DoubleTuple.of(3.14), null, false),
+                    Arguments.of("of(42.0) versus of(42.0)", DoubleTuple.of(42.0), DoubleTuple.of(42.0), true),
+                    Arguments.of("of(5.5) versus of(5.5, 1.0)", DoubleTuple.of(5.5), DoubleTuple.of(5.5, 1.0), false),
+                    Arguments.of("of(5.5) versus of(5.5)", DoubleTuple.of(5.5), DoubleTuple.of(5.5), true),
+                    Arguments.of("of(5.5) versus null", DoubleTuple.of(5.5), null, false),
+                    Arguments.of("of(1.0, 2.0) versus of(1.0, 2.0, 3.0)", DoubleTuple.of(1.0, 2.0), DoubleTuple.of(1.0, 2.0, 3.0), false),
+                    Arguments.of("of(1.0, 2.0) versus of(1.0, 2.0)", DoubleTuple.of(1.0, 2.0), DoubleTuple.of(1.0, 2.0), true),
+                    Arguments.of("of(1.0, 2.0) versus of(1.0, 3.0)", DoubleTuple.of(1.0, 2.0), DoubleTuple.of(1.0, 3.0), false),
+                    Arguments.of("of(1.0, 2.0) versus of(2.0, 3.0)", DoubleTuple.of(1.0, 2.0), DoubleTuple.of(2.0, 3.0), false),
+                    Arguments.of("of(1.0, 2.0) versus null", DoubleTuple.of(1.0, 2.0), null, false),
+                    Arguments.of("of(1.5, 2.5) versus of(1.5, 2.5)", DoubleTuple.of(1.5, 2.5), DoubleTuple.of(1.5, 2.5), true),
+                    Arguments.of("of(1.5, 2.5) versus of(2.5, 1.5)", DoubleTuple.of(1.5, 2.5), DoubleTuple.of(2.5, 1.5), false),
+                    Arguments.of("of(1.5, 2.5) versus null", DoubleTuple.of(1.5, 2.5), null, false),
+                    Arguments.of("of(1.0, 2.0, 3.0) versus \"not a tuple\"", DoubleTuple.of(1.0, 2.0, 3.0), "not a tuple", false),
+                    Arguments.of("of(1.0, 2.0, 3.0) versus of(1.0, 2.0, 3.0)", DoubleTuple.of(1.0, 2.0, 3.0), DoubleTuple.of(1.0, 2.0, 3.0), true),
+                    Arguments.of("of(1.0, 2.0, 3.0) versus of(1.0, 2.0, 4.0)", DoubleTuple.of(1.0, 2.0, 3.0), DoubleTuple.of(1.0, 2.0, 4.0), false),
+                    Arguments.of("of(1.0, 2.0, 3.0) versus null", DoubleTuple.of(1.0, 2.0, 3.0), null, false),
+                    Arguments.of("of(1.0, 2.0, 3.0, 4.0) versus \"tuple4\"", DoubleTuple.of(1.0, 2.0, 3.0, 4.0), "tuple4", false),
+                    Arguments.of("of(1.0, 2.0, 3.0, 4.0) versus of(1.0, 2.0, 3.0, 4.0)", DoubleTuple.of(1.0, 2.0, 3.0, 4.0), DoubleTuple.of(1.0, 2.0, 3.0, 4.0),
+                            true),
+                    Arguments.of("of(1.0, 2.0, 3.0, 4.0) versus of(1.0, 2.0, 3.0, 9.0)", DoubleTuple.of(1.0, 2.0, 3.0, 4.0), DoubleTuple.of(1.0, 2.0, 3.0, 9.0),
+                            false),
+                    Arguments.of("of(1.0, 2.0, 3.0, 4.0, 5.0) versus \"tuple5\"", DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0), "tuple5", false),
+                    Arguments.of("of(1.0, 2.0, 3.0, 4.0, 5.0) versus of(1.0, 2.0, 3.0, 4.0, 5.0)", DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0),
+                            DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0), true),
+                    Arguments.of("of(1.0, 2.0, 3.0, 4.0, 5.0) versus of(1.0, 2.0, 3.0, 4.0, 9.0)", DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0),
+                            DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 9.0), false),
+                    Arguments.of("of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0) versus \"tuple6\"", DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0), "tuple6", false),
+                    Arguments.of("of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0) versus of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0)", DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0),
+                            DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0), true),
+                    Arguments.of("of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0) versus of(1.0, 2.0, 3.0, 4.0, 5.0, 9.0)", DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0),
+                            DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 9.0), false),
+                    Arguments.of("of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0) versus \"tuple7\"", DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0), "tuple7", false),
+                    Arguments.of("of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0) versus of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0)",
+                            DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0), DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0), true),
+                    Arguments.of("of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0) versus of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 9.0)",
+                            DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0), DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 9.0), false),
+                    Arguments.of("of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5) versus \"tuple\"", DoubleTuple.of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5), "tuple", false),
+                    Arguments.of("of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5) versus of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5)",
+                            DoubleTuple.of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5), DoubleTuple.of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5), true),
+                    Arguments.of("of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5) versus of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 8.5)",
+                            DoubleTuple.of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5), DoubleTuple.of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 8.5), false),
+                    Arguments.of("of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0) versus \"tuple8\"", DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0),
+                            "tuple8", false),
+                    Arguments.of("of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0) versus of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0)",
+                            DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0), DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0), true),
+                    Arguments.of("of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0) versus of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 9.0)",
+                            DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0), DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 9.0), false),
+                    Arguments.of("of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5) versus \"tuple\"", DoubleTuple.of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5), "tuple",
+                            false),
+                    Arguments.of("of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5) versus of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5)",
+                            DoubleTuple.of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5), DoubleTuple.of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5), true),
+                    Arguments.of("of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5) versus of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 9.5)",
+                            DoubleTuple.of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5), DoubleTuple.of(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 9.5), false),
+                    Arguments.of("of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0) versus \"tuple9\"",
+                            DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0), "tuple9", false),
+                    Arguments.of("of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0) versus of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 0.0)",
+                            DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0), DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 0.0), false),
+                    Arguments.of("of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0) versus of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0)",
+                            DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0), DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0), true));
         }
     }
 
@@ -3503,47 +3110,36 @@ class DoubleTupleTest {
             assertEquals(2.0, triple.average().getAsDouble(), 0.001);
         }
 
-        @Test
-        void coverageRegression_defaultConstructorsAndCachedArrays() {
-            DoubleTuple.DoubleTuple1 tuple1 = new DoubleTuple.DoubleTuple1();
-            assertArrayEquals(new double[] { 0d }, tuple1.toArray(), 0.0);
-            assertArrayEquals(new double[] { 0d }, tuple1.toArray(), 0.0);
+        @ParameterizedTest(name = "arity {0}: default exports are detached")
+        @ValueSource(ints = { 1, 2, 3, 4, 5, 6, 7, 8, 9 })
+        void defaultConstructors_exportDefaultValuesInIndependentArrays(int arity) {
+            DoubleTuple<?> tuple = switch (arity) {
+                case 1 -> new DoubleTuple.DoubleTuple1();
+                case 2 -> new DoubleTuple.DoubleTuple2();
+                case 3 -> new DoubleTuple.DoubleTuple3();
+                case 4 -> new DoubleTuple.DoubleTuple4();
+                case 5 -> new DoubleTuple.DoubleTuple5();
+                case 6 -> new DoubleTuple.DoubleTuple6();
+                case 7 -> new DoubleTuple.DoubleTuple7();
+                case 8 -> new DoubleTuple.DoubleTuple8();
+                case 9 -> new DoubleTuple.DoubleTuple9();
+                default -> throw new IllegalArgumentException("Unsupported tuple arity: " + arity);
+            };
+            double[] expected = new double[arity];
+            double[] first = tuple.toArray();
+            double[] second = tuple.toArray();
 
-            DoubleTuple.DoubleTuple2 tuple2 = new DoubleTuple.DoubleTuple2();
-            assertArrayEquals(new double[] { 0d, 0d }, tuple2.toArray(), 0.0);
-            assertArrayEquals(new double[] { 0d, 0d }, tuple2.toArray(), 0.0);
-
-            DoubleTuple.DoubleTuple3 tuple3 = new DoubleTuple.DoubleTuple3();
-            assertArrayEquals(new double[] { 0d, 0d, 0d }, tuple3.toArray(), 0.0);
-            assertArrayEquals(new double[] { 0d, 0d, 0d }, tuple3.toArray(), 0.0);
-
-            DoubleTuple.DoubleTuple4 tuple4 = new DoubleTuple.DoubleTuple4();
-            assertArrayEquals(new double[] { 0d, 0d, 0d, 0d }, tuple4.toArray(), 0.0);
-            assertArrayEquals(new double[] { 0d, 0d, 0d, 0d }, tuple4.toArray(), 0.0);
-
-            DoubleTuple.DoubleTuple5 tuple5 = new DoubleTuple.DoubleTuple5();
-            assertArrayEquals(new double[] { 0d, 0d, 0d, 0d, 0d }, tuple5.toArray(), 0.0);
-            assertArrayEquals(new double[] { 0d, 0d, 0d, 0d, 0d }, tuple5.toArray(), 0.0);
-
-            DoubleTuple.DoubleTuple6 tuple6 = new DoubleTuple.DoubleTuple6();
-            assertArrayEquals(new double[] { 0d, 0d, 0d, 0d, 0d, 0d }, tuple6.toArray(), 0.0);
-            assertArrayEquals(new double[] { 0d, 0d, 0d, 0d, 0d, 0d }, tuple6.toArray(), 0.0);
-
-            DoubleTuple.DoubleTuple7 tuple7 = new DoubleTuple.DoubleTuple7();
-            assertArrayEquals(new double[] { 0d, 0d, 0d, 0d, 0d, 0d, 0d }, tuple7.toArray(), 0.0);
-            assertArrayEquals(new double[] { 0d, 0d, 0d, 0d, 0d, 0d, 0d }, tuple7.toArray(), 0.0);
-
-            DoubleTuple.DoubleTuple8 tuple8 = new DoubleTuple.DoubleTuple8();
-            assertArrayEquals(new double[] { 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d }, tuple8.toArray(), 0.0);
-            assertArrayEquals(new double[] { 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d }, tuple8.toArray(), 0.0);
-
-            DoubleTuple.DoubleTuple9 tuple9 = new DoubleTuple.DoubleTuple9();
-            assertArrayEquals(new double[] { 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d }, tuple9.toArray(), 0.0);
-            assertArrayEquals(new double[] { 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d }, tuple9.toArray(), 0.0);
+            assertEquals(arity, tuple.arity());
+            assertArrayEquals(expected, first);
+            assertArrayEquals(expected, second);
+            assertNotSame(first, second);
+            first[0] = 1;
+            assertArrayEquals(expected, second, "each export must have independent storage");
+            assertArrayEquals(expected, tuple.toArray(), "mutating an export must not affect the tuple");
         }
 
         @Test
-        void coverageRegression_emptyTupleBaseMethods() {
+        void emptyTuple_operations_obeyEmptyValueContract() {
             DoubleTuple<?> empty = DoubleTuple.from((double[]) null);
             assertEquals(DoubleTuple.from(new double[0]), empty);
             assertFalse(empty.equals("double"));
@@ -3661,7 +3257,7 @@ class DoubleTupleTest {
         }
 
         @Test
-        void largerArities_branchCoverage() {
+        void highArity_aggregatesAndExports_preserveValues() {
             final DoubleTuple4 tuple4 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
             final DoubleTuple5 tuple5 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0);
             final DoubleTuple6 tuple6 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
@@ -4016,6 +3612,35 @@ class DoubleTupleTest {
             assertEquals(0.0, tuple.min(), 0.001);
             assertEquals(0.0, tuple.max(), 0.001);
             assertEquals(0.0, tuple.sum(), 0.001);
+        }
+
+        @Test
+        void highArity_aggregatesAndMembership_preserveValues() {
+            DoubleTuple.DoubleTuple4 tuple4 = DoubleTuple.of(9d, 1d, 7d, 3d);
+            assertEquals(1d, tuple4.min(), 0.0);
+            assertEquals(9d, tuple4.max(), 0.0);
+            assertEquals(3d, tuple4.lowerMedian(), 0.0);
+            assertEquals(20d, tuple4.sum(), 0.0);
+            assertEquals(5.0, tuple4.average().getAsDouble(), 0.0);
+            assertTrue(tuple4.contains(3d));
+
+            DoubleTuple.DoubleTuple5 tuple5 = DoubleTuple.of(1d, 2d, 3d, 4d, 5d);
+            assertTrue(tuple5.contains(5d));
+
+            DoubleTuple.DoubleTuple6 tuple6 = DoubleTuple.of(9d, 1d, 7d, 3d, 5d, 11d);
+            assertEquals(5d, tuple6.lowerMedian(), 0.0);
+            assertTrue(tuple6.contains(11d));
+
+            DoubleTuple.DoubleTuple7 tuple7 = DoubleTuple.of(1d, 2d, 3d, 4d, 5d, 6d, 7d);
+            assertTrue(tuple7.contains(7d));
+
+            DoubleTuple.DoubleTuple8 tuple8 = DoubleTuple.of(9d, 1d, 7d, 3d, 5d, 11d, 13d, 15d);
+            assertEquals(7d, tuple8.lowerMedian(), 0.0);
+            assertTrue(tuple8.contains(15d));
+
+            DoubleTuple.DoubleTuple9 tuple9 = DoubleTuple.of(9d, 1d, 7d, 3d, 5d, 11d, 13d, 15d, 17d);
+            assertEquals(9d, tuple9.lowerMedian(), 0.0);
+            assertTrue(tuple9.contains(17d));
         }
     }
 
