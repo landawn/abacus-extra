@@ -1,3 +1,8 @@
+## 3.9.0
+* Improvements and bug fixes
+* `Arrays.println(Object[])` no longer throws `StackOverflowError` for an array that contains itself; cycles print as `[...]`, matching the 2D/3D overloads. Non-array elements, including collections, now print with their own `toString()`, so arrays nested inside a collection are no longer expanded.
+* `DoubleTuple.sum()` and `average()` keep a single-signed infinity when the finite elements overflow toward the opposite sign: `DoubleTuple.of(Double.MAX_VALUE, Double.MAX_VALUE, Double.NEGATIVE_INFINITY).sum()` is now `-Infinity` instead of `NaN`, and `average()` likewise. This differs from `N.sum`/`N.average` and `DoubleStream.sum()`/`average()`.
+
 ## 3.8.12
 * Improvements and bug fixes
 

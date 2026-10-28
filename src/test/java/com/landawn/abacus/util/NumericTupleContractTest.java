@@ -159,7 +159,14 @@ class NumericTupleContractTest {
                         }
 
                         values[position] = value;
-                        assertEquals(Double.doubleToLongBits(N.sum(values)), Double.doubleToLongBits(DoubleTuple.from(values).sum()));
+                        // The lone non-finite element decides the total.
+                        assertEquals(Double.doubleToLongBits(value), Double.doubleToLongBits(DoubleTuple.from(values).sum()), Arrays.toString(values));
+
+                        // Finite elements overflowing toward the opposite sign must not turn an infinity into NaN.
+                        // N.sum and DoubleStream.sum return NaN here when the overflow precedes the infinity.
+                        Arrays.fill(values, value == Double.POSITIVE_INFINITY ? -Double.MAX_VALUE : Double.MAX_VALUE);
+                        values[position] = value;
+                        assertEquals(Double.doubleToLongBits(value), Double.doubleToLongBits(DoubleTuple.from(values).sum()), Arrays.toString(values));
                     }
                 }
 
@@ -167,6 +174,26 @@ class NumericTupleContractTest {
                 oppositeInfinities[0] = Double.POSITIVE_INFINITY;
                 oppositeInfinities[arity - 1] = Double.NEGATIVE_INFINITY;
                 assertTrue(Double.isNaN(DoubleTuple.from(oppositeInfinities).sum()));
+            }
+        }
+
+        @Test
+        void floatAndDoubleSumsKeepALoneInfinityAfterAnOpposingFiniteOverflow() {
+            // Floats cannot overflow FloatTuple's double accumulator; DoubleTuple must give the same answer although its finite elements overflow.
+            for (int arity = 3; arity <= 9; arity++) {
+                for (int position = 0; position < arity; position++) {
+                    for (final boolean positive : new boolean[] { true, false }) {
+                        final float[] floats = new float[arity];
+                        final double[] doubles = new double[arity];
+                        Arrays.fill(floats, positive ? -Float.MAX_VALUE : Float.MAX_VALUE);
+                        Arrays.fill(doubles, positive ? -Double.MAX_VALUE : Double.MAX_VALUE);
+                        floats[position] = positive ? Float.POSITIVE_INFINITY : Float.NEGATIVE_INFINITY;
+                        doubles[position] = positive ? Double.POSITIVE_INFINITY : Double.NEGATIVE_INFINITY;
+
+                        assertEquals(floats[position], FloatTuple.from(floats).sum(), Arrays.toString(floats));
+                        assertEquals(doubles[position], DoubleTuple.from(doubles).sum(), Arrays.toString(doubles));
+                    }
+                }
             }
         }
 
@@ -301,6 +328,26 @@ class NumericTupleContractTest {
                         .average()
                         .getAsDouble();
                 assertEquals(Double.doubleToRawLongBits(sign * 0d), Double.doubleToRawLongBits(underflow));
+            }
+        }
+
+        @Test
+        void floatAndDoubleAveragesKeepALoneInfinityAfterAnOpposingFiniteOverflow() {
+            // average() has its own aggregation path, so it needs the same every-position check as sum().
+            for (int arity = 3; arity <= 9; arity++) {
+                for (int position = 0; position < arity; position++) {
+                    for (final boolean positive : new boolean[] { true, false }) {
+                        final float[] floats = new float[arity];
+                        final double[] doubles = new double[arity];
+                        Arrays.fill(floats, positive ? -Float.MAX_VALUE : Float.MAX_VALUE);
+                        Arrays.fill(doubles, positive ? -Double.MAX_VALUE : Double.MAX_VALUE);
+                        floats[position] = positive ? Float.POSITIVE_INFINITY : Float.NEGATIVE_INFINITY;
+                        doubles[position] = positive ? Double.POSITIVE_INFINITY : Double.NEGATIVE_INFINITY;
+
+                        assertEquals(doubles[position], FloatTuple.from(floats).average().getAsDouble(), Arrays.toString(floats));
+                        assertEquals(doubles[position], DoubleTuple.from(doubles).average().getAsDouble(), Arrays.toString(doubles));
+                    }
+                }
             }
         }
 
@@ -669,7 +716,15 @@ class NumericTupleContractTest {
         double expectedSum = compensated;
         double expectedAverage = compensated / values.length;
 
-        if (!Double.isFinite(compensated) && Arrays.stream(values).allMatch(Double::isFinite)) {
+        if (Arrays.stream(values).anyMatch(value -> !Double.isFinite(value))) {
+            // Only the non-finite elements decide such a total; an overflowing finite prefix must not turn one infinity into NaN.
+            final boolean hasNaN = Arrays.stream(values).anyMatch(Double::isNaN);
+            final boolean hasPositiveInfinity = Arrays.stream(values).anyMatch(value -> value == Double.POSITIVE_INFINITY);
+            final boolean hasNegativeInfinity = Arrays.stream(values).anyMatch(value -> value == Double.NEGATIVE_INFINITY);
+            expectedSum = hasNaN || (hasPositiveInfinity && hasNegativeInfinity) ? Double.NaN
+                    : hasPositiveInfinity ? Double.POSITIVE_INFINITY : Double.NEGATIVE_INFINITY;
+            expectedAverage = expectedSum / values.length;
+        } else if (!Double.isFinite(compensated)) {
             BigDecimal exact = BigDecimal.ZERO;
 
             for (final double value : values) {

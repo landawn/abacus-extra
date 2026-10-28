@@ -6,7 +6,7 @@
 
 Additional utilities for the [Abacus](https://github.com/landawn/abacus-common) ecosystem: immutable primitive tuples, point/value records, a read-only `int[]` wrapper, and operations on one-, two-, and three-dimensional arrays.
 
-This guide describes the source in this checkout: **abacus-extra 3.9.0**, built for **Java 21**, with **abacus-common 8.3.0**. These versions come from [pom.xml](pom.xml); they do not identify the latest published release. Select hosted Javadoc matching your dependency, or generate documentation locally.
+This guide describes the source in this checkout: **abacus-extra 3.9.0**, built for **Java 21**, with **abacus-common 8.3.1**. These versions come from [pom.xml](pom.xml); they do not identify the latest published release. Select hosted Javadoc matching your dependency, or generate documentation locally.
 
 ## Contents
 
@@ -52,7 +52,7 @@ Use JDK 21 or later. `abacus-common` supplies primitive collections, streams, op
     <dependency>
         <groupId>com.landawn.abacus</groupId>
         <artifactId>abacus-common</artifactId>
-        <version>8.3.0</version>
+        <version>8.3.1</version>
     </dependency>
 </dependencies>
 ```
@@ -63,14 +63,14 @@ Groovy DSL:
 
 ```groovy
 implementation 'com.landawn.abacus:abacus-extra:3.9.0'
-implementation 'com.landawn.abacus:abacus-common:8.3.0'
+implementation 'com.landawn.abacus:abacus-common:8.3.1'
 ```
 
 Kotlin DSL:
 
 ```kotlin
 implementation("com.landawn.abacus:abacus-extra:3.9.0")
-implementation("com.landawn.abacus:abacus-common:8.3.0")
+implementation("com.landawn.abacus:abacus-common:8.3.1")
 ```
 
 These examples use the checkout's versions. If that version is unavailable in your configured repository, use a published version with its corresponding requirements, or install this checkout locally using the [build instructions](#building-and-testing).

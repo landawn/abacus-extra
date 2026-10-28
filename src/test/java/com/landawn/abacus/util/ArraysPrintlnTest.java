@@ -105,6 +105,11 @@ class ArraysPrintlnTest {
             cyclic[0] = cyclic;
             final String rendered = "[[...]]";
 
+            // The 1D printer used to throw StackOverflowError here instead of rendering the cycle.
+            assertEquals("[" + rendered + ", " + rendered + "]", Arrays.println(new Object[] { cyclic, cyclic }));
+            final Object[] selfContaining = { "x", null };
+            selfContaining[1] = selfContaining;
+            assertEquals("[x, [...]]", Arrays.println(selfContaining));
             assertEquals("[[" + rendered + ", " + rendered + "]]", Arrays.println(new Object[][] { { cyclic, cyclic } }));
             assertEquals("[[[" + rendered + ", " + rendered + "]]]", Arrays.println(new Object[][][] { { { cyclic, cyclic } } }));
         }
@@ -128,8 +133,16 @@ class ArraysPrintlnTest {
                 }
             };
 
+            assertEquals("[custom value]", Arrays.println(new Object[] { value }));
             assertEquals("[[custom value]]", Arrays.println(new Object[][] { { value } }));
             assertEquals("[[[custom value]]]", Arrays.println(new Object[][][] { { { value } } }));
+
+            // An array nested inside a collection is not expanded: the collection's own toString() shows its identity.
+            final java.util.List<int[]> listOfArray = java.util.List.of(new int[] { 1, 2 });
+            assertEquals("[" + listOfArray + "]", Arrays.println(new Object[] { listOfArray }));
+            assertEquals("[[" + listOfArray + "]]", Arrays.println(new Object[][] { { listOfArray } }));
+            assertEquals("[[[" + listOfArray + "]]]", Arrays.println(new Object[][][] { { { listOfArray } } }));
+            assertTrue(Arrays.println(new Object[] { listOfArray }).startsWith("[[[I@"));
         }
 
         @Test

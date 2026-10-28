@@ -542,9 +542,12 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     /**
      * Returns the sum of all double values in this tuple.
      * <p>
-     * For an empty tuple, returns {@code 0.0}. If any element is {@code NaN},
-     * the result is {@code NaN}. Infinities follow standard IEEE-754 addition
-     * rules (e.g. {@code +INF + -INF} produces {@code NaN}).
+     * For an empty tuple, returns {@code 0.0}. If any element is not finite, the result is the IEEE-754 sum of
+     * the non-finite elements alone: {@code NaN} if any is {@code NaN} or both infinities occur, otherwise that
+     * infinity. Finite elements never turn an infinity of a single sign into {@code NaN}, even when they overflow
+     * toward the opposite sign: {@code DoubleTuple.of(Double.MAX_VALUE, Double.MAX_VALUE, Double.NEGATIVE_INFINITY).sum()}
+     * is {@code -Infinity}. This differs from {@code N.sum(double...)} and {@code DoubleStream.sum()}, which return
+     * {@code NaN} when such an overflow precedes the infinity.
      * </p>
      * <p>
      * The elements are added with compensated (Kahan) summation rather than plain left-to-right
@@ -589,7 +592,8 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * Returns the compensated sum of the given values, falling back to the exact total rounded once
      * when the compensated result is not finite although every value is finite. Kahan summation can
      * overflow in its compensation term ({@code (t - sum) - y}) for large values of opposite signs, which
-     * would otherwise turn a finite total into an infinity or {@code NaN}.
+     * would otherwise turn a finite total into an infinity or {@code NaN}. If any value is not finite, the
+     * result is the IEEE-754 total of the non-finite values alone.
      *
      * @param a the values to add
      * @return the sum of {@code a}
@@ -605,7 +609,9 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         for (final double e : a) {
             if (!Double.isFinite(e)) {
-                return result;
+                // Finite elements cannot change an infinite or NaN total. Ignoring them keeps a finite prefix that
+                // overflows toward the opposite sign from turning a single infinity into NaN: (MAX, MAX, -Inf) -> -Inf.
+                return nonFiniteTotal(a);
             }
         }
 
@@ -637,6 +643,23 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         return Double.isNaN(result) && Double.isInfinite(simpleSum) ? simpleSum : result;
     }
 
+    /**
+     * Returns the IEEE-754 total of only the non-finite elements: {@code NaN} if any element is {@code NaN} or both
+     * infinities occur, otherwise the infinity whose sign every infinite element shares. Finite elements cannot
+     * change such a total; callers invoke this only when at least one element is not finite.
+     */
+    private static double nonFiniteTotal(final double[] a) {
+        double total = 0d;
+
+        for (final double e : a) {
+            if (!Double.isFinite(e)) {
+                total += e;
+            }
+        }
+
+        return total;
+    }
+
     private static double averageOf(final double... a) {
         final double sum = compensatedSum(a);
 
@@ -646,7 +669,8 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         for (final double e : a) {
             if (!Double.isFinite(e)) {
-                return sum / a.length;
+                // Same rule as sumOf: an infinite or NaN total is decided by the non-finite elements alone.
+                return nonFiniteTotal(a) / a.length;
             }
         }
 
@@ -665,7 +689,10 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * Returns the arithmetic mean of all double values in this tuple.
      * <p>
      * If any element is {@code NaN}, the mean is {@code NaN}. Infinities
-     * follow standard IEEE-754 rules.
+     * follow standard IEEE-754 rules; as with {@link #sum()}, finite elements never turn an infinity of a single
+     * sign into {@code NaN}: {@code DoubleTuple.of(Double.MAX_VALUE, Double.MAX_VALUE, Double.NEGATIVE_INFINITY).average()}
+     * contains {@code -Infinity}. This differs from {@code N.average(double...)} and {@code DoubleStream.average()},
+     * which return {@code NaN} when such an overflow precedes the infinity.
      * </p>
      * <p>
      * Unlike {@link #sum()}, the mean is not reported as infinity merely because the intermediate total

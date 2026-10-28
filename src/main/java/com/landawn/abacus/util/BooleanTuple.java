@@ -1811,6 +1811,11 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     /**
      * A {@code BooleanTuple} containing exactly four {@code boolean} elements.
      * The values are accessible through the public final fields {@code _1}, {@code _2}, {@code _3}, and {@code _4}.
+     * <p>
+     * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
+     * overloads; use {@link #forEach(Throwables.BooleanConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -2071,6 +2076,11 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     /**
      * A {@code BooleanTuple} containing exactly five {@code boolean} elements.
      * The values are accessible through the public final fields {@code _1} through {@code _5}.
+     * <p>
+     * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
+     * overloads; use {@link #forEach(Throwables.BooleanConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -2347,6 +2357,11 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     /**
      * A {@code BooleanTuple} containing exactly six {@code boolean} elements.
      * The values are accessible through the public final fields {@code _1} through {@code _6}.
+     * <p>
+     * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
+     * overloads; use {@link #forEach(Throwables.BooleanConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -2644,6 +2659,11 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     /**
      * A {@code BooleanTuple} containing exactly seven {@code boolean} elements.
      * The values are accessible through the public final fields {@code _1} through {@code _7}.
+     * <p>
+     * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
+     * overloads; use {@link #forEach(Throwables.BooleanConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -2949,6 +2969,11 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     /**
      * A {@code BooleanTuple} containing exactly eight {@code boolean} elements.
      * The values are accessible through the public final fields {@code _1} through {@code _8}.
+     * <p>
+     * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
+     * overloads; use {@link #forEach(Throwables.BooleanConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -3263,6 +3288,11 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
     /**
      * A {@code BooleanTuple} containing exactly nine {@code boolean} elements.
      * The values are accessible through the public final fields {@code _1} through {@code _9}.
+     * <p>
+     * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
+     * overloads; use {@link #forEach(Throwables.BooleanConsumer)}, {@link #stream()}, or the whole-tuple helpers from
+     * {@link PrimitiveTuple}.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code

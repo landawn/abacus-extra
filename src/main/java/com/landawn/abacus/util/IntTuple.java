@@ -1103,7 +1103,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
     }
 
     /**
-     * A {@code IntTuple} containing exactly one {@code int} element.
+     * An {@code IntTuple} containing exactly one {@code int} element.
      * <p>
      * The value is the public final field {@code _1}. Aggregates such as {@link #min()},
      * {@link #max()}, {@link #lowerMedian()}, {@link #sum()}, and {@link #average()} all reflect
@@ -1422,7 +1422,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
     }
 
     /**
-     * A {@code IntTuple} containing exactly two {@code int} elements.
+     * An {@code IntTuple} containing exactly two {@code int} elements.
      * <p>
      * Components are the public final fields {@code _1} and {@code _2}. Besides the operations from
      * {@link IntTuple} and {@link PrimitiveTuple}, this type adds element-unpacking helpers that
@@ -1873,7 +1873,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
     }
 
     /**
-     * A {@code IntTuple} containing exactly three {@code int} elements.
+     * An {@code IntTuple} containing exactly three {@code int} elements.
      * <p>
      * Components are the public final fields {@code _1}, {@code _2}, and {@code _3}. In addition to
      * {@link IntTuple} / {@link PrimitiveTuple} operations, this type provides element-unpacking
@@ -2328,7 +2328,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
     }
 
     /**
-     * A {@code IntTuple} containing exactly four {@code int} elements.
+     * An {@code IntTuple} containing exactly four {@code int} elements.
      * <p>
      * Components are public final fields {@code _1}…{@code _4}. Unlike arity 2–3, this type does not
      * add element-unpacking {@code accept}/{@code map}/{@code filter} overloads; use
@@ -2689,7 +2689,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
     }
 
     /**
-     * A {@code IntTuple} containing exactly five {@code int} elements.
+     * An {@code IntTuple} containing exactly five {@code int} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _5}.
      * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter} overloads;
@@ -3056,7 +3056,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
     }
 
     /**
-     * A {@code IntTuple} containing exactly six {@code int} elements.
+     * An {@code IntTuple} containing exactly six {@code int} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _6}.
      * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter} overloads;
@@ -3428,7 +3428,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
     }
 
     /**
-     * A {@code IntTuple} containing exactly seven {@code int} elements.
+     * An {@code IntTuple} containing exactly seven {@code int} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _7}.
      * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter} overloads;
@@ -3808,7 +3808,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
     }
 
     /**
-     * A {@code IntTuple} containing exactly eight {@code int} elements.
+     * An {@code IntTuple} containing exactly eight {@code int} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _8}.
      * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter} overloads;
@@ -4196,7 +4196,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
     }
 
     /**
-     * A {@code IntTuple} containing exactly nine {@code int} elements.
+     * An {@code IntTuple} containing exactly nine {@code int} elements.
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _9}.
      * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter} overloads;

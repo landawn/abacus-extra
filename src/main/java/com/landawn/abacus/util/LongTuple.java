@@ -574,11 +574,12 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * round twice even when the arity is a power of two:
      * {@code LongTuple.of(Long.MAX_VALUE, 1026L).average().getAsDouble()} returns {@code 4.611686018427388E18},
      * while the nearest {@code double} is {@code 4.611686018427389E18}.
-     * Adding a rounded fraction to a quotient can also leave the result <i>several</i> ulps off when
+     * Adding a rounded fraction to a quotient can also leave the result <i>tens of</i> ulps off when
      * large elements very nearly cancel. For example a nine-element tuple built from
      * {@code 6748534329674943672L, 7183318492732822330L, -6748534329674943653L, -7183318492732822325L,
      * -17L, 18L, -5L, -6L, -15L} has an exact total of {@code -1} and a true mean of
-     * {@code -0.1111111111111111}, but {@code average().getAsDouble()} returns {@code -0.11111111111111072}.
+     * {@code -0.1111111111111111}, but {@code average().getAsDouble()} returns {@code -0.11111111111111072}
+     * (28 ulps away).
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -1674,6 +1675,12 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
         /**
          * Returns the average of the two elements.
+         * <p>
+         * When {@code _1 + _2} overflows {@code long}, the result comes from the quotient/remainder fallback
+         * described on {@link LongTuple#average()} and can be one ulp from the correctly rounded mean that
+         * {@link #median()} returns: {@code LongTuple.of(Long.MAX_VALUE, 1026L)} has {@code average()}
+         * {@code 4.611686018427388E18} but {@code median()} {@code 4.611686018427389E18}.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -2184,7 +2191,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          *
          * // overflow wraps silently (no exception)
          * LongTuple.LongTuple3 overflow = LongTuple.of(Long.MAX_VALUE, Long.MAX_VALUE, 2L);
-         * long so = overflow.sum();   // wraps: Long.MAX_VALUE + Long.MAX_VALUE + 2L
+         * long so = overflow.sum();   // returns 0L (two's-complement wrap-around)
          *
          * LongTuple.LongTuple3 neg = LongTuple.of(-1L, -2L, -3L);
          * long sn = neg.sum();   // returns -6L

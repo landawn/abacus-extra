@@ -100,6 +100,10 @@ public sealed class Arrays permits Arrays.f {
      * bracket notation. The method handles null arrays and empty arrays gracefully, providing
      * appropriate string representations for each case.</p>
      *
+     * <p>Array-valued elements are rendered by content, with cyclic array references shown as {@code [...]};
+     * other elements, including collections, use their own {@code toString()} representation, so arrays nested
+     * inside them are not expanded.</p>
+     *
      * <p>The output format follows this pattern:</p>
      * <ul>
      *   <li>Null array: "null"</li>
@@ -145,7 +149,11 @@ public sealed class Arrays permits Arrays.f {
         } else if (a.length == 0) {
             return N.println("[]");
         } else {
-            return N.println(N.toString(a));
+            // Match the 2D/3D printers: N.toString(Object[]) keeps no visited set, so an array that contains
+            // itself would recurse until StackOverflowError; deepToString renders such a cycle as "[...]".
+            // Like those printers it also renders every non-array element, including a Collection, with its own
+            // toString(), so arrays nested inside a collection are no longer expanded.
+            return N.println(N.deepToString(a));
         }
     }
 
@@ -6961,7 +6969,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a two-dimensional byte array into a new one-dimensional byte array by concatenating
+     * Flattens a two-dimensional byte array into a one-dimensional byte array by concatenating
      * all its sub-arrays. Null or empty sub-arrays are skipped.
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
@@ -7027,7 +7035,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a three-dimensional byte array into a new one-dimensional byte array by concatenating
+     * Flattens a three-dimensional byte array into a one-dimensional byte array by concatenating
      * all its innermost sub-arrays in row-major order. Null or empty sub-arrays at any level are skipped.
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
@@ -8236,13 +8244,12 @@ public sealed class Arrays permits Arrays.f {
      * // Basic: prints each row on its own line with separators
      * byte[][] array = {{1, 2, 3}, {4, 5}, null, {}, {6}};
      * String result = Arrays.println(array);
-     * // Prints to console and result starts with "[[1, 2, 3]," and ends with "[6]]"
-     * // (null sub-arrays appear as "null", empty sub-arrays as "[]")
+     * // Prints and returns "[[1, 2, 3],\n [4, 5],\n null,\n [],\n [6]]"
      *
      * // Simple 2-row array
      * byte[][] grid = {{1, 2}, {3, 4}};
      * String r2 = Arrays.println(grid);
-     * // r2 starts with "[[1, 2]," and ends with "[3, 4]]"
+     * // Prints and returns "[[1, 2],\n [3, 4]]"
      *
      * // Null array: prints and returns "null"
      * String nullResult = Arrays.println((byte[][]) null);
@@ -8334,8 +8341,7 @@ public sealed class Arrays permits Arrays.f {
      * // Basic: prints with line separators between slices and within each 2D slice
      * byte[][][] array = {{{1, 2, 3}, {4, 5}}, {{6, 7}, null, {}}, null};
      * String result = Arrays.println(array);
-     * // Prints to console; result starts with "[[[1, 2, 3]," and ends with "null]"
-     * // (null 2D sub-arrays appear as "null", empty ones as "[]")
+     * // Prints and returns "[[[1, 2, 3],\n  [4, 5]],\n [[6, 7],\n  null,\n  []],\n null]"
      *
      * // Single element
      * byte[][][] single = {{{1}}};
@@ -9886,7 +9892,7 @@ public sealed class Arrays permits Arrays.f {
      * long count = Arrays.totalElementCount(cube);
      * // count == 7  (2+3 from first slice, 0 for null slice, 2 from third slice)
      *
-     * // Basic: only null and empty sub-arrays in inner level
+     * // Basic: null and empty sub-arrays at any level count as 0
      * short[][][] mixed = {null, {{1, 2}, null, {}}, {{3}}};
      * long count2 = Arrays.totalElementCount(mixed);
      * // count2 == 3  (0 for null slice, 2+0+0=2 for second slice, 1 for third)
@@ -10202,7 +10208,7 @@ public sealed class Arrays permits Arrays.f {
      * //   []],
      * //  null]
      *
-     * // Basic: simple 3D array with one element per slice
+     * // Basic: simple 3D array with a single slice holding one row
      * short[][][] simple = {{{1, 2}}};
      * String simpleResult = Arrays.println(simple);
      * // prints and returns "[[[1, 2]]]"
@@ -10722,9 +10728,9 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Basic: flatten uniform rows
-     * int[][] arr = {{1, 2, 3}, {4, 5}, {6, 7, 8}};
+     * int[][] arr = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
      * int[] result = Arrays.flatten(arr);
-     * // result is [1, 2, 3, 4, 5, 6, 7, 8]
+     * // result is [1, 2, 3, 4, 5, 6, 7, 8, 9]
      *
      * // Basic: rows of different lengths
      * int[][] arr2 = {{10, 20}, {30}};
@@ -12119,7 +12125,7 @@ public sealed class Arrays permits Arrays.f {
      * String result = Arrays.println(new int[][][]{{{42}}});
      * // prints and returns "[[[42]]]"
      *
-     * // Basic: two 2D slices, each with two 1D rows
+     * // Basic: two 2D slices (the first with two 1D rows, the second with one)
      * String result2 = Arrays.println(new int[][][]{{{1, 2}, {3, 4}}, {{5, 6}}});
      * // prints and returns "[[[1, 2],\n  [3, 4]],\n [[5, 6]]]"
      *
@@ -14369,7 +14375,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a two-dimensional float array into a new one-dimensional float array.
+     * Flattens a two-dimensional float array into a one-dimensional float array.
      * This method concatenates all sub-arrays into a single array.
      * Null or empty sub-arrays are skipped.
      *
@@ -14438,7 +14444,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a three-dimensional float array into a new one-dimensional float array.
+     * Flattens a three-dimensional float array into a one-dimensional float array.
      * This method concatenates all innermost sub-arrays into a single array in row-major order.
      * Null or empty sub-arrays at any level are skipped.
      *
@@ -17527,7 +17533,7 @@ public sealed class Arrays permits Arrays.f {
      * // Basic: mixed rows including null and empty sub-arrays
      * double[][] array = {{1.1, 2.2, 3.3}, {4.4, 5.5}, null, {}, {6.6}};
      * String result = Arrays.println(array);
-     * // result starts with "[[1.1, 2.2, 3.3]," and ends with "[6.6]]"
+     * // Prints and returns "[[1.1, 2.2, 3.3],\n [4.4, 5.5],\n null,\n [],\n [6.6]]"
      *
      * // Basic: single-element row with NaN
      * String nan = Arrays.println(new double[][]{{Double.NaN}});
@@ -17622,7 +17628,7 @@ public sealed class Arrays permits Arrays.f {
      * // Basic: 3D with null and empty sub-arrays at inner levels
      * double[][][] array = {{{1.1, 2.2, 3.3}, {4.4, 5.5}}, {{6.6, 7.7}, null, {}}, null};
      * String result = Arrays.println(array);
-     * // result starts with "[[[1.1, 2.2, 3.3]," and ends with "null]"
+     * // Prints and returns "[[[1.1, 2.2, 3.3],\n  [4.4, 5.5]],\n [[6.6, 7.7],\n  null,\n  []],\n null]"
      *
      * // Basic: single block with NaN and Infinity
      * String special = Arrays.println(new double[][][]{{{Double.NaN, Double.POSITIVE_INFINITY}}});
@@ -17779,7 +17785,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Edge: inner null and empty sub-arrays each map to an empty boolean array
      * boolean[][] inner = Arrays.toBoolean(new byte[][]{null, new byte[0], new byte[]{-1, 1}});
-     * // returns {[], [], {false, true}}
+     * // returns {{}, {}, {false, true}}
      * }</pre>
      *
      * @param a the two-dimensional array of bytes to convert. Can be {@code null}.
@@ -17914,7 +17920,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Edge: inner null and empty sub-arrays each map to an empty boolean array
      * boolean[][] inner = Arrays.toBoolean(new int[][]{null, new int[0]});
-     * // returns {[], []}
+     * // returns {{}, {}}
      * }</pre>
      *
      * @param a the two-dimensional array of integers to convert. Can be {@code null}.
@@ -18052,7 +18058,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Edge: inner null and empty sub-arrays each map to an empty char array
      * char[][] inner = Arrays.toChar(new int[][]{null, new int[0]});
-     * // returns {[], []}
+     * // returns {{}, {}}
      * }</pre>
      *
      * @param a the two-dimensional array of integers to convert. Can be {@code null}.
@@ -18184,7 +18190,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Edge: inner null and empty sub-arrays each map to an empty byte array
      * byte[][] inner = Arrays.toByte(new boolean[][]{null, new boolean[0]});
-     * // returns {[], []}
+     * // returns {{}, {}}
      * }</pre>
      *
      * @param a the two-dimensional array of booleans to convert. Can be {@code null}.
@@ -18322,7 +18328,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Edge: inner null and empty sub-arrays each map to an empty short array
      * short[][] inner = Arrays.toShort(new byte[][]{null, new byte[0]});
-     * // returns {[], []}
+     * // returns {{}, {}}
      * }</pre>
      *
      * @param a the two-dimensional array of bytes to convert. Can be {@code null}.
@@ -18456,7 +18462,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Edge: inner null and empty sub-arrays each map to an empty int array
      * int[][] inner = Arrays.toInt(new boolean[][]{null, new boolean[0]});
-     * // returns {[], []}
+     * // returns {{}, {}}
      * }</pre>
      *
      * @param a the two-dimensional array of booleans to convert. Can be {@code null}.
@@ -18594,7 +18600,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Edge: inner null and empty sub-arrays each map to an empty int array
      * int[][] inner = Arrays.toInt(new char[][]{null, new char[0]});
-     * // returns {[], []}
+     * // returns {{}, {}}
      * }</pre>
      *
      * @param a the two-dimensional array of chars to convert. Can be {@code null}.
@@ -18730,7 +18736,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Edge: inner null and empty sub-arrays each map to an empty int array
      * int[][] inner = Arrays.toInt(new byte[][]{null, new byte[0]});
-     * // returns {[], []}
+     * // returns {{}, {}}
      * }</pre>
      *
      * @param a the two-dimensional array of bytes to convert. Can be {@code null}.
@@ -18871,7 +18877,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Edge: inner null and empty sub-arrays each map to an empty int array
      * int[][] inner = Arrays.toInt(new short[][]{null, new short[0]});
-     * // returns {[], []}
+     * // returns {{}, {}}
      * }</pre>
      *
      * @param a the two-dimensional array of shorts to convert. Can be {@code null}.
@@ -19016,7 +19022,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Edge: inner null and empty sub-arrays each map to an empty int array
      * int[][] inner = Arrays.toInt(new float[][]{null, new float[0]});
-     * // inner is {[], []}
+     * // inner is {{}, {}}
      * }</pre>
      *
      * @param a the two-dimensional array of floats to convert. Can be {@code null}.
@@ -19164,7 +19170,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Edge: inner null and empty sub-arrays each map to an empty int array
      * int[][] inner = Arrays.toInt(new double[][]{null, new double[0]});
-     * // inner is {[], []}
+     * // inner is {{}, {}}
      * }</pre>
      *
      * @param a the two-dimensional array of doubles to convert. Can be {@code null}.
@@ -19308,7 +19314,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Edge: inner null and empty sub-arrays each map to an empty long array
      * long[][] inner = Arrays.toLong(new byte[][]{null, new byte[0]});
-     * // inner is {[], []}
+     * // inner is {{}, {}}
      * }</pre>
      *
      * @param a the two-dimensional array of bytes to convert. Can be {@code null}.
@@ -19451,7 +19457,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Edge: inner null and empty sub-arrays each map to an empty long array
      * long[][] inner = Arrays.toLong(new short[][]{null, new short[0]});
-     * // inner is {[], []}
+     * // inner is {{}, {}}
      * }</pre>
      *
      * @param a the two-dimensional {@code short} array to convert. Can be {@code null}.
@@ -19594,7 +19600,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Edge: inner null and empty sub-arrays each map to an empty long array
      * long[][] inner = Arrays.toLong(new int[][]{null, new int[0]});
-     * // inner is {[], []}
+     * // inner is {{}, {}}
      * }</pre>
      *
      * @param a the two-dimensional {@code int} array to convert. Can be {@code null}.
@@ -19742,7 +19748,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Edge: inner null and empty sub-arrays each map to an empty long array
      * long[][] inner = Arrays.toLong(new float[][]{null, new float[0]});
-     * // inner is {[], []}
+     * // inner is {{}, {}}
      * }</pre>
      *
      * @param a the two-dimensional {@code float} array to convert. Can be {@code null}.
@@ -19892,7 +19898,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Edge: inner null and empty sub-arrays each map to an empty long array
      * long[][] inner = Arrays.toLong(new double[][]{null, new double[0]});
-     * // inner is {[], []}
+     * // inner is {{}, {}}
      * }</pre>
      *
      * @param a the two-dimensional {@code double} array to convert. Can be {@code null}.
@@ -20037,7 +20043,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // Edge: inner null and empty sub-arrays each map to an empty float array
      * float[][] inner = Arrays.toFloat(new byte[][]{null, new byte[0]});
-     * // inner is {[], []}
+     * // inner is {{}, {}}
      * }</pre>
      *
      * @param a the two-dimensional {@code byte} array to convert. Can be {@code null}.
@@ -20178,7 +20184,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // inner null and empty sub-arrays each map to an empty float array
      * float[][] r5 = Arrays.toFloat(new short[][]{null, new short[0]});
-     * // r5 is {[], []}
+     * // r5 is {{}, {}}
      * }</pre>
      *
      * @param a the two-dimensional {@code short} array to convert. Can be {@code null}.
@@ -20321,7 +20327,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // inner null and empty sub-arrays each map to an empty float array
      * float[][] r5 = Arrays.toFloat(new int[][]{null, new int[0]});
-     * // r5 is {[], []}
+     * // r5 is {{}, {}}
      * }</pre>
      *
      * @param a the two-dimensional {@code int} array to convert. Can be {@code null}.
@@ -20464,7 +20470,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // inner null and empty sub-arrays each map to an empty float array
      * float[][] r5 = Arrays.toFloat(new long[][]{null, new long[0]});
-     * // r5 is {[], []}
+     * // r5 is {{}, {}}
      * }</pre>
      *
      * @param a the two-dimensional {@code long} array to convert. Can be {@code null}.
@@ -20604,7 +20610,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // inner null and empty sub-arrays each map to an empty double array
      * double[][] r5 = Arrays.toDouble(new byte[][]{null, new byte[0]});
-     * // r5 is {[], []}
+     * // r5 is {{}, {}}
      * }</pre>
      *
      * @param a the two-dimensional {@code byte} array to convert. Can be {@code null}.
@@ -20744,7 +20750,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // inner null and empty sub-arrays each map to an empty double array
      * double[][] r5 = Arrays.toDouble(new short[][]{null, new short[0]});
-     * // r5 is {[], []}
+     * // r5 is {{}, {}}
      * }</pre>
      *
      * @param a the two-dimensional {@code short} array to convert. Can be {@code null}.
@@ -20886,7 +20892,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // inner null and empty sub-arrays each map to an empty double array
      * double[][] r5 = Arrays.toDouble(new int[][]{null, new int[0]});
-     * // r5 is {[], []}
+     * // r5 is {{}, {}}
      * }</pre>
      *
      * @param a the two-dimensional {@code int} array to convert. Can be {@code null}.
@@ -21029,7 +21035,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // inner null and empty sub-arrays each map to an empty double array
      * double[][] r5 = Arrays.toDouble(new long[][]{null, new long[0]});
-     * // r5 is {[], []}
+     * // r5 is {{}, {}}
      * }</pre>
      *
      * @param a the two-dimensional {@code long} array to convert. Can be {@code null}.
@@ -21172,7 +21178,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * // inner null and empty sub-arrays each map to an empty double array
      * double[][] r5 = Arrays.toDouble(new float[][]{null, new float[0]});
-     * // r5 is {[], []}
+     * // r5 is {{}, {}}
      * }</pre>
      *
      * @param a the two-dimensional {@code float} array to convert. Can be {@code null}.
@@ -22260,7 +22266,7 @@ public sealed class Arrays permits Arrays.f {
          * <p>This method creates a new array with the same outer length as the input array,
          * where each element is the result of applying the function to the corresponding input element.
          * Null or empty sub-arrays are mapped to empty arrays (not preserved as {@code null}); non-null sub-array lengths are preserved.
-         * The element type of the result is inferred from the runtime component type of {@code a};
+         * The element type of the result is the runtime type of {@code a} with two array dimensions removed;
          * mapped values must be assignable to that component type. Use the overload with
          * {@code targetElementType} for type-changing mappings. The operator is invoked for every slot, including slots whose value is {@code null}.</p>
          *
@@ -22289,7 +22295,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (must not be {@code null}).
          * @param mapper the unary operator to apply to each element (must not be {@code null}).
-         * @return a new two-dimensional array with mapped elements; the element type is inferred from the runtime component type of {@code a}.
+         * @return a new two-dimensional array with mapped elements; the element type is the runtime type of {@code a} with two array dimensions removed.
          * @throws IllegalArgumentException if {@code a} or {@code mapper} is {@code null}, or if a mapped value is not assignable to the
          *         inferred runtime element type.
          * @throws E if the function throws an exception during mapping.
@@ -22993,7 +22999,10 @@ public sealed class Arrays permits Arrays.f {
          * @param defaultValueA default value used when first array has no element at a position.
          * @param defaultValueB default value used when second array has no element at a position.
          * @param zipFunction the function to combine elements (must not be {@code null}).
-         * @return a new two-dimensional array with combined elements using defaults where needed; the element type is inferred from the runtime component type of {@code a}, or from the runtime class of {@code defaultValueA} if {@code a} is {@code null}.
+         * @return a new two-dimensional array with combined elements using defaults where needed; the element type is the runtime type of
+         *         {@code a} with two array dimensions removed or, if {@code a} is {@code null}, the runtime class of {@code defaultValueA}.
+         *         That class can be narrower than {@code A} (for example, the class of an enum constant that has a body); use the overload
+         *         with {@code targetElementType} if {@code zipFunction} can return other {@code A} values.
          * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null}, if {@code zipFunction} is
          *         {@code null}, if the type inferred from {@code defaultValueA} would make the result exceed 255 array dimensions, or if
          *         a combined value is not assignable to the inferred runtime element type.
@@ -23296,7 +23305,10 @@ public sealed class Arrays permits Arrays.f {
          * @param defaultValueB default value for the second array.
          * @param defaultValueC default value for the third array.
          * @param zipFunction the function to combine three elements (must not be {@code null}).
-         * @return a new two-dimensional array with combined elements using defaults where needed; the element type is inferred from the runtime component type of {@code a}, or from the runtime class of {@code defaultValueA} if {@code a} is {@code null}.
+         * @return a new two-dimensional array with combined elements using defaults where needed; the element type is the runtime type of
+         *         {@code a} with two array dimensions removed or, if {@code a} is {@code null}, the runtime class of {@code defaultValueA}.
+         *         That class can be narrower than {@code A} (for example, the class of an enum constant that has a body); use the overload
+         *         with {@code targetElementType} if {@code zipFunction} can return other {@code A} values.
          * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null}, if {@code zipFunction} is
          *         {@code null}, if the type inferred from {@code defaultValueA} would make the result exceed 255 array dimensions, or if
          *         a combined value is not assignable to the inferred runtime element type.
@@ -24113,7 +24125,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array (must not be {@code null}).
          * @param mapper the unary operator to apply to each element (must not be {@code null}).
-         * @return a new three-dimensional array with mapped elements; the element type is inferred from the runtime component type of {@code a}.
+         * @return a new three-dimensional array with mapped elements; the element type is the runtime type of {@code a} with three array dimensions removed.
          * @throws IllegalArgumentException if {@code a} or {@code mapper} is {@code null}, or if a mapped value is not assignable to the
          *         inferred runtime element type.
          * @throws E if the function throws an exception during mapping.
@@ -24843,7 +24855,10 @@ public sealed class Arrays permits Arrays.f {
          * @param defaultValueA default value when first array element is missing.
          * @param defaultValueB default value when second array element is missing.
          * @param zipFunction the function to combine elements (must not be {@code null}).
-         * @return a new three-dimensional array with combined elements; the element type is inferred from the runtime component type of {@code a}, or from the runtime class of {@code defaultValueA} if {@code a} is {@code null}.
+         * @return a new three-dimensional array with combined elements; the element type is the runtime type of {@code a} with three
+         *         array dimensions removed or, if {@code a} is {@code null}, the runtime class of {@code defaultValueA}. That class can be
+         *         narrower than {@code A} (for example, the class of an enum constant that has a body); use the overload with
+         *         {@code targetElementType} if {@code zipFunction} can return other {@code A} values.
          * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null}, if {@code zipFunction} is
          *         {@code null}, if the type inferred from {@code defaultValueA} would make the result exceed 255 array dimensions, or if
          *         a combined value is not assignable to the inferred runtime element type.
@@ -25151,7 +25166,10 @@ public sealed class Arrays permits Arrays.f {
          * @param defaultValueB default value when second array element is missing.
          * @param defaultValueC default value when third array element is missing.
          * @param zipFunction the function to combine elements (must not be {@code null}).
-         * @return a new three-dimensional array with combined elements; the element type is inferred from the runtime component type of {@code a}, or from the runtime class of {@code defaultValueA} if {@code a} is {@code null}.
+         * @return a new three-dimensional array with combined elements; the element type is the runtime type of {@code a} with three
+         *         array dimensions removed or, if {@code a} is {@code null}, the runtime class of {@code defaultValueA}. That class can be
+         *         narrower than {@code A} (for example, the class of an enum constant that has a body); use the overload with
+         *         {@code targetElementType} if {@code zipFunction} can return other {@code A} values.
          * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null}, if {@code zipFunction} is
          *         {@code null}, if the type inferred from {@code defaultValueA} would make the result exceed 255 array dimensions, or if
          *         a combined value is not assignable to the inferred runtime element type.

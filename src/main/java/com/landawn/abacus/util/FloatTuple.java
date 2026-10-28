@@ -558,6 +558,9 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * For arities two and above, elements are accumulated in {@code double} precision with compensated
      * (Kahan) summation, and the final result is narrowed to {@code float}. This can differ from plain
      * left-to-right {@code float} addition such as {@code _1 + _2 + ...} and generally reduces rounding error.
+     * Compensation does not guarantee an exact or order-independent result: for example,
+     * {@code FloatTuple.of(1.0f, 1.0E38f, -1.0E38f).sum()} is {@code 0.0f}, whereas placing {@code 1.0f}
+     * last gives {@code 1.0f}.
      * The sign of a zero result is not preserved at arity two or above:
      * {@code FloatTuple.of(-0.0f, -0.0f).sum()} is {@code +0.0f}, whereas plain IEEE-754 addition of two
      * negative zeros yields {@code -0.0f}.

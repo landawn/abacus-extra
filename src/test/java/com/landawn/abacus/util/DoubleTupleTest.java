@@ -803,6 +803,24 @@ class DoubleTupleTest {
         }
 
         @Test
+        void sum_singleSignedInfinitySurvivesAnOpposingFiniteOverflow() {
+            // A finite prefix overflowing toward the opposite sign used to turn the single infinity into NaN.
+            final double max = Double.MAX_VALUE;
+            final double inf = Double.POSITIVE_INFINITY;
+
+            assertEquals(-inf, DoubleTuple.of(max, max, -inf).sum());
+            assertEquals(-inf, DoubleTuple.of(-inf, max, max).sum());
+            assertEquals(inf, DoubleTuple.of(-max, -max, inf).sum());
+            assertEquals(-inf, DoubleTuple.of(max, max, -max, -inf).sum());
+            assertEquals(-inf, DoubleTuple.of(max, max, max, max, max, max, max, max, -inf).sum());
+            assertEquals(-inf, DoubleTuple.from(new double[] { max, max, -inf }).sum());
+
+            // NaN elements and opposite infinities still give NaN.
+            assertTrue(Double.isNaN(DoubleTuple.of(max, inf, -inf).sum()));
+            assertTrue(Double.isNaN(DoubleTuple.of(max, max, -inf, Double.NaN).sum()));
+        }
+
+        @Test
         void sum_returnsTotal() {
             DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.5, 2.5, 3.0);
             assertEquals(7.0, tuple.sum(), DELTA);
@@ -960,6 +978,21 @@ class DoubleTupleTest {
         void average_returnsMean() {
             DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
             assertEquals(2.0, tuple.average().getAsDouble(), DELTA);
+        }
+
+        @Test
+        void average_singleSignedInfinitySurvivesAnOpposingFiniteOverflow() {
+            // A finite prefix overflowing toward the opposite sign used to turn the single infinity into NaN.
+            final double max = Double.MAX_VALUE;
+            final double inf = Double.POSITIVE_INFINITY;
+
+            assertEquals(-inf, DoubleTuple.of(max, max, -inf).average().getAsDouble());
+            assertEquals(inf, DoubleTuple.of(-max, -max, inf).average().getAsDouble());
+            assertEquals(-inf, DoubleTuple.from(new double[] { max, max, -inf }).average().getAsDouble());
+
+            // NaN elements and opposite infinities still give NaN.
+            assertTrue(Double.isNaN(DoubleTuple.of(max, Double.NaN, -inf).average().getAsDouble()));
+            assertTrue(Double.isNaN(DoubleTuple.of(max, max, inf, -inf).average().getAsDouble()));
         }
 
         @Test
