@@ -6,8 +6,6 @@
 
 Additional utilities for the [Abacus](https://github.com/landawn/abacus-common) ecosystem: immutable primitive tuples, point/value records, a read-only `int[]` wrapper, and operations on one-, two-, and three-dimensional arrays.
 
-This guide describes the source in this checkout: **abacus-extra 3.9.0**, built for **Java 21**, with **abacus-common 8.3.2**. These versions come from [pom.xml](pom.xml); they do not identify the latest published release. Select hosted Javadoc matching your dependency, or generate documentation locally.
-
 ## Contents
 
 - [Requirements and installation](#requirements-and-installation)
