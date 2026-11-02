@@ -23,6 +23,7 @@ All utility tests live in `java/com/landawn/abacus/util` relative to this direct
 | Each primitive tuple implementation | `BooleanTupleTest` through `DoubleTupleTest` |
 | Shared primitive tuple behavior | `PrimitiveTupleTest` |
 | Contracts spanning numeric or small tuple families | `NumericTupleContractTest`, `SmallTupleContractTest` |
+| Tuple base aggregates shadowed by arity overrides | `TupleBaseAggregateTest` |
 | Points | `PointsTest`, grouped by dimension and point type |
 | Public functional-interface null validation | `FunctionalInterfaceNullValidationTest` |
 
