@@ -564,6 +564,23 @@ class ImmutableIntArrayTest {
         }
 
         @Test
+        void average_totalBeyondTwoToThe53IsCorrectlyRounded() {
+            // The exact total 12,884,898,031,913,517 exceeds 2^53, so (double) total / n rounds twice and gives
+            // 2.1474826474051447E9, one ulp away from the double nearest to the true mean.
+            final int[] values = new int[6_000_001];
+            java.util.Arrays.fill(values, 2_147_482_647);
+            java.util.Arrays.fill(values, 0, 2_430_870, 2_147_482_648);
+
+            assertEquals(2.147482647405145E9, ImmutableIntArray.unsafeWrap(values).average().getAsDouble(), 0.0);
+
+            for (int i = 0; i < values.length; i++) {
+                values[i] = -values[i];
+            }
+
+            assertEquals(-2.147482647405145E9, ImmutableIntArray.unsafeWrap(values).average().getAsDouble(), 0.0);
+        }
+
+        @Test
         void average_nullInputReturnsEmpty() {
             ImmutableIntArray empty = ImmutableIntArray.unsafeWrap(null);
             assertTrue(empty.average().isEmpty());

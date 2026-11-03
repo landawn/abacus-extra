@@ -781,6 +781,25 @@ class DoubleTupleTest {
         }
 
         @Test
+        void sum_pairEqualsPlainAdditionWhenTheFirstElementIsNotSmaller() {
+            // Kahan compensation is exact when |_1| >= |_2|; otherwise it can move a pair sum one ulp away.
+            assertEquals(45.6, 15.9 + 29.7);
+            assertEquals(45.6, DoubleTuple.of(29.7, 15.9).sum());
+            assertEquals(45.599999999999994, DoubleTuple.of(15.9, 29.7).sum());
+
+            final java.util.Random random = new java.util.Random(20261102L);
+
+            for (int i = 0; i < 100_000; i++) {
+                final double x = random.nextGaussian() * 100;
+                final double y = random.nextGaussian() * 100;
+                final double larger = Math.abs(x) >= Math.abs(y) ? x : y;
+                final double smaller = larger == x ? y : x;
+
+                assertEquals(larger + smaller, DoubleTuple.of(larger, smaller).sum());
+            }
+        }
+
+        @Test
         void sum_losesSignOfZeroBeyondArityOne() {
             // arity 1 returns the field directly and keeps -0.0
             assertEquals(Double.doubleToRawLongBits(-0.0), Double.doubleToRawLongBits(DoubleTuple.of(-0.0).sum()));
@@ -969,7 +988,7 @@ class DoubleTupleTest {
         void average_negativeUnderflowSignFollowsTheComputedTotal() {
             assertEquals(-0.0, DoubleTuple.of(-Double.MIN_VALUE, 0.0).average().getAsDouble());
             assertEquals(-0.0, DoubleTuple.of(1.0, -1.0, -Double.MIN_VALUE).average().getAsDouble());
-            // the true mean is negative and underflows, but the compensated total itself rounds to +0.0
+            // the exact total is -Double.MIN_VALUE, but compensation loses that term and computes a total of +0.0
             assertEquals(0.0, DoubleTuple.of(-1.0, -Double.MIN_VALUE, 1.0).sum());
             assertEquals(0.0, DoubleTuple.of(-1.0, -Double.MIN_VALUE, 1.0).average().getAsDouble());
         }
@@ -1103,6 +1122,14 @@ class DoubleTupleTest {
         void average_finiteCancellationDependsOnElementOrder() {
             assertEquals(0.0, DoubleTuple.of(1e16, 1.0, -1e16).average().getAsDouble());
             assertEquals(0.3333333333333333, DoubleTuple.of(1e16, -1e16, 1.0).average().getAsDouble());
+        }
+
+        @Test
+        void average_pairCanBeOneUlpFromMedian() {
+            // average() divides the compensated pair sum, while median() halves plain _1 + _2
+            assertEquals(22.799999999999997, DoubleTuple.of(15.9, 29.7).average().getAsDouble());
+            assertEquals(22.8, DoubleTuple.of(15.9, 29.7).median());
+            assertEquals(22.8, DoubleTuple.of(29.7, 15.9).average().getAsDouble());
         }
     }
 

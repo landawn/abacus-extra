@@ -165,7 +165,9 @@ public sealed class Arrays permits Arrays.f {
      * The method handles null arrays, empty arrays, null sub-arrays, and empty sub-arrays gracefully.</p>
      *
      * <p>Array-valued elements are rendered by content, with cyclic array references shown as {@code [...]};
-     * other elements use their own {@code toString()} representation.</p>
+     * other elements use their own {@code toString()} representation. Cycle detection starts separately at each
+     * element, so an element that refers back to its own row or to {@code a} is expanded one more level before
+     * {@code [...]} appears: a row {@code r} with {@code r[1] == r} prints as {@code [1, [1, [...]]]}.</p>
      *
      * <p>The output format follows this pattern:</p>
      * <ul>
@@ -220,7 +222,10 @@ public sealed class Arrays permits Arrays.f {
      * null arrays, empty arrays, null sub-arrays at any level, and empty sub-arrays gracefully.</p>
      *
      * <p>Array-valued elements are rendered by content, with cyclic array references shown as {@code [...]};
-     * other elements use their own {@code toString()} representation.</p>
+     * other elements use their own {@code toString()} representation. Cycle detection starts separately at each
+     * element, so an element that refers back to its own row, to its enclosing two-dimensional sub-array, or to
+     * {@code a} is expanded one more level before {@code [...]} appears: a row {@code r} with {@code r[1] == r}
+     * prints as {@code [1, [1, [...]]]}.</p>
      *
      * <p>The output format follows this pattern:</p>
      * <ul>
@@ -3923,6 +3928,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two three-dimensional boolean arrays using the provided zip function.
      * Applies the zip operation to corresponding two-dimensional sub-arrays, which in turn zip their
      * corresponding one-dimensional sub-arrays. The operation stops when the shorter outer array is exhausted.
+     * Null sub-arrays at any level are treated as empty.
      *
      * <p>This method is useful for combining three-dimensional data structures such as cubes or
      * time-series of two-dimensional slices, where you want to perform element-wise operations on
@@ -4057,7 +4063,8 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from three three-dimensional boolean arrays using the provided zip function.
      * Applies the zip operation recursively through all three dimensions, combining corresponding
-     * elements from all three arrays at the deepest level.
+     * elements from all three arrays at the deepest level, stopping when the shortest outer array is exhausted.
+     * Null sub-arrays at any level are treated as empty.
      *
      * <p>This method is suitable for combining three three-dimensional data structures where you need to perform
      * operations on corresponding elements across all three sources.</p>
@@ -5575,6 +5582,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from two two-dimensional char arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shorter outer array is exhausted.
+     * Null sub-arrays are treated as empty.
      *
      * <p>This method processes two-dimensional arrays by applying the zip operation to each pair of
      * corresponding inner arrays. The outer array length of the result equals the length
@@ -5704,6 +5712,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from three two-dimensional char arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shortest outer array is exhausted.
+     * Null sub-arrays are treated as empty.
      *
      * <p>This method processes three two-dimensional arrays simultaneously by applying the tri-function
      * to corresponding elements within each triplet of inner arrays. The outer array length
@@ -5840,6 +5849,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from two three-dimensional char arrays using the provided zip function.
      * Applies the zip operation to corresponding two-dimensional sub-arrays, stopping when the shorter outer array is exhausted.
+     * Null sub-arrays at any level are treated as empty.
      *
      * <p>This method processes three-dimensional arrays by recursively applying the zip operation to each
      * level of the array hierarchy. The outermost array length of the result equals the
@@ -5971,6 +5981,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from three three-dimensional char arrays using the provided zip function.
      * Applies the zip operation to corresponding two-dimensional sub-arrays, stopping when the shortest outer array is exhausted.
+     * Null sub-arrays at any level are treated as empty.
      *
      * <p>This method processes three three-dimensional arrays simultaneously by applying the tri-function
      * through all levels of the array hierarchy. The outermost array length of the result
@@ -7499,6 +7510,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from two two-dimensional byte arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shorter outer array is exhausted.
+     * Null sub-arrays are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -7618,6 +7630,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from three two-dimensional byte arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shortest outer array is exhausted.
+     * Null sub-arrays are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -7745,6 +7758,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from two three-dimensional byte arrays using the provided zip function.
      * Applies the zip operation to corresponding two-dimensional sub-arrays, stopping when the shorter outer array is exhausted.
+     * Null sub-arrays at any level are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -7863,6 +7877,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from three three-dimensional byte arrays using the provided zip function.
      * Applies the zip operation to corresponding two-dimensional sub-arrays, stopping when the shortest outer array is exhausted.
+     * Null sub-arrays at any level are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -9334,6 +9349,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from two two-dimensional short arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shorter outer array is exhausted.
+     * Null sub-arrays are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -9458,6 +9474,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from three two-dimensional short arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shortest outer array is exhausted.
+     * Null sub-arrays are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -9587,6 +9604,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from two three-dimensional short arrays using the provided zip function.
      * Applies the zip operation to corresponding two-dimensional sub-arrays, stopping when the shorter outer array is exhausted.
+     * Null sub-arrays at any level are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -9710,6 +9728,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from three three-dimensional short arrays using the provided zip function.
      * Applies the zip operation to corresponding two-dimensional sub-arrays, stopping when the shortest outer array is exhausted.
+     * Null sub-arrays at any level are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -11266,6 +11285,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from two two-dimensional int arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shorter outer array is exhausted.
+     * Null sub-arrays are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -11384,6 +11404,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from three two-dimensional int arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shortest outer array is exhausted.
+     * Null sub-arrays are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -11512,6 +11533,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from two three-dimensional int arrays using the provided zip function.
      * Applies the zip operation to corresponding two-dimensional sub-arrays, stopping when the shorter outer array is exhausted.
+     * Null sub-arrays at any level are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -11630,6 +11652,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from three three-dimensional int arrays using the provided zip function.
      * Applies the zip operation to corresponding two-dimensional sub-arrays, stopping when the shortest outer array is exhausted.
+     * Null sub-arrays at any level are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -13078,6 +13101,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from two two-dimensional long arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shorter outer array is exhausted.
+     * Null sub-arrays are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -13196,6 +13220,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from three two-dimensional long arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shortest outer array is exhausted.
+     * Null sub-arrays are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -13319,6 +13344,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from two three-dimensional long arrays using the provided zip function.
      * Applies the zip operation to corresponding two-dimensional sub-arrays, stopping when the shorter outer array is exhausted.
+     * Null sub-arrays at any level are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -13434,6 +13460,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from three three-dimensional long arrays using the provided zip function.
      * Applies the zip operation to corresponding two-dimensional sub-arrays, stopping when the shortest outer array is exhausted.
+     * Null sub-arrays at any level are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -14916,6 +14943,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from two two-dimensional float arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shorter outer array is exhausted.
+     * Null sub-arrays are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -15037,6 +15065,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from three two-dimensional float arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shortest outer array is exhausted.
+     * Null sub-arrays are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -15166,6 +15195,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from two three-dimensional float arrays using the provided zip function.
      * Applies the zip operation to corresponding two-dimensional sub-arrays, stopping when the shorter outer array is exhausted.
+     * Null sub-arrays at any level are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -15287,6 +15317,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from three three-dimensional float arrays using the provided zip function.
      * Applies the zip operation to corresponding two-dimensional sub-arrays, stopping when the shortest outer array is exhausted.
+     * Null sub-arrays at any level are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -16159,7 +16190,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Reshapes a one-dimensional array into a two-dimensional array with the specified number of columns.
-     * The number of rows is determined by dividing the total number of elements by the number of columns.
+     * The number of rows is the total number of elements divided by the number of columns, rounded up.
      * The last row may be shorter if the total number of elements is not a multiple of {@code columnCount}.
      *
      * <p><b>Usage Examples:</b></p>
@@ -16777,6 +16808,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from two two-dimensional double arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shorter outer array is exhausted.
+     * Null sub-arrays are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -16897,6 +16929,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from three two-dimensional double arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shortest outer array is exhausted.
+     * Null sub-arrays are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -17023,6 +17056,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from two three-dimensional double arrays using the provided zip function.
      * Applies the zip operation to corresponding two-dimensional sub-arrays, stopping when the shorter outer array is exhausted.
+     * Null sub-arrays at any level are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -17143,6 +17177,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from three three-dimensional double arrays using the provided zip function.
      * Applies the zip operation to corresponding two-dimensional sub-arrays, stopping when the shortest outer array is exhausted.
+     * Null sub-arrays at any level are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -22136,7 +22171,9 @@ public sealed class Arrays permits Arrays.f {
          *
          * @param <T> the component type of the array elements.
          * @param a the two-dimensional array to flatten (must not be {@code null}).
-         * @return a new one-dimensional array containing all elements from the input array. Its component type is obtained
+         * @return a one-dimensional array containing all elements from the input array, newly allocated unless it is
+         *         empty (an empty result may be a shared zero-length array, for example when the component type is
+         *         {@code Object}, {@code String}, or a primitive wrapper). Its component type is obtained
          *         by removing two array dimensions from the runtime type of {@code a}; any additional dimensions belonging
          *         to {@code T} remain intact. This type may be narrower
          *         than {@code T}; storing an incompatible value in the result throws {@link ArrayStoreException}.
@@ -23970,7 +24007,9 @@ public sealed class Arrays permits Arrays.f {
          *
          * @param <T> the component type of the array elements.
          * @param a the three-dimensional array to flatten (must not be {@code null}).
-         * @return a new one-dimensional array containing all elements in order. Its component type is obtained by removing
+         * @return a one-dimensional array containing all elements in order, newly allocated unless it is empty (an empty
+         *         result may be a shared zero-length array, for example when the component type is {@code Object},
+         *         {@code String}, or a primitive wrapper). Its component type is obtained by removing
          *         three array dimensions from the runtime type of {@code a}; any additional dimensions belonging to
          *         {@code T} remain intact. This type may be narrower
          *         than {@code T}; storing an incompatible value in the result throws {@link ArrayStoreException}.

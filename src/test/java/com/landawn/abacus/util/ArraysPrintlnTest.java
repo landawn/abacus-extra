@@ -115,6 +115,19 @@ class ArraysPrintlnTest {
         }
 
         @Test
+        void nestedObjectPrintingStartsCycleDetectionAtEachElement() {
+            // As documented, a reference back to the element's own row or to the printed array expands once more.
+            final Object[] row = { 1, null };
+            row[1] = row;
+            assertEquals("[[1, [1, [...]]]]", Arrays.println(new Object[][] { row }));
+            assertEquals("[[[1, [1, [...]]]]]", Arrays.println(new Object[][][] { { row } }));
+
+            final Object[][] matrix = { { 1, null } };
+            matrix[0][1] = matrix;
+            assertEquals("[[1, [[1, [...]]]]]", Arrays.println(matrix));
+        }
+
+        @Test
         void nestedObjectPrintingPreservesNonArrayToStringRepresentations() {
             final Object value = new AbstractCollection<>() {
                 @Override

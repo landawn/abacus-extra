@@ -561,6 +561,10 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * Compensation does not guarantee an exact or order-independent result: for example,
      * {@code FloatTuple.of(1.0f, 1.0E38f, -1.0E38f).sum()} is {@code 0.0f}, whereas placing {@code 1.0f}
      * last gives {@code 1.0f}.
+     * Narrowing the compensated {@code double} total to {@code float} is a second rounding, so even without
+     * cancellation the result is not always the correctly rounded {@code float} sum:
+     * {@code FloatTuple.of(1.0f, 0x1p-24f, 0x1p-60f).sum()} is {@code 1.0f}, although the exact total rounds to
+     * {@code 1.0000001f}.
      * A total too large in magnitude for {@code float} narrows to an infinity:
      * {@code FloatTuple.of(Float.MAX_VALUE, Float.MAX_VALUE).sum()} is {@code Infinity}.
      * The sign of a zero result is not preserved at arity two or above:
@@ -587,7 +591,51 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * @see #average()
      */
     public float sum() {
-        return N.sum(elements());
+        return sumOf(elements());
+    }
+
+    /**
+     * Returns the compensated sum of the given values narrowed to {@code float}; the same result as
+     * {@code N.sum(float...)}, computed without allocating a summation accumulator.
+     *
+     * @param a the values to add
+     * @return the sum of {@code a}
+     */
+    private static float sumOf(final float... a) {
+        return (float) compensatedSum(a);
+    }
+
+    private static double compensatedSum(final float[] a) {
+        // Same Kahan operation order as N.sum(float...) and N.average(float...), without allocating an accumulator.
+        double sum = 0d;
+        double correction = 0d;
+
+        for (final float value : a) {
+            final double adjusted = value - correction;
+            final double next = sum + adjusted;
+            correction = (next - sum) - adjusted;
+            sum = next;
+        }
+
+        final double result = sum - correction;
+
+        if (Double.isFinite(result)) {
+            return result;
+        }
+
+        // At most nine widened floats cannot overflow a double, so a non-finite result means a non-finite element,
+        // which turns the compensation into NaN. Like KahanSummation, report the plain IEEE-754 total instead.
+        double total = 0d;
+
+        for (final float value : a) {
+            total += value;
+        }
+
+        return total;
+    }
+
+    private static double averageOf(final float... a) {
+        return compensatedSum(a) / a.length;
     }
 
     /**
@@ -633,7 +681,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
     public OptionalDouble average() {
         final float[] a = elements();
 
-        return a.length == 0 ? OptionalDouble.empty() : OptionalDouble.of(N.average(a));
+        return a.length == 0 ? OptionalDouble.empty() : OptionalDouble.of(averageOf(a));
     }
 
     /**
@@ -1689,7 +1737,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float sum() {
-            return N.sum(_1, _2);
+            return sumOf(_1, _2);
         }
 
         /**
@@ -1715,7 +1763,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2));
+            return OptionalDouble.of(averageOf(_1, _2));
         }
 
         /**
@@ -2240,7 +2288,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float sum() {
-            return N.sum(_1, _2, _3);
+            return sumOf(_1, _2, _3);
         }
 
         /**
@@ -2266,7 +2314,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3));
+            return OptionalDouble.of(averageOf(_1, _2, _3));
         }
 
         /**
@@ -2788,7 +2836,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float sum() {
-            return N.sum(_1, _2, _3, _4);
+            return sumOf(_1, _2, _3, _4);
         }
 
         /**
@@ -2814,7 +2862,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4));
+            return OptionalDouble.of(averageOf(_1, _2, _3, _4));
         }
 
         /**
@@ -3178,7 +3226,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float sum() {
-            return N.sum(_1, _2, _3, _4, _5);
+            return sumOf(_1, _2, _3, _4, _5);
         }
 
         /**
@@ -3204,7 +3252,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5));
+            return OptionalDouble.of(averageOf(_1, _2, _3, _4, _5));
         }
 
         /**
@@ -3572,7 +3620,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float sum() {
-            return N.sum(_1, _2, _3, _4, _5, _6);
+            return sumOf(_1, _2, _3, _4, _5, _6);
         }
 
         /**
@@ -3598,7 +3646,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6));
+            return OptionalDouble.of(averageOf(_1, _2, _3, _4, _5, _6));
         }
 
         /**
@@ -3975,7 +4023,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float sum() {
-            return N.sum(_1, _2, _3, _4, _5, _6, _7);
+            return sumOf(_1, _2, _3, _4, _5, _6, _7);
         }
 
         /**
@@ -4001,7 +4049,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7));
+            return OptionalDouble.of(averageOf(_1, _2, _3, _4, _5, _6, _7));
         }
 
         /**
@@ -4110,7 +4158,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * boolean diffHash = t1.hashCode() == t3.hashCode(); // returns false (order matters)
          *
          * FloatTuple.FloatTuple7 nanTuple = FloatTuple.of(Float.NaN, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f);
-         * int nanHash = nanTuple.hashCode(); // consistent for canonical NaN values
+         * int nanHash = nanTuple.hashCode(); // well-defined (NaN values use the canonical NaN hash)
          *
          * FloatTuple.FloatTuple7 negZero = FloatTuple.of(-0.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f);
          * FloatTuple.FloatTuple7 posZero = FloatTuple.of(0.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f);
@@ -4391,7 +4439,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float sum() {
-            return N.sum(_1, _2, _3, _4, _5, _6, _7, _8);
+            return sumOf(_1, _2, _3, _4, _5, _6, _7, _8);
         }
 
         /**
@@ -4417,7 +4465,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7, _8));
+            return OptionalDouble.of(averageOf(_1, _2, _3, _4, _5, _6, _7, _8));
         }
 
         /**
@@ -4527,7 +4575,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * boolean diffHash = t1.hashCode() == t3.hashCode(); // returns false (order matters)
          *
          * FloatTuple.FloatTuple8 nanTuple = FloatTuple.of(Float.NaN, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f);
-         * int nanHash = nanTuple.hashCode(); // consistent for canonical NaN values
+         * int nanHash = nanTuple.hashCode(); // well-defined (NaN values use the canonical NaN hash)
          *
          * FloatTuple.FloatTuple8 negZero = FloatTuple.of(-0.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f);
          * FloatTuple.FloatTuple8 posZero = FloatTuple.of(0.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f);
@@ -4814,7 +4862,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float sum() {
-            return N.sum(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+            return sumOf(_1, _2, _3, _4, _5, _6, _7, _8, _9);
         }
 
         /**
@@ -4840,7 +4888,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7, _8, _9));
+            return OptionalDouble.of(averageOf(_1, _2, _3, _4, _5, _6, _7, _8, _9));
         }
 
         /**
@@ -4951,7 +4999,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * boolean diffHash = t1.hashCode() == t3.hashCode(); // returns false (order matters)
          *
          * FloatTuple.FloatTuple9 nanTuple = FloatTuple.of(Float.NaN, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f);
-         * int nanHash = nanTuple.hashCode(); // consistent for canonical NaN values
+         * int nanHash = nanTuple.hashCode(); // well-defined (NaN values use the canonical NaN hash)
          *
          * FloatTuple.FloatTuple9 negZero = FloatTuple.of(-0.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f);
          * FloatTuple.FloatTuple9 posZero = FloatTuple.of(0.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f);

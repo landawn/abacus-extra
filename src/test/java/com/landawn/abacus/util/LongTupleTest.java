@@ -1004,6 +1004,27 @@ class LongTupleTest {
             }
 
             @Test
+            void average_powerOfTwoAritiesAreCorrectlyRoundedForTotalsBeyond2Pow53() {
+                // as LongTuple4/LongTuple8 document: narrowing the total rounds once and the power-of-two division is exact
+                final java.util.Random r = new java.util.Random(20261103L);
+                int beyond = 0;
+                for (int i = 0; i < 20000; i++) {
+                    final int n = i % 2 == 0 ? 4 : 8;
+                    final long[] v = new long[n];
+                    for (int j = 0; j < n; j++) {
+                        v[j] = r.nextLong() >> 3;
+                    }
+                    assertFalse(prefixOverflows(v));
+                    final long total = java.util.Arrays.stream(v).sum();
+                    if (Math.abs(total) > 1L << 53 && (long) (double) total != total) {
+                        beyond++;
+                    }
+                    assertEquals(exactOnce(v), LongTuple.from(v).average().getAsDouble(), () -> java.util.Arrays.toString(v));
+                }
+                assertTrue(beyond > 10000, "the sample must exercise totals that do not fit a double exactly, got " + beyond);
+            }
+
+            @Test
             void average_powerOfTwoArityIsNotImmuneOnTheOverflowBranch() {
                 // once the long total overflows, N.average switches to a quotient/remainder decomposition
                 // that can round twice at ANY arity -- including 2. This is what the javadoc now states.

@@ -61,7 +61,7 @@
  * <h2>Naming guide</h2>
  * <p>In the array API, {@code mapToXxx} applies a caller-supplied mapping function and returns the
  * named target type, while {@code toXxx} performs a built-in primitive conversion. Tuple
- * {@code arity()} and array {@code length()} both report element counts in their respective
+ * {@code arity()} and {@code ImmutableIntArray.length()} both report element counts in their respective
  * domains. Functional parameters use the checked-exception-capable interfaces from
  * {@link com.landawn.abacus.util.Throwables}.</p>
  *

@@ -2206,6 +2206,10 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
         /**
          * Returns the average of all three elements.
+         * <p>
+         * The result can differ from the correctly rounded mean only when the total exceeds 2<sup>53</sup> in
+         * magnitude or a running left-to-right sum overflows {@code long}; see {@link LongTuple#average()}.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -2738,6 +2742,11 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
         /**
          * Returns the average of all four elements.
+         * <p>
+         * Because the arity is a power of two, the result is the correctly rounded mean, even when the total
+         * exceeds 2<sup>53</sup> in magnitude, unless a running left-to-right sum overflows {@code long}; see
+         * {@link LongTuple#average()}.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -3119,6 +3128,10 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
         /**
          * Returns the average of all five elements.
+         * <p>
+         * The result can differ from the correctly rounded mean only when the total exceeds 2<sup>53</sup> in
+         * magnitude or a running left-to-right sum overflows {@code long}; see {@link LongTuple#average()}.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -3503,6 +3516,10 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
         /**
          * Returns the average of all six elements.
+         * <p>
+         * The result can differ from the correctly rounded mean only when the total exceeds 2<sup>53</sup> in
+         * magnitude or a running left-to-right sum overflows {@code long}; see {@link LongTuple#average()}.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -3884,6 +3901,10 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
         /**
          * Returns the average of all seven elements.
+         * <p>
+         * The result can differ from the correctly rounded mean only when the total exceeds 2<sup>53</sup> in
+         * magnitude or a running left-to-right sum overflows {@code long}; see {@link LongTuple#average()}.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -4237,6 +4258,11 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
         /**
          * Returns the average of all eight elements.
+         * <p>
+         * Because the arity is a power of two, the result is the correctly rounded mean, even when the total
+         * exceeds 2<sup>53</sup> in magnitude, unless a running left-to-right sum overflows {@code long}; see
+         * {@link LongTuple#average()}.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -4598,6 +4624,10 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
         /**
          * Returns the average of all nine elements.
+         * <p>
+         * The result can differ from the correctly rounded mean only when the total exceeds 2<sup>53</sup> in
+         * magnitude or a running left-to-right sum overflows {@code long}; see {@link LongTuple#average()}.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code

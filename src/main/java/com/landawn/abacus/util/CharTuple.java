@@ -1837,7 +1837,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * boolean hasTuple = present.isPresent();   // true
          *
          * Optional<CharTuple.CharTuple2> empty = tuple.filter((a, b) -> a > b);
-         * boolean isEmpty = empty.isPresent();   // false
+         * boolean emptyHas = empty.isPresent();   // false
          *
          * // Duplicate elements - equality predicate passes
          * CharTuple.CharTuple2 dup = CharTuple.of('Z', 'Z');
@@ -2388,7 +2388,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * boolean hasTuple = present.isPresent();   // true
          *
          * Optional<CharTuple.CharTuple3> empty = tuple.filter((a, b, c) -> a > b);
-         * boolean isEmpty = empty.isPresent();   // false
+         * boolean emptyHas = empty.isPresent();   // false
          *
          * // Duplicate elements - equality predicate passes
          * CharTuple.CharTuple3 dup = CharTuple.of('Z', 'Z', 'Z');

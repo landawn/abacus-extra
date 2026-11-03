@@ -551,14 +551,19 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * </p>
      * <p>
      * The elements are added with compensated (Kahan) summation rather than plain left-to-right
-     * addition, so the result can differ from {@code _1 + _2 + ...}; it generally reduces rounding error.
-     * Compensation does not guarantee an exact or order-independent result: for example,
-     * {@code DoubleTuple.of(1.0E16, 1.0, -1.0E16).sum()} is {@code 0.0}, whereas placing {@code 1.0}
-     * last gives {@code 1.0}.
+     * addition, so the result can differ from {@code _1 + _2 + ...}. For three or more elements this often
+     * reduces rounding error, but compensation does not guarantee an exact or order-independent result: for
+     * example, {@code DoubleTuple.of(1.0E16, 1.0, -1.0E16).sum()} is {@code 0.0}, whereas placing {@code 1.0}
+     * last gives {@code 1.0}. Even two elements can sum to one ulp away from {@code _1 + _2}, depending on their
+     * order: {@code DoubleTuple.of(15.9, 29.7).sum()} is {@code 45.599999999999994}, whereas {@code 15.9 + 29.7}
+     * and {@code DoubleTuple.of(29.7, 15.9).sum()} are {@code 45.6}. For finite elements whose compensated
+     * total is finite, {@code N.sum(double...)} and {@code DoubleStream.sum()} use the same algorithm and
+     * return the same values.
      * If that compensated result is not finite although every element is finite (the compensation term
      * itself can overflow, e.g. for {@code DoubleTuple.of(-3.0E307, Double.MAX_VALUE)}), the exact total is
      * recomputed and rounded once, so an infinity is returned only when the exact total is outside the
-     * {@code double} range.
+     * {@code double} range; {@code DoubleStream.sum()} does not recompute and returns {@code -Infinity} for
+     * that example.
      * The sign of a zero result is not preserved at arity two or above:
      * {@code DoubleTuple.of(-0.0, -0.0).sum()} is {@code +0.0}, whereas plain IEEE-754 addition of two
      * negative zeros yields {@code -0.0}.
@@ -699,8 +704,9 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * the mean is recovered from the exact values of all elements before division and rounding.
      * When the computed (rounded) total is
      * negative and the mean underflows to zero, the result is {@code -0.0}, as in
-     * {@code DoubleTuple.of(-Double.MIN_VALUE, 0.0).average().getAsDouble()}; a total that itself rounds to
-     * zero, as in {@code DoubleTuple.of(-1.0, -Double.MIN_VALUE, 1.0)}, gives {@code +0.0}.
+     * {@code DoubleTuple.of(-Double.MIN_VALUE, 0.0).average().getAsDouble()}; a computed total of zero gives
+     * {@code +0.0}, even when compensation loses a tiny negative term, as in
+     * {@code DoubleTuple.of(-1.0, -Double.MIN_VALUE, 1.0)}, whose exact total is {@code -Double.MIN_VALUE}.
      * A finite compensated total is divided directly, so the mean is no more exact or order-independent than
      * {@code sum()}: {@code DoubleTuple.of(1e16, 1.0, -1e16).average()} contains {@code 0.0}, whereas placing
      * {@code 1.0} last gives {@code 0.3333333333333333}.
@@ -1782,6 +1788,12 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         /**
          * Returns the sum of the two elements.
          * If either element is {@code NaN} the result is {@code NaN}.
+         * <p>
+         * The elements are added with the compensated summation described on {@link DoubleTuple#sum()}. The result
+         * equals {@code _1 + _2} (apart from the sign of a zero result) when {@code |_1| >= |_2|}; otherwise it can
+         * be one ulp away, so it can depend on element order: {@code DoubleTuple.of(15.9, 29.7).sum()} is
+         * {@code 45.599999999999994}, whereas {@code DoubleTuple.of(29.7, 15.9).sum()} is {@code 45.6}.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -1805,6 +1817,11 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         /**
          * Returns the arithmetic mean of the two elements.
          * If either element is {@code NaN} the result is {@code NaN}.
+         * <p>
+         * The total is computed as in {@link #sum()}, so the result can be one ulp away from {@link #median()}:
+         * {@code DoubleTuple.of(15.9, 29.7).average()} contains {@code 22.799999999999997}, while {@code median()}
+         * is {@code 22.8}.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code

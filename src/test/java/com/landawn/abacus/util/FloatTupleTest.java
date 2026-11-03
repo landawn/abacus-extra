@@ -752,6 +752,14 @@ class FloatTupleTest {
         }
 
         @Test
+        void sum_narrowingTheCompensatedTotalRoundsAgain() {
+            // The double total drops 2^-60 and lands exactly on the float midpoint 1 + 2^-24, which narrows to even
+            // (1.0f), although the exact total lies above that midpoint and rounds to Math.nextUp(1.0f).
+            assertEquals(1.0f, FloatTuple.of(1.0f, 0x1p-24f, 0x1p-60f).sum());
+            assertEquals(Math.nextUp(1.0f), (float) (1.0 + 0x1p-24 + 0x1p-52), "a total just above the midpoint rounds up");
+        }
+
+        @Test
         void sum_losesSignOfZeroBeyondArityOne() {
             assertEquals(Float.floatToRawIntBits(-0.0f), Float.floatToRawIntBits(FloatTuple.of(-0.0f).sum()));
             assertEquals(Float.floatToRawIntBits(0.0f), Float.floatToRawIntBits(FloatTuple.of(-0.0f, -0.0f).sum()));
@@ -2880,6 +2888,29 @@ class FloatTupleTest {
             assertEquals(1.0f, triple.min(), 0.001f);
             assertEquals(3.0f, triple.max(), 0.001f);
             assertEquals(2.0, triple.average().getAsDouble(), 0.001);
+        }
+
+        @Test
+        void sumAndAverage_matchUpstreamCompensatedSummationBitForBit() {
+            // sum() and average() keep the Kahan order of N.sum(float...) and N.average(float...) without allocating an
+            // accumulator. Random bit patterns cover subnormals, infinities, NaN payloads, and wide magnitude ranges.
+            final java.util.Random random = new java.util.Random(20261102L);
+            final float[] specials = { 0.0f, -0.0f, 1.0f, -1.0f, 0x1p-24f, 16777216f, Float.MIN_VALUE, Float.MAX_VALUE, -Float.MAX_VALUE, Float.NaN,
+                    Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY };
+
+            for (int round = 0; round < 50_000; round++) {
+                final float[] values = new float[2 + round % 8];
+
+                for (int i = 0; i < values.length; i++) {
+                    values[i] = random.nextInt(4) == 0 ? specials[random.nextInt(specials.length)] : Float.intBitsToFloat(random.nextInt());
+                }
+
+                final FloatTuple<?> tuple = FloatTuple.from(values);
+
+                assertEquals(Float.floatToIntBits(N.sum(values)), Float.floatToIntBits(tuple.sum()), () -> java.util.Arrays.toString(values));
+                assertEquals(Double.doubleToLongBits(N.average(values)), Double.doubleToLongBits(tuple.average().getAsDouble()),
+                        () -> java.util.Arrays.toString(values));
+            }
         }
 
         @ParameterizedTest(name = "arity {0}: default exports are detached")

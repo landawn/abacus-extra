@@ -14,6 +14,9 @@
 
 package com.landawn.abacus.util;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.NoSuchElementException;
 
 import com.landawn.abacus.annotation.Beta;
@@ -40,6 +43,13 @@ import com.landawn.abacus.util.u.OptionalDouble;
  */
 @Beta
 public final class ImmutableIntArray implements Immutable {
+    /**
+     * Precision for dividing a total beyond 2<sup>53</sup> in {@link #average()}. A quotient that is not exactly a
+     * {@code double} rounding midpoint lies more than 10<sup>-28</sup> (relative) from one, so rounding it to 64 digits
+     * cannot change which {@code double} is nearest.
+     */
+    private static final MathContext AVERAGE_CONTEXT = new MathContext(64, RoundingMode.HALF_EVEN);
+
     /**
      * Backing storage for this wrapper. Its fixed length also supplies the bounds, avoiding
      * a redundant length field in every wrapper.
@@ -359,7 +369,8 @@ public final class ImmutableIntArray implements Immutable {
      * distinguishes an empty array from a non-empty array whose mean is zero.</p>
      *
      * <p>Unlike {@link #sum()}, this method still returns a mean when the final sum exceeds the
-     * {@code int} range; the total is accumulated in a {@code long} before division.</p>
+     * {@code int} range: the total is accumulated exactly in a {@code long}, and the result is the {@code double}
+     * nearest to the true mean, even when the total exceeds 2<sup>53</sup> in magnitude.</p>
      *
      * <p>Unlike {@link #min()} and {@link #max()}, this method does not throw on an empty array;
      * it returns an empty {@code OptionalDouble} instead.</p>
@@ -389,7 +400,19 @@ public final class ImmutableIntArray implements Immutable {
      * @see #max()
      */
     public OptionalDouble average() {
-        return elements.length == 0 ? OptionalDouble.empty() : OptionalDouble.of(N.average(elements));
+        if (elements.length == 0) {
+            return OptionalDouble.empty();
+        }
+
+        final long total = N.sumToLong(elements);
+
+        // Converting a total beyond 2^53 to double already rounds, so dividing it would round twice (N.average does).
+        // That needs more than 4,194,304 elements; divide such totals exactly so the mean is rounded only once.
+        if (Math.abs(total) <= 1L << 53) {
+            return OptionalDouble.of((double) total / elements.length);
+        }
+
+        return OptionalDouble.of(new BigDecimal(total).divide(BigDecimal.valueOf(elements.length), AVERAGE_CONTEXT).doubleValue());
     }
 
     /**
