@@ -22396,6 +22396,7 @@ public sealed class Arrays permits Arrays.f {
         /**
          * Maps each element of a two-dimensional array to a boolean value using the provided
          * boolean-mapping function. This method is useful for creating boolean masks or condition arrays.
+         * Null or empty sub-arrays are mapped to empty arrays (not preserved as {@code null}); non-null sub-array lengths are preserved.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -22449,6 +22450,7 @@ public sealed class Arrays permits Arrays.f {
         /**
          * Maps each element of a two-dimensional array to a char value using the provided function.
          * This method is useful for character-based transformations.
+         * Null or empty sub-arrays are mapped to empty arrays (not preserved as {@code null}); non-null sub-array lengths are preserved.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -22502,6 +22504,7 @@ public sealed class Arrays permits Arrays.f {
         /**
          * Maps each element of a two-dimensional array to a byte value using the provided function.
          * This method is useful for byte-level transformations or data compression.
+         * Null or empty sub-arrays are mapped to empty arrays (not preserved as {@code null}); non-null sub-array lengths are preserved.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -22555,6 +22558,7 @@ public sealed class Arrays permits Arrays.f {
         /**
          * Maps each element of a two-dimensional array to a short value using the provided function.
          * This method provides type-safe conversion to short primitive arrays.
+         * Null or empty sub-arrays are mapped to empty arrays (not preserved as {@code null}); non-null sub-array lengths are preserved.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -22608,6 +22612,7 @@ public sealed class Arrays permits Arrays.f {
         /**
          * Maps each element of a two-dimensional array to an int value using the provided function.
          * This is one of the most commonly used primitive mapping operations.
+         * Null or empty sub-arrays are mapped to empty arrays (not preserved as {@code null}); non-null sub-array lengths are preserved.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -22661,6 +22666,7 @@ public sealed class Arrays permits Arrays.f {
         /**
          * Maps each element of a two-dimensional array to a long value using the provided function.
          * This method is useful for converting to long primitive arrays for large numeric values.
+         * Null or empty sub-arrays are mapped to empty arrays (not preserved as {@code null}); non-null sub-array lengths are preserved.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -22714,6 +22720,7 @@ public sealed class Arrays permits Arrays.f {
         /**
          * Maps each element of a two-dimensional array to a float value using the provided function.
          * This method enables conversion to floating-point primitive arrays.
+         * Null or empty sub-arrays are mapped to empty arrays (not preserved as {@code null}); non-null sub-array lengths are preserved.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -22768,6 +22775,7 @@ public sealed class Arrays permits Arrays.f {
          * Maps each element of a two-dimensional array to a double value using the provided function.
          * The mapper determines the conversion and any rounding or loss of precision; this method stores its
          * returned {@code double} values without further conversion.
+         * Null or empty sub-arrays are mapped to empty arrays (not preserved as {@code null}); non-null sub-array lengths are preserved.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -24285,6 +24293,9 @@ public sealed class Arrays permits Arrays.f {
          * Maps a three-dimensional array to a three-dimensional char array by applying
          * a function that extracts or computes a char value from each element.
          *
+         * <p>Null or empty sub-arrays at any nesting level are mapped to empty arrays (not preserved as
+         * {@code null}); non-null sub-array lengths are preserved.</p>
+         *
          * <p>This method is particularly useful when working with string data where you
          * need to extract specific characters or perform character-based transformations.</p>
          *
@@ -24340,6 +24351,9 @@ public sealed class Arrays permits Arrays.f {
          * Maps a three-dimensional array to a three-dimensional byte array by applying
          * a function that converts each element to a byte value. Useful for data compression
          * or when working with byte-oriented operations.
+         *
+         * <p>Null or empty sub-arrays at any nesting level are mapped to empty arrays (not preserved as
+         * {@code null}); non-null sub-array lengths are preserved.</p>
          *
          * <p>Care should be taken to ensure that the conversion doesn't result in data loss
          * due to byte's limited range (-128 to 127).</p>
@@ -24397,6 +24411,9 @@ public sealed class Arrays permits Arrays.f {
          * a function that converts each element to a short value. This is useful when
          * working with numeric data that fits within the short range.
          *
+         * <p>Null or empty sub-arrays at any nesting level are mapped to empty arrays (not preserved as
+         * {@code null}); non-null sub-array lengths are preserved.</p>
+         *
          * <p>The short data type has a range of -32,768 to 32,767, making it suitable
          * for many numeric applications while using less memory than int.</p>
          *
@@ -24452,6 +24469,9 @@ public sealed class Arrays permits Arrays.f {
          * Maps a three-dimensional array to a three-dimensional int array by applying
          * a function that converts each element to an integer. This is one of the most
          * common mapping operations for numeric transformations.
+         *
+         * <p>Null or empty sub-arrays at any nesting level are mapped to empty arrays (not preserved as
+         * {@code null}); non-null sub-array lengths are preserved.</p>
          *
          * <p>This method is particularly useful for parsing strings to integers or
          * extracting integer properties from complex objects.</p>
@@ -24509,6 +24529,9 @@ public sealed class Arrays permits Arrays.f {
          * a function that converts each element to a long value. This is useful for
          * working with large numeric values or timestamps.
          *
+         * <p>Null or empty sub-arrays at any nesting level are mapped to empty arrays (not preserved as
+         * {@code null}); non-null sub-array lengths are preserved.</p>
+         *
          * <p>The long data type can represent values from -2^63 to 2^63-1, making it
          * suitable for applications requiring large integer values.</p>
          *
@@ -24564,6 +24587,9 @@ public sealed class Arrays permits Arrays.f {
          * Maps a three-dimensional array to a three-dimensional float array by applying
          * a function that converts each element to a float value. This is useful for
          * applications requiring floating-point precision with moderate memory usage.
+         *
+         * <p>Null or empty sub-arrays at any nesting level are mapped to empty arrays (not preserved as
+         * {@code null}); non-null sub-array lengths are preserved.</p>
          *
          * <p>Float provides approximately 7 decimal digits of precision and is suitable
          * for many scientific and graphics applications.</p>
@@ -24621,6 +24647,9 @@ public sealed class Arrays permits Arrays.f {
          * a function that converts each element to a double value. The mapper determines the
          * conversion and any rounding or loss of precision; this method stores its returned
          * {@code double} values without further conversion.
+         *
+         * <p>Null or empty sub-arrays at any nesting level are mapped to empty arrays (not preserved as
+         * {@code null}); non-null sub-array lengths are preserved.</p>
          *
          * <p>The {@code double} type has a 53-bit significand. Converting larger integers or
          * arbitrary-precision values to {@code double} can lose information.</p>

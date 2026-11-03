@@ -1098,6 +1098,12 @@ class DoubleTupleTest {
             DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
             assertEquals(2.0, tuple.average().getAsDouble(), DELTA);
         }
+
+        @Test
+        void average_finiteCancellationDependsOnElementOrder() {
+            assertEquals(0.0, DoubleTuple.of(1e16, 1.0, -1e16).average().getAsDouble());
+            assertEquals(0.3333333333333333, DoubleTuple.of(1e16, -1e16, 1.0).average().getAsDouble());
+        }
     }
 
     @Nested

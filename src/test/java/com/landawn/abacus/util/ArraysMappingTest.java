@@ -27,6 +27,9 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.lang.reflect.Array;
+import java.util.List;
+
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -3976,6 +3979,42 @@ class ArraysMappingTest {
 
     @Nested
     class MappingContractTests {
+
+        @Test
+        void objectToPrimitiveMappers_mapNullAndEmptyRowsToEmptyArrays() {
+            final Integer[][] a2 = { { 1, 2 }, null, {} };
+            final List<Object> results2 = List.of(ff.mapToBoolean(a2, x -> x > 1), ff.mapToChar(a2, x -> (char) x.intValue()),
+                    ff.mapToByte(a2, Integer::byteValue), ff.mapToShort(a2, Integer::shortValue), ff.mapToInt(a2, Integer::intValue),
+                    ff.mapToLong(a2, Integer::longValue), ff.mapToFloat(a2, Integer::floatValue), ff.mapToDouble(a2, Integer::doubleValue));
+
+            for (final Object result : results2) {
+                final Object[] rows = (Object[]) result;
+                assertEquals(3, rows.length);
+                assertEquals(2, Array.getLength(rows[0]));
+                assertNotNull(rows[1]);
+                assertEquals(0, Array.getLength(rows[1]));
+                assertEquals(0, Array.getLength(rows[2]));
+            }
+
+            final Integer[][][] a3 = { { { 1 }, null }, null, { {} } };
+            final List<Object> results3 = List.of(fff.mapToBoolean(a3, x -> x > 1), fff.mapToChar(a3, x -> (char) x.intValue()),
+                    fff.mapToByte(a3, Integer::byteValue), fff.mapToShort(a3, Integer::shortValue), fff.mapToInt(a3, Integer::intValue),
+                    fff.mapToLong(a3, Integer::longValue), fff.mapToFloat(a3, Integer::floatValue), fff.mapToDouble(a3, Integer::doubleValue));
+
+            for (final Object result : results3) {
+                final Object[] slices = (Object[]) result;
+                assertEquals(3, slices.length);
+                final Object[] first = (Object[]) slices[0];
+                assertEquals(2, first.length);
+                assertEquals(1, Array.getLength(first[0]));
+                assertNotNull(first[1]);
+                assertEquals(0, Array.getLength(first[1]));
+                assertNotNull(slices[1]);
+                assertEquals(0, Array.getLength(slices[1]));
+                assertEquals(1, Array.getLength(slices[2]));
+                assertEquals(0, Array.getLength(((Object[]) slices[2])[0]));
+            }
+        }
 
         @Test
         void arrayOperations_largeArrays() {

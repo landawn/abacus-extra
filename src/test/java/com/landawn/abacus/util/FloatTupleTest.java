@@ -972,6 +972,12 @@ class FloatTupleTest {
             FloatTuple6 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
             assertEquals(3.5, tuple.average().getAsDouble(), 0.001);
         }
+
+        @Test
+        void average_finiteCancellationDependsOnElementOrder() {
+            assertEquals(0.0, FloatTuple.of(1.0f, 1.0E38f, -1.0E38f).average().getAsDouble());
+            assertEquals(0.3333333333333333, FloatTuple.of(1.0E38f, -1.0E38f, 1.0f).average().getAsDouble());
+        }
     }
 
     @Nested
@@ -1124,6 +1130,22 @@ class FloatTupleTest {
             assertEquals(3.5, FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f).median());
             assertEquals(4.0f, FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f).lowerMedian());
             assertEquals(4.5, FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f).median());
+        }
+
+        @Test
+        void arity3_lowerMedian_ordersSpecialValuesLikeFloatCompare() {
+            final float[] values = { Float.NaN, Float.NEGATIVE_INFINITY, -1.0f, -0.0f, 0.0f, 1.0f, Float.POSITIVE_INFINITY };
+
+            for (final float a : values) {
+                for (final float b : values) {
+                    for (final float c : values) {
+                        final float[] sorted = { a, b, c };
+                        java.util.Arrays.sort(sorted);
+                        final float actual = FloatTuple.of(a, b, c).lowerMedian();
+                        assertEquals(0, Float.compare(sorted[1], actual), () -> "(" + a + ", " + b + ", " + c + ") -> " + actual);
+                    }
+                }
+            }
         }
     }
 

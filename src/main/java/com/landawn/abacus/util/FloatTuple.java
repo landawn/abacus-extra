@@ -561,6 +561,8 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * Compensation does not guarantee an exact or order-independent result: for example,
      * {@code FloatTuple.of(1.0f, 1.0E38f, -1.0E38f).sum()} is {@code 0.0f}, whereas placing {@code 1.0f}
      * last gives {@code 1.0f}.
+     * A total too large in magnitude for {@code float} narrows to an infinity:
+     * {@code FloatTuple.of(Float.MAX_VALUE, Float.MAX_VALUE).sum()} is {@code Infinity}.
      * The sign of a zero result is not preserved at arity two or above:
      * {@code FloatTuple.of(-0.0f, -0.0f).sum()} is {@code +0.0f}, whereas plain IEEE-754 addition of two
      * negative zeros yields {@code -0.0f}.
@@ -605,6 +607,9 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * {@code float} range: {@code FloatTuple.of(Float.MAX_VALUE, Float.MAX_VALUE)} has a {@code sum()} of
      * {@code Infinity} but its {@code average()} contains {@code 3.4028234663852886E38}. As with {@code sum()},
      * the sign of a zero result is not preserved at arity two or above.
+     * The mean divides the same compensated {@code double} total that {@code sum()} narrows, so it is likewise
+     * not exact or order-independent: {@code FloatTuple.of(1.0f, 1.0E38f, -1.0E38f).average()} contains
+     * {@code 0.0}, whereas placing {@code 1.0f} last gives {@code 0.3333333333333333}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -2308,7 +2313,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float lowerMedian() {
-            return N.lowerMedian(_1, _2, _3);
+            return N.median(_1, _2, _3);
         }
 
         /**

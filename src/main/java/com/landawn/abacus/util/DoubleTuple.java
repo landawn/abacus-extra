@@ -625,22 +625,19 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     }
 
     private static double compensatedSum(final double[] a) {
-        // Keep the Kahan operation order and nonfinite fallback without allocating an accumulator.
-        // Its overflow recovery state would be discarded: these tuples recompute from every exact input below.
+        // Keep the Kahan operation order without allocating an accumulator. Callers use the result only when it is
+        // finite and otherwise recompute from the elements, so no simple-sum fallback for a NaN result is needed.
         double sum = 0d;
         double correction = 0d;
-        double simpleSum = 0d;
 
         for (final double value : a) {
-            simpleSum += value;
             final double adjusted = value - correction;
             final double next = sum + adjusted;
             correction = (next - sum) - adjusted;
             sum = next;
         }
 
-        final double result = sum - correction;
-        return Double.isNaN(result) && Double.isInfinite(simpleSum) ? simpleSum : result;
+        return sum - correction;
     }
 
     /**
@@ -704,6 +701,9 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * negative and the mean underflows to zero, the result is {@code -0.0}, as in
      * {@code DoubleTuple.of(-Double.MIN_VALUE, 0.0).average().getAsDouble()}; a total that itself rounds to
      * zero, as in {@code DoubleTuple.of(-1.0, -Double.MIN_VALUE, 1.0)}, gives {@code +0.0}.
+     * A finite compensated total is divided directly, so the mean is no more exact or order-independent than
+     * {@code sum()}: {@code DoubleTuple.of(1e16, 1.0, -1e16).average()} contains {@code 0.0}, whereas placing
+     * {@code 1.0} last gives {@code 0.3333333333333333}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
