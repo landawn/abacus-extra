@@ -244,6 +244,7 @@ public final class ApiDocGenerator {
             "lombok.experimental.SuperBuilder", "lombok.experimental.UtilityClass");
 
     private static final Pattern OVERRIDE_ANNOTATION = Pattern.compile("(?<![\\w.$])@(?:java\\.lang\\.)?Override\\b\\s*");
+    private static final Pattern SEE_REFERENCE = Pattern.compile("(?:[\\w$]+(?:\\.[\\w$]+)*)?(?:#[\\w$]+(?:\\(.*\\))?)?");
     private static final Pattern THREAD_SAFE = Pattern.compile("\\bthread(?:-|\\s+)safe\\b");
     private static final Pattern NOT_THREAD_SAFE = Pattern.compile(
             "\\b(?:not|never)\\s+(?:generally\\s+|necessarily\\s+)?thread(?:-|\\s+)safe\\b|\\bnon(?:-|\\s+)thread(?:-|\\s+)safe\\b|\\bnot safe for concurrent\\b");
@@ -1306,7 +1307,13 @@ public final class ApiDocGenerator {
                 case LINK, LINK_PLAIN -> {
                     final LinkTree link = (LinkTree) tree;
                     if (link.getLabel() == null || link.getLabel().isEmpty()) {
-                        sb.append(link.getReference() == null ? "" : link.getReference().getSignature());
+                        final String signature = link.getReference() == null ? "" : link.getReference().getSignature();
+                        // A label-less {@link} names a program element, so render it like {@code}; {@linkplain} stays plain text.
+                        if (tree.getKind() == DocTree.Kind.LINK && !isBlank(signature)) {
+                            sb.append('`').append(signature).append('`');
+                        } else {
+                            sb.append(signature);
+                        }
                     } else {
                         appendDocText(link.getLabel(), sb);
                     }
@@ -2328,11 +2335,7 @@ public final class ApiDocGenerator {
                             }
                         }
                         for (final String example : c.examples) {
-                            sb.append("  ```java\n");
-                            for (final String line : example.split("\r?\n", -1)) {
-                                sb.append("  ").append(line).append('\n');
-                            }
-                            sb.append("  ```\n");
+                            appendExampleBlock(example, sb);
                         }
                     }
                     sb.append('\n');
@@ -2443,18 +2446,54 @@ public final class ApiDocGenerator {
                 if (!m.examples.isEmpty()) {
                     sb.append("- **Examples:**\n");
                     for (final String example : m.examples) {
-                        sb.append("  ```java\n");
-                        for (final String line : example.split("\r?\n", -1)) {
-                            sb.append("  ").append(line).append('\n');
-                        }
-                        sb.append("  ```\n");
+                        appendExampleBlock(example, sb);
                     }
                 }
                 if (!m.seeAlso.isEmpty()) {
-                    sb.append("- **See also:** ").append(md(String.join(", ", m.seeAlso))).append('\n');
+                    sb.append("- **See also:** ")
+                            .append(m.seeAlso.stream().map(ApiDocGenerator::mdSeeReference).collect(Collectors.joining(", ")))
+                            .append('\n');
                 }
             }
         }
+    }
+
+    /** Appends a fenced example indented under a list item; blank lines stay empty instead of carrying trailing spaces. */
+    private static void appendExampleBlock(final String example, final StringBuilder sb) {
+        sb.append("  ```java\n");
+        for (final String line : example.split("\r?\n", -1)) {
+            if (!line.isEmpty()) {
+                sb.append("  ").append(line);
+            }
+            sb.append('\n');
+        }
+        sb.append("  ```\n");
+    }
+
+    /**
+     * Renders a {@code @see} entry, formatting a leading program-element reference such as
+     * {@code #println(Object[][])} or {@code Arrays.fff#zip(...)} as code and the rest as text.
+     * Quoted strings and HTML links are rendered as text.
+     */
+    private static String mdSeeReference(final String see) {
+        int depth = 0;
+        int end = 0;
+        while (end < see.length()) {
+            final char c = see.charAt(end);
+            if (c == '(') {
+                depth++;
+            } else if (c == ')') {
+                depth--;
+            } else if (depth == 0 && Character.isWhitespace(c)) {
+                break;
+            }
+            end++;
+        }
+        final String reference = see.substring(0, end);
+        if (depth != 0 || reference.isEmpty() || !SEE_REFERENCE.matcher(reference).matches()) {
+            return md(see);
+        }
+        return '`' + reference + '`' + md(see.substring(end));
     }
 
     private static String annotationList(final List<String> annotations) {
@@ -2774,6 +2813,13 @@ public final class ApiDocGenerator {
         final StringBuilder out = new StringBuilder(normalized.length() + 16);
         for (int i = 0; i < normalized.length(); i++) {
             final char c = normalized.charAt(i);
+            // Backslash escapes are literal inside a code span, so copy `...` through unescaped.
+            final int codeEnd = c == '`' ? normalized.indexOf('`', i + 1) : -1;
+            if (codeEnd > i) {
+                out.append(normalized, i, codeEnd + 1);
+                i = codeEnd;
+                continue;
+            }
             if (c == '[' || c == ']' || c == '\\') {
                 out.append('\\');
             }

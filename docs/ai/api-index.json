@@ -5,7 +5,7 @@
     "generated_at": "2026-11-03",
     "java_target": "21",
     "source": {
-      "git_sha": "7eadf706674a7689a6f8d51532db3d082d918771"
+      "git_sha": "c01671f556d88846e5d6e1954011c842ad908eb1"
     }
   },
   "packages": [
@@ -3311,7 +3311,7 @@
               "javadoc_summary": "Flattens a two-dimensional boolean array into a one-dimensional boolean array.",
               "returns": "a one-dimensional array containing all elements from the input array (newly allocated unless `a` is `null` or empty, in which case a shared empty array is returned); empty if `a` is `null`, empty, or has no elements after skipping null/empty sub-arrays.",
               "contract": [
-                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws ArithmeticException before allocating the result array."
+                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws `ArithmeticException` before allocating the result array."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -3351,7 +3351,7 @@
               "javadoc_summary": "Flattens a three-dimensional boolean array into a one-dimensional boolean array.",
               "returns": "a one-dimensional array containing all elements from the input array (newly allocated unless `a` is `null` or empty, in which case a shared empty array is returned); empty if `a` is `null`, empty, or has no elements after skipping null/empty sub-arrays.",
               "contract": [
-                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws ArithmeticException before allocating the result array."
+                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws `ArithmeticException` before allocating the result array."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -3420,7 +3420,7 @@
                 "Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.",
                 "If the action replaces nested arrays through another reference to `a`, their new structure determines where the flat elements are copied.",
                 "If the updated rows need fewer elements, the unused suffix of the flat array is discarded.",
-                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws ArithmeticException before invoking the action or copying elements back."
+                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws `ArithmeticException` before invoking the action or copying elements back."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -3489,7 +3489,7 @@
                 "Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.",
                 "If the action replaces nested arrays through another reference to `a`, their new structure determines where the flat elements are copied.",
                 "If the updated rows need fewer elements, the unused suffix of the flat array is discarded.",
-                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws ArithmeticException before invoking the action or copying elements back."
+                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws `ArithmeticException` before invoking the action or copying elements back."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -5038,7 +5038,7 @@
               "javadoc_summary": "Flattens a two-dimensional character array into a one-dimensional character array.",
               "returns": "a one-dimensional array containing all elements from the input array (newly allocated unless `a` is `null` or empty, in which case a shared empty array is returned); empty if `a` is `null`, empty, or has no elements after skipping null/empty sub-arrays.",
               "contract": [
-                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws ArithmeticException before allocating the result array."
+                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws `ArithmeticException` before allocating the result array."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -5078,7 +5078,7 @@
               "javadoc_summary": "Flattens a three-dimensional character array into a one-dimensional character array.",
               "returns": "a one-dimensional array containing all elements from the input array (newly allocated unless `a` is `null` or empty, in which case a shared empty array is returned); empty if `a` is `null`, empty, or has no elements after skipping null/empty sub-arrays.",
               "contract": [
-                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws ArithmeticException before allocating the result array."
+                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws `ArithmeticException` before allocating the result array."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -5147,7 +5147,7 @@
                 "Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.",
                 "If the action replaces nested arrays through another reference to `a`, their new structure determines where the flat elements are copied.",
                 "If the updated rows need fewer elements, the unused suffix of the flat array is discarded.",
-                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws ArithmeticException before invoking the action or copying elements back."
+                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws `ArithmeticException` before invoking the action or copying elements back."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -5216,7 +5216,7 @@
                 "Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.",
                 "If the action replaces nested arrays through another reference to `a`, their new structure determines where the flat elements are copied.",
                 "If the updated rows need fewer elements, the unused suffix of the flat array is discarded.",
-                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws ArithmeticException before invoking the action or copying elements back."
+                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws `ArithmeticException` before invoking the action or copying elements back."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -6767,7 +6767,7 @@
               "javadoc_summary": "Flattens a two-dimensional byte array into a one-dimensional byte array by concatenating all its sub-arrays.",
               "returns": "a one-dimensional array containing all elements from the input array (newly allocated unless `a` is `null` or empty, in which case a shared empty array is returned); empty if `a` is `null`, empty, or has no elements after skipping null/empty sub-arrays.",
               "contract": [
-                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws ArithmeticException before allocating the result array."
+                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws `ArithmeticException` before allocating the result array."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -6807,7 +6807,7 @@
               "javadoc_summary": "Flattens a three-dimensional byte array into a one-dimensional byte array by concatenating all its innermost sub-arrays in row-major order.",
               "returns": "a one-dimensional array containing all elements from the input array (newly allocated unless `a` is `null` or empty, in which case a shared empty array is returned); empty if `a` is `null`, empty, or has no elements after skipping null/empty sub-arrays.",
               "contract": [
-                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws ArithmeticException before allocating the result array."
+                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws `ArithmeticException` before allocating the result array."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -6876,7 +6876,7 @@
                 "Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.",
                 "If the action replaces nested arrays through another reference to `a`, their new structure determines where the flat elements are copied.",
                 "If the updated rows need fewer elements, the unused suffix of the flat array is discarded.",
-                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws ArithmeticException before invoking the action or copying elements back."
+                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws `ArithmeticException` before invoking the action or copying elements back."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -6945,7 +6945,7 @@
                 "Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.",
                 "If the action replaces nested arrays through another reference to `a`, their new structure determines where the flat elements are copied.",
                 "If the updated rows need fewer elements, the unused suffix of the flat array is discarded.",
-                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws ArithmeticException before invoking the action or copying elements back."
+                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws `ArithmeticException` before invoking the action or copying elements back."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -8489,7 +8489,7 @@
               "javadoc_summary": "Flattens a two-dimensional short array into a one-dimensional array.",
               "returns": "a one-dimensional array containing all elements from the input array (newly allocated unless `a` is `null` or empty, in which case a shared empty array is returned); empty if `a` is `null`, empty, or has no elements after skipping null/empty sub-arrays.",
               "contract": [
-                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws ArithmeticException before allocating the result array."
+                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws `ArithmeticException` before allocating the result array."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -8529,7 +8529,7 @@
               "javadoc_summary": "Flattens a three-dimensional short array into a one-dimensional array.",
               "returns": "a one-dimensional array containing all elements from the input array (newly allocated unless `a` is `null` or empty, in which case a shared empty array is returned); empty if `a` is `null`, empty, or has no elements after skipping null/empty sub-arrays.",
               "contract": [
-                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws ArithmeticException before allocating the result array."
+                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws `ArithmeticException` before allocating the result array."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -8598,7 +8598,7 @@
                 "Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.",
                 "If the action replaces nested arrays through another reference to `a`, their new structure determines where the flat elements are copied.",
                 "If the updated rows need fewer elements, the unused suffix of the flat array is discarded.",
-                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws ArithmeticException before invoking the action or copying elements back."
+                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws `ArithmeticException` before invoking the action or copying elements back."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -8667,7 +8667,7 @@
                 "Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.",
                 "If the action replaces nested arrays through another reference to `a`, their new structure determines where the flat elements are copied.",
                 "If the updated rows need fewer elements, the unused suffix of the flat array is discarded.",
-                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws ArithmeticException before invoking the action or copying elements back."
+                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws `ArithmeticException` before invoking the action or copying elements back."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -10218,7 +10218,7 @@
               "returns": "a one-dimensional array containing all elements from the input array (newly allocated unless `a` is `null` or empty, in which case a shared empty array is returned); empty if `a` is `null`, empty, or has no elements after skipping null/empty sub-arrays.",
               "contract": [
                 "If the input array is `null` or empty, returns an empty array.",
-                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws ArithmeticException before allocating the result array."
+                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws `ArithmeticException` before allocating the result array."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -10259,7 +10259,7 @@
               "returns": "a one-dimensional array containing all elements from the input array (newly allocated unless `a` is `null` or empty, in which case a shared empty array is returned); empty if `a` is `null`, empty, or has no elements after skipping null/empty sub-arrays.",
               "contract": [
                 "If the input array is `null` or empty, returns an empty array.",
-                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws ArithmeticException before allocating the result array."
+                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws `ArithmeticException` before allocating the result array."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -10328,7 +10328,7 @@
                 "Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.",
                 "If the action replaces nested arrays through another reference to `a`, their new structure determines where the flat elements are copied.",
                 "If the updated rows need fewer elements, the unused suffix of the flat array is discarded.",
-                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws ArithmeticException before invoking the action or copying elements back."
+                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws `ArithmeticException` before invoking the action or copying elements back."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -10397,7 +10397,7 @@
                 "Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.",
                 "If the action replaces nested arrays through another reference to `a`, their new structure determines where the flat elements are copied.",
                 "If the updated rows need fewer elements, the unused suffix of the flat array is discarded.",
-                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws ArithmeticException before invoking the action or copying elements back."
+                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws `ArithmeticException` before invoking the action or copying elements back."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -11941,7 +11941,7 @@
               "javadoc_summary": "Flattens a two-dimensional long array into a one-dimensional long array by concatenating its rows in row-major order.",
               "returns": "a one-dimensional array containing all elements from the input array (newly allocated unless `a` is `null` or empty, in which case a shared empty array is returned); empty if `a` is `null`, empty, or has no elements after skipping null/empty sub-arrays.",
               "contract": [
-                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws ArithmeticException before allocating the result array."
+                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws `ArithmeticException` before allocating the result array."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -11981,7 +11981,7 @@
               "javadoc_summary": "Flattens a three-dimensional long array into a one-dimensional long array by concatenating its elements in row-major order.",
               "returns": "a one-dimensional array containing all elements from the input array (newly allocated unless `a` is `null` or empty, in which case a shared empty array is returned); empty if `a` is `null`, empty, or has no elements after skipping null/empty sub-arrays.",
               "contract": [
-                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws ArithmeticException before allocating the result array."
+                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws `ArithmeticException` before allocating the result array."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -12050,7 +12050,7 @@
                 "Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.",
                 "If the action replaces nested arrays through another reference to `a`, their new structure determines where the flat elements are copied.",
                 "If the updated rows need fewer elements, the unused suffix of the flat array is discarded.",
-                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws ArithmeticException before invoking the action or copying elements back."
+                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws `ArithmeticException` before invoking the action or copying elements back."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -12119,7 +12119,7 @@
                 "Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.",
                 "If the action replaces nested arrays through another reference to `a`, their new structure determines where the flat elements are copied.",
                 "If the updated rows need fewer elements, the unused suffix of the flat array is discarded.",
-                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws ArithmeticException before invoking the action or copying elements back."
+                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws `ArithmeticException` before invoking the action or copying elements back."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -13663,7 +13663,7 @@
               "javadoc_summary": "Flattens a two-dimensional float array into a one-dimensional float array.",
               "returns": "a one-dimensional array containing all elements from the input array (newly allocated unless `a` is `null` or empty, in which case a shared empty array is returned); empty if `a` is `null`, empty, or has no elements after skipping null/empty sub-arrays.",
               "contract": [
-                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws ArithmeticException before allocating the result array."
+                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws `ArithmeticException` before allocating the result array."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -13703,7 +13703,7 @@
               "javadoc_summary": "Flattens a three-dimensional float array into a one-dimensional float array.",
               "returns": "a one-dimensional array containing all elements from the input array (newly allocated unless `a` is `null` or empty, in which case a shared empty array is returned); empty if `a` is `null`, empty, or has no elements after skipping null/empty sub-arrays.",
               "contract": [
-                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws ArithmeticException before allocating the result array."
+                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws `ArithmeticException` before allocating the result array."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -13772,7 +13772,7 @@
                 "Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.",
                 "If the action replaces nested arrays through another reference to `a`, their new structure determines where the flat elements are copied.",
                 "If the updated rows need fewer elements, the unused suffix of the flat array is discarded.",
-                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws ArithmeticException before invoking the action or copying elements back."
+                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws `ArithmeticException` before invoking the action or copying elements back."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -13841,7 +13841,7 @@
                 "Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.",
                 "If the action replaces nested arrays through another reference to `a`, their new structure determines where the flat elements are copied.",
                 "If the updated rows need fewer elements, the unused suffix of the flat array is discarded.",
-                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws ArithmeticException before invoking the action or copying elements back."
+                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws `ArithmeticException` before invoking the action or copying elements back."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -15385,7 +15385,7 @@
               "javadoc_summary": "Flattens a two-dimensional array into a one-dimensional array by concatenating its rows.",
               "returns": "a one-dimensional array containing all elements from the input array (newly allocated unless `a` is `null` or empty, in which case a shared empty array is returned); empty if `a` is `null`, empty, or has no elements after skipping null/empty sub-arrays.",
               "contract": [
-                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws ArithmeticException before allocating the result array."
+                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws `ArithmeticException` before allocating the result array."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -15425,7 +15425,7 @@
               "javadoc_summary": "Flattens a three-dimensional array into a one-dimensional array by concatenating its elements in row-major order.",
               "returns": "a one-dimensional array containing all elements from the input array (newly allocated unless `a` is `null` or empty, in which case a shared empty array is returned); empty if `a` is `null`, empty, or has no elements after skipping null/empty sub-arrays.",
               "contract": [
-                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws ArithmeticException before allocating the result array."
+                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws `ArithmeticException` before allocating the result array."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -15494,7 +15494,7 @@
                 "Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.",
                 "If the action replaces nested arrays through another reference to `a`, their new structure determines where the flat elements are copied.",
                 "If the updated rows need fewer elements, the unused suffix of the flat array is discarded.",
-                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws ArithmeticException before invoking the action or copying elements back."
+                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws `ArithmeticException` before invoking the action or copying elements back."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -15563,7 +15563,7 @@
                 "Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.",
                 "If the action replaces nested arrays through another reference to `a`, their new structure determines where the flat elements are copied.",
                 "If the updated rows need fewer elements, the unused suffix of the flat array is discarded.",
-                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws ArithmeticException before invoking the action or copying elements back."
+                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws `ArithmeticException` before invoking the action or copying elements back."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -17604,7 +17604,7 @@
                 }
               ],
               "throws": [],
-              "javadoc_summary": "Converts a two-dimensional array of floats to a two-dimensional array of integers by narrowing each value with a Java `(int)` cast (the fractional part is discarded; `NaN` becomes `0`; out-of-range values saturate to Integer#MAX_VALUE or Integer#MIN_VALUE).",
+              "javadoc_summary": "Converts a two-dimensional array of floats to a two-dimensional array of integers by narrowing each value with a Java `(int)` cast (the fractional part is discarded; `NaN` becomes `0`; out-of-range values saturate to `Integer#MAX_VALUE` or `Integer#MIN_VALUE`).",
               "returns": "a new two-dimensional `int` array, or an empty array if the input is `null` or empty.",
               "contract": [],
               "api_notes": [],
@@ -17637,7 +17637,7 @@
                 }
               ],
               "throws": [],
-              "javadoc_summary": "Converts a three-dimensional array of floats to a three-dimensional array of integers by narrowing each value with a Java `(int)` cast (the fractional part is discarded; `NaN` becomes `0`; out-of-range values saturate to Integer#MAX_VALUE or Integer#MIN_VALUE).",
+              "javadoc_summary": "Converts a three-dimensional array of floats to a three-dimensional array of integers by narrowing each value with a Java `(int)` cast (the fractional part is discarded; `NaN` becomes `0`; out-of-range values saturate to `Integer#MAX_VALUE` or `Integer#MIN_VALUE`).",
               "returns": "a new three-dimensional `int` array, or an empty array if the input is `null` or empty.",
               "contract": [],
               "api_notes": [],
@@ -17704,7 +17704,7 @@
                 }
               ],
               "throws": [],
-              "javadoc_summary": "Converts a two-dimensional array of doubles to a two-dimensional array of integers by narrowing each value with a Java `(int)` cast (the fractional part is discarded; `NaN` becomes `0`; out-of-range values saturate to Integer#MAX_VALUE or Integer#MIN_VALUE).",
+              "javadoc_summary": "Converts a two-dimensional array of doubles to a two-dimensional array of integers by narrowing each value with a Java `(int)` cast (the fractional part is discarded; `NaN` becomes `0`; out-of-range values saturate to `Integer#MAX_VALUE` or `Integer#MIN_VALUE`).",
               "returns": "a new two-dimensional `int` array, or an empty array if the input is `null` or empty.",
               "contract": [],
               "api_notes": [],
@@ -17737,7 +17737,7 @@
                 }
               ],
               "throws": [],
-              "javadoc_summary": "Converts a three-dimensional array of doubles to a three-dimensional array of integers by narrowing each value with a Java `(int)` cast (the fractional part is discarded; `NaN` becomes `0`; out-of-range values saturate to Integer#MAX_VALUE or Integer#MIN_VALUE).",
+              "javadoc_summary": "Converts a three-dimensional array of doubles to a three-dimensional array of integers by narrowing each value with a Java `(int)` cast (the fractional part is discarded; `NaN` becomes `0`; out-of-range values saturate to `Integer#MAX_VALUE` or `Integer#MIN_VALUE`).",
               "returns": "a new three-dimensional `int` array, or an empty array if the input is `null` or empty.",
               "contract": [],
               "api_notes": [],
@@ -19921,7 +19921,7 @@
                 }
               ],
               "javadoc_summary": "Reshapes a one-dimensional array into a two-dimensional array with the specified number of columns.",
-              "returns": "a new two-dimensional array with the specified column structure. Its innermost element type is the runtime component type of `a`, which may be narrower than `T`; storing a value there that is not assignable to that type throws ArrayStoreException.",
+              "returns": "a new two-dimensional array with the specified column structure. Its innermost element type is the runtime component type of `a`, which may be narrower than `T`; storing a value there that is not assignable to that type throws `ArrayStoreException`.",
               "contract": [
                 "If the array length is not evenly divisible by the column count, the last row will contain fewer elements than specified columns."
               ],
@@ -19971,9 +19971,9 @@
                 }
               ],
               "javadoc_summary": "Flattens a two-dimensional array into a one-dimensional array by concatenating all sub-arrays.",
-              "returns": "a one-dimensional array containing all elements from the input array, newly allocated unless it is empty (an empty result may be a shared zero-length array, for example when the component type is `Object`, `String`, or a primitive wrapper). Its component type is obtained by removing two array dimensions from the runtime type of `a`; any additional dimensions belonging to `T` remain intact. This type may be narrower than `T`; storing an incompatible value in the result throws ArrayStoreException.",
+              "returns": "a one-dimensional array containing all elements from the input array, newly allocated unless it is empty (an empty result may be a shared zero-length array, for example when the component type is `Object`, `String`, or a primitive wrapper). Its component type is obtained by removing two array dimensions from the runtime type of `a`; any additional dimensions belonging to `T` remain intact. This type may be narrower than `T`; storing an incompatible value in the result throws `ArrayStoreException`.",
               "contract": [
-                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws ArithmeticException before allocating the result array."
+                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws `ArithmeticException` before allocating the result array."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -20051,7 +20051,7 @@
                 "Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.",
                 "If the action replaces nested arrays through another reference to `a`, their new structure determines where the flat elements are copied.",
                 "If the updated rows need fewer elements, the unused suffix of the flat array is discarded.",
-                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws ArithmeticException before invoking the action or copying elements back."
+                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws `ArithmeticException` before invoking the action or copying elements back."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -21763,7 +21763,7 @@
                 }
               ],
               "javadoc_summary": "Reshapes a one-dimensional array into a three-dimensional array with the specified dimensions.",
-              "returns": "a new three-dimensional array containing all elements from the input. Its innermost element type is the runtime component type of `a`, which may be narrower than `T`; storing a value there that is not assignable to that type throws ArrayStoreException.",
+              "returns": "a new three-dimensional array containing all elements from the input. Its innermost element type is the runtime component type of `a`, which may be narrower than `T`; storing a value there that is not assignable to that type throws `ArrayStoreException`.",
               "contract": [
                 "The last slice may be incomplete if the array length is not evenly divisible by rowCount × columnCount."
               ],
@@ -21813,9 +21813,9 @@
                 }
               ],
               "javadoc_summary": "Flattens a three-dimensional array into a one-dimensional array by concatenating all elements in row-major order, preserving the order of elements as they appear in the original structure.",
-              "returns": "a one-dimensional array containing all elements in order, newly allocated unless it is empty (an empty result may be a shared zero-length array, for example when the component type is `Object`, `String`, or a primitive wrapper). Its component type is obtained by removing three array dimensions from the runtime type of `a`; any additional dimensions belonging to `T` remain intact. This type may be narrower than `T`; storing an incompatible value in the result throws ArrayStoreException.",
+              "returns": "a one-dimensional array containing all elements in order, newly allocated unless it is empty (an empty result may be a shared zero-length array, for example when the component type is `Object`, `String`, or a primitive wrapper). Its component type is obtained by removing three array dimensions from the runtime type of `a`; any additional dimensions belonging to `T` remain intact. This type may be narrower than `T`; storing an incompatible value in the result throws `ArrayStoreException`.",
               "contract": [
-                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws ArithmeticException before allocating the result array."
+                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws `ArithmeticException` before allocating the result array."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -21893,7 +21893,7 @@
                 "Rows are copied back in index order; if multiple positions reference the same row, the last copy wins.",
                 "If the action replaces nested arrays through another reference to `a`, their new structure determines where the flat elements are copied.",
                 "If the updated rows need fewer elements, the unused suffix of the flat array is discarded.",
-                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws ArithmeticException before invoking the action or copying elements back."
+                "⚠️ Size limit: If the logical element count exceeds `Integer.MAX_VALUE`, this method throws `ArithmeticException` before invoking the action or copying elements back."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -24275,7 +24275,7 @@
               "params": [],
               "throws": [],
               "javadoc_summary": "Returns a hash code value for this tuple.",
-              "returns": "`1231` if `_1` is `true`, `1237` otherwise (the same values used by Boolean#hashCode(boolean))",
+              "returns": "`1231` if `_1` is `true`, `1237` otherwise (the same values used by `Boolean#hashCode(boolean)`)",
               "contract": [],
               "api_notes": [],
               "implementation_notes": [],
@@ -24705,7 +24705,7 @@
                   "condition": "if `predicate` throws while testing this tuple's elements"
                 }
               ],
-              "javadoc_summary": "Returns an Optional containing this pair if `predicate` holds for (`_1`, `_2`); otherwise Optional#empty().",
+              "javadoc_summary": "Returns an `Optional` containing this pair if `predicate` holds for (`_1`, `_2`); otherwise `Optional#empty()`.",
               "returns": "an Optional containing this tuple if the predicate returns `true`, empty Optional otherwise",
               "contract": [],
               "api_notes": [],
@@ -25122,7 +25122,7 @@
                   "condition": "if `predicate` throws while testing this tuple's elements"
                 }
               ],
-              "javadoc_summary": "Returns an Optional containing this triple if `predicate` holds for (`_1`, `_2`, `_3`); otherwise Optional#empty().",
+              "javadoc_summary": "Returns an `Optional` containing this triple if `predicate` holds for (`_1`, `_2`, `_3`); otherwise `Optional#empty()`.",
               "returns": "an Optional containing this tuple if the predicate returns `true`, empty Optional otherwise",
               "contract": [],
               "api_notes": [],
@@ -27841,7 +27841,7 @@
               "contract": [
                 "For an odd arity, this is the middle value when sorted.",
                 "For an even arity, this is the lower of the two middle values when sorted (not their average).",
-                "Prefer #median() when you need the conventional statistical median as a `double`."
+                "Prefer `#median()` when you need the conventional statistical median as a `double`."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -28018,7 +28018,7 @@
               "type_params": [],
               "params": [],
               "throws": [],
-              "javadoc_summary": "Returns a sequential ByteStream of this tuple's elements in order.",
+              "javadoc_summary": "Returns a sequential `ByteStream` of this tuple's elements in order.",
               "returns": "a sequential `ByteStream` of the elements in order",
               "contract": [],
               "api_notes": [],
@@ -28077,7 +28077,7 @@
               "javadoc_summary": "Compares this tuple to the specified object for equality.",
               "returns": "`true` if the specified object is equal to this tuple, `false` otherwise",
               "contract": [
-                "Two tuples are considered equal if and only if: They are the same object (reference equality), or They are instances of the exact same runtime class (so tuples of different arity are never equal), and They contain the same byte values in the same order This method is consistent with #hashCode()."
+                "Two tuples are considered equal if and only if: They are the same object (reference equality), or They are instances of the exact same runtime class (so tuples of different arity are never equal), and They contain the same byte values in the same order This method is consistent with `#hashCode()`."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -28903,7 +28903,7 @@
                   "condition": "if `predicate` throws when testing this tuple's elements"
                 }
               ],
-              "javadoc_summary": "Returns an Optional containing this pair if `predicate` holds for (`_1`, `_2`); otherwise Optional#empty().",
+              "javadoc_summary": "Returns an `Optional` containing this pair if `predicate` holds for (`_1`, `_2`); otherwise `Optional#empty()`.",
               "returns": "an Optional containing this tuple if the predicate returns `true`, empty Optional otherwise",
               "contract": [],
               "api_notes": [],
@@ -29460,7 +29460,7 @@
                   "condition": "if `predicate` throws when testing this tuple's elements"
                 }
               ],
-              "javadoc_summary": "Returns an Optional containing this triple if `predicate` holds for (`_1`, `_2`, `_3`); otherwise Optional#empty().",
+              "javadoc_summary": "Returns an `Optional` containing this triple if `predicate` holds for (`_1`, `_2`, `_3`); otherwise `Optional#empty()`.",
               "returns": "an Optional containing this tuple if the predicate returns `true`, empty Optional otherwise",
               "contract": [],
               "api_notes": [],
@@ -33699,7 +33699,7 @@
                   "condition": "if `predicate` throws while testing this tuple's elements"
                 }
               ],
-              "javadoc_summary": "Returns an Optional containing this pair if `predicate` holds for (`_1`, `_2`); otherwise Optional#empty().",
+              "javadoc_summary": "Returns an `Optional` containing this pair if `predicate` holds for (`_1`, `_2`); otherwise `Optional#empty()`.",
               "returns": "an Optional containing this tuple if the predicate returns `true`, empty Optional otherwise",
               "contract": [],
               "api_notes": [],
@@ -34226,7 +34226,7 @@
                   "condition": "if `predicate` throws while testing this tuple's elements"
                 }
               ],
-              "javadoc_summary": "Returns an Optional containing this triple if `predicate` holds for (`_1`, `_2`, `_3`); otherwise Optional#empty().",
+              "javadoc_summary": "Returns an `Optional` containing this triple if `predicate` holds for (`_1`, `_2`, `_3`); otherwise `Optional#empty()`.",
               "returns": "an Optional containing this tuple if the predicate returns `true`, empty Optional otherwise",
               "contract": [],
               "api_notes": [],
@@ -37727,7 +37727,7 @@
               "javadoc_summary": "Compares this tuple to the specified object for equality.",
               "returns": "`true` if the specified object is equal to this tuple, `false` otherwise",
               "contract": [
-                "Two tuples are considered equal if and only if: They are of the exact same runtime class (e.g., both `DoubleTuple.DoubleTuple2`); a `DoubleTuple1` is never equal to a `DoubleTuple2`, regardless of element values They contain the same elements in the same order Element comparisons follow Double#compare(double, double) semantics: `NaN` is treated as equal to `NaN`, and `+0.0` is not equal to `-0.0`."
+                "Two tuples are considered equal if and only if: They are of the exact same runtime class (e.g., both `DoubleTuple.DoubleTuple2`); a `DoubleTuple1` is never equal to a `DoubleTuple2`, regardless of element values They contain the same elements in the same order Element comparisons follow `Double#compare(double, double)` semantics: `NaN` is treated as equal to `NaN`, and `+0.0` is not equal to `-0.0`."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -38312,8 +38312,8 @@
               "type_params": [],
               "params": [],
               "throws": [],
-              "javadoc_summary": "Returns the lower median of this pair: the smaller of the two values under Double#compare(double, double).",
-              "returns": "the lower of `_1` and `_2` according to Double#compare(double, double)",
+              "javadoc_summary": "Returns the lower median of this pair: the smaller of the two values under `Double#compare(double, double)`.",
+              "returns": "the lower of `_1` and `_2` according to `Double#compare(double, double)`",
               "contract": [],
               "api_notes": [],
               "implementation_notes": [],
@@ -38560,7 +38560,7 @@
                   "condition": "if `predicate` throws while testing this tuple's elements"
                 }
               ],
-              "javadoc_summary": "Returns an Optional containing this pair if `predicate` holds for (`_1`, `_2`); otherwise Optional#empty().",
+              "javadoc_summary": "Returns an `Optional` containing this pair if `predicate` holds for (`_1`, `_2`); otherwise `Optional#empty()`.",
               "returns": "an Optional containing this tuple if the predicate returns `true`, empty Optional otherwise",
               "contract": [],
               "api_notes": [],
@@ -38875,7 +38875,7 @@
               "type_params": [],
               "params": [],
               "throws": [],
-              "javadoc_summary": "Returns the lower median of this triple: the middle value under Double#compare(double, double) ordering.",
+              "javadoc_summary": "Returns the lower median of this triple: the middle value under `Double#compare(double, double)` ordering.",
               "returns": "the middle value when the three elements are sorted",
               "contract": [],
               "api_notes": [],
@@ -39123,7 +39123,7 @@
                   "condition": "if `predicate` throws while testing this tuple's elements"
                 }
               ],
-              "javadoc_summary": "Returns an Optional containing this triple if `predicate` holds for (`_1`, `_2`, `_3`); otherwise Optional#empty().",
+              "javadoc_summary": "Returns an `Optional` containing this triple if `predicate` holds for (`_1`, `_2`, `_3`); otherwise `Optional#empty()`.",
               "returns": "an Optional containing this tuple if the predicate returns `true`, empty Optional otherwise",
               "contract": [],
               "api_notes": [],
@@ -42642,7 +42642,7 @@
               "javadoc_summary": "Compares this tuple to the specified object for equality.",
               "returns": "`true` if the specified object is equal to this tuple, `false` otherwise",
               "contract": [
-                "Two tuples are considered equal if and only if: They are of the exact same runtime class (e.g., both `FloatTuple.FloatTuple2`); a `FloatTuple1` is never equal to a `FloatTuple2`, regardless of element values They contain the same elements in the same order Element comparisons follow Float#compare(float, float) semantics: `NaN` is treated as equal to `NaN`, and `+0.0f` is not equal to `-0.0f`."
+                "Two tuples are considered equal if and only if: They are of the exact same runtime class (e.g., both `FloatTuple.FloatTuple2`); a `FloatTuple1` is never equal to a `FloatTuple2`, regardless of element values They contain the same elements in the same order Element comparisons follow `Float#compare(float, float)` semantics: `NaN` is treated as equal to `NaN`, and `+0.0f` is not equal to `-0.0f`."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -43226,8 +43226,8 @@
               "type_params": [],
               "params": [],
               "throws": [],
-              "javadoc_summary": "Returns the lower median of this pair: the smaller of the two values under Float#compare(float, float).",
-              "returns": "the lower of `_1` and `_2` according to Float#compare(float, float)",
+              "javadoc_summary": "Returns the lower median of this pair: the smaller of the two values under `Float#compare(float, float)`.",
+              "returns": "the lower of `_1` and `_2` according to `Float#compare(float, float)`",
               "contract": [],
               "api_notes": [],
               "implementation_notes": [],
@@ -43474,7 +43474,7 @@
                   "condition": "if `predicate` throws while testing this tuple's elements"
                 }
               ],
-              "javadoc_summary": "Returns an Optional containing this pair if `predicate` holds for (`_1`, `_2`); otherwise Optional#empty().",
+              "javadoc_summary": "Returns an `Optional` containing this pair if `predicate` holds for (`_1`, `_2`); otherwise `Optional#empty()`.",
               "returns": "an Optional containing this tuple if the predicate returns `true`, empty Optional otherwise",
               "contract": [],
               "api_notes": [],
@@ -43789,7 +43789,7 @@
               "type_params": [],
               "params": [],
               "throws": [],
-              "javadoc_summary": "Returns the lower median of this triple: the middle value under Float#compare(float, float) ordering.",
+              "javadoc_summary": "Returns the lower median of this triple: the middle value under `Float#compare(float, float)` ordering.",
               "returns": "the middle value when the three elements are sorted",
               "contract": [],
               "api_notes": [],
@@ -44037,7 +44037,7 @@
                   "condition": "if `predicate` throws while testing this tuple's elements"
                 }
               ],
-              "javadoc_summary": "Returns an Optional containing this triple if `predicate` holds for (`_1`, `_2`, `_3`); otherwise Optional#empty().",
+              "javadoc_summary": "Returns an `Optional` containing this triple if `predicate` holds for (`_1`, `_2`, `_3`); otherwise `Optional#empty()`.",
               "returns": "an Optional containing this tuple if the predicate returns `true`, empty Optional otherwise",
               "contract": [],
               "api_notes": [],
@@ -46607,8 +46607,8 @@
               "returns": "an ImmutableIntArray backed directly by the provided array, or an empty ImmutableIntArray if the input is `null`",
               "contract": [
                 "For true immutability, the caller must not modify the original array after passing it to this method.",
-                "If the source array might be modified externally, use #copyOf(int[]) instead.",
-                "This method is more efficient than #copyOf(int[]) when you know the array will not be modified, as it avoids the overhead of array copying."
+                "If the source array might be modified externally, use `#copyOf(int[])` instead.",
+                "This method is more efficient than `#copyOf(int[])` when you know the array will not be modified, as it avoids the overhead of array copying."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -46812,7 +46812,7 @@
               "javadoc_summary": "Returns the sum of all elements in this array as an `int`.",
               "returns": "the sum of all elements in this array as an `int`, or `0` if empty",
               "contract": [
-                "An ArithmeticException is thrown only if the final sum is outside the `int` range."
+                "An `ArithmeticException` is thrown only if the final sum is outside the `int` range."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -46840,7 +46840,7 @@
               "javadoc_summary": "Returns the arithmetic mean of all elements in this array as an `OptionalDouble`.",
               "returns": "the average of all elements in this array as an `OptionalDouble`, or an empty `OptionalDouble` if empty",
               "contract": [
-                "Unlike #sum(), this method still returns a mean when the final sum exceeds the `int` range: the total is accumulated exactly in a `long`, and the result is the `double` nearest to the true mean, even when the total exceeds 253 in magnitude."
+                "Unlike `#sum()`, this method still returns a mean when the final sum exceeds the `int` range: the total is accumulated exactly in a `long`, and the result is the `double` nearest to the true mean, even when the total exceeds 253 in magnitude."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -47002,8 +47002,8 @@
               "javadoc_summary": "Returns an IntStream containing all elements of this ImmutableIntArray.",
               "returns": "an IntStream containing all elements of this ImmutableIntArray in order",
               "contract": [
-                "When this wrapper was created via #unsafeWrap(int[]), the backing array is the caller-supplied array, so mutations before or during stream traversal can be observable through the returned stream.",
-                "Use #copyOf(int[]) to build the wrapper from a defensive copy if you require full isolation from the original source array."
+                "When this wrapper was created via `#unsafeWrap(int[])`, the backing array is the caller-supplied array, so mutations before or during stream traversal can be observable through the returned stream.",
+                "Use `#copyOf(int[])` to build the wrapper from a defensive copy if you require full isolation from the original source array."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -47113,7 +47113,7 @@
               "javadoc_summary": "Returns a hash code value for this ImmutableIntArray.",
               "returns": "a hash code value for this ImmutableIntArray based on its contents",
               "contract": [
-                "This method satisfies the general contract of Object#hashCode(): if two ImmutableIntArray instances are equal according to #equals(Object), then calling this method on each will produce the same integer result."
+                "This method satisfies the general contract of `Object#hashCode()`: if two ImmutableIntArray instances are equal according to `#equals(Object)`, then calling this method on each will produce the same integer result."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -47148,8 +47148,8 @@
               "returns": "`true` if the specified object is an ImmutableIntArray with the same elements in the same order; `false` otherwise",
               "contract": [
                 "Returns `true` if and only if the specified object is also an ImmutableIntArray and both arrays contain the same elements in the same order.",
-                "Two ImmutableIntArray instances are considered equal if: They have the same length For every index `i`, `this.get(i) == other.get(i)` Usage Examples: ⚠️ Shared backing: equality is decided by the current contents, so two instances created by #unsafeWrap(int[]) can start out equal and stop being equal if a caller mutates either wrapped array.",
-                "Use #copyOf(int[]) when equality must be stable."
+                "Two ImmutableIntArray instances are considered equal if: They have the same length For every index `i`, `this.get(i) == other.get(i)` Usage Examples: ⚠️ Shared backing: equality is decided by the current contents, so two instances created by `#unsafeWrap(int[])` can start out equal and stop being equal if a caller mutates either wrapped array.",
+                "Use `#copyOf(int[])` when equality must be stable."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -47855,7 +47855,7 @@
               "javadoc_summary": "Returns the sum of all int values in this tuple as an `int`.",
               "returns": "the sum of all int values in this tuple as an `int`; `0` for an empty tuple",
               "contract": [
-                "The summation is performed in `long` precision and then narrowed back to `int`; if the true total does not fit in an `int`, an ArithmeticException is thrown rather than the result silently wrapping around."
+                "The summation is performed in `long` precision and then narrowed back to `int`; if the true total does not fit in an `int`, an `ArithmeticException` is thrown rather than the result silently wrapping around."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -47883,7 +47883,7 @@
               "returns": "the arithmetic mean of all int values in this tuple as an `OptionalDouble`, or an empty `OptionalDouble` if this tuple is empty",
               "contract": [
                 "The mean uses `double` precision to retain fractional values; the returned `OptionalDouble` is empty if this tuple has no elements.",
-                "The total is accumulated exactly in a `long` before division, so this method succeeds even when #sum() throws because the total exceeds the `int` range."
+                "The total is accumulated exactly in a `long` before division, so this method succeeds even when `#sum()` throws because the total exceeds the `int` range."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -47947,7 +47947,7 @@
               "contract": [
                 "For an odd arity, this is the middle value when sorted.",
                 "For an even arity, this is the lower of the two middle values when sorted (not their average).",
-                "Prefer #median() when you need the conventional statistical median as a `double`."
+                "Prefer `#median()` when you need the conventional statistical median as a `double`."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -49014,7 +49014,7 @@
                   "condition": "if `predicate` throws when testing this tuple's elements"
                 }
               ],
-              "javadoc_summary": "Returns an Optional containing this pair if `predicate` holds for (`_1`, `_2`); otherwise Optional#empty().",
+              "javadoc_summary": "Returns an `Optional` containing this pair if `predicate` holds for (`_1`, `_2`); otherwise `Optional#empty()`.",
               "returns": "an Optional containing this tuple if the predicate returns `true`, empty Optional otherwise",
               "contract": [],
               "api_notes": [],
@@ -49041,7 +49041,7 @@
               "params": [],
               "throws": [],
               "javadoc_summary": "Returns a hash code value for this tuple.",
-              "returns": "a content-based hash code consistent with #equals(Object)",
+              "returns": "a content-based hash code consistent with `#equals(Object)`",
               "contract": [],
               "api_notes": [],
               "implementation_notes": [],
@@ -49574,7 +49574,7 @@
                   "condition": "if `predicate` throws when testing this tuple's elements"
                 }
               ],
-              "javadoc_summary": "Returns an Optional containing this triple if `predicate` holds for (`_1`, `_2`, `_3`); otherwise Optional#empty().",
+              "javadoc_summary": "Returns an `Optional` containing this triple if `predicate` holds for (`_1`, `_2`, `_3`); otherwise `Optional#empty()`.",
               "returns": "an Optional containing this tuple if the predicate returns `true`, empty Optional otherwise",
               "contract": [],
               "api_notes": [],
@@ -49601,7 +49601,7 @@
               "params": [],
               "throws": [],
               "javadoc_summary": "Returns a hash code value for this tuple.",
-              "returns": "a content-based hash code consistent with #equals(Object)",
+              "returns": "a content-based hash code consistent with `#equals(Object)`",
               "contract": [],
               "api_notes": [],
               "implementation_notes": [],
@@ -49965,7 +49965,7 @@
               "params": [],
               "throws": [],
               "javadoc_summary": "Returns a hash code value for this tuple.",
-              "returns": "a content-based hash code consistent with #equals(Object)",
+              "returns": "a content-based hash code consistent with `#equals(Object)`",
               "contract": [],
               "api_notes": [],
               "implementation_notes": [],
@@ -50340,7 +50340,7 @@
               "params": [],
               "throws": [],
               "javadoc_summary": "Returns a hash code value for this tuple.",
-              "returns": "a content-based hash code consistent with #equals(Object)",
+              "returns": "a content-based hash code consistent with `#equals(Object)`",
               "contract": [],
               "api_notes": [],
               "implementation_notes": [],
@@ -50724,7 +50724,7 @@
               "params": [],
               "throws": [],
               "javadoc_summary": "Returns a hash code value for this tuple.",
-              "returns": "a content-based hash code consistent with #equals(Object)",
+              "returns": "a content-based hash code consistent with `#equals(Object)`",
               "contract": [],
               "api_notes": [],
               "implementation_notes": [],
@@ -51117,7 +51117,7 @@
               "params": [],
               "throws": [],
               "javadoc_summary": "Returns a hash code value for this tuple.",
-              "returns": "a content-based hash code consistent with #equals(Object)",
+              "returns": "a content-based hash code consistent with `#equals(Object)`",
               "contract": [],
               "api_notes": [],
               "implementation_notes": [],
@@ -51524,7 +51524,7 @@
               "params": [],
               "throws": [],
               "javadoc_summary": "Returns a hash code value for this tuple.",
-              "returns": "a content-based hash code consistent with #equals(Object)",
+              "returns": "a content-based hash code consistent with `#equals(Object)`",
               "contract": [],
               "api_notes": [],
               "implementation_notes": [],
@@ -51940,7 +51940,7 @@
               "params": [],
               "throws": [],
               "javadoc_summary": "Returns a hash code value for this tuple.",
-              "returns": "a content-based hash code consistent with #equals(Object)",
+              "returns": "a content-based hash code consistent with `#equals(Object)`",
               "contract": [],
               "api_notes": [],
               "implementation_notes": [],
@@ -52778,7 +52778,7 @@
               "returns": "the sum of all long values in this tuple as a `long`, or `0L` if empty",
               "contract": [
                 "If the true total exceeds the range of `long`, the result wraps around according to standard two's-complement long arithmetic rather than throwing an exception.",
-                "Contrast with IntTuple#sum(), which sums in `long` precision and throws ArithmeticException if the total does not fit in an `int`."
+                "Contrast with `IntTuple#sum()`, which sums in `long` precision and throws `ArithmeticException` if the total does not fit in an `int`."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -52873,7 +52873,7 @@
               "contract": [
                 "For an odd arity, this is the middle value when sorted.",
                 "For an even arity, this is the lower of the two middle values when sorted (not their average).",
-                "Prefer #median() when you need the conventional statistical median as a `double`."
+                "Prefer `#median()` when you need the conventional statistical median as a `double`."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -53255,7 +53255,7 @@
               "javadoc_summary": "Returns the average of all values in this tuple.",
               "returns": "`(double) _1` wrapped in an `OptionalDouble`",
               "contract": [
-                "Values outside the exact integer range of `double` may be rounded; use `_1` or #lowerMedian() when the exact `long` value is required."
+                "Values outside the exact integer range of `double` may be rounded; use `_1` or `#lowerMedian()` when the exact `long` value is required."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -53649,7 +53649,7 @@
               "javadoc_summary": "Returns the average of the two elements.",
               "returns": "the arithmetic mean of the two values in an `OptionalDouble`, computed without overflowing intermediate `long` addition",
               "contract": [
-                "When `_1 + _2` overflows `long`, the result comes from the quotient/remainder fallback described on LongTuple#average() and can be one ulp from the correctly rounded mean that #median() returns: `LongTuple.of(Long.MAX_VALUE, 1026L)` has `average()` `4.611686018427388E18` but `median()` `4.611686018427389E18`."
+                "When `_1 + _2` overflows `long`, the result comes from the quotient/remainder fallback described on `LongTuple#average()` and can be one ulp from the correctly rounded mean that `#median()` returns: `LongTuple.of(Long.MAX_VALUE, 1026L)` has `average()` `4.611686018427388E18` but `median()` `4.611686018427389E18`."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -53942,7 +53942,7 @@
                   "condition": "if `predicate` throws when testing this tuple's elements"
                 }
               ],
-              "javadoc_summary": "Returns an Optional containing this pair if `predicate` holds for (`_1`, `_2`); otherwise Optional#empty().",
+              "javadoc_summary": "Returns an `Optional` containing this pair if `predicate` holds for (`_1`, `_2`); otherwise `Optional#empty()`.",
               "returns": "an Optional containing this tuple if the predicate returns `true`, empty Optional otherwise",
               "contract": [],
               "api_notes": [],
@@ -53969,7 +53969,7 @@
               "params": [],
               "throws": [],
               "javadoc_summary": "Returns a hash code value for this tuple.",
-              "returns": "a content-based hash code consistent with #equals(Object)",
+              "returns": "a content-based hash code consistent with `#equals(Object)`",
               "contract": [],
               "api_notes": [],
               "implementation_notes": [],
@@ -54204,7 +54204,7 @@
               "javadoc_summary": "Returns the average of all three elements.",
               "returns": "the arithmetic mean of the three values in an `OptionalDouble`, computed without overflowing intermediate `long` addition",
               "contract": [
-                "The result can differ from the correctly rounded mean only when the total exceeds 253 in magnitude or a running left-to-right sum overflows `long`; see LongTuple#average()."
+                "The result can differ from the correctly rounded mean only when the total exceeds 253 in magnitude or a running left-to-right sum overflows `long`; see `LongTuple#average()`."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -54499,7 +54499,7 @@
                   "condition": "if `predicate` throws when testing this tuple's elements"
                 }
               ],
-              "javadoc_summary": "Returns an Optional containing this triple if `predicate` holds for (`_1`, `_2`, `_3`); otherwise Optional#empty().",
+              "javadoc_summary": "Returns an `Optional` containing this triple if `predicate` holds for (`_1`, `_2`, `_3`); otherwise `Optional#empty()`.",
               "returns": "an Optional containing this tuple if the predicate returns `true`, empty Optional otherwise",
               "contract": [],
               "api_notes": [],
@@ -54526,7 +54526,7 @@
               "params": [],
               "throws": [],
               "javadoc_summary": "Returns a hash code value for this tuple.",
-              "returns": "a content-based hash code consistent with #equals(Object)",
+              "returns": "a content-based hash code consistent with `#equals(Object)`",
               "contract": [],
               "api_notes": [],
               "implementation_notes": [],
@@ -54770,7 +54770,7 @@
               "javadoc_summary": "Returns the average of all four elements.",
               "returns": "the arithmetic mean of the four values in an `OptionalDouble`, computed without overflowing intermediate `long` addition",
               "contract": [
-                "Because the arity is a power of two, the result is the correctly rounded mean, even when the total exceeds 253 in magnitude, unless a running left-to-right sum overflows `long`; see LongTuple#average()."
+                "Because the arity is a power of two, the result is the correctly rounded mean, even when the total exceeds 253 in magnitude, unless a running left-to-right sum overflows `long`; see `LongTuple#average()`."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -54886,7 +54886,7 @@
               "type_params": [],
               "params": [],
               "throws": [],
-              "javadoc_summary": "Returns a content-based hash code value for this tuple, consistent with #equals(Object).",
+              "javadoc_summary": "Returns a content-based hash code value for this tuple, consistent with `#equals(Object)`.",
               "returns": "a hash code based on all four elements",
               "contract": [],
               "api_notes": [],
@@ -55142,7 +55142,7 @@
               "javadoc_summary": "Returns the average of all five elements.",
               "returns": "the arithmetic mean of the five values in an `OptionalDouble`, computed without overflowing intermediate `long` addition",
               "contract": [
-                "The result can differ from the correctly rounded mean only when the total exceeds 253 in magnitude or a running left-to-right sum overflows `long`; see LongTuple#average()."
+                "The result can differ from the correctly rounded mean only when the total exceeds 253 in magnitude or a running left-to-right sum overflows `long`; see `LongTuple#average()`."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -55258,7 +55258,7 @@
               "type_params": [],
               "params": [],
               "throws": [],
-              "javadoc_summary": "Returns a content-based hash code value for this tuple, consistent with #equals(Object).",
+              "javadoc_summary": "Returns a content-based hash code value for this tuple, consistent with `#equals(Object)`.",
               "returns": "a hash code based on all five elements",
               "contract": [],
               "api_notes": [],
@@ -55523,7 +55523,7 @@
               "javadoc_summary": "Returns the average of all six elements.",
               "returns": "the arithmetic mean of the six values in an `OptionalDouble`, computed without overflowing intermediate `long` addition",
               "contract": [
-                "The result can differ from the correctly rounded mean only when the total exceeds 253 in magnitude or a running left-to-right sum overflows `long`; see LongTuple#average()."
+                "The result can differ from the correctly rounded mean only when the total exceeds 253 in magnitude or a running left-to-right sum overflows `long`; see `LongTuple#average()`."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -55639,7 +55639,7 @@
               "type_params": [],
               "params": [],
               "throws": [],
-              "javadoc_summary": "Returns a content-based hash code value for this tuple, consistent with #equals(Object).",
+              "javadoc_summary": "Returns a content-based hash code value for this tuple, consistent with `#equals(Object)`.",
               "returns": "a hash code based on all six elements",
               "contract": [],
               "api_notes": [],
@@ -55913,7 +55913,7 @@
               "javadoc_summary": "Returns the average of all seven elements.",
               "returns": "the arithmetic mean of the seven values in an `OptionalDouble`, computed without overflowing intermediate `long` addition",
               "contract": [
-                "The result can differ from the correctly rounded mean only when the total exceeds 253 in magnitude or a running left-to-right sum overflows `long`; see LongTuple#average()."
+                "The result can differ from the correctly rounded mean only when the total exceeds 253 in magnitude or a running left-to-right sum overflows `long`; see `LongTuple#average()`."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -56029,7 +56029,7 @@
               "type_params": [],
               "params": [],
               "throws": [],
-              "javadoc_summary": "Returns a content-based hash code value for this tuple, consistent with #equals(Object).",
+              "javadoc_summary": "Returns a content-based hash code value for this tuple, consistent with `#equals(Object)`.",
               "returns": "a hash code based on all seven elements",
               "contract": [],
               "api_notes": [],
@@ -56317,7 +56317,7 @@
               "javadoc_summary": "Returns the average of all eight elements.",
               "returns": "the arithmetic mean of the eight values in an `OptionalDouble`, computed without overflowing intermediate `long` addition",
               "contract": [
-                "Because the arity is a power of two, the result is the correctly rounded mean, even when the total exceeds 253 in magnitude, unless a running left-to-right sum overflows `long`; see LongTuple#average()."
+                "Because the arity is a power of two, the result is the correctly rounded mean, even when the total exceeds 253 in magnitude, unless a running left-to-right sum overflows `long`; see `LongTuple#average()`."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -56433,7 +56433,7 @@
               "type_params": [],
               "params": [],
               "throws": [],
-              "javadoc_summary": "Returns a content-based hash code value for this tuple, consistent with #equals(Object).",
+              "javadoc_summary": "Returns a content-based hash code value for this tuple, consistent with `#equals(Object)`.",
               "returns": "a hash code based on all eight elements",
               "contract": [],
               "api_notes": [],
@@ -56730,7 +56730,7 @@
               "javadoc_summary": "Returns the average of all nine elements.",
               "returns": "the arithmetic mean of the nine values in an `OptionalDouble`, computed without overflowing intermediate `long` addition",
               "contract": [
-                "The result can differ from the correctly rounded mean only when the total exceeds 253 in magnitude or a running left-to-right sum overflows `long`; see LongTuple#average()."
+                "The result can differ from the correctly rounded mean only when the total exceeds 253 in magnitude or a running left-to-right sum overflows `long`; see `LongTuple#average()`."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -56846,7 +56846,7 @@
               "type_params": [],
               "params": [],
               "throws": [],
-              "javadoc_summary": "Returns a content-based hash code value for this tuple, consistent with #equals(Object).",
+              "javadoc_summary": "Returns a content-based hash code value for this tuple, consistent with `#equals(Object)`.",
               "returns": "a hash code based on all nine elements",
               "contract": [],
               "api_notes": [],
@@ -68411,7 +68411,7 @@
               "contract": [
                 "For an odd arity, this is the middle value when sorted.",
                 "For an even arity, this is the lower of the two middle values when sorted (not their average).",
-                "Prefer #median() when you need the conventional statistical median as a `double`."
+                "Prefer `#median()` when you need the conventional statistical median as a `double`."
               ],
               "api_notes": [],
               "implementation_notes": [],
@@ -68517,7 +68517,7 @@
               "type_params": [],
               "params": [],
               "throws": [],
-              "javadoc_summary": "Returns a new ShortList containing all elements of this tuple.",
+              "javadoc_summary": "Returns a new `ShortList` containing all elements of this tuple.",
               "returns": "a new `ShortList` containing all tuple elements in order",
               "contract": [],
               "api_notes": [],
@@ -68590,7 +68590,7 @@
               "type_params": [],
               "params": [],
               "throws": [],
-              "javadoc_summary": "Returns a ShortStream of all elements in this tuple.",
+              "javadoc_summary": "Returns a `ShortStream` of all elements in this tuple.",
               "returns": "a sequential `ShortStream` containing all tuple elements in order",
               "contract": [],
               "api_notes": [],
@@ -69473,7 +69473,7 @@
                   "condition": "if `predicate` throws when testing this tuple's elements"
                 }
               ],
-              "javadoc_summary": "Returns an Optional containing this pair if `predicate` holds for (`_1`, `_2`); otherwise Optional#empty().",
+              "javadoc_summary": "Returns an `Optional` containing this pair if `predicate` holds for (`_1`, `_2`); otherwise `Optional#empty()`.",
               "returns": "an Optional containing this tuple if the predicate returns `true`, empty Optional otherwise",
               "contract": [],
               "api_notes": [],
@@ -70028,7 +70028,7 @@
                   "condition": "if `predicate` throws when testing this tuple's elements"
                 }
               ],
-              "javadoc_summary": "Returns an Optional containing this triple if `predicate` holds for (`_1`, `_2`, `_3`); otherwise Optional#empty().",
+              "javadoc_summary": "Returns an `Optional` containing this triple if `predicate` holds for (`_1`, `_2`, `_3`); otherwise `Optional#empty()`.",
               "returns": "an Optional containing this tuple if the predicate returns `true`, empty Optional otherwise",
               "contract": [],
               "api_notes": [],
