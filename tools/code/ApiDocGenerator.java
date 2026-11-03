@@ -182,6 +182,9 @@ public final class ApiDocGenerator {
         String threadSafety = "unspecified";
         String nullability = "unspecified";
         List<String> permittedSubtypes = new ArrayList<>();
+        /** Declared supertypes as written in source, with type arguments (an interface's extends clause goes here). */
+        List<String> extendsTypes = new ArrayList<>();
+        List<String> implementsTypes = new ArrayList<>();
         /** Fully-qualified names of direct supertypes (extends + implements), without type arguments. */
         List<String> superTypes = new ArrayList<>();
         List<TypeParamInfo> typeParams = new ArrayList<>();
@@ -240,6 +243,7 @@ public final class ApiDocGenerator {
             "lombok.NoArgsConstructor", "lombok.RequiredArgsConstructor", "lombok.Value", "lombok.experimental.StandardException",
             "lombok.experimental.SuperBuilder", "lombok.experimental.UtilityClass");
 
+    private static final Pattern OVERRIDE_ANNOTATION = Pattern.compile("(?<![\\w.$])@(?:java\\.lang\\.)?Override\\b\\s*");
     private static final Pattern THREAD_SAFE = Pattern.compile("\\bthread(?:-|\\s+)safe\\b");
     private static final Pattern NOT_THREAD_SAFE = Pattern.compile(
             "\\b(?:not|never)\\s+(?:generally\\s+|necessarily\\s+)?thread(?:-|\\s+)safe\\b|\\bnon(?:-|\\s+)thread(?:-|\\s+)safe\\b|\\bnot safe for concurrent\\b");
@@ -427,6 +431,20 @@ public final class ApiDocGenerator {
         type.modifiers = typeModifiers(classTree, parentType);
         type.annotations = readMarkerAnnotations(classTree.getModifiers());
         type.permittedSubtypes = classTree.getPermitsClause().stream().map(Tree::toString).map(ApiDocGenerator::normalize).collect(Collectors.toList());
+        if (classTree.getExtendsClause() != null) {
+            type.extendsTypes.add(normalize(classTree.getExtendsClause().toString()));
+        }
+        // javac reports an interface's "extends" list through getImplementsClause().
+        final List<String> implementedOrExtended = classTree.getImplementsClause()
+                .stream()
+                .map(Tree::toString)
+                .map(ApiDocGenerator::normalize)
+                .collect(Collectors.toList());
+        if (classTree.getKind() == Tree.Kind.INTERFACE || classTree.getKind() == Tree.Kind.ANNOTATION_TYPE) {
+            type.extendsTypes.addAll(implementedOrExtended);
+        } else {
+            type.implementsTypes.addAll(implementedOrExtended);
+        }
         type.typeParams = readTypeParams(classTree.getTypeParameters());
         type.nullability = inferNullability(classTree.getModifiers().getAnnotations(), "");
         type.suppressDefaultConstructor = hasConstructorGeneratingAnnotation(classTree.getModifiers(), unitData);
@@ -1115,7 +1133,7 @@ public final class ApiDocGenerator {
         if (containsTypeDeclaration(value)) {
             return readTreeMethodSignature(methodTree);
         }
-        return normalize(value);
+        return stripOverrideAnnotation(normalize(value));
     }
 
     private static boolean containsTypeDeclaration(final String value) {
@@ -1139,7 +1157,15 @@ public final class ApiDocGenerator {
         if (value.endsWith(";")) {
             value = value.substring(0, value.length() - 1).trim();
         }
-        return normalize(value);
+        return stripOverrideAnnotation(normalize(value));
+    }
+
+    /**
+     * Drops {@code @Override} from a signature: it carries no API information for callers and only
+     * adds noise to hundreds of tuple/array overrides.
+     */
+    private static String stripOverrideAnnotation(final String signature) {
+        return signature == null ? null : normalize(OVERRIDE_ANNOTATION.matcher(signature).replaceAll(""));
     }
 
     private static DocInfo readDoc(final DocTrees docTrees, final TreePath path) {
@@ -1502,33 +1528,45 @@ public final class ApiDocGenerator {
 
     /**
      * Normalizes code extracted from {@code <pre>{@code ...}</pre>} consistently across JDK versions.
-     * Some DocTrees implementations discard the single continuation-line space that older generated
-     * API artifacts retained. Reintroducing that structural space keeps JSON examples stable and
-     * preserves their relative indentation when rendered as Markdown.
+     * Some DocTrees implementations keep the single space that follows each comment-line {@code *}
+     * and some discard it, so the common indentation of all lines is removed instead: every line
+     * starts at column 0 except where the example itself indents (lambda bodies, loops, ...).
+     * A first line written on the same line as {@code {@code} has no comment indentation and is
+     * excluded from the computation.
      */
     private static String normalizeExampleCode(final String body) {
-        if (body == null) {
+        if (body == null || body.isBlank()) {
             return "";
         }
 
-        final String stripped = body.strip();
-        if (stripped.isEmpty()) {
-            return "";
+        final List<String> lines = new ArrayList<>(List.of(body.split("\\R", -1)));
+        final boolean firstLineOnTagLine = !lines.get(0).isBlank();
+        while (lines.get(0).isBlank()) {
+            lines.remove(0);
+        }
+        while (lines.get(lines.size() - 1).isBlank()) {
+            lines.remove(lines.size() - 1);
         }
 
-        final String[] lines = stripped.split("\\R", -1);
-        final StringBuilder result = new StringBuilder(stripped.length() + lines.length);
+        int commonIndent = Integer.MAX_VALUE;
+        for (int i = firstLineOnTagLine ? 1 : 0; i < lines.size(); i++) {
+            final String line = lines.get(i);
+            if (!line.isBlank()) {
+                commonIndent = Math.min(commonIndent, line.length() - line.stripLeading().length());
+            }
+        }
 
-        for (int i = 0; i < lines.length; i++) {
+        final StringBuilder result = new StringBuilder(body.length());
+        for (int i = 0; i < lines.size(); i++) {
+            final String line = lines.get(i);
             if (i > 0) {
                 result.append('\n');
-
-                if (!lines[i].isEmpty()) {
-                    result.append(' ');
-                }
             }
-
-            result.append(lines[i]);
+            if (i == 0 && firstLineOnTagLine) {
+                result.append(line.strip());
+            } else if (!line.isBlank()) {
+                result.append(line.substring(commonIndent).stripTrailing());
+            }
         }
 
         return result.toString();
@@ -2232,6 +2270,12 @@ public final class ApiDocGenerator {
                 if (!t.annotations.isEmpty()) {
                     sb.append("**Annotations:** ").append(md(annotationList(t.annotations))).append('\n');
                 }
+                if (!t.extendsTypes.isEmpty()) {
+                    sb.append("**Extends:** `").append(String.join("`, `", t.extendsTypes)).append("`\n");
+                }
+                if (!t.implementsTypes.isEmpty()) {
+                    sb.append("**Implements:** `").append(String.join("`, `", t.implementsTypes)).append("`\n");
+                }
                 if (!t.permittedSubtypes.isEmpty()) {
                     sb.append("**Permitted subtypes:** ").append(md(String.join(", ", t.permittedSubtypes))).append('\n');
                 }
@@ -2479,6 +2523,8 @@ public final class ApiDocGenerator {
                 }
                 type.put("thread_safety", t.threadSafety);
                 type.put("nullability", t.nullability);
+                type.put("extends", t.extendsTypes);
+                type.put("implements", t.implementsTypes);
                 type.put("permitted_subtypes", t.permittedSubtypes);
                 type.put("type_params", t.typeParams.stream().map(ApiDocGenerator::typeParamJson).collect(Collectors.toList()));
                 type.put("record_components", t.recordComponents.stream().map(ApiDocGenerator::recordComponentJson).collect(Collectors.toList()));
