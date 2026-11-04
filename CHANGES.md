@@ -1,3 +1,6 @@
+## 3.9.1
+* Improvements and bug fixes
+
 ## 3.9.0
 * Improvements and bug fixes
 * `Arrays.println(Object[])` no longer throws `StackOverflowError` for an array that contains itself; cycles print as `[...]`, matching the 2D/3D overloads. Non-array elements, including collections, now print with their own `toString()`, so arrays nested inside a collection are no longer expanded.

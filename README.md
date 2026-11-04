@@ -45,7 +45,7 @@ Use JDK 21 or later. `abacus-common` supplies primitive collections, streams, op
     <dependency>
         <groupId>com.landawn.abacus</groupId>
         <artifactId>abacus-extra</artifactId>
-        <version>3.9.0</version>
+        <version>3.9.1</version>
     </dependency>
 </dependencies>
 ```
@@ -55,13 +55,13 @@ Use JDK 21 or later. `abacus-common` supplies primitive collections, streams, op
 Groovy DSL:
 
 ```groovy
-implementation 'com.landawn.abacus:abacus-extra:3.9.0'
+implementation 'com.landawn.abacus:abacus-extra:3.9.1'
 ```
 
 Kotlin DSL:
 
 ```kotlin
-implementation("com.landawn.abacus:abacus-extra:3.9.0")
+implementation("com.landawn.abacus:abacus-extra:3.9.1")
 ```
 
 These examples use the checkout's versions. If that version is unavailable in your configured repository, use a published version with its corresponding requirements, or install this checkout locally using the [build instructions](#building-and-testing).
