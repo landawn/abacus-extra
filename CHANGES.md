@@ -1,3 +1,6 @@
+## 3.9.2
+* Improvements and bug fixes
+
 ## 3.9.1
 * Improvements and bug fixes
 
