@@ -722,9 +722,60 @@ class DoubleTupleTest {
         }
 
         @Test
+        void sum_compensationIsCloserToTheExactTotalThanPlainAddition() {
+            assertEquals(0.6, DoubleTuple.of(0.1, 0.2, 0.3).sum());
+            assertEquals(0.6000000000000001, 0.1 + 0.2 + 0.3, "plain left-to-right addition");
+            assertEquals(1.0, DoubleTuple.of(1.0E16, 1.0, -1.0E16).sum());
+        }
+
+        @Test
+        void sum_hugeElementsAreSummedExactlyAndRoundedOnce() {
+            final double max = Double.MAX_VALUE;
+            final double p = 0x1p969;
+
+            // The running total overflows and then cancels: only an exact total keeps the 1.
+            final DoubleTuple<?> transientOverflow = DoubleTuple.of(max, p, p, 1.0, -max, -p, -p);
+            assertEquals(1.0, transientOverflow.sum());
+            assertEquals(1.0 / 7, transientOverflow.average().getAsDouble());
+
+            // No overflow before the 3.0, but plain compensation would drop it next to the huge values that cancel later.
+            final DoubleTuple<?> smallNextToHuge = DoubleTuple.of(1e-300, max, -3.9e-7, -p, 3.0, 0x1p1023, p, -max, -0x1p1023);
+            assertEquals(3.0 - 3.9e-7, smallNextToHuge.sum());
+            assertEquals((3.0 - 3.9e-7) / 9, smallNextToHuge.average().getAsDouble());
+
+            assertEquals(0.0, DoubleTuple.of(1.0E308, 1.0E308, -1.0E308, -1.0E308).sum());
+            assertEquals(Double.POSITIVE_INFINITY, DoubleTuple.of(max, max).sum());
+            assertEquals(max, DoubleTuple.of(max, max).average().getAsDouble());
+
+            // Totals within a few ulps of the overflow threshold round to the correct side of it.
+            assertEquals(Double.POSITIVE_INFINITY, DoubleTuple.of(4.704638986609585E21, 1.0E16, 201939.76236321786, -7978.400570849809, max, p, p, -1.0).sum());
+            assertEquals(-max, DoubleTuple.of(2957.707988316688, -max, -1.0, -3.0, -p, -p).sum());
+        }
+
+        @Test
+        void sum_andAverageMatchNBitForBit() {
+            final java.util.Random random = new java.util.Random(20261113L);
+            final double[] specials = { 0.0, -0.0, 1.0, -1.0, 1.0E16, -1.0E16, 0x1p969, -0x1p969, 0x1p1023, Double.MAX_VALUE, -Double.MAX_VALUE,
+                    Double.MIN_VALUE, Double.NaN, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY };
+
+            for (int round = 0; round < 20_000; round++) {
+                final double[] values = new double[2 + round % 8];
+
+                for (int i = 0; i < values.length; i++) {
+                    values[i] = random.nextInt(3) == 0 ? specials[random.nextInt(specials.length)] : Double.longBitsToDouble(random.nextLong());
+                }
+
+                final DoubleTuple<?> tuple = DoubleTuple.from(values);
+                assertEquals(Double.doubleToRawLongBits(N.sum(values)), Double.doubleToRawLongBits(tuple.sum()), java.util.Arrays.toString(values));
+                assertEquals(Double.doubleToRawLongBits(N.average(values)), Double.doubleToRawLongBits(tuple.average().getAsDouble()),
+                        java.util.Arrays.toString(values));
+            }
+        }
+
+        @Test
         void sum_compensationOverflowDoesNotCorruptAFiniteTotal() {
-            // Kahan's compensation term (t - sum) - y overflows here, which used to turn a finite total
-            // into -Infinity / +Infinity / NaN depending on element order
+            // A classic Kahan compensation term (t - sum) - y overflows here and once turned a finite total into
+            // -Infinity / +Infinity / NaN depending on element order; the delegated N.sum keeps it finite in every order
             final double expected = -3.0E307 + Double.MAX_VALUE;
             assertTrue(Double.isFinite(expected));
             assertEquals(expected, DoubleTuple.of(-3.0E307, Double.MAX_VALUE).sum());
@@ -781,11 +832,11 @@ class DoubleTupleTest {
         }
 
         @Test
-        void sum_pairEqualsPlainAdditionWhenTheFirstElementIsNotSmaller() {
-            // Kahan compensation is exact when |_1| >= |_2|; otherwise it can move a pair sum one ulp away.
+        void sum_pairEqualsPlainAdditionInEitherOrder() {
+            // Neumaier compensation adds the exact rounding error of _1 + _2 back to the rounded sum, which leaves it unchanged.
             assertEquals(45.6, 15.9 + 29.7);
             assertEquals(45.6, DoubleTuple.of(29.7, 15.9).sum());
-            assertEquals(45.599999999999994, DoubleTuple.of(15.9, 29.7).sum());
+            assertEquals(45.6, DoubleTuple.of(15.9, 29.7).sum());
 
             final java.util.Random random = new java.util.Random(20261102L);
 
@@ -796,6 +847,7 @@ class DoubleTupleTest {
                 final double smaller = larger == x ? y : x;
 
                 assertEquals(larger + smaller, DoubleTuple.of(larger, smaller).sum());
+                assertEquals(larger + smaller, DoubleTuple.of(smaller, larger).sum());
             }
         }
 
@@ -988,9 +1040,9 @@ class DoubleTupleTest {
         void average_negativeUnderflowSignFollowsTheComputedTotal() {
             assertEquals(-0.0, DoubleTuple.of(-Double.MIN_VALUE, 0.0).average().getAsDouble());
             assertEquals(-0.0, DoubleTuple.of(1.0, -1.0, -Double.MIN_VALUE).average().getAsDouble());
-            // the exact total is -Double.MIN_VALUE, but compensation loses that term and computes a total of +0.0
-            assertEquals(0.0, DoubleTuple.of(-1.0, -Double.MIN_VALUE, 1.0).sum());
-            assertEquals(0.0, DoubleTuple.of(-1.0, -Double.MIN_VALUE, 1.0).average().getAsDouble());
+            // Neumaier compensation keeps the -Double.MIN_VALUE term, so the total is negative and the mean underflows to -0.0
+            assertEquals(-Double.MIN_VALUE, DoubleTuple.of(-1.0, -Double.MIN_VALUE, 1.0).sum());
+            assertEquals(-0.0, DoubleTuple.of(-1.0, -Double.MIN_VALUE, 1.0).average().getAsDouble());
         }
 
         @Test
@@ -1119,15 +1171,15 @@ class DoubleTupleTest {
         }
 
         @Test
-        void average_finiteCancellationDependsOnElementOrder() {
-            assertEquals(0.0, DoubleTuple.of(1e16, 1.0, -1e16).average().getAsDouble());
+        void average_finiteCancellationIsRecoveredInEitherOrder() {
+            assertEquals(0.3333333333333333, DoubleTuple.of(1e16, 1.0, -1e16).average().getAsDouble());
             assertEquals(0.3333333333333333, DoubleTuple.of(1e16, -1e16, 1.0).average().getAsDouble());
         }
 
         @Test
-        void average_pairCanBeOneUlpFromMedian() {
-            // average() divides the compensated pair sum, while median() halves plain _1 + _2
-            assertEquals(22.799999999999997, DoubleTuple.of(15.9, 29.7).average().getAsDouble());
+        void average_pairHalvesPlainSumInEitherOrder() {
+            // The compensated pair sum equals _1 + _2, so average() matches median() here.
+            assertEquals(22.8, DoubleTuple.of(15.9, 29.7).average().getAsDouble());
             assertEquals(22.8, DoubleTuple.of(15.9, 29.7).median());
             assertEquals(22.8, DoubleTuple.of(29.7, 15.9).average().getAsDouble());
         }

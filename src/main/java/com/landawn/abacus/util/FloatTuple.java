@@ -489,13 +489,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
             throw new NoSuchElementException("Cannot compute min() for an empty tuple");
         }
 
-        float result = a[0];
-
-        for (int i = 1; i < a.length; i++) {
-            result = Math.min(result, a[i]);
-        }
-
-        return result;
+        return N.min(a);
     }
 
     /**
@@ -538,13 +532,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
             throw new NoSuchElementException("Cannot compute max() for an empty tuple");
         }
 
-        float result = a[0];
-
-        for (int i = 1; i < a.length; i++) {
-            result = Math.max(result, a[i]);
-        }
-
-        return result;
+        return N.max(a);
     }
 
     /**
@@ -556,11 +544,10 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * </p>
      * <p>
      * For arities two and above, elements are accumulated in {@code double} precision with compensated
-     * (Kahan) summation, and the final result is narrowed to {@code float}. This can differ from plain
-     * left-to-right {@code float} addition such as {@code _1 + _2 + ...} and generally reduces rounding error.
-     * Compensation does not guarantee an exact or order-independent result: for example,
-     * {@code FloatTuple.of(1.0f, 1.0E38f, -1.0E38f).sum()} is {@code 0.0f}, whereas placing {@code 1.0f}
-     * last gives {@code 1.0f}.
+     * (Kahan-Babuska / Neumaier) summation, exactly as {@link N#sum(float...)} does, and the final result is
+     * narrowed to {@code float}. This can differ from plain left-to-right {@code float} addition such as
+     * {@code _1 + _2 + ...} and generally reduces rounding error: {@code FloatTuple.of(1.0f, 1.0E38f, -1.0E38f).sum()}
+     * is {@code 1.0f}, whereas {@code 1.0f + 1.0E38f + -1.0E38f} is {@code 0.0f}.
      * Narrowing the compensated {@code double} total to {@code float} is a second rounding, so even without
      * cancellation the result is not always the correctly rounded {@code float} sum:
      * {@code FloatTuple.of(1.0f, 0x1p-24f, 0x1p-60f).sum()} is {@code 1.0f}, although the exact total rounds to
@@ -591,51 +578,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * @see #average()
      */
     public float sum() {
-        return sumOf(elements());
-    }
-
-    /**
-     * Returns the compensated sum of the given values narrowed to {@code float}; the same result as
-     * {@code N.sum(float...)}, computed without allocating a summation accumulator.
-     *
-     * @param a the values to add
-     * @return the sum of {@code a}
-     */
-    private static float sumOf(final float... a) {
-        return (float) compensatedSum(a);
-    }
-
-    private static double compensatedSum(final float[] a) {
-        // Same Kahan operation order as N.sum(float...) and N.average(float...), without allocating an accumulator.
-        double sum = 0d;
-        double correction = 0d;
-
-        for (final float value : a) {
-            final double adjusted = value - correction;
-            final double next = sum + adjusted;
-            correction = (next - sum) - adjusted;
-            sum = next;
-        }
-
-        final double result = sum - correction;
-
-        if (Double.isFinite(result)) {
-            return result;
-        }
-
-        // At most nine widened floats cannot overflow a double, so a non-finite result means a non-finite element,
-        // which turns the compensation into NaN. Like KahanSummation, report the plain IEEE-754 total instead.
-        double total = 0d;
-
-        for (final float value : a) {
-            total += value;
-        }
-
-        return total;
-    }
-
-    private static double averageOf(final float... a) {
-        return compensatedSum(a) / a.length;
+        return N.sum(elements());
     }
 
     /**
@@ -655,9 +598,9 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * {@code float} range: {@code FloatTuple.of(Float.MAX_VALUE, Float.MAX_VALUE)} has a {@code sum()} of
      * {@code Infinity} but its {@code average()} contains {@code 3.4028234663852886E38}. As with {@code sum()},
      * the sign of a zero result is not preserved at arity two or above.
-     * The mean divides the same compensated {@code double} total that {@code sum()} narrows, so it is likewise
-     * not exact or order-independent: {@code FloatTuple.of(1.0f, 1.0E38f, -1.0E38f).average()} contains
-     * {@code 0.0}, whereas placing {@code 1.0f} last gives {@code 0.3333333333333333}.
+     * The mean divides the same compensated {@code double} total that {@code sum()} narrows, as
+     * {@link N#average(float...)} does: {@code FloatTuple.of(1.0f, 1.0E38f, -1.0E38f).average()} contains
+     * {@code 0.3333333333333333}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -681,7 +624,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
     public OptionalDouble average() {
         final float[] a = elements();
 
-        return a.length == 0 ? OptionalDouble.empty() : OptionalDouble.of(averageOf(a));
+        return a.length == 0 ? OptionalDouble.empty() : OptionalDouble.of(N.average(a));
     }
 
     /**
@@ -1737,7 +1680,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float sum() {
-            return sumOf(_1, _2);
+            return N.sum(_1, _2);
         }
 
         /**
@@ -1763,7 +1706,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(averageOf(_1, _2));
+            return OptionalDouble.of(N.average(_1, _2));
         }
 
         /**
@@ -2288,7 +2231,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float sum() {
-            return sumOf(_1, _2, _3);
+            return N.sum(_1, _2, _3);
         }
 
         /**
@@ -2314,7 +2257,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(averageOf(_1, _2, _3));
+            return OptionalDouble.of(N.average(_1, _2, _3));
         }
 
         /**
@@ -2836,7 +2779,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float sum() {
-            return sumOf(_1, _2, _3, _4);
+            return N.sum(_1, _2, _3, _4);
         }
 
         /**
@@ -2862,7 +2805,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(averageOf(_1, _2, _3, _4));
+            return OptionalDouble.of(N.average(_1, _2, _3, _4));
         }
 
         /**
@@ -3226,7 +3169,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float sum() {
-            return sumOf(_1, _2, _3, _4, _5);
+            return N.sum(_1, _2, _3, _4, _5);
         }
 
         /**
@@ -3252,7 +3195,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(averageOf(_1, _2, _3, _4, _5));
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5));
         }
 
         /**
@@ -3620,7 +3563,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float sum() {
-            return sumOf(_1, _2, _3, _4, _5, _6);
+            return N.sum(_1, _2, _3, _4, _5, _6);
         }
 
         /**
@@ -3646,7 +3589,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(averageOf(_1, _2, _3, _4, _5, _6));
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6));
         }
 
         /**
@@ -4023,7 +3966,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float sum() {
-            return sumOf(_1, _2, _3, _4, _5, _6, _7);
+            return N.sum(_1, _2, _3, _4, _5, _6, _7);
         }
 
         /**
@@ -4049,7 +3992,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(averageOf(_1, _2, _3, _4, _5, _6, _7));
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7));
         }
 
         /**
@@ -4439,7 +4382,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float sum() {
-            return sumOf(_1, _2, _3, _4, _5, _6, _7, _8);
+            return N.sum(_1, _2, _3, _4, _5, _6, _7, _8);
         }
 
         /**
@@ -4465,7 +4408,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(averageOf(_1, _2, _3, _4, _5, _6, _7, _8));
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7, _8));
         }
 
         /**
@@ -4862,7 +4805,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float sum() {
-            return sumOf(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+            return N.sum(_1, _2, _3, _4, _5, _6, _7, _8, _9);
         }
 
         /**
@@ -4888,7 +4831,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(averageOf(_1, _2, _3, _4, _5, _6, _7, _8, _9));
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7, _8, _9));
         }
 
         /**

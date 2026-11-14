@@ -14,9 +14,6 @@
 
 package com.landawn.abacus.util;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
 import java.util.NoSuchElementException;
 
 import com.landawn.abacus.annotation.MayReturnNull;
@@ -73,9 +70,6 @@ import com.landawn.abacus.util.stream.DoubleStream;
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveTuple<TP>
         permits DoubleTuple0, DoubleTuple1, DoubleTuple2, DoubleTuple3, DoubleTuple4, DoubleTuple5, DoubleTuple6, DoubleTuple7, DoubleTuple8, DoubleTuple9 {
-
-    // Nine exact binary64 values span at most 1384 decimal digits; leave guard digits for division near a double midpoint.
-    private static final MathContext OVERFLOW_AVERAGE_CONTEXT = new MathContext(1400, RoundingMode.HALF_EVEN);
 
     /** Internal element storage; lazily initialized when {@link #elements()} is first called. */
     protected volatile double[] elements;
@@ -479,13 +473,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
             throw new NoSuchElementException("Cannot compute min() for an empty tuple");
         }
 
-        double result = a[0];
-
-        for (int i = 1; i < a.length; i++) {
-            result = Math.min(result, a[i]);
-        }
-
-        return result;
+        return N.min(a);
     }
 
     /**
@@ -530,40 +518,30 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
             throw new NoSuchElementException("Cannot compute max() for an empty tuple");
         }
 
-        double result = a[0];
-
-        for (int i = 1; i < a.length; i++) {
-            result = Math.max(result, a[i]);
-        }
-
-        return result;
+        return N.max(a);
     }
 
     /**
-     * Returns the sum of all double values in this tuple.
+     * Returns the sum of all double values in this tuple, computed exactly as {@link N#sum(double...)} computes it.
      * <p>
      * For an empty tuple, returns {@code 0.0}. If any element is not finite, the result is the IEEE-754 sum of
      * the non-finite elements alone: {@code NaN} if any is {@code NaN} or both infinities occur, otherwise that
      * infinity. Finite elements never turn an infinity of a single sign into {@code NaN}, even when they overflow
      * toward the opposite sign: {@code DoubleTuple.of(Double.MAX_VALUE, Double.MAX_VALUE, Double.NEGATIVE_INFINITY).sum()}
-     * is {@code -Infinity}. This differs from {@code N.sum(double...)} and {@code DoubleStream.sum()}, which return
-     * {@code NaN} when such an overflow precedes the infinity.
+     * is {@code -Infinity}.
      * </p>
      * <p>
-     * The elements are added with compensated (Kahan) summation rather than plain left-to-right
-     * addition, so the result can differ from {@code _1 + _2 + ...}. For three or more elements this often
-     * reduces rounding error, but compensation does not guarantee an exact or order-independent result: for
-     * example, {@code DoubleTuple.of(1.0E16, 1.0, -1.0E16).sum()} is {@code 0.0}, whereas placing {@code 1.0}
-     * last gives {@code 1.0}. Even two elements can sum to one ulp away from {@code _1 + _2}, depending on their
-     * order: {@code DoubleTuple.of(15.9, 29.7).sum()} is {@code 45.599999999999994}, whereas {@code 15.9 + 29.7}
-     * and {@code DoubleTuple.of(29.7, 15.9).sum()} are {@code 45.6}. For finite elements whose compensated
-     * total is finite, {@code N.sum(double...)} and {@code DoubleStream.sum()} use the same algorithm and
-     * return the same values.
-     * If that compensated result is not finite although every element is finite (the compensation term
-     * itself can overflow, e.g. for {@code DoubleTuple.of(-3.0E307, Double.MAX_VALUE)}), the exact total is
-     * recomputed and rounded once, so an infinity is returned only when the exact total is outside the
-     * {@code double} range; {@code DoubleStream.sum()} does not recompute and returns {@code -Infinity} for
-     * that example.
+     * The elements are added with compensated (Kahan-Babuska / Neumaier) summation rather than plain left-to-right
+     * addition, so the result can differ from {@code _1 + _2 + ...}, usually by being closer to the exact total:
+     * {@code DoubleTuple.of(1.0E16, 1.0, -1.0E16).sum()} is {@code 1.0}, and {@code DoubleTuple.of(0.1, 0.2, 0.3).sum()}
+     * is {@code 0.6}, whereas {@code 0.1 + 0.2 + 0.3} is {@code 0.6000000000000001}. Compensation does not guarantee a
+     * correctly rounded or order-independent result: {@code DoubleTuple.of(1.0, 1.0E16, 1.0E-16, 1.0E-16).sum()} is
+     * {@code 1.0E16}, whereas the order {@code (1.0E-16, 1.0E-16, 1.0E16, 1.0)} gives the correctly rounded
+     * {@code 1.0000000000000002E16}.
+     * Once an element or the running total reaches {@code 2^960} in magnitude, the exact total is computed and
+     * rounded once, so an infinity is returned only when the exact total is outside the {@code double} range:
+     * {@code DoubleTuple.of(1.0E308, 1.0E308, -1.0E308, -1.0E308).sum()} is {@code 0.0}, while
+     * {@code DoubleTuple.of(Double.MAX_VALUE, Double.MAX_VALUE).sum()} is {@code Infinity}.
      * The sign of a zero result is not preserved at arity two or above:
      * {@code DoubleTuple.of(-0.0, -0.0).sum()} is {@code +0.0}, whereas plain IEEE-754 addition of two
      * negative zeros yields {@code -0.0}.
@@ -590,126 +568,29 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * @see #average()
      */
     public double sum() {
-        return sumOf(elements());
+        return N.sum(elements());
     }
 
     /**
-     * Returns the compensated sum of the given values, falling back to the exact total rounded once
-     * when the compensated result is not finite although every value is finite. Kahan summation can
-     * overflow in its compensation term ({@code (t - sum) - y}) for large values of opposite signs, which
-     * would otherwise turn a finite total into an infinity or {@code NaN}. If any value is not finite, the
-     * result is the IEEE-754 total of the non-finite values alone.
-     *
-     * @param a the values to add
-     * @return the sum of {@code a}
-     */
-    private static double sumOf(final double... a) {
-        // Inspect the compensated result directly: N.sum can hide overflow behind a rounded-prefix fallback,
-        // which loses low-order terms that become significant after later cancellation.
-        final double result = compensatedSum(a);
-
-        if (Double.isFinite(result)) {
-            return result;
-        }
-
-        for (final double e : a) {
-            if (!Double.isFinite(e)) {
-                // Finite elements cannot change an infinite or NaN total. Ignoring them keeps a finite prefix that
-                // overflows toward the opposite sign from turning a single infinity into NaN: (MAX, MAX, -Inf) -> -Inf.
-                return nonFiniteTotal(a);
-            }
-        }
-
-        BigDecimal exact = BigDecimal.ZERO;
-
-        for (final double e : a) {
-            exact = exact.add(new BigDecimal(e)); // NOSONAR - the exact binary64 value is required here.
-        }
-
-        return exact.doubleValue();
-    }
-
-    private static double compensatedSum(final double[] a) {
-        // Keep the Kahan operation order without allocating an accumulator. Callers use the result only when it is
-        // finite and otherwise recompute from the elements, so no simple-sum fallback for a NaN result is needed.
-        double sum = 0d;
-        double correction = 0d;
-
-        for (final double value : a) {
-            final double adjusted = value - correction;
-            final double next = sum + adjusted;
-            correction = (next - sum) - adjusted;
-            sum = next;
-        }
-
-        return sum - correction;
-    }
-
-    /**
-     * Returns the IEEE-754 total of only the non-finite elements: {@code NaN} if any element is {@code NaN} or both
-     * infinities occur, otherwise the infinity whose sign every infinite element shares. Finite elements cannot
-     * change such a total; callers invoke this only when at least one element is not finite.
-     */
-    private static double nonFiniteTotal(final double[] a) {
-        double total = 0d;
-
-        for (final double e : a) {
-            if (!Double.isFinite(e)) {
-                total += e;
-            }
-        }
-
-        return total;
-    }
-
-    private static double averageOf(final double... a) {
-        final double sum = compensatedSum(a);
-
-        if (Double.isFinite(sum)) {
-            return sum / a.length;
-        }
-
-        for (final double e : a) {
-            if (!Double.isFinite(e)) {
-                // Same rule as sumOf: an infinite or NaN total is decided by the non-finite elements alone.
-                return nonFiniteTotal(a) / a.length;
-            }
-        }
-
-        // Recompute from every element: a rounded-prefix or simple-sum fallback can lose the entire result after cancellation.
-        // Divide before narrowing so a finite mean survives even when the exact total exceeds the double range.
-        BigDecimal exact = BigDecimal.ZERO;
-
-        for (final double e : a) {
-            exact = exact.add(new BigDecimal(e)); // NOSONAR - the exact binary64 value is required here.
-        }
-
-        return exact.divide(BigDecimal.valueOf(a.length), OVERFLOW_AVERAGE_CONTEXT).doubleValue();
-    }
-
-    /**
-     * Returns the arithmetic mean of all double values in this tuple.
+     * Returns the arithmetic mean of all double values in this tuple, computed exactly as
+     * {@link N#average(double...)} computes it.
      * <p>
      * If any element is {@code NaN}, the mean is {@code NaN}. Infinities
      * follow standard IEEE-754 rules; as with {@link #sum()}, finite elements never turn an infinity of a single
      * sign into {@code NaN}: {@code DoubleTuple.of(Double.MAX_VALUE, Double.MAX_VALUE, Double.NEGATIVE_INFINITY).average()}
-     * contains {@code -Infinity}. This differs from {@code N.average(double...)} and {@code DoubleStream.average()},
-     * which return {@code NaN} when such an overflow precedes the infinity.
+     * contains {@code -Infinity}.
      * </p>
      * <p>
-     * Unlike {@link #sum()}, the mean is not reported as infinity merely because the intermediate total
-     * overflows: {@code DoubleTuple.of(Double.MAX_VALUE, Double.MAX_VALUE)} has a {@code sum()} of
-     * {@code Infinity} but its {@code average()} contains {@code Double.MAX_VALUE}. For arities two and above,
-     * averaging only negative zeros produces a mean of {@code +0.0}. If the compensated total overflows,
-     * the mean is recovered from the exact values of all elements before division and rounding.
-     * When the computed (rounded) total is
-     * negative and the mean underflows to zero, the result is {@code -0.0}, as in
-     * {@code DoubleTuple.of(-Double.MIN_VALUE, 0.0).average().getAsDouble()}; a computed total of zero gives
-     * {@code +0.0}, even when compensation loses a tiny negative term, as in
-     * {@code DoubleTuple.of(-1.0, -Double.MIN_VALUE, 1.0)}, whose exact total is {@code -Double.MIN_VALUE}.
-     * A finite compensated total is divided directly, so the mean is no more exact or order-independent than
-     * {@code sum()}: {@code DoubleTuple.of(1e16, 1.0, -1e16).average()} contains {@code 0.0}, whereas placing
-     * {@code 1.0} last gives {@code 0.3333333333333333}.
+     * The mean divides the total that {@link #sum()} computes, except that once an element or the running total
+     * reaches {@code 2^960} the exact total is divided before rounding, so the mean is not reported as infinity
+     * merely because the total overflows: {@code DoubleTuple.of(Double.MAX_VALUE, Double.MAX_VALUE)} has a
+     * {@code sum()} of {@code Infinity} but its {@code average()} contains {@code Double.MAX_VALUE}. Otherwise the
+     * mean is no more exact or order-independent than {@code sum()}; {@code DoubleTuple.of(1e16, 1.0, -1e16).average()}
+     * contains {@code 0.3333333333333333}. For arities two and above, averaging only negative zeros produces a mean
+     * of {@code +0.0}. When the total is negative and the mean underflows to zero, the result is {@code -0.0}, as in
+     * {@code DoubleTuple.of(-Double.MIN_VALUE, 0.0).average().getAsDouble()} and
+     * {@code DoubleTuple.of(-1.0, -Double.MIN_VALUE, 1.0).average().getAsDouble()}, whose total is
+     * {@code -Double.MIN_VALUE}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -735,7 +616,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     public OptionalDouble average() {
         final double[] a = elements();
 
-        return a.length == 0 ? OptionalDouble.empty() : OptionalDouble.of(averageOf(a));
+        return a.length == 0 ? OptionalDouble.empty() : OptionalDouble.of(N.average(a));
     }
 
     /**
@@ -784,14 +665,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         java.util.Arrays.sort(a);
         final int middle = a.length / 2;
 
-        return a.length % 2 == 0 ? medianOf(a[middle - 1], a[middle]) : a[middle];
-    }
-
-    private static double medianOf(final double first, final double second) {
-        final double sum = first + second;
-
-        // Halve first only after finite addition overflows; doing so unconditionally loses subnormal values.
-        return Double.isInfinite(sum) && Double.isFinite(first) && Double.isFinite(second) ? first / 2d + second / 2d : sum / 2d;
+        return a.length % 2 == 0 ? N.median(a[middle - 1], a[middle]) : a[middle];
     }
 
     /**
@@ -1789,10 +1663,9 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * Returns the sum of the two elements.
          * If either element is {@code NaN} the result is {@code NaN}.
          * <p>
-         * The elements are added with the compensated summation described on {@link DoubleTuple#sum()}. The result
-         * equals {@code _1 + _2} (apart from the sign of a zero result) when {@code |_1| >= |_2|}; otherwise it can
-         * be one ulp away, so it can depend on element order: {@code DoubleTuple.of(15.9, 29.7).sum()} is
-         * {@code 45.599999999999994}, whereas {@code DoubleTuple.of(29.7, 15.9).sum()} is {@code 45.6}.
+         * The elements are added with the compensated summation described on {@link DoubleTuple#sum()}. For two
+         * elements that always equals {@code _1 + _2}, in either order, apart from the sign of a zero result:
+         * {@code DoubleTuple.of(15.9, 29.7).sum()} and {@code DoubleTuple.of(29.7, 15.9).sum()} are both {@code 45.6}.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1811,16 +1684,16 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double sum() {
-            return sumOf(_1, _2);
+            return N.sum(_1, _2);
         }
 
         /**
          * Returns the arithmetic mean of the two elements.
          * If either element is {@code NaN} the result is {@code NaN}.
          * <p>
-         * The total is computed as in {@link #sum()}, so the result can be one ulp away from {@link #median()}:
-         * {@code DoubleTuple.of(15.9, 29.7).average()} contains {@code 22.799999999999997}, while {@code median()}
-         * is {@code 22.8}.
+         * The total is computed as in {@link #sum()} and halved, except that a total that overflows is halved exactly
+         * before rounding: {@code DoubleTuple.of(15.9, 29.7).average()} contains {@code 22.8}, and
+         * {@code DoubleTuple.of(Double.MAX_VALUE, Double.MAX_VALUE).average()} contains {@code Double.MAX_VALUE}.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1839,7 +1712,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(averageOf(_1, _2));
+            return OptionalDouble.of(N.average(_1, _2));
         }
 
         /**
@@ -1859,7 +1732,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double median() {
-            return medianOf(_1, _2);
+            return N.median(_1, _2);
         }
 
         /**
@@ -2346,7 +2219,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double sum() {
-            return sumOf(_1, _2, _3);
+            return N.sum(_1, _2, _3);
         }
 
         /**
@@ -2369,7 +2242,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(averageOf(_1, _2, _3));
+            return OptionalDouble.of(N.average(_1, _2, _3));
         }
 
         /**
@@ -2881,7 +2754,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double sum() {
-            return sumOf(_1, _2, _3, _4);
+            return N.sum(_1, _2, _3, _4);
         }
 
         /**
@@ -2904,7 +2777,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(averageOf(_1, _2, _3, _4));
+            return OptionalDouble.of(N.average(_1, _2, _3, _4));
         }
 
         /**
@@ -3229,7 +3102,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double sum() {
-            return sumOf(_1, _2, _3, _4, _5);
+            return N.sum(_1, _2, _3, _4, _5);
         }
 
         /**
@@ -3252,7 +3125,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(averageOf(_1, _2, _3, _4, _5));
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5));
         }
 
         /**
@@ -3583,7 +3456,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double sum() {
-            return sumOf(_1, _2, _3, _4, _5, _6);
+            return N.sum(_1, _2, _3, _4, _5, _6);
         }
 
         /**
@@ -3606,7 +3479,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(averageOf(_1, _2, _3, _4, _5, _6));
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6));
         }
 
         /**
@@ -3953,7 +3826,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double sum() {
-            return sumOf(_1, _2, _3, _4, _5, _6, _7);
+            return N.sum(_1, _2, _3, _4, _5, _6, _7);
         }
 
         /**
@@ -3979,7 +3852,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(averageOf(_1, _2, _3, _4, _5, _6, _7));
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7));
         }
 
         /**
@@ -4366,7 +4239,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double sum() {
-            return sumOf(_1, _2, _3, _4, _5, _6, _7, _8);
+            return N.sum(_1, _2, _3, _4, _5, _6, _7, _8);
         }
 
         /**
@@ -4392,7 +4265,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(averageOf(_1, _2, _3, _4, _5, _6, _7, _8));
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7, _8));
         }
 
         /**
@@ -4786,7 +4659,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double sum() {
-            return sumOf(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+            return N.sum(_1, _2, _3, _4, _5, _6, _7, _8, _9);
         }
 
         /**
@@ -4812,7 +4685,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(averageOf(_1, _2, _3, _4, _5, _6, _7, _8, _9));
+            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7, _8, _9));
         }
 
         /**

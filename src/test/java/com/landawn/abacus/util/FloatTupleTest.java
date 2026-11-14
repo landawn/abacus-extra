@@ -982,9 +982,11 @@ class FloatTupleTest {
         }
 
         @Test
-        void average_finiteCancellationDependsOnElementOrder() {
-            assertEquals(0.0, FloatTuple.of(1.0f, 1.0E38f, -1.0E38f).average().getAsDouble());
+        void average_finiteCancellationIsRecoveredInEitherOrder() {
+            assertEquals(0.3333333333333333, FloatTuple.of(1.0f, 1.0E38f, -1.0E38f).average().getAsDouble());
             assertEquals(0.3333333333333333, FloatTuple.of(1.0E38f, -1.0E38f, 1.0f).average().getAsDouble());
+            assertEquals(1.0f, FloatTuple.of(1.0f, 1.0E38f, -1.0E38f).sum());
+            assertEquals(0.0f, 1.0f + 1.0E38f + -1.0E38f, "plain float addition loses the 1.0f");
         }
     }
 
@@ -2892,8 +2894,8 @@ class FloatTupleTest {
 
         @Test
         void sumAndAverage_matchUpstreamCompensatedSummationBitForBit() {
-            // sum() and average() keep the Kahan order of N.sum(float...) and N.average(float...) without allocating an
-            // accumulator. Random bit patterns cover subnormals, infinities, NaN payloads, and wide magnitude ranges.
+            // sum() and average() delegate to N.sum(float...) and N.average(float...), so they must match them bit for bit.
+            // Random bit patterns cover subnormals, infinities, NaN payloads, and wide magnitude ranges.
             final java.util.Random random = new java.util.Random(20261102L);
             final float[] specials = { 0.0f, -0.0f, 1.0f, -1.0f, 0x1p-24f, 16777216f, Float.MIN_VALUE, Float.MAX_VALUE, -Float.MAX_VALUE, Float.NaN,
                     Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY };

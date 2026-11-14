@@ -12,8 +12,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.math.MathContext;
-import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.Random;
@@ -76,9 +74,12 @@ class NumericTupleContractTest {
     class SumTests {
 
         @Test
-        void compensatedDoubleSumCanDependOnElementOrder() {
-            assertEquals(0.0, DoubleTuple.of(1.0E16, 1.0, -1.0E16).sum());
+        void compensatedDoubleSumCanStillDependOnElementOrder() {
+            assertEquals(1.0, DoubleTuple.of(1.0E16, 1.0, -1.0E16).sum());
             assertEquals(1.0, DoubleTuple.of(1.0E16, -1.0E16, 1.0).sum());
+            // The exact total 1e16 + 1 + 2e-16 rounds to 1e16 + 2; one order loses the tie-breaking 2e-16.
+            assertEquals(1.0E16, DoubleTuple.of(1.0, 1.0E16, 1.0E-16, 1.0E-16).sum());
+            assertEquals(1.0000000000000002E16, DoubleTuple.of(1.0E-16, 1.0E-16, 1.0E16, 1.0).sum());
         }
 
         @Test
@@ -133,7 +134,7 @@ class NumericTupleContractTest {
 
         @Test
         void doubleSumKeepsCompensatedAndNonfiniteInputSemantics() {
-            assertEquals(0d, DoubleTuple.of(1.0E16, 1d, -1.0E16).sum());
+            assertEquals(1d, DoubleTuple.of(1.0E16, 1d, -1.0E16).sum());
             assertEquals(1d, DoubleTuple.of(1.0E16, -1.0E16, 1d).sum());
             assertEquals(1.0E16 + 2d, DoubleTuple.of(1.0E16, 1d, 1d).sum());
             assertEquals(Double.POSITIVE_INFINITY, DoubleTuple.of(Double.MAX_VALUE, Double.MAX_VALUE).sum());
@@ -278,7 +279,7 @@ class NumericTupleContractTest {
                 }
             }
 
-            assertEquals(0d, DoubleTuple.of(1.0E16, 1d, -1.0E16).average().getAsDouble());
+            assertEquals(1d / 3d, DoubleTuple.of(1.0E16, 1d, -1.0E16).average().getAsDouble());
             assertEquals(1d / 3d, DoubleTuple.of(1.0E16, -1.0E16, 1d).average().getAsDouble());
             assertEquals(Double.doubleToRawLongBits(-0d), Double.doubleToRawLongBits(DoubleTuple.of(-Double.MIN_VALUE, 0d).average().getAsDouble()));
             assertTrue(Double.isNaN(DoubleTuple.of(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY).average().getAsDouble()));
@@ -712,9 +713,12 @@ class NumericTupleContractTest {
 
     private static void checkDoubleAggregation(final double[] values) {
         final DoubleTuple<?> tuple = DoubleTuple.from(values);
-        final double compensated = KahanSummation.of(values).sum();
-        double expectedSum = compensated;
-        double expectedAverage = compensated / values.length;
+        // DoubleTuple delegates to N.sum/N.average(double...). KahanSummation is abacus-common's separate streaming
+        // implementation of the same contract (Neumaier compensation, an exact total once a value or the running total
+        // reaches 2^960, non-finite elements alone deciding a non-finite total), so the two must agree bit for bit.
+        final KahanSummation summation = KahanSummation.of(values);
+        double expectedSum = summation.sum();
+        double expectedAverage = summation.average().orElseThrow();
 
         if (Arrays.stream(values).anyMatch(value -> !Double.isFinite(value))) {
             // Only the non-finite elements decide such a total; an overflowing finite prefix must not turn one infinity into NaN.
@@ -724,15 +728,6 @@ class NumericTupleContractTest {
             expectedSum = hasNaN || (hasPositiveInfinity && hasNegativeInfinity) ? Double.NaN
                     : hasPositiveInfinity ? Double.POSITIVE_INFINITY : Double.NEGATIVE_INFINITY;
             expectedAverage = expectedSum / values.length;
-        } else if (!Double.isFinite(compensated)) {
-            BigDecimal exact = BigDecimal.ZERO;
-
-            for (final double value : values) {
-                exact = exact.add(new BigDecimal(value));
-            }
-
-            expectedSum = exact.doubleValue();
-            expectedAverage = exact.divide(BigDecimal.valueOf(values.length), new MathContext(1400, RoundingMode.HALF_EVEN)).doubleValue();
         }
 
         assertEquals(Double.doubleToLongBits(expectedSum), Double.doubleToLongBits(tuple.sum()), Arrays.toString(values));
