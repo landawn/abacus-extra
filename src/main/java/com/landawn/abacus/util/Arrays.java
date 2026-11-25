@@ -13,8 +13,6 @@
  */
 package com.landawn.abacus.util;
 
-import java.math.RoundingMode;
-
 import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.annotation.SuppressFBWarnings;
 
@@ -58,35 +56,11 @@ public sealed class Arrays permits Arrays.f {
     /** The line separator inserted between sub-arrays when printing multi-dimensional arrays. */
     static final String ARRAY_PRINT_SEPARATOR = IOUtil.LINE_SEPARATOR_UNIX;
 
-    /**
-     * Wraps an {@link ArrayStoreException} thrown by a user-supplied mapping or zipping callback.
-     * The original exception is available through {@link #original()}.
-     */
-    @SuppressWarnings("serial")
-    private static final class CallbackArrayStoreException extends RuntimeException {
+    /** Delimiter inserted between top-level rows when printing two- and three-dimensional arrays. */
+    private static final String ARRAY_PRINT_ROW_SEPARATOR = "," + ARRAY_PRINT_SEPARATOR + " ";
 
-        /** The array-store exception thrown by the callback. */
-        private final ArrayStoreException original;
-
-        /**
-         * Creates a new wrapper for the given {@link ArrayStoreException}.
-         *
-         * @param original the original {@link ArrayStoreException} to wrap.
-         */
-        CallbackArrayStoreException(final ArrayStoreException original) {
-            super(original);
-            this.original = original;
-        }
-
-        /**
-         * Returns the wrapped {@link ArrayStoreException}.
-         *
-         * @return the original {@link ArrayStoreException}.
-         */
-        ArrayStoreException original() {
-            return original;
-        }
-    }
+    /** Delimiter inserted between nested rows within a plane when printing three-dimensional arrays. */
+    private static final String ARRAY_PRINT_SUB_ROW_SEPARATOR = "," + ARRAY_PRINT_SEPARATOR + "  ";
 
     /** Prevents instantiation of this utility class. */
     private Arrays() {
@@ -317,18 +291,7 @@ public sealed class Arrays permits Arrays.f {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
-        if (N.isEmpty(a)) {
-            return N.newArray(targetElementType, 0);
-        }
-
-        final int len = N.len(a);
-        final T[] result = N.newArray(targetElementType, len);
-
-        for (int i = 0; i < len; i++) {
-            result[i] = mapper.apply(a[i]);
-        }
-
-        return result;
+        return N.isEmpty(a) ? emptyArray1D(targetElementType) : mapToObjNonEmpty(a, mapper, targetElementType);
     }
 
     /**
@@ -336,6 +299,7 @@ public sealed class Arrays permits Arrays.f {
      * This method applies the mapper function to every boolean value across all sub-arrays, maintaining
      * the two-dimensional structure of the original array.
      * Null or empty sub-arrays are mapped to empty arrays; non-null sub-array lengths are preserved.
+     * Empty sub-arrays in the result may share a single zero-length instance.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -377,18 +341,8 @@ public sealed class Arrays permits Arrays.f {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
-        if (N.isEmpty(a)) {
-            return N.newArray(N.newArray(targetElementType, 0).getClass(), 0);
-        }
-
-        final int len = N.len(a);
-        final T[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), len);
-
-        for (int i = 0; i < len; i++) {
-            result[i] = mapToObj(a[i], mapper, targetElementType);
-        }
-
-        return result;
+        final T[] emptyRow = emptyArray1D(targetElementType);
+        return mapToObjUnchecked(a, mapper, targetElementType, runtimeArrayClass(emptyRow), emptyRow);
     }
 
     /**
@@ -396,6 +350,7 @@ public sealed class Arrays permits Arrays.f {
      * This method applies the mapper function to every boolean value across all levels of nested sub-arrays,
      * preserving the three-dimensional structure of the original array.
      * Null or empty sub-arrays at any nesting level are mapped to empty arrays; non-null sub-array lengths are preserved.
+     * Empty sub-arrays in the result may share a single zero-length instance.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -437,15 +392,50 @@ public sealed class Arrays permits Arrays.f {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
+        final T[] emptyRow = emptyArray1D(targetElementType);
+        final Class<T[]> rowArrayType = runtimeArrayClass(emptyRow);
+        final T[][] emptyPlane = emptyArray2D(rowArrayType);
+        final Class<T[][]> planeArrayType = runtimeArrayClass(emptyPlane);
+
         if (N.isEmpty(a)) {
-            return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
+            return N.newArray(planeArrayType, 0);
         }
 
-        final int len = N.len(a);
-        final T[][][] result = N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), len);
+        final int len = a.length;
+        final T[][][] result = N.newArray(planeArrayType, len);
 
         for (int i = 0; i < len; i++) {
-            result[i] = mapToObj(a[i], mapper, targetElementType);
+            final boolean[][] plane = a[i];
+            result[i] = N.isEmpty(plane) ? emptyPlane : mapToObjUnchecked(plane, mapper, targetElementType, rowArrayType, emptyRow);
+        }
+
+        return result;
+    }
+
+    private static <T, E extends Exception> T[] mapToObjNonEmpty(final boolean[] a, final Throwables.BooleanFunction<? extends T, E> mapper,
+            final Class<T> targetElementType) throws IllegalArgumentException, E, ArrayStoreException {
+        final int len = a.length;
+        final T[] result = N.newArray(targetElementType, len);
+
+        for (int i = 0; i < len; i++) {
+            result[i] = mapper.apply(a[i]);
+        }
+
+        return result;
+    }
+
+    private static <T, E extends Exception> T[][] mapToObjUnchecked(final boolean[][] a, final Throwables.BooleanFunction<? extends T, E> mapper,
+            final Class<T> targetElementType, final Class<T[]> rowArrayType, final T[] emptyRow) throws IllegalArgumentException, E, ArrayStoreException {
+        if (N.isEmpty(a)) {
+            return N.newArray(rowArrayType, 0);
+        }
+
+        final int len = a.length;
+        final T[][] result = N.newArray(rowArrayType, len);
+
+        for (int i = 0; i < len; i++) {
+            final boolean[] row = a[i];
+            result[i] = N.isEmpty(row) ? emptyRow : mapToObjNonEmpty(row, mapper, targetElementType);
         }
 
         return result;
@@ -494,18 +484,7 @@ public sealed class Arrays permits Arrays.f {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
-        if (N.isEmpty(a)) {
-            return N.newArray(targetElementType, 0);
-        }
-
-        final int len = N.len(a);
-        final T[] result = N.newArray(targetElementType, len);
-
-        for (int i = 0; i < len; i++) {
-            result[i] = mapper.apply(a[i]);
-        }
-
-        return result;
+        return N.isEmpty(a) ? emptyArray1D(targetElementType) : mapToObjNonEmpty(a, mapper, targetElementType);
     }
 
     /**
@@ -513,6 +492,7 @@ public sealed class Arrays permits Arrays.f {
      * This method applies the mapper function to every character across all sub-arrays, maintaining
      * the two-dimensional structure of the original array.
      * Null or empty sub-arrays are mapped to empty arrays; non-null sub-array lengths are preserved.
+     * Empty sub-arrays in the result may share a single zero-length instance.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -554,18 +534,8 @@ public sealed class Arrays permits Arrays.f {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
-        if (N.isEmpty(a)) {
-            return N.newArray(N.newArray(targetElementType, 0).getClass(), 0);
-        }
-
-        final int len = N.len(a);
-        final T[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), len);
-
-        for (int i = 0; i < len; i++) {
-            result[i] = mapToObj(a[i], mapper, targetElementType);
-        }
-
-        return result;
+        final T[] emptyRow = emptyArray1D(targetElementType);
+        return mapToObjUnchecked(a, mapper, targetElementType, runtimeArrayClass(emptyRow), emptyRow);
     }
 
     /**
@@ -573,6 +543,7 @@ public sealed class Arrays permits Arrays.f {
      * This method applies the mapper function to every character across all levels of nested sub-arrays,
      * preserving the three-dimensional structure of the original array.
      * Null or empty sub-arrays at any nesting level are mapped to empty arrays; non-null sub-array lengths are preserved.
+     * Empty sub-arrays in the result may share a single zero-length instance.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -614,15 +585,50 @@ public sealed class Arrays permits Arrays.f {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
+        final T[] emptyRow = emptyArray1D(targetElementType);
+        final Class<T[]> rowArrayType = runtimeArrayClass(emptyRow);
+        final T[][] emptyPlane = emptyArray2D(rowArrayType);
+        final Class<T[][]> planeArrayType = runtimeArrayClass(emptyPlane);
+
         if (N.isEmpty(a)) {
-            return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
+            return N.newArray(planeArrayType, 0);
         }
 
-        final int len = N.len(a);
-        final T[][][] result = N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), len);
+        final int len = a.length;
+        final T[][][] result = N.newArray(planeArrayType, len);
 
         for (int i = 0; i < len; i++) {
-            result[i] = mapToObj(a[i], mapper, targetElementType);
+            final char[][] plane = a[i];
+            result[i] = N.isEmpty(plane) ? emptyPlane : mapToObjUnchecked(plane, mapper, targetElementType, rowArrayType, emptyRow);
+        }
+
+        return result;
+    }
+
+    private static <T, E extends Exception> T[] mapToObjNonEmpty(final char[] a, final Throwables.CharFunction<? extends T, E> mapper,
+            final Class<T> targetElementType) throws IllegalArgumentException, E, ArrayStoreException {
+        final int len = a.length;
+        final T[] result = N.newArray(targetElementType, len);
+
+        for (int i = 0; i < len; i++) {
+            result[i] = mapper.apply(a[i]);
+        }
+
+        return result;
+    }
+
+    private static <T, E extends Exception> T[][] mapToObjUnchecked(final char[][] a, final Throwables.CharFunction<? extends T, E> mapper,
+            final Class<T> targetElementType, final Class<T[]> rowArrayType, final T[] emptyRow) throws IllegalArgumentException, E, ArrayStoreException {
+        if (N.isEmpty(a)) {
+            return N.newArray(rowArrayType, 0);
+        }
+
+        final int len = a.length;
+        final T[][] result = N.newArray(rowArrayType, len);
+
+        for (int i = 0; i < len; i++) {
+            final char[] row = a[i];
+            result[i] = N.isEmpty(row) ? emptyRow : mapToObjNonEmpty(row, mapper, targetElementType);
         }
 
         return result;
@@ -671,18 +677,7 @@ public sealed class Arrays permits Arrays.f {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
-        if (N.isEmpty(a)) {
-            return N.newArray(targetElementType, 0);
-        }
-
-        final int len = N.len(a);
-        final T[] result = N.newArray(targetElementType, len);
-
-        for (int i = 0; i < len; i++) {
-            result[i] = mapper.apply(a[i]);
-        }
-
-        return result;
+        return N.isEmpty(a) ? emptyArray1D(targetElementType) : mapToObjNonEmpty(a, mapper, targetElementType);
     }
 
     /**
@@ -690,6 +685,7 @@ public sealed class Arrays permits Arrays.f {
      * This method applies the mapper function to every byte across all sub-arrays, maintaining
      * the two-dimensional structure of the original array.
      * Null or empty sub-arrays are mapped to empty arrays; non-null sub-array lengths are preserved.
+     * Empty sub-arrays in the result may share a single zero-length instance.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -731,18 +727,8 @@ public sealed class Arrays permits Arrays.f {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
-        if (N.isEmpty(a)) {
-            return N.newArray(N.newArray(targetElementType, 0).getClass(), 0);
-        }
-
-        final int len = N.len(a);
-        final T[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), len);
-
-        for (int i = 0; i < len; i++) {
-            result[i] = mapToObj(a[i], mapper, targetElementType);
-        }
-
-        return result;
+        final T[] emptyRow = emptyArray1D(targetElementType);
+        return mapToObjUnchecked(a, mapper, targetElementType, runtimeArrayClass(emptyRow), emptyRow);
     }
 
     /**
@@ -750,6 +736,7 @@ public sealed class Arrays permits Arrays.f {
      * This method applies the mapper function to every byte across all levels of nested sub-arrays,
      * preserving the three-dimensional structure of the original array.
      * Null or empty sub-arrays at any nesting level are mapped to empty arrays; non-null sub-array lengths are preserved.
+     * Empty sub-arrays in the result may share a single zero-length instance.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -791,15 +778,50 @@ public sealed class Arrays permits Arrays.f {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
+        final T[] emptyRow = emptyArray1D(targetElementType);
+        final Class<T[]> rowArrayType = runtimeArrayClass(emptyRow);
+        final T[][] emptyPlane = emptyArray2D(rowArrayType);
+        final Class<T[][]> planeArrayType = runtimeArrayClass(emptyPlane);
+
         if (N.isEmpty(a)) {
-            return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
+            return N.newArray(planeArrayType, 0);
         }
 
-        final int len = N.len(a);
-        final T[][][] result = N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), len);
+        final int len = a.length;
+        final T[][][] result = N.newArray(planeArrayType, len);
 
         for (int i = 0; i < len; i++) {
-            result[i] = mapToObj(a[i], mapper, targetElementType);
+            final byte[][] plane = a[i];
+            result[i] = N.isEmpty(plane) ? emptyPlane : mapToObjUnchecked(plane, mapper, targetElementType, rowArrayType, emptyRow);
+        }
+
+        return result;
+    }
+
+    private static <T, E extends Exception> T[] mapToObjNonEmpty(final byte[] a, final Throwables.ByteFunction<? extends T, E> mapper,
+            final Class<T> targetElementType) throws IllegalArgumentException, E, ArrayStoreException {
+        final int len = a.length;
+        final T[] result = N.newArray(targetElementType, len);
+
+        for (int i = 0; i < len; i++) {
+            result[i] = mapper.apply(a[i]);
+        }
+
+        return result;
+    }
+
+    private static <T, E extends Exception> T[][] mapToObjUnchecked(final byte[][] a, final Throwables.ByteFunction<? extends T, E> mapper,
+            final Class<T> targetElementType, final Class<T[]> rowArrayType, final T[] emptyRow) throws IllegalArgumentException, E, ArrayStoreException {
+        if (N.isEmpty(a)) {
+            return N.newArray(rowArrayType, 0);
+        }
+
+        final int len = a.length;
+        final T[][] result = N.newArray(rowArrayType, len);
+
+        for (int i = 0; i < len; i++) {
+            final byte[] row = a[i];
+            result[i] = N.isEmpty(row) ? emptyRow : mapToObjNonEmpty(row, mapper, targetElementType);
         }
 
         return result;
@@ -848,18 +870,7 @@ public sealed class Arrays permits Arrays.f {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
-        if (N.isEmpty(a)) {
-            return N.newArray(targetElementType, 0);
-        }
-
-        final int len = N.len(a);
-        final T[] result = N.newArray(targetElementType, len);
-
-        for (int i = 0; i < len; i++) {
-            result[i] = mapper.apply(a[i]);
-        }
-
-        return result;
+        return N.isEmpty(a) ? emptyArray1D(targetElementType) : mapToObjNonEmpty(a, mapper, targetElementType);
     }
 
     /**
@@ -867,6 +878,7 @@ public sealed class Arrays permits Arrays.f {
      * This method applies the mapper function to every short value across all sub-arrays, maintaining
      * the two-dimensional structure of the original array.
      * Null or empty sub-arrays are mapped to empty arrays; non-null sub-array lengths are preserved.
+     * Empty sub-arrays in the result may share a single zero-length instance.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -908,18 +920,8 @@ public sealed class Arrays permits Arrays.f {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
-        if (N.isEmpty(a)) {
-            return N.newArray(N.newArray(targetElementType, 0).getClass(), 0);
-        }
-
-        final int len = N.len(a);
-        final T[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), len);
-
-        for (int i = 0; i < len; i++) {
-            result[i] = mapToObj(a[i], mapper, targetElementType);
-        }
-
-        return result;
+        final T[] emptyRow = emptyArray1D(targetElementType);
+        return mapToObjUnchecked(a, mapper, targetElementType, runtimeArrayClass(emptyRow), emptyRow);
     }
 
     /**
@@ -927,6 +929,7 @@ public sealed class Arrays permits Arrays.f {
      * This method applies the mapper function to every short value across all levels of nested sub-arrays,
      * preserving the three-dimensional structure of the original array.
      * Null or empty sub-arrays at any nesting level are mapped to empty arrays; non-null sub-array lengths are preserved.
+     * Empty sub-arrays in the result may share a single zero-length instance.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -968,15 +971,50 @@ public sealed class Arrays permits Arrays.f {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
+        final T[] emptyRow = emptyArray1D(targetElementType);
+        final Class<T[]> rowArrayType = runtimeArrayClass(emptyRow);
+        final T[][] emptyPlane = emptyArray2D(rowArrayType);
+        final Class<T[][]> planeArrayType = runtimeArrayClass(emptyPlane);
+
         if (N.isEmpty(a)) {
-            return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
+            return N.newArray(planeArrayType, 0);
         }
 
-        final int len = N.len(a);
-        final T[][][] result = N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), len);
+        final int len = a.length;
+        final T[][][] result = N.newArray(planeArrayType, len);
 
         for (int i = 0; i < len; i++) {
-            result[i] = mapToObj(a[i], mapper, targetElementType);
+            final short[][] plane = a[i];
+            result[i] = N.isEmpty(plane) ? emptyPlane : mapToObjUnchecked(plane, mapper, targetElementType, rowArrayType, emptyRow);
+        }
+
+        return result;
+    }
+
+    private static <T, E extends Exception> T[] mapToObjNonEmpty(final short[] a, final Throwables.ShortFunction<? extends T, E> mapper,
+            final Class<T> targetElementType) throws IllegalArgumentException, E, ArrayStoreException {
+        final int len = a.length;
+        final T[] result = N.newArray(targetElementType, len);
+
+        for (int i = 0; i < len; i++) {
+            result[i] = mapper.apply(a[i]);
+        }
+
+        return result;
+    }
+
+    private static <T, E extends Exception> T[][] mapToObjUnchecked(final short[][] a, final Throwables.ShortFunction<? extends T, E> mapper,
+            final Class<T> targetElementType, final Class<T[]> rowArrayType, final T[] emptyRow) throws IllegalArgumentException, E, ArrayStoreException {
+        if (N.isEmpty(a)) {
+            return N.newArray(rowArrayType, 0);
+        }
+
+        final int len = a.length;
+        final T[][] result = N.newArray(rowArrayType, len);
+
+        for (int i = 0; i < len; i++) {
+            final short[] row = a[i];
+            result[i] = N.isEmpty(row) ? emptyRow : mapToObjNonEmpty(row, mapper, targetElementType);
         }
 
         return result;
@@ -1025,18 +1063,7 @@ public sealed class Arrays permits Arrays.f {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
-        if (N.isEmpty(a)) {
-            return N.newArray(targetElementType, 0);
-        }
-
-        final int len = N.len(a);
-        final T[] result = N.newArray(targetElementType, len);
-
-        for (int i = 0; i < len; i++) {
-            result[i] = mapper.apply(a[i]);
-        }
-
-        return result;
+        return N.isEmpty(a) ? emptyArray1D(targetElementType) : mapToObjNonEmpty(a, mapper, targetElementType);
     }
 
     /**
@@ -1044,6 +1071,7 @@ public sealed class Arrays permits Arrays.f {
      * This method applies the mapper function to every int value across all sub-arrays, maintaining
      * the two-dimensional structure of the original array.
      * Null or empty sub-arrays are mapped to empty arrays; non-null sub-array lengths are preserved.
+     * Empty sub-arrays in the result may share a single zero-length instance.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1085,18 +1113,8 @@ public sealed class Arrays permits Arrays.f {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
-        if (N.isEmpty(a)) {
-            return N.newArray(N.newArray(targetElementType, 0).getClass(), 0);
-        }
-
-        final int len = N.len(a);
-        final T[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), len);
-
-        for (int i = 0; i < len; i++) {
-            result[i] = mapToObj(a[i], mapper, targetElementType);
-        }
-
-        return result;
+        final T[] emptyRow = emptyArray1D(targetElementType);
+        return mapToObjUnchecked(a, mapper, targetElementType, runtimeArrayClass(emptyRow), emptyRow);
     }
 
     /**
@@ -1104,6 +1122,7 @@ public sealed class Arrays permits Arrays.f {
      * This method applies the mapper function to every int value across all levels of nested sub-arrays,
      * preserving the three-dimensional structure of the original array.
      * Null or empty sub-arrays at any nesting level are mapped to empty arrays; non-null sub-array lengths are preserved.
+     * Empty sub-arrays in the result may share a single zero-length instance.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1145,15 +1164,50 @@ public sealed class Arrays permits Arrays.f {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
+        final T[] emptyRow = emptyArray1D(targetElementType);
+        final Class<T[]> rowArrayType = runtimeArrayClass(emptyRow);
+        final T[][] emptyPlane = emptyArray2D(rowArrayType);
+        final Class<T[][]> planeArrayType = runtimeArrayClass(emptyPlane);
+
         if (N.isEmpty(a)) {
-            return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
+            return N.newArray(planeArrayType, 0);
         }
 
-        final int len = N.len(a);
-        final T[][][] result = N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), len);
+        final int len = a.length;
+        final T[][][] result = N.newArray(planeArrayType, len);
 
         for (int i = 0; i < len; i++) {
-            result[i] = mapToObj(a[i], mapper, targetElementType);
+            final int[][] plane = a[i];
+            result[i] = N.isEmpty(plane) ? emptyPlane : mapToObjUnchecked(plane, mapper, targetElementType, rowArrayType, emptyRow);
+        }
+
+        return result;
+    }
+
+    private static <T, E extends Exception> T[] mapToObjNonEmpty(final int[] a, final Throwables.IntFunction<? extends T, E> mapper,
+            final Class<T> targetElementType) throws IllegalArgumentException, E, ArrayStoreException {
+        final int len = a.length;
+        final T[] result = N.newArray(targetElementType, len);
+
+        for (int i = 0; i < len; i++) {
+            result[i] = mapper.apply(a[i]);
+        }
+
+        return result;
+    }
+
+    private static <T, E extends Exception> T[][] mapToObjUnchecked(final int[][] a, final Throwables.IntFunction<? extends T, E> mapper,
+            final Class<T> targetElementType, final Class<T[]> rowArrayType, final T[] emptyRow) throws IllegalArgumentException, E, ArrayStoreException {
+        if (N.isEmpty(a)) {
+            return N.newArray(rowArrayType, 0);
+        }
+
+        final int len = a.length;
+        final T[][] result = N.newArray(rowArrayType, len);
+
+        for (int i = 0; i < len; i++) {
+            final int[] row = a[i];
+            result[i] = N.isEmpty(row) ? emptyRow : mapToObjNonEmpty(row, mapper, targetElementType);
         }
 
         return result;
@@ -1202,18 +1256,7 @@ public sealed class Arrays permits Arrays.f {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
-        if (N.isEmpty(a)) {
-            return N.newArray(targetElementType, 0);
-        }
-
-        final int len = N.len(a);
-        final T[] result = N.newArray(targetElementType, len);
-
-        for (int i = 0; i < len; i++) {
-            result[i] = mapper.apply(a[i]);
-        }
-
-        return result;
+        return N.isEmpty(a) ? emptyArray1D(targetElementType) : mapToObjNonEmpty(a, mapper, targetElementType);
     }
 
     /**
@@ -1221,6 +1264,7 @@ public sealed class Arrays permits Arrays.f {
      * This method applies the mapper function to every long value across all sub-arrays, maintaining
      * the two-dimensional structure of the original array.
      * Null or empty sub-arrays are mapped to empty arrays; non-null sub-array lengths are preserved.
+     * Empty sub-arrays in the result may share a single zero-length instance.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1262,18 +1306,8 @@ public sealed class Arrays permits Arrays.f {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
-        if (N.isEmpty(a)) {
-            return N.newArray(N.newArray(targetElementType, 0).getClass(), 0);
-        }
-
-        final int len = N.len(a);
-        final T[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), len);
-
-        for (int i = 0; i < len; i++) {
-            result[i] = mapToObj(a[i], mapper, targetElementType);
-        }
-
-        return result;
+        final T[] emptyRow = emptyArray1D(targetElementType);
+        return mapToObjUnchecked(a, mapper, targetElementType, runtimeArrayClass(emptyRow), emptyRow);
     }
 
     /**
@@ -1281,6 +1315,7 @@ public sealed class Arrays permits Arrays.f {
      * This method applies the mapper function to every long value across all levels of nested sub-arrays,
      * preserving the three-dimensional structure of the original array.
      * Null or empty sub-arrays at any nesting level are mapped to empty arrays; non-null sub-array lengths are preserved.
+     * Empty sub-arrays in the result may share a single zero-length instance.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1323,15 +1358,50 @@ public sealed class Arrays permits Arrays.f {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
+        final T[] emptyRow = emptyArray1D(targetElementType);
+        final Class<T[]> rowArrayType = runtimeArrayClass(emptyRow);
+        final T[][] emptyPlane = emptyArray2D(rowArrayType);
+        final Class<T[][]> planeArrayType = runtimeArrayClass(emptyPlane);
+
         if (N.isEmpty(a)) {
-            return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
+            return N.newArray(planeArrayType, 0);
         }
 
-        final int len = N.len(a);
-        final T[][][] result = N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), len);
+        final int len = a.length;
+        final T[][][] result = N.newArray(planeArrayType, len);
 
         for (int i = 0; i < len; i++) {
-            result[i] = mapToObj(a[i], mapper, targetElementType);
+            final long[][] plane = a[i];
+            result[i] = N.isEmpty(plane) ? emptyPlane : mapToObjUnchecked(plane, mapper, targetElementType, rowArrayType, emptyRow);
+        }
+
+        return result;
+    }
+
+    private static <T, E extends Exception> T[] mapToObjNonEmpty(final long[] a, final Throwables.LongFunction<? extends T, E> mapper,
+            final Class<T> targetElementType) throws IllegalArgumentException, E, ArrayStoreException {
+        final int len = a.length;
+        final T[] result = N.newArray(targetElementType, len);
+
+        for (int i = 0; i < len; i++) {
+            result[i] = mapper.apply(a[i]);
+        }
+
+        return result;
+    }
+
+    private static <T, E extends Exception> T[][] mapToObjUnchecked(final long[][] a, final Throwables.LongFunction<? extends T, E> mapper,
+            final Class<T> targetElementType, final Class<T[]> rowArrayType, final T[] emptyRow) throws IllegalArgumentException, E, ArrayStoreException {
+        if (N.isEmpty(a)) {
+            return N.newArray(rowArrayType, 0);
+        }
+
+        final int len = a.length;
+        final T[][] result = N.newArray(rowArrayType, len);
+
+        for (int i = 0; i < len; i++) {
+            final long[] row = a[i];
+            result[i] = N.isEmpty(row) ? emptyRow : mapToObjNonEmpty(row, mapper, targetElementType);
         }
 
         return result;
@@ -1380,18 +1450,7 @@ public sealed class Arrays permits Arrays.f {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
-        if (N.isEmpty(a)) {
-            return N.newArray(targetElementType, 0);
-        }
-
-        final int len = N.len(a);
-        final T[] result = N.newArray(targetElementType, len);
-
-        for (int i = 0; i < len; i++) {
-            result[i] = mapper.apply(a[i]);
-        }
-
-        return result;
+        return N.isEmpty(a) ? emptyArray1D(targetElementType) : mapToObjNonEmpty(a, mapper, targetElementType);
     }
 
     /**
@@ -1399,6 +1458,7 @@ public sealed class Arrays permits Arrays.f {
      * This method applies the mapper function to every float value across all sub-arrays, maintaining
      * the two-dimensional structure of the original array.
      * Null or empty sub-arrays are mapped to empty arrays; non-null sub-array lengths are preserved.
+     * Empty sub-arrays in the result may share a single zero-length instance.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1440,18 +1500,8 @@ public sealed class Arrays permits Arrays.f {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
-        if (N.isEmpty(a)) {
-            return N.newArray(N.newArray(targetElementType, 0).getClass(), 0);
-        }
-
-        final int len = N.len(a);
-        final T[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), len);
-
-        for (int i = 0; i < len; i++) {
-            result[i] = mapToObj(a[i], mapper, targetElementType);
-        }
-
-        return result;
+        final T[] emptyRow = emptyArray1D(targetElementType);
+        return mapToObjUnchecked(a, mapper, targetElementType, runtimeArrayClass(emptyRow), emptyRow);
     }
 
     /**
@@ -1459,6 +1509,7 @@ public sealed class Arrays permits Arrays.f {
      * This method applies the mapper function to every float value across all levels of nested sub-arrays,
      * preserving the three-dimensional structure of the original array.
      * Null or empty sub-arrays at any nesting level are mapped to empty arrays; non-null sub-array lengths are preserved.
+     * Empty sub-arrays in the result may share a single zero-length instance.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1500,15 +1551,50 @@ public sealed class Arrays permits Arrays.f {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
+        final T[] emptyRow = emptyArray1D(targetElementType);
+        final Class<T[]> rowArrayType = runtimeArrayClass(emptyRow);
+        final T[][] emptyPlane = emptyArray2D(rowArrayType);
+        final Class<T[][]> planeArrayType = runtimeArrayClass(emptyPlane);
+
         if (N.isEmpty(a)) {
-            return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
+            return N.newArray(planeArrayType, 0);
         }
 
-        final int len = N.len(a);
-        final T[][][] result = N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), len);
+        final int len = a.length;
+        final T[][][] result = N.newArray(planeArrayType, len);
 
         for (int i = 0; i < len; i++) {
-            result[i] = mapToObj(a[i], mapper, targetElementType);
+            final float[][] plane = a[i];
+            result[i] = N.isEmpty(plane) ? emptyPlane : mapToObjUnchecked(plane, mapper, targetElementType, rowArrayType, emptyRow);
+        }
+
+        return result;
+    }
+
+    private static <T, E extends Exception> T[] mapToObjNonEmpty(final float[] a, final Throwables.FloatFunction<? extends T, E> mapper,
+            final Class<T> targetElementType) throws IllegalArgumentException, E, ArrayStoreException {
+        final int len = a.length;
+        final T[] result = N.newArray(targetElementType, len);
+
+        for (int i = 0; i < len; i++) {
+            result[i] = mapper.apply(a[i]);
+        }
+
+        return result;
+    }
+
+    private static <T, E extends Exception> T[][] mapToObjUnchecked(final float[][] a, final Throwables.FloatFunction<? extends T, E> mapper,
+            final Class<T> targetElementType, final Class<T[]> rowArrayType, final T[] emptyRow) throws IllegalArgumentException, E, ArrayStoreException {
+        if (N.isEmpty(a)) {
+            return N.newArray(rowArrayType, 0);
+        }
+
+        final int len = a.length;
+        final T[][] result = N.newArray(rowArrayType, len);
+
+        for (int i = 0; i < len; i++) {
+            final float[] row = a[i];
+            result[i] = N.isEmpty(row) ? emptyRow : mapToObjNonEmpty(row, mapper, targetElementType);
         }
 
         return result;
@@ -1557,18 +1643,7 @@ public sealed class Arrays permits Arrays.f {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
-        if (N.isEmpty(a)) {
-            return N.newArray(targetElementType, 0);
-        }
-
-        final int len = N.len(a);
-        final T[] result = N.newArray(targetElementType, len);
-
-        for (int i = 0; i < len; i++) {
-            result[i] = mapper.apply(a[i]);
-        }
-
-        return result;
+        return N.isEmpty(a) ? emptyArray1D(targetElementType) : mapToObjNonEmpty(a, mapper, targetElementType);
     }
 
     /**
@@ -1576,6 +1651,7 @@ public sealed class Arrays permits Arrays.f {
      * This method applies the mapper function to every double value across all sub-arrays, maintaining
      * the two-dimensional structure of the original array.
      * Null or empty sub-arrays are mapped to empty arrays; non-null sub-array lengths are preserved.
+     * Empty sub-arrays in the result may share a single zero-length instance.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1617,18 +1693,8 @@ public sealed class Arrays permits Arrays.f {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
-        if (N.isEmpty(a)) {
-            return N.newArray(N.newArray(targetElementType, 0).getClass(), 0);
-        }
-
-        final int len = N.len(a);
-        final T[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), len);
-
-        for (int i = 0; i < len; i++) {
-            result[i] = mapToObj(a[i], mapper, targetElementType);
-        }
-
-        return result;
+        final T[] emptyRow = emptyArray1D(targetElementType);
+        return mapToObjUnchecked(a, mapper, targetElementType, runtimeArrayClass(emptyRow), emptyRow);
     }
 
     /**
@@ -1636,6 +1702,7 @@ public sealed class Arrays permits Arrays.f {
      * This method applies the mapper function to every double value across all levels of nested sub-arrays,
      * preserving the three-dimensional structure of the original array.
      * Null or empty sub-arrays at any nesting level are mapped to empty arrays; non-null sub-array lengths are preserved.
+     * Empty sub-arrays in the result may share a single zero-length instance.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1677,15 +1744,50 @@ public sealed class Arrays permits Arrays.f {
         N.checkArgNotNull(mapper, cs.mapper);
         checkTargetElementType(targetElementType);
 
+        final T[] emptyRow = emptyArray1D(targetElementType);
+        final Class<T[]> rowArrayType = runtimeArrayClass(emptyRow);
+        final T[][] emptyPlane = emptyArray2D(rowArrayType);
+        final Class<T[][]> planeArrayType = runtimeArrayClass(emptyPlane);
+
         if (N.isEmpty(a)) {
-            return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
+            return N.newArray(planeArrayType, 0);
         }
 
-        final int len = N.len(a);
-        final T[][][] result = N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), len);
+        final int len = a.length;
+        final T[][][] result = N.newArray(planeArrayType, len);
 
         for (int i = 0; i < len; i++) {
-            result[i] = mapToObj(a[i], mapper, targetElementType);
+            final double[][] plane = a[i];
+            result[i] = N.isEmpty(plane) ? emptyPlane : mapToObjUnchecked(plane, mapper, targetElementType, rowArrayType, emptyRow);
+        }
+
+        return result;
+    }
+
+    private static <T, E extends Exception> T[] mapToObjNonEmpty(final double[] a, final Throwables.DoubleFunction<? extends T, E> mapper,
+            final Class<T> targetElementType) throws IllegalArgumentException, E, ArrayStoreException {
+        final int len = a.length;
+        final T[] result = N.newArray(targetElementType, len);
+
+        for (int i = 0; i < len; i++) {
+            result[i] = mapper.apply(a[i]);
+        }
+
+        return result;
+    }
+
+    private static <T, E extends Exception> T[][] mapToObjUnchecked(final double[][] a, final Throwables.DoubleFunction<? extends T, E> mapper,
+            final Class<T> targetElementType, final Class<T[]> rowArrayType, final T[] emptyRow) throws IllegalArgumentException, E, ArrayStoreException {
+        if (N.isEmpty(a)) {
+            return N.newArray(rowArrayType, 0);
+        }
+
+        final int len = a.length;
+        final T[][] result = N.newArray(rowArrayType, len);
+
+        for (int i = 0; i < len; i++) {
+            final double[] row = a[i];
+            result[i] = N.isEmpty(row) ? emptyRow : mapToObjNonEmpty(row, mapper, targetElementType);
         }
 
         return result;
@@ -1735,18 +1837,7 @@ public sealed class Arrays permits Arrays.f {
     public static <E extends Exception> long[] mapToLong(final int[] a, final Throwables.IntToLongFunction<E> mapper) throws IllegalArgumentException, E {
         N.checkArgNotNull(mapper, cs.mapper);
 
-        if (N.isEmpty(a)) {
-            return N.EMPTY_LONG_ARRAY;
-        }
-
-        final int len = N.len(a);
-        final long[] result = new long[len];
-
-        for (int i = 0; i < len; i++) {
-            result[i] = mapper.applyAsLong(a[i]);
-        }
-
-        return result;
+        return mapToLongUnchecked(a, mapper);
     }
 
     /**
@@ -1791,18 +1882,7 @@ public sealed class Arrays permits Arrays.f {
     public static <E extends Exception> long[][] mapToLong(final int[][] a, final Throwables.IntToLongFunction<E> mapper) throws IllegalArgumentException, E {
         N.checkArgNotNull(mapper, cs.mapper);
 
-        if (N.isEmpty(a)) {
-            return new long[0][];
-        }
-
-        final int len = N.len(a);
-        final long[][] result = new long[len][];
-
-        for (int i = 0; i < len; i++) {
-            result[i] = mapToLong(a[i], mapper);
-        }
-
-        return result;
+        return mapToLongUnchecked(a, mapper);
     }
 
     /**
@@ -1857,11 +1937,41 @@ public sealed class Arrays permits Arrays.f {
             return new long[0][][];
         }
 
-        final int len = N.len(a);
+        final int len = a.length;
         final long[][][] result = new long[len][][];
 
         for (int i = 0; i < len; i++) {
-            result[i] = mapToLong(a[i], mapper);
+            result[i] = mapToLongUnchecked(a[i], mapper);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> long[] mapToLongUnchecked(final int[] a, final Throwables.IntToLongFunction<E> mapper) throws E {
+        if (N.isEmpty(a)) {
+            return N.EMPTY_LONG_ARRAY;
+        }
+
+        final int len = a.length;
+        final long[] result = new long[len];
+
+        for (int i = 0; i < len; i++) {
+            result[i] = mapper.applyAsLong(a[i]);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> long[][] mapToLongUnchecked(final int[][] a, final Throwables.IntToLongFunction<E> mapper) throws E {
+        if (N.isEmpty(a)) {
+            return new long[0][];
+        }
+
+        final int len = a.length;
+        final long[][] result = new long[len][];
+
+        for (int i = 0; i < len; i++) {
+            result[i] = mapToLongUnchecked(a[i], mapper);
         }
 
         return result;
@@ -1911,18 +2021,7 @@ public sealed class Arrays permits Arrays.f {
     public static <E extends Exception> double[] mapToDouble(final int[] a, final Throwables.IntToDoubleFunction<E> mapper) throws IllegalArgumentException, E {
         N.checkArgNotNull(mapper, cs.mapper);
 
-        if (N.isEmpty(a)) {
-            return N.EMPTY_DOUBLE_ARRAY;
-        }
-
-        final int len = N.len(a);
-        final double[] result = new double[len];
-
-        for (int i = 0; i < len; i++) {
-            result[i] = mapper.applyAsDouble(a[i]);
-        }
-
-        return result;
+        return mapToDoubleUnchecked(a, mapper);
     }
 
     /**
@@ -1968,18 +2067,7 @@ public sealed class Arrays permits Arrays.f {
             throws IllegalArgumentException, E {
         N.checkArgNotNull(mapper, cs.mapper);
 
-        if (N.isEmpty(a)) {
-            return new double[0][];
-        }
-
-        final int len = N.len(a);
-        final double[][] result = new double[len][];
-
-        for (int i = 0; i < len; i++) {
-            result[i] = mapToDouble(a[i], mapper);
-        }
-
-        return result;
+        return mapToDoubleUnchecked(a, mapper);
     }
 
     /**
@@ -2029,11 +2117,41 @@ public sealed class Arrays permits Arrays.f {
             return new double[0][][];
         }
 
-        final int len = N.len(a);
+        final int len = a.length;
         final double[][][] result = new double[len][][];
 
         for (int i = 0; i < len; i++) {
-            result[i] = mapToDouble(a[i], mapper);
+            result[i] = mapToDoubleUnchecked(a[i], mapper);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> double[] mapToDoubleUnchecked(final int[] a, final Throwables.IntToDoubleFunction<E> mapper) throws E {
+        if (N.isEmpty(a)) {
+            return N.EMPTY_DOUBLE_ARRAY;
+        }
+
+        final int len = a.length;
+        final double[] result = new double[len];
+
+        for (int i = 0; i < len; i++) {
+            result[i] = mapper.applyAsDouble(a[i]);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> double[][] mapToDoubleUnchecked(final int[][] a, final Throwables.IntToDoubleFunction<E> mapper) throws E {
+        if (N.isEmpty(a)) {
+            return new double[0][];
+        }
+
+        final int len = a.length;
+        final double[][] result = new double[len][];
+
+        for (int i = 0; i < len; i++) {
+            result[i] = mapToDoubleUnchecked(a[i], mapper);
         }
 
         return result;
@@ -2083,18 +2201,7 @@ public sealed class Arrays permits Arrays.f {
     public static <E extends Exception> int[] mapToInt(final long[] a, final Throwables.LongToIntFunction<E> mapper) throws IllegalArgumentException, E {
         N.checkArgNotNull(mapper, cs.mapper);
 
-        if (N.isEmpty(a)) {
-            return N.EMPTY_INT_ARRAY;
-        }
-
-        final int len = N.len(a);
-        final int[] result = new int[len];
-
-        for (int i = 0; i < len; i++) {
-            result[i] = mapper.applyAsInt(a[i]);
-        }
-
-        return result;
+        return mapToIntUnchecked(a, mapper);
     }
 
     /**
@@ -2140,18 +2247,7 @@ public sealed class Arrays permits Arrays.f {
     public static <E extends Exception> int[][] mapToInt(final long[][] a, final Throwables.LongToIntFunction<E> mapper) throws IllegalArgumentException, E {
         N.checkArgNotNull(mapper, cs.mapper);
 
-        if (N.isEmpty(a)) {
-            return new int[0][];
-        }
-
-        final int len = N.len(a);
-        final int[][] result = new int[len][];
-
-        for (int i = 0; i < len; i++) {
-            result[i] = mapToInt(a[i], mapper);
-        }
-
-        return result;
+        return mapToIntUnchecked(a, mapper);
     }
 
     /**
@@ -2202,11 +2298,41 @@ public sealed class Arrays permits Arrays.f {
             return new int[0][][];
         }
 
-        final int len = N.len(a);
+        final int len = a.length;
         final int[][][] result = new int[len][][];
 
         for (int i = 0; i < len; i++) {
-            result[i] = mapToInt(a[i], mapper);
+            result[i] = mapToIntUnchecked(a[i], mapper);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> int[] mapToIntUnchecked(final long[] a, final Throwables.LongToIntFunction<E> mapper) throws E {
+        if (N.isEmpty(a)) {
+            return N.EMPTY_INT_ARRAY;
+        }
+
+        final int len = a.length;
+        final int[] result = new int[len];
+
+        for (int i = 0; i < len; i++) {
+            result[i] = mapper.applyAsInt(a[i]);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> int[][] mapToIntUnchecked(final long[][] a, final Throwables.LongToIntFunction<E> mapper) throws E {
+        if (N.isEmpty(a)) {
+            return new int[0][];
+        }
+
+        final int len = a.length;
+        final int[][] result = new int[len][];
+
+        for (int i = 0; i < len; i++) {
+            result[i] = mapToIntUnchecked(a[i], mapper);
         }
 
         return result;
@@ -2258,18 +2384,7 @@ public sealed class Arrays permits Arrays.f {
             throws IllegalArgumentException, E {
         N.checkArgNotNull(mapper, cs.mapper);
 
-        if (N.isEmpty(a)) {
-            return N.EMPTY_DOUBLE_ARRAY;
-        }
-
-        final int len = N.len(a);
-        final double[] result = new double[len];
-
-        for (int i = 0; i < len; i++) {
-            result[i] = mapper.applyAsDouble(a[i]);
-        }
-
-        return result;
+        return mapToDoubleUnchecked(a, mapper);
     }
 
     /**
@@ -2316,18 +2431,7 @@ public sealed class Arrays permits Arrays.f {
             throws IllegalArgumentException, E {
         N.checkArgNotNull(mapper, cs.mapper);
 
-        if (N.isEmpty(a)) {
-            return new double[0][];
-        }
-
-        final int len = N.len(a);
-        final double[][] result = new double[len][];
-
-        for (int i = 0; i < len; i++) {
-            result[i] = mapToDouble(a[i], mapper);
-        }
-
-        return result;
+        return mapToDoubleUnchecked(a, mapper);
     }
 
     /**
@@ -2377,11 +2481,41 @@ public sealed class Arrays permits Arrays.f {
             return new double[0][][];
         }
 
-        final int len = N.len(a);
+        final int len = a.length;
         final double[][][] result = new double[len][][];
 
         for (int i = 0; i < len; i++) {
-            result[i] = mapToDouble(a[i], mapper);
+            result[i] = mapToDoubleUnchecked(a[i], mapper);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> double[] mapToDoubleUnchecked(final long[] a, final Throwables.LongToDoubleFunction<E> mapper) throws E {
+        if (N.isEmpty(a)) {
+            return N.EMPTY_DOUBLE_ARRAY;
+        }
+
+        final int len = a.length;
+        final double[] result = new double[len];
+
+        for (int i = 0; i < len; i++) {
+            result[i] = mapper.applyAsDouble(a[i]);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> double[][] mapToDoubleUnchecked(final long[][] a, final Throwables.LongToDoubleFunction<E> mapper) throws E {
+        if (N.isEmpty(a)) {
+            return new double[0][];
+        }
+
+        final int len = a.length;
+        final double[][] result = new double[len][];
+
+        for (int i = 0; i < len; i++) {
+            result[i] = mapToDoubleUnchecked(a[i], mapper);
         }
 
         return result;
@@ -2427,18 +2561,7 @@ public sealed class Arrays permits Arrays.f {
     public static <E extends Exception> int[] mapToInt(final double[] a, final Throwables.DoubleToIntFunction<E> mapper) throws IllegalArgumentException, E {
         N.checkArgNotNull(mapper, cs.mapper);
 
-        if (N.isEmpty(a)) {
-            return N.EMPTY_INT_ARRAY;
-        }
-
-        final int len = N.len(a);
-        final int[] result = new int[len];
-
-        for (int i = 0; i < len; i++) {
-            result[i] = mapper.applyAsInt(a[i]);
-        }
-
-        return result;
+        return mapToIntUnchecked(a, mapper);
     }
 
     /**
@@ -2485,18 +2608,7 @@ public sealed class Arrays permits Arrays.f {
             throws IllegalArgumentException, E {
         N.checkArgNotNull(mapper, cs.mapper);
 
-        if (N.isEmpty(a)) {
-            return new int[0][];
-        }
-
-        final int len = N.len(a);
-        final int[][] result = new int[len][];
-
-        for (int i = 0; i < len; i++) {
-            result[i] = mapToInt(a[i], mapper);
-        }
-
-        return result;
+        return mapToIntUnchecked(a, mapper);
     }
 
     /**
@@ -2547,11 +2659,41 @@ public sealed class Arrays permits Arrays.f {
             return new int[0][][];
         }
 
-        final int len = N.len(a);
+        final int len = a.length;
         final int[][][] result = new int[len][][];
 
         for (int i = 0; i < len; i++) {
-            result[i] = mapToInt(a[i], mapper);
+            result[i] = mapToIntUnchecked(a[i], mapper);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> int[] mapToIntUnchecked(final double[] a, final Throwables.DoubleToIntFunction<E> mapper) throws E {
+        if (N.isEmpty(a)) {
+            return N.EMPTY_INT_ARRAY;
+        }
+
+        final int len = a.length;
+        final int[] result = new int[len];
+
+        for (int i = 0; i < len; i++) {
+            result[i] = mapper.applyAsInt(a[i]);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> int[][] mapToIntUnchecked(final double[][] a, final Throwables.DoubleToIntFunction<E> mapper) throws E {
+        if (N.isEmpty(a)) {
+            return new int[0][];
+        }
+
+        final int len = a.length;
+        final int[][] result = new int[len][];
+
+        for (int i = 0; i < len; i++) {
+            result[i] = mapToIntUnchecked(a[i], mapper);
         }
 
         return result;
@@ -2602,18 +2744,7 @@ public sealed class Arrays permits Arrays.f {
     public static <E extends Exception> long[] mapToLong(final double[] a, final Throwables.DoubleToLongFunction<E> mapper) throws IllegalArgumentException, E {
         N.checkArgNotNull(mapper, cs.mapper);
 
-        if (N.isEmpty(a)) {
-            return N.EMPTY_LONG_ARRAY;
-        }
-
-        final int len = N.len(a);
-        final long[] result = new long[len];
-
-        for (int i = 0; i < len; i++) {
-            result[i] = mapper.applyAsLong(a[i]);
-        }
-
-        return result;
+        return mapToLongUnchecked(a, mapper);
     }
 
     /**
@@ -2660,18 +2791,7 @@ public sealed class Arrays permits Arrays.f {
             throws IllegalArgumentException, E {
         N.checkArgNotNull(mapper, cs.mapper);
 
-        if (N.isEmpty(a)) {
-            return new long[0][];
-        }
-
-        final int len = N.len(a);
-        final long[][] result = new long[len][];
-
-        for (int i = 0; i < len; i++) {
-            result[i] = mapToLong(a[i], mapper);
-        }
-
-        return result;
+        return mapToLongUnchecked(a, mapper);
     }
 
     /**
@@ -2722,11 +2842,41 @@ public sealed class Arrays permits Arrays.f {
             return new long[0][][];
         }
 
-        final int len = N.len(a);
+        final int len = a.length;
         final long[][][] result = new long[len][][];
 
         for (int i = 0; i < len; i++) {
-            result[i] = mapToLong(a[i], mapper);
+            result[i] = mapToLongUnchecked(a[i], mapper);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> long[] mapToLongUnchecked(final double[] a, final Throwables.DoubleToLongFunction<E> mapper) throws E {
+        if (N.isEmpty(a)) {
+            return N.EMPTY_LONG_ARRAY;
+        }
+
+        final int len = a.length;
+        final long[] result = new long[len];
+
+        for (int i = 0; i < len; i++) {
+            result[i] = mapper.applyAsLong(a[i]);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> long[][] mapToLongUnchecked(final double[][] a, final Throwables.DoubleToLongFunction<E> mapper) throws E {
+        if (N.isEmpty(a)) {
+            return new long[0][];
+        }
+
+        final int len = a.length;
+        final long[][] result = new long[len][];
+
+        for (int i = 0; i < len; i++) {
+            result[i] = mapToLongUnchecked(a[i], mapper);
         }
 
         return result;
@@ -2816,8 +2966,14 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
-        for (final boolean[] element : a) {
-            updateAll(element, operator);
+        for (final boolean[] row : a) {
+            if (row == null) {
+                continue;
+            }
+
+            for (int j = 0, m = row.length; j < m; j++) {
+                row[j] = operator.applyAsBoolean(row[j]);
+            }
         }
     }
 
@@ -2860,8 +3016,20 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
-        for (final boolean[][] element : a) {
-            updateAll(element, operator);
+        for (final boolean[][] plane : a) {
+            if (plane == null) {
+                continue;
+            }
+
+            for (final boolean[] row : plane) {
+                if (row == null) {
+                    continue;
+                }
+
+                for (int k = 0, m = row.length; k < m; k++) {
+                    row[k] = operator.applyAsBoolean(row[k]);
+                }
+            }
         }
     }
 
@@ -2953,8 +3121,16 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
-        for (final boolean[] element : a) {
-            replaceIf(element, predicate, newValue);
+        for (final boolean[] row : a) {
+            if (row == null) {
+                continue;
+            }
+
+            for (int j = 0, m = row.length; j < m; j++) {
+                if (predicate.test(row[j])) {
+                    row[j] = newValue;
+                }
+            }
         }
     }
 
@@ -2998,8 +3174,22 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
-        for (final boolean[][] element : a) {
-            replaceIf(element, predicate, newValue);
+        for (final boolean[][] plane : a) {
+            if (plane == null) {
+                continue;
+            }
+
+            for (final boolean[] row : plane) {
+                if (row == null) {
+                    continue;
+                }
+
+                for (int k = 0, m = row.length; k < m; k++) {
+                    if (predicate.test(row[k])) {
+                        row[k] = newValue;
+                    }
+                }
+            }
         }
     }
 
@@ -3041,11 +3231,15 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int numRows = Numbers.divide(len, columnCount, RoundingMode.CEILING);
+        // Overflow-free positive integer ceiling division for len >= 1 and columnCount >= 1.
+        final int numRows = ((len - 1) / columnCount) + 1;
         final boolean[][] result = new boolean[numRows][];
 
         for (int i = 0, from = 0; i < numRows; i++, from += columnCount) {
-            result[i] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
+            final int rowLen = N.min(len - from, columnCount);
+            final boolean[] row = new boolean[rowLen];
+            System.arraycopy(a, from, row, 0, rowLen);
+            result[i] = row;
         }
 
         return result;
@@ -3094,15 +3288,23 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int numBlocks = Numbers.toIntExact(Numbers.divide(len, (long) rowCount * columnCount, RoundingMode.CEILING));
+        // Overflow-free positive integer ceiling division using long blockSize to avoid rowCount * columnCount overflow.
+        final long blockSize = (long) rowCount * columnCount;
+        final int numBlocks = (int) (((len - 1L) / blockSize) + 1L);
         final boolean[][][] result = new boolean[numBlocks][][];
 
         for (int i = 0, from = 0; i < numBlocks; i++) {
-            result[i] = new boolean[N.min(rowCount, Numbers.divide(len - from, columnCount, RoundingMode.CEILING))][];
+            final int currentBlockRows = (i < numBlocks - 1) ? rowCount : (((len - from - 1) / columnCount) + 1);
+            final boolean[][] block = new boolean[currentBlockRows][];
 
-            for (int j = 0, currentBlockRows = result[i].length; j < currentBlockRows; j++, from += columnCount) {
-                result[i][j] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
+            for (int j = 0; j < currentBlockRows; j++, from += columnCount) {
+                final int rowLen = N.min(len - from, columnCount);
+                final boolean[] row = new boolean[rowLen];
+                System.arraycopy(a, from, row, 0, rowLen);
+                block[j] = row;
             }
+
+            result[i] = block;
         }
 
         return result;
@@ -3110,7 +3312,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Flattens a two-dimensional boolean array into a one-dimensional boolean array.
-     * All elements from every sub-array are concatenated, in row-major order, into a single new array.
+     * All elements from every sub-array are concatenated, in row-major order, into a one-dimensional array.
      * {@code null} or empty sub-arrays are skipped, contributing no elements to the result.
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
@@ -3173,7 +3375,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Flattens a three-dimensional boolean array into a one-dimensional boolean array.
-     * All elements from every nested sub-array are concatenated, in row-major order, into a single new array.
+     * All elements from every nested sub-array are concatenated, in row-major order, into a one-dimensional array.
      * {@code null} or empty sub-arrays at any nesting level are skipped, contributing no elements to the result.
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
@@ -3428,17 +3630,7 @@ public sealed class Arrays permits Arrays.f {
             throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int minLen = N.min(lenA, lenB);
-
-        final boolean[] result = new boolean[minLen];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.applyAsBoolean(a[i], b[i]);
-        }
-
-        return result;
+        return zipUnchecked(a, b, zipFunction);
     }
 
     /**
@@ -3487,28 +3679,7 @@ public sealed class Arrays permits Arrays.f {
             final Throwables.BooleanBinaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int minLen = N.min(lenA, lenB);
-        final int maxLen = N.max(lenA, lenB);
-
-        final boolean[] result = new boolean[maxLen];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.applyAsBoolean(a[i], b[i]);
-        }
-
-        if (lenA < maxLen) {
-            for (int i = lenA; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsBoolean(defaultValueA, b[i]);
-            }
-        } else if (lenB < maxLen) {
-            for (int i = lenB; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsBoolean(a[i], defaultValueB);
-            }
-        }
-
-        return result;
+        return zipUnchecked(a, b, defaultValueA, defaultValueB, zipFunction);
     }
 
     /**
@@ -3555,18 +3726,7 @@ public sealed class Arrays permits Arrays.f {
             final Throwables.BooleanTernaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-        final int minLen = N.min(lenA, lenB, lenC);
-
-        final boolean[] result = new boolean[minLen];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.applyAsBoolean(a[i], b[i], c[i]);
-        }
-
-        return result;
+        return zipUnchecked(a, b, c, zipFunction);
     }
 
     /**
@@ -3624,25 +3784,7 @@ public sealed class Arrays permits Arrays.f {
             throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-        final int minLen = N.min(lenA, lenB, lenC);
-        final int maxLen = N.max(lenA, lenB, lenC);
-
-        final boolean[] result = new boolean[maxLen];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.applyAsBoolean(a[i], b[i], c[i]);
-        }
-
-        if (minLen < maxLen) {
-            for (int i = minLen; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsBoolean(i < lenA ? a[i] : defaultValueA, i < lenB ? b[i] : defaultValueB, i < lenC ? c[i] : defaultValueC);
-            }
-        }
-
-        return result;
+        return zipUnchecked(a, b, c, defaultValueA, defaultValueB, defaultValueC, zipFunction);
     }
 
     /**
@@ -3691,23 +3833,13 @@ public sealed class Arrays permits Arrays.f {
             throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int minLen = N.min(lenA, lenB);
-
-        final boolean[][] result = new boolean[minLen][];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], zipFunction);
-        }
-
-        return result;
+        return zipUnchecked(a, b, zipFunction);
     }
 
     /**
      * Combines elements from two two-dimensional boolean arrays using the provided zip function, with default values
      * for missing elements at both the outer and inner array levels. This provides complete control
-     * over how mismatched array dimensions are handled.
+     * over how mismatched array dimensions are handled. Null sub-arrays are treated as empty.
      *
      * <p>The outer array length of the result equals the maximum of the input outer array lengths.
      * For each outer position where one array has no sub-array (or the sub-array is {@code null}), that side is
@@ -3757,28 +3889,7 @@ public sealed class Arrays permits Arrays.f {
             final Throwables.BooleanBinaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int minLen = N.min(lenA, lenB);
-        final int maxLen = N.max(lenA, lenB);
-
-        final boolean[][] result = new boolean[maxLen][];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
-        }
-
-        if (lenA < maxLen) {
-            for (int i = lenA; i < maxLen; i++) {
-                result[i] = zip(null, b[i], defaultValueA, defaultValueB, zipFunction);
-            }
-        } else if (lenB < maxLen) {
-            for (int i = lenB; i < maxLen; i++) {
-                result[i] = zip(a[i], null, defaultValueA, defaultValueB, zipFunction);
-            }
-        }
-
-        return result;
+        return zipUnchecked(a, b, defaultValueA, defaultValueB, zipFunction);
     }
 
     /**
@@ -3829,24 +3940,13 @@ public sealed class Arrays permits Arrays.f {
             final Throwables.BooleanTernaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-        final int minLen = N.min(lenA, lenB, lenC);
-
-        final boolean[][] result = new boolean[minLen][];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], zipFunction);
-        }
-
-        return result;
+        return zipUnchecked(a, b, c, zipFunction);
     }
 
     /**
      * Combines elements from three two-dimensional boolean arrays using the provided zip function, with default values
      * for missing elements at both the outer and inner array levels. This is the most flexible two-dimensional zip
-     * operation, handling any combination of array dimension mismatches.
+     * operation, handling any combination of array dimension mismatches. Null sub-arrays are treated as empty.
      *
      * <p>The result has an outer array length equal to the longest input outer array. Missing sub-arrays
      * are treated as null/empty, and the provided default values are used for any missing elements.</p>
@@ -3902,26 +4002,7 @@ public sealed class Arrays permits Arrays.f {
             throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-        final int minLen = N.min(lenA, lenB, lenC);
-        final int maxLen = N.max(lenA, lenB, lenC);
-
-        final boolean[][] result = new boolean[maxLen][];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
-        }
-
-        if (minLen < maxLen) {
-            for (int i = minLen; i < maxLen; i++) {
-                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
-                        zipFunction);
-            }
-        }
-
-        return result;
+        return zipUnchecked(a, b, c, defaultValueA, defaultValueB, defaultValueC, zipFunction);
     }
 
     /**
@@ -3977,7 +4058,7 @@ public sealed class Arrays permits Arrays.f {
         final boolean[][][] result = new boolean[minLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], zipFunction);
+            result[i] = zipUnchecked(a[i], b[i], zipFunction);
         }
 
         return result;
@@ -3986,7 +4067,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from two three-dimensional boolean arrays using the provided zip function, with default values
      * for missing elements at all array levels. This handles dimension mismatches at every level of
-     * the three-dimensional structure.
+     * the three-dimensional structure. Null sub-arrays at any level are treated as empty.
      *
      * <p>The result has an outer array length equal to the longest input outer array. Missing 2D
      * sub-arrays are handled by treating them as null and using default values throughout.</p>
@@ -4044,16 +4125,16 @@ public sealed class Arrays permits Arrays.f {
         final boolean[][][] result = new boolean[maxLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
+            result[i] = zipUnchecked(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
         }
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zip(null, b[i], defaultValueA, defaultValueB, zipFunction);
+                result[i] = zipUnchecked(null, b[i], defaultValueA, defaultValueB, zipFunction);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zip(a[i], null, defaultValueA, defaultValueB, zipFunction);
+                result[i] = zipUnchecked(a[i], null, defaultValueA, defaultValueB, zipFunction);
             }
         }
 
@@ -4118,7 +4199,7 @@ public sealed class Arrays permits Arrays.f {
         final boolean[][][] result = new boolean[minLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], zipFunction);
+            result[i] = zipUnchecked(a[i], b[i], c[i], zipFunction);
         }
 
         return result;
@@ -4127,7 +4208,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Combines elements from three three-dimensional boolean arrays using the provided zip function, with default values
      * for missing elements at all array levels. This is the most comprehensive three-dimensional zip operation,
-     * handling any combination of dimension mismatches across all three arrays.
+     * handling any combination of dimension mismatches across all three arrays. Null sub-arrays at any level are treated as empty.
      *
      * <p>The result has an outer array length equal to the longest input outer array. Default values
      * are used whenever any array lacks elements at any level of the structure.</p>
@@ -4193,12 +4274,173 @@ public sealed class Arrays permits Arrays.f {
         final boolean[][][] result = new boolean[maxLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
+            result[i] = zipUnchecked(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
         }
 
         if (minLen < maxLen) {
             for (int i = minLen; i < maxLen; i++) {
-                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
+                result[i] = zipUnchecked(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
+                        zipFunction);
+            }
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> boolean[] zipUnchecked(final boolean[] a, final boolean[] b, final Throwables.BooleanBinaryOperator<E> zipFunction)
+            throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+
+        final boolean[] result = new boolean[minLen];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipFunction.applyAsBoolean(a[i], b[i]);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> boolean[] zipUnchecked(final boolean[] a, final boolean[] b, final boolean defaultValueA, final boolean defaultValueB,
+            final Throwables.BooleanBinaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+        final int maxLen = N.max(lenA, lenB);
+
+        final boolean[] result = new boolean[maxLen];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipFunction.applyAsBoolean(a[i], b[i]);
+        }
+
+        if (lenA < maxLen) {
+            for (int i = lenA; i < maxLen; i++) {
+                result[i] = zipFunction.applyAsBoolean(defaultValueA, b[i]);
+            }
+        } else if (lenB < maxLen) {
+            for (int i = lenB; i < maxLen; i++) {
+                result[i] = zipFunction.applyAsBoolean(a[i], defaultValueB);
+            }
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> boolean[] zipUnchecked(final boolean[] a, final boolean[] b, final boolean[] c,
+            final Throwables.BooleanTernaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+
+        final boolean[] result = new boolean[minLen];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipFunction.applyAsBoolean(a[i], b[i], c[i]);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> boolean[] zipUnchecked(final boolean[] a, final boolean[] b, final boolean[] c, final boolean defaultValueA,
+            final boolean defaultValueB, final boolean defaultValueC, final Throwables.BooleanTernaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+        final int maxLen = N.max(lenA, lenB, lenC);
+
+        final boolean[] result = new boolean[maxLen];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipFunction.applyAsBoolean(a[i], b[i], c[i]);
+        }
+
+        if (minLen < maxLen) {
+            for (int i = minLen; i < maxLen; i++) {
+                result[i] = zipFunction.applyAsBoolean(i < lenA ? a[i] : defaultValueA, i < lenB ? b[i] : defaultValueB, i < lenC ? c[i] : defaultValueC);
+            }
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> boolean[][] zipUnchecked(final boolean[][] a, final boolean[][] b,
+            final Throwables.BooleanBinaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+
+        final boolean[][] result = new boolean[minLen][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipUnchecked(a[i], b[i], zipFunction);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> boolean[][] zipUnchecked(final boolean[][] a, final boolean[][] b, final boolean defaultValueA,
+            final boolean defaultValueB, final Throwables.BooleanBinaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+        final int maxLen = N.max(lenA, lenB);
+
+        final boolean[][] result = new boolean[maxLen][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipUnchecked(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
+        }
+
+        if (lenA < maxLen) {
+            for (int i = lenA; i < maxLen; i++) {
+                result[i] = zipUnchecked(null, b[i], defaultValueA, defaultValueB, zipFunction);
+            }
+        } else if (lenB < maxLen) {
+            for (int i = lenB; i < maxLen; i++) {
+                result[i] = zipUnchecked(a[i], null, defaultValueA, defaultValueB, zipFunction);
+            }
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> boolean[][] zipUnchecked(final boolean[][] a, final boolean[][] b, final boolean[][] c,
+            final Throwables.BooleanTernaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+
+        final boolean[][] result = new boolean[minLen][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipUnchecked(a[i], b[i], c[i], zipFunction);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> boolean[][] zipUnchecked(final boolean[][] a, final boolean[][] b, final boolean[][] c, final boolean defaultValueA,
+            final boolean defaultValueB, final boolean defaultValueC, final Throwables.BooleanTernaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+        final int maxLen = N.max(lenA, lenB, lenC);
+
+        final boolean[][] result = new boolean[maxLen][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipUnchecked(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
+        }
+
+        if (minLen < maxLen) {
+            for (int i = minLen; i < maxLen; i++) {
+                result[i] = zipUnchecked(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
                         zipFunction);
             }
         }
@@ -4286,18 +4528,22 @@ public sealed class Arrays permits Arrays.f {
 
         long count = 0;
 
-        for (final boolean[][] element : a) {
-            if (N.isEmpty(element)) {
+        for (final boolean[][] plane : a) {
+            if (N.isEmpty(plane)) {
                 continue;
             }
 
-            for (final boolean[] booleans : element) {
-                if (N.isEmpty(booleans)) {
-                    continue;
-                }
+            // A single 2D plane has at most (2^31 - 1)^2 < 2^62 < Long.MAX_VALUE elements,
+            // so accumulating planeCount in plain long arithmetic cannot overflow.
+            long planeCount = 0;
 
-                count = addElementCountExact(count, booleans.length);
+            for (final boolean[] row : plane) {
+                if (row != null) {
+                    planeCount += row.length;
+                }
             }
+
+            count = addElementCountExact(count, planeCount);
         }
 
         return count;
@@ -4505,23 +4751,20 @@ public sealed class Arrays permits Arrays.f {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(ARRAY_PRINT_SEPARATOR).append(' ');
+                        sb.append(ARRAY_PRINT_ROW_SEPARATOR);
                     }
 
-                    if (a[i] == null) {
+                    final boolean[] row = a[i];
+
+                    if (row == null) {
                         sb.append("null");
-                    } else if (a[i].length == 0) {
+                    } else if (row.length == 0) {
                         sb.append("[]");
                     } else {
-                        final boolean[] row = a[i];
-                        sb.append('[');
+                        sb.append('[').append(row[0]);
 
-                        for (int j = 0, rowLen = row.length; j < rowLen; j++) {
-                            if (j > 0) {
-                                sb.append(", ");
-                            }
-
-                            sb.append(row[j]);
+                        for (int j = 1, rowLen = row.length; j < rowLen; j++) {
+                            sb.append(", ").append(row[j]);
                         }
 
                         sb.append(']');
@@ -4602,36 +4845,34 @@ public sealed class Arrays permits Arrays.f {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(ARRAY_PRINT_SEPARATOR).append(' ');
+                        sb.append(ARRAY_PRINT_ROW_SEPARATOR);
                     }
 
-                    if (a[i] == null) {
+                    final boolean[][] row = a[i];
+
+                    if (row == null) {
                         sb.append("null");
-                    } else if (a[i].length == 0) {
+                    } else if (row.length == 0) {
                         sb.append("[]");
                     } else {
-                        final boolean[][] row = a[i];
                         sb.append('[');
 
                         for (int j = 0, rowLen = row.length; j < rowLen; j++) {
                             if (j > 0) {
-                                sb.append(',').append(ARRAY_PRINT_SEPARATOR).append("  ");
+                                sb.append(ARRAY_PRINT_SUB_ROW_SEPARATOR);
                             }
 
-                            if (row[j] == null) {
+                            final boolean[] subRow = row[j];
+
+                            if (subRow == null) {
                                 sb.append("null");
-                            } else if (row[j].length == 0) {
+                            } else if (subRow.length == 0) {
                                 sb.append("[]");
                             } else {
-                                final boolean[] subRow = row[j];
-                                sb.append('[');
+                                sb.append('[').append(subRow[0]);
 
-                                for (int k = 0, subRowLen = subRow.length; k < subRowLen; k++) {
-                                    if (k > 0) {
-                                        sb.append(", ");
-                                    }
-
-                                    sb.append(subRow[k]);
+                                for (int k = 1, subRowLen = subRow.length; k < subRowLen; k++) {
+                                    sb.append(", ").append(subRow[k]);
                                 }
 
                                 sb.append(']');
@@ -4736,8 +4977,14 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
-        for (final char[] element : a) {
-            updateAll(element, operator);
+        for (final char[] row : a) {
+            if (row == null) {
+                continue;
+            }
+
+            for (int j = 0, m = row.length; j < m; j++) {
+                row[j] = operator.applyAsChar(row[j]);
+            }
         }
     }
 
@@ -4781,8 +5028,20 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
-        for (final char[][] element : a) {
-            updateAll(element, operator);
+        for (final char[][] plane : a) {
+            if (plane == null) {
+                continue;
+            }
+
+            for (final char[] row : plane) {
+                if (row == null) {
+                    continue;
+                }
+
+                for (int k = 0, m = row.length; k < m; k++) {
+                    row[k] = operator.applyAsChar(row[k]);
+                }
+            }
         }
     }
 
@@ -4879,8 +5138,16 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
-        for (final char[] element : a) {
-            replaceIf(element, predicate, newValue);
+        for (final char[] row : a) {
+            if (row == null) {
+                continue;
+            }
+
+            for (int j = 0, m = row.length; j < m; j++) {
+                if (predicate.test(row[j])) {
+                    row[j] = newValue;
+                }
+            }
         }
     }
 
@@ -4926,8 +5193,22 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
-        for (final char[][] element : a) {
-            replaceIf(element, predicate, newValue);
+        for (final char[][] plane : a) {
+            if (plane == null) {
+                continue;
+            }
+
+            for (final char[] row : plane) {
+                if (row == null) {
+                    continue;
+                }
+
+                for (int k = 0, m = row.length; k < m; k++) {
+                    if (predicate.test(row[k])) {
+                        row[k] = newValue;
+                    }
+                }
+            }
         }
     }
 
@@ -4970,11 +5251,14 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int numRows = Numbers.divide(len, columnCount, RoundingMode.CEILING);
+        final int numRows = ((len - 1) / columnCount) + 1;
         final char[][] result = new char[numRows][];
 
         for (int i = 0, from = 0; i < numRows; i++, from += columnCount) {
-            result[i] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
+            final int rowLen = N.min(len - from, columnCount);
+            final char[] row = new char[rowLen];
+            System.arraycopy(a, from, row, 0, rowLen);
+            result[i] = row;
         }
 
         return result;
@@ -5021,15 +5305,22 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int numBlocks = Numbers.toIntExact(Numbers.divide(len, (long) rowCount * columnCount, RoundingMode.CEILING));
+        final long blockSize = (long) rowCount * columnCount;
+        final int numBlocks = (int) (((len - 1L) / blockSize) + 1L);
         final char[][][] result = new char[numBlocks][][];
 
         for (int i = 0, from = 0; i < numBlocks; i++) {
-            result[i] = new char[N.min(rowCount, Numbers.divide(len - from, columnCount, RoundingMode.CEILING))][];
+            final int currentBlockRows = (i < numBlocks - 1) ? rowCount : (((len - from - 1) / columnCount) + 1);
+            final char[][] block = new char[currentBlockRows][];
 
-            for (int j = 0, currentBlockRows = result[i].length; j < currentBlockRows; j++, from += columnCount) {
-                result[i][j] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
+            for (int j = 0; j < currentBlockRows; j++, from += columnCount) {
+                final int rowLen = N.min(len - from, columnCount);
+                final char[] row = new char[rowLen];
+                System.arraycopy(a, from, row, 0, rowLen);
+                block[j] = row;
             }
+
+            result[i] = block;
         }
 
         return result;
@@ -5037,7 +5328,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Flattens a two-dimensional character array into a one-dimensional character array.
-     * All elements from every sub-array are concatenated, in row-major order, into a single new array.
+     * All elements from every sub-array are concatenated, in row-major order, into a one-dimensional array.
      * {@code null} or empty sub-arrays are skipped, contributing no elements to the result.
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
@@ -5101,7 +5392,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Flattens a three-dimensional character array into a one-dimensional character array.
-     * All elements from every nested sub-array are concatenated, in row-major order, into a single new array.
+     * All elements from every nested sub-array are concatenated, in row-major order, into a one-dimensional array.
      * {@code null} or empty sub-arrays at any nesting level are skipped, contributing no elements to the result.
      *
      * <p><b>&#9888;&#65039; Size limit:</b> If the logical element count exceeds {@code Integer.MAX_VALUE},
@@ -5363,17 +5654,7 @@ public sealed class Arrays permits Arrays.f {
             throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int minLen = N.min(lenA, lenB);
-
-        final char[] result = new char[minLen];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.applyAsChar(a[i], b[i]);
-        }
-
-        return result;
+        return zipUnchecked(a, b, zipFunction);
     }
 
     /**
@@ -5421,28 +5702,7 @@ public sealed class Arrays permits Arrays.f {
             final Throwables.CharBinaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int minLen = N.min(lenA, lenB);
-        final int maxLen = N.max(lenA, lenB);
-
-        final char[] result = new char[maxLen];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.applyAsChar(a[i], b[i]);
-        }
-
-        if (lenA < maxLen) {
-            for (int i = lenA; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsChar(defaultValueA, b[i]);
-            }
-        } else if (lenB < maxLen) {
-            for (int i = lenB; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsChar(a[i], defaultValueB);
-            }
-        }
-
-        return result;
+        return zipUnchecked(a, b, defaultValueA, defaultValueB, zipFunction);
     }
 
     /**
@@ -5494,18 +5754,7 @@ public sealed class Arrays permits Arrays.f {
             throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-        final int minLen = N.min(lenA, lenB, lenC);
-
-        final char[] result = new char[minLen];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.applyAsChar(a[i], b[i], c[i]);
-        }
-
-        return result;
+        return zipUnchecked(a, b, c, zipFunction);
     }
 
     /**
@@ -5558,25 +5807,7 @@ public sealed class Arrays permits Arrays.f {
             final char defaultValueC, final Throwables.CharTernaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-        final int minLen = N.min(lenA, lenB, lenC);
-        final int maxLen = N.max(lenA, lenB, lenC);
-
-        final char[] result = new char[maxLen];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.applyAsChar(a[i], b[i], c[i]);
-        }
-
-        if (minLen < maxLen) {
-            for (int i = minLen; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsChar(i < lenA ? a[i] : defaultValueA, i < lenB ? b[i] : defaultValueB, i < lenC ? c[i] : defaultValueC);
-            }
-        }
-
-        return result;
+        return zipUnchecked(a, b, c, defaultValueA, defaultValueB, defaultValueC, zipFunction);
     }
 
     /**
@@ -5624,22 +5855,12 @@ public sealed class Arrays permits Arrays.f {
             throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int minLen = N.min(lenA, lenB);
-
-        final char[][] result = new char[minLen][];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], zipFunction);
-        }
-
-        return result;
+        return zipUnchecked(a, b, zipFunction);
     }
 
     /**
      * Combines elements from two two-dimensional char arrays using the provided zip function, with default values
-     * for missing elements at both the outer and inner array levels.
+     * for missing elements at both the outer and inner array levels. Null sub-arrays are treated as empty.
      *
      * <p>This method handles two-dimensional arrays of different sizes by using default values for missing
      * elements. The outer array length of the result equals the length of the longer outer array.
@@ -5685,28 +5906,7 @@ public sealed class Arrays permits Arrays.f {
             final Throwables.CharBinaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int minLen = N.min(lenA, lenB);
-        final int maxLen = N.max(lenA, lenB);
-
-        final char[][] result = new char[maxLen][];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
-        }
-
-        if (lenA < maxLen) {
-            for (int i = lenA; i < maxLen; i++) {
-                result[i] = zip(null, b[i], defaultValueA, defaultValueB, zipFunction);
-            }
-        } else if (lenB < maxLen) {
-            for (int i = lenB; i < maxLen; i++) {
-                result[i] = zip(a[i], null, defaultValueA, defaultValueB, zipFunction);
-            }
-        }
-
-        return result;
+        return zipUnchecked(a, b, defaultValueA, defaultValueB, zipFunction);
     }
 
     /**
@@ -5758,23 +5958,12 @@ public sealed class Arrays permits Arrays.f {
             throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-        final int minLen = N.min(lenA, lenB, lenC);
-
-        final char[][] result = new char[minLen][];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], zipFunction);
-        }
-
-        return result;
+        return zipUnchecked(a, b, c, zipFunction);
     }
 
     /**
      * Combines elements from three two-dimensional char arrays using the provided zip function, with default values
-     * for missing elements at both the outer and inner array levels.
+     * for missing elements at both the outer and inner array levels. Null sub-arrays are treated as empty.
      *
      * <p>This method provides complete processing of three two-dimensional arrays regardless of size differences.
      * The result has an outer array length equal to the longest outer array among the inputs.
@@ -5824,26 +6013,7 @@ public sealed class Arrays permits Arrays.f {
             final char defaultValueC, final Throwables.CharTernaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-        final int minLen = N.min(lenA, lenB, lenC);
-        final int maxLen = N.max(lenA, lenB, lenC);
-
-        final char[][] result = new char[maxLen][];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
-        }
-
-        if (minLen < maxLen) {
-            for (int i = minLen; i < maxLen; i++) {
-                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
-                        zipFunction);
-            }
-        }
-
-        return result;
+        return zipUnchecked(a, b, c, defaultValueA, defaultValueB, defaultValueC, zipFunction);
     }
 
     /**
@@ -5900,7 +6070,7 @@ public sealed class Arrays permits Arrays.f {
         final char[][][] result = new char[minLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], zipFunction);
+            result[i] = zipUnchecked(a[i], b[i], zipFunction);
         }
 
         return result;
@@ -5908,7 +6078,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Combines elements from two three-dimensional char arrays using the provided zip function, with default values
-     * for missing elements at all array levels.
+     * for missing elements at all array levels. Null sub-arrays at any level are treated as empty.
      *
      * <p>This method handles three-dimensional arrays of different sizes by using default values for missing
      * elements at any level of the array hierarchy. The outermost array length of the result
@@ -5962,16 +6132,16 @@ public sealed class Arrays permits Arrays.f {
         final char[][][] result = new char[maxLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
+            result[i] = zipUnchecked(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
         }
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zip(null, b[i], defaultValueA, defaultValueB, zipFunction);
+                result[i] = zipUnchecked(null, b[i], defaultValueA, defaultValueB, zipFunction);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zip(a[i], null, defaultValueA, defaultValueB, zipFunction);
+                result[i] = zipUnchecked(a[i], null, defaultValueA, defaultValueB, zipFunction);
             }
         }
 
@@ -6037,7 +6207,7 @@ public sealed class Arrays permits Arrays.f {
         final char[][][] result = new char[minLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], zipFunction);
+            result[i] = zipUnchecked(a[i], b[i], c[i], zipFunction);
         }
 
         return result;
@@ -6045,7 +6215,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Combines elements from three three-dimensional char arrays using the provided zip function, with default values
-     * for missing elements at all array levels.
+     * for missing elements at all array levels. Null sub-arrays at any level are treated as empty.
      *
      * <p>This method provides the most comprehensive zip operation for three-dimensional arrays, handling
      * size differences at every level of the array hierarchy. The result has an outermost
@@ -6105,12 +6275,172 @@ public sealed class Arrays permits Arrays.f {
         final char[][][] result = new char[maxLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
+            result[i] = zipUnchecked(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
         }
 
         if (minLen < maxLen) {
             for (int i = minLen; i < maxLen; i++) {
-                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
+                result[i] = zipUnchecked(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
+                        zipFunction);
+            }
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> char[] zipUnchecked(final char[] a, final char[] b, final Throwables.CharBinaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+
+        final char[] result = new char[minLen];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipFunction.applyAsChar(a[i], b[i]);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> char[] zipUnchecked(final char[] a, final char[] b, final char defaultValueA, final char defaultValueB,
+            final Throwables.CharBinaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+        final int maxLen = N.max(lenA, lenB);
+
+        final char[] result = new char[maxLen];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipFunction.applyAsChar(a[i], b[i]);
+        }
+
+        if (lenA < maxLen) {
+            for (int i = lenA; i < maxLen; i++) {
+                result[i] = zipFunction.applyAsChar(defaultValueA, b[i]);
+            }
+        } else if (lenB < maxLen) {
+            for (int i = lenB; i < maxLen; i++) {
+                result[i] = zipFunction.applyAsChar(a[i], defaultValueB);
+            }
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> char[] zipUnchecked(final char[] a, final char[] b, final char[] c,
+            final Throwables.CharTernaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+
+        final char[] result = new char[minLen];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipFunction.applyAsChar(a[i], b[i], c[i]);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> char[] zipUnchecked(final char[] a, final char[] b, final char[] c, final char defaultValueA, final char defaultValueB,
+            final char defaultValueC, final Throwables.CharTernaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+        final int maxLen = N.max(lenA, lenB, lenC);
+
+        final char[] result = new char[maxLen];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipFunction.applyAsChar(a[i], b[i], c[i]);
+        }
+
+        if (minLen < maxLen) {
+            for (int i = minLen; i < maxLen; i++) {
+                result[i] = zipFunction.applyAsChar(i < lenA ? a[i] : defaultValueA, i < lenB ? b[i] : defaultValueB, i < lenC ? c[i] : defaultValueC);
+            }
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> char[][] zipUnchecked(final char[][] a, final char[][] b, final Throwables.CharBinaryOperator<E> zipFunction)
+            throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+
+        final char[][] result = new char[minLen][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipUnchecked(a[i], b[i], zipFunction);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> char[][] zipUnchecked(final char[][] a, final char[][] b, final char defaultValueA, final char defaultValueB,
+            final Throwables.CharBinaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+        final int maxLen = N.max(lenA, lenB);
+
+        final char[][] result = new char[maxLen][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipUnchecked(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
+        }
+
+        if (lenA < maxLen) {
+            for (int i = lenA; i < maxLen; i++) {
+                result[i] = zipUnchecked(null, b[i], defaultValueA, defaultValueB, zipFunction);
+            }
+        } else if (lenB < maxLen) {
+            for (int i = lenB; i < maxLen; i++) {
+                result[i] = zipUnchecked(a[i], null, defaultValueA, defaultValueB, zipFunction);
+            }
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> char[][] zipUnchecked(final char[][] a, final char[][] b, final char[][] c,
+            final Throwables.CharTernaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+
+        final char[][] result = new char[minLen][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipUnchecked(a[i], b[i], c[i], zipFunction);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> char[][] zipUnchecked(final char[][] a, final char[][] b, final char[][] c, final char defaultValueA,
+            final char defaultValueB, final char defaultValueC, final Throwables.CharTernaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+        final int maxLen = N.max(lenA, lenB, lenC);
+
+        final char[][] result = new char[maxLen][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipUnchecked(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
+        }
+
+        if (minLen < maxLen) {
+            for (int i = minLen; i < maxLen; i++) {
+                result[i] = zipUnchecked(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
                         zipFunction);
             }
         }
@@ -6205,18 +6535,22 @@ public sealed class Arrays permits Arrays.f {
 
         long count = 0;
 
-        for (final char[][] element : a) {
-            if (N.isEmpty(element)) {
+        for (final char[][] plane : a) {
+            if (N.isEmpty(plane)) {
                 continue;
             }
 
-            for (final char[] chars : element) {
-                if (N.isEmpty(chars)) {
-                    continue;
-                }
+            // A single 2D plane has at most (2^31 - 1)^2 < 2^62 < Long.MAX_VALUE elements,
+            // so accumulating planeCount in plain long arithmetic cannot overflow.
+            long planeCount = 0;
 
-                count = addElementCountExact(count, chars.length);
+            for (final char[] row : plane) {
+                if (row != null) {
+                    planeCount += row.length;
+                }
             }
+
+            count = addElementCountExact(count, planeCount);
         }
 
         return count;
@@ -6437,23 +6771,20 @@ public sealed class Arrays permits Arrays.f {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(ARRAY_PRINT_SEPARATOR).append(' ');
+                        sb.append(ARRAY_PRINT_ROW_SEPARATOR);
                     }
 
-                    if (a[i] == null) {
+                    final char[] row = a[i];
+
+                    if (row == null) {
                         sb.append("null");
-                    } else if (a[i].length == 0) {
+                    } else if (row.length == 0) {
                         sb.append("[]");
                     } else {
-                        final char[] row = a[i];
-                        sb.append('[');
+                        sb.append('[').append(row[0]);
 
-                        for (int j = 0, rowLen = row.length; j < rowLen; j++) {
-                            if (j > 0) {
-                                sb.append(", ");
-                            }
-
-                            sb.append(row[j]);
+                        for (int j = 1, rowLen = row.length; j < rowLen; j++) {
+                            sb.append(", ").append(row[j]);
                         }
 
                         sb.append(']');
@@ -6535,36 +6866,34 @@ public sealed class Arrays permits Arrays.f {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(ARRAY_PRINT_SEPARATOR).append(' ');
+                        sb.append(ARRAY_PRINT_ROW_SEPARATOR);
                     }
 
-                    if (a[i] == null) {
+                    final char[][] row = a[i];
+
+                    if (row == null) {
                         sb.append("null");
-                    } else if (a[i].length == 0) {
+                    } else if (row.length == 0) {
                         sb.append("[]");
                     } else {
-                        final char[][] row = a[i];
                         sb.append('[');
 
                         for (int j = 0, rowLen = row.length; j < rowLen; j++) {
                             if (j > 0) {
-                                sb.append(',').append(ARRAY_PRINT_SEPARATOR).append("  ");
+                                sb.append(ARRAY_PRINT_SUB_ROW_SEPARATOR);
                             }
 
-                            if (row[j] == null) {
+                            final char[] subRow = row[j];
+
+                            if (subRow == null) {
                                 sb.append("null");
-                            } else if (row[j].length == 0) {
+                            } else if (subRow.length == 0) {
                                 sb.append("[]");
                             } else {
-                                final char[] subRow = row[j];
-                                sb.append('[');
+                                sb.append('[').append(subRow[0]);
 
-                                for (int k = 0, subRowLen = subRow.length; k < subRowLen; k++) {
-                                    if (k > 0) {
-                                        sb.append(", ");
-                                    }
-
-                                    sb.append(subRow[k]);
+                                for (int k = 1, subRowLen = subRow.length; k < subRowLen; k++) {
+                                    sb.append(", ").append(subRow[k]);
                                 }
 
                                 sb.append(']');
@@ -6671,8 +7000,14 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
-        for (final byte[] element : a) {
-            updateAll(element, operator);
+        for (final byte[] row : a) {
+            if (row == null) {
+                continue;
+            }
+
+            for (int j = 0, m = row.length; j < m; j++) {
+                row[j] = operator.applyAsByte(row[j]);
+            }
         }
     }
 
@@ -6714,8 +7049,20 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
-        for (final byte[][] element : a) {
-            updateAll(element, operator);
+        for (final byte[][] plane : a) {
+            if (plane == null) {
+                continue;
+            }
+
+            for (final byte[] row : plane) {
+                if (row == null) {
+                    continue;
+                }
+
+                for (int k = 0, m = row.length; k < m; k++) {
+                    row[k] = operator.applyAsByte(row[k]);
+                }
+            }
         }
     }
 
@@ -6815,8 +7162,16 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
-        for (final byte[] element : a) {
-            replaceIf(element, predicate, newValue);
+        for (final byte[] row : a) {
+            if (row == null) {
+                continue;
+            }
+
+            for (int j = 0, m = row.length; j < m; j++) {
+                if (predicate.test(row[j])) {
+                    row[j] = newValue;
+                }
+            }
         }
     }
 
@@ -6862,8 +7217,22 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
-        for (final byte[][] element : a) {
-            replaceIf(element, predicate, newValue);
+        for (final byte[][] plane : a) {
+            if (plane == null) {
+                continue;
+            }
+
+            for (final byte[] row : plane) {
+                if (row == null) {
+                    continue;
+                }
+
+                for (int k = 0, m = row.length; k < m; k++) {
+                    if (predicate.test(row[k])) {
+                        row[k] = newValue;
+                    }
+                }
+            }
         }
     }
 
@@ -6909,11 +7278,14 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int numRows = Numbers.divide(len, columnCount, RoundingMode.CEILING);
+        final int numRows = ((len - 1) / columnCount) + 1;
         final byte[][] result = new byte[numRows][];
 
         for (int i = 0, from = 0; i < numRows; i++, from += columnCount) {
-            result[i] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
+            final int rowLen = N.min(len - from, columnCount);
+            final byte[] row = new byte[rowLen];
+            System.arraycopy(a, from, row, 0, rowLen);
+            result[i] = row;
         }
 
         return result;
@@ -6965,15 +7337,22 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int numBlocks = Numbers.toIntExact(Numbers.divide(len, (long) rowCount * columnCount, RoundingMode.CEILING));
+        final long blockSize = (long) rowCount * columnCount;
+        final int numBlocks = (int) (((len - 1L) / blockSize) + 1L);
         final byte[][][] result = new byte[numBlocks][][];
 
         for (int i = 0, from = 0; i < numBlocks; i++) {
-            result[i] = new byte[N.min(rowCount, Numbers.divide(len - from, columnCount, RoundingMode.CEILING))][];
+            final int currentBlockRows = (i < numBlocks - 1) ? rowCount : (((len - from - 1) / columnCount) + 1);
+            final byte[][] block = new byte[currentBlockRows][];
 
-            for (int j = 0, currentBlockRows = result[i].length; j < currentBlockRows; j++, from += columnCount) {
-                result[i][j] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
+            for (int j = 0; j < currentBlockRows; j++, from += columnCount) {
+                final int rowLen = N.min(len - from, columnCount);
+                final byte[] row = new byte[rowLen];
+                System.arraycopy(a, from, row, 0, rowLen);
+                block[j] = row;
             }
+
+            result[i] = block;
         }
 
         return result;
@@ -7305,17 +7684,7 @@ public sealed class Arrays permits Arrays.f {
             throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int minLen = N.min(lenA, lenB);
-
-        final byte[] result = new byte[minLen];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.applyAsByte(a[i], b[i]);
-        }
-
-        return result;
+        return zipUnchecked(a, b, zipFunction);
     }
 
     /**
@@ -7359,28 +7728,7 @@ public sealed class Arrays permits Arrays.f {
             final Throwables.ByteBinaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int minLen = N.min(lenA, lenB);
-        final int maxLen = N.max(lenA, lenB);
-
-        final byte[] result = new byte[maxLen];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.applyAsByte(a[i], b[i]);
-        }
-
-        if (lenA < maxLen) {
-            for (int i = lenA; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsByte(defaultValueA, b[i]);
-            }
-        } else if (lenB < maxLen) {
-            for (int i = lenB; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsByte(a[i], defaultValueB);
-            }
-        }
-
-        return result;
+        return zipUnchecked(a, b, defaultValueA, defaultValueB, zipFunction);
     }
 
     /**
@@ -7425,18 +7773,7 @@ public sealed class Arrays permits Arrays.f {
             throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-        final int minLen = N.min(lenA, lenB, lenC);
-
-        final byte[] result = new byte[minLen];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.applyAsByte(a[i], b[i], c[i]);
-        }
-
-        return result;
+        return zipUnchecked(a, b, c, zipFunction);
     }
 
     /**
@@ -7486,25 +7823,7 @@ public sealed class Arrays permits Arrays.f {
             final byte defaultValueC, final Throwables.ByteTernaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-        final int minLen = N.min(lenA, lenB, lenC);
-        final int maxLen = N.max(lenA, lenB, lenC);
-
-        final byte[] result = new byte[maxLen];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.applyAsByte(a[i], b[i], c[i]);
-        }
-
-        if (minLen < maxLen) {
-            for (int i = minLen; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsByte(i < lenA ? a[i] : defaultValueA, i < lenB ? b[i] : defaultValueB, i < lenC ? c[i] : defaultValueC);
-            }
-        }
-
-        return result;
+        return zipUnchecked(a, b, c, defaultValueA, defaultValueB, defaultValueC, zipFunction);
     }
 
     /**
@@ -7548,22 +7867,12 @@ public sealed class Arrays permits Arrays.f {
             throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int minLen = N.min(lenA, lenB);
-
-        final byte[][] result = new byte[minLen][];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], zipFunction);
-        }
-
-        return result;
+        return zipUnchecked(a, b, zipFunction);
     }
 
     /**
      * Combines elements from two two-dimensional byte arrays using the provided zip function, with default values
-     * for missing elements at both the outer and inner array levels.
+     * for missing elements at both the outer and inner array levels. Null sub-arrays are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -7603,28 +7912,7 @@ public sealed class Arrays permits Arrays.f {
             final Throwables.ByteBinaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int minLen = N.min(lenA, lenB);
-        final int maxLen = N.max(lenA, lenB);
-
-        final byte[][] result = new byte[maxLen][];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
-        }
-
-        if (lenA < maxLen) {
-            for (int i = lenA; i < maxLen; i++) {
-                result[i] = zip(null, b[i], defaultValueA, defaultValueB, zipFunction);
-            }
-        } else if (lenB < maxLen) {
-            for (int i = lenB; i < maxLen; i++) {
-                result[i] = zip(a[i], null, defaultValueA, defaultValueB, zipFunction);
-            }
-        }
-
-        return result;
+        return zipUnchecked(a, b, defaultValueA, defaultValueB, zipFunction);
     }
 
     /**
@@ -7671,23 +7959,12 @@ public sealed class Arrays permits Arrays.f {
             throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-        final int minLen = N.min(lenA, lenB, lenC);
-
-        final byte[][] result = new byte[minLen][];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], zipFunction);
-        }
-
-        return result;
+        return zipUnchecked(a, b, c, zipFunction);
     }
 
     /**
      * Combines elements from three two-dimensional byte arrays using the provided zip function, with default values
-     * for missing elements at both the outer and inner array levels.
+     * for missing elements at both the outer and inner array levels. Null sub-arrays are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -7733,26 +8010,7 @@ public sealed class Arrays permits Arrays.f {
             final byte defaultValueC, final Throwables.ByteTernaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-        final int minLen = N.min(lenA, lenB, lenC);
-        final int maxLen = N.max(lenA, lenB, lenC);
-
-        final byte[][] result = new byte[maxLen][];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
-        }
-
-        if (minLen < maxLen) {
-            for (int i = minLen; i < maxLen; i++) {
-                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
-                        zipFunction);
-            }
-        }
-
-        return result;
+        return zipUnchecked(a, b, c, defaultValueA, defaultValueB, defaultValueC, zipFunction);
     }
 
     /**
@@ -7802,7 +8060,7 @@ public sealed class Arrays permits Arrays.f {
         final byte[][][] result = new byte[minLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], zipFunction);
+            result[i] = zipUnchecked(a[i], b[i], zipFunction);
         }
 
         return result;
@@ -7810,7 +8068,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Combines elements from two three-dimensional byte arrays using the provided zip function, with default values
-     * for missing elements at all array levels.
+     * for missing elements at all array levels. Null sub-arrays at any level are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -7858,16 +8116,16 @@ public sealed class Arrays permits Arrays.f {
         final byte[][][] result = new byte[maxLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
+            result[i] = zipUnchecked(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
         }
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zip(null, b[i], defaultValueA, defaultValueB, zipFunction);
+                result[i] = zipUnchecked(null, b[i], defaultValueA, defaultValueB, zipFunction);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zip(a[i], null, defaultValueA, defaultValueB, zipFunction);
+                result[i] = zipUnchecked(a[i], null, defaultValueA, defaultValueB, zipFunction);
             }
         }
 
@@ -7926,7 +8184,7 @@ public sealed class Arrays permits Arrays.f {
         final byte[][][] result = new byte[minLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], zipFunction);
+            result[i] = zipUnchecked(a[i], b[i], c[i], zipFunction);
         }
 
         return result;
@@ -7934,7 +8192,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Combines elements from three three-dimensional byte arrays using the provided zip function, with default values
-     * for missing elements at all array levels.
+     * for missing elements at all array levels. Null sub-arrays at any level are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -7989,12 +8247,172 @@ public sealed class Arrays permits Arrays.f {
         final byte[][][] result = new byte[maxLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
+            result[i] = zipUnchecked(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
         }
 
         if (minLen < maxLen) {
             for (int i = minLen; i < maxLen; i++) {
-                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
+                result[i] = zipUnchecked(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
+                        zipFunction);
+            }
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> byte[] zipUnchecked(final byte[] a, final byte[] b, final Throwables.ByteBinaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+
+        final byte[] result = new byte[minLen];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipFunction.applyAsByte(a[i], b[i]);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> byte[] zipUnchecked(final byte[] a, final byte[] b, final byte defaultValueA, final byte defaultValueB,
+            final Throwables.ByteBinaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+        final int maxLen = N.max(lenA, lenB);
+
+        final byte[] result = new byte[maxLen];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipFunction.applyAsByte(a[i], b[i]);
+        }
+
+        if (lenA < maxLen) {
+            for (int i = lenA; i < maxLen; i++) {
+                result[i] = zipFunction.applyAsByte(defaultValueA, b[i]);
+            }
+        } else if (lenB < maxLen) {
+            for (int i = lenB; i < maxLen; i++) {
+                result[i] = zipFunction.applyAsByte(a[i], defaultValueB);
+            }
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> byte[] zipUnchecked(final byte[] a, final byte[] b, final byte[] c,
+            final Throwables.ByteTernaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+
+        final byte[] result = new byte[minLen];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipFunction.applyAsByte(a[i], b[i], c[i]);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> byte[] zipUnchecked(final byte[] a, final byte[] b, final byte[] c, final byte defaultValueA, final byte defaultValueB,
+            final byte defaultValueC, final Throwables.ByteTernaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+        final int maxLen = N.max(lenA, lenB, lenC);
+
+        final byte[] result = new byte[maxLen];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipFunction.applyAsByte(a[i], b[i], c[i]);
+        }
+
+        if (minLen < maxLen) {
+            for (int i = minLen; i < maxLen; i++) {
+                result[i] = zipFunction.applyAsByte(i < lenA ? a[i] : defaultValueA, i < lenB ? b[i] : defaultValueB, i < lenC ? c[i] : defaultValueC);
+            }
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> byte[][] zipUnchecked(final byte[][] a, final byte[][] b, final Throwables.ByteBinaryOperator<E> zipFunction)
+            throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+
+        final byte[][] result = new byte[minLen][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipUnchecked(a[i], b[i], zipFunction);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> byte[][] zipUnchecked(final byte[][] a, final byte[][] b, final byte defaultValueA, final byte defaultValueB,
+            final Throwables.ByteBinaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+        final int maxLen = N.max(lenA, lenB);
+
+        final byte[][] result = new byte[maxLen][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipUnchecked(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
+        }
+
+        if (lenA < maxLen) {
+            for (int i = lenA; i < maxLen; i++) {
+                result[i] = zipUnchecked(null, b[i], defaultValueA, defaultValueB, zipFunction);
+            }
+        } else if (lenB < maxLen) {
+            for (int i = lenB; i < maxLen; i++) {
+                result[i] = zipUnchecked(a[i], null, defaultValueA, defaultValueB, zipFunction);
+            }
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> byte[][] zipUnchecked(final byte[][] a, final byte[][] b, final byte[][] c,
+            final Throwables.ByteTernaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+
+        final byte[][] result = new byte[minLen][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipUnchecked(a[i], b[i], c[i], zipFunction);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> byte[][] zipUnchecked(final byte[][] a, final byte[][] b, final byte[][] c, final byte defaultValueA,
+            final byte defaultValueB, final byte defaultValueC, final Throwables.ByteTernaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+        final int maxLen = N.max(lenA, lenB, lenC);
+
+        final byte[][] result = new byte[maxLen][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipUnchecked(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
+        }
+
+        if (minLen < maxLen) {
+            for (int i = minLen; i < maxLen; i++) {
+                result[i] = zipUnchecked(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
                         zipFunction);
             }
         }
@@ -8077,18 +8495,22 @@ public sealed class Arrays permits Arrays.f {
 
         long count = 0;
 
-        for (final byte[][] element : a) {
-            if (N.isEmpty(element)) {
+        for (final byte[][] plane : a) {
+            if (N.isEmpty(plane)) {
                 continue;
             }
 
-            for (final byte[] bytes : element) {
-                if (N.isEmpty(bytes)) {
-                    continue;
-                }
+            // A single 2D plane has at most (2^31 - 1)^2 < 2^62 < Long.MAX_VALUE elements,
+            // so accumulating planeCount in plain long arithmetic cannot overflow.
+            long planeCount = 0;
 
-                count = addElementCountExact(count, bytes.length);
+            for (final byte[] row : plane) {
+                if (row != null) {
+                    planeCount += row.length;
+                }
             }
+
+            count = addElementCountExact(count, planeCount);
         }
 
         return count;
@@ -8299,23 +8721,20 @@ public sealed class Arrays permits Arrays.f {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(ARRAY_PRINT_SEPARATOR).append(' ');
+                        sb.append(ARRAY_PRINT_ROW_SEPARATOR);
                     }
 
-                    if (a[i] == null) {
+                    final byte[] row = a[i];
+
+                    if (row == null) {
                         sb.append("null");
-                    } else if (a[i].length == 0) {
+                    } else if (row.length == 0) {
                         sb.append("[]");
                     } else {
-                        final byte[] row = a[i];
-                        sb.append('[');
+                        sb.append('[').append(row[0]);
 
-                        for (int j = 0, rowLen = row.length; j < rowLen; j++) {
-                            if (j > 0) {
-                                sb.append(", ");
-                            }
-
-                            sb.append(row[j]);
+                        for (int j = 1, rowLen = row.length; j < rowLen; j++) {
+                            sb.append(", ").append(row[j]);
                         }
 
                         sb.append(']');
@@ -8397,36 +8816,34 @@ public sealed class Arrays permits Arrays.f {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(ARRAY_PRINT_SEPARATOR).append(' ');
+                        sb.append(ARRAY_PRINT_ROW_SEPARATOR);
                     }
 
-                    if (a[i] == null) {
+                    final byte[][] row = a[i];
+
+                    if (row == null) {
                         sb.append("null");
-                    } else if (a[i].length == 0) {
+                    } else if (row.length == 0) {
                         sb.append("[]");
                     } else {
-                        final byte[][] row = a[i];
                         sb.append('[');
 
                         for (int j = 0, rowLen = row.length; j < rowLen; j++) {
                             if (j > 0) {
-                                sb.append(',').append(ARRAY_PRINT_SEPARATOR).append("  ");
+                                sb.append(ARRAY_PRINT_SUB_ROW_SEPARATOR);
                             }
 
-                            if (row[j] == null) {
+                            final byte[] subRow = row[j];
+
+                            if (subRow == null) {
                                 sb.append("null");
-                            } else if (row[j].length == 0) {
+                            } else if (subRow.length == 0) {
                                 sb.append("[]");
                             } else {
-                                final byte[] subRow = row[j];
-                                sb.append('[');
+                                sb.append('[').append(subRow[0]);
 
-                                for (int k = 0, subRowLen = subRow.length; k < subRowLen; k++) {
-                                    if (k > 0) {
-                                        sb.append(", ");
-                                    }
-
-                                    sb.append(subRow[k]);
+                                for (int k = 1, subRowLen = subRow.length; k < subRowLen; k++) {
+                                    sb.append(", ").append(subRow[k]);
                                 }
 
                                 sb.append(']');
@@ -8529,8 +8946,14 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
-        for (final short[] element : a) {
-            updateAll(element, operator);
+        for (final short[] row : a) {
+            if (row == null) {
+                continue;
+            }
+
+            for (int j = 0, m = row.length; j < m; j++) {
+                row[j] = operator.applyAsShort(row[j]);
+            }
         }
     }
 
@@ -8574,8 +8997,20 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
-        for (final short[][] element : a) {
-            updateAll(element, operator);
+        for (final short[][] plane : a) {
+            if (plane == null) {
+                continue;
+            }
+
+            for (final short[] row : plane) {
+                if (row == null) {
+                    continue;
+                }
+
+                for (int k = 0, m = row.length; k < m; k++) {
+                    row[k] = operator.applyAsShort(row[k]);
+                }
+            }
         }
     }
 
@@ -8670,8 +9105,16 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
-        for (final short[] element : a) {
-            replaceIf(element, predicate, newValue);
+        for (final short[] row : a) {
+            if (row == null) {
+                continue;
+            }
+
+            for (int j = 0, m = row.length; j < m; j++) {
+                if (predicate.test(row[j])) {
+                    row[j] = newValue;
+                }
+            }
         }
     }
 
@@ -8716,8 +9159,22 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
-        for (final short[][] element : a) {
-            replaceIf(element, predicate, newValue);
+        for (final short[][] plane : a) {
+            if (plane == null) {
+                continue;
+            }
+
+            for (final short[] row : plane) {
+                if (row == null) {
+                    continue;
+                }
+
+                for (int k = 0, m = row.length; k < m; k++) {
+                    if (predicate.test(row[k])) {
+                        row[k] = newValue;
+                    }
+                }
+            }
         }
     }
 
@@ -8759,11 +9216,14 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int numRows = Numbers.divide(len, columnCount, RoundingMode.CEILING);
+        final int numRows = ((len - 1) / columnCount) + 1;
         final short[][] result = new short[numRows][];
 
         for (int i = 0, from = 0; i < numRows; i++, from += columnCount) {
-            result[i] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
+            final int rowLen = N.min(len - from, columnCount);
+            final short[] row = new short[rowLen];
+            System.arraycopy(a, from, row, 0, rowLen);
+            result[i] = row;
         }
 
         return result;
@@ -8811,15 +9271,22 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int numBlocks = Numbers.toIntExact(Numbers.divide(len, (long) rowCount * columnCount, RoundingMode.CEILING));
+        final long blockSize = (long) rowCount * columnCount;
+        final int numBlocks = (int) (((len - 1L) / blockSize) + 1L);
         final short[][][] result = new short[numBlocks][][];
 
         for (int i = 0, from = 0; i < numBlocks; i++) {
-            result[i] = new short[N.min(rowCount, Numbers.divide(len - from, columnCount, RoundingMode.CEILING))][];
+            final int currentBlockRows = (i < numBlocks - 1) ? rowCount : (((len - from - 1) / columnCount) + 1);
+            final short[][] block = new short[currentBlockRows][];
 
-            for (int j = 0, currentBlockRows = result[i].length; j < currentBlockRows; j++, from += columnCount) {
-                result[i][j] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
+            for (int j = 0; j < currentBlockRows; j++, from += columnCount) {
+                final int rowLen = N.min(len - from, columnCount);
+                final short[] row = new short[rowLen];
+                System.arraycopy(a, from, row, 0, rowLen);
+                block[j] = row;
             }
+
+            result[i] = block;
         }
 
         return result;
@@ -9142,17 +9609,7 @@ public sealed class Arrays permits Arrays.f {
             throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int minLen = N.min(lenA, lenB);
-
-        final short[] result = new short[minLen];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.applyAsShort(a[i], b[i]);
-        }
-
-        return result;
+        return zipUnchecked(a, b, zipFunction);
     }
 
     /**
@@ -9196,28 +9653,7 @@ public sealed class Arrays permits Arrays.f {
             final Throwables.ShortBinaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int minLen = N.min(lenA, lenB);
-        final int maxLen = N.max(lenA, lenB);
-
-        final short[] result = new short[maxLen];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.applyAsShort(a[i], b[i]);
-        }
-
-        if (lenA < maxLen) {
-            for (int i = lenA; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsShort(defaultValueA, b[i]);
-            }
-        } else if (lenB < maxLen) {
-            for (int i = lenB; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsShort(a[i], defaultValueB);
-            }
-        }
-
-        return result;
+        return zipUnchecked(a, b, defaultValueA, defaultValueB, zipFunction);
     }
 
     /**
@@ -9264,18 +9700,7 @@ public sealed class Arrays permits Arrays.f {
             throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-        final int minLen = N.min(lenA, lenB, lenC);
-
-        final short[] result = new short[minLen];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.applyAsShort(a[i], b[i], c[i]);
-        }
-
-        return result;
+        return zipUnchecked(a, b, c, zipFunction);
     }
 
     /**
@@ -9325,25 +9750,7 @@ public sealed class Arrays permits Arrays.f {
             final short defaultValueC, final Throwables.ShortTernaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-        final int minLen = N.min(lenA, lenB, lenC);
-        final int maxLen = N.max(lenA, lenB, lenC);
-
-        final short[] result = new short[maxLen];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.applyAsShort(a[i], b[i], c[i]);
-        }
-
-        if (minLen < maxLen) {
-            for (int i = minLen; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsShort(i < lenA ? a[i] : defaultValueA, i < lenB ? b[i] : defaultValueB, i < lenC ? c[i] : defaultValueC);
-            }
-        }
-
-        return result;
+        return zipUnchecked(a, b, c, defaultValueA, defaultValueB, defaultValueC, zipFunction);
     }
 
     /**
@@ -9388,22 +9795,12 @@ public sealed class Arrays permits Arrays.f {
             throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int minLen = N.min(lenA, lenB);
-
-        final short[][] result = new short[minLen][];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], zipFunction);
-        }
-
-        return result;
+        return zipUnchecked(a, b, zipFunction);
     }
 
     /**
      * Combines elements from two two-dimensional short arrays using the provided zip function, with default values
-     * for missing elements at both the outer and inner array levels.
+     * for missing elements at both the outer and inner array levels. Null sub-arrays are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -9447,28 +9844,7 @@ public sealed class Arrays permits Arrays.f {
             final Throwables.ShortBinaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int minLen = N.min(lenA, lenB);
-        final int maxLen = N.max(lenA, lenB);
-
-        final short[][] result = new short[maxLen][];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
-        }
-
-        if (lenA < maxLen) {
-            for (int i = lenA; i < maxLen; i++) {
-                result[i] = zip(null, b[i], defaultValueA, defaultValueB, zipFunction);
-            }
-        } else if (lenB < maxLen) {
-            for (int i = lenB; i < maxLen; i++) {
-                result[i] = zip(a[i], null, defaultValueA, defaultValueB, zipFunction);
-            }
-        }
-
-        return result;
+        return zipUnchecked(a, b, defaultValueA, defaultValueB, zipFunction);
     }
 
     /**
@@ -9516,23 +9892,12 @@ public sealed class Arrays permits Arrays.f {
             final Throwables.ShortTernaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-        final int minLen = N.min(lenA, lenB, lenC);
-
-        final short[][] result = new short[minLen][];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], zipFunction);
-        }
-
-        return result;
+        return zipUnchecked(a, b, c, zipFunction);
     }
 
     /**
      * Combines elements from three two-dimensional short arrays using the provided zip function, with default values
-     * for missing elements at both the outer and inner array levels.
+     * for missing elements at both the outer and inner array levels. Null sub-arrays are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -9579,26 +9944,7 @@ public sealed class Arrays permits Arrays.f {
             final short defaultValueB, final short defaultValueC, final Throwables.ShortTernaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-        final int minLen = N.min(lenA, lenB, lenC);
-        final int maxLen = N.max(lenA, lenB, lenC);
-
-        final short[][] result = new short[maxLen][];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
-        }
-
-        if (minLen < maxLen) {
-            for (int i = minLen; i < maxLen; i++) {
-                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
-                        zipFunction);
-            }
-        }
-
-        return result;
+        return zipUnchecked(a, b, c, defaultValueA, defaultValueB, defaultValueC, zipFunction);
     }
 
     /**
@@ -9650,7 +9996,7 @@ public sealed class Arrays permits Arrays.f {
         final short[][][] result = new short[minLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], zipFunction);
+            result[i] = zipUnchecked(a[i], b[i], zipFunction);
         }
 
         return result;
@@ -9658,7 +10004,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Combines elements from two three-dimensional short arrays using the provided zip function, with default values
-     * for missing elements at all array levels.
+     * for missing elements at all array levels. Null sub-arrays at any level are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -9709,16 +10055,16 @@ public sealed class Arrays permits Arrays.f {
         final short[][][] result = new short[maxLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
+            result[i] = zipUnchecked(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
         }
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zip(null, b[i], defaultValueA, defaultValueB, zipFunction);
+                result[i] = zipUnchecked(null, b[i], defaultValueA, defaultValueB, zipFunction);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zip(a[i], null, defaultValueA, defaultValueB, zipFunction);
+                result[i] = zipUnchecked(a[i], null, defaultValueA, defaultValueB, zipFunction);
             }
         }
 
@@ -9778,7 +10124,7 @@ public sealed class Arrays permits Arrays.f {
         final short[][][] result = new short[minLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], zipFunction);
+            result[i] = zipUnchecked(a[i], b[i], c[i], zipFunction);
         }
 
         return result;
@@ -9786,7 +10132,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Combines elements from three three-dimensional short arrays using the provided zip function, with default values
-     * for missing elements at all array levels.
+     * for missing elements at all array levels. Null sub-arrays at any level are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -9844,12 +10190,172 @@ public sealed class Arrays permits Arrays.f {
         final short[][][] result = new short[maxLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
+            result[i] = zipUnchecked(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
         }
 
         if (minLen < maxLen) {
             for (int i = minLen; i < maxLen; i++) {
-                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
+                result[i] = zipUnchecked(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
+                        zipFunction);
+            }
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> short[] zipUnchecked(final short[] a, final short[] b, final Throwables.ShortBinaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+
+        final short[] result = new short[minLen];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipFunction.applyAsShort(a[i], b[i]);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> short[] zipUnchecked(final short[] a, final short[] b, final short defaultValueA, final short defaultValueB,
+            final Throwables.ShortBinaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+        final int maxLen = N.max(lenA, lenB);
+
+        final short[] result = new short[maxLen];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipFunction.applyAsShort(a[i], b[i]);
+        }
+
+        if (lenA < maxLen) {
+            for (int i = lenA; i < maxLen; i++) {
+                result[i] = zipFunction.applyAsShort(defaultValueA, b[i]);
+            }
+        } else if (lenB < maxLen) {
+            for (int i = lenB; i < maxLen; i++) {
+                result[i] = zipFunction.applyAsShort(a[i], defaultValueB);
+            }
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> short[] zipUnchecked(final short[] a, final short[] b, final short[] c,
+            final Throwables.ShortTernaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+
+        final short[] result = new short[minLen];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipFunction.applyAsShort(a[i], b[i], c[i]);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> short[] zipUnchecked(final short[] a, final short[] b, final short[] c, final short defaultValueA,
+            final short defaultValueB, final short defaultValueC, final Throwables.ShortTernaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+        final int maxLen = N.max(lenA, lenB, lenC);
+
+        final short[] result = new short[maxLen];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipFunction.applyAsShort(a[i], b[i], c[i]);
+        }
+
+        if (minLen < maxLen) {
+            for (int i = minLen; i < maxLen; i++) {
+                result[i] = zipFunction.applyAsShort(i < lenA ? a[i] : defaultValueA, i < lenB ? b[i] : defaultValueB, i < lenC ? c[i] : defaultValueC);
+            }
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> short[][] zipUnchecked(final short[][] a, final short[][] b, final Throwables.ShortBinaryOperator<E> zipFunction)
+            throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+
+        final short[][] result = new short[minLen][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipUnchecked(a[i], b[i], zipFunction);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> short[][] zipUnchecked(final short[][] a, final short[][] b, final short defaultValueA, final short defaultValueB,
+            final Throwables.ShortBinaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+        final int maxLen = N.max(lenA, lenB);
+
+        final short[][] result = new short[maxLen][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipUnchecked(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
+        }
+
+        if (lenA < maxLen) {
+            for (int i = lenA; i < maxLen; i++) {
+                result[i] = zipUnchecked(null, b[i], defaultValueA, defaultValueB, zipFunction);
+            }
+        } else if (lenB < maxLen) {
+            for (int i = lenB; i < maxLen; i++) {
+                result[i] = zipUnchecked(a[i], null, defaultValueA, defaultValueB, zipFunction);
+            }
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> short[][] zipUnchecked(final short[][] a, final short[][] b, final short[][] c,
+            final Throwables.ShortTernaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+
+        final short[][] result = new short[minLen][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipUnchecked(a[i], b[i], c[i], zipFunction);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> short[][] zipUnchecked(final short[][] a, final short[][] b, final short[][] c, final short defaultValueA,
+            final short defaultValueB, final short defaultValueC, final Throwables.ShortTernaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+        final int maxLen = N.max(lenA, lenB, lenC);
+
+        final short[][] result = new short[maxLen][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipUnchecked(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
+        }
+
+        if (minLen < maxLen) {
+            for (int i = minLen; i < maxLen; i++) {
+                result[i] = zipUnchecked(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
                         zipFunction);
             }
         }
@@ -9937,18 +10443,22 @@ public sealed class Arrays permits Arrays.f {
 
         long count = 0;
 
-        for (final short[][] element : a) {
-            if (N.isEmpty(element)) {
+        for (final short[][] plane : a) {
+            if (N.isEmpty(plane)) {
                 continue;
             }
 
-            for (final short[] shorts : element) {
-                if (N.isEmpty(shorts)) {
-                    continue;
-                }
+            // A single 2D plane has at most (2^31 - 1)^2 < 2^62 < Long.MAX_VALUE elements,
+            // so accumulating planeCount in plain long arithmetic cannot overflow.
+            long planeCount = 0;
 
-                count = addElementCountExact(count, shorts.length);
+            for (final short[] row : plane) {
+                if (row != null) {
+                    planeCount += row.length;
+                }
             }
+
+            count = addElementCountExact(count, planeCount);
         }
 
         return count;
@@ -10162,23 +10672,20 @@ public sealed class Arrays permits Arrays.f {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(ARRAY_PRINT_SEPARATOR).append(' ');
+                        sb.append(ARRAY_PRINT_ROW_SEPARATOR);
                     }
 
-                    if (a[i] == null) {
+                    final short[] row = a[i];
+
+                    if (row == null) {
                         sb.append("null");
-                    } else if (a[i].length == 0) {
+                    } else if (row.length == 0) {
                         sb.append("[]");
                     } else {
-                        final short[] row = a[i];
-                        sb.append('[');
+                        sb.append('[').append(row[0]);
 
-                        for (int j = 0, rowLen = row.length; j < rowLen; j++) {
-                            if (j > 0) {
-                                sb.append(", ");
-                            }
-
-                            sb.append(row[j]);
+                        for (int j = 1, rowLen = row.length; j < rowLen; j++) {
+                            sb.append(", ").append(row[j]);
                         }
 
                         sb.append(']');
@@ -10265,36 +10772,34 @@ public sealed class Arrays permits Arrays.f {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(ARRAY_PRINT_SEPARATOR).append(' ');
+                        sb.append(ARRAY_PRINT_ROW_SEPARATOR);
                     }
 
-                    if (a[i] == null) {
+                    final short[][] row = a[i];
+
+                    if (row == null) {
                         sb.append("null");
-                    } else if (a[i].length == 0) {
+                    } else if (row.length == 0) {
                         sb.append("[]");
                     } else {
-                        final short[][] row = a[i];
                         sb.append('[');
 
                         for (int j = 0, rowLen = row.length; j < rowLen; j++) {
                             if (j > 0) {
-                                sb.append(',').append(ARRAY_PRINT_SEPARATOR).append("  ");
+                                sb.append(ARRAY_PRINT_SUB_ROW_SEPARATOR);
                             }
 
-                            if (row[j] == null) {
+                            final short[] subRow = row[j];
+
+                            if (subRow == null) {
                                 sb.append("null");
-                            } else if (row[j].length == 0) {
+                            } else if (subRow.length == 0) {
                                 sb.append("[]");
                             } else {
-                                final short[] subRow = row[j];
-                                sb.append('[');
+                                sb.append('[').append(subRow[0]);
 
-                                for (int k = 0, subRowLen = subRow.length; k < subRowLen; k++) {
-                                    if (k > 0) {
-                                        sb.append(", ");
-                                    }
-
-                                    sb.append(subRow[k]);
+                                for (int k = 1, subRowLen = subRow.length; k < subRowLen; k++) {
+                                    sb.append(", ").append(subRow[k]);
                                 }
 
                                 sb.append(']');
@@ -10405,8 +10910,14 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
-        for (final int[] element : a) {
-            updateAll(element, operator);
+        for (final int[] row : a) {
+            if (row == null) {
+                continue;
+            }
+
+            for (int j = 0, m = row.length; j < m; j++) {
+                row[j] = operator.applyAsInt(row[j]);
+            }
         }
     }
 
@@ -10448,8 +10959,20 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
-        for (final int[][] element : a) {
-            updateAll(element, operator);
+        for (final int[][] plane : a) {
+            if (plane == null) {
+                continue;
+            }
+
+            for (final int[] row : plane) {
+                if (row == null) {
+                    continue;
+                }
+
+                for (int k = 0, m = row.length; k < m; k++) {
+                    row[k] = operator.applyAsInt(row[k]);
+                }
+            }
         }
     }
 
@@ -10556,8 +11079,16 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
-        for (final int[] element : a) {
-            replaceIf(element, predicate, newValue);
+        for (final int[] row : a) {
+            if (row == null) {
+                continue;
+            }
+
+            for (int j = 0, m = row.length; j < m; j++) {
+                if (predicate.test(row[j])) {
+                    row[j] = newValue;
+                }
+            }
         }
     }
 
@@ -10604,8 +11135,22 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
-        for (final int[][] element : a) {
-            replaceIf(element, predicate, newValue);
+        for (final int[][] plane : a) {
+            if (plane == null) {
+                continue;
+            }
+
+            for (final int[] row : plane) {
+                if (row == null) {
+                    continue;
+                }
+
+                for (int k = 0, m = row.length; k < m; k++) {
+                    if (predicate.test(row[k])) {
+                        row[k] = newValue;
+                    }
+                }
+            }
         }
     }
 
@@ -10659,11 +11204,14 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int numRows = Numbers.divide(len, columnCount, RoundingMode.CEILING);
+        final int numRows = ((len - 1) / columnCount) + 1;
         final int[][] result = new int[numRows][];
 
         for (int i = 0, from = 0; i < numRows; i++, from += columnCount) {
-            result[i] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
+            final int rowLen = N.min(len - from, columnCount);
+            final int[] row = new int[rowLen];
+            System.arraycopy(a, from, row, 0, rowLen);
+            result[i] = row;
         }
 
         return result;
@@ -10720,15 +11268,22 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int numBlocks = Numbers.toIntExact(Numbers.divide(len, (long) rowCount * columnCount, RoundingMode.CEILING));
+        final long blockSize = (long) rowCount * columnCount;
+        final int numBlocks = (int) (((len - 1L) / blockSize) + 1L);
         final int[][][] result = new int[numBlocks][][];
 
         for (int i = 0, from = 0; i < numBlocks; i++) {
-            result[i] = new int[N.min(rowCount, Numbers.divide(len - from, columnCount, RoundingMode.CEILING))][];
+            final int currentBlockRows = (i < numBlocks - 1) ? rowCount : (((len - from - 1) / columnCount) + 1);
+            final int[][] block = new int[currentBlockRows][];
 
-            for (int j = 0, currentBlockRows = result[i].length; j < currentBlockRows; j++, from += columnCount) {
-                result[i][j] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
+            for (int j = 0; j < currentBlockRows; j++, from += columnCount) {
+                final int rowLen = N.min(len - from, columnCount);
+                final int[] row = new int[rowLen];
+                System.arraycopy(a, from, row, 0, rowLen);
+                block[j] = row;
             }
+
+            result[i] = block;
         }
 
         return result;
@@ -11081,17 +11636,7 @@ public sealed class Arrays permits Arrays.f {
             throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int minLen = N.min(lenA, lenB);
-
-        final int[] result = new int[minLen];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.applyAsInt(a[i], b[i]);
-        }
-
-        return result;
+        return zipUnchecked(a, b, zipFunction);
     }
 
     /**
@@ -11135,28 +11680,7 @@ public sealed class Arrays permits Arrays.f {
             final Throwables.IntBinaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int minLen = N.min(lenA, lenB);
-        final int maxLen = N.max(lenA, lenB);
-
-        final int[] result = new int[maxLen];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.applyAsInt(a[i], b[i]);
-        }
-
-        if (lenA < maxLen) {
-            for (int i = lenA; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsInt(defaultValueA, b[i]);
-            }
-        } else if (lenB < maxLen) {
-            for (int i = lenB; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsInt(a[i], defaultValueB);
-            }
-        }
-
-        return result;
+        return zipUnchecked(a, b, defaultValueA, defaultValueB, zipFunction);
     }
 
     /**
@@ -11201,18 +11725,7 @@ public sealed class Arrays permits Arrays.f {
             throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-        final int minLen = N.min(lenA, lenB, lenC);
-
-        final int[] result = new int[minLen];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.applyAsInt(a[i], b[i], c[i]);
-        }
-
-        return result;
+        return zipUnchecked(a, b, c, zipFunction);
     }
 
     /**
@@ -11261,25 +11774,7 @@ public sealed class Arrays permits Arrays.f {
             final int defaultValueC, final Throwables.IntTernaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-        final int minLen = N.min(lenA, lenB, lenC);
-        final int maxLen = N.max(lenA, lenB, lenC);
-
-        final int[] result = new int[maxLen];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.applyAsInt(a[i], b[i], c[i]);
-        }
-
-        if (minLen < maxLen) {
-            for (int i = minLen; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsInt(i < lenA ? a[i] : defaultValueA, i < lenB ? b[i] : defaultValueB, i < lenC ? c[i] : defaultValueC);
-            }
-        }
-
-        return result;
+        return zipUnchecked(a, b, c, defaultValueA, defaultValueB, defaultValueC, zipFunction);
     }
 
     /**
@@ -11322,22 +11817,12 @@ public sealed class Arrays permits Arrays.f {
             throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int minLen = N.min(lenA, lenB);
-
-        final int[][] result = new int[minLen][];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], zipFunction);
-        }
-
-        return result;
+        return zipUnchecked(a, b, zipFunction);
     }
 
     /**
      * Combines elements from two two-dimensional int arrays using the provided zip function, with default values
-     * for missing elements at both the outer and inner array levels.
+     * for missing elements at both the outer and inner array levels. Null sub-arrays are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -11377,28 +11862,7 @@ public sealed class Arrays permits Arrays.f {
             final Throwables.IntBinaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int minLen = N.min(lenA, lenB);
-        final int maxLen = N.max(lenA, lenB);
-
-        final int[][] result = new int[maxLen][];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
-        }
-
-        if (lenA < maxLen) {
-            for (int i = lenA; i < maxLen; i++) {
-                result[i] = zip(null, b[i], defaultValueA, defaultValueB, zipFunction);
-            }
-        } else if (lenB < maxLen) {
-            for (int i = lenB; i < maxLen; i++) {
-                result[i] = zip(a[i], null, defaultValueA, defaultValueB, zipFunction);
-            }
-        }
-
-        return result;
+        return zipUnchecked(a, b, defaultValueA, defaultValueB, zipFunction);
     }
 
     /**
@@ -11446,23 +11910,12 @@ public sealed class Arrays permits Arrays.f {
             throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-        final int minLen = N.min(lenA, lenB, lenC);
-
-        final int[][] result = new int[minLen][];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], zipFunction);
-        }
-
-        return result;
+        return zipUnchecked(a, b, c, zipFunction);
     }
 
     /**
      * Combines elements from three two-dimensional int arrays using the provided zip function, with default values
-     * for missing elements at both the outer and inner array levels.
+     * for missing elements at both the outer and inner array levels. Null sub-arrays are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -11508,26 +11961,7 @@ public sealed class Arrays permits Arrays.f {
             final int defaultValueC, final Throwables.IntTernaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-        final int minLen = N.min(lenA, lenB, lenC);
-        final int maxLen = N.max(lenA, lenB, lenC);
-
-        final int[][] result = new int[maxLen][];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
-        }
-
-        if (minLen < maxLen) {
-            for (int i = minLen; i < maxLen; i++) {
-                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
-                        zipFunction);
-            }
-        }
-
-        return result;
+        return zipUnchecked(a, b, c, defaultValueA, defaultValueB, defaultValueC, zipFunction);
     }
 
     /**
@@ -11577,7 +12011,7 @@ public sealed class Arrays permits Arrays.f {
         final int[][][] result = new int[minLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], zipFunction);
+            result[i] = zipUnchecked(a[i], b[i], zipFunction);
         }
 
         return result;
@@ -11585,7 +12019,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Combines elements from two three-dimensional int arrays using the provided zip function, with default values
-     * for missing elements at all array levels.
+     * for missing elements at all array levels. Null sub-arrays at any level are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -11633,16 +12067,16 @@ public sealed class Arrays permits Arrays.f {
         final int[][][] result = new int[maxLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
+            result[i] = zipUnchecked(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
         }
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zip(null, b[i], defaultValueA, defaultValueB, zipFunction);
+                result[i] = zipUnchecked(null, b[i], defaultValueA, defaultValueB, zipFunction);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zip(a[i], null, defaultValueA, defaultValueB, zipFunction);
+                result[i] = zipUnchecked(a[i], null, defaultValueA, defaultValueB, zipFunction);
             }
         }
 
@@ -11701,7 +12135,7 @@ public sealed class Arrays permits Arrays.f {
         final int[][][] result = new int[minLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], zipFunction);
+            result[i] = zipUnchecked(a[i], b[i], c[i], zipFunction);
         }
 
         return result;
@@ -11709,7 +12143,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Combines elements from three three-dimensional int arrays using the provided zip function, with default values
-     * for missing elements at all array levels.
+     * for missing elements at all array levels. Null sub-arrays at any level are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -11763,12 +12197,171 @@ public sealed class Arrays permits Arrays.f {
         final int[][][] result = new int[maxLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
+            result[i] = zipUnchecked(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
         }
 
         if (minLen < maxLen) {
             for (int i = minLen; i < maxLen; i++) {
-                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
+                result[i] = zipUnchecked(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
+                        zipFunction);
+            }
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> int[] zipUnchecked(final int[] a, final int[] b, final Throwables.IntBinaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+
+        final int[] result = new int[minLen];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipFunction.applyAsInt(a[i], b[i]);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> int[] zipUnchecked(final int[] a, final int[] b, final int defaultValueA, final int defaultValueB,
+            final Throwables.IntBinaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+        final int maxLen = N.max(lenA, lenB);
+
+        final int[] result = new int[maxLen];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipFunction.applyAsInt(a[i], b[i]);
+        }
+
+        if (lenA < maxLen) {
+            for (int i = lenA; i < maxLen; i++) {
+                result[i] = zipFunction.applyAsInt(defaultValueA, b[i]);
+            }
+        } else if (lenB < maxLen) {
+            for (int i = lenB; i < maxLen; i++) {
+                result[i] = zipFunction.applyAsInt(a[i], defaultValueB);
+            }
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> int[] zipUnchecked(final int[] a, final int[] b, final int[] c, final Throwables.IntTernaryOperator<E> zipFunction)
+            throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+
+        final int[] result = new int[minLen];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipFunction.applyAsInt(a[i], b[i], c[i]);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> int[] zipUnchecked(final int[] a, final int[] b, final int[] c, final int defaultValueA, final int defaultValueB,
+            final int defaultValueC, final Throwables.IntTernaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+        final int maxLen = N.max(lenA, lenB, lenC);
+
+        final int[] result = new int[maxLen];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipFunction.applyAsInt(a[i], b[i], c[i]);
+        }
+
+        if (minLen < maxLen) {
+            for (int i = minLen; i < maxLen; i++) {
+                result[i] = zipFunction.applyAsInt(i < lenA ? a[i] : defaultValueA, i < lenB ? b[i] : defaultValueB, i < lenC ? c[i] : defaultValueC);
+            }
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> int[][] zipUnchecked(final int[][] a, final int[][] b, final Throwables.IntBinaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+
+        final int[][] result = new int[minLen][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipUnchecked(a[i], b[i], zipFunction);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> int[][] zipUnchecked(final int[][] a, final int[][] b, final int defaultValueA, final int defaultValueB,
+            final Throwables.IntBinaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+        final int maxLen = N.max(lenA, lenB);
+
+        final int[][] result = new int[maxLen][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipUnchecked(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
+        }
+
+        if (lenA < maxLen) {
+            for (int i = lenA; i < maxLen; i++) {
+                result[i] = zipUnchecked(null, b[i], defaultValueA, defaultValueB, zipFunction);
+            }
+        } else if (lenB < maxLen) {
+            for (int i = lenB; i < maxLen; i++) {
+                result[i] = zipUnchecked(a[i], null, defaultValueA, defaultValueB, zipFunction);
+            }
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> int[][] zipUnchecked(final int[][] a, final int[][] b, final int[][] c,
+            final Throwables.IntTernaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+
+        final int[][] result = new int[minLen][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipUnchecked(a[i], b[i], c[i], zipFunction);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> int[][] zipUnchecked(final int[][] a, final int[][] b, final int[][] c, final int defaultValueA,
+            final int defaultValueB, final int defaultValueC, final Throwables.IntTernaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+        final int maxLen = N.max(lenA, lenB, lenC);
+
+        final int[][] result = new int[maxLen][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipUnchecked(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
+        }
+
+        if (minLen < maxLen) {
+            for (int i = minLen; i < maxLen; i++) {
+                result[i] = zipUnchecked(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
                         zipFunction);
             }
         }
@@ -11863,18 +12456,22 @@ public sealed class Arrays permits Arrays.f {
 
         long count = 0;
 
-        for (final int[][] element : a) {
-            if (N.isEmpty(element)) {
+        for (final int[][] plane : a) {
+            if (N.isEmpty(plane)) {
                 continue;
             }
 
-            for (final int[] ints : element) {
-                if (N.isEmpty(ints)) {
-                    continue;
-                }
+            // A single 2D plane has at most (2^31 - 1)^2 < 2^62 < Long.MAX_VALUE elements,
+            // so accumulating planeCount in plain long arithmetic cannot overflow.
+            long planeCount = 0;
 
-                count = addElementCountExact(count, ints.length);
+            for (final int[] row : plane) {
+                if (row != null) {
+                    planeCount += row.length;
+                }
             }
+
+            count = addElementCountExact(count, planeCount);
         }
 
         return count;
@@ -12090,23 +12687,20 @@ public sealed class Arrays permits Arrays.f {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(ARRAY_PRINT_SEPARATOR).append(' ');
+                        sb.append(ARRAY_PRINT_ROW_SEPARATOR);
                     }
 
-                    if (a[i] == null) {
+                    final int[] row = a[i];
+
+                    if (row == null) {
                         sb.append("null");
-                    } else if (a[i].length == 0) {
+                    } else if (row.length == 0) {
                         sb.append("[]");
                     } else {
-                        final int[] row = a[i];
-                        sb.append('[');
+                        sb.append('[').append(row[0]);
 
-                        for (int j = 0, rowLen = row.length; j < rowLen; j++) {
-                            if (j > 0) {
-                                sb.append(", ");
-                            }
-
-                            sb.append(row[j]);
+                        for (int j = 1, rowLen = row.length; j < rowLen; j++) {
+                            sb.append(", ").append(row[j]);
                         }
 
                         sb.append(']');
@@ -12185,36 +12779,34 @@ public sealed class Arrays permits Arrays.f {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(ARRAY_PRINT_SEPARATOR).append(' ');
+                        sb.append(ARRAY_PRINT_ROW_SEPARATOR);
                     }
 
-                    if (a[i] == null) {
+                    final int[][] row = a[i];
+
+                    if (row == null) {
                         sb.append("null");
-                    } else if (a[i].length == 0) {
+                    } else if (row.length == 0) {
                         sb.append("[]");
                     } else {
-                        final int[][] row = a[i];
                         sb.append('[');
 
                         for (int j = 0, rowLen = row.length; j < rowLen; j++) {
                             if (j > 0) {
-                                sb.append(',').append(ARRAY_PRINT_SEPARATOR).append("  ");
+                                sb.append(ARRAY_PRINT_SUB_ROW_SEPARATOR);
                             }
 
-                            if (row[j] == null) {
+                            final int[] subRow = row[j];
+
+                            if (subRow == null) {
                                 sb.append("null");
-                            } else if (row[j].length == 0) {
+                            } else if (subRow.length == 0) {
                                 sb.append("[]");
                             } else {
-                                final int[] subRow = row[j];
-                                sb.append('[');
+                                sb.append('[').append(subRow[0]);
 
-                                for (int k = 0, subRowLen = subRow.length; k < subRowLen; k++) {
-                                    if (k > 0) {
-                                        sb.append(", ");
-                                    }
-
-                                    sb.append(subRow[k]);
+                                for (int k = 1, subRowLen = subRow.length; k < subRowLen; k++) {
+                                    sb.append(", ").append(subRow[k]);
                                 }
 
                                 sb.append(']');
@@ -12314,8 +12906,14 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
-        for (final long[] element : a) {
-            updateAll(element, operator);
+        for (final long[] row : a) {
+            if (row == null) {
+                continue;
+            }
+
+            for (int j = 0, m = row.length; j < m; j++) {
+                row[j] = operator.applyAsLong(row[j]);
+            }
         }
     }
 
@@ -12356,8 +12954,20 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
-        for (final long[][] element : a) {
-            updateAll(element, operator);
+        for (final long[][] plane : a) {
+            if (plane == null) {
+                continue;
+            }
+
+            for (final long[] row : plane) {
+                if (row == null) {
+                    continue;
+                }
+
+                for (int k = 0, m = row.length; k < m; k++) {
+                    row[k] = operator.applyAsLong(row[k]);
+                }
+            }
         }
     }
 
@@ -12447,8 +13057,16 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
-        for (final long[] element : a) {
-            replaceIf(element, predicate, newValue);
+        for (final long[] row : a) {
+            if (row == null) {
+                continue;
+            }
+
+            for (int j = 0, m = row.length; j < m; j++) {
+                if (predicate.test(row[j])) {
+                    row[j] = newValue;
+                }
+            }
         }
     }
 
@@ -12491,8 +13109,22 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
-        for (final long[][] element : a) {
-            replaceIf(element, predicate, newValue);
+        for (final long[][] plane : a) {
+            if (plane == null) {
+                continue;
+            }
+
+            for (final long[] row : plane) {
+                if (row == null) {
+                    continue;
+                }
+
+                for (int k = 0, m = row.length; k < m; k++) {
+                    if (predicate.test(row[k])) {
+                        row[k] = newValue;
+                    }
+                }
+            }
         }
     }
 
@@ -12532,11 +13164,14 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int numRows = Numbers.divide(len, columnCount, RoundingMode.CEILING);
+        final int numRows = ((len - 1) / columnCount) + 1;
         final long[][] result = new long[numRows][];
 
         for (int i = 0, from = 0; i < numRows; i++, from += columnCount) {
-            result[i] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
+            final int rowLen = N.min(len - from, columnCount);
+            final long[] row = new long[rowLen];
+            System.arraycopy(a, from, row, 0, rowLen);
+            result[i] = row;
         }
 
         return result;
@@ -12582,15 +13217,22 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int numBlocks = Numbers.toIntExact(Numbers.divide(len, (long) rowCount * columnCount, RoundingMode.CEILING));
+        final long blockSize = (long) rowCount * columnCount;
+        final int numBlocks = (int) (((len - 1L) / blockSize) + 1L);
         final long[][][] result = new long[numBlocks][][];
 
         for (int i = 0, from = 0; i < numBlocks; i++) {
-            result[i] = new long[N.min(rowCount, Numbers.divide(len - from, columnCount, RoundingMode.CEILING))][];
+            final int currentBlockRows = (i < numBlocks - 1) ? rowCount : (((len - from - 1) / columnCount) + 1);
+            final long[][] block = new long[currentBlockRows][];
 
-            for (int j = 0, currentBlockRows = result[i].length; j < currentBlockRows; j++, from += columnCount) {
-                result[i][j] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
+            for (int j = 0; j < currentBlockRows; j++, from += columnCount) {
+                final int rowLen = N.min(len - from, columnCount);
+                final long[] row = new long[rowLen];
+                System.arraycopy(a, from, row, 0, rowLen);
+                block[j] = row;
             }
+
+            result[i] = block;
         }
 
         return result;
@@ -12903,17 +13545,7 @@ public sealed class Arrays permits Arrays.f {
             throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int minLen = N.min(lenA, lenB);
-
-        final long[] result = new long[minLen];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.applyAsLong(a[i], b[i]);
-        }
-
-        return result;
+        return zipUnchecked(a, b, zipFunction);
     }
 
     /**
@@ -12955,28 +13587,7 @@ public sealed class Arrays permits Arrays.f {
             final Throwables.LongBinaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int minLen = N.min(lenA, lenB);
-        final int maxLen = N.max(lenA, lenB);
-
-        final long[] result = new long[maxLen];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.applyAsLong(a[i], b[i]);
-        }
-
-        if (lenA < maxLen) {
-            for (int i = lenA; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsLong(defaultValueA, b[i]);
-            }
-        } else if (lenB < maxLen) {
-            for (int i = lenB; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsLong(a[i], defaultValueB);
-            }
-        }
-
-        return result;
+        return zipUnchecked(a, b, defaultValueA, defaultValueB, zipFunction);
     }
 
     /**
@@ -13019,18 +13630,7 @@ public sealed class Arrays permits Arrays.f {
             throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-        final int minLen = N.min(lenA, lenB, lenC);
-
-        final long[] result = new long[minLen];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.applyAsLong(a[i], b[i], c[i]);
-        }
-
-        return result;
+        return zipUnchecked(a, b, c, zipFunction);
     }
 
     /**
@@ -13077,25 +13677,7 @@ public sealed class Arrays permits Arrays.f {
             final long defaultValueC, final Throwables.LongTernaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-        final int minLen = N.min(lenA, lenB, lenC);
-        final int maxLen = N.max(lenA, lenB, lenC);
-
-        final long[] result = new long[maxLen];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.applyAsLong(a[i], b[i], c[i]);
-        }
-
-        if (minLen < maxLen) {
-            for (int i = minLen; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsLong(i < lenA ? a[i] : defaultValueA, i < lenB ? b[i] : defaultValueB, i < lenC ? c[i] : defaultValueC);
-            }
-        }
-
-        return result;
+        return zipUnchecked(a, b, c, defaultValueA, defaultValueB, defaultValueC, zipFunction);
     }
 
     /**
@@ -13139,22 +13721,12 @@ public sealed class Arrays permits Arrays.f {
             throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int minLen = N.min(lenA, lenB);
-
-        final long[][] result = new long[minLen][];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], zipFunction);
-        }
-
-        return result;
+        return zipUnchecked(a, b, zipFunction);
     }
 
     /**
      * Combines elements from two two-dimensional long arrays using the provided zip function, with default values
-     * for missing elements at both the outer and inner array levels.
+     * for missing elements at both the outer and inner array levels. Null sub-arrays are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -13193,28 +13765,7 @@ public sealed class Arrays permits Arrays.f {
             final Throwables.LongBinaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int minLen = N.min(lenA, lenB);
-        final int maxLen = N.max(lenA, lenB);
-
-        final long[][] result = new long[maxLen][];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
-        }
-
-        if (lenA < maxLen) {
-            for (int i = lenA; i < maxLen; i++) {
-                result[i] = zip(null, b[i], defaultValueA, defaultValueB, zipFunction);
-            }
-        } else if (lenB < maxLen) {
-            for (int i = lenB; i < maxLen; i++) {
-                result[i] = zip(a[i], null, defaultValueA, defaultValueB, zipFunction);
-            }
-        }
-
-        return result;
+        return zipUnchecked(a, b, defaultValueA, defaultValueB, zipFunction);
     }
 
     /**
@@ -13259,23 +13810,12 @@ public sealed class Arrays permits Arrays.f {
             throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-        final int minLen = N.min(lenA, lenB, lenC);
-
-        final long[][] result = new long[minLen][];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], zipFunction);
-        }
-
-        return result;
+        return zipUnchecked(a, b, c, zipFunction);
     }
 
     /**
      * Combines elements from three two-dimensional long arrays using the provided zip function, with default values
-     * for missing elements at both the outer and inner array levels.
+     * for missing elements at both the outer and inner array levels. Null sub-arrays are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -13319,26 +13859,7 @@ public sealed class Arrays permits Arrays.f {
             final long defaultValueC, final Throwables.LongTernaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-        final int minLen = N.min(lenA, lenB, lenC);
-        final int maxLen = N.max(lenA, lenB, lenC);
-
-        final long[][] result = new long[maxLen][];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
-        }
-
-        if (minLen < maxLen) {
-            for (int i = minLen; i < maxLen; i++) {
-                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
-                        zipFunction);
-            }
-        }
-
-        return result;
+        return zipUnchecked(a, b, c, defaultValueA, defaultValueB, defaultValueC, zipFunction);
     }
 
     /**
@@ -13386,7 +13907,7 @@ public sealed class Arrays permits Arrays.f {
         final long[][][] result = new long[minLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], zipFunction);
+            result[i] = zipUnchecked(a[i], b[i], zipFunction);
         }
 
         return result;
@@ -13394,7 +13915,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Combines elements from two three-dimensional long arrays using the provided zip function, with default values
-     * for missing elements at all array levels.
+     * for missing elements at all array levels. Null sub-arrays at any level are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -13441,16 +13962,16 @@ public sealed class Arrays permits Arrays.f {
         final long[][][] result = new long[maxLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
+            result[i] = zipUnchecked(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
         }
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zip(null, b[i], defaultValueA, defaultValueB, zipFunction);
+                result[i] = zipUnchecked(null, b[i], defaultValueA, defaultValueB, zipFunction);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zip(a[i], null, defaultValueA, defaultValueB, zipFunction);
+                result[i] = zipUnchecked(a[i], null, defaultValueA, defaultValueB, zipFunction);
             }
         }
 
@@ -13507,7 +14028,7 @@ public sealed class Arrays permits Arrays.f {
         final long[][][] result = new long[minLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], zipFunction);
+            result[i] = zipUnchecked(a[i], b[i], c[i], zipFunction);
         }
 
         return result;
@@ -13515,7 +14036,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Combines elements from three three-dimensional long arrays using the provided zip function, with default values
-     * for missing elements at all array levels.
+     * for missing elements at all array levels. Null sub-arrays at any level are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -13567,12 +14088,172 @@ public sealed class Arrays permits Arrays.f {
         final long[][][] result = new long[maxLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
+            result[i] = zipUnchecked(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
         }
 
         if (minLen < maxLen) {
             for (int i = minLen; i < maxLen; i++) {
-                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
+                result[i] = zipUnchecked(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
+                        zipFunction);
+            }
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> long[] zipUnchecked(final long[] a, final long[] b, final Throwables.LongBinaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+
+        final long[] result = new long[minLen];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipFunction.applyAsLong(a[i], b[i]);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> long[] zipUnchecked(final long[] a, final long[] b, final long defaultValueA, final long defaultValueB,
+            final Throwables.LongBinaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+        final int maxLen = N.max(lenA, lenB);
+
+        final long[] result = new long[maxLen];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipFunction.applyAsLong(a[i], b[i]);
+        }
+
+        if (lenA < maxLen) {
+            for (int i = lenA; i < maxLen; i++) {
+                result[i] = zipFunction.applyAsLong(defaultValueA, b[i]);
+            }
+        } else if (lenB < maxLen) {
+            for (int i = lenB; i < maxLen; i++) {
+                result[i] = zipFunction.applyAsLong(a[i], defaultValueB);
+            }
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> long[] zipUnchecked(final long[] a, final long[] b, final long[] c,
+            final Throwables.LongTernaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+
+        final long[] result = new long[minLen];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipFunction.applyAsLong(a[i], b[i], c[i]);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> long[] zipUnchecked(final long[] a, final long[] b, final long[] c, final long defaultValueA, final long defaultValueB,
+            final long defaultValueC, final Throwables.LongTernaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+        final int maxLen = N.max(lenA, lenB, lenC);
+
+        final long[] result = new long[maxLen];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipFunction.applyAsLong(a[i], b[i], c[i]);
+        }
+
+        if (minLen < maxLen) {
+            for (int i = minLen; i < maxLen; i++) {
+                result[i] = zipFunction.applyAsLong(i < lenA ? a[i] : defaultValueA, i < lenB ? b[i] : defaultValueB, i < lenC ? c[i] : defaultValueC);
+            }
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> long[][] zipUnchecked(final long[][] a, final long[][] b, final Throwables.LongBinaryOperator<E> zipFunction)
+            throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+
+        final long[][] result = new long[minLen][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipUnchecked(a[i], b[i], zipFunction);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> long[][] zipUnchecked(final long[][] a, final long[][] b, final long defaultValueA, final long defaultValueB,
+            final Throwables.LongBinaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+        final int maxLen = N.max(lenA, lenB);
+
+        final long[][] result = new long[maxLen][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipUnchecked(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
+        }
+
+        if (lenA < maxLen) {
+            for (int i = lenA; i < maxLen; i++) {
+                result[i] = zipUnchecked(null, b[i], defaultValueA, defaultValueB, zipFunction);
+            }
+        } else if (lenB < maxLen) {
+            for (int i = lenB; i < maxLen; i++) {
+                result[i] = zipUnchecked(a[i], null, defaultValueA, defaultValueB, zipFunction);
+            }
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> long[][] zipUnchecked(final long[][] a, final long[][] b, final long[][] c,
+            final Throwables.LongTernaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+
+        final long[][] result = new long[minLen][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipUnchecked(a[i], b[i], c[i], zipFunction);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> long[][] zipUnchecked(final long[][] a, final long[][] b, final long[][] c, final long defaultValueA,
+            final long defaultValueB, final long defaultValueC, final Throwables.LongTernaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+        final int maxLen = N.max(lenA, lenB, lenC);
+
+        final long[][] result = new long[maxLen][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipUnchecked(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
+        }
+
+        if (minLen < maxLen) {
+            for (int i = minLen; i < maxLen; i++) {
+                result[i] = zipUnchecked(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
                         zipFunction);
             }
         }
@@ -13656,18 +14337,22 @@ public sealed class Arrays permits Arrays.f {
 
         long count = 0;
 
-        for (final long[][] element : a) {
-            if (N.isEmpty(element)) {
+        for (final long[][] plane : a) {
+            if (N.isEmpty(plane)) {
                 continue;
             }
 
-            for (final long[] longs : element) {
-                if (N.isEmpty(longs)) {
-                    continue;
-                }
+            // A single 2D plane has at most (2^31 - 1)^2 < 2^62 < Long.MAX_VALUE elements,
+            // so accumulating planeCount in plain long arithmetic cannot overflow.
+            long planeCount = 0;
 
-                count = addElementCountExact(count, longs.length);
+            for (final long[] row : plane) {
+                if (row != null) {
+                    planeCount += row.length;
+                }
             }
+
+            count = addElementCountExact(count, planeCount);
         }
 
         return count;
@@ -13869,23 +14554,20 @@ public sealed class Arrays permits Arrays.f {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(ARRAY_PRINT_SEPARATOR).append(' ');
+                        sb.append(ARRAY_PRINT_ROW_SEPARATOR);
                     }
 
-                    if (a[i] == null) {
+                    final long[] row = a[i];
+
+                    if (row == null) {
                         sb.append("null");
-                    } else if (a[i].length == 0) {
+                    } else if (row.length == 0) {
                         sb.append("[]");
                     } else {
-                        final long[] row = a[i];
-                        sb.append('[');
+                        sb.append('[').append(row[0]);
 
-                        for (int j = 0, rowLen = row.length; j < rowLen; j++) {
-                            if (j > 0) {
-                                sb.append(", ");
-                            }
-
-                            sb.append(row[j]);
+                        for (int j = 1, rowLen = row.length; j < rowLen; j++) {
+                            sb.append(", ").append(row[j]);
                         }
 
                         sb.append(']');
@@ -13965,36 +14647,34 @@ public sealed class Arrays permits Arrays.f {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(ARRAY_PRINT_SEPARATOR).append(' ');
+                        sb.append(ARRAY_PRINT_ROW_SEPARATOR);
                     }
 
-                    if (a[i] == null) {
+                    final long[][] row = a[i];
+
+                    if (row == null) {
                         sb.append("null");
-                    } else if (a[i].length == 0) {
+                    } else if (row.length == 0) {
                         sb.append("[]");
                     } else {
-                        final long[][] row = a[i];
                         sb.append('[');
 
                         for (int j = 0, rowLen = row.length; j < rowLen; j++) {
                             if (j > 0) {
-                                sb.append(',').append(ARRAY_PRINT_SEPARATOR).append("  ");
+                                sb.append(ARRAY_PRINT_SUB_ROW_SEPARATOR);
                             }
 
-                            if (row[j] == null) {
+                            final long[] subRow = row[j];
+
+                            if (subRow == null) {
                                 sb.append("null");
-                            } else if (row[j].length == 0) {
+                            } else if (subRow.length == 0) {
                                 sb.append("[]");
                             } else {
-                                final long[] subRow = row[j];
-                                sb.append('[');
+                                sb.append('[').append(subRow[0]);
 
-                                for (int k = 0, subRowLen = subRow.length; k < subRowLen; k++) {
-                                    if (k > 0) {
-                                        sb.append(", ");
-                                    }
-
-                                    sb.append(subRow[k]);
+                                for (int k = 1, subRowLen = subRow.length; k < subRowLen; k++) {
+                                    sb.append(", ").append(subRow[k]);
                                 }
 
                                 sb.append(']');
@@ -14100,8 +14780,14 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
-        for (final float[] element : a) {
-            updateAll(element, operator);
+        for (final float[] row : a) {
+            if (row == null) {
+                continue;
+            }
+
+            for (int j = 0, m = row.length; j < m; j++) {
+                row[j] = operator.applyAsFloat(row[j]);
+            }
         }
     }
 
@@ -14144,8 +14830,20 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
-        for (final float[][] element : a) {
-            updateAll(element, operator);
+        for (final float[][] plane : a) {
+            if (plane == null) {
+                continue;
+            }
+
+            for (final float[] row : plane) {
+                if (row == null) {
+                    continue;
+                }
+
+                for (int k = 0, m = row.length; k < m; k++) {
+                    row[k] = operator.applyAsFloat(row[k]);
+                }
+            }
         }
     }
 
@@ -14241,8 +14939,16 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
-        for (final float[] element : a) {
-            replaceIf(element, predicate, newValue);
+        for (final float[] row : a) {
+            if (row == null) {
+                continue;
+            }
+
+            for (int j = 0, m = row.length; j < m; j++) {
+                if (predicate.test(row[j])) {
+                    row[j] = newValue;
+                }
+            }
         }
     }
 
@@ -14290,8 +14996,22 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
-        for (final float[][] element : a) {
-            replaceIf(element, predicate, newValue);
+        for (final float[][] plane : a) {
+            if (plane == null) {
+                continue;
+            }
+
+            for (final float[] row : plane) {
+                if (row == null) {
+                    continue;
+                }
+
+                for (int k = 0, m = row.length; k < m; k++) {
+                    if (predicate.test(row[k])) {
+                        row[k] = newValue;
+                    }
+                }
+            }
         }
     }
 
@@ -14335,11 +15055,14 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int numRows = Numbers.divide(len, columnCount, RoundingMode.CEILING);
+        final int numRows = ((len - 1) / columnCount) + 1;
         final float[][] result = new float[numRows][];
 
         for (int i = 0, from = 0; i < numRows; i++, from += columnCount) {
-            result[i] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
+            final int rowLen = N.min(len - from, columnCount);
+            final float[] row = new float[rowLen];
+            System.arraycopy(a, from, row, 0, rowLen);
+            result[i] = row;
         }
 
         return result;
@@ -14387,15 +15110,22 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int numBlocks = Numbers.toIntExact(Numbers.divide(len, (long) rowCount * columnCount, RoundingMode.CEILING));
+        final long blockSize = (long) rowCount * columnCount;
+        final int numBlocks = (int) (((len - 1L) / blockSize) + 1L);
         final float[][][] result = new float[numBlocks][][];
 
         for (int i = 0, from = 0; i < numBlocks; i++) {
-            result[i] = new float[N.min(rowCount, Numbers.divide(len - from, columnCount, RoundingMode.CEILING))][];
+            final int currentBlockRows = (i < numBlocks - 1) ? rowCount : (((len - from - 1) / columnCount) + 1);
+            final float[][] block = new float[currentBlockRows][];
 
-            for (int j = 0, currentBlockRows = result[i].length; j < currentBlockRows; j++, from += columnCount) {
-                result[i][j] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
+            for (int j = 0; j < currentBlockRows; j++, from += columnCount) {
+                final int rowLen = N.min(len - from, columnCount);
+                final float[] row = new float[rowLen];
+                System.arraycopy(a, from, row, 0, rowLen);
+                block[j] = row;
             }
+
+            result[i] = block;
         }
 
         return result;
@@ -14732,17 +15462,7 @@ public sealed class Arrays permits Arrays.f {
             throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int minLen = N.min(lenA, lenB);
-
-        final float[] result = new float[minLen];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.applyAsFloat(a[i], b[i]);
-        }
-
-        return result;
+        return zipUnchecked(a, b, zipFunction);
     }
 
     /**
@@ -14788,28 +15508,7 @@ public sealed class Arrays permits Arrays.f {
             final Throwables.FloatBinaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int minLen = N.min(lenA, lenB);
-        final int maxLen = N.max(lenA, lenB);
-
-        final float[] result = new float[maxLen];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.applyAsFloat(a[i], b[i]);
-        }
-
-        if (lenA < maxLen) {
-            for (int i = lenA; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsFloat(defaultValueA, b[i]);
-            }
-        } else if (lenB < maxLen) {
-            for (int i = lenB; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsFloat(a[i], defaultValueB);
-            }
-        }
-
-        return result;
+        return zipUnchecked(a, b, defaultValueA, defaultValueB, zipFunction);
     }
 
     /**
@@ -14857,18 +15556,7 @@ public sealed class Arrays permits Arrays.f {
             throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-        final int minLen = N.min(lenA, lenB, lenC);
-
-        final float[] result = new float[minLen];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.applyAsFloat(a[i], b[i], c[i]);
-        }
-
-        return result;
+        return zipUnchecked(a, b, c, zipFunction);
     }
 
     /**
@@ -14919,25 +15607,7 @@ public sealed class Arrays permits Arrays.f {
             final float defaultValueC, final Throwables.FloatTernaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-        final int minLen = N.min(lenA, lenB, lenC);
-        final int maxLen = N.max(lenA, lenB, lenC);
-
-        final float[] result = new float[maxLen];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.applyAsFloat(a[i], b[i], c[i]);
-        }
-
-        if (minLen < maxLen) {
-            for (int i = minLen; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsFloat(i < lenA ? a[i] : defaultValueA, i < lenB ? b[i] : defaultValueB, i < lenC ? c[i] : defaultValueC);
-            }
-        }
-
-        return result;
+        return zipUnchecked(a, b, c, defaultValueA, defaultValueB, defaultValueC, zipFunction);
     }
 
     /**
@@ -14982,22 +15652,12 @@ public sealed class Arrays permits Arrays.f {
             throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int minLen = N.min(lenA, lenB);
-
-        final float[][] result = new float[minLen][];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], zipFunction);
-        }
-
-        return result;
+        return zipUnchecked(a, b, zipFunction);
     }
 
     /**
      * Combines elements from two two-dimensional float arrays using the provided zip function, with default values
-     * for missing elements at both the outer and inner array levels.
+     * for missing elements at both the outer and inner array levels. Null sub-arrays are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -15038,28 +15698,7 @@ public sealed class Arrays permits Arrays.f {
             final Throwables.FloatBinaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int minLen = N.min(lenA, lenB);
-        final int maxLen = N.max(lenA, lenB);
-
-        final float[][] result = new float[maxLen][];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
-        }
-
-        if (lenA < maxLen) {
-            for (int i = lenA; i < maxLen; i++) {
-                result[i] = zip(null, b[i], defaultValueA, defaultValueB, zipFunction);
-            }
-        } else if (lenB < maxLen) {
-            for (int i = lenB; i < maxLen; i++) {
-                result[i] = zip(a[i], null, defaultValueA, defaultValueB, zipFunction);
-            }
-        }
-
-        return result;
+        return zipUnchecked(a, b, defaultValueA, defaultValueB, zipFunction);
     }
 
     /**
@@ -15108,23 +15747,12 @@ public sealed class Arrays permits Arrays.f {
             final Throwables.FloatTernaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-        final int minLen = N.min(lenA, lenB, lenC);
-
-        final float[][] result = new float[minLen][];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], zipFunction);
-        }
-
-        return result;
+        return zipUnchecked(a, b, c, zipFunction);
     }
 
     /**
      * Combines elements from three two-dimensional float arrays using the provided zip function, with default values
-     * for missing elements at both the outer and inner array levels.
+     * for missing elements at both the outer and inner array levels. Null sub-arrays are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -15170,26 +15798,7 @@ public sealed class Arrays permits Arrays.f {
             final float defaultValueB, final float defaultValueC, final Throwables.FloatTernaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-        final int minLen = N.min(lenA, lenB, lenC);
-        final int maxLen = N.max(lenA, lenB, lenC);
-
-        final float[][] result = new float[maxLen][];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
-        }
-
-        if (minLen < maxLen) {
-            for (int i = minLen; i < maxLen; i++) {
-                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
-                        zipFunction);
-            }
-        }
-
-        return result;
+        return zipUnchecked(a, b, c, defaultValueA, defaultValueB, defaultValueC, zipFunction);
     }
 
     /**
@@ -15241,7 +15850,7 @@ public sealed class Arrays permits Arrays.f {
         final float[][][] result = new float[minLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], zipFunction);
+            result[i] = zipUnchecked(a[i], b[i], zipFunction);
         }
 
         return result;
@@ -15249,7 +15858,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Combines elements from two three-dimensional float arrays using the provided zip function, with default values
-     * for missing elements at all array levels.
+     * for missing elements at all array levels. Null sub-arrays at any level are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -15298,16 +15907,16 @@ public sealed class Arrays permits Arrays.f {
         final float[][][] result = new float[maxLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
+            result[i] = zipUnchecked(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
         }
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zip(null, b[i], defaultValueA, defaultValueB, zipFunction);
+                result[i] = zipUnchecked(null, b[i], defaultValueA, defaultValueB, zipFunction);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zip(a[i], null, defaultValueA, defaultValueB, zipFunction);
+                result[i] = zipUnchecked(a[i], null, defaultValueA, defaultValueB, zipFunction);
             }
         }
 
@@ -15368,7 +15977,7 @@ public sealed class Arrays permits Arrays.f {
         final float[][][] result = new float[minLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], zipFunction);
+            result[i] = zipUnchecked(a[i], b[i], c[i], zipFunction);
         }
 
         return result;
@@ -15376,7 +15985,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Combines elements from three three-dimensional float arrays using the provided zip function, with default values
-     * for missing elements at all array levels.
+     * for missing elements at all array levels. Null sub-arrays at any level are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -15431,12 +16040,172 @@ public sealed class Arrays permits Arrays.f {
         final float[][][] result = new float[maxLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
+            result[i] = zipUnchecked(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
         }
 
         if (minLen < maxLen) {
             for (int i = minLen; i < maxLen; i++) {
-                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
+                result[i] = zipUnchecked(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
+                        zipFunction);
+            }
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> float[] zipUnchecked(final float[] a, final float[] b, final Throwables.FloatBinaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+
+        final float[] result = new float[minLen];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipFunction.applyAsFloat(a[i], b[i]);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> float[] zipUnchecked(final float[] a, final float[] b, final float defaultValueA, final float defaultValueB,
+            final Throwables.FloatBinaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+        final int maxLen = N.max(lenA, lenB);
+
+        final float[] result = new float[maxLen];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipFunction.applyAsFloat(a[i], b[i]);
+        }
+
+        if (lenA < maxLen) {
+            for (int i = lenA; i < maxLen; i++) {
+                result[i] = zipFunction.applyAsFloat(defaultValueA, b[i]);
+            }
+        } else if (lenB < maxLen) {
+            for (int i = lenB; i < maxLen; i++) {
+                result[i] = zipFunction.applyAsFloat(a[i], defaultValueB);
+            }
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> float[] zipUnchecked(final float[] a, final float[] b, final float[] c,
+            final Throwables.FloatTernaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+
+        final float[] result = new float[minLen];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipFunction.applyAsFloat(a[i], b[i], c[i]);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> float[] zipUnchecked(final float[] a, final float[] b, final float[] c, final float defaultValueA,
+            final float defaultValueB, final float defaultValueC, final Throwables.FloatTernaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+        final int maxLen = N.max(lenA, lenB, lenC);
+
+        final float[] result = new float[maxLen];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipFunction.applyAsFloat(a[i], b[i], c[i]);
+        }
+
+        if (minLen < maxLen) {
+            for (int i = minLen; i < maxLen; i++) {
+                result[i] = zipFunction.applyAsFloat(i < lenA ? a[i] : defaultValueA, i < lenB ? b[i] : defaultValueB, i < lenC ? c[i] : defaultValueC);
+            }
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> float[][] zipUnchecked(final float[][] a, final float[][] b, final Throwables.FloatBinaryOperator<E> zipFunction)
+            throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+
+        final float[][] result = new float[minLen][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipUnchecked(a[i], b[i], zipFunction);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> float[][] zipUnchecked(final float[][] a, final float[][] b, final float defaultValueA, final float defaultValueB,
+            final Throwables.FloatBinaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+        final int maxLen = N.max(lenA, lenB);
+
+        final float[][] result = new float[maxLen][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipUnchecked(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
+        }
+
+        if (lenA < maxLen) {
+            for (int i = lenA; i < maxLen; i++) {
+                result[i] = zipUnchecked(null, b[i], defaultValueA, defaultValueB, zipFunction);
+            }
+        } else if (lenB < maxLen) {
+            for (int i = lenB; i < maxLen; i++) {
+                result[i] = zipUnchecked(a[i], null, defaultValueA, defaultValueB, zipFunction);
+            }
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> float[][] zipUnchecked(final float[][] a, final float[][] b, final float[][] c,
+            final Throwables.FloatTernaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+
+        final float[][] result = new float[minLen][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipUnchecked(a[i], b[i], c[i], zipFunction);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> float[][] zipUnchecked(final float[][] a, final float[][] b, final float[][] c, final float defaultValueA,
+            final float defaultValueB, final float defaultValueC, final Throwables.FloatTernaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+        final int maxLen = N.max(lenA, lenB, lenC);
+
+        final float[][] result = new float[maxLen][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipUnchecked(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
+        }
+
+        if (minLen < maxLen) {
+            for (int i = minLen; i < maxLen; i++) {
+                result[i] = zipUnchecked(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
                         zipFunction);
             }
         }
@@ -15526,18 +16295,22 @@ public sealed class Arrays permits Arrays.f {
 
         long count = 0;
 
-        for (final float[][] element : a) {
-            if (N.isEmpty(element)) {
+        for (final float[][] plane : a) {
+            if (N.isEmpty(plane)) {
                 continue;
             }
 
-            for (final float[] floats : element) {
-                if (N.isEmpty(floats)) {
-                    continue;
-                }
+            // A single 2D plane has at most (2^31 - 1)^2 < 2^62 < Long.MAX_VALUE elements,
+            // so accumulating planeCount in plain long arithmetic cannot overflow.
+            long planeCount = 0;
 
-                count = addElementCountExact(count, floats.length);
+            for (final float[] row : plane) {
+                if (row != null) {
+                    planeCount += row.length;
+                }
             }
+
+            count = addElementCountExact(count, planeCount);
         }
 
         return count;
@@ -15758,23 +16531,20 @@ public sealed class Arrays permits Arrays.f {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(ARRAY_PRINT_SEPARATOR).append(' ');
+                        sb.append(ARRAY_PRINT_ROW_SEPARATOR);
                     }
 
-                    if (a[i] == null) {
+                    final float[] row = a[i];
+
+                    if (row == null) {
                         sb.append("null");
-                    } else if (a[i].length == 0) {
+                    } else if (row.length == 0) {
                         sb.append("[]");
                     } else {
-                        final float[] row = a[i];
-                        sb.append('[');
+                        sb.append('[').append(row[0]);
 
-                        for (int j = 0, rowLen = row.length; j < rowLen; j++) {
-                            if (j > 0) {
-                                sb.append(", ");
-                            }
-
-                            sb.append(row[j]);
+                        for (int j = 1, rowLen = row.length; j < rowLen; j++) {
+                            sb.append(", ").append(row[j]);
                         }
 
                         sb.append(']');
@@ -15864,36 +16634,34 @@ public sealed class Arrays permits Arrays.f {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(ARRAY_PRINT_SEPARATOR).append(' ');
+                        sb.append(ARRAY_PRINT_ROW_SEPARATOR);
                     }
 
-                    if (a[i] == null) {
+                    final float[][] row = a[i];
+
+                    if (row == null) {
                         sb.append("null");
-                    } else if (a[i].length == 0) {
+                    } else if (row.length == 0) {
                         sb.append("[]");
                     } else {
-                        final float[][] row = a[i];
                         sb.append('[');
 
                         for (int j = 0, rowLen = row.length; j < rowLen; j++) {
                             if (j > 0) {
-                                sb.append(',').append(ARRAY_PRINT_SEPARATOR).append("  ");
+                                sb.append(ARRAY_PRINT_SUB_ROW_SEPARATOR);
                             }
 
-                            if (row[j] == null) {
+                            final float[] subRow = row[j];
+
+                            if (subRow == null) {
                                 sb.append("null");
-                            } else if (row[j].length == 0) {
+                            } else if (subRow.length == 0) {
                                 sb.append("[]");
                             } else {
-                                final float[] subRow = row[j];
-                                sb.append('[');
+                                sb.append('[').append(subRow[0]);
 
-                                for (int k = 0, subRowLen = subRow.length; k < subRowLen; k++) {
-                                    if (k > 0) {
-                                        sb.append(", ");
-                                    }
-
-                                    sb.append(subRow[k]);
+                                for (int k = 1, subRowLen = subRow.length; k < subRowLen; k++) {
+                                    sb.append(", ").append(subRow[k]);
                                 }
 
                                 sb.append(']');
@@ -15998,8 +16766,14 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
-        for (final double[] element : a) {
-            updateAll(element, operator);
+        for (final double[] row : a) {
+            if (row == null) {
+                continue;
+            }
+
+            for (int j = 0, m = row.length; j < m; j++) {
+                row[j] = operator.applyAsDouble(row[j]);
+            }
         }
     }
 
@@ -16043,8 +16817,20 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
-        for (final double[][] element : a) {
-            updateAll(element, operator);
+        for (final double[][] plane : a) {
+            if (plane == null) {
+                continue;
+            }
+
+            for (final double[] row : plane) {
+                if (row == null) {
+                    continue;
+                }
+
+                for (int k = 0, m = row.length; k < m; k++) {
+                    row[k] = operator.applyAsDouble(row[k]);
+                }
+            }
         }
     }
 
@@ -16137,8 +16923,16 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
-        for (final double[] element : a) {
-            replaceIf(element, predicate, newValue);
+        for (final double[] row : a) {
+            if (row == null) {
+                continue;
+            }
+
+            for (int j = 0, m = row.length; j < m; j++) {
+                if (predicate.test(row[j])) {
+                    row[j] = newValue;
+                }
+            }
         }
     }
 
@@ -16183,8 +16977,22 @@ public sealed class Arrays permits Arrays.f {
             return;
         }
 
-        for (final double[][] element : a) {
-            replaceIf(element, predicate, newValue);
+        for (final double[][] plane : a) {
+            if (plane == null) {
+                continue;
+            }
+
+            for (final double[] row : plane) {
+                if (row == null) {
+                    continue;
+                }
+
+                for (int k = 0, m = row.length; k < m; k++) {
+                    if (predicate.test(row[k])) {
+                        row[k] = newValue;
+                    }
+                }
+            }
         }
     }
 
@@ -16227,11 +17035,14 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int numRows = Numbers.divide(len, columnCount, RoundingMode.CEILING);
+        final int numRows = ((len - 1) / columnCount) + 1;
         final double[][] result = new double[numRows][];
 
         for (int i = 0, from = 0; i < numRows; i++, from += columnCount) {
-            result[i] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
+            final int rowLen = N.min(len - from, columnCount);
+            final double[] row = new double[rowLen];
+            System.arraycopy(a, from, row, 0, rowLen);
+            result[i] = row;
         }
 
         return result;
@@ -16279,15 +17090,22 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int numBlocks = Numbers.toIntExact(Numbers.divide(len, (long) rowCount * columnCount, RoundingMode.CEILING));
+        final long blockSize = (long) rowCount * columnCount;
+        final int numBlocks = (int) (((len - 1L) / blockSize) + 1L);
         final double[][][] result = new double[numBlocks][][];
 
         for (int i = 0, from = 0; i < numBlocks; i++) {
-            result[i] = new double[N.min(rowCount, Numbers.divide(len - from, columnCount, RoundingMode.CEILING))][];
+            final int currentBlockRows = (i < numBlocks - 1) ? rowCount : (((len - from - 1) / columnCount) + 1);
+            final double[][] block = new double[currentBlockRows][];
 
-            for (int j = 0, currentBlockRows = result[i].length; j < currentBlockRows; j++, from += columnCount) {
-                result[i][j] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
+            for (int j = 0; j < currentBlockRows; j++, from += columnCount) {
+                final int rowLen = N.min(len - from, columnCount);
+                final double[] row = new double[rowLen];
+                System.arraycopy(a, from, row, 0, rowLen);
+                block[j] = row;
             }
+
+            result[i] = block;
         }
 
         return result;
@@ -16612,17 +17430,7 @@ public sealed class Arrays permits Arrays.f {
             throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int minLen = N.min(lenA, lenB);
-
-        final double[] result = new double[minLen];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.applyAsDouble(a[i], b[i]);
-        }
-
-        return result;
+        return zipUnchecked(a, b, zipFunction);
     }
 
     /**
@@ -16664,28 +17472,7 @@ public sealed class Arrays permits Arrays.f {
             final Throwables.DoubleBinaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int minLen = N.min(lenA, lenB);
-        final int maxLen = N.max(lenA, lenB);
-
-        final double[] result = new double[maxLen];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.applyAsDouble(a[i], b[i]);
-        }
-
-        if (lenA < maxLen) {
-            for (int i = lenA; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsDouble(defaultValueA, b[i]);
-            }
-        } else if (lenB < maxLen) {
-            for (int i = lenB; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsDouble(a[i], defaultValueB);
-            }
-        }
-
-        return result;
+        return zipUnchecked(a, b, defaultValueA, defaultValueB, zipFunction);
     }
 
     /**
@@ -16727,18 +17514,7 @@ public sealed class Arrays permits Arrays.f {
             final Throwables.DoubleTernaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-        final int minLen = N.min(lenA, lenB, lenC);
-
-        final double[] result = new double[minLen];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.applyAsDouble(a[i], b[i], c[i]);
-        }
-
-        return result;
+        return zipUnchecked(a, b, c, zipFunction);
     }
 
     /**
@@ -16784,25 +17560,7 @@ public sealed class Arrays permits Arrays.f {
             final double defaultValueB, final double defaultValueC, final Throwables.DoubleTernaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-        final int minLen = N.min(lenA, lenB, lenC);
-        final int maxLen = N.max(lenA, lenB, lenC);
-
-        final double[] result = new double[maxLen];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.applyAsDouble(a[i], b[i], c[i]);
-        }
-
-        if (minLen < maxLen) {
-            for (int i = minLen; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsDouble(i < lenA ? a[i] : defaultValueA, i < lenB ? b[i] : defaultValueB, i < lenC ? c[i] : defaultValueC);
-            }
-        }
-
-        return result;
+        return zipUnchecked(a, b, c, defaultValueA, defaultValueB, defaultValueC, zipFunction);
     }
 
     /**
@@ -16845,22 +17603,12 @@ public sealed class Arrays permits Arrays.f {
             throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int minLen = N.min(lenA, lenB);
-
-        final double[][] result = new double[minLen][];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], zipFunction);
-        }
-
-        return result;
+        return zipUnchecked(a, b, zipFunction);
     }
 
     /**
      * Combines elements from two two-dimensional double arrays using the provided zip function, with default values
-     * for missing elements at both the outer and inner array levels.
+     * for missing elements at both the outer and inner array levels. Null sub-arrays are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -16902,28 +17650,7 @@ public sealed class Arrays permits Arrays.f {
             final Throwables.DoubleBinaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int minLen = N.min(lenA, lenB);
-        final int maxLen = N.max(lenA, lenB);
-
-        final double[][] result = new double[maxLen][];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
-        }
-
-        if (lenA < maxLen) {
-            for (int i = lenA; i < maxLen; i++) {
-                result[i] = zip(null, b[i], defaultValueA, defaultValueB, zipFunction);
-            }
-        } else if (lenB < maxLen) {
-            for (int i = lenB; i < maxLen; i++) {
-                result[i] = zip(a[i], null, defaultValueA, defaultValueB, zipFunction);
-            }
-        }
-
-        return result;
+        return zipUnchecked(a, b, defaultValueA, defaultValueB, zipFunction);
     }
 
     /**
@@ -16969,23 +17696,12 @@ public sealed class Arrays permits Arrays.f {
             final Throwables.DoubleTernaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-        final int minLen = N.min(lenA, lenB, lenC);
-
-        final double[][] result = new double[minLen][];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], zipFunction);
-        }
-
-        return result;
+        return zipUnchecked(a, b, c, zipFunction);
     }
 
     /**
      * Combines elements from three two-dimensional double arrays using the provided zip function, with default values
-     * for missing elements at both the outer and inner array levels.
+     * for missing elements at both the outer and inner array levels. Null sub-arrays are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -17031,26 +17747,7 @@ public sealed class Arrays permits Arrays.f {
             final double defaultValueB, final double defaultValueC, final Throwables.DoubleTernaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-        final int minLen = N.min(lenA, lenB, lenC);
-        final int maxLen = N.max(lenA, lenB, lenC);
-
-        final double[][] result = new double[maxLen][];
-
-        for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
-        }
-
-        if (minLen < maxLen) {
-            for (int i = minLen; i < maxLen; i++) {
-                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
-                        zipFunction);
-            }
-        }
-
-        return result;
+        return zipUnchecked(a, b, c, defaultValueA, defaultValueB, defaultValueC, zipFunction);
     }
 
     /**
@@ -17100,7 +17797,7 @@ public sealed class Arrays permits Arrays.f {
         final double[][][] result = new double[minLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], zipFunction);
+            result[i] = zipUnchecked(a[i], b[i], zipFunction);
         }
 
         return result;
@@ -17108,7 +17805,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Combines elements from two three-dimensional double arrays using the provided zip function, with default values
-     * for missing elements at all array levels.
+     * for missing elements at all array levels. Null sub-arrays at any level are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -17158,16 +17855,16 @@ public sealed class Arrays permits Arrays.f {
         final double[][][] result = new double[maxLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
+            result[i] = zipUnchecked(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
         }
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zip(null, b[i], defaultValueA, defaultValueB, zipFunction);
+                result[i] = zipUnchecked(null, b[i], defaultValueA, defaultValueB, zipFunction);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zip(a[i], null, defaultValueA, defaultValueB, zipFunction);
+                result[i] = zipUnchecked(a[i], null, defaultValueA, defaultValueB, zipFunction);
             }
         }
 
@@ -17226,7 +17923,7 @@ public sealed class Arrays permits Arrays.f {
         final double[][][] result = new double[minLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], zipFunction);
+            result[i] = zipUnchecked(a[i], b[i], c[i], zipFunction);
         }
 
         return result;
@@ -17234,7 +17931,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Combines elements from three three-dimensional double arrays using the provided zip function, with default values
-     * for missing elements at all array levels.
+     * for missing elements at all array levels. Null sub-arrays at any level are treated as empty.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -17288,12 +17985,173 @@ public sealed class Arrays permits Arrays.f {
         final double[][][] result = new double[maxLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
+            result[i] = zipUnchecked(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
         }
 
         if (minLen < maxLen) {
             for (int i = minLen; i < maxLen; i++) {
-                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
+                result[i] = zipUnchecked(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
+                        zipFunction);
+            }
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> double[] zipUnchecked(final double[] a, final double[] b, final Throwables.DoubleBinaryOperator<E> zipFunction)
+            throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+
+        final double[] result = new double[minLen];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipFunction.applyAsDouble(a[i], b[i]);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> double[] zipUnchecked(final double[] a, final double[] b, final double defaultValueA, final double defaultValueB,
+            final Throwables.DoubleBinaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+        final int maxLen = N.max(lenA, lenB);
+
+        final double[] result = new double[maxLen];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipFunction.applyAsDouble(a[i], b[i]);
+        }
+
+        if (lenA < maxLen) {
+            for (int i = lenA; i < maxLen; i++) {
+                result[i] = zipFunction.applyAsDouble(defaultValueA, b[i]);
+            }
+        } else if (lenB < maxLen) {
+            for (int i = lenB; i < maxLen; i++) {
+                result[i] = zipFunction.applyAsDouble(a[i], defaultValueB);
+            }
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> double[] zipUnchecked(final double[] a, final double[] b, final double[] c,
+            final Throwables.DoubleTernaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+
+        final double[] result = new double[minLen];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipFunction.applyAsDouble(a[i], b[i], c[i]);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> double[] zipUnchecked(final double[] a, final double[] b, final double[] c, final double defaultValueA,
+            final double defaultValueB, final double defaultValueC, final Throwables.DoubleTernaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+        final int maxLen = N.max(lenA, lenB, lenC);
+
+        final double[] result = new double[maxLen];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipFunction.applyAsDouble(a[i], b[i], c[i]);
+        }
+
+        if (minLen < maxLen) {
+            for (int i = minLen; i < maxLen; i++) {
+                result[i] = zipFunction.applyAsDouble(i < lenA ? a[i] : defaultValueA, i < lenB ? b[i] : defaultValueB, i < lenC ? c[i] : defaultValueC);
+            }
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> double[][] zipUnchecked(final double[][] a, final double[][] b, final Throwables.DoubleBinaryOperator<E> zipFunction)
+            throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+
+        final double[][] result = new double[minLen][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipUnchecked(a[i], b[i], zipFunction);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> double[][] zipUnchecked(final double[][] a, final double[][] b, final double defaultValueA, final double defaultValueB,
+            final Throwables.DoubleBinaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+        final int maxLen = N.max(lenA, lenB);
+
+        final double[][] result = new double[maxLen][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipUnchecked(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
+        }
+
+        if (lenA < maxLen) {
+            for (int i = lenA; i < maxLen; i++) {
+                result[i] = zipUnchecked(null, b[i], defaultValueA, defaultValueB, zipFunction);
+            }
+        } else if (lenB < maxLen) {
+            for (int i = lenB; i < maxLen; i++) {
+                result[i] = zipUnchecked(a[i], null, defaultValueA, defaultValueB, zipFunction);
+            }
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> double[][] zipUnchecked(final double[][] a, final double[][] b, final double[][] c,
+            final Throwables.DoubleTernaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+
+        final double[][] result = new double[minLen][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipUnchecked(a[i], b[i], c[i], zipFunction);
+        }
+
+        return result;
+    }
+
+    private static <E extends Exception> double[][] zipUnchecked(final double[][] a, final double[][] b, final double[][] c, final double defaultValueA,
+            final double defaultValueB, final double defaultValueC, final Throwables.DoubleTernaryOperator<E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+        final int maxLen = N.max(lenA, lenB, lenC);
+
+        final double[][] result = new double[maxLen][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zipUnchecked(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction);
+        }
+
+        if (minLen < maxLen) {
+            for (int i = minLen; i < maxLen; i++) {
+                result[i] = zipUnchecked(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
                         zipFunction);
             }
         }
@@ -17383,18 +18241,22 @@ public sealed class Arrays permits Arrays.f {
 
         long count = 0;
 
-        for (final double[][] element : a) {
-            if (N.isEmpty(element)) {
+        for (final double[][] plane : a) {
+            if (N.isEmpty(plane)) {
                 continue;
             }
 
-            for (final double[] doubles : element) {
-                if (N.isEmpty(doubles)) {
-                    continue;
-                }
+            // A single 2D plane has at most (2^31 - 1)^2 < 2^62 < Long.MAX_VALUE elements,
+            // so accumulating planeCount in plain long arithmetic cannot overflow.
+            long planeCount = 0;
 
-                count = addElementCountExact(count, doubles.length);
+            for (final double[] row : plane) {
+                if (row != null) {
+                    planeCount += row.length;
+                }
             }
+
+            count = addElementCountExact(count, planeCount);
         }
 
         return count;
@@ -17606,23 +18468,20 @@ public sealed class Arrays permits Arrays.f {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(ARRAY_PRINT_SEPARATOR).append(' ');
+                        sb.append(ARRAY_PRINT_ROW_SEPARATOR);
                     }
 
-                    if (a[i] == null) {
+                    final double[] row = a[i];
+
+                    if (row == null) {
                         sb.append("null");
-                    } else if (a[i].length == 0) {
+                    } else if (row.length == 0) {
                         sb.append("[]");
                     } else {
-                        final double[] row = a[i];
-                        sb.append('[');
+                        sb.append('[').append(row[0]);
 
-                        for (int j = 0, rowLen = row.length; j < rowLen; j++) {
-                            if (j > 0) {
-                                sb.append(", ");
-                            }
-
-                            sb.append(row[j]);
+                        for (int j = 1, rowLen = row.length; j < rowLen; j++) {
+                            sb.append(", ").append(row[j]);
                         }
 
                         sb.append(']');
@@ -17702,36 +18561,34 @@ public sealed class Arrays permits Arrays.f {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(ARRAY_PRINT_SEPARATOR).append(' ');
+                        sb.append(ARRAY_PRINT_ROW_SEPARATOR);
                     }
 
-                    if (a[i] == null) {
+                    final double[][] row = a[i];
+
+                    if (row == null) {
                         sb.append("null");
-                    } else if (a[i].length == 0) {
+                    } else if (row.length == 0) {
                         sb.append("[]");
                     } else {
-                        final double[][] row = a[i];
                         sb.append('[');
 
                         for (int j = 0, rowLen = row.length; j < rowLen; j++) {
                             if (j > 0) {
-                                sb.append(',').append(ARRAY_PRINT_SEPARATOR).append("  ");
+                                sb.append(ARRAY_PRINT_SUB_ROW_SEPARATOR);
                             }
 
-                            if (row[j] == null) {
+                            final double[] subRow = row[j];
+
+                            if (subRow == null) {
                                 sb.append("null");
-                            } else if (row[j].length == 0) {
+                            } else if (subRow.length == 0) {
                                 sb.append("[]");
                             } else {
-                                final double[] subRow = row[j];
-                                sb.append('[');
+                                sb.append('[').append(subRow[0]);
 
-                                for (int k = 0, subRowLen = subRow.length; k < subRowLen; k++) {
-                                    if (k > 0) {
-                                        sb.append(", ");
-                                    }
-
-                                    sb.append(subRow[k]);
+                                for (int k = 1, subRowLen = subRow.length; k < subRowLen; k++) {
+                                    sb.append(", ").append(subRow[k]);
                                 }
 
                                 sb.append(']');
@@ -18047,8 +18904,8 @@ public sealed class Arrays permits Arrays.f {
      * // Edge: 0 casts to the null character '\0'
      * char[] nullChar = Arrays.toChar(new int[]{0}); // returns {'\0'}
      *
-     * // Edge: 65535 casts to '\uFFFF' (max char value)
-     * char[] maxChar = Arrays.toChar(new int[]{65535}); // returns {'\uFFFF'}
+     * // Edge: 65535 casts to '\u005CuFFFF' (max char value)
+     * char[] maxChar = Arrays.toChar(new int[]{65535}); // returns {'\u005CuFFFF'}
      * }</pre>
      *
      * @param a the array of integers to convert. Can be {@code null}.
@@ -18589,8 +19446,8 @@ public sealed class Arrays permits Arrays.f {
      * // Edge: null character '\0' produces 0
      * int[] nullChar = Arrays.toInt(new char[]{'\0'}); // returns {0}
      *
-     * // Edge: max char value '\uFFFF' produces 65535
-     * int[] maxChar = Arrays.toInt(new char[]{'\uFFFF'}); // returns {65535}
+     * // Edge: max char value '\u005CuFFFF' produces 65535
+     * int[] maxChar = Arrays.toInt(new char[]{'\u005CuFFFF'}); // returns {65535}
      * }</pre>
      *
      * @param a the array of chars to convert. Can be {@code null}.
@@ -21328,14 +22185,108 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Adds an innermost array length to a running three-dimensional element count.
+     * Returns the runtime one-dimensional row array class of a two-dimensional array, preserving
+     * any covariant runtime component type and its store checks.
+     *
+     * @param <T> the declared element type after two dimensions
+     * @param array the two-dimensional source array
+     * @return the runtime row array class
+     */
+    @SuppressWarnings("unchecked")
+    private static <T> Class<T[]> runtimeRowArrayClass2D(final T[][] array) {
+        return (Class<T[]>) array.getClass().getComponentType();
+    }
+
+    /**
+     * Returns the runtime two-dimensional plane array class of a three-dimensional array, preserving
+     * any covariant runtime component type and its store checks.
+     *
+     * @param <T> the declared element type after three dimensions
+     * @param array the three-dimensional source array
+     * @return the runtime plane array class
+     */
+    @SuppressWarnings("unchecked")
+    private static <T> Class<T[][]> runtimePlaneArrayClass3D(final T[][][] array) {
+        return (Class<T[][]>) array.getClass().getComponentType();
+    }
+
+    /**
+     * Allocates a zero-length one-dimensional array for {@code elementType}, validating that adding
+     * one array dimension does not exceed the JVM's 255-dimension limit.
+     *
+     * @param <T> the element type
+     * @param elementType the element class
+     * @return an empty {@code T[]} instance reusable across empty rows
+     * @throws IllegalArgumentException if adding one array dimension exceeds 255 dimensions
+     */
+    private static <T> T[] emptyArray1D(final Class<T> elementType) throws IllegalArgumentException {
+        return N.newArray(elementType, 0);
+    }
+
+    /**
+     * Allocates a zero-length two-dimensional array whose component type is {@code rowArrayType},
+     * validating that adding another array dimension does not exceed the JVM's 255-dimension limit.
+     *
+     * @param <T> the innermost element type
+     * @param rowArrayType the one-dimensional row array class
+     * @return an empty {@code T[][]} instance reusable across empty planes
+     * @throws IllegalArgumentException if adding another array dimension exceeds 255 dimensions
+     */
+    private static <T> T[][] emptyArray2D(final Class<T[]> rowArrayType) throws IllegalArgumentException {
+        return N.newArray(rowArrayType, 0);
+    }
+
+    /**
+     * Returns the two-dimensional array class whose component type is {@code rowArrayType},
+     * validating that adding another array dimension does not exceed the JVM's 255-dimension limit.
+     *
+     * @param <T> the innermost element type
+     * @param rowArrayType the one-dimensional row array class
+     * @return the runtime {@code T[][]} class
+     * @throws IllegalArgumentException if adding another array dimension exceeds 255 dimensions
+     */
+    private static <T> Class<T[][]> arrayClass2D(final Class<T[]> rowArrayType) throws IllegalArgumentException {
+        return runtimeArrayClass(emptyArray2D(rowArrayType));
+    }
+
+    /**
+     * Stores {@code value} into {@code target[index]}, optionally translating an incompatible runtime
+     * array store into an {@link IllegalArgumentException} for overloads whose target type was inferred.
+     *
+     * @param <R> the declared target element type
+     * @param target the destination array
+     * @param index the destination slot index
+     * @param value the value produced by the user callback
+     * @param targetElementType the runtime target element class used in error messages
+     * @param translateArrayStoreException {@code true} to translate store failures to {@link IllegalArgumentException}
+     * @throws IllegalArgumentException if {@code translateArrayStoreException} is {@code true} and {@code value} cannot be stored
+     * @throws ArrayStoreException if {@code translateArrayStoreException} is {@code false} and {@code value} cannot be stored
+     */
+    private static <R> void storeElement(final R[] target, final int index, final R value, final Class<R> targetElementType,
+            final boolean translateArrayStoreException) throws IllegalArgumentException, ArrayStoreException {
+        // Guard only the array store so an ArrayStoreException thrown by the user callback propagates unmodified
+        // without wrapping the callback in a capturing lambda.
+        try {
+            target[index] = value;
+        } catch (final ArrayStoreException e) {
+            if (translateArrayStoreException) {
+                throw new IllegalArgumentException("A produced value is not assignable to the inferred target element type " + targetElementType.getName()
+                        + ". Use the overload with targetElementType.", e);
+            }
+
+            throw e;
+        }
+    }
+
+    /**
+     * Adds an element count (such as a row or 2D plane count) to a running three-dimensional element count.
      *
      * @param count the count accumulated so far
      * @param additionalCount the number of elements to add
      * @return the exact sum
      * @throws ArithmeticException if the sum cannot be represented as a {@code long}.
      */
-    static long addElementCountExact(final long count, final int additionalCount) throws ArithmeticException {
+    static long addElementCountExact(final long count, final long additionalCount) throws ArithmeticException {
         return Math.addExact(count, additionalCount);
     }
 
@@ -21524,11 +22475,15 @@ public sealed class Arrays permits Arrays.f {
                 throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
+            return mapToBooleanUnchecked(a, mapper);
+        }
+
+        private static <T, E extends Exception> boolean[] mapToBooleanUnchecked(final T[] a, final Throwables.ToBooleanFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return N.EMPTY_BOOLEAN_ARRAY;
             }
 
-            final int len = N.len(a);
+            final int len = a.length;
             final boolean[] c = new boolean[len];
 
             for (int i = 0; i < len; i++) {
@@ -21582,11 +22537,15 @@ public sealed class Arrays permits Arrays.f {
                 throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
+            return mapToCharUnchecked(a, mapper);
+        }
+
+        private static <T, E extends Exception> char[] mapToCharUnchecked(final T[] a, final Throwables.ToCharFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return N.EMPTY_CHAR_ARRAY;
             }
 
-            final int len = N.len(a);
+            final int len = a.length;
             final char[] c = new char[len];
 
             for (int i = 0; i < len; i++) {
@@ -21640,11 +22599,15 @@ public sealed class Arrays permits Arrays.f {
                 throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
+            return mapToByteUnchecked(a, mapper);
+        }
+
+        private static <T, E extends Exception> byte[] mapToByteUnchecked(final T[] a, final Throwables.ToByteFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return N.EMPTY_BYTE_ARRAY;
             }
 
-            final int len = N.len(a);
+            final int len = a.length;
             final byte[] c = new byte[len];
 
             for (int i = 0; i < len; i++) {
@@ -21698,11 +22661,15 @@ public sealed class Arrays permits Arrays.f {
                 throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
+            return mapToShortUnchecked(a, mapper);
+        }
+
+        private static <T, E extends Exception> short[] mapToShortUnchecked(final T[] a, final Throwables.ToShortFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return N.EMPTY_SHORT_ARRAY;
             }
 
-            final int len = N.len(a);
+            final int len = a.length;
             final short[] c = new short[len];
 
             for (int i = 0; i < len; i++) {
@@ -21756,11 +22723,15 @@ public sealed class Arrays permits Arrays.f {
                 throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
+            return mapToIntUnchecked(a, mapper);
+        }
+
+        private static <T, E extends Exception> int[] mapToIntUnchecked(final T[] a, final Throwables.ToIntFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return N.EMPTY_INT_ARRAY;
             }
 
-            final int len = N.len(a);
+            final int len = a.length;
             final int[] c = new int[len];
 
             for (int i = 0; i < len; i++) {
@@ -21814,11 +22785,15 @@ public sealed class Arrays permits Arrays.f {
                 throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
+            return mapToLongUnchecked(a, mapper);
+        }
+
+        private static <T, E extends Exception> long[] mapToLongUnchecked(final T[] a, final Throwables.ToLongFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return N.EMPTY_LONG_ARRAY;
             }
 
-            final int len = N.len(a);
+            final int len = a.length;
             final long[] c = new long[len];
 
             for (int i = 0; i < len; i++) {
@@ -21872,11 +22847,15 @@ public sealed class Arrays permits Arrays.f {
                 throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
+            return mapToFloatUnchecked(a, mapper);
+        }
+
+        private static <T, E extends Exception> float[] mapToFloatUnchecked(final T[] a, final Throwables.ToFloatFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return N.EMPTY_FLOAT_ARRAY;
             }
 
-            final int len = N.len(a);
+            final int len = a.length;
             final float[] c = new float[len];
 
             for (int i = 0; i < len; i++) {
@@ -21930,11 +22909,15 @@ public sealed class Arrays permits Arrays.f {
                 throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
+            return mapToDoubleUnchecked(a, mapper);
+        }
+
+        private static <T, E extends Exception> double[] mapToDoubleUnchecked(final T[] a, final Throwables.ToDoubleFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return N.EMPTY_DOUBLE_ARRAY;
             }
 
-            final int len = N.len(a);
+            final int len = a.length;
             final double[] c = new double[len];
 
             for (int i = 0; i < len; i++) {
@@ -21952,6 +22935,9 @@ public sealed class Arrays permits Arrays.f {
      * ({@code totalElementCount}, {@code minRowLength}, {@code maxRowLength}), that are specific to {@code T[][]}. The short name is intentional so callers can use concise static imports when they
      * work heavily with multidimensional object arrays. Unlike {@link Arrays.f}, this class does not extend
      * {@link Arrays}; it only exposes the 2D-specific helpers declared here.</p>
+     *
+     * <p>The {@code map} and {@code zip} results are newly allocated outer arrays, but empty rows in one result
+     * (including those produced for {@code null} or empty input rows) may share a single zero-length instance.</p>
      *
      * @see Arrays.f
      * @see Arrays.fff
@@ -22012,7 +22998,7 @@ public sealed class Arrays permits Arrays.f {
             }
 
             for (final T[] element : a) {
-                if (N.isEmpty(element)) {
+                if (element == null) {
                     continue;
                 }
 
@@ -22070,7 +23056,7 @@ public sealed class Arrays permits Arrays.f {
             }
 
             for (final T[] element : a) {
-                if (N.isEmpty(element)) {
+                if (element == null) {
                     continue;
                 }
 
@@ -22126,13 +23112,23 @@ public sealed class Arrays permits Arrays.f {
             N.checkArgNotNull(a, cs.a);
             checkColsForReshape(columnCount);
 
-            final int len = a.length;
-            final int n = Numbers.divide(len, columnCount, RoundingMode.CEILING);
             final Class<T[]> arrayClass = runtimeArrayClass(a);
+            final int len = a.length;
+
+            if (len == 0) {
+                return N.newArray(arrayClass, 0);
+            }
+
+            final int n = ((len - 1) / columnCount) + 1;
             final T[][] c = N.newArray(arrayClass, n);
+            @SuppressWarnings("unchecked")
+            final Class<T> componentType = (Class<T>) arrayClass.getComponentType();
 
             for (int i = 0, from = 0; i < n; i++, from += columnCount) {
-                c[i] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
+                final int rowLen = N.min(len - from, columnCount);
+                final T[] row = N.newArray(componentType, rowLen);
+                System.arraycopy(a, from, row, 0, rowLen);
+                c[i] = row;
             }
 
             return c;
@@ -22343,24 +23339,12 @@ public sealed class Arrays permits Arrays.f {
         public static <T, E extends Exception> T[][] map(final T[][] a, final Throwables.UnaryOperator<T, E> mapper)
                 throws IllegalArgumentException, E, ArrayStoreException {
             N.checkArgNotNull(a, cs.a);
-
             N.checkArgNotNull(mapper, cs.mapper);
 
-            final Class<T> targetElementType = runtimeComponentType2D(a);
-            try {
-                return map(a, value -> {
-                    try {
-                        return mapper.apply(value);
-                    } catch (final ArrayStoreException e) {
-                        throw new CallbackArrayStoreException(e);
-                    }
-                }, targetElementType);
-            } catch (final CallbackArrayStoreException e) {
-                throw e.original();
-            } catch (final ArrayStoreException e) {
-                throw new IllegalArgumentException("A produced value is not assignable to the inferred target element type " + targetElementType.getName()
-                        + ". Use the overload with targetElementType.", e);
-            }
+            final Class<T[]> rowArrayClass = runtimeRowArrayClass2D(a);
+            @SuppressWarnings("unchecked")
+            final Class<T> targetElementType = (Class<T>) rowArrayClass.getComponentType();
+            return mapUnchecked(a, mapper, targetElementType, rowArrayClass, null, true);
         }
 
         /**
@@ -22416,15 +23400,40 @@ public sealed class Arrays permits Arrays.f {
             N.checkArgNotNull(mapper, cs.mapper);
             checkTargetElementType(targetElementType);
 
+            final R[] emptyRow = emptyArray1D(targetElementType);
+            return mapUnchecked(a, mapper, targetElementType, runtimeArrayClass(emptyRow), emptyRow, false);
+        }
+
+        private static <T, R, E extends Exception> R[][] mapUnchecked(final T[][] a, final Throwables.Function<? super T, ? extends R, E> mapper,
+                final Class<R> targetElementType, final Class<R[]> rowArrayClass, R[] emptyRow, final boolean translateArrayStoreException)
+                throws IllegalArgumentException, E, ArrayStoreException {
             if (N.isEmpty(a)) {
-                return N.newArray(N.newArray(targetElementType, 0).getClass(), 0); // NOSONAR
+                return N.newArray(rowArrayClass, 0); // NOSONAR
             }
 
-            final int len = N.len(a);
-            final R[][] c = N.newArray(N.newArray(targetElementType, 0).getClass(), len);
+            final int len = a.length;
+            final R[][] c = N.newArray(rowArrayClass, len);
 
             for (int i = 0; i < len; i++) {
-                c[i] = com.landawn.abacus.util.Arrays.f.map(a[i], mapper, targetElementType);
+                final T[] row = a[i];
+
+                if (N.isEmpty(row)) {
+                    if (emptyRow == null) {
+                        emptyRow = emptyArray1D(targetElementType);
+                    }
+
+                    c[i] = emptyRow;
+                    continue;
+                }
+
+                final int rowLen = row.length;
+                final R[] outRow = N.newArray(targetElementType, rowLen);
+
+                for (int j = 0; j < rowLen; j++) {
+                    storeElement(outRow, j, mapper.apply(row[j]), targetElementType, translateArrayStoreException);
+                }
+
+                c[i] = outRow;
             }
 
             return c;
@@ -22470,15 +23479,20 @@ public sealed class Arrays permits Arrays.f {
                 throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
+            return mapToBooleanUnchecked(a, mapper);
+        }
+
+        private static <T, E extends Exception> boolean[][] mapToBooleanUnchecked(final T[][] a, final Throwables.ToBooleanFunction<? super T, E> mapper)
+                throws E {
             if (N.isEmpty(a)) {
                 return new boolean[0][];
             }
 
-            final int len = N.len(a);
+            final int len = a.length;
             final boolean[][] c = new boolean[len][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = com.landawn.abacus.util.Arrays.f.mapToBoolean(a[i], mapper);
+                c[i] = f.mapToBooleanUnchecked(a[i], mapper);
             }
 
             return c;
@@ -22524,15 +23538,19 @@ public sealed class Arrays permits Arrays.f {
                 throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
+            return mapToCharUnchecked(a, mapper);
+        }
+
+        private static <T, E extends Exception> char[][] mapToCharUnchecked(final T[][] a, final Throwables.ToCharFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return new char[0][];
             }
 
-            final int len = N.len(a);
+            final int len = a.length;
             final char[][] c = new char[len][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = com.landawn.abacus.util.Arrays.f.mapToChar(a[i], mapper);
+                c[i] = f.mapToCharUnchecked(a[i], mapper);
             }
 
             return c;
@@ -22578,15 +23596,19 @@ public sealed class Arrays permits Arrays.f {
                 throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
+            return mapToByteUnchecked(a, mapper);
+        }
+
+        private static <T, E extends Exception> byte[][] mapToByteUnchecked(final T[][] a, final Throwables.ToByteFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return new byte[0][];
             }
 
-            final int len = N.len(a);
+            final int len = a.length;
             final byte[][] c = new byte[len][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = com.landawn.abacus.util.Arrays.f.mapToByte(a[i], mapper);
+                c[i] = f.mapToByteUnchecked(a[i], mapper);
             }
 
             return c;
@@ -22632,15 +23654,19 @@ public sealed class Arrays permits Arrays.f {
                 throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
+            return mapToShortUnchecked(a, mapper);
+        }
+
+        private static <T, E extends Exception> short[][] mapToShortUnchecked(final T[][] a, final Throwables.ToShortFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return new short[0][];
             }
 
-            final int len = N.len(a);
+            final int len = a.length;
             final short[][] c = new short[len][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = com.landawn.abacus.util.Arrays.f.mapToShort(a[i], mapper);
+                c[i] = f.mapToShortUnchecked(a[i], mapper);
             }
 
             return c;
@@ -22686,15 +23712,19 @@ public sealed class Arrays permits Arrays.f {
                 throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
+            return mapToIntUnchecked(a, mapper);
+        }
+
+        private static <T, E extends Exception> int[][] mapToIntUnchecked(final T[][] a, final Throwables.ToIntFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return new int[0][];
             }
 
-            final int len = N.len(a);
+            final int len = a.length;
             final int[][] c = new int[len][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = com.landawn.abacus.util.Arrays.f.mapToInt(a[i], mapper);
+                c[i] = f.mapToIntUnchecked(a[i], mapper);
             }
 
             return c;
@@ -22740,15 +23770,19 @@ public sealed class Arrays permits Arrays.f {
                 throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
+            return mapToLongUnchecked(a, mapper);
+        }
+
+        private static <T, E extends Exception> long[][] mapToLongUnchecked(final T[][] a, final Throwables.ToLongFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return new long[0][];
             }
 
-            final int len = N.len(a);
+            final int len = a.length;
             final long[][] c = new long[len][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = com.landawn.abacus.util.Arrays.f.mapToLong(a[i], mapper);
+                c[i] = f.mapToLongUnchecked(a[i], mapper);
             }
 
             return c;
@@ -22794,15 +23828,19 @@ public sealed class Arrays permits Arrays.f {
                 throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
+            return mapToFloatUnchecked(a, mapper);
+        }
+
+        private static <T, E extends Exception> float[][] mapToFloatUnchecked(final T[][] a, final Throwables.ToFloatFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return new float[0][];
             }
 
-            final int len = N.len(a);
+            final int len = a.length;
             final float[][] c = new float[len][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = com.landawn.abacus.util.Arrays.f.mapToFloat(a[i], mapper);
+                c[i] = f.mapToFloatUnchecked(a[i], mapper);
             }
 
             return c;
@@ -22849,15 +23887,20 @@ public sealed class Arrays permits Arrays.f {
                 throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
+            return mapToDoubleUnchecked(a, mapper);
+        }
+
+        private static <T, E extends Exception> double[][] mapToDoubleUnchecked(final T[][] a, final Throwables.ToDoubleFunction<? super T, E> mapper)
+                throws E {
             if (N.isEmpty(a)) {
                 return new double[0][];
             }
 
-            final int len = N.len(a);
+            final int len = a.length;
             final double[][] c = new double[len][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = com.landawn.abacus.util.Arrays.f.mapToDouble(a[i], mapper);
+                c[i] = f.mapToDoubleUnchecked(a[i], mapper);
             }
 
             return c;
@@ -22909,33 +23952,22 @@ public sealed class Arrays permits Arrays.f {
          *         are translated to {@code IllegalArgumentException} instead.
          * @see Arrays.fff#zip(Object[][][], Object[][][], Throwables.BiFunction) for three-dimensional arrays
          */
-        public static <A, B, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction)
-                throws IllegalArgumentException, E, ArrayStoreException {
+        public static <A, B, E extends Exception> A[][] zip(final A[][] a, final B[][] b,
+                final Throwables.BiFunction<? super A, ? super B, ? extends A, E> zipFunction) throws IllegalArgumentException, E, ArrayStoreException {
             N.checkArgNotNull(a, cs.a);
-
             N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-            final Class<A> targetElementType = runtimeComponentType2D(a);
-            try {
-                return zip(a, b, (left, right) -> {
-                    try {
-                        return zipFunction.apply(left, right);
-                    } catch (final ArrayStoreException e) {
-                        throw new CallbackArrayStoreException(e);
-                    }
-                }, targetElementType);
-            } catch (final CallbackArrayStoreException e) {
-                throw e.original();
-            } catch (final ArrayStoreException e) {
-                throw new IllegalArgumentException("A produced value is not assignable to the inferred target element type " + targetElementType.getName()
-                        + ". Use the overload with targetElementType.", e);
-            }
+            final Class<A[]> rowArrayClass = runtimeRowArrayClass2D(a);
+            @SuppressWarnings("unchecked")
+            final Class<A> targetElementType = (Class<A>) rowArrayClass.getComponentType();
+            return zipUnchecked(a, b, zipFunction, targetElementType, rowArrayClass, null, true);
         }
 
         /**
          * Combines corresponding elements from two two-dimensional arrays into a new array of a specified type.
          * This method allows the result type to differ from the input types. The result dimensions are
          * equal to the minimum dimensions of the two input arrays; extra elements are silently ignored.
+         * Null sub-arrays are treated as empty.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -22982,19 +24014,36 @@ public sealed class Arrays permits Arrays.f {
             N.checkArgNotNull(zipFunction, cs.zipFunction);
             checkTargetElementType(targetElementType);
 
+            final R[] emptyRow = emptyArray1D(targetElementType);
+            return zipUnchecked(a, b, zipFunction, targetElementType, runtimeArrayClass(emptyRow), emptyRow, false);
+        }
+
+        private static <A, B, R, E extends Exception> R[][] zipUnchecked(final A[][] a, final B[][] b,
+                final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType, final Class<R[]> rowArrayClass,
+                R[] emptyRow, final boolean translateArrayStoreException) throws IllegalArgumentException, E, ArrayStoreException {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
 
-            final R[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), N.min(lenA, lenB));
+            final R[][] result = N.newArray(rowArrayClass, N.min(lenA, lenB));
 
             for (int i = 0, len = result.length; i < len; i++) {
                 final A[] aa = a[i];
                 final B[] bb = b[i];
                 final int minLen = N.min(N.len(aa), N.len(bb));
+
+                if (minLen == 0) {
+                    if (emptyRow == null) {
+                        emptyRow = emptyArray1D(targetElementType);
+                    }
+
+                    result[i] = emptyRow;
+                    continue;
+                }
+
                 final R[] ret = N.newArray(targetElementType, minLen);
 
                 for (int j = 0; j < minLen; j++) {
-                    ret[j] = zipFunction.apply(aa[j], bb[j]);
+                    storeElement(ret, j, zipFunction.apply(aa[j], bb[j]), targetElementType, translateArrayStoreException);
                 }
 
                 result[i] = ret;
@@ -23007,6 +24056,7 @@ public sealed class Arrays permits Arrays.f {
          * Combines elements from two two-dimensional arrays with default values for missing elements.
          * The result has dimensions equal to the maximum dimensions of the input arrays; missing positions
          * in the shorter array are filled with the corresponding default value before applying the function.
+         * Null sub-arrays are treated as empty.
          *
          * <p>When one array is shorter than the other (outer or inner), the default value for that array is
          * substituted for the missing element. Both outer and inner lengths pad independently to the maximum.</p>
@@ -23057,31 +24107,36 @@ public sealed class Arrays permits Arrays.f {
          * @see Arrays.fff#zip(Object[][][], Object[][][], Object, Object, Throwables.BiFunction) for three-dimensional arrays
          */
         public static <A, B, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final A defaultValueA, final B defaultValueB,
-                final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws IllegalArgumentException, E, ArrayStoreException {
+                final Throwables.BiFunction<? super A, ? super B, ? extends A, E> zipFunction) throws IllegalArgumentException, E, ArrayStoreException {
             checkArgsForZipTypeInference(a, defaultValueA);
             N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-            final Class<A> targetElementType = resolveTargetElementTypeForZipWithDefaults(a, defaultValueA);
-            try {
-                return ff.<A, B, A, E> zip(a, b, defaultValueA, defaultValueB, (left, right) -> {
-                    try {
-                        return zipFunction.apply(left, right);
-                    } catch (final ArrayStoreException e) {
-                        throw new CallbackArrayStoreException(e);
-                    }
-                }, targetElementType);
-            } catch (final CallbackArrayStoreException e) {
-                throw e.original();
-            } catch (final ArrayStoreException e) {
-                throw new IllegalArgumentException("A produced value is not assignable to the inferred target element type " + targetElementType.getName()
-                        + ". Use the overload with targetElementType.", e);
+            final Class<A[]> rowArrayClass;
+            final Class<A> targetElementType;
+            final A[] emptyRow;
+
+            if (a != null) {
+                rowArrayClass = runtimeRowArrayClass2D(a);
+                @SuppressWarnings("unchecked")
+                final Class<A> elementType = (Class<A>) rowArrayClass.getComponentType();
+                targetElementType = elementType;
+                emptyRow = null;
+            } else {
+                @SuppressWarnings("unchecked")
+                final Class<A> elementType = (Class<A>) defaultValueA.getClass();
+                targetElementType = elementType;
+                emptyRow = emptyArray1D(targetElementType);
+                rowArrayClass = runtimeArrayClass(emptyRow);
             }
+
+            return zipUnchecked(a, b, defaultValueA, defaultValueB, zipFunction, targetElementType, rowArrayClass, emptyRow, true);
         }
 
         /**
          * Combines elements from two two-dimensional arrays into a result array of a specified type,
          * using default values for missing elements. This is the most flexible binary zip operation,
          * allowing different input and output types while handling arrays of different sizes gracefully.
+         * Null sub-arrays are treated as empty.
          *
          * <p>Result dimensions equal the maximum of the two input dimensions. When one side is shorter,
          * its default value is substituted. Both outer and inner dimensions pad independently.</p>
@@ -23135,23 +24190,31 @@ public sealed class Arrays permits Arrays.f {
             N.checkArgNotNull(zipFunction, cs.zipFunction);
             checkTargetElementType(targetElementType);
 
+            final R[] emptyRow = emptyArray1D(targetElementType);
+            return zipUnchecked(a, b, defaultValueA, defaultValueB, zipFunction, targetElementType, runtimeArrayClass(emptyRow), emptyRow, false);
+        }
+
+        private static <A, B, R, E extends Exception> R[][] zipUnchecked(final A[][] a, final B[][] b, final A defaultValueA, final B defaultValueB,
+                final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType, final Class<R[]> rowArrayClass,
+                R[] emptyRow, final boolean translateArrayStoreException) throws IllegalArgumentException, E, ArrayStoreException {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
-            final int len = N.max(lenA, lenB); // Use max to ensure we cover the longer array
+            final int len = N.max(lenA, lenB);
 
-            final R[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), len);
+            final R[][] result = N.newArray(rowArrayClass, len);
 
-            for (int i = 0, min = N.min(lenA, lenB); i < min; i++) {
-                result[i] = zip(a[i], b[i], defaultValueA, defaultValueB, zipFunction, targetElementType);
-            }
+            for (int i = 0; i < len; i++) {
+                final A[] aa = i < lenA ? a[i] : null;
+                final B[] bb = i < lenB ? b[i] : null;
 
-            if (lenA < len) {
-                for (int i = lenA; i < len; i++) {
-                    result[i] = zip(null, b[i], defaultValueA, defaultValueB, zipFunction, targetElementType);
-                }
-            } else if (lenB < len) {
-                for (int i = lenB; i < len; i++) {
-                    result[i] = zip(a[i], null, defaultValueA, defaultValueB, zipFunction, targetElementType);
+                if (N.isEmpty(aa) && N.isEmpty(bb)) {
+                    if (emptyRow == null) {
+                        emptyRow = emptyArray1D(targetElementType);
+                    }
+
+                    result[i] = emptyRow;
+                } else {
+                    result[i] = zip(aa, bb, defaultValueA, defaultValueB, zipFunction, targetElementType, translateArrayStoreException);
                 }
             }
 
@@ -23161,7 +24224,7 @@ public sealed class Arrays permits Arrays.f {
         /**
          * Combines corresponding elements from three two-dimensional arrays using a tri-function.
          * The result has dimensions equal to the minimum dimensions of all three input arrays;
-         * extra elements in any array are silently ignored.
+         * extra elements in any array are silently ignored. Null sub-arrays are treated as empty.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -23204,32 +24267,22 @@ public sealed class Arrays permits Arrays.f {
          * @see Arrays.fff#zip(Object[][][], Object[][][], Object[][][], Throwables.TriFunction) for three-dimensional arrays
          */
         public static <A, B, C, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final C[][] c,
-                final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws IllegalArgumentException, E, ArrayStoreException {
+                final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends A, E> zipFunction)
+                throws IllegalArgumentException, E, ArrayStoreException {
             N.checkArgNotNull(a, cs.a);
-
             N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-            final Class<A> targetElementType = runtimeComponentType2D(a);
-            try {
-                return zip(a, b, c, (first, second, third) -> {
-                    try {
-                        return zipFunction.apply(first, second, third);
-                    } catch (final ArrayStoreException e) {
-                        throw new CallbackArrayStoreException(e);
-                    }
-                }, targetElementType);
-            } catch (final CallbackArrayStoreException e) {
-                throw e.original();
-            } catch (final ArrayStoreException e) {
-                throw new IllegalArgumentException("A produced value is not assignable to the inferred target element type " + targetElementType.getName()
-                        + ". Use the overload with targetElementType.", e);
-            }
+            final Class<A[]> rowArrayClass = runtimeRowArrayClass2D(a);
+            @SuppressWarnings("unchecked")
+            final Class<A> targetElementType = (Class<A>) rowArrayClass.getComponentType();
+            return zipUnchecked(a, b, c, zipFunction, targetElementType, rowArrayClass, null, true);
         }
 
         /**
          * Combines elements from three two-dimensional arrays into a new array of a specified type.
          * This method allows flexible type transformation when combining three arrays. The result
          * dimensions are equal to the minimum dimensions of all three input arrays.
+         * Null sub-arrays are treated as empty.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -23283,21 +24336,39 @@ public sealed class Arrays permits Arrays.f {
             N.checkArgNotNull(zipFunction, cs.zipFunction);
             checkTargetElementType(targetElementType);
 
+            final R[] emptyRow = emptyArray1D(targetElementType);
+            return zipUnchecked(a, b, c, zipFunction, targetElementType, runtimeArrayClass(emptyRow), emptyRow, false);
+        }
+
+        private static <A, B, C, R, E extends Exception> R[][] zipUnchecked(final A[][] a, final B[][] b, final C[][] c,
+                final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction, final Class<R> targetElementType,
+                final Class<R[]> rowArrayClass, R[] emptyRow, final boolean translateArrayStoreException)
+                throws IllegalArgumentException, E, ArrayStoreException {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
             final int lenC = N.len(c);
 
-            final R[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), N.min(lenA, lenB, lenC));
+            final R[][] result = N.newArray(rowArrayClass, N.min(lenA, lenB, lenC));
 
             for (int i = 0, len = result.length; i < len; i++) {
                 final A[] aa = a[i];
                 final B[] bb = b[i];
                 final C[] cc = c[i];
                 final int minLen = N.min(N.len(aa), N.len(bb), N.len(cc));
+
+                if (minLen == 0) {
+                    if (emptyRow == null) {
+                        emptyRow = emptyArray1D(targetElementType);
+                    }
+
+                    result[i] = emptyRow;
+                    continue;
+                }
+
                 final R[] ret = N.newArray(targetElementType, minLen);
 
                 for (int j = 0; j < minLen; j++) {
-                    ret[j] = zipFunction.apply(aa[j], bb[j], cc[j]);
+                    storeElement(ret, j, zipFunction.apply(aa[j], bb[j], cc[j]), targetElementType, translateArrayStoreException);
                 }
 
                 result[i] = ret;
@@ -23310,6 +24381,7 @@ public sealed class Arrays permits Arrays.f {
          * Combines elements from three two-dimensional arrays with default values for missing elements.
          * The result has dimensions equal to the maximum dimensions of all input arrays; missing positions
          * are filled with the corresponding default values before applying the function.
+         * Null sub-arrays are treated as empty.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -23363,32 +24435,37 @@ public sealed class Arrays permits Arrays.f {
          * @see Arrays.fff#zip(Object[][][], Object[][][], Object[][][], Object, Object, Object, Throwables.TriFunction) for three-dimensional arrays
          */
         public static <A, B, C, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final C[][] c, final A defaultValueA, final B defaultValueB,
-                final C defaultValueC, final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction)
+                final C defaultValueC, final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends A, E> zipFunction)
                 throws IllegalArgumentException, E, ArrayStoreException {
             checkArgsForZipTypeInference(a, defaultValueA);
             N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-            final Class<A> targetElementType = resolveTargetElementTypeForZipWithDefaults(a, defaultValueA);
-            try {
-                return ff.<A, B, C, A, E> zip(a, b, c, defaultValueA, defaultValueB, defaultValueC, (first, second, third) -> {
-                    try {
-                        return zipFunction.apply(first, second, third);
-                    } catch (final ArrayStoreException e) {
-                        throw new CallbackArrayStoreException(e);
-                    }
-                }, targetElementType);
-            } catch (final CallbackArrayStoreException e) {
-                throw e.original();
-            } catch (final ArrayStoreException e) {
-                throw new IllegalArgumentException("A produced value is not assignable to the inferred target element type " + targetElementType.getName()
-                        + ". Use the overload with targetElementType.", e);
+            final Class<A[]> rowArrayClass;
+            final Class<A> targetElementType;
+            final A[] emptyRow;
+
+            if (a != null) {
+                rowArrayClass = runtimeRowArrayClass2D(a);
+                @SuppressWarnings("unchecked")
+                final Class<A> elementType = (Class<A>) rowArrayClass.getComponentType();
+                targetElementType = elementType;
+                emptyRow = null;
+            } else {
+                @SuppressWarnings("unchecked")
+                final Class<A> elementType = (Class<A>) defaultValueA.getClass();
+                targetElementType = elementType;
+                emptyRow = emptyArray1D(targetElementType);
+                rowArrayClass = runtimeArrayClass(emptyRow);
             }
+
+            return zipUnchecked(a, b, c, defaultValueA, defaultValueB, defaultValueC, zipFunction, targetElementType, rowArrayClass, emptyRow, true);
         }
 
         /**
          * Combines elements from three two-dimensional arrays into a result array of a specified type,
          * using default values for missing elements. This is the most flexible three-array zip operation,
          * allowing different input and output types while padding to the maximum dimensions.
+         * Null sub-arrays are treated as empty.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -23447,46 +24524,39 @@ public sealed class Arrays permits Arrays.f {
             N.checkArgNotNull(zipFunction, cs.zipFunction);
             checkTargetElementType(targetElementType);
 
+            final R[] emptyRow = emptyArray1D(targetElementType);
+            return zipUnchecked(a, b, c, defaultValueA, defaultValueB, defaultValueC, zipFunction, targetElementType, runtimeArrayClass(emptyRow), emptyRow,
+                    false);
+        }
+
+        private static <A, B, C, R, E extends Exception> R[][] zipUnchecked(final A[][] a, final B[][] b, final C[][] c, final A defaultValueA,
+                final B defaultValueB, final C defaultValueC, final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction,
+                final Class<R> targetElementType, final Class<R[]> rowArrayClass, R[] emptyRow, final boolean translateArrayStoreException)
+                throws IllegalArgumentException, E, ArrayStoreException {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
             final int lenC = N.len(c);
-            final int len = N.max(lenA, lenB, lenC); // Use max to ensure we cover the longest array
-            final int minLen = N.min(lenA, lenB, lenC);
+            final int len = N.max(lenA, lenB, lenC);
 
-            final R[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), len);
+            final R[][] result = N.newArray(rowArrayClass, len);
 
-            for (int i = 0; i < minLen; i++) {
-                result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction, targetElementType);
-            }
+            for (int i = 0; i < len; i++) {
+                final A[] aa = i < lenA ? a[i] : null;
+                final B[] bb = i < lenB ? b[i] : null;
+                final C[] cc = i < lenC ? c[i] : null;
 
-            if (minLen < len) {
-                for (int i = minLen; i < len; i++) {
-                    result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
-                            zipFunction, targetElementType);
+                if (N.isEmpty(aa) && N.isEmpty(bb) && N.isEmpty(cc)) {
+                    if (emptyRow == null) {
+                        emptyRow = emptyArray1D(targetElementType);
+                    }
+
+                    result[i] = emptyRow;
+                } else {
+                    result[i] = zip(aa, bb, cc, defaultValueA, defaultValueB, defaultValueC, zipFunction, targetElementType, translateArrayStoreException);
                 }
             }
 
             return result;
-        }
-
-        /**
-         * Resolves the target element type for zip methods that infer the result type from {@code A}.
-         * When {@code a} is {@code null}, falls back to the runtime type of {@code defaultValueA}.
-         *
-         * @param <A> the inferred element type.
-         * @param a the first input array, used to extract the component type; may be {@code null}.
-         * @param defaultValueA the default value, used as a fallback for type inference; may be {@code null}.
-         * @return the resolved element type, never {@code null}.
-         * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null}.
-         */
-        @SuppressWarnings("unchecked")
-        private static <A> Class<A> resolveTargetElementTypeForZipWithDefaults(final A[][] a, final A defaultValueA) throws IllegalArgumentException {
-            checkArgsForZipTypeInference(a, defaultValueA);
-            if (a != null) {
-                return (Class<A>) a.getClass().getComponentType().getComponentType();
-            }
-
-            return (Class<A>) defaultValueA.getClass();
         }
 
         /**
@@ -23503,13 +24573,15 @@ public sealed class Arrays permits Arrays.f {
          * @param defaultValueB the default value used when the second array is shorter.
          * @param zipFunction the function to combine corresponding elements (must not be {@code null}).
          * @param targetElementType the class of the result element type (must not be {@code null}).
+         * @param translateArrayStoreException whether an array store failure should be translated to {@code IllegalArgumentException}.
          * @return a new array of zipped elements with length equal to the longer input array.
+         * @throws IllegalArgumentException if {@code translateArrayStoreException} is {@code true} and a produced value is incompatible.
          * @throws E if the zip function throws an exception.
-         * @throws ArrayStoreException if a value returned by {@code zipFunction} cannot be stored in an array with component type
-         *         {@code targetElementType}.
+         * @throws ArrayStoreException if {@code zipFunction} throws it or a value cannot be stored when not translating.
          */
         private static <A, B, R, E extends Exception> R[] zip(final A[] a, final B[] b, final A defaultValueA, final B defaultValueB,
-                final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E, ArrayStoreException {
+                final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType,
+                final boolean translateArrayStoreException) throws IllegalArgumentException, E, ArrayStoreException {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
             final int len = N.max(lenA, lenB); // Use max to ensure we cover the longer array
@@ -23517,16 +24589,16 @@ public sealed class Arrays permits Arrays.f {
             final R[] result = N.newArray(targetElementType, len);
 
             for (int i = 0, min = N.min(lenA, lenB); i < min; i++) {
-                result[i] = zipFunction.apply(a[i], b[i]);
+                storeElement(result, i, zipFunction.apply(a[i], b[i]), targetElementType, translateArrayStoreException);
             }
 
             if (lenA < len) {
                 for (int i = lenA; i < len; i++) {
-                    result[i] = zipFunction.apply(defaultValueA, b[i]);
+                    storeElement(result, i, zipFunction.apply(defaultValueA, b[i]), targetElementType, translateArrayStoreException);
                 }
             } else if (lenB < len) {
                 for (int i = lenB; i < len; i++) {
-                    result[i] = zipFunction.apply(a[i], defaultValueB);
+                    storeElement(result, i, zipFunction.apply(a[i], defaultValueB), targetElementType, translateArrayStoreException);
                 }
             }
 
@@ -23550,14 +24622,15 @@ public sealed class Arrays permits Arrays.f {
          * @param defaultValueC the default value used when the third array is shorter.
          * @param zipFunction the function to combine corresponding elements (must not be {@code null}).
          * @param targetElementType the class of the result element type (must not be {@code null}).
+         * @param translateArrayStoreException whether an array store failure should be translated to {@code IllegalArgumentException}.
          * @return a new array of zipped elements with length equal to the longest input array.
+         * @throws IllegalArgumentException if {@code translateArrayStoreException} is {@code true} and a produced value is incompatible.
          * @throws E if the zip function throws an exception.
-         * @throws ArrayStoreException if a value returned by {@code zipFunction} cannot be stored in an array with component type
-         *         {@code targetElementType}.
+         * @throws ArrayStoreException if {@code zipFunction} throws it or a value cannot be stored when not translating.
          */
         private static <A, B, C, R, E extends Exception> R[] zip(final A[] a, final B[] b, final C[] c, final A defaultValueA, final B defaultValueB,
                 final C defaultValueC, final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction,
-                final Class<R> targetElementType) throws E, ArrayStoreException {
+                final Class<R> targetElementType, final boolean translateArrayStoreException) throws IllegalArgumentException, E, ArrayStoreException {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
             final int lenC = N.len(c);
@@ -23567,12 +24640,14 @@ public sealed class Arrays permits Arrays.f {
             final R[] result = N.newArray(targetElementType, len);
 
             for (int i = 0; i < minLen; i++) {
-                result[i] = zipFunction.apply(a[i], b[i], c[i]);
+                storeElement(result, i, zipFunction.apply(a[i], b[i], c[i]), targetElementType, translateArrayStoreException);
             }
 
             if (minLen < len) {
                 for (int i = minLen; i < len; i++) {
-                    result[i] = zipFunction.apply(i < lenA ? a[i] : defaultValueA, i < lenB ? b[i] : defaultValueB, i < lenC ? c[i] : defaultValueC);
+                    storeElement(result, i,
+                            zipFunction.apply(i < lenA ? a[i] : defaultValueA, i < lenB ? b[i] : defaultValueB, i < lenC ? c[i] : defaultValueC),
+                            targetElementType, translateArrayStoreException);
                 }
             }
 
@@ -23750,24 +24825,21 @@ public sealed class Arrays permits Arrays.f {
 
                     for (int i = 0; i < len; i++) {
                         if (i > 0) {
-                            sb.append(',').append(ARRAY_PRINT_SEPARATOR).append(' ');
+                            sb.append(ARRAY_PRINT_ROW_SEPARATOR);
                         }
 
-                        if (a[i] == null) {
+                        final Object[] row = a[i];
+
+                        if (row == null) {
                             sb.append("null");
-                        } else if (a[i].length == 0) {
+                        } else if (row.length == 0) {
                             sb.append("[]");
                         } else {
-                            final Object[] row = a[i];
-                            sb.append('[');
+                            // Expand array-valued elements without recursing indefinitely through array cycles.
+                            sb.append('[').append(N.deepToString(row[0]));
 
-                            for (int j = 0, rowLen = row.length; j < rowLen; j++) {
-                                if (j > 0) {
-                                    sb.append(", ");
-                                }
-
-                                // Expand array-valued elements without recursing indefinitely through array cycles.
-                                sb.append(N.deepToString(row[j]));
+                            for (int j = 1, rowLen = row.length; j < rowLen; j++) {
+                                sb.append(", ").append(N.deepToString(row[j]));
                             }
 
                             sb.append(']');
@@ -23792,6 +24864,10 @@ public sealed class Arrays permits Arrays.f {
      * and zip operations, plus size statistics ({@code totalElementCount}), that {@link Arrays} provides for primitive arrays. The compact name is deliberate and mirrors
      * {@link Arrays.f} and {@link Arrays.ff} for convenient static import usage. Like {@link Arrays.ff}, this class does
      * not extend {@link Arrays}; only {@link Arrays.f} inherits the parent class's static methods.</p>
+     *
+     * <p>The {@code map} and {@code zip} results are newly allocated outer arrays, but empty planes and empty rows in
+     * one result (including those produced for {@code null} or empty input sub-arrays) may share a single zero-length
+     * instance per level.</p>
      *
      * @see Arrays.f
      * @see Arrays.ff
@@ -23854,8 +24930,20 @@ public sealed class Arrays permits Arrays.f {
                 return;
             }
 
-            for (final T[][] element : a) {
-                ff.updateAll(element, operator);
+            for (final T[][] plane : a) {
+                if (plane == null) {
+                    continue;
+                }
+
+                for (final T[] row : plane) {
+                    if (row == null) {
+                        continue;
+                    }
+
+                    for (int k = 0, m = row.length; k < m; k++) {
+                        row[k] = operator.apply(row[k]);
+                    }
+                }
             }
         }
 
@@ -23907,8 +24995,22 @@ public sealed class Arrays permits Arrays.f {
                 return;
             }
 
-            for (final T[][] element : a) {
-                ff.replaceIf(element, predicate, newValue);
+            for (final T[][] plane : a) {
+                if (plane == null) {
+                    continue;
+                }
+
+                for (final T[] row : plane) {
+                    if (row == null) {
+                        continue;
+                    }
+
+                    for (int k = 0, m = row.length; k < m; k++) {
+                        if (predicate.test(row[k])) {
+                            row[k] = newValue;
+                        }
+                    }
+                }
             }
         }
 
@@ -23957,17 +25059,31 @@ public sealed class Arrays permits Arrays.f {
             checkRowsAndColsForReshape(rowCount, columnCount);
 
             final Class<T[]> arrayClass = runtimeArrayClass(a);
+            final Class<T[][]> planeArrayClass = arrayClass2D(arrayClass);
             final int len = a.length;
-            final int n = Numbers.toIntExact(Numbers.divide(len, (long) rowCount * columnCount, RoundingMode.CEILING));
 
-            final T[][][] c = N.newArray(N.newArray(arrayClass, 0).getClass(), n);
+            if (len == 0) {
+                return N.newArray(planeArrayClass, 0);
+            }
+
+            final long blockSize = (long) rowCount * columnCount;
+            final int n = (int) (((len - 1L) / blockSize) + 1L);
+            final T[][][] c = N.newArray(planeArrayClass, n);
+            @SuppressWarnings("unchecked")
+            final Class<T> componentType = (Class<T>) arrayClass.getComponentType();
 
             for (int i = 0, from = 0; i < n; i++) {
-                c[i] = N.newArray(arrayClass, N.min(rowCount, Numbers.divide(len - from, columnCount, RoundingMode.CEILING)));
+                final int currentBlockRows = (i < n - 1) ? rowCount : (((len - from - 1) / columnCount) + 1);
+                final T[][] block = N.newArray(arrayClass, currentBlockRows);
 
-                for (int j = 0, y = c[i].length; j < y; j++, from += columnCount) {
-                    c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
+                for (int j = 0; j < currentBlockRows; j++, from += columnCount) {
+                    final int rowLen = N.min(len - from, columnCount);
+                    final T[] row = N.newArray(componentType, rowLen);
+                    System.arraycopy(a, from, row, 0, rowLen);
+                    block[j] = row;
                 }
+
+                c[i] = block;
             }
 
             return c;
@@ -24183,24 +25299,14 @@ public sealed class Arrays permits Arrays.f {
         public static <T, E extends Exception> T[][][] map(final T[][][] a, final Throwables.UnaryOperator<T, E> mapper)
                 throws IllegalArgumentException, E, ArrayStoreException {
             N.checkArgNotNull(a, cs.a);
-
             N.checkArgNotNull(mapper, cs.mapper);
 
-            final Class<T> targetElementType = runtimeComponentType3D(a);
-            try {
-                return map(a, value -> {
-                    try {
-                        return mapper.apply(value);
-                    } catch (final ArrayStoreException e) {
-                        throw new CallbackArrayStoreException(e);
-                    }
-                }, targetElementType);
-            } catch (final CallbackArrayStoreException e) {
-                throw e.original();
-            } catch (final ArrayStoreException e) {
-                throw new IllegalArgumentException("A produced value is not assignable to the inferred target element type " + targetElementType.getName()
-                        + ". Use the overload with targetElementType.", e);
-            }
+            final Class<T[][]> planeArrayClass = runtimePlaneArrayClass3D(a);
+            @SuppressWarnings("unchecked")
+            final Class<T[]> rowArrayClass = (Class<T[]>) planeArrayClass.getComponentType();
+            @SuppressWarnings("unchecked")
+            final Class<T> targetElementType = (Class<T>) rowArrayClass.getComponentType();
+            return mapUnchecked(a, mapper, targetElementType, rowArrayClass, planeArrayClass, null, null, true);
         }
 
         /**
@@ -24257,15 +25363,34 @@ public sealed class Arrays permits Arrays.f {
             N.checkArgNotNull(mapper, cs.mapper);
             checkTargetElementType(targetElementType);
 
+            final R[] emptyRow = emptyArray1D(targetElementType);
+            final Class<R[]> rowArrayClass = runtimeArrayClass(emptyRow);
+            final R[][] emptyPlane = emptyArray2D(rowArrayClass);
+            return mapUnchecked(a, mapper, targetElementType, rowArrayClass, runtimeArrayClass(emptyPlane), emptyRow, emptyPlane, false);
+        }
+
+        private static <T, R, E extends Exception> R[][][] mapUnchecked(final T[][][] a, final Throwables.Function<? super T, ? extends R, E> mapper,
+                final Class<R> targetElementType, final Class<R[]> rowArrayClass, final Class<R[][]> planeArrayClass, final R[] emptyRow, R[][] emptyPlane,
+                final boolean translateArrayStoreException) throws IllegalArgumentException, E, ArrayStoreException {
             if (N.isEmpty(a)) {
-                return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
+                return N.newArray(planeArrayClass, 0);
             }
 
-            final int len = N.len(a);
-            final R[][][] c = N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), len);
+            final int len = a.length;
+            final R[][][] c = N.newArray(planeArrayClass, len);
 
             for (int i = 0; i < len; i++) {
-                c[i] = ff.map(a[i], mapper, targetElementType);
+                final T[][] plane = a[i];
+
+                if (N.isEmpty(plane)) {
+                    if (emptyPlane == null) {
+                        emptyPlane = emptyArray2D(rowArrayClass);
+                    }
+
+                    c[i] = emptyPlane;
+                } else {
+                    c[i] = ff.mapUnchecked(plane, mapper, targetElementType, rowArrayClass, emptyRow, translateArrayStoreException);
+                }
             }
 
             return c;
@@ -24318,11 +25443,11 @@ public sealed class Arrays permits Arrays.f {
                 return new boolean[0][][];
             }
 
-            final int len = N.len(a);
+            final int len = a.length;
             final boolean[][][] c = new boolean[len][][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = ff.mapToBoolean(a[i], mapper);
+                c[i] = ff.mapToBooleanUnchecked(a[i], mapper);
             }
 
             return c;
@@ -24376,11 +25501,11 @@ public sealed class Arrays permits Arrays.f {
                 return new char[0][][];
             }
 
-            final int len = N.len(a);
+            final int len = a.length;
             final char[][][] c = new char[len][][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = ff.mapToChar(a[i], mapper);
+                c[i] = ff.mapToCharUnchecked(a[i], mapper);
             }
 
             return c;
@@ -24435,11 +25560,11 @@ public sealed class Arrays permits Arrays.f {
                 return new byte[0][][];
             }
 
-            final int len = N.len(a);
+            final int len = a.length;
             final byte[][][] c = new byte[len][][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = ff.mapToByte(a[i], mapper);
+                c[i] = ff.mapToByteUnchecked(a[i], mapper);
             }
 
             return c;
@@ -24494,11 +25619,11 @@ public sealed class Arrays permits Arrays.f {
                 return new short[0][][];
             }
 
-            final int len = N.len(a);
+            final int len = a.length;
             final short[][][] c = new short[len][][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = ff.mapToShort(a[i], mapper);
+                c[i] = ff.mapToShortUnchecked(a[i], mapper);
             }
 
             return c;
@@ -24553,11 +25678,11 @@ public sealed class Arrays permits Arrays.f {
                 return new int[0][][];
             }
 
-            final int len = N.len(a);
+            final int len = a.length;
             final int[][][] c = new int[len][][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = ff.mapToInt(a[i], mapper);
+                c[i] = ff.mapToIntUnchecked(a[i], mapper);
             }
 
             return c;
@@ -24612,11 +25737,11 @@ public sealed class Arrays permits Arrays.f {
                 return new long[0][][];
             }
 
-            final int len = N.len(a);
+            final int len = a.length;
             final long[][][] c = new long[len][][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = ff.mapToLong(a[i], mapper);
+                c[i] = ff.mapToLongUnchecked(a[i], mapper);
             }
 
             return c;
@@ -24671,11 +25796,11 @@ public sealed class Arrays permits Arrays.f {
                 return new float[0][][];
             }
 
-            final int len = N.len(a);
+            final int len = a.length;
             final float[][][] c = new float[len][][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = ff.mapToFloat(a[i], mapper);
+                c[i] = ff.mapToFloatUnchecked(a[i], mapper);
             }
 
             return c;
@@ -24731,11 +25856,11 @@ public sealed class Arrays permits Arrays.f {
                 return new double[0][][];
             }
 
-            final int len = N.len(a);
+            final int len = a.length;
             final double[][][] c = new double[len][][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = ff.mapToDouble(a[i], mapper);
+                c[i] = ff.mapToDoubleUnchecked(a[i], mapper);
             }
 
             return c;
@@ -24790,32 +25915,22 @@ public sealed class Arrays permits Arrays.f {
          * @see Arrays.ff#zip(Object[][], Object[][], Throwables.BiFunction) for two-dimensional arrays
          */
         public static <A, B, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b,
-                final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws IllegalArgumentException, E, ArrayStoreException {
+                final Throwables.BiFunction<? super A, ? super B, ? extends A, E> zipFunction) throws IllegalArgumentException, E, ArrayStoreException {
             N.checkArgNotNull(a, cs.a);
-
             N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-            final Class<A> targetElementType = runtimeComponentType3D(a);
-            try {
-                return zip(a, b, (left, right) -> {
-                    try {
-                        return zipFunction.apply(left, right);
-                    } catch (final ArrayStoreException e) {
-                        throw new CallbackArrayStoreException(e);
-                    }
-                }, targetElementType);
-            } catch (final CallbackArrayStoreException e) {
-                throw e.original();
-            } catch (final ArrayStoreException e) {
-                throw new IllegalArgumentException("A produced value is not assignable to the inferred target element type " + targetElementType.getName()
-                        + ". Use the overload with targetElementType.", e);
-            }
+            final Class<A[][]> planeArrayClass = runtimePlaneArrayClass3D(a);
+            @SuppressWarnings("unchecked")
+            final Class<A[]> rowArrayClass = (Class<A[]>) planeArrayClass.getComponentType();
+            @SuppressWarnings("unchecked")
+            final Class<A> targetElementType = (Class<A>) rowArrayClass.getComponentType();
+            return zipUnchecked(a, b, zipFunction, targetElementType, rowArrayClass, planeArrayClass, null, null, true);
         }
 
         /**
          * Combines two three-dimensional arrays element-wise using a binary function,
          * producing a result array of a specified type. This allows for type transformation
-         * during the zip operation.
+         * during the zip operation. Null sub-arrays at any level are treated as empty.
          *
          * <p>The dimensions of the result array are the minimum of the corresponding
          * dimensions of the input arrays. This method enables combining arrays of
@@ -24869,13 +25984,34 @@ public sealed class Arrays permits Arrays.f {
             N.checkArgNotNull(zipFunction, cs.zipFunction);
             checkTargetElementType(targetElementType);
 
+            final R[] emptyRow = emptyArray1D(targetElementType);
+            final Class<R[]> rowArrayClass = runtimeArrayClass(emptyRow);
+            final R[][] emptyPlane = emptyArray2D(rowArrayClass);
+            return zipUnchecked(a, b, zipFunction, targetElementType, rowArrayClass, runtimeArrayClass(emptyPlane), emptyRow, emptyPlane, false);
+        }
+
+        private static <A, B, R, E extends Exception> R[][][] zipUnchecked(final A[][][] a, final B[][][] b,
+                final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType, final Class<R[]> rowArrayClass,
+                final Class<R[][]> planeArrayClass, final R[] emptyRow, R[][] emptyPlane, final boolean translateArrayStoreException)
+                throws IllegalArgumentException, E, ArrayStoreException {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
 
-            final R[][][] result = N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), N.min(lenA, lenB));
+            final R[][][] result = N.newArray(planeArrayClass, N.min(lenA, lenB));
 
             for (int i = 0, len = result.length; i < len; i++) {
-                result[i] = ff.zip(a[i], b[i], zipFunction, targetElementType);
+                final A[][] aa = a[i];
+                final B[][] bb = b[i];
+
+                if (N.isEmpty(aa) || N.isEmpty(bb)) {
+                    if (emptyPlane == null) {
+                        emptyPlane = emptyArray2D(rowArrayClass);
+                    }
+
+                    result[i] = emptyPlane;
+                } else {
+                    result[i] = ff.zipUnchecked(aa, bb, zipFunction, targetElementType, rowArrayClass, emptyRow, translateArrayStoreException);
+                }
             }
 
             return result;
@@ -24885,6 +26021,7 @@ public sealed class Arrays permits Arrays.f {
          * Combines two three-dimensional arrays element-wise with default values for
          * missing elements. When arrays have different dimensions, the default values
          * are used in place of missing elements, allowing the operation to continue.
+         * Null sub-arrays at any level are treated as empty.
          *
          * <p>This method is particularly useful when you want to combine arrays of
          * different sizes without truncation, filling gaps with specified defaults.</p>
@@ -24936,31 +26073,44 @@ public sealed class Arrays permits Arrays.f {
          * @see Arrays.ff#zip(Object[][], Object[][], Object, Object, Throwables.BiFunction) for two-dimensional arrays
          */
         public static <A, B, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final A defaultValueA, final B defaultValueB,
-                final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws IllegalArgumentException, E, ArrayStoreException {
+                final Throwables.BiFunction<? super A, ? super B, ? extends A, E> zipFunction) throws IllegalArgumentException, E, ArrayStoreException {
             checkArgsForZipTypeInference(a, defaultValueA);
             N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-            final Class<A> targetElementType = resolveTargetElementTypeForZipWithDefaults(a, defaultValueA);
-            try {
-                return zip(a, b, defaultValueA, defaultValueB, (left, right) -> {
-                    try {
-                        return zipFunction.apply(left, right);
-                    } catch (final ArrayStoreException e) {
-                        throw new CallbackArrayStoreException(e);
-                    }
-                }, targetElementType);
-            } catch (final CallbackArrayStoreException e) {
-                throw e.original();
-            } catch (final ArrayStoreException e) {
-                throw new IllegalArgumentException("A produced value is not assignable to the inferred target element type " + targetElementType.getName()
-                        + ". Use the overload with targetElementType.", e);
+            final Class<A[][]> planeArrayClass;
+            final Class<A[]> rowArrayClass;
+            final Class<A> targetElementType;
+            final A[] emptyRow;
+            final A[][] emptyPlane;
+
+            if (a != null) {
+                planeArrayClass = runtimePlaneArrayClass3D(a);
+                @SuppressWarnings("unchecked")
+                final Class<A[]> rowType = (Class<A[]>) planeArrayClass.getComponentType();
+                rowArrayClass = rowType;
+                @SuppressWarnings("unchecked")
+                final Class<A> elementType = (Class<A>) rowArrayClass.getComponentType();
+                targetElementType = elementType;
+                emptyRow = null;
+                emptyPlane = null;
+            } else {
+                @SuppressWarnings("unchecked")
+                final Class<A> elementType = (Class<A>) defaultValueA.getClass();
+                targetElementType = elementType;
+                emptyRow = emptyArray1D(targetElementType);
+                rowArrayClass = runtimeArrayClass(emptyRow);
+                emptyPlane = emptyArray2D(rowArrayClass);
+                planeArrayClass = runtimeArrayClass(emptyPlane);
             }
+
+            return zipUnchecked(a, b, defaultValueA, defaultValueB, zipFunction, targetElementType, rowArrayClass, planeArrayClass, emptyRow, emptyPlane, true);
         }
 
         /**
          * Combines two three-dimensional arrays element-wise into a result array of a
          * specified type, using default values for missing elements. This provides maximum
          * flexibility for combining arrays of different sizes and types.
+         * Null sub-arrays at any level are treated as empty.
          *
          * <p>The result array dimensions match the maximum dimensions of the input arrays,
          * with default values filling any gaps where one array is smaller than the other.</p>
@@ -25015,23 +26165,36 @@ public sealed class Arrays permits Arrays.f {
             N.checkArgNotNull(zipFunction, cs.zipFunction);
             checkTargetElementType(targetElementType);
 
+            final R[] emptyRow = emptyArray1D(targetElementType);
+            final Class<R[]> rowArrayClass = runtimeArrayClass(emptyRow);
+            final R[][] emptyPlane = emptyArray2D(rowArrayClass);
+            return zipUnchecked(a, b, defaultValueA, defaultValueB, zipFunction, targetElementType, rowArrayClass, runtimeArrayClass(emptyPlane), emptyRow,
+                    emptyPlane, false);
+        }
+
+        private static <A, B, R, E extends Exception> R[][][] zipUnchecked(final A[][][] a, final B[][][] b, final A defaultValueA, final B defaultValueB,
+                final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType, final Class<R[]> rowArrayClass,
+                final Class<R[][]> planeArrayClass, final R[] emptyRow, R[][] emptyPlane, final boolean translateArrayStoreException)
+                throws IllegalArgumentException, E, ArrayStoreException {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
             final int len = N.max(lenA, lenB);
 
-            final R[][][] result = N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), len);
+            final R[][][] result = N.newArray(planeArrayClass, len);
 
-            for (int i = 0, min = N.min(lenA, lenB); i < min; i++) {
-                result[i] = ff.zip(a[i], b[i], defaultValueA, defaultValueB, zipFunction, targetElementType);
-            }
+            for (int i = 0; i < len; i++) {
+                final A[][] pa = i < lenA ? a[i] : null;
+                final B[][] pb = i < lenB ? b[i] : null;
 
-            if (lenA < len) {
-                for (int i = lenA; i < len; i++) {
-                    result[i] = ff.zip(null, b[i], defaultValueA, defaultValueB, zipFunction, targetElementType);
-                }
-            } else if (lenB < len) {
-                for (int i = lenB; i < len; i++) {
-                    result[i] = ff.zip(a[i], null, defaultValueA, defaultValueB, zipFunction, targetElementType);
+                if (N.isEmpty(pa) && N.isEmpty(pb)) {
+                    if (emptyPlane == null) {
+                        emptyPlane = emptyArray2D(rowArrayClass);
+                    }
+
+                    result[i] = emptyPlane;
+                } else {
+                    result[i] = ff.zipUnchecked(pa, pb, defaultValueA, defaultValueB, zipFunction, targetElementType, rowArrayClass, emptyRow,
+                            translateArrayStoreException);
                 }
             }
 
@@ -25041,7 +26204,7 @@ public sealed class Arrays permits Arrays.f {
         /**
          * Combines three three-dimensional arrays element-wise using a tri-function.
          * The resulting array dimensions are truncated to the minimum dimensions of all
-         * three input arrays.
+         * three input arrays. Null sub-arrays at any level are treated as empty.
          *
          * <p>This method enables complex three-way operations on corresponding elements
          * from three different arrays, useful for operations that require three inputs.</p>
@@ -25091,32 +26254,23 @@ public sealed class Arrays permits Arrays.f {
          * @see Arrays.ff#zip(Object[][], Object[][], Object[][], Throwables.TriFunction) for two-dimensional arrays
          */
         public static <A, B, C, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c,
-                final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws IllegalArgumentException, E, ArrayStoreException {
+                final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends A, E> zipFunction)
+                throws IllegalArgumentException, E, ArrayStoreException {
             N.checkArgNotNull(a, cs.a);
-
             N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-            final Class<A> targetElementType = runtimeComponentType3D(a);
-            try {
-                return zip(a, b, c, (first, second, third) -> {
-                    try {
-                        return zipFunction.apply(first, second, third);
-                    } catch (final ArrayStoreException e) {
-                        throw new CallbackArrayStoreException(e);
-                    }
-                }, targetElementType);
-            } catch (final CallbackArrayStoreException e) {
-                throw e.original();
-            } catch (final ArrayStoreException e) {
-                throw new IllegalArgumentException("A produced value is not assignable to the inferred target element type " + targetElementType.getName()
-                        + ". Use the overload with targetElementType.", e);
-            }
+            final Class<A[][]> planeArrayClass = runtimePlaneArrayClass3D(a);
+            @SuppressWarnings("unchecked")
+            final Class<A[]> rowArrayClass = (Class<A[]>) planeArrayClass.getComponentType();
+            @SuppressWarnings("unchecked")
+            final Class<A> targetElementType = (Class<A>) rowArrayClass.getComponentType();
+            return zipUnchecked(a, b, c, zipFunction, targetElementType, rowArrayClass, planeArrayClass, null, null, true);
         }
 
         /**
          * Combines three three-dimensional arrays element-wise using a tri-function,
          * producing a result array of a specified type. This allows for type transformation
-         * while combining three arrays.
+         * while combining three arrays. Null sub-arrays at any level are treated as empty.
          *
          * <p>The dimensions of the result array are the minimum of the corresponding
          * dimensions of all three input arrays.</p>
@@ -25175,14 +26329,36 @@ public sealed class Arrays permits Arrays.f {
             N.checkArgNotNull(zipFunction, cs.zipFunction);
             checkTargetElementType(targetElementType);
 
+            final R[] emptyRow = emptyArray1D(targetElementType);
+            final Class<R[]> rowArrayClass = runtimeArrayClass(emptyRow);
+            final R[][] emptyPlane = emptyArray2D(rowArrayClass);
+            return zipUnchecked(a, b, c, zipFunction, targetElementType, rowArrayClass, runtimeArrayClass(emptyPlane), emptyRow, emptyPlane, false);
+        }
+
+        private static <A, B, C, R, E extends Exception> R[][][] zipUnchecked(final A[][][] a, final B[][][] b, final C[][][] c,
+                final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction, final Class<R> targetElementType,
+                final Class<R[]> rowArrayClass, final Class<R[][]> planeArrayClass, final R[] emptyRow, R[][] emptyPlane,
+                final boolean translateArrayStoreException) throws IllegalArgumentException, E, ArrayStoreException {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
             final int lenC = N.len(c);
 
-            final R[][][] result = N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), N.min(lenA, lenB, lenC));
+            final R[][][] result = N.newArray(planeArrayClass, N.min(lenA, lenB, lenC));
 
             for (int i = 0, len = result.length; i < len; i++) {
-                result[i] = ff.zip(a[i], b[i], c[i], zipFunction, targetElementType);
+                final A[][] aa = a[i];
+                final B[][] bb = b[i];
+                final C[][] cc = c[i];
+
+                if (N.isEmpty(aa) || N.isEmpty(bb) || N.isEmpty(cc)) {
+                    if (emptyPlane == null) {
+                        emptyPlane = emptyArray2D(rowArrayClass);
+                    }
+
+                    result[i] = emptyPlane;
+                } else {
+                    result[i] = ff.zipUnchecked(aa, bb, cc, zipFunction, targetElementType, rowArrayClass, emptyRow, translateArrayStoreException);
+                }
             }
 
             return result;
@@ -25192,6 +26368,7 @@ public sealed class Arrays permits Arrays.f {
          * Combines three three-dimensional arrays element-wise with default values for
          * missing elements. This allows combining arrays of different sizes without
          * truncation, using specified defaults where needed.
+         * Null sub-arrays at any level are treated as empty.
          *
          * <p>The result array dimensions match the maximum dimensions of the input arrays,
          * with default values used whenever an array lacks an element at a given position.</p>
@@ -25247,32 +26424,46 @@ public sealed class Arrays permits Arrays.f {
          * @see Arrays.ff#zip(Object[][], Object[][], Object[][], Object, Object, Object, Throwables.TriFunction) for two-dimensional arrays
          */
         public static <A, B, C, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c, final A defaultValueA,
-                final B defaultValueB, final C defaultValueC, final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction)
+                final B defaultValueB, final C defaultValueC, final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends A, E> zipFunction)
                 throws IllegalArgumentException, E, ArrayStoreException {
             checkArgsForZipTypeInference(a, defaultValueA);
             N.checkArgNotNull(zipFunction, cs.zipFunction);
 
-            final Class<A> targetElementType = resolveTargetElementTypeForZipWithDefaults(a, defaultValueA);
-            try {
-                return zip(a, b, c, defaultValueA, defaultValueB, defaultValueC, (first, second, third) -> {
-                    try {
-                        return zipFunction.apply(first, second, third);
-                    } catch (final ArrayStoreException e) {
-                        throw new CallbackArrayStoreException(e);
-                    }
-                }, targetElementType);
-            } catch (final CallbackArrayStoreException e) {
-                throw e.original();
-            } catch (final ArrayStoreException e) {
-                throw new IllegalArgumentException("A produced value is not assignable to the inferred target element type " + targetElementType.getName()
-                        + ". Use the overload with targetElementType.", e);
+            final Class<A[][]> planeArrayClass;
+            final Class<A[]> rowArrayClass;
+            final Class<A> targetElementType;
+            final A[] emptyRow;
+            final A[][] emptyPlane;
+
+            if (a != null) {
+                planeArrayClass = runtimePlaneArrayClass3D(a);
+                @SuppressWarnings("unchecked")
+                final Class<A[]> rowType = (Class<A[]>) planeArrayClass.getComponentType();
+                rowArrayClass = rowType;
+                @SuppressWarnings("unchecked")
+                final Class<A> elementType = (Class<A>) rowArrayClass.getComponentType();
+                targetElementType = elementType;
+                emptyRow = null;
+                emptyPlane = null;
+            } else {
+                @SuppressWarnings("unchecked")
+                final Class<A> elementType = (Class<A>) defaultValueA.getClass();
+                targetElementType = elementType;
+                emptyRow = emptyArray1D(targetElementType);
+                rowArrayClass = runtimeArrayClass(emptyRow);
+                emptyPlane = emptyArray2D(rowArrayClass);
+                planeArrayClass = runtimeArrayClass(emptyPlane);
             }
+
+            return zipUnchecked(a, b, c, defaultValueA, defaultValueB, defaultValueC, zipFunction, targetElementType, rowArrayClass, planeArrayClass, emptyRow,
+                    emptyPlane, true);
         }
 
         /**
          * Combines three three-dimensional arrays element-wise into a result array of a
          * specified type, using default values for missing elements. This provides maximum
          * flexibility for combining three arrays of different sizes and types.
+         * Null sub-arrays at any level are treated as empty.
          *
          * <p>The result array dimensions match the maximum dimensions of all input arrays,
          * with default values filling any gaps where arrays differ in size.</p>
@@ -25334,46 +26525,42 @@ public sealed class Arrays permits Arrays.f {
             N.checkArgNotNull(zipFunction, cs.zipFunction);
             checkTargetElementType(targetElementType);
 
+            final R[] emptyRow = emptyArray1D(targetElementType);
+            final Class<R[]> rowArrayClass = runtimeArrayClass(emptyRow);
+            final R[][] emptyPlane = emptyArray2D(rowArrayClass);
+            return zipUnchecked(a, b, c, defaultValueA, defaultValueB, defaultValueC, zipFunction, targetElementType, rowArrayClass,
+                    runtimeArrayClass(emptyPlane), emptyRow, emptyPlane, false);
+        }
+
+        private static <A, B, C, R, E extends Exception> R[][][] zipUnchecked(final A[][][] a, final B[][][] b, final C[][][] c, final A defaultValueA,
+                final B defaultValueB, final C defaultValueC, final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction,
+                final Class<R> targetElementType, final Class<R[]> rowArrayClass, final Class<R[][]> planeArrayClass, final R[] emptyRow, R[][] emptyPlane,
+                final boolean translateArrayStoreException) throws IllegalArgumentException, E, ArrayStoreException {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
             final int lenC = N.len(c);
             final int len = N.max(lenA, lenB, lenC);
-            final int minLen = N.min(lenA, lenB, lenC);
 
-            final R[][][] result = N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), len);
+            final R[][][] result = N.newArray(planeArrayClass, len);
 
-            for (int i = 0; i < minLen; i++) {
-                result[i] = ff.zip(a[i], b[i], c[i], defaultValueA, defaultValueB, defaultValueC, zipFunction, targetElementType);
-            }
+            for (int i = 0; i < len; i++) {
+                final A[][] pa = i < lenA ? a[i] : null;
+                final B[][] pb = i < lenB ? b[i] : null;
+                final C[][] pc = i < lenC ? c[i] : null;
 
-            if (minLen < len) {
-                for (int i = minLen; i < len; i++) {
-                    result[i] = ff.zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, defaultValueC,
-                            zipFunction, targetElementType);
+                if (N.isEmpty(pa) && N.isEmpty(pb) && N.isEmpty(pc)) {
+                    if (emptyPlane == null) {
+                        emptyPlane = emptyArray2D(rowArrayClass);
+                    }
+
+                    result[i] = emptyPlane;
+                } else {
+                    result[i] = ff.zipUnchecked(pa, pb, pc, defaultValueA, defaultValueB, defaultValueC, zipFunction, targetElementType, rowArrayClass,
+                            emptyRow, translateArrayStoreException);
                 }
             }
 
             return result;
-        }
-
-        /**
-         * Resolves the target element type for zip methods that infer the result type from {@code A}.
-         * When {@code a} is {@code null}, falls back to the runtime type of {@code defaultValueA}.
-         *
-         * @param <A> the inferred element type.
-         * @param a the first input array, used to extract the component type; may be {@code null}.
-         * @param defaultValueA the default value, used as a fallback for type inference; may be {@code null}.
-         * @return the resolved element type, never {@code null}.
-         * @throws IllegalArgumentException if both {@code a} and {@code defaultValueA} are {@code null}.
-         */
-        @SuppressWarnings("unchecked")
-        private static <A> Class<A> resolveTargetElementTypeForZipWithDefaults(final A[][][] a, final A defaultValueA) throws IllegalArgumentException {
-            checkArgsForZipTypeInference(a, defaultValueA);
-            if (a != null) {
-                return (Class<A>) a.getClass().getComponentType().getComponentType().getComponentType();
-            }
-
-            return (Class<A>) defaultValueA.getClass();
         }
 
         /**
@@ -25418,18 +26605,22 @@ public sealed class Arrays permits Arrays.f {
 
             long count = 0;
 
-            for (final Object[][] element : a) {
-                if (N.isEmpty(element)) {
+            for (final Object[][] plane : a) {
+                if (N.isEmpty(plane)) {
                     continue;
                 }
 
-                for (final Object[] ts : element) {
-                    if (N.isEmpty(ts)) {
-                        continue;
-                    }
+                // A single 2D plane has at most (2^31 - 1)^2 < 2^62 < Long.MAX_VALUE elements,
+                // so accumulating planeCount in plain long arithmetic cannot overflow.
+                long planeCount = 0;
 
-                    count = addElementCountExact(count, ts.length);
+                for (final Object[] row : plane) {
+                    if (row != null) {
+                        planeCount += row.length;
+                    }
                 }
+
+                count = addElementCountExact(count, planeCount);
             }
 
             return count;
@@ -25476,37 +26667,35 @@ public sealed class Arrays permits Arrays.f {
 
                     for (int i = 0; i < len; i++) {
                         if (i > 0) {
-                            sb.append(',').append(ARRAY_PRINT_SEPARATOR).append(' ');
+                            sb.append(ARRAY_PRINT_ROW_SEPARATOR);
                         }
 
-                        if (a[i] == null) {
+                        final Object[][] row = a[i];
+
+                        if (row == null) {
                             sb.append("null");
-                        } else if (a[i].length == 0) {
+                        } else if (row.length == 0) {
                             sb.append("[]");
                         } else {
-                            final Object[][] row = a[i];
                             sb.append('[');
 
                             for (int j = 0, rowLen = row.length; j < rowLen; j++) {
                                 if (j > 0) {
-                                    sb.append(',').append(ARRAY_PRINT_SEPARATOR).append("  ");
+                                    sb.append(ARRAY_PRINT_SUB_ROW_SEPARATOR);
                                 }
 
-                                if (row[j] == null) {
+                                final Object[] subRow = row[j];
+
+                                if (subRow == null) {
                                     sb.append("null");
-                                } else if (row[j].length == 0) {
+                                } else if (subRow.length == 0) {
                                     sb.append("[]");
                                 } else {
-                                    final Object[] subRow = row[j];
-                                    sb.append('[');
+                                    // Expand array-valued elements without recursing indefinitely through array cycles.
+                                    sb.append('[').append(N.deepToString(subRow[0]));
 
-                                    for (int k = 0, subRowLen = subRow.length; k < subRowLen; k++) {
-                                        if (k > 0) {
-                                            sb.append(", ");
-                                        }
-
-                                        // Expand array-valued elements without recursing indefinitely through array cycles.
-                                        sb.append(N.deepToString(subRow[k]));
+                                    for (int k = 1, subRowLen = subRow.length; k < subRowLen; k++) {
+                                        sb.append(", ").append(N.deepToString(subRow[k]));
                                     }
 
                                     sb.append(']');

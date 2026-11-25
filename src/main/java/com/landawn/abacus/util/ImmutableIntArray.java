@@ -43,6 +43,8 @@ import com.landawn.abacus.util.u.OptionalDouble;
  */
 @Beta
 public final class ImmutableIntArray implements Immutable {
+    private static final ImmutableIntArray EMPTY = new ImmutableIntArray(N.EMPTY_INT_ARRAY);
+
     /**
      * Precision for dividing a total beyond 2<sup>53</sup> in {@link #average()}. A quotient that is not exactly a
      * {@code double} rounding midpoint lies more than 10<sup>-28</sup> (relative) from one, so rounding it to 64 digits
@@ -58,19 +60,20 @@ public final class ImmutableIntArray implements Immutable {
 
     /**
      * Package-private constructor that retains the provided array as the backing storage
-     * without copying. If {@code array} is {@code null}, an empty backing array is used instead.
+     * without copying. If {@code array} is {@code null} or empty, an empty backing array is used instead.
      *
-     * @param array the array to wrap, or {@code null} for an empty backing array
+     * @param array the array to wrap, or {@code null} or empty for an empty backing array
      */
     ImmutableIntArray(final int[] array) {
-        elements = array == null ? N.EMPTY_INT_ARRAY : array;
+        elements = array == null || array.length == 0 ? N.EMPTY_INT_ARRAY : array;
     }
 
     /**
      * Creates an ImmutableIntArray that uses the provided int array as backing storage without copying.
      *
-     * <p><b>&#9888;&#65039; Warning:</b> This method does NOT create a defensive copy of the array.
-     * The provided array is used directly as the underlying storage. For true immutability,
+     * <p><b>&#9888;&#65039; Warning:</b> This method does NOT create a defensive copy of a non-empty array.
+     * A non-empty array is used directly as the underlying storage (whereas {@code null} or an empty array
+     * returns a shared empty instance). For true immutability,
      * the caller must not modify the original array after passing it to this method.
      * If the source array might be modified externally, use {@link #copyOf(int[])} instead.</p>
      *
@@ -99,12 +102,12 @@ public final class ImmutableIntArray implements Immutable {
      * array.get(1);   // returns 99  (shared backing array - not a copy!)
      * }</pre>
      *
-     * @param array the int array to wrap unsafely, or {@code null} to create an empty ImmutableIntArray
-     * @return an ImmutableIntArray backed directly by the provided array, or an empty ImmutableIntArray if the input is {@code null}
+     * @param array the int array to wrap unsafely, or {@code null} or empty to obtain an empty ImmutableIntArray
+     * @return an ImmutableIntArray backed directly by the provided array, or an empty ImmutableIntArray if the input is {@code null} or empty
      * @see #copyOf(int[])
      */
     public static ImmutableIntArray unsafeWrap(final int[] array) {
-        return new ImmutableIntArray(array);
+        return array == null || array.length == 0 ? EMPTY : new ImmutableIntArray(array);
     }
 
     /**
@@ -139,13 +142,13 @@ public final class ImmutableIntArray implements Immutable {
      * array.get(0);   // still returns 10
      * }</pre>
      *
-     * @param array the int array to copy, or {@code null} to create an empty ImmutableIntArray
-     * @return a new ImmutableIntArray containing a defensive copy of the provided array,
-     *         or an empty ImmutableIntArray if the input is {@code null}
+     * @param array the int array to copy, or {@code null} or empty to obtain an empty ImmutableIntArray
+     * @return an ImmutableIntArray containing a defensive copy of the provided array,
+     *         or an empty ImmutableIntArray if the input is {@code null} or empty
      * @see #unsafeWrap(int[])
      */
     public static ImmutableIntArray copyOf(final int[] array) {
-        return new ImmutableIntArray(array == null || array.length == 0 ? N.EMPTY_INT_ARRAY : array.clone());
+        return array == null || array.length == 0 ? EMPTY : new ImmutableIntArray(array.clone());
     }
 
     /**
@@ -611,8 +614,10 @@ public final class ImmutableIntArray implements Immutable {
      * Returns an ImmutableIntArray containing the elements in the specified range.
      *
      * <p>The range follows the half-open interval convention: {@code [fromIndex, toIndex)}.
-     * The returned object owns a copied array, so it is independent of this object's backing storage.
-     * Both indices must be within this array; the result is never padded.</p>
+     * For non-empty ranges, the returned object owns a copied array, so it is independent of this object's
+     * backing storage; empty ranges return an empty ImmutableIntArray.
+     * Both indices must be within this array; the result is never padded.
+     * To obtain the same range as a plain {@code int[]}, use {@link #copyOfRange(int, int)} instead.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -624,19 +629,28 @@ public final class ImmutableIntArray implements Immutable {
      *
      * @param fromIndex the starting index (inclusive), must be {@code >= 0}
      * @param toIndex the ending index (exclusive), must be {@code <= length()}
-     * @return a new ImmutableIntArray containing the elements in {@code [fromIndex, toIndex)}
+     * @return an ImmutableIntArray containing the elements in {@code [fromIndex, toIndex)}
      * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > length()},
      *                                   or {@code fromIndex > toIndex}
-     * @see #copyOfRange(int, int) to obtain the same range as a plain {@code int[]} instead
+     * @see #copyOfRange(int, int)
      */
     public ImmutableIntArray subArray(final int fromIndex, final int toIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromIndex, toIndex, elements.length);
 
-        return new ImmutableIntArray(N.copyOfRange(elements, fromIndex, toIndex));
+        if (fromIndex == toIndex) {
+            return EMPTY;
+        }
+
+        // Always copy for non-empty ranges (including [0, elements.length)) so instances created via
+        // unsafeWrap do not leak shared backing storage into the returned sub-array.
+        return new ImmutableIntArray(java.util.Arrays.copyOfRange(elements, fromIndex, toIndex));
     }
 
     /**
      * Returns a new int array containing a copy of the elements in the specified range.
+     *
+     * <p>The range follows the half-open interval convention: {@code [fromIndex, toIndex)}.
+     * To obtain the same range as an {@code ImmutableIntArray}, use {@link #subArray(int, int)} instead.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -651,12 +665,14 @@ public final class ImmutableIntArray implements Immutable {
      * @return a newly allocated int array containing the elements in {@code [fromIndex, toIndex)}
      * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > length()},
      *                                   or {@code fromIndex > toIndex}
-     * @see #subArray(int, int) to obtain the same range as an ImmutableIntArray instead
+     * @see #subArray(int, int)
      */
     public int[] copyOfRange(final int fromIndex, final int toIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromIndex, toIndex, elements.length);
 
-        return N.copyOfRange(elements, fromIndex, toIndex);
+        // The range is already validated above, so copy directly; java.util.Arrays.copyOfRange always allocates
+        // a new array (including for empty ranges), as the @return contract requires.
+        return java.util.Arrays.copyOfRange(elements, fromIndex, toIndex);
     }
 
     /**

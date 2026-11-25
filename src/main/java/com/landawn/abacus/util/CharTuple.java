@@ -37,11 +37,11 @@ import com.landawn.abacus.util.stream.CharStream;
  * <p>The nested tuple types model fixed arities from 0 through 9. Prefer the {@code of(...)} factory
  * overloads to create a specific arity; {@link #from(char[])} is deprecated and retained only for
  * compatibility. The base class supplies aggregate, reversal, containment, conversion, and
- * element-wise functional helpers; {@link PrimitiveTuple} adds whole-tuple
- * {@link PrimitiveTuple#accept(Throwables.Consumer) accept},
- * {@link PrimitiveTuple#map(Throwables.Function) map},
- * {@link PrimitiveTuple#filter(Throwables.Predicate) filter}, and
- * {@link PrimitiveTuple#toOptional() toOptional}.</p>
+ * element-wise functional helpers, along with inherited whole-tuple helpers
+ * {@link #accept(Throwables.Consumer) accept},
+ * {@link #map(Throwables.Function) map},
+ * {@link #filter(Throwables.Predicate) filter}, and
+ * {@link #toOptional() toOptional}.</p>
  *
  * <p>Arity-specific nested types ({@code CharTuple1} through {@code CharTuple9}) expose their components as
  * public final fields {@code _1}, {@code _2}, and so on matching that arity. This sealed hierarchy permits only
@@ -57,7 +57,6 @@ import com.landawn.abacus.util.stream.CharStream;
  * {@code min}/{@code max}/{@code lowerMedian} throw {@link NoSuchElementException}.</p>
  *
  * @param <TP> the concrete {@code CharTuple} subtype that fluent operations such as {@link #reversed()} return
- * @see PrimitiveTuple
  * @see BooleanTuple
  * @see ByteTuple
  * @see ShortTuple
@@ -355,7 +354,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * CharTuple.from(new char[10]);      // throws IllegalArgumentException
      * }</pre>
      *
-     * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values.length}.
+     * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values} being {@code null} or by {@code values.length}.
      * The generic return type is only type-safe when assigned to the matching arity-specific subtype,
      * or to the base tuple type. Assigning to the wrong arity-specific subtype will result in a
      * {@link ClassCastException} at the assignment site.</p>
@@ -677,7 +676,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
     /**
      * Returns a new array containing all elements of this tuple.
      * <p>
-     * Creates and returns a defensive copy of the internal element array. Modifications
+     * Creates and returns a new array containing all elements of this tuple in order. Modifications
      * to the returned array do not affect the tuple, maintaining immutability. The
      * returned array has the same length as the tuple's arity.
      * </p>
@@ -868,7 +867,19 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      */
     @Override
     public int hashCode() {
-        return N.hashCode(elements());
+        final char[] a = elements();
+
+        if (a.length == 0) {
+            return 1;
+        }
+
+        int result = a[0];
+
+        for (int i = 1; i < a.length; i++) {
+            result = 31 * result + a[i];
+        }
+
+        return result;
     }
 
     /**
@@ -931,6 +942,14 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * @return the internal array of char elements
      */
     protected abstract char[] elements();
+
+    private static char minOf(final char a, final char b) {
+        return a <= b ? a : b;
+    }
+
+    private static char maxOf(final char a, final char b) {
+        return a >= b ? a : b;
+    }
 
     /**
      * An empty {@code CharTuple} (arity 0).
@@ -1056,6 +1075,54 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
         }
 
         /**
+         * {@inheritDoc}
+         */
+        @Override
+        public char[] toArray() {
+            return new char[0];
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public CharList toList() {
+            return new CharList();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.CharConsumer<E> action) throws IllegalArgumentException, E {
+            N.checkArgNotNull(action, cs.action);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public CharStream stream() {
+            return CharStream.empty();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int hashCode() {
+            return 1;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            return obj instanceof CharTuple0;
+        }
+
+        /**
          * Returns the shared empty char array.
          *
          * @return an empty char array
@@ -1162,8 +1229,8 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * char max = t.max();              // 'Z'
          *
          * // Edge: high code-unit char is returned unchanged
-         * CharTuple.CharTuple1 t2 = CharTuple.of('\uFFFF');
-         * char max2 = t2.max();            // '\uFFFF' (65535)
+         * CharTuple.CharTuple1 t2 = CharTuple.of('\u005CuFFFF');
+         * char max2 = t2.max();            // '\u005CuFFFF' (65535)
          * }</pre>
          *
          * @return the single char value in this tuple
@@ -1190,7 +1257,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * int sumLower = tupleLower.sum();                       // 97
          *
          * // Boundary: max char (code unit 65535)
-         * CharTuple.CharTuple1 tupleMax = CharTuple.of('\uFFFF');   // '\uFFFF' = 65535
+         * CharTuple.CharTuple1 tupleMax = CharTuple.of('\u005CuFFFF');   // '\u005CuFFFF' = 65535
          * int sumMax = tupleMax.sum();                              // 65535
          * }</pre>
          *
@@ -1218,7 +1285,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * tupleLower.average();                                 // returns OptionalDouble.of(97.0)
          *
          * // Boundary: max char (code unit 65535)
-         * CharTuple.CharTuple1 tupleMax = CharTuple.of('\uFFFF');   // '\uFFFF' = 65535
+         * CharTuple.CharTuple1 tupleMax = CharTuple.of('\u005CuFFFF');   // '\u005CuFFFF' = 65535
          * tupleMax.average();                                   // returns OptionalDouble.of(65535.0)
          * }</pre>
          *
@@ -1266,8 +1333,8 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * boolean equalValue = original.equals(rev);  // true
          *
          * // Boundary: max char is preserved
-         * CharTuple.CharTuple1 tupleMax = CharTuple.of('\uFFFF');
-         * char valMax = tupleMax.reversed()._1;     // '\uFFFF'
+         * CharTuple.CharTuple1 tupleMax = CharTuple.of('\u005CuFFFF');
+         * char valMax = tupleMax.reversed()._1;     // '\u005CuFFFF'
          *
          * // Lower-case char
          * CharTuple.CharTuple1 tupleLower = CharTuple.of('a');
@@ -1294,8 +1361,8 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * boolean hasLower = tuple.contains('a');   // false
          *
          * // Boundary: max char in its own tuple
-         * CharTuple.CharTuple1 tupleMax = CharTuple.of('\uFFFF');
-         * boolean hasMax = tupleMax.contains('\uFFFF');   // true
+         * CharTuple.CharTuple1 tupleMax = CharTuple.of('\u005CuFFFF');
+         * boolean hasMax = tupleMax.contains('\u005CuFFFF');   // true
          * boolean hasMiss = tupleMax.contains('A');       // false
          * }</pre>
          *
@@ -1424,11 +1491,13 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         protected char[] elements() {
-            if (elements == null) {
-                elements = new char[] { _1 };
+            char[] a = elements;
+
+            if (a == null) {
+                elements = a = new char[] { _1 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -1436,9 +1505,9 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * A {@code CharTuple} containing exactly two {@code char} elements.
      * <p>
      * Components are the public final fields {@code _1} and {@code _2}. Besides the operations from
-     * {@link CharTuple} and {@link PrimitiveTuple}, this type adds element-unpacking helpers that
+     * {@link CharTuple}, this type adds element-unpacking helpers that
      * pass both values to a bi-consumer / bi-function / bi-predicate (distinct from the whole-tuple
-     * {@code accept}/{@code map}/{@code filter} on {@link PrimitiveTuple}):
+     * {@code accept}/{@code map}/{@code filter} on the base tuple type):
      * </p>
      * <ul>
      *   <li>{@link #accept(Throwables.CharBiConsumer)} — both elements as primitives</li>
@@ -1527,7 +1596,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * char minSame = same.min();   // 'B'
          *
          * // Boundary: max char vs 'A'
-         * CharTuple.CharTuple2 boundary = CharTuple.of('\uFFFF', 'A');
+         * CharTuple.CharTuple2 boundary = CharTuple.of('\u005CuFFFF', 'A');
          * char minBoundary = boundary.min();   // 'A'
          * }</pre>
          *
@@ -1555,8 +1624,8 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * char maxSame = same.max();   // 'B'
          *
          * // Boundary: max char is larger
-         * CharTuple.CharTuple2 boundary = CharTuple.of('\uFFFF', 'A');
-         * char maxBoundary = boundary.max();   // '\uFFFF'
+         * CharTuple.CharTuple2 boundary = CharTuple.of('\u005CuFFFF', 'A');
+         * char maxBoundary = boundary.max();   // '\u005CuFFFF'
          * }</pre>
          *
          * @return the larger of the two char values
@@ -1591,7 +1660,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public int sum() {
-            return N.sum(_1, _2);
+            return _1 + _2;
         }
 
         /**
@@ -1619,7 +1688,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2));
+            return OptionalDouble.of((_1 + _2) / 2d);
         }
 
         /**
@@ -1639,7 +1708,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * char medianRev = rev.lowerMedian();   // 'A'
          *
          * // Boundary: lower of 'A' and max char is 'A'
-         * CharTuple.CharTuple2 boundary = CharTuple.of('\uFFFF', 'A');
+         * CharTuple.CharTuple2 boundary = CharTuple.of('\u005CuFFFF', 'A');
          * char medianBoundary = boundary.lowerMedian();   // 'A'
          * }</pre>
          *
@@ -1666,9 +1735,9 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * boolean eq = same.equals(revSame);   // true
          *
          * // Boundary: max char and 'A' reversed
-         * CharTuple.CharTuple2 boundary = CharTuple.of('A', '\uFFFF');
+         * CharTuple.CharTuple2 boundary = CharTuple.of('A', '\u005CuFFFF');
          * CharTuple.CharTuple2 revBoundary = boundary.reversed();
-         * char rb1 = revBoundary._1;   // '\uFFFF'
+         * char rb1 = revBoundary._1;   // '\u005CuFFFF'
          * char rb2 = revBoundary._2;   // 'A'
          * }</pre>
          *
@@ -1693,7 +1762,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * boolean hasLower = tuple.contains('a');   // false
          *
          * // Boundary: max char not in tuple
-         * boolean hasMax = tuple.contains('\uFFFF');   // false
+         * boolean hasMax = tuple.contains('\u005CuFFFF');   // false
          * }</pre>
          *
          * @param value the char value to search for
@@ -1743,7 +1812,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * Invokes {@code action} once with both elements ({@code _1}, {@code _2}).
          * <p>
          * This is the element-unpacking overload for pairs. It differs from
-         * {@link PrimitiveTuple#accept(Throwables.Consumer)}, which receives this tuple object, and from
+         * {@link #accept(Throwables.Consumer)}, which receives this tuple object, and from
          * {@link #forEach(Throwables.CharConsumer)}, which invokes a consumer once per element.
          * </p>
          *
@@ -1773,7 +1842,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * @throws E if {@code action} throws when invoked with this tuple's elements
          * @see #forEach(Throwables.CharConsumer)
          * @see #map(Throwables.CharBiFunction)
-         * @see PrimitiveTuple#accept(Throwables.Consumer)
+         * @see #accept(Throwables.Consumer)
          */
         public <E extends Exception> void accept(final Throwables.CharBiConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
@@ -1785,7 +1854,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * Applies {@code mapper} to both elements ({@code _1}, {@code _2}) and returns the result.
          * <p>
          * Element-unpacking overload for pairs. Distinct from
-         * {@link PrimitiveTuple#map(Throwables.Function)}, which receives this tuple object as a single argument.
+         * {@link #map(Throwables.Function)}, which receives this tuple object as a single argument.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1813,10 +1882,10 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * @throws E if {@code mapper} throws when applied to this tuple's elements
          * @see #accept(Throwables.CharBiConsumer)
          * @see #filter(Throwables.CharBiPredicate)
-         * @see PrimitiveTuple#map(Throwables.Function)
+         * @see #map(Throwables.Function)
          */
         @MayReturnNull
-        public <U, E extends Exception> U map(final Throwables.CharBiFunction<U, E> mapper) throws IllegalArgumentException, E {
+        public <U, E extends Exception> U map(final Throwables.CharBiFunction<? extends U, E> mapper) throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2);
@@ -1827,7 +1896,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * ({@code _1}, {@code _2}); otherwise {@link Optional#empty()}.
          * <p>
          * Element-unpacking overload for pairs. Distinct from
-         * {@link PrimitiveTuple#filter(Throwables.Predicate)}, which tests the tuple object as a whole.
+         * {@link #filter(Throwables.Predicate)}, which tests the tuple object as a whole.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1844,8 +1913,8 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * Optional<CharTuple.CharTuple2> dupPresent = dup.filter((a, b) -> a == b);
          * boolean dupHas = dupPresent.isPresent();   // true
          *
-         * // Predicate never matches when checking for '\uFFFF'
-         * Optional<CharTuple.CharTuple2> neverMatch = tuple.filter((a, b) -> a == '\uFFFF');
+         * // Predicate never matches when checking for '\u005CuFFFF'
+         * Optional<CharTuple.CharTuple2> neverMatch = tuple.filter((a, b) -> a == '\u005CuFFFF');
          * boolean neverHas = neverMatch.isPresent();   // false
          * }</pre>
          *
@@ -1856,7 +1925,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * @throws E if {@code predicate} throws while testing this tuple's elements
          * @see #accept(Throwables.CharBiConsumer)
          * @see #map(Throwables.CharBiFunction)
-         * @see PrimitiveTuple#filter(Throwables.Predicate)
+         * @see #filter(Throwables.Predicate)
          */
         public <E extends Exception> Optional<CharTuple2> filter(final Throwables.CharBiPredicate<E> predicate) throws IllegalArgumentException, E {
             N.checkArgNotNull(predicate, cs.predicate);
@@ -1971,11 +2040,13 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         protected char[] elements() {
-            if (elements == null) {
-                elements = new char[] { _1, _2 };
+            char[] a = elements;
+
+            if (a == null) {
+                elements = a = new char[] { _1, _2 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -1983,10 +2054,10 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * A {@code CharTuple} containing exactly three {@code char} elements.
      * <p>
      * Components are the public final fields {@code _1}, {@code _2}, and {@code _3}. In addition to
-     * {@link CharTuple} / {@link PrimitiveTuple} operations, this type provides element-unpacking
+     * {@link CharTuple} operations, this type provides element-unpacking
      * {@link #accept(Throwables.CharTriConsumer)}, {@link #map(Throwables.CharTriFunction)}, and
      * {@link #filter(Throwables.CharTriPredicate)} helpers that pass all three values as primitives
-     * (distinct from the whole-tuple methods on {@link PrimitiveTuple}).
+     * (distinct from the whole-tuple methods on the base tuple type).
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -2076,7 +2147,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * char minMixed = mixed.min();   // 'Z'
          *
          * // Boundary: max char vs regular chars
-         * CharTuple.CharTuple3 boundary = CharTuple.of('\uFFFF', 'A', 'Z');
+         * CharTuple.CharTuple3 boundary = CharTuple.of('\u005CuFFFF', 'A', 'Z');
          * char minBoundary = boundary.min();   // 'A'
          * }</pre>
          *
@@ -2104,8 +2175,8 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * char maxMixed = mixed.max();   // 'z'
          *
          * // Boundary: max char is largest
-         * CharTuple.CharTuple3 boundary = CharTuple.of('\uFFFF', 'A', 'Z');
-         * char maxBoundary = boundary.max();   // '\uFFFF'
+         * CharTuple.CharTuple3 boundary = CharTuple.of('\u005CuFFFF', 'A', 'Z');
+         * char maxBoundary = boundary.max();   // '\u005CuFFFF'
          * }</pre>
          *
          * @return the largest of the three char values
@@ -2140,7 +2211,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public int sum() {
-            return N.sum(_1, _2, _3);
+            return _1 + _2 + _3;
         }
 
         /**
@@ -2168,7 +2239,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3));
+            return OptionalDouble.of((_1 + _2 + _3) / 3d);
         }
 
         /**
@@ -2189,7 +2260,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * char medianSame = same.lowerMedian();   // 'C'
          *
          * // Boundary: 'A', 'Z', max char - lower median is 'Z'
-         * CharTuple.CharTuple3 boundary = CharTuple.of('A', 'Z', '\uFFFF');
+         * CharTuple.CharTuple3 boundary = CharTuple.of('A', 'Z', '\u005CuFFFF');
          * char medianBoundary = boundary.lowerMedian();   // 'Z'
          * }</pre>
          *
@@ -2243,7 +2314,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * boolean hasLower = tuple.contains('a');   // false
          *
          * // Boundary: max char not present
-         * boolean hasMax = tuple.contains('\uFFFF');   // false
+         * boolean hasMax = tuple.contains('\u005CuFFFF');   // false
          * }</pre>
          *
          * @param value the char value to search for
@@ -2294,7 +2365,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * Invokes {@code action} once with all three elements ({@code _1}, {@code _2}, {@code _3}).
          * <p>
          * Element-unpacking overload for triples. Distinct from
-         * {@link PrimitiveTuple#accept(Throwables.Consumer)} (whole tuple) and
+         * {@link #accept(Throwables.Consumer)} (whole tuple) and
          * {@link #forEach(Throwables.CharConsumer)} (one call per element).
          * </p>
          *
@@ -2324,7 +2395,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * @throws E if {@code action} throws when invoked with this tuple's elements
          * @see #forEach(Throwables.CharConsumer)
          * @see #map(Throwables.CharTriFunction)
-         * @see PrimitiveTuple#accept(Throwables.Consumer)
+         * @see #accept(Throwables.Consumer)
          */
         public <E extends Exception> void accept(final Throwables.CharTriConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
@@ -2336,7 +2407,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * Applies {@code mapper} to all three elements ({@code _1}, {@code _2}, {@code _3}) and returns the result.
          * <p>
          * Element-unpacking overload for triples. Distinct from
-         * {@link PrimitiveTuple#map(Throwables.Function)}, which receives this tuple object as a single argument.
+         * {@link #map(Throwables.Function)}, which receives this tuple object as a single argument.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -2364,10 +2435,10 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * @throws E if {@code mapper} throws when applied to this tuple's elements
          * @see #accept(Throwables.CharTriConsumer)
          * @see #filter(Throwables.CharTriPredicate)
-         * @see PrimitiveTuple#map(Throwables.Function)
+         * @see #map(Throwables.Function)
          */
         @MayReturnNull
-        public <U, E extends Exception> U map(final Throwables.CharTriFunction<U, E> mapper) throws IllegalArgumentException, E {
+        public <U, E extends Exception> U map(final Throwables.CharTriFunction<? extends U, E> mapper) throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2, _3);
@@ -2378,7 +2449,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * ({@code _1}, {@code _2}, {@code _3}); otherwise {@link Optional#empty()}.
          * <p>
          * Element-unpacking overload for triples. Distinct from
-         * {@link PrimitiveTuple#filter(Throwables.Predicate)}, which tests the tuple object as a whole.
+         * {@link #filter(Throwables.Predicate)}, which tests the tuple object as a whole.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -2395,8 +2466,8 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * Optional<CharTuple.CharTuple3> dupPresent = dup.filter((a, b, c) -> a == b && b == c);
          * boolean dupHas = dupPresent.isPresent();   // true
          *
-         * // Predicate never matches when looking for '\uFFFF'
-         * Optional<CharTuple.CharTuple3> neverMatch = tuple.filter((a, b, c) -> a == '\uFFFF');
+         * // Predicate never matches when looking for '\u005CuFFFF'
+         * Optional<CharTuple.CharTuple3> neverMatch = tuple.filter((a, b, c) -> a == '\u005CuFFFF');
          * boolean neverHas = neverMatch.isPresent();   // false
          * }</pre>
          *
@@ -2407,7 +2478,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * @throws E if {@code predicate} throws while testing this tuple's elements
          * @see #accept(Throwables.CharTriConsumer)
          * @see #map(Throwables.CharTriFunction)
-         * @see PrimitiveTuple#filter(Throwables.Predicate)
+         * @see #filter(Throwables.Predicate)
          */
         public <E extends Exception> Optional<CharTuple3> filter(final Throwables.CharTriPredicate<E> predicate) throws IllegalArgumentException, E {
             N.checkArgNotNull(predicate, cs.predicate);
@@ -2522,11 +2593,13 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         protected char[] elements() {
-            if (elements == null) {
-                elements = new char[] { _1, _2, _3 };
+            char[] a = elements;
+
+            if (a == null) {
+                elements = a = new char[] { _1, _2, _3 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -2535,8 +2608,8 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * <p>
      * Components are public final fields {@code _1}…{@code _4}. Unlike arity 2–3, this type does not
      * add element-unpacking {@code accept}/{@code map}/{@code filter} overloads; use
-     * {@link #forEach(Throwables.CharConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * {@link #forEach(Throwables.CharConsumer)}, {@link #stream()}, or the inherited whole-tuple helpers on
+     * {@link CharTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -2621,7 +2694,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * char min2 = t2.min();   // 'A'
          *
          * // boundary: space char (lowest printable) and max char
-         * CharTuple.CharTuple4 t3 = CharTuple.of(' ', 'Z', 'a', '\uFFFF');
+         * CharTuple.CharTuple4 t3 = CharTuple.of(' ', 'Z', 'a', '\u005CuFFFF');
          * char min3 = t3.min();   // ' '
          *
          * // all duplicates
@@ -2633,7 +2706,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public char min() {
-            return N.min(_1, _2, _3, _4);
+            return minOf(minOf(_1, _2), minOf(_3, _4));
         }
 
         /**
@@ -2647,9 +2720,9 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * CharTuple.CharTuple4 t2 = CharTuple.of('Z', 'M', 'A', 'P');
          * char max2 = t2.max();   // 'Z'
          *
-         * // boundary: max char '\uFFFF'
-         * CharTuple.CharTuple4 t3 = CharTuple.of(' ', 'Z', 'a', '\uFFFF');
-         * char max3 = t3.max();   // '\uFFFF'
+         * // boundary: max char '\u005CuFFFF'
+         * CharTuple.CharTuple4 t3 = CharTuple.of(' ', 'Z', 'a', '\u005CuFFFF');
+         * char max3 = t3.max();   // '\u005CuFFFF'
          *
          * // all duplicates
          * CharTuple.CharTuple4 t4 = CharTuple.of('M', 'M', 'M', 'M');
@@ -2660,7 +2733,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public char max() {
-            return N.max(_1, _2, _3, _4);
+            return maxOf(maxOf(_1, _2), maxOf(_3, _4));
         }
 
         /**
@@ -2687,7 +2760,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public int sum() {
-            return N.sum(_1, _2, _3, _4);
+            return _1 + _2 + _3 + _4;
         }
 
         /**
@@ -2715,7 +2788,33 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4));
+            return OptionalDouble.of((_1 + _2 + _3 + _4) / 4d);
+        }
+
+        /**
+         * Returns the lower median of this 4-element tuple: the lower of the two middle unsigned
+         * code-unit values when the four elements are sorted.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * CharTuple.of('A', 'B', 'C', 'D').lowerMedian();   // 'B'
+         * CharTuple.of('D', 'A', 'C', 'B').lowerMedian();   // 'B'
+         * }</pre>
+         *
+         * @return the lower-middle char value when the four elements are sorted
+         * @see #min()
+         * @see #max()
+         */
+        @Override
+        public char lowerMedian() {
+            // 4-element sorting-network selection: pairwise order (_1, _2) and (_3, _4);
+            // the lower middle value is min(max(lo1, lo2), min(hi1, hi2)).
+            final char lo1 = minOf(_1, _2);
+            final char hi1 = maxOf(_1, _2);
+            final char lo2 = minOf(_3, _4);
+            final char hi2 = maxOf(_3, _4);
+
+            return minOf(maxOf(lo1, lo2), minOf(hi1, hi2));
         }
 
         /**
@@ -2759,9 +2858,9 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * boolean hasSpace = tuple.contains(' ');   // false
          *
          * // boundary chars
-         * CharTuple.CharTuple4 t2 = CharTuple.of(' ', 'Z', 'a', '\uFFFF');
+         * CharTuple.CharTuple4 t2 = CharTuple.of(' ', 'Z', 'a', '\u005CuFFFF');
          * boolean hasMin = t2.contains(' ');        // true
-         * boolean hasMax = t2.contains('\uFFFF');   // true
+         * boolean hasMax = t2.contains('\u005CuFFFF');   // true
          * boolean hasMid = t2.contains('A');        // false
          * }</pre>
          *
@@ -2928,11 +3027,13 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         protected char[] elements() {
-            if (elements == null) {
-                elements = new char[] { _1, _2, _3, _4 };
+            char[] a = elements;
+
+            if (a == null) {
+                elements = a = new char[] { _1, _2, _3, _4 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -2941,8 +3042,8 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _5}.
      * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
-     * overloads; use {@link #forEach(Throwables.CharConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * overloads; use {@link #forEach(Throwables.CharConsumer)}, {@link #stream()}, or the inherited whole-tuple helpers on
+     * {@link CharTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -3030,7 +3131,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * char min2 = t2.min();   // 'A'
          *
          * // boundary: space char
-         * CharTuple.CharTuple5 t3 = CharTuple.of('\uFFFF', 'Z', 'A', 'a', ' ');
+         * CharTuple.CharTuple5 t3 = CharTuple.of('\u005CuFFFF', 'Z', 'A', 'a', ' ');
          * char min3 = t3.min();   // ' '
          *
          * // all duplicates
@@ -3042,7 +3143,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public char min() {
-            return N.min(_1, _2, _3, _4, _5);
+            return minOf(minOf(minOf(_1, _2), minOf(_3, _4)), _5);
         }
 
         /**
@@ -3056,9 +3157,9 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * CharTuple.CharTuple5 t2 = CharTuple.of('z', 'Z', 'A', 'a', 'M');
          * char max2 = t2.max();   // 'z'
          *
-         * // boundary: max char '\uFFFF'
-         * CharTuple.CharTuple5 t3 = CharTuple.of('\uFFFF', 'Z', 'A', 'a', ' ');
-         * char max3 = t3.max();   // '\uFFFF'
+         * // boundary: max char '\u005CuFFFF'
+         * CharTuple.CharTuple5 t3 = CharTuple.of('\u005CuFFFF', 'Z', 'A', 'a', ' ');
+         * char max3 = t3.max();   // '\u005CuFFFF'
          *
          * // all duplicates
          * CharTuple.CharTuple5 t4 = CharTuple.of('M', 'M', 'M', 'M', 'M');
@@ -3069,7 +3170,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public char max() {
-            return N.max(_1, _2, _3, _4, _5);
+            return maxOf(maxOf(maxOf(_1, _2), maxOf(_3, _4)), _5);
         }
 
         /**
@@ -3096,7 +3197,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public int sum() {
-            return N.sum(_1, _2, _3, _4, _5);
+            return _1 + _2 + _3 + _4 + _5;
         }
 
         /**
@@ -3123,7 +3224,53 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5));
+            return OptionalDouble.of((_1 + _2 + _3 + _4 + _5) / 5d);
+        }
+
+        /**
+         * Returns the lower median of this 5-element tuple: the middle unsigned code-unit value when
+         * the five elements are ordered by code-unit value.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * CharTuple.of('A', 'B', 'C', 'D', 'E').lowerMedian();   // 'C'
+         * CharTuple.of('E', 'A', 'D', 'B', 'C').lowerMedian();   // 'C'
+         * }</pre>
+         *
+         * @return the middle char value when the five elements are sorted
+         * @see #min()
+         * @see #max()
+         */
+        @Override
+        public char lowerMedian() {
+            // Optimal 6-comparison register selection network for median of 5:
+            // order (_1, _2) -> (a, b) and (_3, _4) -> (c, d), drop min(a, c) (which is <= at least 3 elements),
+            // pair its partner with _5 -> (e, f), then select the 2nd smallest of the remaining two ordered pairs.
+            final char a, b, c, d;
+            if (_1 <= _2) {
+                a = _1;
+                b = _2;
+            } else {
+                a = _2;
+                b = _1;
+            }
+            if (_3 <= _4) {
+                c = _3;
+                d = _4;
+            } else {
+                c = _4;
+                d = _3;
+            }
+
+            if (a < c) {
+                final char e = b <= _5 ? b : _5;
+                final char f = b <= _5 ? _5 : b;
+                return e < c ? (c < f ? c : f) : (e < d ? e : d);
+            } else {
+                final char e = d <= _5 ? d : _5;
+                final char f = d <= _5 ? _5 : d;
+                return e < a ? (a < f ? a : f) : (e < b ? e : b);
+            }
         }
 
         /**
@@ -3135,8 +3282,8 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * CharTuple.CharTuple5 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E');
          * CharTuple.CharTuple5 reversed = tuple.reversed();   // ('E', 'D', 'C', 'B', 'A')
          *
-         * CharTuple.CharTuple5 t2 = CharTuple.of('Z', 'a', ' ', '\uFFFF', 'M');
-         * CharTuple.CharTuple5 rev2 = t2.reversed();   // ('M', '\uFFFF', ' ', 'a', 'Z')
+         * CharTuple.CharTuple5 t2 = CharTuple.of('Z', 'a', ' ', '\u005CuFFFF', 'M');
+         * CharTuple.CharTuple5 rev2 = t2.reversed();   // ('M', '\u005CuFFFF', ' ', 'a', 'Z')
          *
          * // palindrome A,B,C,B,A: reverse equals original
          * CharTuple.CharTuple5 t3 = CharTuple.of('A', 'B', 'C', 'B', 'A');
@@ -3167,9 +3314,9 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * boolean hasSpace = tuple.contains(' ');   // false
          *
          * // boundary chars
-         * CharTuple.CharTuple5 t2 = CharTuple.of(' ', 'Z', '\uFFFF', 'a', 'b');
+         * CharTuple.CharTuple5 t2 = CharTuple.of(' ', 'Z', '\u005CuFFFF', 'a', 'b');
          * boolean hasMin = t2.contains(' ');        // true
-         * boolean hasMax = t2.contains('\uFFFF');   // true
+         * boolean hasMax = t2.contains('\u005CuFFFF');   // true
          * boolean hasMid = t2.contains('A');        // false
          * }</pre>
          *
@@ -3336,11 +3483,13 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         protected char[] elements() {
-            if (elements == null) {
-                elements = new char[] { _1, _2, _3, _4, _5 };
+            char[] a = elements;
+
+            if (a == null) {
+                elements = a = new char[] { _1, _2, _3, _4, _5 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -3349,8 +3498,8 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _6}.
      * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
-     * overloads; use {@link #forEach(Throwables.CharConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * overloads; use {@link #forEach(Throwables.CharConsumer)}, {@link #stream()}, or the inherited whole-tuple helpers on
+     * {@link CharTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -3442,7 +3591,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * char min2 = t2.min();   // 'A'
          *
          * // boundary: space char
-         * CharTuple.CharTuple6 t3 = CharTuple.of('\uFFFF', 'Z', 'A', 'a', ' ', 'b');
+         * CharTuple.CharTuple6 t3 = CharTuple.of('\u005CuFFFF', 'Z', 'A', 'a', ' ', 'b');
          * char min3 = t3.min();   // ' '
          *
          * // all duplicates
@@ -3454,7 +3603,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public char min() {
-            return N.min(_1, _2, _3, _4, _5, _6);
+            return minOf(minOf(minOf(_1, _2), minOf(_3, _4)), minOf(_5, _6));
         }
 
         /**
@@ -3468,9 +3617,9 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * CharTuple.CharTuple6 t2 = CharTuple.of('z', 'Z', 'A', 'a', 'M', 'N');
          * char max2 = t2.max();   // 'z'
          *
-         * // boundary: max char '\uFFFF'
-         * CharTuple.CharTuple6 t3 = CharTuple.of('\uFFFF', 'Z', 'A', 'a', ' ', 'b');
-         * char max3 = t3.max();   // '\uFFFF'
+         * // boundary: max char '\u005CuFFFF'
+         * CharTuple.CharTuple6 t3 = CharTuple.of('\u005CuFFFF', 'Z', 'A', 'a', ' ', 'b');
+         * char max3 = t3.max();   // '\u005CuFFFF'
          *
          * // all duplicates
          * CharTuple.CharTuple6 t4 = CharTuple.of('M', 'M', 'M', 'M', 'M', 'M');
@@ -3481,7 +3630,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public char max() {
-            return N.max(_1, _2, _3, _4, _5, _6);
+            return maxOf(maxOf(maxOf(_1, _2), maxOf(_3, _4)), maxOf(_5, _6));
         }
 
         /**
@@ -3508,7 +3657,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public int sum() {
-            return N.sum(_1, _2, _3, _4, _5, _6);
+            return _1 + _2 + _3 + _4 + _5 + _6;
         }
 
         /**
@@ -3535,7 +3684,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6));
+            return OptionalDouble.of((_1 + _2 + _3 + _4 + _5 + _6) / 6d);
         }
 
         /**
@@ -3547,8 +3696,8 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * CharTuple.CharTuple6 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F');
          * CharTuple.CharTuple6 reversed = tuple.reversed();   // ('F', 'E', 'D', 'C', 'B', 'A')
          *
-         * CharTuple.CharTuple6 t2 = CharTuple.of(' ', 'A', 'B', 'C', 'Z', '\uFFFF');
-         * CharTuple.CharTuple6 rev2 = t2.reversed();   // ('\uFFFF', 'Z', 'C', 'B', 'A', ' ')
+         * CharTuple.CharTuple6 t2 = CharTuple.of(' ', 'A', 'B', 'C', 'Z', '\u005CuFFFF');
+         * CharTuple.CharTuple6 rev2 = t2.reversed();   // ('\u005CuFFFF', 'Z', 'C', 'B', 'A', ' ')
          *
          * // palindrome A,B,C,C,B,A: reverse equals original
          * CharTuple.CharTuple6 t3 = CharTuple.of('A', 'B', 'C', 'C', 'B', 'A');
@@ -3579,9 +3728,9 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * boolean hasSpace = tuple.contains(' ');   // false
          *
          * // boundary chars
-         * CharTuple.CharTuple6 t2 = CharTuple.of(' ', 'Z', '\uFFFF', 'a', 'b', 'c');
+         * CharTuple.CharTuple6 t2 = CharTuple.of(' ', 'Z', '\u005CuFFFF', 'a', 'b', 'c');
          * boolean hasMin = t2.contains(' ');        // true
-         * boolean hasMax = t2.contains('\uFFFF');   // true
+         * boolean hasMax = t2.contains('\u005CuFFFF');   // true
          * boolean hasMid = t2.contains('A');        // false
          * }</pre>
          *
@@ -3749,11 +3898,13 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         protected char[] elements() {
-            if (elements == null) {
-                elements = new char[] { _1, _2, _3, _4, _5, _6 };
+            char[] a = elements;
+
+            if (a == null) {
+                elements = a = new char[] { _1, _2, _3, _4, _5, _6 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -3762,8 +3913,8 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _7}.
      * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
-     * overloads; use {@link #forEach(Throwables.CharConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * overloads; use {@link #forEach(Throwables.CharConsumer)}, {@link #stream()}, or the inherited whole-tuple helpers on
+     * {@link CharTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -3871,7 +4022,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public char min() {
-            return N.min(_1, _2, _3, _4, _5, _6, _7);
+            return minOf(minOf(minOf(_1, _2), minOf(_3, _4)), minOf(minOf(_5, _6), _7));
         }
 
         /**
@@ -3889,16 +4040,16 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * CharTuple.CharTuple7 same = CharTuple.of('z', 'z', 'z', 'z', 'z', 'z', 'z');
          * char max3 = same.max();   // 'z'
          *
-         * // boundary: '\uFFFF' (U+FFFF = 65535) is max possible char
-         * CharTuple.CharTuple7 bnd = CharTuple.of('\uFFFF', 'a', 'b', 'c', 'd', 'e', 'f');
-         * char max4 = bnd.max();   // '\uFFFF'
+         * // boundary: '\u005CuFFFF' (U+FFFF = 65535) is max possible char
+         * CharTuple.CharTuple7 bnd = CharTuple.of('\u005CuFFFF', 'a', 'b', 'c', 'd', 'e', 'f');
+         * char max4 = bnd.max();   // '\u005CuFFFF'
          * }</pre>
          *
          * @return the largest of the seven char values
          */
         @Override
         public char max() {
-            return N.max(_1, _2, _3, _4, _5, _6, _7);
+            return maxOf(maxOf(maxOf(_1, _2), maxOf(_3, _4)), maxOf(maxOf(_5, _6), _7));
         }
 
         /**
@@ -3916,8 +4067,8 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * CharTuple.CharTuple7 spaces = CharTuple.of(' ', ' ', ' ', ' ', ' ', ' ', ' ');
          * int sum3 = spaces.sum();   // 224
          *
-         * // boundary: '\uFFFF' (65535) + six 'A' (65) = 65535 + 390 = 65925
-         * CharTuple.CharTuple7 mixed = CharTuple.of('\uFFFF', 'A', 'A', 'A', 'A', 'A', 'A');
+         * // boundary: '\u005CuFFFF' (65535) + six 'A' (65) = 65535 + 390 = 65925
+         * CharTuple.CharTuple7 mixed = CharTuple.of('\u005CuFFFF', 'A', 'A', 'A', 'A', 'A', 'A');
          * int sum4 = mixed.sum();   // 65925
          * }</pre>
          *
@@ -3925,7 +4076,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public int sum() {
-            return N.sum(_1, _2, _3, _4, _5, _6, _7);
+            return _1 + _2 + _3 + _4 + _5 + _6 + _7;
         }
 
         /**
@@ -3952,7 +4103,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7));
+            return OptionalDouble.of((_1 + _2 + _3 + _4 + _5 + _6 + _7) / 7d);
         }
 
         /**
@@ -3963,8 +4114,8 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * CharTuple.CharTuple7 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G');
          * CharTuple.CharTuple7 reversed = tuple.reversed();   // ('G', 'F', 'E', 'D', 'C', 'B', 'A')
          *
-         * CharTuple.CharTuple7 bnd = CharTuple.of(' ', '\uFFFF', 'a', 'b', 'c', 'd', 'e');
-         * CharTuple.CharTuple7 br = bnd.reversed();   // ('e', 'd', 'c', 'b', 'a', '\uFFFF', ' ')
+         * CharTuple.CharTuple7 bnd = CharTuple.of(' ', '\u005CuFFFF', 'a', 'b', 'c', 'd', 'e');
+         * CharTuple.CharTuple7 br = bnd.reversed();   // ('e', 'd', 'c', 'b', 'a', '\u005CuFFFF', ' ')
          *
          * // all same: reverse is identical
          * CharTuple.CharTuple7 same = CharTuple.of('x', 'x', 'x', 'x', 'x', 'x', 'x');
@@ -3992,9 +4143,9 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * boolean hasZ = tuple.contains('Z');   // false
          *
          * // boundary chars
-         * CharTuple.CharTuple7 bnd = CharTuple.of(' ', '\uFFFF', 'a', 'b', 'c', 'd', 'e');
+         * CharTuple.CharTuple7 bnd = CharTuple.of(' ', '\u005CuFFFF', 'a', 'b', 'c', 'd', 'e');
          * boolean hasSpace = bnd.contains(' ');      // true
-         * boolean hasMax = bnd.contains('\uFFFF');   // true
+         * boolean hasMax = bnd.contains('\u005CuFFFF');   // true
          * boolean hasMiss = bnd.contains('f');       // false
          *
          * // all duplicates: only that char is found
@@ -4168,11 +4319,13 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         protected char[] elements() {
-            if (elements == null) {
-                elements = new char[] { _1, _2, _3, _4, _5, _6, _7 };
+            char[] a = elements;
+
+            if (a == null) {
+                elements = a = new char[] { _1, _2, _3, _4, _5, _6, _7 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -4181,8 +4334,8 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _8}.
      * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
-     * overloads; use {@link #forEach(Throwables.CharConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * overloads; use {@link #forEach(Throwables.CharConsumer)}, {@link #stream()}, or the inherited whole-tuple helpers on
+     * {@link CharTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -4297,7 +4450,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public char min() {
-            return N.min(_1, _2, _3, _4, _5, _6, _7, _8);
+            return minOf(minOf(minOf(_1, _2), minOf(_3, _4)), minOf(minOf(_5, _6), minOf(_7, _8)));
         }
 
         /**
@@ -4315,16 +4468,16 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * CharTuple.CharTuple8 same = CharTuple.of('z', 'z', 'z', 'z', 'z', 'z', 'z', 'z');
          * char max3 = same.max();   // 'z'
          *
-         * // boundary: '\uFFFF' (U+FFFF = 65535) is max possible char
-         * CharTuple.CharTuple8 bnd = CharTuple.of('\uFFFF', 'a', 'b', 'c', 'd', 'e', 'f', 'g');
-         * char max4 = bnd.max();   // '\uFFFF'
+         * // boundary: '\u005CuFFFF' (U+FFFF = 65535) is max possible char
+         * CharTuple.CharTuple8 bnd = CharTuple.of('\u005CuFFFF', 'a', 'b', 'c', 'd', 'e', 'f', 'g');
+         * char max4 = bnd.max();   // '\u005CuFFFF'
          * }</pre>
          *
          * @return the largest of the eight char values
          */
         @Override
         public char max() {
-            return N.max(_1, _2, _3, _4, _5, _6, _7, _8);
+            return maxOf(maxOf(maxOf(_1, _2), maxOf(_3, _4)), maxOf(maxOf(_5, _6), maxOf(_7, _8)));
         }
 
         /**
@@ -4342,8 +4495,8 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * CharTuple.CharTuple8 spaces = CharTuple.of(' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
          * int sum3 = spaces.sum();   // 256
          *
-         * // boundary: '\uFFFF' (65535) + seven 'A' (65) = 65535 + 455 = 65990
-         * CharTuple.CharTuple8 mixed = CharTuple.of('\uFFFF', 'A', 'A', 'A', 'A', 'A', 'A', 'A');
+         * // boundary: '\u005CuFFFF' (65535) + seven 'A' (65) = 65535 + 455 = 65990
+         * CharTuple.CharTuple8 mixed = CharTuple.of('\u005CuFFFF', 'A', 'A', 'A', 'A', 'A', 'A', 'A');
          * int sum4 = mixed.sum();   // 65990
          * }</pre>
          *
@@ -4351,7 +4504,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public int sum() {
-            return N.sum(_1, _2, _3, _4, _5, _6, _7, _8);
+            return _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8;
         }
 
         /**
@@ -4370,7 +4523,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * spaces.average();   // returns OptionalDouble.of(32.0)
          *
          * // boundary: (65535 + 65 * 7) / 8 = 65990 / 8 = 8248.75
-         * CharTuple.CharTuple8 mixed = CharTuple.of('\uFFFF', 'A', 'A', 'A', 'A', 'A', 'A', 'A');
+         * CharTuple.CharTuple8 mixed = CharTuple.of('\u005CuFFFF', 'A', 'A', 'A', 'A', 'A', 'A', 'A');
          * mixed.average();   // returns OptionalDouble.of(8248.75)
          * }</pre>
          *
@@ -4378,7 +4531,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7, _8));
+            return OptionalDouble.of((_1 + _2 + _3 + _4 + _5 + _6 + _7 + _8) / 8d);
         }
 
         /**
@@ -4389,8 +4542,8 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * CharTuple.CharTuple8 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');
          * CharTuple.CharTuple8 reversed = tuple.reversed();   // ('H', 'G', 'F', 'E', 'D', 'C', 'B', 'A')
          *
-         * CharTuple.CharTuple8 bnd = CharTuple.of(' ', '\uFFFF', 'a', 'b', 'c', 'd', 'e', 'f');
-         * CharTuple.CharTuple8 br = bnd.reversed();   // ('f', 'e', 'd', 'c', 'b', 'a', '\uFFFF', ' ')
+         * CharTuple.CharTuple8 bnd = CharTuple.of(' ', '\u005CuFFFF', 'a', 'b', 'c', 'd', 'e', 'f');
+         * CharTuple.CharTuple8 br = bnd.reversed();   // ('f', 'e', 'd', 'c', 'b', 'a', '\u005CuFFFF', ' ')
          *
          * // all same: reverse is identical
          * CharTuple.CharTuple8 same = CharTuple.of('x', 'x', 'x', 'x', 'x', 'x', 'x', 'x');
@@ -4418,9 +4571,9 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * boolean hasZ = tuple.contains('Z');   // false
          *
          * // boundary chars
-         * CharTuple.CharTuple8 bnd = CharTuple.of(' ', '\uFFFF', 'a', 'b', 'c', 'd', 'e', 'f');
+         * CharTuple.CharTuple8 bnd = CharTuple.of(' ', '\u005CuFFFF', 'a', 'b', 'c', 'd', 'e', 'f');
          * boolean hasSpace = bnd.contains(' ');      // true
-         * boolean hasMax = bnd.contains('\uFFFF');   // true
+         * boolean hasMax = bnd.contains('\u005CuFFFF');   // true
          * boolean hasMiss = bnd.contains('g');       // false
          *
          * // all duplicates: only that char is found
@@ -4596,11 +4749,13 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         protected char[] elements() {
-            if (elements == null) {
-                elements = new char[] { _1, _2, _3, _4, _5, _6, _7, _8 };
+            char[] a = elements;
+
+            if (a == null) {
+                elements = a = new char[] { _1, _2, _3, _4, _5, _6, _7, _8 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -4609,8 +4764,8 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _9}.
      * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
-     * overloads; use {@link #forEach(Throwables.CharConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * overloads; use {@link #forEach(Throwables.CharConsumer)}, {@link #stream()}, or the inherited whole-tuple helpers on
+     * {@link CharTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -4729,7 +4884,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public char min() {
-            return N.min(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+            return minOf(minOf(minOf(minOf(_1, _2), minOf(_3, _4)), minOf(minOf(_5, _6), minOf(_7, _8))), _9);
         }
 
         /**
@@ -4747,16 +4902,16 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * CharTuple.CharTuple9 same = CharTuple.of('z', 'z', 'z', 'z', 'z', 'z', 'z', 'z', 'z');
          * char max3 = same.max();   // 'z'
          *
-         * // boundary: '\uFFFF' (U+FFFF = 65535) is max possible char
-         * CharTuple.CharTuple9 bnd = CharTuple.of('\uFFFF', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
-         * char max4 = bnd.max();   // '\uFFFF'
+         * // boundary: '\u005CuFFFF' (U+FFFF = 65535) is max possible char
+         * CharTuple.CharTuple9 bnd = CharTuple.of('\u005CuFFFF', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
+         * char max4 = bnd.max();   // '\u005CuFFFF'
          * }</pre>
          *
          * @return the largest of the nine char values
          */
         @Override
         public char max() {
-            return N.max(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+            return maxOf(maxOf(maxOf(maxOf(_1, _2), maxOf(_3, _4)), maxOf(maxOf(_5, _6), maxOf(_7, _8))), _9);
         }
 
         /**
@@ -4774,8 +4929,8 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * CharTuple.CharTuple9 spaces = CharTuple.of(' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
          * int sum3 = spaces.sum();   // 288
          *
-         * // boundary: '\uFFFF' (65535) + eight 'A' (65) = 65535 + 520 = 66055
-         * CharTuple.CharTuple9 mixed = CharTuple.of('\uFFFF', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A');
+         * // boundary: '\u005CuFFFF' (65535) + eight 'A' (65) = 65535 + 520 = 66055
+         * CharTuple.CharTuple9 mixed = CharTuple.of('\u005CuFFFF', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A');
          * int sum4 = mixed.sum();   // 66055
          * }</pre>
          *
@@ -4783,7 +4938,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public int sum() {
-            return N.sum(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+            return _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 + _9;
         }
 
         /**
@@ -4802,7 +4957,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * spaces.average();   // returns OptionalDouble.of(32.0)
          *
          * // boundary: (65535 + 65 * 8) / 9 = 66055 / 9 ~ 7339.444...
-         * CharTuple.CharTuple9 mixed = CharTuple.of('\uFFFF', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A');
+         * CharTuple.CharTuple9 mixed = CharTuple.of('\u005CuFFFF', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A');
          * mixed.average();   // returns OptionalDouble.of(7339.444...)
          * }</pre>
          *
@@ -4810,7 +4965,7 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7, _8, _9));
+            return OptionalDouble.of((_1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 + _9) / 9d);
         }
 
         /**
@@ -4821,8 +4976,8 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * CharTuple.CharTuple9 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I');
          * CharTuple.CharTuple9 reversed = tuple.reversed();   // ('I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A')
          *
-         * CharTuple.CharTuple9 bnd = CharTuple.of(' ', '\uFFFF', 'a', 'b', 'c', 'd', 'e', 'f', 'g');
-         * CharTuple.CharTuple9 br = bnd.reversed();   // ('g', 'f', 'e', 'd', 'c', 'b', 'a', '\uFFFF', ' ')
+         * CharTuple.CharTuple9 bnd = CharTuple.of(' ', '\u005CuFFFF', 'a', 'b', 'c', 'd', 'e', 'f', 'g');
+         * CharTuple.CharTuple9 br = bnd.reversed();   // ('g', 'f', 'e', 'd', 'c', 'b', 'a', '\u005CuFFFF', ' ')
          *
          * // all same: reverse is identical
          * CharTuple.CharTuple9 same = CharTuple.of('x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x');
@@ -4850,9 +5005,9 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          * boolean hasZ = tuple.contains('Z');   // false
          *
          * // boundary chars
-         * CharTuple.CharTuple9 bnd = CharTuple.of(' ', '\uFFFF', 'a', 'b', 'c', 'd', 'e', 'f', 'g');
+         * CharTuple.CharTuple9 bnd = CharTuple.of(' ', '\u005CuFFFF', 'a', 'b', 'c', 'd', 'e', 'f', 'g');
          * boolean hasSpace = bnd.contains(' ');      // true
-         * boolean hasMax = bnd.contains('\uFFFF');   // true
+         * boolean hasMax = bnd.contains('\u005CuFFFF');   // true
          * boolean hasMiss = bnd.contains('h');       // false
          *
          * // all duplicates: only that char is found
@@ -5029,11 +5184,13 @@ public abstract sealed class CharTuple<TP extends CharTuple<TP>> extends Primiti
          */
         @Override
         protected char[] elements() {
-            if (elements == null) {
-                elements = new char[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
+            char[] a = elements;
+
+            if (a == null) {
+                elements = a = new char[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
             }
 
-            return elements;
+            return a;
         }
     }
 

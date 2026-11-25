@@ -3108,5 +3108,137 @@ class ByteTupleTest {
             assertEquals((byte) 9, tuple9.lowerMedian());
             assertTrue(tuple9.contains((byte) 17));
         }
+
+        @Test
+        void tuple0_fastPathOverrides_preserveContract() {
+            ByteTuple0 empty = ByteTuple.from(new byte[0]);
+
+            byte[] a1 = empty.toArray();
+            byte[] a2 = empty.toArray();
+            assertEquals(0, a1.length);
+            assertNotSame(a1, a2);
+
+            ByteList l1 = empty.toList();
+            ByteList l2 = empty.toList();
+            assertTrue(l1.isEmpty());
+            assertNotSame(l1, l2);
+            l1.add((byte) 7);
+            assertEquals(1, l1.size());
+            assertTrue(empty.toList().isEmpty());
+
+            assertThrows(IllegalArgumentException.class, () -> empty.forEach(null));
+            int[] invoked = { 0 };
+            empty.forEach(v -> invoked[0]++);
+            assertEquals(0, invoked[0]);
+
+            assertEquals(0, empty.stream().count());
+            assertEquals(1, empty.hashCode());
+            assertTrue(empty.equals(empty));
+            assertTrue(empty.equals(new ByteTuple0()));
+            assertFalse(empty.equals(null));
+            assertFalse(empty.equals("()"));
+            assertFalse(empty.equals(ByteTuple.of((byte) 0)));
+        }
+
+        @Test
+        void tuple4_medianAndLowerMedian_all24PermutationsAndEdgeCases() {
+            byte[][] cases = { { Byte.MIN_VALUE, (byte) -1, (byte) 0, Byte.MAX_VALUE }, { (byte) 1, (byte) 2, (byte) 3, (byte) 4 },
+                    { (byte) -40, (byte) -30, (byte) -20, (byte) -10 }, { (byte) 5, (byte) 5, (byte) 10, (byte) 10 },
+                    { (byte) 5, (byte) 5, (byte) 5, (byte) 10 }, { (byte) 1, (byte) 2, (byte) 2, (byte) 3 },
+                    { Byte.MIN_VALUE, Byte.MIN_VALUE, Byte.MAX_VALUE, Byte.MAX_VALUE }, { (byte) 7, (byte) 7, (byte) 7, (byte) 7 } };
+
+            for (byte[] input : cases) {
+                int[] count = { 0 };
+                forEachPermutation(input.clone(), 0, p -> {
+                    count[0]++;
+                    byte[] sorted = p.clone();
+                    java.util.Arrays.sort(sorted);
+                    ByteTuple4 tuple = ByteTuple.of(p[0], p[1], p[2], p[3]);
+                    assertEquals((sorted[1] + sorted[2]) / 2d, tuple.median());
+                    assertEquals(sorted[1], tuple.lowerMedian());
+                });
+                assertEquals(24, count[0]);
+            }
+        }
+
+        @Test
+        void tuple5_medianAndLowerMedian_all120PermutationsAndEdgeCases() {
+            byte[][] cases = { { Byte.MIN_VALUE, (byte) -1, (byte) 0, (byte) 1, Byte.MAX_VALUE }, { (byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50 },
+                    { (byte) 1, (byte) 2, (byte) 2, (byte) 2, (byte) 3 }, { (byte) 1, (byte) 1, (byte) 2, (byte) 3, (byte) 3 },
+                    { Byte.MIN_VALUE, Byte.MIN_VALUE, (byte) 0, Byte.MAX_VALUE, Byte.MAX_VALUE }, { (byte) -10, (byte) -10, (byte) -10, (byte) 5, (byte) 5 },
+                    { (byte) -10, (byte) -10, (byte) 5, (byte) 5, (byte) 5 }, { (byte) 5, (byte) 5, (byte) 5, (byte) 5, (byte) 5 } };
+
+            for (byte[] input : cases) {
+                int[] count = { 0 };
+                forEachPermutation(input.clone(), 0, p -> {
+                    count[0]++;
+                    byte[] sorted = p.clone();
+                    java.util.Arrays.sort(sorted);
+                    ByteTuple5 tuple = ByteTuple.of(p[0], p[1], p[2], p[3], p[4]);
+                    assertEquals((double) sorted[2], tuple.median());
+                    assertEquals(sorted[2], tuple.lowerMedian());
+                });
+                assertEquals(120, count[0]);
+            }
+        }
+
+        @Test
+        void tuple2To9_minMaxSumAverage_matchesReferenceAcrossBoundariesAndPositions() {
+            byte[] mixedPool = { Byte.MIN_VALUE, (byte) -64, (byte) -1, (byte) 0, (byte) 1, (byte) 33, (byte) 64, (byte) 100, Byte.MAX_VALUE };
+
+            for (int arity = 2; arity <= 9; arity++) {
+                List<byte[]> inputs = new ArrayList<>();
+
+                byte[] allMin = new byte[arity];
+                java.util.Arrays.fill(allMin, Byte.MIN_VALUE);
+                inputs.add(allMin);
+
+                byte[] allMax = new byte[arity];
+                java.util.Arrays.fill(allMax, Byte.MAX_VALUE);
+                inputs.add(allMax);
+
+                byte[] alternating = new byte[arity];
+                for (int i = 0; i < arity; i++) {
+                    alternating[i] = (i % 2 == 0) ? Byte.MIN_VALUE : Byte.MAX_VALUE;
+                }
+                inputs.add(alternating);
+
+                inputs.add(java.util.Arrays.copyOf(mixedPool, arity));
+
+                for (int pos = 0; pos < arity; pos++) {
+                    byte[] singleMin = new byte[arity];
+                    singleMin[pos] = Byte.MIN_VALUE;
+                    inputs.add(singleMin);
+
+                    byte[] singleMax = new byte[arity];
+                    singleMax[pos] = Byte.MAX_VALUE;
+                    inputs.add(singleMax);
+                }
+
+                for (byte[] arr : inputs) {
+                    ByteTuple<?> tuple = ByteTuple.from(arr);
+                    assertEquals(N.min(arr), tuple.min());
+                    assertEquals(N.max(arr), tuple.max());
+                    assertEquals(N.sum(arr), tuple.sum());
+                    assertEquals(N.average(arr), tuple.average().getAsDouble());
+                    assertSame(tuple.elements(), tuple.elements());
+                }
+            }
+        }
+
+        private static void forEachPermutation(byte[] arr, int start, java.util.function.Consumer<byte[]> consumer) {
+            if (start == arr.length) {
+                consumer.accept(arr);
+                return;
+            }
+            for (int i = start; i < arr.length; i++) {
+                byte tmp = arr[start];
+                arr[start] = arr[i];
+                arr[i] = tmp;
+                forEachPermutation(arr, start + 1, consumer);
+                arr[i] = arr[start];
+                arr[start] = tmp;
+            }
+        }
     }
 }

@@ -3074,5 +3074,134 @@ class CharTupleTest {
             assertEquals('i', tuple9.lowerMedian());
             assertTrue(tuple9.contains('q'));
         }
+
+        @Test
+        void tuple0_fastPathOverrides_preserveContract() {
+            CharTuple0 empty = CharTuple.from(new char[0]);
+
+            char[] a1 = empty.toArray();
+            char[] a2 = empty.toArray();
+            assertEquals(0, a1.length);
+            assertNotSame(a1, a2);
+
+            CharList l1 = empty.toList();
+            CharList l2 = empty.toList();
+            assertTrue(l1.isEmpty());
+            assertNotSame(l1, l2);
+            l1.add('A');
+            assertEquals(1, l1.size());
+            assertTrue(empty.toList().isEmpty());
+
+            assertThrows(IllegalArgumentException.class, () -> empty.forEach(null));
+            int[] invoked = { 0 };
+            empty.forEach(v -> invoked[0]++);
+            assertEquals(0, invoked[0]);
+
+            assertEquals(0, empty.stream().count());
+            assertEquals(1, empty.hashCode());
+            assertTrue(empty.equals(empty));
+            assertTrue(empty.equals(new CharTuple0()));
+            assertFalse(empty.equals(null));
+            assertFalse(empty.equals("()"));
+            assertFalse(empty.equals(CharTuple.of('\0')));
+        }
+
+        @Test
+        void tuple4_lowerMedian_all24PermutationsAndEdgeCases() {
+            char[][] cases = { { '\0', 'A', 'a', Character.MAX_VALUE }, { 'a', 'b', 'c', 'd' }, { '\0', '\0', Character.MAX_VALUE, Character.MAX_VALUE },
+                    { 'M', 'M', 'M', 'Z' }, { 'A', 'M', 'M', 'Z' }, { 'X', 'X', 'X', 'X' } };
+
+            for (char[] input : cases) {
+                int[] count = { 0 };
+                forEachPermutation(input.clone(), 0, p -> {
+                    count[0]++;
+                    char[] sorted = p.clone();
+                    java.util.Arrays.sort(sorted);
+                    CharTuple4 tuple = CharTuple.of(p[0], p[1], p[2], p[3]);
+                    assertEquals(sorted[1], tuple.lowerMedian());
+                });
+                assertEquals(24, count[0]);
+            }
+        }
+
+        @Test
+        void tuple5_lowerMedian_all120PermutationsAndEdgeCases() {
+            char[][] cases = { { '\0', 'A', 'Z', 'a', Character.MAX_VALUE }, { '1', '2', '3', '4', '5' },
+                    { '\0', '\0', 'M', Character.MAX_VALUE, Character.MAX_VALUE }, { 'A', 'B', 'B', 'B', 'C' }, { 'A', 'A', 'A', 'Z', 'Z' },
+                    { 'A', 'A', 'Z', 'Z', 'Z' }, { 'K', 'K', 'K', 'K', 'K' } };
+
+            for (char[] input : cases) {
+                int[] count = { 0 };
+                forEachPermutation(input.clone(), 0, p -> {
+                    count[0]++;
+                    char[] sorted = p.clone();
+                    java.util.Arrays.sort(sorted);
+                    CharTuple5 tuple = CharTuple.of(p[0], p[1], p[2], p[3], p[4]);
+                    assertEquals(sorted[2], tuple.lowerMedian());
+                });
+                assertEquals(120, count[0]);
+            }
+        }
+
+        @Test
+        void tuple2To9_minMaxSumAverage_matchesReferenceAcrossBoundariesAndPositions() {
+            char[] mixedPool = { '\0', ' ', '0', 'A', 'Z', 'a', 'z', '\u00FF', Character.MAX_VALUE };
+
+            for (int arity = 2; arity <= 9; arity++) {
+                List<char[]> inputs = new ArrayList<>();
+
+                char[] allMin = new char[arity];
+                java.util.Arrays.fill(allMin, '\0');
+                inputs.add(allMin);
+
+                char[] allMax = new char[arity];
+                java.util.Arrays.fill(allMax, Character.MAX_VALUE);
+                inputs.add(allMax);
+
+                char[] alternating = new char[arity];
+                for (int i = 0; i < arity; i++) {
+                    alternating[i] = (i % 2 == 0) ? '\0' : Character.MAX_VALUE;
+                }
+                inputs.add(alternating);
+
+                inputs.add(java.util.Arrays.copyOf(mixedPool, arity));
+
+                for (int pos = 0; pos < arity; pos++) {
+                    char[] singleMin = new char[arity];
+                    java.util.Arrays.fill(singleMin, 'M');
+                    singleMin[pos] = '\0';
+                    inputs.add(singleMin);
+
+                    char[] singleMax = new char[arity];
+                    java.util.Arrays.fill(singleMax, 'M');
+                    singleMax[pos] = Character.MAX_VALUE;
+                    inputs.add(singleMax);
+                }
+
+                for (char[] arr : inputs) {
+                    CharTuple<?> tuple = CharTuple.from(arr);
+                    assertEquals(N.min(arr), tuple.min());
+                    assertEquals(N.max(arr), tuple.max());
+                    assertEquals(N.sum(arr), tuple.sum());
+                    assertEquals(N.average(arr), tuple.average().getAsDouble());
+                    assertSame(tuple.elements(), tuple.elements());
+                }
+            }
+        }
+
+        private static void forEachPermutation(char[] arr, int start, java.util.function.Consumer<char[]> consumer) {
+            if (start == arr.length) {
+                consumer.accept(arr);
+                return;
+            }
+            for (int i = start; i < arr.length; i++) {
+                char tmp = arr[start];
+                arr[start] = arr[i];
+                arr[i] = tmp;
+                forEachPermutation(arr, start + 1, consumer);
+                arr[i] = arr[start];
+                arr[start] = tmp;
+            }
+        }
     }
 }

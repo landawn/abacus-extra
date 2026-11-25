@@ -27,9 +27,9 @@
  *       around an {@code int} array, with aggregate, traversal, streaming, and range operations.</li>
  *   <li>{@link com.landawn.abacus.util.Points} groups point/value records under
  *       {@link com.landawn.abacus.util.Points.D2 Points.D2} and
- *       {@link com.landawn.abacus.util.Points.D3 Points.D3}. Coordinate types include
- *       {@code byte}, {@code int}, {@code long}, and {@code double}; payloads may be primitive or
- *       object values.</li>
+ *       {@link com.landawn.abacus.util.Points.D3 Points.D3}. Coordinate and primitive payload types
+ *       are {@code byte}, {@code int}, {@code long}, and {@code double}; payloads may also be
+ *       generic object values.</li>
  *   <li>{@link com.landawn.abacus.util.BooleanTuple},
  *       {@link com.landawn.abacus.util.ByteTuple}, {@link com.landawn.abacus.util.CharTuple},
  *       {@link com.landawn.abacus.util.ShortTuple}, {@link com.landawn.abacus.util.IntTuple},

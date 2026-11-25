@@ -3384,5 +3384,243 @@ class FloatTupleTest {
         }
     }
 
+    @Nested
+    class OptimizationVerificationTests {
+
+        @Test
+        void tuple0_fastPaths_preserveContract() {
+            FloatTuple0 empty = FloatTuple.from(new float[0]);
+
+            float[] a1 = empty.toArray();
+            float[] a2 = empty.toArray();
+            assertEquals(0, a1.length);
+            assertNotSame(a1, a2);
+
+            FloatList l1 = empty.toList();
+            FloatList l2 = empty.toList();
+            assertTrue(l1.isEmpty());
+            assertNotSame(l1, l2);
+            l1.add(99.0f);
+            assertTrue(l2.isEmpty());
+
+            assertThrows(IllegalArgumentException.class, () -> empty.forEach(null));
+            int[] count = { 0 };
+            empty.forEach(v -> count[0]++);
+            assertEquals(0, count[0]);
+
+            assertEquals(0L, empty.stream().count());
+            assertEquals(1, empty.hashCode());
+            assertTrue(empty.equals(empty));
+            assertTrue(empty.equals(new FloatTuple0()));
+            assertFalse(empty.equals(null));
+            assertFalse(empty.equals(FloatTuple.of(0.0f)));
+            assertFalse(empty.equals("not a tuple"));
+        }
+
+        @Test
+        void elements_caching_returnsSameReferenceForArities1To9() {
+            for (int arity = 1; arity <= 9; arity++) {
+                float[] input = new float[arity];
+                for (int i = 0; i < arity; i++) {
+                    input[i] = i * 1.5f - 3.0f;
+                }
+
+                FloatTuple<?> tuple = FloatTuple.from(input);
+                float[] first = tuple.elements();
+                float[] second = tuple.elements();
+                assertSame(first, second, "arity=" + arity);
+                assertArrayEquals(input, first, "arity=" + arity);
+            }
+        }
+
+        @Test
+        void tuple4_medianAndLowerMedian_all24Permutations() {
+            float[][] datasets = { { 1.0f, 2.0f, 3.0f, 4.0f }, { -5.0f, -5.0f, 10.0f, 10.0f }, { 7.5f, 7.5f, 7.5f, 7.5f },
+                    { Float.NEGATIVE_INFINITY, -0.0f, 0.0f, Float.POSITIVE_INFINITY },
+                    { Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY }, { -0.0f, 0.0f, 1.0f, Float.NaN },
+                    { Float.NEGATIVE_INFINITY, -1.0f, Float.POSITIVE_INFINITY, Float.NaN },
+                    { Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE },
+                    { -Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE }, { -0.0f, -0.0f, 0.0f, 0.0f }, { -0.0f, -0.0f, -0.0f, -0.0f } };
+
+            for (float[] base : datasets) {
+                float[] expected = base.clone();
+                java.util.Arrays.sort(expected);
+                double expectedMedian = ((double) expected[1] + (double) expected[2]) / 2d;
+                float expectedLower = expected[1];
+
+                forEachPermutation(base.clone(), 0, perm -> {
+                    FloatTuple4 tuple = FloatTuple.of(perm[0], perm[1], perm[2], perm[3]);
+                    assertEquals(Double.doubleToLongBits(expectedMedian), Double.doubleToLongBits(tuple.median()));
+                    assertEquals(Float.floatToIntBits(expectedLower), Float.floatToIntBits(tuple.lowerMedian()));
+                });
+            }
+        }
+
+        @Test
+        void tuple5_medianAndLowerMedian_all120Permutations() {
+            float[][] datasets = { { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f }, { -10.0f, -10.0f, 0.0f, 5.0f, 5.0f },
+                    { Float.NEGATIVE_INFINITY, -0.0f, 0.0f, Float.POSITIVE_INFINITY, Float.NaN }, { -0.0f, -0.0f, 0.0f, 0.0f, Float.NaN },
+                    { Float.NaN, Float.NaN, 1.0f, -1.0f, 0.0f } };
+
+            for (float[] base : datasets) {
+                float[] expected = base.clone();
+                java.util.Arrays.sort(expected);
+                float expectedLower = expected[2];
+                double expectedMedian = expectedLower;
+
+                forEachPermutation(base.clone(), 0, perm -> {
+                    FloatTuple5 tuple = FloatTuple.of(perm[0], perm[1], perm[2], perm[3], perm[4]);
+                    assertEquals(Float.floatToIntBits(expectedLower), Float.floatToIntBits(tuple.lowerMedian()));
+                    assertEquals(Double.doubleToLongBits(expectedMedian), Double.doubleToLongBits(tuple.median()));
+                });
+            }
+        }
+
+        @Test
+        void tuple2_sumAndAverage_matchNBitForBit() {
+            float[][] pairs = { { -0.0f, -0.0f }, { 0.0f, -0.0f }, { -0.0f, 0.0f }, { 0.0f, 0.0f }, { Float.MAX_VALUE, Float.MAX_VALUE },
+                    { Float.MAX_VALUE, -Float.MAX_VALUE }, { Float.MAX_VALUE, Float.MIN_VALUE }, { 1.0f, Float.MIN_VALUE }, { 1.0f, 2.5f }, { Float.NaN, 1.0f },
+                    { 1.0f, Float.NaN }, { Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY }, { Float.POSITIVE_INFINITY, 1.0f },
+                    { Float.NEGATIVE_INFINITY, -1.0f } };
+
+            for (float[] pair : pairs) {
+                FloatTuple2 t = FloatTuple.of(pair[0], pair[1]);
+                assertEquals(Float.floatToIntBits(N.sum(pair)), Float.floatToIntBits(t.sum()));
+                assertEquals(Double.doubleToLongBits(N.average(pair)), Double.doubleToLongBits(t.average().getAsDouble()));
+            }
+        }
+
+        @Test
+        void tuple3To9_sumAndAverage_matchNBitForBitBeforeAndAfterElementsCache() {
+            for (int arity = 3; arity <= 9; arity++) {
+                float[] compensated = new float[arity];
+                compensated[0] = 1.0f;
+                compensated[1] = 1.0e38f;
+                compensated[2] = -1.0e38f;
+                for (int i = 3; i < arity; i++) {
+                    compensated[i] = i * 0.25f;
+                }
+                assertSumAndAverageMatchN(compensated);
+
+                float[] allMax = new float[arity];
+                java.util.Arrays.fill(allMax, Float.MAX_VALUE);
+                assertSumAndAverageMatchN(allMax);
+
+                float[] allMin = new float[arity];
+                java.util.Arrays.fill(allMin, -Float.MAX_VALUE);
+                assertSumAndAverageMatchN(allMin);
+
+                float[] negZeros = new float[arity];
+                java.util.Arrays.fill(negZeros, -0.0f);
+                assertSumAndAverageMatchN(negZeros);
+
+                float nonCanonNaN = Float.intBitsToFloat(0x7fc00001);
+                for (int pos = 0; pos < arity; pos++) {
+                    float[] withNaN = new float[arity];
+                    java.util.Arrays.fill(withNaN, 1.25f);
+                    withNaN[pos] = Float.NaN;
+                    assertSumAndAverageMatchN(withNaN);
+
+                    float[] withPayloadNaN = new float[arity];
+                    java.util.Arrays.fill(withPayloadNaN, 1.25f);
+                    withPayloadNaN[pos] = nonCanonNaN;
+                    assertSumAndAverageMatchN(withPayloadNaN);
+                }
+            }
+        }
+
+        @Test
+        void tuple4To9_contains_handlesNaNPayloadAndSignedZero() {
+            float nonCanonicalNaN1 = Float.intBitsToFloat(0x7fc00001);
+            float nonCanonicalNaN2 = Float.intBitsToFloat(0x7fc00002);
+
+            for (int arity = 1; arity <= 9; arity++) {
+                for (int pos = 0; pos < arity; pos++) {
+                    float[] arrWithNonCanonNaN = new float[arity];
+                    java.util.Arrays.fill(arrWithNonCanonNaN, 1.0f);
+                    arrWithNonCanonNaN[pos] = nonCanonicalNaN1;
+                    FloatTuple<?> nanTuple = FloatTuple.from(arrWithNonCanonNaN);
+                    assertTrue(nanTuple.contains(Float.NaN), "canonical NaN arity=" + arity + " pos=" + pos);
+                    assertTrue(nanTuple.contains(nonCanonicalNaN1), "same payload NaN arity=" + arity + " pos=" + pos);
+                    assertTrue(nanTuple.contains(nonCanonicalNaN2), "other payload NaN arity=" + arity + " pos=" + pos);
+                    assertFalse(nanTuple.contains(2.0f));
+
+                    float[] arrNegZero = new float[arity];
+                    java.util.Arrays.fill(arrNegZero, 5.0f);
+                    arrNegZero[pos] = -0.0f;
+                    FloatTuple<?> negZeroTuple = FloatTuple.from(arrNegZero);
+                    assertTrue(negZeroTuple.contains(-0.0f), "-0.0f arity=" + arity + " pos=" + pos);
+                    assertFalse(negZeroTuple.contains(0.0f), "+0.0f mismatch arity=" + arity + " pos=" + pos);
+                    assertFalse(negZeroTuple.contains(Float.NaN));
+                    assertFalse(negZeroTuple.contains(nonCanonicalNaN1));
+
+                    float[] arrPosZero = new float[arity];
+                    java.util.Arrays.fill(arrPosZero, 5.0f);
+                    arrPosZero[pos] = 0.0f;
+                    FloatTuple<?> posZeroTuple = FloatTuple.from(arrPosZero);
+                    assertTrue(posZeroTuple.contains(0.0f), "+0.0f arity=" + arity + " pos=" + pos);
+                    assertFalse(posZeroTuple.contains(-0.0f), "-0.0f mismatch arity=" + arity + " pos=" + pos);
+                }
+            }
+        }
+
+        @Test
+        void tuple2To9_minAndMax_balancedTreeHandlesNaNAndSignedZeroAtEveryPosition() {
+            for (int arity = 2; arity <= 9; arity++) {
+                for (int pos = 0; pos < arity; pos++) {
+                    float[] withNaN = new float[arity];
+                    java.util.Arrays.fill(withNaN, 1.0f);
+                    withNaN[pos] = Float.NaN;
+                    FloatTuple<?> nanTuple = FloatTuple.from(withNaN);
+                    assertTrue(Float.isNaN(nanTuple.min()), "min NaN arity=" + arity + " pos=" + pos);
+                    assertTrue(Float.isNaN(nanTuple.max()), "max NaN arity=" + arity + " pos=" + pos);
+
+                    float[] oneNegZero = new float[arity];
+                    java.util.Arrays.fill(oneNegZero, 0.0f);
+                    oneNegZero[pos] = -0.0f;
+                    FloatTuple<?> oneNegTuple = FloatTuple.from(oneNegZero);
+                    assertEquals(Float.floatToRawIntBits(-0.0f), Float.floatToRawIntBits(oneNegTuple.min()), "min -0.0f arity=" + arity + " pos=" + pos);
+                    assertEquals(Float.floatToRawIntBits(0.0f), Float.floatToRawIntBits(oneNegTuple.max()), "max +0.0f arity=" + arity + " pos=" + pos);
+
+                    float[] onePosZero = new float[arity];
+                    java.util.Arrays.fill(onePosZero, -0.0f);
+                    onePosZero[pos] = 0.0f;
+                    FloatTuple<?> onePosTuple = FloatTuple.from(onePosZero);
+                    assertEquals(Float.floatToRawIntBits(-0.0f), Float.floatToRawIntBits(onePosTuple.min()), "min2 -0.0f arity=" + arity + " pos=" + pos);
+                    assertEquals(Float.floatToRawIntBits(0.0f), Float.floatToRawIntBits(onePosTuple.max()), "max2 +0.0f arity=" + arity + " pos=" + pos);
+                }
+            }
+        }
+
+        private static void assertSumAndAverageMatchN(float[] values) {
+            float expectedSum = N.sum(values);
+            double expectedAvg = N.average(values);
+
+            FloatTuple<?> tuple = FloatTuple.from(values);
+            assertEquals(Float.floatToIntBits(expectedSum), Float.floatToIntBits(tuple.sum()));
+            assertEquals(Double.doubleToLongBits(expectedAvg), Double.doubleToLongBits(tuple.average().getAsDouble()));
+
+            // Populate cached elements[] and re-verify cached path
+            assertNotNull(tuple.elements());
+            assertEquals(Float.floatToIntBits(expectedSum), Float.floatToIntBits(tuple.sum()));
+            assertEquals(Double.doubleToLongBits(expectedAvg), Double.doubleToLongBits(tuple.average().getAsDouble()));
+        }
+
+        private static void forEachPermutation(float[] arr, int start, java.util.function.Consumer<float[]> action) {
+            if (start == arr.length) {
+                action.accept(arr);
+                return;
+            }
+            for (int i = start; i < arr.length; i++) {
+                float tmp = arr[start];
+                arr[start] = arr[i];
+                arr[i] = tmp;
+                forEachPermutation(arr, start + 1, action);
+                arr[i] = arr[start];
+                arr[start] = tmp;
+            }
+        }
+    }
+
     private static final float DELTA = 0.0001f;
 }

@@ -1095,8 +1095,14 @@ class LongTupleTest {
             void average_emptyAndSingle() {
                 assertFalse(LongTuple.from(new long[0]).average().isPresent());
                 assertEquals(7.0, LongTuple.of(7L).average().getAsDouble());
-                // arity 1 is a single widening, so it is exact even above 2^53
-                assertEquals(9007199254740993L, LongTuple.of(9007199254740993L).average().getAsDouble());
+                // 2^53 is exact in double; 2^53 + 1 rounds once on widening to 2^53 (while _1 / lowerMedian() retains 2^53 + 1)
+                long exactBoundary = 1L << 53;
+                long unrepresentable = exactBoundary + 1L;
+                assertEquals((double) exactBoundary, LongTuple.of(exactBoundary).average().getAsDouble());
+                assertEquals(Double.doubleToRawLongBits((double) unrepresentable),
+                        Double.doubleToRawLongBits(LongTuple.of(unrepresentable).average().getAsDouble()));
+                assertEquals(Double.doubleToRawLongBits((double) unrepresentable), Double.doubleToRawLongBits(LongTuple.of(unrepresentable).median()));
+                assertEquals(unrepresentable, LongTuple.of(unrepresentable).lowerMedian());
             }
         }
     }
@@ -3548,6 +3554,193 @@ class LongTupleTest {
             LongTuple.LongTuple9 tuple9 = LongTuple.of(9L, 1L, 7L, 3L, 5L, 11L, 13L, 15L, 17L);
             assertEquals(9L, tuple9.lowerMedian());
             assertTrue(tuple9.contains(17L));
+        }
+    }
+
+    @Nested
+    class OptimizationVerificationTests {
+
+        @Test
+        void tuple0_fastPaths_preserveContract() {
+            LongTuple0 empty = LongTuple.from(new long[0]);
+
+            long[] a1 = empty.toArray();
+            long[] a2 = empty.toArray();
+            assertEquals(0, a1.length);
+            assertNotSame(a1, a2);
+
+            LongList l1 = empty.toList();
+            LongList l2 = empty.toList();
+            assertTrue(l1.isEmpty());
+            assertNotSame(l1, l2);
+            l1.add(99L);
+            assertTrue(l2.isEmpty());
+
+            assertThrows(IllegalArgumentException.class, () -> empty.forEach(null));
+            AtomicLong count = new AtomicLong();
+            empty.forEach(v -> count.incrementAndGet());
+            assertEquals(0L, count.get());
+
+            assertEquals(0L, empty.stream().count());
+            assertEquals(1, empty.hashCode());
+            assertTrue(empty.equals(empty));
+            assertTrue(empty.equals(new LongTuple0()));
+            assertFalse(empty.equals(null));
+            assertFalse(empty.equals(LongTuple.of(0L)));
+            assertFalse(empty.equals("not a tuple"));
+        }
+
+        @Test
+        void elements_caching_returnsSameReferenceForArities1To9() {
+            for (int arity = 1; arity <= 9; arity++) {
+                long[] input = new long[arity];
+                for (int i = 0; i < arity; i++) {
+                    input[i] = i * 7L - 11L;
+                }
+
+                LongTuple<?> tuple = LongTuple.from(input);
+                long[] first = tuple.elements();
+                long[] second = tuple.elements();
+                assertSame(first, second, "arity=" + arity);
+                assertArrayEquals(input, first, "arity=" + arity);
+            }
+        }
+
+        @Test
+        void tuple4_medianAndLowerMedian_all24Permutations() {
+            long[][] datasets = { { 1L, 2L, 3L, 4L }, { -5L, -5L, 10L, 10L }, { 7L, 7L, 7L, 7L }, { Long.MIN_VALUE, -1L, 0L, Long.MAX_VALUE },
+                    { Long.MIN_VALUE, Long.MIN_VALUE, Long.MAX_VALUE, Long.MAX_VALUE },
+                    { Long.MAX_VALUE - 2L, Long.MAX_VALUE - 1L, Long.MAX_VALUE, Long.MAX_VALUE },
+                    { Long.MIN_VALUE, Long.MIN_VALUE, Long.MIN_VALUE + 1L, Long.MIN_VALUE + 2L },
+                    { 9007199254740992L, 9007199254740993L, 9007199254740995L, 9007199254740996L } };
+
+            for (long[] base : datasets) {
+                long[] expected = base.clone();
+                java.util.Arrays.sort(expected);
+                long expectedLower = expected[1];
+                double expectedMedian = LongTuple.of(expected[1], expected[2]).median();
+
+                forEachPermutation(base.clone(), 0, perm -> {
+                    LongTuple4 tuple = LongTuple.of(perm[0], perm[1], perm[2], perm[3]);
+                    assertEquals(Double.doubleToLongBits(expectedMedian), Double.doubleToLongBits(tuple.median()));
+                    assertEquals(expectedLower, tuple.lowerMedian());
+                });
+            }
+        }
+
+        @Test
+        void tuple5_medianAndLowerMedian_all120Permutations() {
+            long[][] datasets = { { 1L, 2L, 3L, 4L, 5L }, { -10L, -10L, 0L, 5L, 5L }, { 42L, 42L, 42L, 42L, 42L },
+                    { Long.MIN_VALUE, -1L, 0L, 1L, Long.MAX_VALUE }, { Long.MIN_VALUE, Long.MIN_VALUE, 0L, Long.MAX_VALUE, Long.MAX_VALUE },
+                    { 9007199254740992L, 9007199254740993L, 9007199254740995L, 9007199254740997L, 9007199254740999L } };
+
+            for (long[] base : datasets) {
+                long[] expected = base.clone();
+                java.util.Arrays.sort(expected);
+                long expectedLower = expected[2];
+                double expectedMedian = expectedLower;
+
+                forEachPermutation(base.clone(), 0, perm -> {
+                    LongTuple5 tuple = LongTuple.of(perm[0], perm[1], perm[2], perm[3], perm[4]);
+                    assertEquals(expectedLower, tuple.lowerMedian());
+                    assertEquals(Double.doubleToLongBits(expectedMedian), Double.doubleToLongBits(tuple.median()));
+                });
+            }
+        }
+
+        @Test
+        void tuple2To9_minMaxSumAverage_matchesNBitForBitBeforeAndAfterElementsCache() {
+            for (int arity = 2; arity <= 9; arity++) {
+                // min/max extremes at every index
+                for (int pos = 0; pos < arity; pos++) {
+                    long[] minArr = new long[arity];
+                    java.util.Arrays.fill(minArr, 10L);
+                    minArr[pos] = Long.MIN_VALUE;
+                    LongTuple<?> minTuple = LongTuple.from(minArr);
+                    assertEquals(Long.MIN_VALUE, minTuple.min(), "min arity=" + arity + " pos=" + pos);
+                    assertEquals(10L, minTuple.max(), "max arity=" + arity + " pos=" + pos);
+
+                    long[] maxArr = new long[arity];
+                    java.util.Arrays.fill(maxArr, -10L);
+                    maxArr[pos] = Long.MAX_VALUE;
+                    LongTuple<?> maxTuple = LongTuple.from(maxArr);
+                    assertEquals(-10L, maxTuple.min(), "min2 arity=" + arity + " pos=" + pos);
+                    assertEquals(Long.MAX_VALUE, maxTuple.max(), "max2 arity=" + arity + " pos=" + pos);
+                }
+
+                // Non-overflow fast path
+                long[] normal = new long[arity];
+                for (int i = 0; i < arity; i++) {
+                    normal[i] = (i + 1) * 1000000007L;
+                }
+                assertSumAndAverageMatchN(normal);
+
+                // Full positive overflow fallback
+                long[] allMax = new long[arity];
+                java.util.Arrays.fill(allMax, Long.MAX_VALUE);
+                assertSumAndAverageMatchN(allMax);
+
+                // Full negative overflow fallback
+                long[] allMin = new long[arity];
+                java.util.Arrays.fill(allMin, Long.MIN_VALUE);
+                assertSumAndAverageMatchN(allMin);
+
+                // First-time overflow at every position 1..arity-1 (and later cancellation when pos < arity - 1)
+                for (int pos = 1; pos < arity; pos++) {
+                    long[] posAtK = new long[arity];
+                    posAtK[0] = Long.MAX_VALUE;
+                    posAtK[pos] = 1L;
+                    assertSumAndAverageMatchN(posAtK);
+
+                    long[] negAtK = new long[arity];
+                    negAtK[0] = Long.MIN_VALUE;
+                    negAtK[pos] = -1L;
+                    assertSumAndAverageMatchN(negAtK);
+
+                    if (pos < arity - 1) {
+                        long[] cancelAfterPos = new long[arity];
+                        cancelAfterPos[0] = Long.MAX_VALUE;
+                        cancelAfterPos[pos] = Long.MAX_VALUE;
+                        cancelAfterPos[pos + 1] = Long.MIN_VALUE;
+                        assertSumAndAverageMatchN(cancelAfterPos);
+
+                        long[] negCancelAfterPos = new long[arity];
+                        negCancelAfterPos[0] = Long.MIN_VALUE;
+                        negCancelAfterPos[pos] = Long.MIN_VALUE;
+                        negCancelAfterPos[pos + 1] = Long.MAX_VALUE;
+                        assertSumAndAverageMatchN(negCancelAfterPos);
+                    }
+                }
+            }
+        }
+
+        private static void assertSumAndAverageMatchN(long[] values) {
+            long expectedSum = N.sum(values);
+            double expectedAvg = N.average(values);
+
+            LongTuple<?> fresh = LongTuple.from(values);
+            assertEquals(expectedSum, fresh.sum());
+            assertEquals(Double.doubleToLongBits(expectedAvg), Double.doubleToLongBits(fresh.average().getAsDouble()));
+
+            // Populate cached elements[] and re-verify fallback/cached path
+            assertNotNull(fresh.elements());
+            assertEquals(expectedSum, fresh.sum());
+            assertEquals(Double.doubleToLongBits(expectedAvg), Double.doubleToLongBits(fresh.average().getAsDouble()));
+        }
+
+        private static void forEachPermutation(long[] arr, int start, java.util.function.Consumer<long[]> action) {
+            if (start == arr.length) {
+                action.accept(arr);
+                return;
+            }
+            for (int i = start; i < arr.length; i++) {
+                long tmp = arr[start];
+                arr[start] = arr[i];
+                arr[i] = tmp;
+                forEachPermutation(arr, start + 1, action);
+                arr[i] = arr[start];
+                arr[start] = tmp;
+            }
         }
     }
 }

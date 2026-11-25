@@ -37,21 +37,23 @@ import com.landawn.abacus.util.stream.FloatStream;
  * <p>The nested tuple types model fixed arities from 0 through 9. Prefer the {@code of(...)} factory
  * overloads to create a specific arity; {@link #from(float[])} is deprecated and retained only for
  * compatibility. The base class supplies aggregate, reversal, containment, conversion, and
- * element-wise functional helpers; {@link PrimitiveTuple} adds whole-tuple
- * {@link PrimitiveTuple#accept(Throwables.Consumer) accept},
- * {@link PrimitiveTuple#map(Throwables.Function) map},
- * {@link PrimitiveTuple#filter(Throwables.Predicate) filter}, and
- * {@link PrimitiveTuple#toOptional() toOptional}.</p>
+ * element-wise functional helpers, along with inherited whole-tuple helpers
+ * {@link #accept(Throwables.Consumer) accept},
+ * {@link #map(Throwables.Function) map},
+ * {@link #filter(Throwables.Predicate) filter}, and
+ * {@link #toOptional() toOptional}.</p>
  *
  * <p>Arity-specific nested types ({@code FloatTuple1} through {@code FloatTuple9}) expose their components as
  * public final fields {@code _1}, {@code _2}, and so on matching that arity. This sealed hierarchy permits only
  * the built-in nested types; all instances are immutable.</p>
  *
- * <p><b>Numeric semantics:</b> Values use IEEE-754 {@code float} representation. A {@code NaN} element
- * propagates to the results of {@link #min()}, {@link #max()}, {@link #sum()}, and {@link #average()}.
- * Sums and averages of two or more elements use {@code double} accumulation; {@code sum()}
- * narrows its result to {@code float}.
- * {@link #lowerMedian()}, {@link #contains(float)}, and {@link #equals(Object)}
+ * <p><b>Numeric semantics:</b> {@link #min()} and {@link #max()} follow {@link Math#min(float, float)}
+ * and {@link Math#max(float, float)} (propagating {@code NaN} and treating {@code -0.0f} as less than
+ * {@code +0.0f}); {@link #sum()} and {@link #average()} delegate to {@link N#sum(float...)} and
+ * {@link N#average(float...)} (compensated {@code double} summation with {@code NaN} propagation, with
+ * {@code sum()} narrowing its result to {@code float}), except that a one-element tuple returns its element as is,
+ * so {@code FloatTuple.of(-0.0f).sum()} is {@code -0.0f} whereas {@code N.sum(-0.0f)} is {@code 0.0f}.
+ * {@link #median()}, {@link #lowerMedian()}, {@link #contains(float)}, and {@link #equals(Object)}
  * order and compare elements with {@link Float#compare(float, float)} semantics ({@code NaN} equal
  * to itself and greater than any other value, {@code -0.0f} less than {@code 0.0f}).
  * {@link #median()} is the conventional statistical median as a {@code double} (mean of the two middle
@@ -60,7 +62,6 @@ import com.landawn.abacus.util.stream.FloatStream;
  * {@link NoSuchElementException}.</p>
  *
  * @param <TP> the concrete {@code FloatTuple} subtype that fluent operations such as {@link #reversed()} return
- * @see PrimitiveTuple
  * @see BooleanTuple
  * @see ByteTuple
  * @see CharTuple
@@ -397,7 +398,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * FloatTuple.from(new float[10]);                // throws IllegalArgumentException
      * }</pre>
      *
-     * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values.length}.
+     * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values} being {@code null} or by {@code values.length}.
      * The generic return type is only type-safe when assigned to the matching arity-specific subtype,
      * or to the base tuple type. Assigning to the wrong arity-specific subtype will result in a
      * {@link ClassCastException} at the assignment site.</p>
@@ -788,7 +789,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
     /**
      * Returns a new array containing all elements of this tuple.
      * <p>
-     * This method creates a defensive copy of the internal array. Changes to the
+     * Creates and returns a new array containing all elements of this tuple in order. Changes to the
      * returned array do not affect the tuple because tuples are immutable.
      * </p>
      *
@@ -957,7 +958,19 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      */
     @Override
     public int hashCode() {
-        return N.hashCode(elements());
+        final float[] a = elements();
+
+        if (a.length == 0) {
+            return 1;
+        }
+
+        int result = Float.hashCode(a[0]);
+
+        for (int i = 1; i < a.length; i++) {
+            result = 31 * result + Float.hashCode(a[i]);
+        }
+
+        return result;
     }
 
     /**
@@ -1139,6 +1152,54 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
         @Override
         public boolean contains(final float value) {
             return false;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public float[] toArray() {
+            return new float[0];
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public FloatList toList() {
+            return new FloatList();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> action) throws IllegalArgumentException, E {
+            N.checkArgNotNull(action, cs.action);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public FloatStream stream() {
+            return FloatStream.empty();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int hashCode() {
+            return 1;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            return obj instanceof FloatTuple0;
         }
 
         /**
@@ -1522,21 +1583,25 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         protected float[] elements() {
-            if (elements == null) {
-                elements = new float[] { _1 };
+            float[] a = elements;
+
+            if (a == null) {
+                elements = a = new float[] { _1 };
             }
 
-            return elements;
+            return a;
         }
     }
 
     /**
      * A {@code FloatTuple} containing exactly two {@code float} elements.
      * <p>
-     * Components are the public final fields {@code _1} and {@code _2}. Besides the operations from
-     * {@link FloatTuple} and {@link PrimitiveTuple}, this type adds element-unpacking helpers that
-     * pass both values to a bi-consumer / bi-function / bi-predicate (distinct from the whole-tuple
-     * {@code accept}/{@code map}/{@code filter} on {@link PrimitiveTuple}):
+     * Components are the public final fields {@code _1} and {@code _2}. Besides the operations inherited
+     * from {@link FloatTuple}, this type adds element-unpacking helpers that
+     * pass both values to a bi-consumer / bi-function / bi-predicate (distinct from the inherited
+     * whole-tuple {@link #accept(Throwables.Consumer) accept},
+     * {@link #map(Throwables.Function) map}, and
+     * {@link #filter(Throwables.Predicate) filter}):
      * </p>
      * <ul>
      *   <li>{@link #accept(Throwables.FloatBiConsumer)} — both elements as primitives</li>
@@ -1607,7 +1672,8 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Returns the minimum value among the two elements.
-         * If either element is {@code NaN}, the result is {@code NaN}.
+         * If either element is {@code NaN}, the result is {@code NaN}, and {@code -0.0f} is
+         * treated as less than {@code +0.0f}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -1628,12 +1694,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float min() {
-            return N.min(_1, _2);
+            return Math.min(_1, _2);
         }
 
         /**
          * Returns the maximum value among the two elements.
-         * If either element is {@code NaN}, the result is {@code NaN}.
+         * If either element is {@code NaN}, the result is {@code NaN}, and {@code +0.0f} is
+         * treated as greater than {@code -0.0f}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -1654,7 +1721,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float max() {
-            return N.max(_1, _2);
+            return Math.max(_1, _2);
         }
 
         /**
@@ -1680,7 +1747,8 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float sum() {
-            return N.sum(_1, _2);
+            // Starting from 0.0d preserves +0.0 for (-0.0f, -0.0f) and matches two-element Neumaier summation in N.sum bit-for-bit.
+            return (float) (0.0d + _1 + _2);
         }
 
         /**
@@ -1706,7 +1774,8 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2));
+            // Starting from 0.0d preserves +0.0 for (-0.0f, -0.0f) and matches two-element Neumaier summation in N.average bit-for-bit.
+            return OptionalDouble.of((0.0d + _1 + _2) / 2d);
         }
 
         /**
@@ -1848,7 +1917,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * Invokes {@code action} once with both elements ({@code _1}, {@code _2}).
          * <p>
          * This is the element-unpacking overload for pairs. It differs from
-         * {@link PrimitiveTuple#accept(Throwables.Consumer)}, which receives this tuple object, and from
+         * {@link #accept(Throwables.Consumer)}, which receives this tuple object, and from
          * {@link #forEach(Throwables.FloatConsumer)}, which invokes a consumer once per element.
          * </p>
          *
@@ -1877,7 +1946,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * @throws E if {@code action} throws when invoked with this tuple's elements
          * @see #forEach(Throwables.FloatConsumer)
          * @see #map(Throwables.FloatBiFunction)
-         * @see PrimitiveTuple#accept(Throwables.Consumer)
+         * @see #accept(Throwables.Consumer)
          */
         public <E extends Exception> void accept(final Throwables.FloatBiConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
@@ -1889,7 +1958,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * Applies {@code mapper} to both elements ({@code _1}, {@code _2}) and returns the result.
          * <p>
          * Element-unpacking overload for pairs. Distinct from
-         * {@link PrimitiveTuple#map(Throwables.Function)}, which receives this tuple object as a single argument.
+         * {@link #map(Throwables.Function)}, which receives this tuple object as a single argument.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1915,10 +1984,10 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * @throws E if {@code mapper} throws when applied to this tuple's elements
          * @see #accept(Throwables.FloatBiConsumer)
          * @see #filter(Throwables.FloatBiPredicate)
-         * @see PrimitiveTuple#map(Throwables.Function)
+         * @see #map(Throwables.Function)
          */
         @MayReturnNull
-        public <U, E extends Exception> U map(final Throwables.FloatBiFunction<U, E> mapper) throws IllegalArgumentException, E {
+        public <U, E extends Exception> U map(final Throwables.FloatBiFunction<? extends U, E> mapper) throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2);
@@ -1929,7 +1998,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * ({@code _1}, {@code _2}); otherwise {@link Optional#empty()}.
          * <p>
          * Element-unpacking overload for pairs. Distinct from
-         * {@link PrimitiveTuple#filter(Throwables.Predicate)}, which tests the tuple object as a whole.
+         * {@link #filter(Throwables.Predicate)}, which tests the tuple object as a whole.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1958,7 +2027,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * @throws E if {@code predicate} throws while testing this tuple's elements
          * @see #accept(Throwables.FloatBiConsumer)
          * @see #map(Throwables.FloatBiFunction)
-         * @see PrimitiveTuple#filter(Throwables.Predicate)
+         * @see #filter(Throwables.Predicate)
          */
         public <E extends Exception> Optional<FloatTuple2> filter(final Throwables.FloatBiPredicate<E> predicate) throws IllegalArgumentException, E {
             N.checkArgNotNull(predicate, cs.predicate);
@@ -2071,11 +2140,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         protected float[] elements() {
-            if (elements == null) {
-                elements = new float[] { _1, _2 };
+            float[] a = elements;
+
+            if (a == null) {
+                elements = a = new float[] { _1, _2 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -2083,10 +2154,10 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * A {@code FloatTuple} containing exactly three {@code float} elements.
      * <p>
      * Components are the public final fields {@code _1}, {@code _2}, and {@code _3}. In addition to
-     * {@link FloatTuple} / {@link PrimitiveTuple} operations, this type provides element-unpacking
+     * inherited {@link FloatTuple} operations, this type provides element-unpacking
      * {@link #accept(Throwables.FloatTriConsumer)}, {@link #map(Throwables.FloatTriFunction)}, and
      * {@link #filter(Throwables.FloatTriPredicate)} helpers that pass all three values as primitives
-     * (distinct from the whole-tuple methods on {@link PrimitiveTuple}).
+     * (distinct from the inherited whole-tuple methods on {@link FloatTuple}).
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -2158,7 +2229,8 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
 
         /**
          * Returns the minimum value among the three elements.
-         * If any element is {@code NaN}, the result is {@code NaN}.
+         * If any element is {@code NaN}, the result is {@code NaN}, and {@code -0.0f} is
+         * treated as less than {@code +0.0f}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -2179,12 +2251,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float min() {
-            return N.min(_1, _2, _3);
+            return Math.min(Math.min(_1, _2), _3);
         }
 
         /**
          * Returns the maximum value among the three elements.
-         * If any element is {@code NaN}, the result is {@code NaN}.
+         * If any element is {@code NaN}, the result is {@code NaN}, and {@code +0.0f} is
+         * treated as greater than {@code -0.0f}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -2205,7 +2278,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float max() {
-            return N.max(_1, _2, _3);
+            return Math.max(Math.max(_1, _2), _3);
         }
 
         /**
@@ -2231,7 +2304,9 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float sum() {
-            return N.sum(_1, _2, _3);
+            final float[] a = elements;
+
+            return a != null ? N.sum(a) : N.sum(_1, _2, _3);
         }
 
         /**
@@ -2257,7 +2332,9 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3));
+            final float[] a = elements;
+
+            return OptionalDouble.of(a != null ? N.average(a) : N.average(_1, _2, _3));
         }
 
         /**
@@ -2400,7 +2477,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * Invokes {@code action} once with all three elements ({@code _1}, {@code _2}, {@code _3}).
          * <p>
          * Element-unpacking overload for triples. Distinct from
-         * {@link PrimitiveTuple#accept(Throwables.Consumer)} (whole tuple) and
+         * {@link #accept(Throwables.Consumer)} (whole tuple) and
          * {@link #forEach(Throwables.FloatConsumer)} (one call per element).
          * </p>
          *
@@ -2428,7 +2505,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * @throws E if {@code action} throws when invoked with this tuple's elements
          * @see #forEach(Throwables.FloatConsumer)
          * @see #map(Throwables.FloatTriFunction)
-         * @see PrimitiveTuple#accept(Throwables.Consumer)
+         * @see #accept(Throwables.Consumer)
          */
         public <E extends Exception> void accept(final Throwables.FloatTriConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
@@ -2440,7 +2517,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * Applies {@code mapper} to all three elements ({@code _1}, {@code _2}, {@code _3}) and returns the result.
          * <p>
          * Element-unpacking overload for triples. Distinct from
-         * {@link PrimitiveTuple#map(Throwables.Function)}, which receives this tuple object as a single argument.
+         * {@link #map(Throwables.Function)}, which receives this tuple object as a single argument.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -2466,10 +2543,10 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * @throws E if {@code mapper} throws when applied to this tuple's elements
          * @see #accept(Throwables.FloatTriConsumer)
          * @see #filter(Throwables.FloatTriPredicate)
-         * @see PrimitiveTuple#map(Throwables.Function)
+         * @see #map(Throwables.Function)
          */
         @MayReturnNull
-        public <U, E extends Exception> U map(final Throwables.FloatTriFunction<U, E> mapper) throws IllegalArgumentException, E {
+        public <U, E extends Exception> U map(final Throwables.FloatTriFunction<? extends U, E> mapper) throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2, _3);
@@ -2480,7 +2557,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * ({@code _1}, {@code _2}, {@code _3}); otherwise {@link Optional#empty()}.
          * <p>
          * Element-unpacking overload for triples. Distinct from
-         * {@link PrimitiveTuple#filter(Throwables.Predicate)}, which tests the tuple object as a whole.
+         * {@link #filter(Throwables.Predicate)}, which tests the tuple object as a whole.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -2509,7 +2586,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          * @throws E if {@code predicate} throws while testing this tuple's elements
          * @see #accept(Throwables.FloatTriConsumer)
          * @see #map(Throwables.FloatTriFunction)
-         * @see PrimitiveTuple#filter(Throwables.Predicate)
+         * @see #filter(Throwables.Predicate)
          */
         public <E extends Exception> Optional<FloatTuple3> filter(final Throwables.FloatTriPredicate<E> predicate) throws IllegalArgumentException, E {
             N.checkArgNotNull(predicate, cs.predicate);
@@ -2623,11 +2700,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         protected float[] elements() {
-            if (elements == null) {
-                elements = new float[] { _1, _2, _3 };
+            float[] a = elements;
+
+            if (a == null) {
+                elements = a = new float[] { _1, _2, _3 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -2636,8 +2715,8 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * <p>
      * Components are public final fields {@code _1}…{@code _4}. Unlike arity 2–3, this type does not
      * add element-unpacking {@code accept}/{@code map}/{@code filter} overloads; use
-     * {@link #forEach(Throwables.FloatConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * {@link #forEach(Throwables.FloatConsumer)}, {@link #stream()}, or the inherited whole-tuple
+     * helpers on {@link FloatTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -2726,7 +2805,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float min() {
-            return Math.min(Math.min(Math.min(_1, _2), _3), _4);
+            return Math.min(Math.min(_1, _2), Math.min(_3, _4));
         }
 
         /**
@@ -2753,7 +2832,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float max() {
-            return Math.max(Math.max(Math.max(_1, _2), _3), _4);
+            return Math.max(Math.max(_1, _2), Math.max(_3, _4));
         }
 
         /**
@@ -2779,7 +2858,9 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float sum() {
-            return N.sum(_1, _2, _3, _4);
+            final float[] a = elements;
+
+            return a != null ? N.sum(a) : N.sum(_1, _2, _3, _4);
         }
 
         /**
@@ -2805,7 +2886,89 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4));
+            final float[] a = elements;
+
+            return OptionalDouble.of(a != null ? N.average(a) : N.average(_1, _2, _3, _4));
+        }
+
+        /**
+         * Returns the statistical median of this quadruple: the arithmetic mean of the two middle
+         * elements under {@link Float#compare(float, float)} ordering, as a {@code double}.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f).median();   // 2.5
+         * FloatTuple.of(4.0f, 1.0f, 3.0f, 2.0f).median();   // 2.5
+         * }</pre>
+         *
+         * @return the arithmetic mean of the two middle values as a {@code double}
+         * @see #lowerMedian()
+         */
+        @Override
+        public double median() {
+            // 4-element sorting network under Float.compare ordering to isolate the two middle values.
+            final float lo1, hi1;
+            if (Float.compare(_1, _2) <= 0) {
+                lo1 = _1;
+                hi1 = _2;
+            } else {
+                lo1 = _2;
+                hi1 = _1;
+            }
+
+            final float lo2, hi2;
+            if (Float.compare(_3, _4) <= 0) {
+                lo2 = _3;
+                hi2 = _4;
+            } else {
+                lo2 = _4;
+                hi2 = _3;
+            }
+
+            final float mid1 = Float.compare(lo1, lo2) >= 0 ? lo1 : lo2;
+            final float mid2 = Float.compare(hi1, hi2) <= 0 ? hi1 : hi2;
+
+            return ((double) mid1 + (double) mid2) / 2d;
+        }
+
+        /**
+         * Returns the lower median of this quadruple: the lower of the two middle values under
+         * {@link Float#compare(float, float)} ordering.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f).lowerMedian();   // 2.0f
+         * FloatTuple.of(4.0f, 1.0f, 3.0f, 2.0f).lowerMedian();   // 2.0f
+         * }</pre>
+         *
+         * @return the lower of the two middle float values when sorted
+         * @see #median()
+         */
+        @Override
+        public float lowerMedian() {
+            // 4-element sorting network under Float.compare ordering: lower middle is min(mid1, mid2).
+            final float lo1, hi1;
+            if (Float.compare(_1, _2) <= 0) {
+                lo1 = _1;
+                hi1 = _2;
+            } else {
+                lo1 = _2;
+                hi1 = _1;
+            }
+
+            final float lo2, hi2;
+            if (Float.compare(_3, _4) <= 0) {
+                lo2 = _3;
+                hi2 = _4;
+            } else {
+                lo2 = _4;
+                hi2 = _3;
+            }
+
+            final float mid1 = Float.compare(lo1, lo2) >= 0 ? lo1 : lo2;
+            final float mid2 = Float.compare(hi1, hi2) <= 0 ? hi1 : hi2;
+
+            return Float.compare(mid1, mid2) <= 0 ? mid1 : mid2;
         }
 
         /**
@@ -2862,7 +3025,14 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public boolean contains(final float value) {
-            return N.equals(_1, value) || N.equals(_2, value) || N.equals(_3, value) || N.equals(_4, value);
+            if (Float.isNaN(value)) {
+                return Float.isNaN(_1) || Float.isNaN(_2) || Float.isNaN(_3) || Float.isNaN(_4);
+            }
+
+            // For non-NaN values, raw bit equality matches Float.compare == 0 (distinguishing -0.0f from +0.0f).
+            final int bits = Float.floatToRawIntBits(value);
+            return Float.floatToRawIntBits(_1) == bits || Float.floatToRawIntBits(_2) == bits || Float.floatToRawIntBits(_3) == bits
+                    || Float.floatToRawIntBits(_4) == bits;
         }
 
         /**
@@ -3009,11 +3179,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         protected float[] elements() {
-            if (elements == null) {
-                elements = new float[] { _1, _2, _3, _4 };
+            float[] a = elements;
+
+            if (a == null) {
+                elements = a = new float[] { _1, _2, _3, _4 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -3023,8 +3195,8 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * Provides direct access to elements through public final fields {@code _1} through {@code _5}.
      * Unlike arity 2–3, this type does not
      * add element-unpacking {@code accept}/{@code map}/{@code filter} overloads; use
-     * {@link #forEach(Throwables.FloatConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * {@link #forEach(Throwables.FloatConsumer)}, {@link #stream()}, or the inherited whole-tuple
+     * helpers on {@link FloatTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -3116,7 +3288,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float min() {
-            return Math.min(Math.min(Math.min(Math.min(_1, _2), _3), _4), _5);
+            return Math.min(Math.min(Math.min(_1, _2), Math.min(_3, _4)), _5);
         }
 
         /**
@@ -3143,7 +3315,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float max() {
-            return Math.max(Math.max(Math.max(Math.max(_1, _2), _3), _4), _5);
+            return Math.max(Math.max(Math.max(_1, _2), Math.max(_3, _4)), _5);
         }
 
         /**
@@ -3169,7 +3341,9 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float sum() {
-            return N.sum(_1, _2, _3, _4, _5);
+            final float[] a = elements;
+
+            return a != null ? N.sum(a) : N.sum(_1, _2, _3, _4, _5);
         }
 
         /**
@@ -3195,7 +3369,96 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5));
+            final float[] a = elements;
+
+            return OptionalDouble.of(a != null ? N.average(a) : N.average(_1, _2, _3, _4, _5));
+        }
+
+        /**
+         * Returns the statistical median of this quintuple as a {@code double}.
+         * <p>
+         * With five elements the middle value when sorted under {@link Float#compare(float, float)}
+         * is both the lower median and the statistical median.
+         * </p>
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f).median();   // 3.0
+         * FloatTuple.of(5.0f, 1.0f, 4.0f, 2.0f, 3.0f).median();   // 3.0
+         * }</pre>
+         *
+         * @return the middle value when sorted, as a {@code double}
+         * @see #lowerMedian()
+         */
+        @Override
+        public double median() {
+            return lowerMedian();
+        }
+
+        /**
+         * Returns the lower median of this quintuple: the middle value under
+         * {@link Float#compare(float, float)} ordering.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f).lowerMedian();   // 3.0f
+         * FloatTuple.of(5.0f, 1.0f, 4.0f, 2.0f, 3.0f).lowerMedian();   // 3.0f
+         * }</pre>
+         *
+         * @return the middle float value when sorted
+         * @see #median()
+         */
+        @Override
+        public float lowerMedian() {
+            // 6-comparison selection network for the median of 5 elements under Float.compare ordering.
+            final float a, b;
+            if (Float.compare(_1, _2) <= 0) {
+                a = _1;
+                b = _2;
+            } else {
+                a = _2;
+                b = _1;
+            }
+
+            final float c, d;
+            if (Float.compare(_3, _4) <= 0) {
+                c = _3;
+                d = _4;
+            } else {
+                c = _4;
+                d = _3;
+            }
+
+            final float e, f;
+            if (Float.compare(a, c) < 0) {
+                if (Float.compare(b, _5) <= 0) {
+                    e = b;
+                    f = _5;
+                } else {
+                    e = _5;
+                    f = b;
+                }
+
+                if (Float.compare(e, c) < 0) {
+                    return Float.compare(c, f) <= 0 ? c : f;
+                } else {
+                    return Float.compare(e, d) <= 0 ? e : d;
+                }
+            } else {
+                if (Float.compare(d, _5) <= 0) {
+                    e = d;
+                    f = _5;
+                } else {
+                    e = _5;
+                    f = d;
+                }
+
+                if (Float.compare(e, a) < 0) {
+                    return Float.compare(a, f) <= 0 ? a : f;
+                } else {
+                    return Float.compare(e, b) <= 0 ? e : b;
+                }
+            }
         }
 
         /**
@@ -3252,7 +3515,14 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public boolean contains(final float value) {
-            return N.equals(_1, value) || N.equals(_2, value) || N.equals(_3, value) || N.equals(_4, value) || N.equals(_5, value);
+            if (Float.isNaN(value)) {
+                return Float.isNaN(_1) || Float.isNaN(_2) || Float.isNaN(_3) || Float.isNaN(_4) || Float.isNaN(_5);
+            }
+
+            // For non-NaN values, raw bit equality matches Float.compare == 0 (distinguishing -0.0f from +0.0f).
+            final int bits = Float.floatToRawIntBits(value);
+            return Float.floatToRawIntBits(_1) == bits || Float.floatToRawIntBits(_2) == bits || Float.floatToRawIntBits(_3) == bits
+                    || Float.floatToRawIntBits(_4) == bits || Float.floatToRawIntBits(_5) == bits;
         }
 
         /**
@@ -3399,11 +3669,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         protected float[] elements() {
-            if (elements == null) {
-                elements = new float[] { _1, _2, _3, _4, _5 };
+            float[] a = elements;
+
+            if (a == null) {
+                elements = a = new float[] { _1, _2, _3, _4, _5 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -3413,8 +3685,8 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * Provides direct access to elements through public final fields {@code _1} through {@code _6}.
      * Unlike arity 2–3, this type does not
      * add element-unpacking {@code accept}/{@code map}/{@code filter} overloads; use
-     * {@link #forEach(Throwables.FloatConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * {@link #forEach(Throwables.FloatConsumer)}, {@link #stream()}, or the inherited whole-tuple
+     * helpers on {@link FloatTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -3510,7 +3782,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float min() {
-            return Math.min(Math.min(Math.min(Math.min(Math.min(_1, _2), _3), _4), _5), _6);
+            return Math.min(Math.min(Math.min(_1, _2), Math.min(_3, _4)), Math.min(_5, _6));
         }
 
         /**
@@ -3537,7 +3809,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float max() {
-            return Math.max(Math.max(Math.max(Math.max(Math.max(_1, _2), _3), _4), _5), _6);
+            return Math.max(Math.max(Math.max(_1, _2), Math.max(_3, _4)), Math.max(_5, _6));
         }
 
         /**
@@ -3563,7 +3835,9 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float sum() {
-            return N.sum(_1, _2, _3, _4, _5, _6);
+            final float[] a = elements;
+
+            return a != null ? N.sum(a) : N.sum(_1, _2, _3, _4, _5, _6);
         }
 
         /**
@@ -3589,7 +3863,9 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6));
+            final float[] a = elements;
+
+            return OptionalDouble.of(a != null ? N.average(a) : N.average(_1, _2, _3, _4, _5, _6));
         }
 
         /**
@@ -3646,7 +3922,14 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public boolean contains(final float value) {
-            return N.equals(_1, value) || N.equals(_2, value) || N.equals(_3, value) || N.equals(_4, value) || N.equals(_5, value) || N.equals(_6, value);
+            if (Float.isNaN(value)) {
+                return Float.isNaN(_1) || Float.isNaN(_2) || Float.isNaN(_3) || Float.isNaN(_4) || Float.isNaN(_5) || Float.isNaN(_6);
+            }
+
+            // For non-NaN values, raw bit equality matches Float.compare == 0 (distinguishing -0.0f from +0.0f).
+            final int bits = Float.floatToRawIntBits(value);
+            return Float.floatToRawIntBits(_1) == bits || Float.floatToRawIntBits(_2) == bits || Float.floatToRawIntBits(_3) == bits
+                    || Float.floatToRawIntBits(_4) == bits || Float.floatToRawIntBits(_5) == bits || Float.floatToRawIntBits(_6) == bits;
         }
 
         /**
@@ -3798,11 +4081,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         protected float[] elements() {
-            if (elements == null) {
-                elements = new float[] { _1, _2, _3, _4, _5, _6 };
+            float[] a = elements;
+
+            if (a == null) {
+                elements = a = new float[] { _1, _2, _3, _4, _5, _6 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -3812,8 +4097,8 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * Provides direct access to elements through public final fields {@code _1} through {@code _7}.
      * Unlike arity 2–3, this type does not
      * add element-unpacking {@code accept}/{@code map}/{@code filter} overloads; use
-     * {@link #forEach(Throwables.FloatConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * {@link #forEach(Throwables.FloatConsumer)}, {@link #stream()}, or the inherited whole-tuple
+     * helpers on {@link FloatTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -3913,7 +4198,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float min() {
-            return Math.min(Math.min(Math.min(Math.min(Math.min(Math.min(_1, _2), _3), _4), _5), _6), _7);
+            return Math.min(Math.min(Math.min(_1, _2), Math.min(_3, _4)), Math.min(Math.min(_5, _6), _7));
         }
 
         /**
@@ -3940,7 +4225,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float max() {
-            return Math.max(Math.max(Math.max(Math.max(Math.max(Math.max(_1, _2), _3), _4), _5), _6), _7);
+            return Math.max(Math.max(Math.max(_1, _2), Math.max(_3, _4)), Math.max(Math.max(_5, _6), _7));
         }
 
         /**
@@ -3966,7 +4251,9 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float sum() {
-            return N.sum(_1, _2, _3, _4, _5, _6, _7);
+            final float[] a = elements;
+
+            return a != null ? N.sum(a) : N.sum(_1, _2, _3, _4, _5, _6, _7);
         }
 
         /**
@@ -3992,7 +4279,9 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7));
+            final float[] a = elements;
+
+            return OptionalDouble.of(a != null ? N.average(a) : N.average(_1, _2, _3, _4, _5, _6, _7));
         }
 
         /**
@@ -4045,8 +4334,15 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public boolean contains(final float value) {
-            return N.equals(_1, value) || N.equals(_2, value) || N.equals(_3, value) || N.equals(_4, value) || N.equals(_5, value) || N.equals(_6, value)
-                    || N.equals(_7, value);
+            if (Float.isNaN(value)) {
+                return Float.isNaN(_1) || Float.isNaN(_2) || Float.isNaN(_3) || Float.isNaN(_4) || Float.isNaN(_5) || Float.isNaN(_6) || Float.isNaN(_7);
+            }
+
+            // For non-NaN values, raw bit equality matches Float.compare == 0 (distinguishing -0.0f from +0.0f).
+            final int bits = Float.floatToRawIntBits(value);
+            return Float.floatToRawIntBits(_1) == bits || Float.floatToRawIntBits(_2) == bits || Float.floatToRawIntBits(_3) == bits
+                    || Float.floatToRawIntBits(_4) == bits || Float.floatToRawIntBits(_5) == bits || Float.floatToRawIntBits(_6) == bits
+                    || Float.floatToRawIntBits(_7) == bits;
         }
 
         /**
@@ -4202,11 +4498,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         protected float[] elements() {
-            if (elements == null) {
-                elements = new float[] { _1, _2, _3, _4, _5, _6, _7 };
+            float[] a = elements;
+
+            if (a == null) {
+                elements = a = new float[] { _1, _2, _3, _4, _5, _6, _7 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -4216,8 +4514,8 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * Provides direct access to elements through public final fields {@code _1} through {@code _8}.
      * Unlike arity 2–3, this type does not
      * add element-unpacking {@code accept}/{@code map}/{@code filter} overloads; use
-     * {@link #forEach(Throwables.FloatConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * {@link #forEach(Throwables.FloatConsumer)}, {@link #stream()}, or the inherited whole-tuple
+     * helpers on {@link FloatTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -4329,7 +4627,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float min() {
-            return Math.min(Math.min(Math.min(Math.min(Math.min(Math.min(Math.min(_1, _2), _3), _4), _5), _6), _7), _8);
+            return Math.min(Math.min(Math.min(_1, _2), Math.min(_3, _4)), Math.min(Math.min(_5, _6), Math.min(_7, _8)));
         }
 
         /**
@@ -4356,7 +4654,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float max() {
-            return Math.max(Math.max(Math.max(Math.max(Math.max(Math.max(Math.max(_1, _2), _3), _4), _5), _6), _7), _8);
+            return Math.max(Math.max(Math.max(_1, _2), Math.max(_3, _4)), Math.max(Math.max(_5, _6), Math.max(_7, _8)));
         }
 
         /**
@@ -4382,7 +4680,9 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float sum() {
-            return N.sum(_1, _2, _3, _4, _5, _6, _7, _8);
+            final float[] a = elements;
+
+            return a != null ? N.sum(a) : N.sum(_1, _2, _3, _4, _5, _6, _7, _8);
         }
 
         /**
@@ -4408,7 +4708,9 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7, _8));
+            final float[] a = elements;
+
+            return OptionalDouble.of(a != null ? N.average(a) : N.average(_1, _2, _3, _4, _5, _6, _7, _8));
         }
 
         /**
@@ -4461,8 +4763,16 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public boolean contains(final float value) {
-            return N.equals(_1, value) || N.equals(_2, value) || N.equals(_3, value) || N.equals(_4, value) || N.equals(_5, value) || N.equals(_6, value)
-                    || N.equals(_7, value) || N.equals(_8, value);
+            if (Float.isNaN(value)) {
+                return Float.isNaN(_1) || Float.isNaN(_2) || Float.isNaN(_3) || Float.isNaN(_4) || Float.isNaN(_5) || Float.isNaN(_6) || Float.isNaN(_7)
+                        || Float.isNaN(_8);
+            }
+
+            // For non-NaN values, raw bit equality matches Float.compare == 0 (distinguishing -0.0f from +0.0f).
+            final int bits = Float.floatToRawIntBits(value);
+            return Float.floatToRawIntBits(_1) == bits || Float.floatToRawIntBits(_2) == bits || Float.floatToRawIntBits(_3) == bits
+                    || Float.floatToRawIntBits(_4) == bits || Float.floatToRawIntBits(_5) == bits || Float.floatToRawIntBits(_6) == bits
+                    || Float.floatToRawIntBits(_7) == bits || Float.floatToRawIntBits(_8) == bits;
         }
 
         /**
@@ -4620,11 +4930,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         protected float[] elements() {
-            if (elements == null) {
-                elements = new float[] { _1, _2, _3, _4, _5, _6, _7, _8 };
+            float[] a = elements;
+
+            if (a == null) {
+                elements = a = new float[] { _1, _2, _3, _4, _5, _6, _7, _8 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -4634,8 +4946,8 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
      * Provides direct access to elements through public final fields {@code _1} through {@code _9}.
      * Unlike arity 2–3, this type does not
      * add element-unpacking {@code accept}/{@code map}/{@code filter} overloads; use
-     * {@link #forEach(Throwables.FloatConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * {@link #forEach(Throwables.FloatConsumer)}, {@link #stream()}, or the inherited whole-tuple
+     * helpers on {@link FloatTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -4752,7 +5064,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float min() {
-            return Math.min(Math.min(Math.min(Math.min(Math.min(Math.min(Math.min(Math.min(_1, _2), _3), _4), _5), _6), _7), _8), _9);
+            return Math.min(Math.min(Math.min(Math.min(_1, _2), Math.min(_3, _4)), Math.min(Math.min(_5, _6), Math.min(_7, _8))), _9);
         }
 
         /**
@@ -4779,7 +5091,7 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float max() {
-            return Math.max(Math.max(Math.max(Math.max(Math.max(Math.max(Math.max(Math.max(_1, _2), _3), _4), _5), _6), _7), _8), _9);
+            return Math.max(Math.max(Math.max(Math.max(_1, _2), Math.max(_3, _4)), Math.max(Math.max(_5, _6), Math.max(_7, _8))), _9);
         }
 
         /**
@@ -4805,7 +5117,9 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public float sum() {
-            return N.sum(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+            final float[] a = elements;
+
+            return a != null ? N.sum(a) : N.sum(_1, _2, _3, _4, _5, _6, _7, _8, _9);
         }
 
         /**
@@ -4831,7 +5145,9 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7, _8, _9));
+            final float[] a = elements;
+
+            return OptionalDouble.of(a != null ? N.average(a) : N.average(_1, _2, _3, _4, _5, _6, _7, _8, _9));
         }
 
         /**
@@ -4884,8 +5200,16 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         public boolean contains(final float value) {
-            return N.equals(_1, value) || N.equals(_2, value) || N.equals(_3, value) || N.equals(_4, value) || N.equals(_5, value) || N.equals(_6, value)
-                    || N.equals(_7, value) || N.equals(_8, value) || N.equals(_9, value);
+            if (Float.isNaN(value)) {
+                return Float.isNaN(_1) || Float.isNaN(_2) || Float.isNaN(_3) || Float.isNaN(_4) || Float.isNaN(_5) || Float.isNaN(_6) || Float.isNaN(_7)
+                        || Float.isNaN(_8) || Float.isNaN(_9);
+            }
+
+            // For non-NaN values, raw bit equality matches Float.compare == 0 (distinguishing -0.0f from +0.0f).
+            final int bits = Float.floatToRawIntBits(value);
+            return Float.floatToRawIntBits(_1) == bits || Float.floatToRawIntBits(_2) == bits || Float.floatToRawIntBits(_3) == bits
+                    || Float.floatToRawIntBits(_4) == bits || Float.floatToRawIntBits(_5) == bits || Float.floatToRawIntBits(_6) == bits
+                    || Float.floatToRawIntBits(_7) == bits || Float.floatToRawIntBits(_8) == bits || Float.floatToRawIntBits(_9) == bits;
         }
 
         /**
@@ -5045,11 +5369,13 @@ public abstract sealed class FloatTuple<TP extends FloatTuple<TP>> extends Primi
          */
         @Override
         protected float[] elements() {
-            if (elements == null) {
-                elements = new float[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
+            float[] a = elements;
+
+            if (a == null) {
+                elements = a = new float[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
             }
 
-            return elements;
+            return a;
         }
     }
 

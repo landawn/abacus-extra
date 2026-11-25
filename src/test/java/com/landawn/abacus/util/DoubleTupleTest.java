@@ -852,6 +852,33 @@ class DoubleTupleTest {
         }
 
         @Test
+        void sum_pairMatchesUpstreamCompensatedSumBitForBit() {
+            // DoubleTuple2.sum() computes 0.0 + _1 + _2 directly instead of calling N.sum(_1, _2); both must agree on every pair,
+            // including signed zeros, subnormals, NaN payloads, infinities, overflow, and the >= 2^960 exact-rescan range.
+            final double[] specials = { 0.0, -0.0, 1.0, -1.0, 15.9, 29.7, Double.MIN_VALUE, -Double.MIN_VALUE, Double.MIN_NORMAL, 0x1p960, -0x1p960, 0x1p1023,
+                    Double.MAX_VALUE, -Double.MAX_VALUE, Double.NaN, Double.longBitsToDouble(0x7ff0000000000001L), Double.POSITIVE_INFINITY,
+                    Double.NEGATIVE_INFINITY };
+
+            for (final double x : specials) {
+                for (final double y : specials) {
+                    assertEquals(Double.doubleToLongBits(N.sum(x, y)), Double.doubleToLongBits(DoubleTuple.of(x, y).sum()), () -> x + " + " + y);
+                }
+            }
+
+            final java.util.Random random = new java.util.Random(20261125L);
+
+            for (int i = 0; i < 200_000; i++) {
+                final double x = random.nextInt(4) == 0 ? specials[random.nextInt(specials.length)] : Double.longBitsToDouble(random.nextLong());
+                final double y = random.nextInt(4) == 0 ? specials[random.nextInt(specials.length)] : Double.longBitsToDouble(random.nextLong());
+                final DoubleTuple.DoubleTuple2 tuple = DoubleTuple.of(x, y);
+
+                assertEquals(Double.doubleToLongBits(N.sum(x, y)), Double.doubleToLongBits(tuple.sum()), () -> x + " + " + y);
+                tuple.toArray(); // populating the elements cache must not change the result
+                assertEquals(Double.doubleToLongBits(N.sum(x, y)), Double.doubleToLongBits(tuple.sum()), () -> x + " + " + y);
+            }
+        }
+
+        @Test
         void sum_losesSignOfZeroBeyondArityOne() {
             // arity 1 returns the field directly and keeps -0.0
             assertEquals(Double.doubleToRawLongBits(-0.0), Double.doubleToRawLongBits(DoubleTuple.of(-0.0).sum()));
@@ -3759,6 +3786,236 @@ class DoubleTupleTest {
             DoubleTuple.DoubleTuple9 tuple9 = DoubleTuple.of(9d, 1d, 7d, 3d, 5d, 11d, 13d, 15d, 17d);
             assertEquals(9d, tuple9.lowerMedian(), 0.0);
             assertTrue(tuple9.contains(17d));
+        }
+    }
+
+    @Nested
+    class OptimizationVerificationTests {
+
+        @Test
+        void tuple0_fastPaths_preserveContract() {
+            DoubleTuple0 empty = DoubleTuple.from(new double[0]);
+
+            double[] a1 = empty.toArray();
+            double[] a2 = empty.toArray();
+            assertEquals(0, a1.length);
+            assertNotSame(a1, a2);
+
+            DoubleList l1 = empty.toList();
+            DoubleList l2 = empty.toList();
+            assertTrue(l1.isEmpty());
+            assertNotSame(l1, l2);
+            l1.add(99.0);
+            assertTrue(l2.isEmpty());
+
+            assertThrows(IllegalArgumentException.class, () -> empty.forEach(null));
+            int[] count = { 0 };
+            empty.forEach(v -> count[0]++);
+            assertEquals(0, count[0]);
+
+            assertEquals(0L, empty.stream().count());
+            assertEquals(1, empty.hashCode());
+            assertTrue(empty.equals(empty));
+            assertTrue(empty.equals(new DoubleTuple0()));
+            assertFalse(empty.equals(null));
+            assertFalse(empty.equals(DoubleTuple.of(0.0)));
+            assertFalse(empty.equals("not a tuple"));
+        }
+
+        @Test
+        void elements_caching_returnsSameReferenceForArities1To9() {
+            for (int arity = 1; arity <= 9; arity++) {
+                double[] input = new double[arity];
+                for (int i = 0; i < arity; i++) {
+                    input[i] = i * 1.5 - 3.0;
+                }
+
+                DoubleTuple<?> tuple = DoubleTuple.from(input);
+                double[] first = tuple.elements();
+                double[] second = tuple.elements();
+                assertSame(first, second, "arity=" + arity);
+                assertArrayEquals(input, first, "arity=" + arity);
+            }
+        }
+
+        @Test
+        void tuple4_medianAndLowerMedian_all24Permutations() {
+            double[][] datasets = { { 1.0, 2.0, 3.0, 4.0 }, { -5.0, -5.0, 10.0, 10.0 }, { 7.5, 7.5, 7.5, 7.5 },
+                    { Double.NEGATIVE_INFINITY, -0.0, 0.0, Double.POSITIVE_INFINITY },
+                    { Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY }, { -0.0, 0.0, 1.0, Double.NaN },
+                    { Double.NEGATIVE_INFINITY, -1.0, Double.POSITIVE_INFINITY, Double.NaN },
+                    { Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE },
+                    { -Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE }, { -0.0, -0.0, 0.0, 0.0 } };
+
+            for (double[] base : datasets) {
+                double[] expected = base.clone();
+                java.util.Arrays.sort(expected);
+                double expectedMedian = N.median(expected[1], expected[2]);
+                double expectedLower = expected[1];
+
+                forEachPermutation(base.clone(), 0, perm -> {
+                    DoubleTuple4 tuple = DoubleTuple.of(perm[0], perm[1], perm[2], perm[3]);
+                    assertEquals(Double.doubleToLongBits(expectedMedian), Double.doubleToLongBits(tuple.median()));
+                    assertEquals(Double.doubleToLongBits(expectedLower), Double.doubleToLongBits(tuple.lowerMedian()));
+                });
+            }
+
+            // Explicitly verify overflow-free finite median for Double.MAX_VALUE and underflow-free subnormal median for Double.MIN_VALUE
+            assertEquals(Double.MAX_VALUE, DoubleTuple.of(Double.MAX_VALUE, 0.0, Double.MAX_VALUE, Double.MAX_VALUE).median());
+            assertEquals(Double.MIN_VALUE, DoubleTuple.of(0.0, Double.MIN_VALUE, Double.MIN_VALUE, 1.0).median());
+            assertEquals(Double.MIN_VALUE, DoubleTuple.of(Double.MIN_VALUE, Double.MIN_VALUE).median());
+            assertEquals(Double.doubleToRawLongBits(-0.0), Double.doubleToRawLongBits(DoubleTuple.of(-0.0, -0.0, -0.0, -0.0).median()));
+            // Explicitly verify (-Infinity, +Infinity) middle pair produces NaN
+            assertTrue(Double
+                    .isNaN(DoubleTuple.of(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY).median()));
+        }
+
+        @Test
+        void tuple5_medianAndLowerMedian_all120Permutations() {
+            double[][] datasets = { { 1.0, 2.0, 3.0, 4.0, 5.0 }, { -10.0, -10.0, 0.0, 5.0, 5.0 },
+                    { Double.NEGATIVE_INFINITY, -0.0, 0.0, Double.POSITIVE_INFINITY, Double.NaN }, { -0.0, -0.0, 0.0, 0.0, Double.NaN },
+                    { Double.NaN, Double.NaN, 1.0, -1.0, 0.0 } };
+
+            for (double[] base : datasets) {
+                double[] expected = base.clone();
+                java.util.Arrays.sort(expected);
+                double expectedLower = expected[2];
+
+                forEachPermutation(base.clone(), 0, perm -> {
+                    DoubleTuple5 tuple = DoubleTuple.of(perm[0], perm[1], perm[2], perm[3], perm[4]);
+                    assertEquals(Double.doubleToLongBits(expectedLower), Double.doubleToLongBits(tuple.lowerMedian()));
+                    assertEquals(Double.doubleToLongBits(expectedLower), Double.doubleToLongBits(tuple.median()));
+                });
+            }
+        }
+
+        @Test
+        void tuple2To9_sumAndAverage_matchNBitForBitBeforeAndAfterElementsCache() {
+            for (int arity = 2; arity <= 9; arity++) {
+                double[] normal = new double[arity];
+                for (int i = 0; i < arity; i++) {
+                    normal[i] = (i + 1) * 0.3;
+                }
+                assertSumAndAverageMatchN(normal);
+
+                if (arity >= 3) {
+                    double[] compensated = new double[arity];
+                    compensated[0] = 1.0;
+                    compensated[1] = 1.0e100;
+                    compensated[2] = -1.0e100;
+                    for (int i = 3; i < arity; i++) {
+                        compensated[i] = i * 0.25;
+                    }
+                    assertSumAndAverageMatchN(compensated);
+                }
+
+                double[] allMax = new double[arity];
+                java.util.Arrays.fill(allMax, Double.MAX_VALUE);
+                assertSumAndAverageMatchN(allMax);
+
+                double[] negZeros = new double[arity];
+                java.util.Arrays.fill(negZeros, -0.0);
+                assertSumAndAverageMatchN(negZeros);
+
+                for (int pos = 0; pos < arity; pos++) {
+                    double[] withNaN = new double[arity];
+                    java.util.Arrays.fill(withNaN, 1.5);
+                    withNaN[pos] = Double.NaN;
+                    assertSumAndAverageMatchN(withNaN);
+                }
+            }
+        }
+
+        @Test
+        void tuple4To9_contains_handlesNaNPayloadAndSignedZero() {
+            double nonCanonicalNaN1 = Double.longBitsToDouble(0x7ff8000000000001L);
+            double nonCanonicalNaN2 = Double.longBitsToDouble(0x7ff8000000000002L);
+
+            for (int arity = 1; arity <= 9; arity++) {
+                for (int pos = 0; pos < arity; pos++) {
+                    double[] arrWithNonCanonNaN = new double[arity];
+                    java.util.Arrays.fill(arrWithNonCanonNaN, 1.0);
+                    arrWithNonCanonNaN[pos] = nonCanonicalNaN1;
+                    DoubleTuple<?> nanTuple = DoubleTuple.from(arrWithNonCanonNaN);
+                    assertTrue(nanTuple.contains(Double.NaN), "canonical NaN arity=" + arity + " pos=" + pos);
+                    assertTrue(nanTuple.contains(nonCanonicalNaN1), "same payload NaN arity=" + arity + " pos=" + pos);
+                    assertTrue(nanTuple.contains(nonCanonicalNaN2), "other payload NaN arity=" + arity + " pos=" + pos);
+                    assertFalse(nanTuple.contains(2.0));
+
+                    double[] arrNegZero = new double[arity];
+                    java.util.Arrays.fill(arrNegZero, 5.0);
+                    arrNegZero[pos] = -0.0;
+                    DoubleTuple<?> negZeroTuple = DoubleTuple.from(arrNegZero);
+                    assertTrue(negZeroTuple.contains(-0.0), "-0.0 arity=" + arity + " pos=" + pos);
+                    assertFalse(negZeroTuple.contains(0.0), "+0.0 mismatch arity=" + arity + " pos=" + pos);
+                    assertFalse(negZeroTuple.contains(Double.NaN));
+                    assertFalse(negZeroTuple.contains(nonCanonicalNaN1));
+
+                    double[] arrPosZero = new double[arity];
+                    java.util.Arrays.fill(arrPosZero, 5.0);
+                    arrPosZero[pos] = 0.0;
+                    DoubleTuple<?> posZeroTuple = DoubleTuple.from(arrPosZero);
+                    assertTrue(posZeroTuple.contains(0.0), "+0.0 arity=" + arity + " pos=" + pos);
+                    assertFalse(posZeroTuple.contains(-0.0), "-0.0 mismatch arity=" + arity + " pos=" + pos);
+                }
+            }
+        }
+
+        @Test
+        void tuple2To9_minAndMax_balancedTreeHandlesNaNAndSignedZeroAtEveryPosition() {
+            for (int arity = 2; arity <= 9; arity++) {
+                for (int pos = 0; pos < arity; pos++) {
+                    double[] withNaN = new double[arity];
+                    java.util.Arrays.fill(withNaN, 1.0);
+                    withNaN[pos] = Double.NaN;
+                    DoubleTuple<?> nanTuple = DoubleTuple.from(withNaN);
+                    assertTrue(Double.isNaN(nanTuple.min()), "min NaN arity=" + arity + " pos=" + pos);
+                    assertTrue(Double.isNaN(nanTuple.max()), "max NaN arity=" + arity + " pos=" + pos);
+
+                    double[] oneNegZero = new double[arity];
+                    java.util.Arrays.fill(oneNegZero, 0.0);
+                    oneNegZero[pos] = -0.0;
+                    DoubleTuple<?> oneNegTuple = DoubleTuple.from(oneNegZero);
+                    assertEquals(Double.doubleToRawLongBits(-0.0), Double.doubleToRawLongBits(oneNegTuple.min()), "min -0.0 arity=" + arity + " pos=" + pos);
+                    assertEquals(Double.doubleToRawLongBits(0.0), Double.doubleToRawLongBits(oneNegTuple.max()), "max +0.0 arity=" + arity + " pos=" + pos);
+
+                    double[] onePosZero = new double[arity];
+                    java.util.Arrays.fill(onePosZero, -0.0);
+                    onePosZero[pos] = 0.0;
+                    DoubleTuple<?> onePosTuple = DoubleTuple.from(onePosZero);
+                    assertEquals(Double.doubleToRawLongBits(-0.0), Double.doubleToRawLongBits(onePosTuple.min()), "min2 -0.0 arity=" + arity + " pos=" + pos);
+                    assertEquals(Double.doubleToRawLongBits(0.0), Double.doubleToRawLongBits(onePosTuple.max()), "max2 +0.0 arity=" + arity + " pos=" + pos);
+                }
+            }
+        }
+
+        private static void assertSumAndAverageMatchN(double[] values) {
+            double expectedSum = N.sum(values);
+            double expectedAvg = N.average(values);
+
+            DoubleTuple<?> tuple = DoubleTuple.from(values);
+            assertEquals(Double.doubleToLongBits(expectedSum), Double.doubleToLongBits(tuple.sum()));
+            assertEquals(Double.doubleToLongBits(expectedAvg), Double.doubleToLongBits(tuple.average().getAsDouble()));
+
+            // Populate cached elements[] and re-verify cached path
+            assertNotNull(tuple.elements());
+            assertEquals(Double.doubleToLongBits(expectedSum), Double.doubleToLongBits(tuple.sum()));
+            assertEquals(Double.doubleToLongBits(expectedAvg), Double.doubleToLongBits(tuple.average().getAsDouble()));
+        }
+
+        private static void forEachPermutation(double[] arr, int start, java.util.function.Consumer<double[]> action) {
+            if (start == arr.length) {
+                action.accept(arr);
+                return;
+            }
+            for (int i = start; i < arr.length; i++) {
+                double tmp = arr[start];
+                arr[start] = arr[i];
+                arr[i] = tmp;
+                forEachPermutation(arr, start + 1, action);
+                arr[i] = arr[start];
+                arr[start] = tmp;
+            }
         }
     }
 

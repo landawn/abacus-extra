@@ -1007,6 +1007,42 @@ class ArraysPrintlnTest {
             assertEquals("[" + renderedValue + ", tail, null]", Arrays.println(row));
             assertEquals("[[" + renderedValue + ", tail, null],\n null,\n []]", Arrays.println(grid));
         }
+
+        @Test
+        void println_2DAnd3D_allPrimitiveTypesExactFormattingWithNullEmptySingleMulti() {
+            assertEquals("[null,\n [],\n [true],\n [false, true]]", Arrays.println(new boolean[][] { null, {}, { true }, { false, true } }));
+            assertEquals("[null,\n [],\n [null,\n  [],\n  [true],\n  [false, true]]]",
+                    Arrays.println(new boolean[][][] { null, {}, { null, {}, { true }, { false, true } } }));
+
+            assertEquals("[null,\n [],\n [a],\n [b, c]]", Arrays.println(new char[][] { null, {}, { 'a' }, { 'b', 'c' } }));
+            assertEquals("[null,\n [],\n [null,\n  [],\n  [a],\n  [b, c]]]", Arrays.println(new char[][][] { null, {}, { null, {}, { 'a' }, { 'b', 'c' } } }));
+
+            assertEquals("[null,\n [],\n [1],\n [2, 3]]", Arrays.println(new byte[][] { null, {}, { 1 }, { 2, 3 } }));
+            assertEquals("[null,\n [],\n [null,\n  [],\n  [1],\n  [2, 3]]]", Arrays.println(new byte[][][] { null, {}, { null, {}, { 1 }, { 2, 3 } } }));
+
+            assertEquals("[null,\n [],\n [10],\n [20, 30]]", Arrays.println(new short[][] { null, {}, { 10 }, { 20, 30 } }));
+            assertEquals("[null,\n [],\n [null,\n  [],\n  [10],\n  [20, 30]]]", Arrays.println(new short[][][] { null, {}, { null, {}, { 10 }, { 20, 30 } } }));
+
+            assertEquals("[null,\n [],\n [100],\n [200, 300]]", Arrays.println(new int[][] { null, {}, { 100 }, { 200, 300 } }));
+            assertEquals("[null,\n [],\n [null,\n  [],\n  [100],\n  [200, 300]]]",
+                    Arrays.println(new int[][][] { null, {}, { null, {}, { 100 }, { 200, 300 } } }));
+
+            assertEquals("[null,\n [],\n [1000],\n [2000, 3000]]", Arrays.println(new long[][] { null, {}, { 1000L }, { 2000L, 3000L } }));
+            assertEquals("[null,\n [],\n [null,\n  [],\n  [1000],\n  [2000, 3000]]]",
+                    Arrays.println(new long[][][] { null, {}, { null, {}, { 1000L }, { 2000L, 3000L } } }));
+
+            assertEquals("[null,\n [],\n [1.5],\n [2.5, 3.5]]", Arrays.println(new float[][] { null, {}, { 1.5f }, { 2.5f, 3.5f } }));
+            assertEquals("[null,\n [],\n [null,\n  [],\n  [1.5],\n  [2.5, 3.5]]]",
+                    Arrays.println(new float[][][] { null, {}, { null, {}, { 1.5f }, { 2.5f, 3.5f } } }));
+
+            assertEquals("[null,\n [],\n [1.25],\n [2.25, 3.25]]", Arrays.println(new double[][] { null, {}, { 1.25d }, { 2.25d, 3.25d } }));
+            assertEquals("[null,\n [],\n [null,\n  [],\n  [1.25],\n  [2.25, 3.25]]]",
+                    Arrays.println(new double[][][] { null, {}, { null, {}, { 1.25d }, { 2.25d, 3.25d } } }));
+
+            assertEquals("[null,\n [],\n [x],\n [y, z]]", Arrays.println(new Object[][] { null, {}, { "x" }, { "y", "z" } }));
+            assertEquals("[null,\n [],\n [null,\n  [],\n  [x],\n  [y, z]]]",
+                    Arrays.println(new Object[][][] { null, {}, { null, {}, { "x" }, { "y", "z" } } }));
+        }
     }
 
     static Stream<Arguments> arrayValues() {

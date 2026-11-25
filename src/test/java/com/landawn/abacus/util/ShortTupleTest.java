@@ -3164,5 +3164,140 @@ class ShortTupleTest {
             assertEquals((short) 9, tuple9.lowerMedian());
             assertTrue(tuple9.contains((short) 17));
         }
+
+        @Test
+        void tuple0_fastPathOverrides_preserveContract() {
+            ShortTuple0 empty = ShortTuple.from(new short[0]);
+
+            short[] a1 = empty.toArray();
+            short[] a2 = empty.toArray();
+            assertEquals(0, a1.length);
+            assertNotSame(a1, a2);
+
+            ShortList l1 = empty.toList();
+            ShortList l2 = empty.toList();
+            assertTrue(l1.isEmpty());
+            assertNotSame(l1, l2);
+            l1.add((short) 7);
+            assertEquals(1, l1.size());
+            assertTrue(empty.toList().isEmpty());
+
+            assertThrows(IllegalArgumentException.class, () -> empty.forEach(null));
+            int[] invoked = { 0 };
+            empty.forEach(v -> invoked[0]++);
+            assertEquals(0, invoked[0]);
+
+            assertEquals(0, empty.stream().count());
+            assertEquals(1, empty.hashCode());
+            assertTrue(empty.equals(empty));
+            assertTrue(empty.equals(new ShortTuple0()));
+            assertFalse(empty.equals(null));
+            assertFalse(empty.equals("()"));
+            assertFalse(empty.equals(ShortTuple.of((short) 0)));
+        }
+
+        @Test
+        void tuple4_medianAndLowerMedian_all24PermutationsAndEdgeCases() {
+            short[][] cases = { { Short.MIN_VALUE, (short) -1, (short) 0, Short.MAX_VALUE }, { (short) 1, (short) 2, (short) 3, (short) 4 },
+                    { (short) -4000, (short) -3000, (short) -2000, (short) -1000 }, { (short) 5, (short) 5, (short) 10, (short) 10 },
+                    { (short) 5, (short) 5, (short) 5, (short) 10 }, { (short) 1, (short) 2, (short) 2, (short) 3 },
+                    { Short.MIN_VALUE, Short.MIN_VALUE, Short.MAX_VALUE, Short.MAX_VALUE }, { (short) 7, (short) 7, (short) 7, (short) 7 } };
+
+            for (short[] input : cases) {
+                int[] count = { 0 };
+                forEachPermutation(input.clone(), 0, p -> {
+                    count[0]++;
+                    short[] sorted = p.clone();
+                    java.util.Arrays.sort(sorted);
+                    ShortTuple4 tuple = ShortTuple.of(p[0], p[1], p[2], p[3]);
+                    assertEquals((sorted[1] + sorted[2]) / 2d, tuple.median());
+                    assertEquals(sorted[1], tuple.lowerMedian());
+                });
+                assertEquals(24, count[0]);
+            }
+        }
+
+        @Test
+        void tuple5_medianAndLowerMedian_all120PermutationsAndEdgeCases() {
+            short[][] cases = { { Short.MIN_VALUE, (short) -1, (short) 0, (short) 1, Short.MAX_VALUE },
+                    { (short) 100, (short) 200, (short) 300, (short) 400, (short) 500 }, { (short) 1, (short) 2, (short) 2, (short) 2, (short) 3 },
+                    { (short) 1, (short) 1, (short) 2, (short) 3, (short) 3 },
+                    { Short.MIN_VALUE, Short.MIN_VALUE, (short) 0, Short.MAX_VALUE, Short.MAX_VALUE },
+                    { (short) -10, (short) -10, (short) -10, (short) 5, (short) 5 }, { (short) -10, (short) -10, (short) 5, (short) 5, (short) 5 },
+                    { (short) 5, (short) 5, (short) 5, (short) 5, (short) 5 } };
+
+            for (short[] input : cases) {
+                int[] count = { 0 };
+                forEachPermutation(input.clone(), 0, p -> {
+                    count[0]++;
+                    short[] sorted = p.clone();
+                    java.util.Arrays.sort(sorted);
+                    ShortTuple5 tuple = ShortTuple.of(p[0], p[1], p[2], p[3], p[4]);
+                    assertEquals((double) sorted[2], tuple.median());
+                    assertEquals(sorted[2], tuple.lowerMedian());
+                });
+                assertEquals(120, count[0]);
+            }
+        }
+
+        @Test
+        void tuple2To9_minMaxSumAverage_matchesReferenceAcrossBoundariesAndPositions() {
+            short[] mixedPool = { Short.MIN_VALUE, (short) -10000, (short) -1, (short) 0, (short) 1, (short) 333, (short) 10000, (short) 20000,
+                    Short.MAX_VALUE };
+
+            for (int arity = 2; arity <= 9; arity++) {
+                List<short[]> inputs = new ArrayList<>();
+
+                short[] allMin = new short[arity];
+                java.util.Arrays.fill(allMin, Short.MIN_VALUE);
+                inputs.add(allMin);
+
+                short[] allMax = new short[arity];
+                java.util.Arrays.fill(allMax, Short.MAX_VALUE);
+                inputs.add(allMax);
+
+                short[] alternating = new short[arity];
+                for (int i = 0; i < arity; i++) {
+                    alternating[i] = (i % 2 == 0) ? Short.MIN_VALUE : Short.MAX_VALUE;
+                }
+                inputs.add(alternating);
+
+                inputs.add(java.util.Arrays.copyOf(mixedPool, arity));
+
+                for (int pos = 0; pos < arity; pos++) {
+                    short[] singleMin = new short[arity];
+                    singleMin[pos] = Short.MIN_VALUE;
+                    inputs.add(singleMin);
+
+                    short[] singleMax = new short[arity];
+                    singleMax[pos] = Short.MAX_VALUE;
+                    inputs.add(singleMax);
+                }
+
+                for (short[] arr : inputs) {
+                    ShortTuple<?> tuple = ShortTuple.from(arr);
+                    assertEquals(N.min(arr), tuple.min());
+                    assertEquals(N.max(arr), tuple.max());
+                    assertEquals(N.sum(arr), tuple.sum());
+                    assertEquals(N.average(arr), tuple.average().getAsDouble());
+                    assertSame(tuple.elements(), tuple.elements());
+                }
+            }
+        }
+
+        private static void forEachPermutation(short[] arr, int start, java.util.function.Consumer<short[]> consumer) {
+            if (start == arr.length) {
+                consumer.accept(arr);
+                return;
+            }
+            for (int i = start; i < arr.length; i++) {
+                short tmp = arr[start];
+                arr[start] = arr[i];
+                arr[i] = tmp;
+                forEachPermutation(arr, start + 1, consumer);
+                arr[i] = arr[start];
+                arr[start] = tmp;
+            }
+        }
     }
 }

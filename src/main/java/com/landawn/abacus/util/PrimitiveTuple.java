@@ -85,7 +85,7 @@ abstract sealed class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements I
      * @see #filter(Throwables.Predicate)
      */
     @MayReturnNull
-    public <U, E extends Exception> U map(final Throwables.Function<? super TP, U, E> mapper) throws IllegalArgumentException, E {
+    public <U, E extends Exception> U map(final Throwables.Function<? super TP, ? extends U, E> mapper) throws IllegalArgumentException, E {
         N.checkArgNotNull(mapper, cs.mapper);
 
         return mapper.apply(self());

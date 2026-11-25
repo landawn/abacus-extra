@@ -3374,4 +3374,165 @@ class IntTupleTest {
             assertTrue(tuple9.contains(17));
         }
     }
+
+    @Nested
+    class OptimizationVerificationTests {
+
+        @Test
+        void tuple0_fastPaths_preserveContract() {
+            IntTuple0 empty = IntTuple.from(new int[0]);
+
+            int[] a1 = empty.toArray();
+            int[] a2 = empty.toArray();
+            assertEquals(0, a1.length);
+            assertNotSame(a1, a2);
+
+            IntList l1 = empty.toList();
+            IntList l2 = empty.toList();
+            assertTrue(l1.isEmpty());
+            assertNotSame(l1, l2);
+            l1.add(99);
+            assertTrue(l2.isEmpty());
+
+            assertThrows(IllegalArgumentException.class, () -> empty.forEach(null));
+            AtomicInteger count = new AtomicInteger();
+            empty.forEach(v -> count.incrementAndGet());
+            assertEquals(0, count.get());
+
+            assertEquals(0L, empty.stream().count());
+            assertEquals(1, empty.hashCode());
+            assertTrue(empty.equals(empty));
+            assertTrue(empty.equals(new IntTuple0()));
+            assertFalse(empty.equals(null));
+            assertFalse(empty.equals(IntTuple.of(0)));
+            assertFalse(empty.equals("not a tuple"));
+        }
+
+        @Test
+        void elements_caching_returnsSameReferenceForArities1To9() {
+            for (int arity = 1; arity <= 9; arity++) {
+                int[] input = new int[arity];
+                for (int i = 0; i < arity; i++) {
+                    input[i] = i * 3 - 5;
+                }
+
+                IntTuple<?> tuple = IntTuple.from(input);
+                int[] first = tuple.elements();
+                int[] second = tuple.elements();
+                assertSame(first, second, "arity=" + arity);
+                assertArrayEquals(input, first, "arity=" + arity);
+            }
+        }
+
+        @Test
+        void tuple4_medianAndLowerMedian_all24Permutations() {
+            int[][] datasets = { { 1, 2, 3, 4 }, { -5, -5, 10, 10 }, { 7, 7, 7, 7 }, { Integer.MIN_VALUE, -1, 0, Integer.MAX_VALUE },
+                    { Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE },
+                    { Integer.MAX_VALUE - 1, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE },
+                    { Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE + 1 } };
+
+            for (int[] base : datasets) {
+                int[] expected = base.clone();
+                java.util.Arrays.sort(expected);
+                double expectedMedian = ((double) expected[1] + expected[2]) / 2d;
+                int expectedLower = expected[1];
+
+                forEachPermutation(base.clone(), 0, perm -> {
+                    IntTuple4 tuple = IntTuple.of(perm[0], perm[1], perm[2], perm[3]);
+                    assertEquals(Double.doubleToLongBits(expectedMedian), Double.doubleToLongBits(tuple.median()));
+                    assertEquals(expectedLower, tuple.lowerMedian());
+                });
+            }
+        }
+
+        @Test
+        void tuple5_medianAndLowerMedian_all120Permutations() {
+            int[][] datasets = { { 1, 2, 3, 4, 5 }, { -10, -10, 0, 5, 5 }, { 42, 42, 42, 42, 42 }, { Integer.MIN_VALUE, -1, 0, 1, Integer.MAX_VALUE },
+                    { Integer.MIN_VALUE, Integer.MIN_VALUE, 0, Integer.MAX_VALUE, Integer.MAX_VALUE } };
+
+            for (int[] base : datasets) {
+                int[] expected = base.clone();
+                java.util.Arrays.sort(expected);
+                int expectedLower = expected[2];
+                double expectedMedian = expectedLower;
+
+                forEachPermutation(base.clone(), 0, perm -> {
+                    IntTuple5 tuple = IntTuple.of(perm[0], perm[1], perm[2], perm[3], perm[4]);
+                    assertEquals(expectedLower, tuple.lowerMedian());
+                    assertEquals(Double.doubleToLongBits(expectedMedian), Double.doubleToLongBits(tuple.median()));
+                });
+            }
+        }
+
+        @Test
+        void tuple2To9_minMaxSumAverage_extremesAndIntermediateCancellation() {
+            for (int arity = 2; arity <= 9; arity++) {
+                for (int pos = 0; pos < arity; pos++) {
+                    int[] minArr = new int[arity];
+                    java.util.Arrays.fill(minArr, 10);
+                    minArr[pos] = Integer.MIN_VALUE;
+                    IntTuple<?> minTuple = IntTuple.from(minArr);
+                    assertEquals(Integer.MIN_VALUE, minTuple.min(), "min arity=" + arity + " pos=" + pos);
+                    assertEquals(10, minTuple.max(), "max arity=" + arity + " pos=" + pos);
+
+                    int[] maxArr = new int[arity];
+                    java.util.Arrays.fill(maxArr, -10);
+                    maxArr[pos] = Integer.MAX_VALUE;
+                    IntTuple<?> maxTuple = IntTuple.from(maxArr);
+                    assertEquals(-10, maxTuple.min(), "min2 arity=" + arity + " pos=" + pos);
+                    assertEquals(Integer.MAX_VALUE, maxTuple.max(), "max2 arity=" + arity + " pos=" + pos);
+                }
+
+                // True overflow throws ArithmeticException at every second operand position 1..arity-1
+                for (int pos = 1; pos < arity; pos++) {
+                    int[] posOverflow = new int[arity];
+                    posOverflow[0] = Integer.MAX_VALUE;
+                    posOverflow[pos] = 1;
+                    IntTuple<?> posOverflowTuple = IntTuple.from(posOverflow);
+                    assertThrows(ArithmeticException.class, posOverflowTuple::sum, "posOverflow arity=" + arity + " pos=" + pos);
+
+                    int[] negOverflow = new int[arity];
+                    negOverflow[0] = Integer.MIN_VALUE;
+                    negOverflow[pos] = -1;
+                    IntTuple<?> negOverflowTuple = IntTuple.from(negOverflow);
+                    assertThrows(ArithmeticException.class, negOverflowTuple::sum, "negOverflow arity=" + arity + " pos=" + pos);
+
+                    if (pos < arity - 1) {
+                        int[] cancelArr = new int[arity];
+                        cancelArr[0] = Integer.MAX_VALUE;
+                        cancelArr[pos] = Integer.MAX_VALUE;
+                        cancelArr[pos + 1] = Integer.MIN_VALUE;
+                        IntTuple<?> cancelTuple = IntTuple.from(cancelArr);
+                        assertEquals(Integer.MAX_VALUE - 1, cancelTuple.sum(), "cancel arity=" + arity + " pos=" + pos);
+                    }
+                }
+
+                // Average is exact in long -> double without int overflow
+                int[] allMax = new int[arity];
+                java.util.Arrays.fill(allMax, Integer.MAX_VALUE);
+                IntTuple<?> allMaxTuple = IntTuple.from(allMax);
+                assertEquals((double) Integer.MAX_VALUE, allMaxTuple.average().getAsDouble(), "avgMax arity=" + arity);
+
+                int[] allMin = new int[arity];
+                java.util.Arrays.fill(allMin, Integer.MIN_VALUE);
+                IntTuple<?> allMinTuple = IntTuple.from(allMin);
+                assertEquals((double) Integer.MIN_VALUE, allMinTuple.average().getAsDouble(), "avgMin arity=" + arity);
+            }
+        }
+
+        private static void forEachPermutation(int[] arr, int start, java.util.function.Consumer<int[]> action) {
+            if (start == arr.length) {
+                action.accept(arr);
+                return;
+            }
+            for (int i = start; i < arr.length; i++) {
+                int tmp = arr[start];
+                arr[start] = arr[i];
+                arr[i] = tmp;
+                forEachPermutation(arr, start + 1, action);
+                arr[i] = arr[start];
+                arr[start] = tmp;
+            }
+        }
+    }
 }

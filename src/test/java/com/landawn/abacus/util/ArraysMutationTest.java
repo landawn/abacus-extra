@@ -791,8 +791,7 @@ class ArraysMutationTest {
 
         @Test
         void updateAll_int_2D_withNullSubArrays_skipped() {
-            // Primitive 2D updateAll uses for-each, then 1D variant checks N.isEmpty(null) → returns.
-            // So null sub-arrays are silently skipped (no NPE).
+            // Primitive 2D updateAll skips null sub-arrays in-place without throwing NullPointerException.
             final int[][] a = { { 1, 2 }, null, { 3 } };
             Arrays.updateAll(a, i -> i * 10);
             assertArrayEquals(new int[] { 10, 20 }, a[0]);
@@ -1024,6 +1023,45 @@ class ArraysMutationTest {
             assertArrayEquals(new Integer[] { 100, 200 }, row);
             assertSame(cube[0][0], cube[2][0]);
         }
+
+        @ParameterizedTest(name = "{0}, dimension {1}: updateAll skips null and empty sub-arrays")
+        @MethodSource("com.landawn.abacus.util.ArrayTestSupport#nestedPrimitiveArrayCases")
+        void updateAll_raggedInput_skipsNullAndEmptySubArrays(Class<?> elementType, int dimensions) throws Throwable {
+            Object row = primitiveArray(elementType, 1, 2);
+            Object rows = nestedArray(elementType, 2, null, primitiveArray(elementType), row);
+            Object input = dimensions == 2 ? rows : nestedArray(elementType, 3, null, nestedArray(elementType, 2), rows);
+            java.lang.reflect.Method method = arrayMethod("updateAll", elementType, dimensions, 2);
+            int[] calls = { 0 };
+            Object operator = callback(method.getParameterTypes()[1], values -> {
+                calls[0]++;
+                return primitiveValue(elementType, calls[0] + 2);
+            });
+
+            invokeArrayMethod(method, input, operator);
+
+            assertEquals(2, calls[0]);
+            assertEquals(primitiveValue(elementType, 3), java.lang.reflect.Array.get(row, 0));
+            assertEquals(primitiveValue(elementType, 4), java.lang.reflect.Array.get(row, 1));
+            assertNull(java.lang.reflect.Array.get(rows, 0));
+            assertEquals(0, java.lang.reflect.Array.getLength(java.lang.reflect.Array.get(rows, 1)));
+        }
+
+        @Test
+        void ffAndFffUpdateAll_skipEmptyPlanesAndRows() {
+            String[][] grid = { null, {}, { "a", "b" } };
+            ff.updateAll(grid, String::toUpperCase);
+            assertNull(grid[0]);
+            assertEquals(0, grid[1].length);
+            assertArrayEquals(new String[] { "A", "B" }, grid[2]);
+
+            String[][][] cube = { null, {}, { null, {}, { "x", "y" } } };
+            fff.updateAll(cube, String::toUpperCase);
+            assertNull(cube[0]);
+            assertEquals(0, cube[1].length);
+            assertNull(cube[2][0]);
+            assertEquals(0, cube[2][1].length);
+            assertArrayEquals(new String[] { "X", "Y" }, cube[2][2]);
+        }
     }
 
     @Nested
@@ -1137,6 +1175,43 @@ class ArraysMutationTest {
             assertArrayEquals(new Object[] { 1 }, grid[0]);
             assertArrayEquals(new Object[] { "second" }, grid[1]);
             assertArrayEquals(new Object[] { "third" }, grid[2]);
+
+            final Object[][][] cube = { null, {}, { null, {}, { "first" }, new String[] { "second" } }, { { "third" } } };
+            final List<Object> cubeVisited = new ArrayList<>();
+
+            assertThrows(ArrayStoreException.class, () -> Arrays.fff.replaceIf(cube, value -> {
+                cubeVisited.add(value);
+                return true;
+            }, Integer.valueOf(9)));
+
+            assertEquals(List.of("first", "second"), cubeVisited);
+            assertArrayEquals(new Object[] { 9 }, cube[2][2]);
+            assertArrayEquals(new Object[] { "second" }, cube[2][3]);
+            assertArrayEquals(new Object[] { "third" }, cube[3][0]);
+        }
+
+        @ParameterizedTest(name = "{0}, dimension {1}: replaceIf skips null and empty sub-arrays")
+        @MethodSource("com.landawn.abacus.util.ArrayTestSupport#nestedPrimitiveArrayCases")
+        void replaceIf_raggedInput_skipsNullAndEmptySubArrays(Class<?> elementType, int dimensions) throws Throwable {
+            Object row = primitiveArray(elementType, 1, 2);
+            Object rows = nestedArray(elementType, 2, null, primitiveArray(elementType), row);
+            Object input = dimensions == 2 ? rows : nestedArray(elementType, 3, null, nestedArray(elementType, 2), rows);
+            java.lang.reflect.Method method = arrayMethod("replaceIf", elementType, dimensions, 3);
+            Object targetMatch = primitiveValue(elementType, 1);
+            Object replacement = primitiveValue(elementType, 5);
+            int[] calls = { 0 };
+            Object predicate = callback(method.getParameterTypes()[1], values -> {
+                calls[0]++;
+                return targetMatch.equals(values[0]);
+            });
+
+            invokeArrayMethod(method, input, predicate, replacement);
+
+            assertEquals(2, calls[0]);
+            assertEquals(replacement, java.lang.reflect.Array.get(row, 0));
+            assertEquals(primitiveValue(elementType, 2), java.lang.reflect.Array.get(row, 1));
+            assertNull(java.lang.reflect.Array.get(rows, 0));
+            assertEquals(0, java.lang.reflect.Array.getLength(java.lang.reflect.Array.get(rows, 1)));
         }
 
         @Test

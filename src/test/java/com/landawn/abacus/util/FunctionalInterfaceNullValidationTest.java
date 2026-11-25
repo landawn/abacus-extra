@@ -48,18 +48,54 @@ class FunctionalInterfaceNullValidationTest {
                         continue;
                     }
 
-                    final Object[] arguments = argumentsFor(parameterTypes);
+                    final Object[] arguments = argumentsFor(parameterTypes, false);
                     arguments[parameterIndex] = null;
 
                     final IllegalArgumentException error = invokeExpectingIllegalArgumentException(method, arguments);
                     final String parameterName = functionalParameterName(method);
                     assertEquals("'" + parameterName + "' cannot be null", error.getMessage(), method.toGenericString());
                     validationCount++;
+
+                    if (hasArrayParameter(parameterTypes) && !requiresNonNullFirstArray(method, parameterTypes)) {
+                        final Object[] nullArrayArguments = argumentsFor(parameterTypes, true);
+                        nullArrayArguments[parameterIndex] = null;
+
+                        final IllegalArgumentException nullArrayError = invokeExpectingIllegalArgumentException(method, nullArrayArguments);
+                        assertEquals("'" + parameterName + "' cannot be null", nullArrayError.getMessage(), method.toGenericString());
+                    }
                 }
             }
         }
 
-        assertEquals(386, validationCount, "Every public source method with a functional-interface parameter must be exercised");
+        assertEquals(394, validationCount, "Every public source method with a functional-interface parameter must be exercised");
+    }
+
+    private static boolean hasArrayParameter(final Class<?>[] parameterTypes) {
+        for (final Class<?> type : parameterTypes) {
+            if (type.isArray()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static boolean requiresNonNullFirstArray(final Method method, final Class<?>[] parameterTypes) {
+        final Class<?> declaring = method.getDeclaringClass();
+        if (declaring != Arrays.ff.class && declaring != Arrays.fff.class) {
+            return false;
+        }
+
+        if ("map".equals(method.getName())) {
+            return parameterTypes.length == 2;
+        }
+
+        if ("zip".equals(method.getName())) {
+            // Non-defaulted inferred-return-type ff.zip / fff.zip require non-null 'a' to infer element type.
+            return parameterTypes[parameterTypes.length - 1] != Class.class && (parameterTypes.length == 3 || parameterTypes.length == 4);
+        }
+
+        return false;
     }
 
     private static IllegalArgumentException invokeExpectingIllegalArgumentException(final Method method, final Object[] arguments) throws Exception {
@@ -82,26 +118,26 @@ class FunctionalInterfaceNullValidationTest {
                         .min(Comparator.comparingInt(Constructor::getParameterCount))
                         .orElseThrow();
                 constructor.setAccessible(true);
-                return constructor.newInstance(argumentsFor(constructor.getParameterTypes()));
+                return constructor.newInstance(argumentsFor(constructor.getParameterTypes(), false));
             }
         }
 
         throw new AssertionError("No concrete receiver found for " + declaringClass.getName());
     }
 
-    private static Object[] argumentsFor(final Class<?>[] parameterTypes) {
+    private static Object[] argumentsFor(final Class<?>[] parameterTypes, final boolean nullArrays) {
         final Object[] arguments = new Object[parameterTypes.length];
 
         for (int i = 0; i < parameterTypes.length; i++) {
-            arguments[i] = defaultValue(parameterTypes[i]);
+            arguments[i] = defaultValue(parameterTypes[i], nullArrays);
         }
 
         return arguments;
     }
 
-    private static Object defaultValue(final Class<?> type) {
+    private static Object defaultValue(final Class<?> type, final boolean nullArrays) {
         if (type.isArray()) {
-            return Array.newInstance(type.getComponentType(), 0);
+            return nullArrays ? null : Array.newInstance(type.getComponentType(), 0);
         } else if (type == boolean.class) {
             return false;
         } else if (type == char.class) {
@@ -124,6 +160,8 @@ class FunctionalInterfaceNullValidationTest {
             return "";
         } else if (type.isEnum()) {
             return type.getEnumConstants()[0];
+        } else if (type == Object.class) {
+            return new Object();
         }
 
         return null;

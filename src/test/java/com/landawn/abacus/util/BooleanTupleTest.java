@@ -2602,5 +2602,79 @@ class BooleanTupleTest {
             assertEquals(BooleanTuple.of(false, false, false, false, false, false, false, false, false).hashCode(),
                     new BooleanTuple.BooleanTuple9().hashCode());
         }
+
+        @Test
+        void tuple0_fastPathOverrides_preserveContract() {
+            BooleanTuple0 empty = BooleanTuple.from(new boolean[0]);
+
+            boolean[] a1 = empty.toArray();
+            boolean[] a2 = empty.toArray();
+            assertEquals(0, a1.length);
+            assertNotSame(a1, a2);
+
+            BooleanList l1 = empty.toList();
+            BooleanList l2 = empty.toList();
+            assertTrue(l1.isEmpty());
+            assertNotSame(l1, l2);
+            l1.add(true);
+            assertEquals(1, l1.size());
+            assertTrue(empty.toList().isEmpty());
+
+            assertThrows(IllegalArgumentException.class, () -> empty.forEach(null));
+            int[] invoked = { 0 };
+            empty.forEach(v -> invoked[0]++);
+            assertEquals(0, invoked[0]);
+
+            assertEquals(0, empty.stream().count());
+            assertEquals(1, empty.hashCode());
+            assertTrue(empty.equals(empty));
+            assertTrue(empty.equals(new BooleanTuple0()));
+            assertFalse(empty.equals(null));
+            assertFalse(empty.equals("()"));
+            assertFalse(empty.equals(BooleanTuple.of(false)));
+        }
+
+        @Test
+        void tuple0To3_toString_coversAllCombinations() {
+            assertEquals("()", BooleanTuple.from(new boolean[0]).toString());
+
+            boolean[] vals = { false, true };
+            for (boolean a : vals) {
+                assertEquals("(" + a + ")", BooleanTuple.of(a).toString());
+                for (boolean b : vals) {
+                    assertEquals("(" + a + ", " + b + ")", BooleanTuple.of(a, b).toString());
+                    for (boolean c : vals) {
+                        assertEquals("(" + a + ", " + b + ", " + c + ")", BooleanTuple.of(a, b, c).toString());
+                    }
+                }
+            }
+        }
+
+        @Test
+        void tuple1_stream_avoidsElementsAllocationAndPreservesCaching() {
+            for (boolean val : new boolean[] { false, true }) {
+                BooleanTuple1 tuple = BooleanTuple.of(val);
+                assertEquals(List.of(val), tuple.stream().toList());
+                assertTrue(tuple.elements == null);
+
+                boolean[] cached = tuple.elements();
+                assertArrayEquals(new boolean[] { val }, cached);
+                assertSame(cached, tuple.elements());
+            }
+        }
+
+        @Test
+        void elements_cachesAcrossAllArities() {
+            for (int arity = 1; arity <= 9; arity++) {
+                boolean[] values = new boolean[arity];
+                for (int i = 0; i < arity; i++) {
+                    values[i] = (i % 2 == 0);
+                }
+                BooleanTuple<?> tuple = BooleanTuple.from(values);
+                boolean[] first = tuple.elements();
+                assertArrayEquals(values, first);
+                assertSame(first, tuple.elements());
+            }
+        }
     }
 }

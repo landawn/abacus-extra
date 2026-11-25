@@ -4082,5 +4082,147 @@ class ArraysMappingTest {
             short[] shortOverflowResult = f.mapToShort(shortOverflowInput, i -> i.shortValue());
             assertArrayEquals(new short[] { -32768, 32767 }, shortOverflowResult);
         }
+
+        private record Cell(String label) {
+        }
+
+        @Test
+        void mapToObj_2DAnd3D_allPrimitiveTypesWithCustomDtoAndJaggedNullEmpty() {
+            final Cell[][] bool2 = Arrays.mapToObj(new boolean[][] { { true, false }, null, {} }, v -> new Cell("b:" + v), Cell.class);
+            assertEquals(Cell[][].class, bool2.getClass());
+            assertArrayEquals(new Cell[][] { { new Cell("b:true"), new Cell("b:false") }, {}, {} }, bool2);
+            assertEquals(Cell[][].class, Arrays.mapToObj((boolean[][]) null, v -> new Cell(""), Cell.class).getClass());
+            assertEquals(Cell[][].class, Arrays.mapToObj(new boolean[0][], v -> new Cell(""), Cell.class).getClass());
+
+            final Cell[][][] bool3 = Arrays.mapToObj(new boolean[][][] { { { true }, null, {} }, null, {} }, v -> new Cell("b:" + v), Cell.class);
+            assertEquals(Cell[][][].class, bool3.getClass());
+            assertArrayEquals(new Cell[][][] { { { new Cell("b:true") }, {}, {} }, {}, {} }, bool3);
+            assertEquals(Cell[][][].class, Arrays.mapToObj((boolean[][][]) null, v -> new Cell(""), Cell.class).getClass());
+
+            final Cell[][] char2 = Arrays.mapToObj(new char[][] { { 'a', 'z' }, null, {} }, v -> new Cell("c:" + v), Cell.class);
+            assertEquals(Cell[][].class, char2.getClass());
+            assertArrayEquals(new Cell[][] { { new Cell("c:a"), new Cell("c:z") }, {}, {} }, char2);
+            final Cell[][][] char3 = Arrays.mapToObj(new char[][][] { { { 'x' }, null }, null, {} }, v -> new Cell("c:" + v), Cell.class);
+            assertEquals(Cell[][][].class, char3.getClass());
+            assertArrayEquals(new Cell[][][] { { { new Cell("c:x") }, {} }, {}, {} }, char3);
+
+            final Cell[][] byte2 = Arrays.mapToObj(new byte[][] { { 1, -2 }, null, {} }, v -> new Cell("by:" + v), Cell.class);
+            assertEquals(Cell[][].class, byte2.getClass());
+            assertArrayEquals(new Cell[][] { { new Cell("by:1"), new Cell("by:-2") }, {}, {} }, byte2);
+            final Cell[][][] byte3 = Arrays.mapToObj(new byte[][][] { { { 3 }, null }, null, {} }, v -> new Cell("by:" + v), Cell.class);
+            assertEquals(Cell[][][].class, byte3.getClass());
+            assertArrayEquals(new Cell[][][] { { { new Cell("by:3") }, {} }, {}, {} }, byte3);
+
+            final Cell[][] short2 = Arrays.mapToObj(new short[][] { { 10, -20 }, null, {} }, v -> new Cell("s:" + v), Cell.class);
+            assertEquals(Cell[][].class, short2.getClass());
+            assertArrayEquals(new Cell[][] { { new Cell("s:10"), new Cell("s:-20") }, {}, {} }, short2);
+            final Cell[][][] short3 = Arrays.mapToObj(new short[][][] { { { 30 }, null }, null, {} }, v -> new Cell("s:" + v), Cell.class);
+            assertEquals(Cell[][][].class, short3.getClass());
+            assertArrayEquals(new Cell[][][] { { { new Cell("s:30") }, {} }, {}, {} }, short3);
+
+            final Cell[][] int2 = Arrays.mapToObj(new int[][] { { 100, 200 }, null, {} }, v -> new Cell("i:" + v), Cell.class);
+            assertEquals(Cell[][].class, int2.getClass());
+            assertArrayEquals(new Cell[][] { { new Cell("i:100"), new Cell("i:200") }, {}, {} }, int2);
+            final Cell[][][] int3 = Arrays.mapToObj(new int[][][] { { { 300 }, null }, null, {} }, v -> new Cell("i:" + v), Cell.class);
+            assertEquals(Cell[][][].class, int3.getClass());
+            assertArrayEquals(new Cell[][][] { { { new Cell("i:300") }, {} }, {}, {} }, int3);
+
+            final Cell[][] long2 = Arrays.mapToObj(new long[][] { { 1L, 2L }, null, {} }, v -> new Cell("l:" + v), Cell.class);
+            assertEquals(Cell[][].class, long2.getClass());
+            assertArrayEquals(new Cell[][] { { new Cell("l:1"), new Cell("l:2") }, {}, {} }, long2);
+            final Cell[][][] long3 = Arrays.mapToObj(new long[][][] { { { 3L }, null }, null, {} }, v -> new Cell("l:" + v), Cell.class);
+            assertEquals(Cell[][][].class, long3.getClass());
+            assertArrayEquals(new Cell[][][] { { { new Cell("l:3") }, {} }, {}, {} }, long3);
+
+            final Cell[][] float2 = Arrays.mapToObj(new float[][] { { 1.5f, 2.5f }, null, {} }, v -> new Cell("f:" + v), Cell.class);
+            assertEquals(Cell[][].class, float2.getClass());
+            assertArrayEquals(new Cell[][] { { new Cell("f:1.5"), new Cell("f:2.5") }, {}, {} }, float2);
+            final Cell[][][] float3 = Arrays.mapToObj(new float[][][] { { { 3.5f }, null }, null, {} }, v -> new Cell("f:" + v), Cell.class);
+            assertEquals(Cell[][][].class, float3.getClass());
+            assertArrayEquals(new Cell[][][] { { { new Cell("f:3.5") }, {} }, {}, {} }, float3);
+
+            final Cell[][] double2 = Arrays.mapToObj(new double[][] { { 1.25d, 2.25d }, null, {} }, v -> new Cell("d:" + v), Cell.class);
+            assertEquals(Cell[][].class, double2.getClass());
+            assertArrayEquals(new Cell[][] { { new Cell("d:1.25"), new Cell("d:2.25") }, {}, {} }, double2);
+            final Cell[][][] double3 = Arrays.mapToObj(new double[][][] { { { 3.25d }, null }, null, {} }, v -> new Cell("d:" + v), Cell.class);
+            assertEquals(Cell[][][].class, double3.getClass());
+            assertArrayEquals(new Cell[][][] { { { new Cell("d:3.25") }, {} }, {}, {} }, double3);
+        }
+
+        @Test
+        @SuppressWarnings("unchecked")
+        void ffAndFffMap_inferredAndExplicitStoreExceptionSemanticsAndEmptyJagged() {
+            final Number[][] empty2 = new Integer[0][];
+            final Number[][][] empty3 = new Integer[0][][];
+            assertEquals(Integer[][].class, ff.map(empty2, n -> n).getClass());
+            assertEquals(Integer[][][].class, fff.map(empty3, n -> n).getClass());
+
+            final Number[][] jagged2 = new Integer[][] { { 1, 2 }, null, {} };
+            final Number[][] mapped2 = ff.map(jagged2, n -> n.intValue() * 3);
+            assertEquals(Integer[][].class, mapped2.getClass());
+            assertArrayEquals(new Integer[][] { { 3, 6 }, {}, {} }, mapped2);
+
+            final Number[][][] jagged3 = new Integer[][][] { { { 1 }, null, {} }, null, {} };
+            final Number[][][] mapped3 = fff.map(jagged3, n -> n.intValue() * 3);
+            assertEquals(Integer[][][].class, mapped3.getClass());
+            assertArrayEquals(new Integer[][][] { { { 3 }, {}, {} }, {}, {} }, mapped3);
+
+            final IllegalArgumentException inferred2 = assertThrows(IllegalArgumentException.class, () -> ff.map(jagged2, n -> 2.5d));
+            assertTrue(inferred2.getCause() instanceof ArrayStoreException);
+            final IllegalArgumentException inferred3 = assertThrows(IllegalArgumentException.class, () -> fff.map(jagged3, n -> 2.5d));
+            assertTrue(inferred3.getCause() instanceof ArrayStoreException);
+
+            final ArrayStoreException callbackError = new ArrayStoreException("callback");
+            assertSame(callbackError, assertThrows(ArrayStoreException.class, () -> ff.map(jagged2, n -> {
+                throw callbackError;
+            })));
+            assertSame(callbackError, assertThrows(ArrayStoreException.class, () -> fff.map(jagged3, n -> {
+                throw callbackError;
+            })));
+
+            final Class<Number> intRuntimeType = (Class<Number>) (Class<?>) Integer.class;
+            assertThrows(ArrayStoreException.class, () -> ff.map(jagged2, n -> 2.5d, intRuntimeType));
+            assertThrows(ArrayStoreException.class, () -> fff.map(jagged3, n -> 2.5d, intRuntimeType));
+        }
+
+        @Test
+        void primitiveMapToLongDoubleInt_jaggedAndNullValidation() {
+            // Direct 2D jagged inputs across all 6 cross-type primitive mappers
+            final int[][] intGrid = { { 1, 2 }, null, {} };
+            assertArrayEquals(new long[][] { { 10L, 20L }, {}, {} }, Arrays.mapToLong(intGrid, i -> i * 10L));
+            assertArrayEquals(new double[][] { { 0.5, 1.0 }, {}, {} }, Arrays.mapToDouble(intGrid, i -> i * 0.5));
+
+            final long[][] longGrid = { { 2L, 4L }, null, {} };
+            assertArrayEquals(new int[][] { { 1, 2 }, {}, {} }, Arrays.mapToInt(longGrid, l -> (int) (l / 2)));
+            assertArrayEquals(new double[][] { { 2.0, 4.0 }, {}, {} }, Arrays.mapToDouble(longGrid, l -> (double) l));
+
+            final double[][] doubleGrid = { { 1.9, 2.1 }, null, {} };
+            assertArrayEquals(new int[][] { { 1, 2 }, {}, {} }, Arrays.mapToInt(doubleGrid, d -> (int) d));
+            assertArrayEquals(new long[][] { { 2L, 2L }, {}, {} }, Arrays.mapToLong(doubleGrid, Math::round));
+
+            // Jagged 2D/3D object mapping with multiple empty planes and rows (both inferred and explicit targetElementType)
+            final String[][][] strCube = { null, {}, { null, {}, { "hi" } } };
+            assertArrayEquals(new String[][][] { {}, {}, { {}, {}, { "HI" } } }, fff.map(strCube, String::toUpperCase));
+            assertArrayEquals(new Integer[][][] { {}, {}, { {}, {}, { 2 } } }, fff.map(strCube, String::length, Integer.class));
+
+            final int[][][] intCube = { { { 1, 2 }, null, {} }, null, { { 3 } } };
+            assertArrayEquals(new long[][][] { { { 10L, 20L }, {}, {} }, {}, { { 30L } } }, Arrays.mapToLong(intCube, i -> i * 10L));
+            assertArrayEquals(new double[][][] { { { 0.5, 1.0 }, {}, {} }, {}, { { 1.5 } } }, Arrays.mapToDouble(intCube, i -> i * 0.5));
+
+            final long[][][] longCube = { { { 2L, 4L }, null, {} }, null, { { 6L } } };
+            assertArrayEquals(new int[][][] { { { 1, 2 }, {}, {} }, {}, { { 3 } } }, Arrays.mapToInt(longCube, l -> (int) (l / 2)));
+            assertArrayEquals(new double[][][] { { { 2.0, 4.0 }, {}, {} }, {}, { { 6.0 } } }, Arrays.mapToDouble(longCube, l -> (double) l));
+
+            final double[][][] doubleCube = { { { 1.9, 2.1 }, null, {} }, null, { { 3.5 } } };
+            assertArrayEquals(new int[][][] { { { 1, 2 }, {}, {} }, {}, { { 3 } } }, Arrays.mapToInt(doubleCube, d -> (int) d));
+            assertArrayEquals(new long[][][] { { { 2L, 2L }, {}, {} }, {}, { { 4L } } }, Arrays.mapToLong(doubleCube, Math::round));
+
+            assertThrows(IllegalArgumentException.class, () -> Arrays.mapToLong((int[][][]) null, null));
+            assertThrows(IllegalArgumentException.class, () -> Arrays.mapToDouble((int[][][]) null, null));
+            assertThrows(IllegalArgumentException.class, () -> Arrays.mapToInt((long[][][]) null, null));
+            assertThrows(IllegalArgumentException.class, () -> Arrays.mapToDouble((long[][][]) null, null));
+            assertThrows(IllegalArgumentException.class, () -> Arrays.mapToInt((double[][][]) null, null));
+            assertThrows(IllegalArgumentException.class, () -> Arrays.mapToLong((double[][][]) null, null));
+        }
     }
 }

@@ -13,12 +13,16 @@
  */
 package com.landawn.abacus.util;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.junit.jupiter.api.Nested;
@@ -26,7 +30,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
 import com.landawn.abacus.util.Arrays.fff;
-import com.landawn.abacus.util.stream.Stream;
 
 class ArraysContractTest {
 
@@ -34,21 +37,26 @@ class ArraysContractTest {
     class CrossOperationContractTests {
 
         @Test
-        void composedMapping_formatsNestedResults() throws IOException {
+        void composedMapping_formatsNestedResults() {
+            final int[][][] cube = { { { 1, 2 }, null }, {}, { { 3 } } };
+            final String[][][] labels = Arrays.mapToObj(cube, v -> "v" + v, String.class);
+            final String[][][] upper = fff.map(labels, String::toUpperCase);
+            final String[][][] tagged = fff.zip(upper, labels, (u, l) -> u + "=" + l, String.class);
 
-            File file = new File("src/main/java/com/landawn/abacus/util/Arrays.java");
-            List<String> lines = IOUtil.readAllLines(file);
+            assertArrayEquals(new String[][][] { { { "V1=v1", "V2=v2" }, {} }, {}, { { "V3=v3" } } }, tagged);
 
-            Stream.of(lines).filter(line -> line.trim().startsWith("*") && line.contains("N.")).forEach(System.out::println);
+            final PrintStream originalOut = System.out;
+            final ByteArrayOutputStream captured = new ByteArrayOutputStream();
+            final String returned;
+            try (PrintStream redirect = new PrintStream(captured, true, StandardCharsets.UTF_8)) {
+                System.setOut(redirect);
+                returned = fff.println(tagged);
+            } finally {
+                System.setOut(originalOut);
+            }
 
-            List<String> newLines = Stream.of(lines)
-                    .map(line -> line.trim().startsWith("*") && line.contains("N.") ? line.replace("N.", "Arrays.") : line)
-                    .toList();
-
-            IOUtil.writeLines(newLines, file);
-
-            assertEquals(lines.size(), newLines.size());
-            assertTrue(newLines.stream().noneMatch(line -> line.trim().startsWith("*") && line.contains("N.")));
+            assertEquals("[[[V1=v1, V2=v2],\n  []],\n [],\n [[V3=v3]]]", returned);
+            assertEquals(returned + System.lineSeparator(), captured.toString(StandardCharsets.UTF_8));
         }
 
         @Test
@@ -245,16 +253,35 @@ class ArraysContractTest {
         @Test
         @SuppressWarnings("unchecked")
         void resultTypesCannotExceedTheJvmArrayDimensionLimit() {
+            final Class<Object> type252 = (Class<Object>) (Class<?>) arrayWithDimensions(252).getClass();
             final Class<Object> type253 = (Class<Object>) (Class<?>) arrayWithDimensions(253).getClass();
             final Class<Object> type254 = (Class<Object>) (Class<?>) arrayWithDimensions(254).getClass();
             final Class<Object> type255 = (Class<Object>) (Class<?>) arrayWithDimensions(255).getClass();
             final List<Executable> operations = List.of(//
+                    () -> Arrays.mapToObj((boolean[]) null, value -> null, type255), () -> Arrays.mapToObj((boolean[][]) null, value -> null, type254),
+                    () -> Arrays.mapToObj((boolean[][][]) null, value -> null, type253), () -> Arrays.mapToObj((char[]) null, value -> null, type255),
+                    () -> Arrays.mapToObj((char[][]) null, value -> null, type254), () -> Arrays.mapToObj((char[][][]) null, value -> null, type253),
+                    () -> Arrays.mapToObj((byte[]) null, value -> null, type255), () -> Arrays.mapToObj((byte[][]) null, value -> null, type254),
+                    () -> Arrays.mapToObj((byte[][][]) null, value -> null, type253), () -> Arrays.mapToObj((short[]) null, value -> null, type255),
+                    () -> Arrays.mapToObj((short[][]) null, value -> null, type254), () -> Arrays.mapToObj((short[][][]) null, value -> null, type253),
                     () -> Arrays.mapToObj((int[]) null, value -> null, type255), () -> Arrays.mapToObj((int[][]) null, value -> null, type254),
-                    () -> Arrays.mapToObj((int[][][]) null, value -> null, type253), () -> Arrays.f.map((Object[]) null, value -> null, type255),
-                    () -> Arrays.ff.map((Object[][]) null, value -> null, type254), () -> Arrays.fff.map((Object[][][]) null, value -> null, type253),
-                    () -> Arrays.ff.zip(null, null, (left, right) -> null, type254),
-                    () -> Arrays.fff.zip(null, null, null, (first, second, third) -> null, type253),
+                    () -> Arrays.mapToObj((int[][][]) null, value -> null, type253), () -> Arrays.mapToObj((long[]) null, value -> null, type255),
+                    () -> Arrays.mapToObj((long[][]) null, value -> null, type254), () -> Arrays.mapToObj((long[][][]) null, value -> null, type253),
+                    () -> Arrays.mapToObj((float[]) null, value -> null, type255), () -> Arrays.mapToObj((float[][]) null, value -> null, type254),
+                    () -> Arrays.mapToObj((float[][][]) null, value -> null, type253), () -> Arrays.mapToObj((double[]) null, value -> null, type255),
+                    () -> Arrays.mapToObj((double[][]) null, value -> null, type254), () -> Arrays.mapToObj((double[][][]) null, value -> null, type253),
+                    () -> Arrays.f.map((Object[]) null, value -> null, type255), () -> Arrays.ff.map((Object[][]) null, value -> null, type254),
+                    () -> Arrays.fff.map((Object[][][]) null, value -> null, type253), () -> Arrays.ff.zip(null, null, (left, right) -> null, type254),
+                    () -> Arrays.ff.zip(null, null, null, null, (left, right) -> null, type254),
+                    () -> Arrays.ff.zip(null, null, null, (first, second, third) -> null, type254),
+                    () -> Arrays.ff.zip(null, null, null, null, null, null, (first, second, third) -> null, type254),
                     () -> Arrays.ff.zip(null, null, arrayWithDimensions(254), null, (left, right) -> left),
+                    () -> Arrays.ff.zip(null, null, null, arrayWithDimensions(254), null, null, (first, second, third) -> first),
+                    () -> Arrays.fff.zip(null, null, (left, right) -> null, type253),
+                    () -> Arrays.fff.zip(null, null, null, null, (left, right) -> null, type253),
+                    () -> Arrays.fff.zip(null, null, null, (first, second, third) -> null, type253),
+                    () -> Arrays.fff.zip(null, null, null, null, null, null, (first, second, third) -> null, type253),
+                    () -> Arrays.fff.zip(null, null, arrayWithDimensions(253), null, (left, right) -> left),
                     () -> Arrays.fff.zip(null, null, null, arrayWithDimensions(253), null, null, (first, second, third) -> first),
                     () -> Arrays.ff.reshape(arrayWithDimensions(255), 1), () -> Arrays.fff.reshape(arrayWithDimensions(254), 1, 1));
 
@@ -262,9 +289,68 @@ class ArraysContractTest {
                 assertThrows(IllegalArgumentException.class, operation);
             }
 
-            // The boundary itself is legal, including on an empty input.
+            // The 255-dimension boundary itself is legal, including on empty inputs.
             assertEquals(type255, Arrays.mapToObj((int[]) null, value -> null, type254).getClass());
             assertEquals(type255, Arrays.ff.map((Object[][]) null, value -> null, type253).getClass());
+            assertEquals(type255, Arrays.mapToObj((int[][]) null, value -> null, type253).getClass());
+            assertEquals(type255, Arrays.mapToObj((int[][][]) null, value -> null, type252).getClass());
+            assertEquals(type255, Arrays.fff.map((Object[][][]) null, value -> null, type252).getClass());
+            assertEquals(type255, Arrays.ff.reshape(arrayWithDimensions(254), 1).getClass());
+            assertEquals(type255, Arrays.fff.reshape(arrayWithDimensions(253), 1, 1).getClass());
+        }
+
+        @Test
+        void inferredGenericOperationsTranslateIncompatibleStoresWithArrayStoreCause() {
+            final Number[][] grid = new Integer[][] { { 1 } };
+            final Number[][][] cube = new Integer[][][] { (Integer[][]) grid };
+
+            final List<Executable> operations = List.of(//
+                    () -> Arrays.ff.map(grid, value -> 1.5d), () -> Arrays.ff.zip(grid, grid, (left, right) -> 1.5d),
+                    () -> Arrays.ff.zip(grid, null, 0, 0, (left, right) -> 1.5d),
+                    () -> Arrays.ff.zip((Number[][]) null, grid, (Number) 0, (Number) 0, (left, right) -> 1.5d),
+                    () -> Arrays.ff.zip(grid, grid, grid, (first, second, third) -> 1.5d),
+                    () -> Arrays.ff.zip(grid, null, null, 0, 0, 0, (first, second, third) -> 1.5d), () -> Arrays.fff.map(cube, value -> 1.5d),
+                    () -> Arrays.fff.zip(cube, cube, (left, right) -> 1.5d), () -> Arrays.fff.zip(cube, null, 0, 0, (left, right) -> 1.5d),
+                    () -> Arrays.fff.zip((Number[][][]) null, cube, (Number) 0, (Number) 0, (left, right) -> 1.5d),
+                    () -> Arrays.fff.zip(cube, cube, cube, (first, second, third) -> 1.5d),
+                    () -> Arrays.fff.zip(cube, null, null, 0, 0, 0, (first, second, third) -> 1.5d));
+
+            for (final Executable operation : operations) {
+                final IllegalArgumentException error = assertThrows(IllegalArgumentException.class, operation);
+                assertInstanceOf(ArrayStoreException.class, error.getCause());
+                assertTrue(error.getMessage().contains(Integer.class.getName()));
+            }
+        }
+
+        @Test
+        void inferredGenericDefaultZipWithNullFirstArrayPropagatesCallbackArrayStoreException() {
+            final Integer[][] b2 = { { 2 } };
+            final Integer[][] c2 = { { 3 } };
+            final Integer[][][] b3 = { b2 };
+            final Integer[][][] c3 = { c2 };
+            final ArrayStoreException failure = new ArrayStoreException("callback failure with null first input");
+
+            assertSame(failure, assertThrows(ArrayStoreException.class, () -> Arrays.ff.zip((Integer[][]) null, b2, 0, 0, (left, right) -> {
+                throw failure;
+            })));
+            assertSame(failure, assertThrows(ArrayStoreException.class, () -> Arrays.ff.zip((Integer[][]) null, b2, c2, 0, 0, 0, (first, second, third) -> {
+                throw failure;
+            })));
+            assertSame(failure, assertThrows(ArrayStoreException.class, () -> Arrays.fff.zip((Integer[][][]) null, b3, 0, 0, (left, right) -> {
+                throw failure;
+            })));
+            assertSame(failure, assertThrows(ArrayStoreException.class, () -> Arrays.fff.zip((Integer[][][]) null, b3, c3, 0, 0, 0, (first, second, third) -> {
+                throw failure;
+            })));
+        }
+
+        @Test
+        void addElementCountExactHandlesPerPlaneLongValuesAndOverflow() {
+            final long maxPlaneCount = (long) Integer.MAX_VALUE * Integer.MAX_VALUE;
+            assertEquals(maxPlaneCount, Arrays.addElementCountExact(0L, maxPlaneCount));
+            assertEquals(maxPlaneCount * 2L, Arrays.addElementCountExact(maxPlaneCount, maxPlaneCount));
+            assertThrows(ArithmeticException.class, () -> Arrays.addElementCountExact(maxPlaneCount * 2L, maxPlaneCount));
+            assertThrows(ArithmeticException.class, () -> Arrays.addElementCountExact(Long.MAX_VALUE - 5L, 6L));
         }
     }
 

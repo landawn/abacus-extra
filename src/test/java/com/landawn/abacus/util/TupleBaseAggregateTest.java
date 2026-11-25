@@ -1,6 +1,10 @@
 package com.landawn.abacus.util;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -17,11 +21,13 @@ import org.junit.jupiter.api.Test;
 import com.landawn.abacus.util.u.OptionalDouble;
 
 /**
- * Checks the aggregate and {@code forEach} bodies declared on the sealed tuple bases.
+ * Checks the aggregate, {@code forEach}, {@code toArray}, {@code hashCode}, and {@code equals}
+ * bodies declared on the sealed tuple bases.
  *
  * <p>Every permitted arity overrides those operations and does not call {@code super}, so a virtual
  * call never enters the base body. These tests invoke that body directly and check the documented
- * results: empty-input behavior, numeric selection, overflow, and visitation order.</p>
+ * results: empty-input behavior, numeric selection, overflow, visitation order, defensive array
+ * export, and equality/hash consistency.</p>
  */
 class TupleBaseAggregateTest {
 
@@ -472,6 +478,180 @@ class TupleBaseAggregateTest {
             assertThrows(IllegalArgumentException.class, () -> forEach.invoke(values, (Object) null));
 
             assertEquals(List.of(3.0, 1.0, 2.0), seen);
+        }
+    }
+
+    @Nested
+    class BaseExportAndEqualityTests {
+
+        @Test
+        void booleanBaseToArrayHashCodeAndEqualsMatchArityOverrides() {
+            Base toArray = Base.of(BooleanTuple.class, "toArray", boolean[].class);
+            Base hashCode = Base.of(BooleanTuple.class, "hashCode", int.class);
+            Base equals = Base.of(BooleanTuple.class, "equals", boolean.class, Object.class);
+
+            BooleanTuple<?> empty = BooleanTuple.from(new boolean[0]);
+            BooleanTuple.BooleanTuple1 single = BooleanTuple.of(true);
+            BooleanTuple.BooleanTuple3 triple = BooleanTuple.of(true, false, true);
+            BooleanTuple.BooleanTuple3 tripleCopy = BooleanTuple.of(true, false, true);
+            BooleanTuple.BooleanTuple3 tripleDiff = BooleanTuple.of(true, true, true);
+
+            boolean[] exported = (boolean[]) toArray.invoke(triple);
+            assertArrayEquals(new boolean[] { true, false, true }, exported);
+            assertNotSame(exported, toArray.invoke(triple));
+            exported[0] = false;
+            assertTrue(triple._1);
+            assertArrayEquals(new boolean[0], (boolean[]) toArray.invoke(empty));
+
+            assertEquals(empty.hashCode(), (int) hashCode.invoke(empty));
+            assertEquals(single.hashCode(), (int) hashCode.invoke(single));
+            assertEquals(BooleanTuple.of(false).hashCode(), (int) hashCode.invoke(BooleanTuple.of(false)));
+            assertEquals(triple.hashCode(), (int) hashCode.invoke(triple));
+
+            assertTrue((boolean) equals.invoke(triple, triple));
+            assertTrue((boolean) equals.invoke(triple, tripleCopy));
+            assertFalse((boolean) equals.invoke(triple, tripleDiff));
+            assertFalse((boolean) equals.invoke(triple, single));
+            assertFalse((boolean) equals.invoke(triple, (Object) null));
+            assertFalse((boolean) equals.invoke(triple, "not a tuple"));
+        }
+
+        @Test
+        void byteCharShortIntLongBaseToArrayHashCodeAndEqualsMatchArityOverrides() {
+            // ByteTuple
+            Base byteToArray = Base.of(ByteTuple.class, "toArray", byte[].class);
+            Base byteHash = Base.of(ByteTuple.class, "hashCode", int.class);
+            Base byteEquals = Base.of(ByteTuple.class, "equals", boolean.class, Object.class);
+            ByteTuple<?> byteEmpty = ByteTuple.from(new byte[0]);
+            ByteTuple.ByteTuple2 bytePair = ByteTuple.of((byte) 1, (byte) -2);
+            byte[] byteArr = (byte[]) byteToArray.invoke(bytePair);
+            assertArrayEquals(new byte[] { 1, -2 }, byteArr);
+            assertNotSame(byteArr, byteToArray.invoke(bytePair));
+            assertArrayEquals(new byte[0], (byte[]) byteToArray.invoke(byteEmpty));
+            assertEquals(byteEmpty.hashCode(), (int) byteHash.invoke(byteEmpty));
+            assertEquals(bytePair.hashCode(), (int) byteHash.invoke(bytePair));
+            assertTrue((boolean) byteEquals.invoke(bytePair, bytePair));
+            assertTrue((boolean) byteEquals.invoke(bytePair, ByteTuple.of((byte) 1, (byte) -2)));
+            assertFalse((boolean) byteEquals.invoke(bytePair, ByteTuple.of((byte) 1, (byte) 3)));
+            assertFalse((boolean) byteEquals.invoke(bytePair, ByteTuple.of((byte) 1)));
+            assertFalse((boolean) byteEquals.invoke(bytePair, (Object) null));
+
+            // CharTuple
+            Base charToArray = Base.of(CharTuple.class, "toArray", char[].class);
+            Base charHash = Base.of(CharTuple.class, "hashCode", int.class);
+            Base charEquals = Base.of(CharTuple.class, "equals", boolean.class, Object.class);
+            CharTuple<?> charEmpty = CharTuple.from(new char[0]);
+            CharTuple.CharTuple2 charPair = CharTuple.of('A', 'Z');
+            char[] charArr = (char[]) charToArray.invoke(charPair);
+            assertArrayEquals(new char[] { 'A', 'Z' }, charArr);
+            assertNotSame(charArr, charToArray.invoke(charPair));
+            assertArrayEquals(new char[0], (char[]) charToArray.invoke(charEmpty));
+            assertEquals(charEmpty.hashCode(), (int) charHash.invoke(charEmpty));
+            assertEquals(charPair.hashCode(), (int) charHash.invoke(charPair));
+            assertTrue((boolean) charEquals.invoke(charPair, charPair));
+            assertTrue((boolean) charEquals.invoke(charPair, CharTuple.of('A', 'Z')));
+            assertFalse((boolean) charEquals.invoke(charPair, CharTuple.of('A', 'B')));
+            assertFalse((boolean) charEquals.invoke(charPair, CharTuple.of('A')));
+            assertFalse((boolean) charEquals.invoke(charPair, (Object) null));
+
+            // ShortTuple
+            Base shortToArray = Base.of(ShortTuple.class, "toArray", short[].class);
+            Base shortHash = Base.of(ShortTuple.class, "hashCode", int.class);
+            Base shortEquals = Base.of(ShortTuple.class, "equals", boolean.class, Object.class);
+            ShortTuple<?> shortEmpty = ShortTuple.from(new short[0]);
+            ShortTuple.ShortTuple2 shortPair = ShortTuple.of((short) -5, (short) 9);
+            short[] shortArr = (short[]) shortToArray.invoke(shortPair);
+            assertArrayEquals(new short[] { -5, 9 }, shortArr);
+            assertNotSame(shortArr, shortToArray.invoke(shortPair));
+            assertArrayEquals(new short[0], (short[]) shortToArray.invoke(shortEmpty));
+            assertEquals(shortEmpty.hashCode(), (int) shortHash.invoke(shortEmpty));
+            assertEquals(shortPair.hashCode(), (int) shortHash.invoke(shortPair));
+            assertTrue((boolean) shortEquals.invoke(shortPair, shortPair));
+            assertTrue((boolean) shortEquals.invoke(shortPair, ShortTuple.of((short) -5, (short) 9)));
+            assertFalse((boolean) shortEquals.invoke(shortPair, ShortTuple.of((short) -5, (short) 0)));
+            assertFalse((boolean) shortEquals.invoke(shortPair, ShortTuple.of((short) -5)));
+            assertFalse((boolean) shortEquals.invoke(shortPair, (Object) null));
+
+            // IntTuple
+            Base intToArray = Base.of(IntTuple.class, "toArray", int[].class);
+            Base intHash = Base.of(IntTuple.class, "hashCode", int.class);
+            Base intEquals = Base.of(IntTuple.class, "equals", boolean.class, Object.class);
+            IntTuple<?> intEmpty = IntTuple.from(new int[0]);
+            IntTuple.IntTuple2 intPair = IntTuple.of(10, 20);
+            int[] intArr = (int[]) intToArray.invoke(intPair);
+            assertArrayEquals(new int[] { 10, 20 }, intArr);
+            assertNotSame(intArr, intToArray.invoke(intPair));
+            assertArrayEquals(new int[0], (int[]) intToArray.invoke(intEmpty));
+            assertEquals(intEmpty.hashCode(), (int) intHash.invoke(intEmpty));
+            assertEquals(intPair.hashCode(), (int) intHash.invoke(intPair));
+            assertTrue((boolean) intEquals.invoke(intPair, intPair));
+            assertTrue((boolean) intEquals.invoke(intPair, IntTuple.of(10, 20)));
+            assertFalse((boolean) intEquals.invoke(intPair, IntTuple.of(10, 21)));
+            assertFalse((boolean) intEquals.invoke(intPair, IntTuple.of(10)));
+            assertFalse((boolean) intEquals.invoke(intPair, (Object) null));
+
+            // LongTuple
+            Base longToArray = Base.of(LongTuple.class, "toArray", long[].class);
+            Base longHash = Base.of(LongTuple.class, "hashCode", int.class);
+            Base longEquals = Base.of(LongTuple.class, "equals", boolean.class, Object.class);
+            LongTuple<?> longEmpty = LongTuple.from(new long[0]);
+            LongTuple.LongTuple2 longPair = LongTuple.of(Long.MIN_VALUE, Long.MAX_VALUE);
+            long[] longArr = (long[]) longToArray.invoke(longPair);
+            assertArrayEquals(new long[] { Long.MIN_VALUE, Long.MAX_VALUE }, longArr);
+            assertNotSame(longArr, longToArray.invoke(longPair));
+            assertArrayEquals(new long[0], (long[]) longToArray.invoke(longEmpty));
+            assertEquals(longEmpty.hashCode(), (int) longHash.invoke(longEmpty));
+            assertEquals(longPair.hashCode(), (int) longHash.invoke(longPair));
+            assertTrue((boolean) longEquals.invoke(longPair, longPair));
+            assertTrue((boolean) longEquals.invoke(longPair, LongTuple.of(Long.MIN_VALUE, Long.MAX_VALUE)));
+            assertFalse((boolean) longEquals.invoke(longPair, LongTuple.of(Long.MIN_VALUE, 0L)));
+            assertFalse((boolean) longEquals.invoke(longPair, LongTuple.of(Long.MIN_VALUE)));
+            assertFalse((boolean) longEquals.invoke(longPair, (Object) null));
+        }
+
+        @Test
+        void floatAndDoubleBaseToArrayHashCodeAndEqualsHandleSignedZeroAndNaN() {
+            // FloatTuple
+            Base floatToArray = Base.of(FloatTuple.class, "toArray", float[].class);
+            Base floatHash = Base.of(FloatTuple.class, "hashCode", int.class);
+            Base floatEquals = Base.of(FloatTuple.class, "equals", boolean.class, Object.class);
+            FloatTuple<?> floatEmpty = FloatTuple.from(new float[0]);
+            FloatTuple.FloatTuple2 floatNaN = FloatTuple.of(Float.NaN, -0.0f);
+            FloatTuple.FloatTuple2 floatPayloadNaN = FloatTuple.of(Float.intBitsToFloat(0x7fc00001), -0.0f);
+            float[] floatArr = (float[]) floatToArray.invoke(floatNaN);
+            assertEquals(2, floatArr.length);
+            assertNotSame(floatArr, floatToArray.invoke(floatNaN));
+            assertArrayEquals(new float[0], (float[]) floatToArray.invoke(floatEmpty));
+            assertEquals(floatEmpty.hashCode(), (int) floatHash.invoke(floatEmpty));
+            assertEquals(floatNaN.hashCode(), (int) floatHash.invoke(floatNaN));
+            assertEquals((int) floatHash.invoke(floatNaN), (int) floatHash.invoke(floatPayloadNaN));
+            assertNotEquals((int) floatHash.invoke(FloatTuple.of(0.0f)), (int) floatHash.invoke(FloatTuple.of(-0.0f)));
+            assertTrue((boolean) floatEquals.invoke(floatNaN, floatNaN));
+            assertTrue((boolean) floatEquals.invoke(floatNaN, floatPayloadNaN));
+            assertFalse((boolean) floatEquals.invoke(floatNaN, FloatTuple.of(Float.NaN, 0.0f)));
+            assertFalse((boolean) floatEquals.invoke(floatNaN, FloatTuple.of(Float.NaN)));
+            assertFalse((boolean) floatEquals.invoke(floatNaN, (Object) null));
+
+            // DoubleTuple
+            Base doubleToArray = Base.of(DoubleTuple.class, "toArray", double[].class);
+            Base doubleHash = Base.of(DoubleTuple.class, "hashCode", int.class);
+            Base doubleEquals = Base.of(DoubleTuple.class, "equals", boolean.class, Object.class);
+            DoubleTuple<?> doubleEmpty = DoubleTuple.from(new double[0]);
+            DoubleTuple.DoubleTuple2 doubleNaN = DoubleTuple.of(Double.NaN, -0.0);
+            DoubleTuple.DoubleTuple2 doublePayloadNaN = DoubleTuple.of(Double.longBitsToDouble(0x7ff8000000000001L), -0.0);
+            double[] doubleArr = (double[]) doubleToArray.invoke(doubleNaN);
+            assertEquals(2, doubleArr.length);
+            assertNotSame(doubleArr, doubleToArray.invoke(doubleNaN));
+            assertArrayEquals(new double[0], (double[]) doubleToArray.invoke(doubleEmpty));
+            assertEquals(doubleEmpty.hashCode(), (int) doubleHash.invoke(doubleEmpty));
+            assertEquals(doubleNaN.hashCode(), (int) doubleHash.invoke(doubleNaN));
+            assertEquals((int) doubleHash.invoke(doubleNaN), (int) doubleHash.invoke(doublePayloadNaN));
+            assertNotEquals((int) doubleHash.invoke(DoubleTuple.of(0.0)), (int) doubleHash.invoke(DoubleTuple.of(-0.0)));
+            assertTrue((boolean) doubleEquals.invoke(doubleNaN, doubleNaN));
+            assertTrue((boolean) doubleEquals.invoke(doubleNaN, doublePayloadNaN));
+            assertFalse((boolean) doubleEquals.invoke(doubleNaN, DoubleTuple.of(Double.NaN, 0.0)));
+            assertFalse((boolean) doubleEquals.invoke(doubleNaN, DoubleTuple.of(Double.NaN)));
+            assertFalse((boolean) doubleEquals.invoke(doubleNaN, (Object) null));
         }
     }
 

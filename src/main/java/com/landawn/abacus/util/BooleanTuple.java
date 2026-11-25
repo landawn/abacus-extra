@@ -34,11 +34,11 @@ import com.landawn.abacus.util.stream.Stream;
  * <p>The nested tuple types model fixed arities from 0 through 9. Prefer the {@code of(...)} factory
  * overloads to create a specific arity; {@link #from(boolean[])} is deprecated and retained only for
  * compatibility. The base class supplies reversal, containment, conversion, and
- * element-wise functional helpers; {@link PrimitiveTuple} adds whole-tuple
- * {@link PrimitiveTuple#accept(Throwables.Consumer) accept},
- * {@link PrimitiveTuple#map(Throwables.Function) map},
- * {@link PrimitiveTuple#filter(Throwables.Predicate) filter}, and
- * {@link PrimitiveTuple#toOptional() toOptional}.</p>
+ * element-wise functional helpers, along with inherited whole-tuple helpers
+ * {@link #accept(Throwables.Consumer) accept},
+ * {@link #map(Throwables.Function) map},
+ * {@link #filter(Throwables.Predicate) filter}, and
+ * {@link #toOptional() toOptional}.</p>
  *
  * <p>Arity-specific nested types ({@code BooleanTuple1} through {@code BooleanTuple9}) expose their components as
  * public final fields {@code _1}, {@code _2}, and so on matching that arity. This sealed hierarchy permits only
@@ -51,7 +51,6 @@ import com.landawn.abacus.util.stream.Stream;
  * {@code boolean} values lack a natural numeric ordering and have no meaningful sum or average.</p>
  *
  * @param <TP> the concrete {@code BooleanTuple} subtype that fluent operations such as {@link #reversed()} return
- * @see PrimitiveTuple
  * @see ByteTuple
  * @see CharTuple
  * @see ShortTuple
@@ -410,7 +409,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * // BooleanTuple.from(new boolean[10]); // throws IllegalArgumentException
      * }</pre>
      *
-     * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values.length}.
+     * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values} being {@code null} or by {@code values.length}.
      * The generic return type is only type-safe when assigned to the matching arity-specific subtype,
      * or to the base tuple type. Assigning to the wrong arity-specific subtype will result in a
      * {@link ClassCastException} at the assignment site.</p>
@@ -701,7 +700,19 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      */
     @Override
     public int hashCode() {
-        return N.hashCode(elements());
+        final boolean[] a = elements();
+
+        if (a.length == 0) {
+            return 1;
+        }
+
+        int result = a[0] ? 1231 : 1237;
+
+        for (int i = 1; i < a.length; i++) {
+            result = 31 * result + (a[i] ? 1231 : 1237);
+        }
+
+        return result;
     }
 
     /**
@@ -715,8 +726,8 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      *       the same boolean values in the same order.</li>
      * </ul>
      *
-     * <p>This method is consistent with {@link #hashCode()}. The non-empty arity-specific subclasses
-     * override this method with an equivalent but specialized implementation that compares fields directly.</p>
+     * <p>This method is consistent with {@link #hashCode()}. The arity-specific subclasses
+     * override this method with an equivalent specialized implementation.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -821,6 +832,54 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         }
 
         /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean[] toArray() {
+            return new boolean[0];
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public BooleanList toList() {
+            return new BooleanList();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws IllegalArgumentException, E {
+            N.checkArgNotNull(action, cs.action);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Stream<Boolean> stream() {
+            return Stream.empty();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int hashCode() {
+            return 1;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            return obj instanceof BooleanTuple0;
+        }
+
+        /**
          * Returns the shared empty boolean array.
          *
          * @return an empty boolean array
@@ -844,6 +903,9 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      *
      */
     public static final class BooleanTuple1 extends BooleanTuple<BooleanTuple1> {
+
+        private static final Boolean[] TRUE_STREAM_ELEMENTS = { Boolean.TRUE };
+        private static final Boolean[] FALSE_STREAM_ELEMENTS = { Boolean.FALSE };
 
         /** The single boolean value stored in this tuple. */
         public final boolean _1;
@@ -998,7 +1060,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          */
         @Override
         public String toString() {
-            return "(" + _1 + ")";
+            return _1 ? "(true)" : "(false)";
         }
 
         /**
@@ -1020,6 +1082,14 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
         }
 
         /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Stream<Boolean> stream() {
+            return Stream.of(_1 ? TRUE_STREAM_ELEMENTS : FALSE_STREAM_ELEMENTS);
+        }
+
+        /**
          * Returns the internal array of boolean elements.
          * The array is lazily initialized on first access.
          * <p><b>&#9888;&#65039; Warning:</b> The returned array is the internal representation of this tuple.
@@ -1031,11 +1101,13 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          */
         @Override
         protected boolean[] elements() {
-            if (elements == null) {
-                elements = new boolean[] { _1 };
+            boolean[] a = elements;
+
+            if (a == null) {
+                elements = a = new boolean[] { _1 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -1043,9 +1115,9 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * A {@code BooleanTuple} containing exactly two {@code boolean} elements.
      * <p>
      * Components are the public final fields {@code _1} and {@code _2}. Besides the operations from
-     * {@link BooleanTuple} and {@link PrimitiveTuple}, this type adds element-unpacking helpers that
+     * {@link BooleanTuple}, this type adds element-unpacking helpers that
      * pass both values to a bi-consumer / bi-function / bi-predicate (distinct from the whole-tuple
-     * {@code accept}/{@code map}/{@code filter} on {@link PrimitiveTuple}):
+     * {@code accept}/{@code map}/{@code filter} on the base tuple type):
      * </p>
      * <ul>
      *   <li>{@link #accept(Throwables.BooleanBiConsumer)} — both elements as primitives</li>
@@ -1197,7 +1269,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * Invokes {@code action} once with both elements ({@code _1}, {@code _2}).
          * <p>
          * This is the element-unpacking overload for pairs. It differs from
-         * {@link PrimitiveTuple#accept(Throwables.Consumer)}, which receives this tuple object, and from
+         * {@link #accept(Throwables.Consumer)}, which receives this tuple object, and from
          * {@link #forEach(Throwables.BooleanConsumer)}, which invokes a consumer once per element.
          * </p>
          *
@@ -1225,7 +1297,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * @throws E if {@code action} throws when invoked with this tuple's elements
          * @see #forEach(Throwables.BooleanConsumer)
          * @see #map(Throwables.BooleanBiFunction)
-         * @see PrimitiveTuple#accept(Throwables.Consumer)
+         * @see #accept(Throwables.Consumer)
          */
         public <E extends Exception> void accept(final Throwables.BooleanBiConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
@@ -1237,7 +1309,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * Applies {@code mapper} to both elements ({@code _1}, {@code _2}) and returns the result.
          * <p>
          * Element-unpacking overload for pairs. Distinct from
-         * {@link PrimitiveTuple#map(Throwables.Function)}, which receives this tuple object as a single argument.
+         * {@link #map(Throwables.Function)}, which receives this tuple object as a single argument.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1255,7 +1327,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          *
          * // All-false pair
          * BooleanTuple.BooleanTuple2 allFalse = BooleanTuple.of(false, false);
-         * boolean neitherTrue = allFalse.map((a, b) -> a || b);   // returns false
+         * boolean anyTrue = allFalse.map((a, b) -> a || b);   // returns false
          * }</pre>
          *
          * @param <U> the type of the result value
@@ -1266,10 +1338,10 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * @throws E if {@code mapper} throws when applied to this tuple's elements
          * @see #accept(Throwables.BooleanBiConsumer)
          * @see #filter(Throwables.BooleanBiPredicate)
-         * @see PrimitiveTuple#map(Throwables.Function)
+         * @see #map(Throwables.Function)
          */
         @MayReturnNull
-        public <U, E extends Exception> U map(final Throwables.BooleanBiFunction<U, E> mapper) throws IllegalArgumentException, E {
+        public <U, E extends Exception> U map(final Throwables.BooleanBiFunction<? extends U, E> mapper) throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2);
@@ -1280,7 +1352,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * ({@code _1}, {@code _2}); otherwise {@link Optional#empty()}.
          * <p>
          * Element-unpacking overload for pairs. Distinct from
-         * {@link PrimitiveTuple#filter(Throwables.Predicate)}, which tests the tuple object as a whole.
+         * {@link #filter(Throwables.Predicate)}, which tests the tuple object as a whole.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1307,7 +1379,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * @throws E if {@code predicate} throws while testing this tuple's elements
          * @see #accept(Throwables.BooleanBiConsumer)
          * @see #map(Throwables.BooleanBiFunction)
-         * @see PrimitiveTuple#filter(Throwables.Predicate)
+         * @see #filter(Throwables.Predicate)
          */
         public <E extends Exception> Optional<BooleanTuple2> filter(final Throwables.BooleanBiPredicate<E> predicate) throws IllegalArgumentException, E {
             N.checkArgNotNull(predicate, cs.predicate);
@@ -1389,7 +1461,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          */
         @Override
         public String toString() {
-            return "(" + _1 + ", " + _2 + ")";
+            return _1 ? (_2 ? "(true, true)" : "(true, false)") : (_2 ? "(false, true)" : "(false, false)");
         }
 
         /**
@@ -1412,11 +1484,13 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          */
         @Override
         protected boolean[] elements() {
-            if (elements == null) {
-                elements = new boolean[] { _1, _2 };
+            boolean[] a = elements;
+
+            if (a == null) {
+                elements = a = new boolean[] { _1, _2 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -1424,10 +1498,10 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * A {@code BooleanTuple} containing exactly three {@code boolean} elements.
      * <p>
      * Components are the public final fields {@code _1}, {@code _2}, and {@code _3}. In addition to
-     * {@link BooleanTuple} / {@link PrimitiveTuple} operations, this type provides element-unpacking
+     * {@link BooleanTuple} operations, this type provides element-unpacking
      * {@link #accept(Throwables.BooleanTriConsumer)}, {@link #map(Throwables.BooleanTriFunction)}, and
      * {@link #filter(Throwables.BooleanTriPredicate)} helpers that pass all three values as primitives
-     * (distinct from the whole-tuple methods on {@link PrimitiveTuple}).
+     * (distinct from the whole-tuple methods on the base tuple type).
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -1443,6 +1517,9 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * }</pre>
      */
     public static final class BooleanTuple3 extends BooleanTuple<BooleanTuple3> {
+
+        private static final String[] TO_STRING_CACHE = { "(false, false, false)", "(false, false, true)", "(false, true, false)", "(false, true, true)",
+                "(true, false, false)", "(true, false, true)", "(true, true, false)", "(true, true, true)" };
 
         /** The first boolean value in this tuple. */
         public final boolean _1;
@@ -1587,7 +1664,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * Invokes {@code action} once with all three elements ({@code _1}, {@code _2}, {@code _3}).
          * <p>
          * Element-unpacking overload for triples. Distinct from
-         * {@link PrimitiveTuple#accept(Throwables.Consumer)} (whole tuple) and
+         * {@link #accept(Throwables.Consumer)} (whole tuple) and
          * {@link #forEach(Throwables.BooleanConsumer)} (one call per element).
          * </p>
          *
@@ -1615,7 +1692,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * @throws E if {@code action} throws when invoked with this tuple's elements
          * @see #forEach(Throwables.BooleanConsumer)
          * @see #map(Throwables.BooleanTriFunction)
-         * @see PrimitiveTuple#accept(Throwables.Consumer)
+         * @see #accept(Throwables.Consumer)
          */
         public <E extends Exception> void accept(final Throwables.BooleanTriConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
@@ -1627,7 +1704,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * Applies {@code mapper} to all three elements ({@code _1}, {@code _2}, {@code _3}) and returns the result.
          * <p>
          * Element-unpacking overload for triples. Distinct from
-         * {@link PrimitiveTuple#map(Throwables.Function)}, which receives this tuple object as a single argument.
+         * {@link #map(Throwables.Function)}, which receives this tuple object as a single argument.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1654,10 +1731,10 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * @throws E if {@code mapper} throws when applied to this tuple's elements
          * @see #accept(Throwables.BooleanTriConsumer)
          * @see #filter(Throwables.BooleanTriPredicate)
-         * @see PrimitiveTuple#map(Throwables.Function)
+         * @see #map(Throwables.Function)
          */
         @MayReturnNull
-        public <U, E extends Exception> U map(final Throwables.BooleanTriFunction<U, E> mapper) throws IllegalArgumentException, E {
+        public <U, E extends Exception> U map(final Throwables.BooleanTriFunction<? extends U, E> mapper) throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2, _3);
@@ -1668,7 +1745,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * ({@code _1}, {@code _2}, {@code _3}); otherwise {@link Optional#empty()}.
          * <p>
          * Element-unpacking overload for triples. Distinct from
-         * {@link PrimitiveTuple#filter(Throwables.Predicate)}, which tests the tuple object as a whole.
+         * {@link #filter(Throwables.Predicate)}, which tests the tuple object as a whole.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1695,7 +1772,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          * @throws E if {@code predicate} throws while testing this tuple's elements
          * @see #accept(Throwables.BooleanTriConsumer)
          * @see #map(Throwables.BooleanTriFunction)
-         * @see PrimitiveTuple#filter(Throwables.Predicate)
+         * @see #filter(Throwables.Predicate)
          */
         public <E extends Exception> Optional<BooleanTuple3> filter(final Throwables.BooleanTriPredicate<E> predicate) throws IllegalArgumentException, E {
             N.checkArgNotNull(predicate, cs.predicate);
@@ -1777,7 +1854,7 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          */
         @Override
         public String toString() {
-            return "(" + _1 + ", " + _2 + ", " + _3 + ")";
+            return TO_STRING_CACHE[(_1 ? 4 : 0) | (_2 ? 2 : 0) | (_3 ? 1 : 0)];
         }
 
         /**
@@ -1800,11 +1877,13 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          */
         @Override
         protected boolean[] elements() {
-            if (elements == null) {
-                elements = new boolean[] { _1, _2, _3 };
+            boolean[] a = elements;
+
+            if (a == null) {
+                elements = a = new boolean[] { _1, _2, _3 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -1813,8 +1892,8 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * The values are accessible through the public final fields {@code _1}, {@code _2}, {@code _3}, and {@code _4}.
      * <p>
      * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
-     * overloads; use {@link #forEach(Throwables.BooleanConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * overloads; use {@link #forEach(Throwables.BooleanConsumer)}, {@link #stream()}, or the inherited whole-tuple helpers on
+     * {@link BooleanTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -2065,11 +2144,13 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          */
         @Override
         protected boolean[] elements() {
-            if (elements == null) {
-                elements = new boolean[] { _1, _2, _3, _4 };
+            boolean[] a = elements;
+
+            if (a == null) {
+                elements = a = new boolean[] { _1, _2, _3, _4 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -2078,8 +2159,8 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * The values are accessible through the public final fields {@code _1} through {@code _5}.
      * <p>
      * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
-     * overloads; use {@link #forEach(Throwables.BooleanConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * overloads; use {@link #forEach(Throwables.BooleanConsumer)}, {@link #stream()}, or the inherited whole-tuple helpers on
+     * {@link BooleanTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -2346,11 +2427,13 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          */
         @Override
         protected boolean[] elements() {
-            if (elements == null) {
-                elements = new boolean[] { _1, _2, _3, _4, _5 };
+            boolean[] a = elements;
+
+            if (a == null) {
+                elements = a = new boolean[] { _1, _2, _3, _4, _5 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -2359,8 +2442,8 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * The values are accessible through the public final fields {@code _1} through {@code _6}.
      * <p>
      * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
-     * overloads; use {@link #forEach(Throwables.BooleanConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * overloads; use {@link #forEach(Throwables.BooleanConsumer)}, {@link #stream()}, or the inherited whole-tuple helpers on
+     * {@link BooleanTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -2648,11 +2731,13 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          */
         @Override
         protected boolean[] elements() {
-            if (elements == null) {
-                elements = new boolean[] { _1, _2, _3, _4, _5, _6 };
+            boolean[] a = elements;
+
+            if (a == null) {
+                elements = a = new boolean[] { _1, _2, _3, _4, _5, _6 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -2661,8 +2746,8 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * The values are accessible through the public final fields {@code _1} through {@code _7}.
      * <p>
      * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
-     * overloads; use {@link #forEach(Throwables.BooleanConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * overloads; use {@link #forEach(Throwables.BooleanConsumer)}, {@link #stream()}, or the inherited whole-tuple helpers on
+     * {@link BooleanTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -2958,11 +3043,13 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          */
         @Override
         protected boolean[] elements() {
-            if (elements == null) {
-                elements = new boolean[] { _1, _2, _3, _4, _5, _6, _7 };
+            boolean[] a = elements;
+
+            if (a == null) {
+                elements = a = new boolean[] { _1, _2, _3, _4, _5, _6, _7 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -2971,8 +3058,8 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * The values are accessible through the public final fields {@code _1} through {@code _8}.
      * <p>
      * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
-     * overloads; use {@link #forEach(Throwables.BooleanConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * overloads; use {@link #forEach(Throwables.BooleanConsumer)}, {@link #stream()}, or the inherited whole-tuple helpers on
+     * {@link BooleanTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -3277,11 +3364,13 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          */
         @Override
         protected boolean[] elements() {
-            if (elements == null) {
-                elements = new boolean[] { _1, _2, _3, _4, _5, _6, _7, _8 };
+            boolean[] a = elements;
+
+            if (a == null) {
+                elements = a = new boolean[] { _1, _2, _3, _4, _5, _6, _7, _8 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -3290,8 +3379,8 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
      * The values are accessible through the public final fields {@code _1} through {@code _9}.
      * <p>
      * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
-     * overloads; use {@link #forEach(Throwables.BooleanConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * overloads; use {@link #forEach(Throwables.BooleanConsumer)}, {@link #stream()}, or the inherited whole-tuple helpers on
+     * {@link BooleanTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -3601,11 +3690,13 @@ public abstract sealed class BooleanTuple<TP extends BooleanTuple<TP>> extends P
          */
         @Override
         protected boolean[] elements() {
-            if (elements == null) {
-                elements = new boolean[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
+            boolean[] a = elements;
+
+            if (a == null) {
+                elements = a = new boolean[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
             }
 
-            return elements;
+            return a;
         }
     }
 

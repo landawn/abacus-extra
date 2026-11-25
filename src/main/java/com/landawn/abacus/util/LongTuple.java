@@ -14,6 +14,7 @@
 
 package com.landawn.abacus.util;
 
+import java.math.BigInteger;
 import java.util.NoSuchElementException;
 
 import com.landawn.abacus.annotation.MayReturnNull;
@@ -37,11 +38,11 @@ import com.landawn.abacus.util.stream.LongStream;
  * <p>The nested tuple types model fixed arities from 0 through 9. Prefer the {@code of(...)} factory
  * overloads to create a specific arity; {@link #from(long[])} is deprecated and retained only for
  * compatibility. The base class supplies aggregate, reversal, containment, conversion, and
- * element-wise functional helpers; {@link PrimitiveTuple} adds whole-tuple
- * {@link PrimitiveTuple#accept(Throwables.Consumer) accept},
- * {@link PrimitiveTuple#map(Throwables.Function) map},
- * {@link PrimitiveTuple#filter(Throwables.Predicate) filter}, and
- * {@link PrimitiveTuple#toOptional() toOptional}.</p>
+ * element-wise functional helpers, along with inherited whole-tuple helpers
+ * {@link #accept(Throwables.Consumer) accept},
+ * {@link #map(Throwables.Function) map},
+ * {@link #filter(Throwables.Predicate) filter}, and
+ * {@link #toOptional() toOptional}.</p>
  *
  * <p>Arity-specific nested types ({@code LongTuple1} through {@code LongTuple9}) expose their components as
  * public final fields {@code _1}, {@code _2}, and so on matching that arity. This sealed hierarchy permits only
@@ -56,7 +57,6 @@ import com.landawn.abacus.util.stream.LongStream;
  * {@link NoSuchElementException}.</p>
  *
  * @param <TP> the concrete {@code LongTuple} subtype that fluent operations such as {@link #reversed()} return
- * @see PrimitiveTuple
  * @see BooleanTuple
  * @see ByteTuple
  * @see CharTuple
@@ -387,7 +387,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * LongTuple.from(new long[10]);                       // throws IllegalArgumentException
      * }</pre>
      *
-     * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values.length}.
+     * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values} being {@code null} or by {@code values.length}.
      * The generic return type is only type-safe when assigned to the matching arity-specific subtype,
      * or to the base tuple type. Assigning to the wrong arity-specific subtype will result in a
      * {@link ClassCastException} at the assignment site.</p>
@@ -620,7 +620,9 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * sorted. For an even arity, this is the arithmetic mean of the two middle values. That differs
      * from {@link #lowerMedian()}, which returns a {@code long} and, for even arities, the lower
      * middle element only. The two middle values are summed exactly before the single rounding to
-     * {@code double}, so the even-arity mean neither overflows nor rounds twice.
+     * {@code double}, so the even-arity mean neither overflows nor rounds twice. Note that widening a
+     * {@code long} with magnitude above {@code 2^53} to {@code double} can lose low-order bits; use
+     * {@link #lowerMedian()} when exact {@code long} precision is required.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -667,7 +669,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         final long sum = first + second;
 
         // Convert the exact sum before dividing; widening the operands first loses near-cancelling values.
-        return ((first ^ sum) & (second ^ sum)) < 0 ? N.median(first, second) : sum / 2d;
+        return ((first ^ sum) & (second ^ sum)) < 0 ? BigInteger.valueOf(first).add(BigInteger.valueOf(second)).doubleValue() / 2d : sum / 2d;
     }
 
     /**
@@ -786,7 +788,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
     /**
      * Returns a new array containing all elements of this tuple.
      * <p>
-     * Creates and returns a defensive copy of the internal element array. Modifications
+     * Creates and returns a new array containing all elements of this tuple in order. Modifications
      * to the returned array do not affect the tuple, maintaining immutability. The
      * returned array has the same length as the tuple's arity.
      * </p>
@@ -961,7 +963,19 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      */
     @Override
     public int hashCode() {
-        return N.hashCode(elements());
+        final long[] a = elements();
+
+        if (a.length == 0) {
+            return 1;
+        }
+
+        int result = Long.hashCode(a[0]);
+
+        for (int i = 1; i < a.length; i++) {
+            result = 31 * result + Long.hashCode(a[i]);
+        }
+
+        return result;
     }
 
     /**
@@ -1151,6 +1165,54 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
         }
 
         /**
+         * {@inheritDoc}
+         */
+        @Override
+        public long[] toArray() {
+            return new long[0];
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public LongList toList() {
+            return new LongList();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.LongConsumer<E> action) throws IllegalArgumentException, E {
+            N.checkArgNotNull(action, cs.action);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public LongStream stream() {
+            return LongStream.empty();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int hashCode() {
+            return 1;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            return obj instanceof LongTuple0;
+        }
+
+        /**
          * Returns a string representation of this empty tuple.
          *
          * @return {@code "()"}
@@ -1327,7 +1389,9 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
 
         /**
          * Returns the statistical median of this one-element tuple as a {@code double}
-         * (the element itself, widened).
+         * (the element itself, widened). Widening a {@code long} with magnitude above {@code 2^53}
+         * to {@code double} can lose low-order bits; use {@link #lowerMedian()} when exact
+         * {@code long} precision is required.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -1524,21 +1588,25 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         protected long[] elements() {
-            if (elements == null) {
-                elements = new long[] { _1 };
+            long[] a = elements;
+
+            if (a == null) {
+                elements = a = new long[] { _1 };
             }
 
-            return elements;
+            return a;
         }
     }
 
     /**
      * A {@code LongTuple} containing exactly two {@code long} elements.
      * <p>
-     * Components are the public final fields {@code _1} and {@code _2}. Besides the operations from
-     * {@link LongTuple} and {@link PrimitiveTuple}, this type adds element-unpacking helpers that
-     * pass both values to a bi-consumer / bi-function / bi-predicate (distinct from the whole-tuple
-     * {@code accept}/{@code map}/{@code filter} on {@link PrimitiveTuple}):
+     * Components are the public final fields {@code _1} and {@code _2}. Besides the operations inherited
+     * from {@link LongTuple}, this type adds element-unpacking helpers that
+     * pass both values to a bi-consumer / bi-function / bi-predicate (distinct from the inherited
+     * whole-tuple {@link #accept(Throwables.Consumer) accept},
+     * {@link #map(Throwables.Function) map}, and
+     * {@link #filter(Throwables.Predicate) filter}):
      * </p>
      * <ul>
      *   <li>{@link #accept(Throwables.LongBiConsumer)} — both elements as primitives</li>
@@ -1619,7 +1687,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public long min() {
-            return N.min(_1, _2);
+            return Math.min(_1, _2);
         }
 
         /**
@@ -1644,7 +1712,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public long max() {
-            return N.max(_1, _2);
+            return Math.max(_1, _2);
         }
 
         /**
@@ -1670,7 +1738,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public long sum() {
-            return N.sum(_1, _2);
+            return _1 + _2;
         }
 
         /**
@@ -1702,13 +1770,22 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2));
+            try {
+                // Left-to-right Math.addExact matches N.average's exact prefix-overflow boundary.
+                return OptionalDouble.of(Math.addExact(_1, _2) / 2d);
+            } catch (final ArithmeticException e) {
+                final long[] a = elements;
+
+                return OptionalDouble.of(a != null ? N.average(a) : N.average(_1, _2));
+            }
         }
 
         /**
          * Returns the statistical median of this pair: the arithmetic mean of both elements as a
          * {@code double}, computed without intermediate {@code long} overflow. The two values are summed
          * exactly before the single rounding to {@code double}, so the result is correctly rounded.
+         * Note that means with magnitude above {@code 2^53} cannot be represented with unit precision in
+         * {@code double}; use {@link #lowerMedian()} when exact {@code long} selection is required.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -1750,7 +1827,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public long lowerMedian() {
-            return N.min(_1, _2);
+            return Math.min(_1, _2);
         }
 
         /**
@@ -1833,7 +1910,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * Invokes {@code action} once with both elements ({@code _1}, {@code _2}).
          * <p>
          * This is the element-unpacking overload for pairs. It differs from
-         * {@link PrimitiveTuple#accept(Throwables.Consumer)}, which receives this tuple object, and from
+         * {@link #accept(Throwables.Consumer)}, which receives this tuple object, and from
          * {@link #forEach(Throwables.LongConsumer)}, which invokes a consumer once per element.
          * </p>
          *
@@ -1864,7 +1941,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @throws E if {@code action} throws when invoked with this tuple's elements
          * @see #forEach(Throwables.LongConsumer)
          * @see #map(Throwables.LongBiFunction)
-         * @see PrimitiveTuple#accept(Throwables.Consumer)
+         * @see #accept(Throwables.Consumer)
          */
         public <E extends Exception> void accept(final Throwables.LongBiConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
@@ -1876,7 +1953,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * Applies {@code mapper} to both elements ({@code _1}, {@code _2}) and returns the result.
          * <p>
          * Element-unpacking overload for pairs. Distinct from
-         * {@link PrimitiveTuple#map(Throwables.Function)}, which receives this tuple object as a single argument.
+         * {@link #map(Throwables.Function)}, which receives this tuple object as a single argument.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1904,10 +1981,10 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @throws E if {@code mapper} throws when applied to this tuple's elements
          * @see #accept(Throwables.LongBiConsumer)
          * @see #filter(Throwables.LongBiPredicate)
-         * @see PrimitiveTuple#map(Throwables.Function)
+         * @see #map(Throwables.Function)
          */
         @MayReturnNull
-        public <U, E extends Exception> U map(final Throwables.LongBiFunction<U, E> mapper) throws IllegalArgumentException, E {
+        public <U, E extends Exception> U map(final Throwables.LongBiFunction<? extends U, E> mapper) throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2);
@@ -1918,7 +1995,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * ({@code _1}, {@code _2}); otherwise {@link Optional#empty()}.
          * <p>
          * Element-unpacking overload for pairs. Distinct from
-         * {@link PrimitiveTuple#filter(Throwables.Predicate)}, which tests the tuple object as a whole.
+         * {@link #filter(Throwables.Predicate)}, which tests the tuple object as a whole.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1945,7 +2022,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @throws E if {@code predicate} throws when testing this tuple's elements
          * @see #accept(Throwables.LongBiConsumer)
          * @see #map(Throwables.LongBiFunction)
-         * @see PrimitiveTuple#filter(Throwables.Predicate)
+         * @see #filter(Throwables.Predicate)
          */
         public <E extends Exception> Optional<LongTuple2> filter(final Throwables.LongBiPredicate<E> predicate) throws IllegalArgumentException, E {
             N.checkArgNotNull(predicate, cs.predicate);
@@ -2055,11 +2132,13 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         protected long[] elements() {
-            if (elements == null) {
-                elements = new long[] { _1, _2 };
+            long[] a = elements;
+
+            if (a == null) {
+                elements = a = new long[] { _1, _2 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -2067,10 +2146,10 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * A {@code LongTuple} containing exactly three {@code long} elements.
      * <p>
      * Components are the public final fields {@code _1}, {@code _2}, and {@code _3}. In addition to
-     * {@link LongTuple} / {@link PrimitiveTuple} operations, this type provides element-unpacking
+     * inherited {@link LongTuple} operations, this type provides element-unpacking
      * {@link #accept(Throwables.LongTriConsumer)}, {@link #map(Throwables.LongTriFunction)}, and
      * {@link #filter(Throwables.LongTriPredicate)} helpers that pass all three values as primitives
-     * (distinct from the whole-tuple methods on {@link PrimitiveTuple}).
+     * (distinct from the inherited whole-tuple methods on {@link LongTuple}).
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -2150,7 +2229,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public long min() {
-            return N.min(_1, _2, _3);
+            return Math.min(Math.min(_1, _2), _3);
         }
 
         /**
@@ -2175,7 +2254,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public long max() {
-            return N.max(_1, _2, _3);
+            return Math.max(Math.max(_1, _2), _3);
         }
 
         /**
@@ -2201,7 +2280,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public long sum() {
-            return N.sum(_1, _2, _3);
+            return _1 + _2 + _3;
         }
 
         /**
@@ -2231,7 +2310,15 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3));
+            try {
+                // Left-to-right Math.addExact matches N.average's exact prefix-overflow boundary.
+                final long sum = Math.addExact(Math.addExact(_1, _2), _3);
+                return OptionalDouble.of(sum / 3d);
+            } catch (final ArithmeticException e) {
+                final long[] a = elements;
+
+                return OptionalDouble.of(a != null ? N.average(a) : N.average(_1, _2, _3));
+            }
         }
 
         /**
@@ -2239,7 +2326,9 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * <p>
          * With three elements the middle value when sorted is both the lower median and the
          * statistical median; the return type is still {@code double} for API consistency with
-         * even-arity tuples.
+         * even-arity tuples. Widening a {@code long} with magnitude above {@code 2^53} to
+         * {@code double} can lose low-order bits; use {@link #lowerMedian()} when exact
+         * {@code long} precision is required.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -2365,7 +2454,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * Invokes {@code action} once with all three elements ({@code _1}, {@code _2}, {@code _3}).
          * <p>
          * Element-unpacking overload for triples. Distinct from
-         * {@link PrimitiveTuple#accept(Throwables.Consumer)} (whole tuple) and
+         * {@link #accept(Throwables.Consumer)} (whole tuple) and
          * {@link #forEach(Throwables.LongConsumer)} (one call per element).
          * </p>
          *
@@ -2396,7 +2485,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @throws E if {@code action} throws when invoked with this tuple's elements
          * @see #forEach(Throwables.LongConsumer)
          * @see #map(Throwables.LongTriFunction)
-         * @see PrimitiveTuple#accept(Throwables.Consumer)
+         * @see #accept(Throwables.Consumer)
          */
         public <E extends Exception> void accept(final Throwables.LongTriConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
@@ -2408,7 +2497,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * Applies {@code mapper} to all three elements ({@code _1}, {@code _2}, {@code _3}) and returns the result.
          * <p>
          * Element-unpacking overload for triples. Distinct from
-         * {@link PrimitiveTuple#map(Throwables.Function)}, which receives this tuple object as a single argument.
+         * {@link #map(Throwables.Function)}, which receives this tuple object as a single argument.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -2436,10 +2525,10 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @throws E if {@code mapper} throws when applied to this tuple's elements
          * @see #accept(Throwables.LongTriConsumer)
          * @see #filter(Throwables.LongTriPredicate)
-         * @see PrimitiveTuple#map(Throwables.Function)
+         * @see #map(Throwables.Function)
          */
         @MayReturnNull
-        public <U, E extends Exception> U map(final Throwables.LongTriFunction<U, E> mapper) throws IllegalArgumentException, E {
+        public <U, E extends Exception> U map(final Throwables.LongTriFunction<? extends U, E> mapper) throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2, _3);
@@ -2450,7 +2539,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * ({@code _1}, {@code _2}, {@code _3}); otherwise {@link Optional#empty()}.
          * <p>
          * Element-unpacking overload for triples. Distinct from
-         * {@link PrimitiveTuple#filter(Throwables.Predicate)}, which tests the tuple object as a whole.
+         * {@link #filter(Throwables.Predicate)}, which tests the tuple object as a whole.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -2477,7 +2566,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          * @throws E if {@code predicate} throws when testing this tuple's elements
          * @see #accept(Throwables.LongTriConsumer)
          * @see #map(Throwables.LongTriFunction)
-         * @see PrimitiveTuple#filter(Throwables.Predicate)
+         * @see #filter(Throwables.Predicate)
          */
         public <E extends Exception> Optional<LongTuple3> filter(final Throwables.LongTriPredicate<E> predicate) throws IllegalArgumentException, E {
             N.checkArgNotNull(predicate, cs.predicate);
@@ -2587,11 +2676,13 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         protected long[] elements() {
-            if (elements == null) {
-                elements = new long[] { _1, _2, _3 };
+            long[] a = elements;
+
+            if (a == null) {
+                elements = a = new long[] { _1, _2, _3 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -2600,8 +2691,8 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * <p>
      * Components are public final fields {@code _1}…{@code _4}. Unlike arity 2–3, this type does not
      * add element-unpacking {@code accept}/{@code map}/{@code filter} overloads; use
-     * {@link #forEach(Throwables.LongConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * {@link #forEach(Throwables.LongConsumer)}, {@link #stream()}, or the inherited whole-tuple
+     * helpers on {@link LongTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -2686,7 +2777,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public long min() {
-            return N.min(_1, _2, _3, _4);
+            return Math.min(Math.min(_1, _2), Math.min(_3, _4));
         }
 
         /**
@@ -2711,7 +2802,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public long max() {
-            return N.max(_1, _2, _3, _4);
+            return Math.max(Math.max(_1, _2), Math.max(_3, _4));
         }
 
         /**
@@ -2737,7 +2828,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public long sum() {
-            return N.sum(_1, _2, _3, _4);
+            return _1 + _2 + _3 + _4;
         }
 
         /**
@@ -2768,7 +2859,70 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4));
+            try {
+                // Left-to-right Math.addExact matches N.average's exact prefix-overflow boundary.
+                long sum = Math.addExact(_1, _2);
+                sum = Math.addExact(sum, _3);
+                sum = Math.addExact(sum, _4);
+                return OptionalDouble.of(sum / 4d);
+            } catch (final ArithmeticException e) {
+                final long[] a = elements;
+
+                return OptionalDouble.of(a != null ? N.average(a) : N.average(_1, _2, _3, _4));
+            }
+        }
+
+        /**
+         * Returns the statistical median of this quadruple: the arithmetic mean of the two middle
+         * elements when sorted, as a {@code double}, computed without intermediate {@code long}
+         * overflow and rounded once. Note that means with magnitude above {@code 2^53} cannot be
+         * represented with unit precision in {@code double}; use {@link #lowerMedian()} when exact
+         * {@code long} selection is required.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.of(1L, 2L, 3L, 4L).median();     // 2.5
+         * LongTuple.of(4L, 1L, 3L, 2L).median();     // 2.5
+         * LongTuple.of(-2L, -1L, 1L, 2L).median();   // 0.0
+         * }</pre>
+         *
+         * @return the mean of the two middle values as a {@code double}, correctly rounded
+         * @see #lowerMedian()
+         */
+        @Override
+        public double median() {
+            // 4-element sorting network: drop min(lo1, lo2) and max(hi1, hi2) to isolate the two middle values.
+            final long lo1 = Math.min(_1, _2);
+            final long hi1 = Math.max(_1, _2);
+            final long lo2 = Math.min(_3, _4);
+            final long hi2 = Math.max(_3, _4);
+
+            return medianOf(Math.max(lo1, lo2), Math.min(hi1, hi2));
+        }
+
+        /**
+         * Returns the lower median of this quadruple: the lower of the two middle signed values
+         * when sorted.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.of(1L, 2L, 3L, 4L).lowerMedian();     // 2L
+         * LongTuple.of(4L, 1L, 3L, 2L).lowerMedian();     // 2L
+         * LongTuple.of(-2L, -1L, 1L, 2L).lowerMedian();   // -1L
+         * }</pre>
+         *
+         * @return the lower of the two middle long values when sorted
+         * @see #median()
+         */
+        @Override
+        public long lowerMedian() {
+            // 4-element sorting network: lower middle is min(max(lo1, lo2), min(hi1, hi2)).
+            final long lo1 = Math.min(_1, _2);
+            final long hi1 = Math.max(_1, _2);
+            final long lo2 = Math.min(_3, _4);
+            final long hi2 = Math.max(_3, _4);
+
+            return Math.min(Math.max(lo1, lo2), Math.min(hi1, hi2));
         }
 
         /**
@@ -2968,11 +3122,13 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         protected long[] elements() {
-            if (elements == null) {
-                elements = new long[] { _1, _2, _3, _4 };
+            long[] a = elements;
+
+            if (a == null) {
+                elements = a = new long[] { _1, _2, _3, _4 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -2981,8 +3137,8 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _5}.
      * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter} overloads;
-     * use {@link #forEach(Throwables.LongConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * use {@link #forEach(Throwables.LongConsumer)}, {@link #stream()}, or the inherited whole-tuple
+     * helpers on {@link LongTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -3072,7 +3228,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public long min() {
-            return N.min(_1, _2, _3, _4, _5);
+            return Math.min(Math.min(Math.min(_1, _2), Math.min(_3, _4)), _5);
         }
 
         /**
@@ -3097,7 +3253,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public long max() {
-            return N.max(_1, _2, _3, _4, _5);
+            return Math.max(Math.max(Math.max(_1, _2), Math.max(_3, _4)), _5);
         }
 
         /**
@@ -3123,7 +3279,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public long sum() {
-            return N.sum(_1, _2, _3, _4, _5);
+            return _1 + _2 + _3 + _4 + _5;
         }
 
         /**
@@ -3153,7 +3309,75 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5));
+            try {
+                // Left-to-right Math.addExact matches N.average's exact prefix-overflow boundary.
+                long sum = Math.addExact(_1, _2);
+                sum = Math.addExact(sum, _3);
+                sum = Math.addExact(sum, _4);
+                sum = Math.addExact(sum, _5);
+                return OptionalDouble.of(sum / 5d);
+            } catch (final ArithmeticException e) {
+                final long[] a = elements;
+
+                return OptionalDouble.of(a != null ? N.average(a) : N.average(_1, _2, _3, _4, _5));
+            }
+        }
+
+        /**
+         * Returns the statistical median of this quintuple as a {@code double}.
+         * <p>
+         * With five elements the middle value when sorted is both the lower median and the
+         * statistical median. Widening a {@code long} with magnitude above {@code 2^53} to
+         * {@code double} can lose low-order bits; use {@link #lowerMedian()} when exact
+         * {@code long} precision is required.
+         * </p>
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.of(1L, 2L, 3L, 4L, 5L).median();     // 3.0
+         * LongTuple.of(5L, 1L, 4L, 2L, 3L).median();     // 3.0
+         * LongTuple.of(-2L, -1L, 0L, 1L, 2L).median();   // 0.0
+         * }</pre>
+         *
+         * @return the middle value when sorted, as a {@code double}
+         * @see #lowerMedian()
+         */
+        @Override
+        public double median() {
+            return lowerMedian();
+        }
+
+        /**
+         * Returns the lower median of this quintuple: the middle signed value when the five
+         * elements are sorted.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * LongTuple.of(1L, 2L, 3L, 4L, 5L).lowerMedian();     // 3L
+         * LongTuple.of(5L, 1L, 4L, 2L, 3L).lowerMedian();     // 3L
+         * LongTuple.of(-2L, -1L, 0L, 1L, 2L).lowerMedian();   // 0L
+         * }</pre>
+         *
+         * @return the middle long value when sorted
+         * @see #median()
+         */
+        @Override
+        public long lowerMedian() {
+            // 6-comparison selection network for the median of 5 elements.
+            final long a = Math.min(_1, _2);
+            final long b = Math.max(_1, _2);
+            final long c = Math.min(_3, _4);
+            final long d = Math.max(_3, _4);
+
+            if (a < c) {
+                final long e = Math.min(b, _5);
+                final long f = Math.max(b, _5);
+                return e < c ? Math.min(c, f) : Math.min(e, d);
+            } else {
+                final long e = Math.min(d, _5);
+                final long f = Math.max(d, _5);
+                return e < a ? Math.min(a, f) : Math.min(e, b);
+            }
         }
 
         /**
@@ -3353,11 +3577,13 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         protected long[] elements() {
-            if (elements == null) {
-                elements = new long[] { _1, _2, _3, _4, _5 };
+            long[] a = elements;
+
+            if (a == null) {
+                elements = a = new long[] { _1, _2, _3, _4, _5 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -3366,8 +3592,8 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _6}.
      * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter} overloads;
-     * use {@link #forEach(Throwables.LongConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * use {@link #forEach(Throwables.LongConsumer)}, {@link #stream()}, or the inherited whole-tuple
+     * helpers on {@link LongTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -3460,7 +3686,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public long min() {
-            return N.min(_1, _2, _3, _4, _5, _6);
+            return Math.min(Math.min(Math.min(_1, _2), Math.min(_3, _4)), Math.min(_5, _6));
         }
 
         /**
@@ -3485,7 +3711,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public long max() {
-            return N.max(_1, _2, _3, _4, _5, _6);
+            return Math.max(Math.max(Math.max(_1, _2), Math.max(_3, _4)), Math.max(_5, _6));
         }
 
         /**
@@ -3511,7 +3737,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public long sum() {
-            return N.sum(_1, _2, _3, _4, _5, _6);
+            return _1 + _2 + _3 + _4 + _5 + _6;
         }
 
         /**
@@ -3541,7 +3767,19 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6));
+            try {
+                // Left-to-right Math.addExact matches N.average's exact prefix-overflow boundary.
+                long sum = Math.addExact(_1, _2);
+                sum = Math.addExact(sum, _3);
+                sum = Math.addExact(sum, _4);
+                sum = Math.addExact(sum, _5);
+                sum = Math.addExact(sum, _6);
+                return OptionalDouble.of(sum / 6d);
+            } catch (final ArithmeticException e) {
+                final long[] a = elements;
+
+                return OptionalDouble.of(a != null ? N.average(a) : N.average(_1, _2, _3, _4, _5, _6));
+            }
         }
 
         /**
@@ -3743,11 +3981,13 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         protected long[] elements() {
-            if (elements == null) {
-                elements = new long[] { _1, _2, _3, _4, _5, _6 };
+            long[] a = elements;
+
+            if (a == null) {
+                elements = a = new long[] { _1, _2, _3, _4, _5, _6 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -3756,8 +3996,8 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _7}.
      * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter} overloads;
-     * use {@link #forEach(Throwables.LongConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * use {@link #forEach(Throwables.LongConsumer)}, {@link #stream()}, or the inherited whole-tuple
+     * helpers on {@link LongTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -3852,7 +4092,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public long min() {
-            return N.min(_1, _2, _3, _4, _5, _6, _7);
+            return Math.min(Math.min(Math.min(_1, _2), Math.min(_3, _4)), Math.min(Math.min(_5, _6), _7));
         }
 
         /**
@@ -3874,7 +4114,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public long max() {
-            return N.max(_1, _2, _3, _4, _5, _6, _7);
+            return Math.max(Math.max(Math.max(_1, _2), Math.max(_3, _4)), Math.max(Math.max(_5, _6), _7));
         }
 
         /**
@@ -3896,7 +4136,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public long sum() {
-            return N.sum(_1, _2, _3, _4, _5, _6, _7);
+            return _1 + _2 + _3 + _4 + _5 + _6 + _7;
         }
 
         /**
@@ -3923,7 +4163,20 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7));
+            try {
+                // Left-to-right Math.addExact matches N.average's exact prefix-overflow boundary.
+                long sum = Math.addExact(_1, _2);
+                sum = Math.addExact(sum, _3);
+                sum = Math.addExact(sum, _4);
+                sum = Math.addExact(sum, _5);
+                sum = Math.addExact(sum, _6);
+                sum = Math.addExact(sum, _7);
+                return OptionalDouble.of(sum / 7d);
+            } catch (final ArithmeticException e) {
+                final long[] a = elements;
+
+                return OptionalDouble.of(a != null ? N.average(a) : N.average(_1, _2, _3, _4, _5, _6, _7));
+            }
         }
 
         /**
@@ -4093,11 +4346,13 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         protected long[] elements() {
-            if (elements == null) {
-                elements = new long[] { _1, _2, _3, _4, _5, _6, _7 };
+            long[] a = elements;
+
+            if (a == null) {
+                elements = a = new long[] { _1, _2, _3, _4, _5, _6, _7 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -4106,8 +4361,8 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _8}.
      * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter} overloads;
-     * use {@link #forEach(Throwables.LongConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * use {@link #forEach(Throwables.LongConsumer)}, {@link #stream()}, or the inherited whole-tuple
+     * helpers on {@link LongTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -4209,7 +4464,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public long min() {
-            return N.min(_1, _2, _3, _4, _5, _6, _7, _8);
+            return Math.min(Math.min(Math.min(_1, _2), Math.min(_3, _4)), Math.min(Math.min(_5, _6), Math.min(_7, _8)));
         }
 
         /**
@@ -4231,7 +4486,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public long max() {
-            return N.max(_1, _2, _3, _4, _5, _6, _7, _8);
+            return Math.max(Math.max(Math.max(_1, _2), Math.max(_3, _4)), Math.max(Math.max(_5, _6), Math.max(_7, _8)));
         }
 
         /**
@@ -4253,7 +4508,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public long sum() {
-            return N.sum(_1, _2, _3, _4, _5, _6, _7, _8);
+            return _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8;
         }
 
         /**
@@ -4281,7 +4536,21 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7, _8));
+            try {
+                // Left-to-right Math.addExact matches N.average's exact prefix-overflow boundary.
+                long sum = Math.addExact(_1, _2);
+                sum = Math.addExact(sum, _3);
+                sum = Math.addExact(sum, _4);
+                sum = Math.addExact(sum, _5);
+                sum = Math.addExact(sum, _6);
+                sum = Math.addExact(sum, _7);
+                sum = Math.addExact(sum, _8);
+                return OptionalDouble.of(sum / 8d);
+            } catch (final ArithmeticException e) {
+                final long[] a = elements;
+
+                return OptionalDouble.of(a != null ? N.average(a) : N.average(_1, _2, _3, _4, _5, _6, _7, _8));
+            }
         }
 
         /**
@@ -4455,11 +4724,13 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         protected long[] elements() {
-            if (elements == null) {
-                elements = new long[] { _1, _2, _3, _4, _5, _6, _7, _8 };
+            long[] a = elements;
+
+            if (a == null) {
+                elements = a = new long[] { _1, _2, _3, _4, _5, _6, _7, _8 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -4468,8 +4739,8 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _9}.
      * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter} overloads;
-     * use {@link #forEach(Throwables.LongConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * use {@link #forEach(Throwables.LongConsumer)}, {@link #stream()}, or the inherited whole-tuple
+     * helpers on {@link LongTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -4575,7 +4846,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public long min() {
-            return N.min(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+            return Math.min(Math.min(Math.min(Math.min(_1, _2), Math.min(_3, _4)), Math.min(Math.min(_5, _6), Math.min(_7, _8))), _9);
         }
 
         /**
@@ -4597,7 +4868,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public long max() {
-            return N.max(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+            return Math.max(Math.max(Math.max(Math.max(_1, _2), Math.max(_3, _4)), Math.max(Math.max(_5, _6), Math.max(_7, _8))), _9);
         }
 
         /**
@@ -4619,7 +4890,7 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public long sum() {
-            return N.sum(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+            return _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 + _9;
         }
 
         /**
@@ -4646,7 +4917,22 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7, _8, _9));
+            try {
+                // Left-to-right Math.addExact matches N.average's exact prefix-overflow boundary.
+                long sum = Math.addExact(_1, _2);
+                sum = Math.addExact(sum, _3);
+                sum = Math.addExact(sum, _4);
+                sum = Math.addExact(sum, _5);
+                sum = Math.addExact(sum, _6);
+                sum = Math.addExact(sum, _7);
+                sum = Math.addExact(sum, _8);
+                sum = Math.addExact(sum, _9);
+                return OptionalDouble.of(sum / 9d);
+            } catch (final ArithmeticException e) {
+                final long[] a = elements;
+
+                return OptionalDouble.of(a != null ? N.average(a) : N.average(_1, _2, _3, _4, _5, _6, _7, _8, _9));
+            }
         }
 
         /**
@@ -4821,11 +5107,13 @@ public abstract sealed class LongTuple<TP extends LongTuple<TP>> extends Primiti
          */
         @Override
         protected long[] elements() {
-            if (elements == null) {
-                elements = new long[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
+            long[] a = elements;
+
+            if (a == null) {
+                elements = a = new long[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
             }
 
-            return elements;
+            return a;
         }
     }
 

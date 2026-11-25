@@ -2173,5 +2173,85 @@ class ArraysShapeTest {
             boolean[] largeFlattened = Arrays.flatten(largeNested);
             assertEquals(10000, largeFlattened.length);
         }
+
+        @Test
+        void reshape_2DAnd3D_maxValueAndBoundaryCases() {
+            // columnCount == Integer.MAX_VALUE across all 8 primitives and object arrays
+            assertArrayEquals(new boolean[][] { { true, false } }, Arrays.reshape(new boolean[] { true, false }, Integer.MAX_VALUE));
+            assertArrayEquals(new char[][] { { 'a', 'b' } }, Arrays.reshape(new char[] { 'a', 'b' }, Integer.MAX_VALUE));
+            assertArrayEquals(new byte[][] { { 1, 2 } }, Arrays.reshape(new byte[] { 1, 2 }, Integer.MAX_VALUE));
+            assertArrayEquals(new short[][] { { 1, 2 } }, Arrays.reshape(new short[] { 1, 2 }, Integer.MAX_VALUE));
+            assertArrayEquals(new int[][] { { 1, 2, 3 } }, Arrays.reshape(new int[] { 1, 2, 3 }, Integer.MAX_VALUE));
+            assertArrayEquals(new long[][] { { 7L } }, Arrays.reshape(new long[] { 7L }, Integer.MAX_VALUE));
+            assertArrayEquals(new float[][] { { 1.5f, 2.5f } }, Arrays.reshape(new float[] { 1.5f, 2.5f }, Integer.MAX_VALUE));
+            assertArrayEquals(new double[][] { { 1.5, 2.5 } }, Arrays.reshape(new double[] { 1.5, 2.5 }, Integer.MAX_VALUE));
+            assertArrayEquals(new String[][] { { "a", "b" } }, ff.reshape(new String[] { "a", "b" }, Integer.MAX_VALUE));
+            assertEquals(0, ff.reshape(new String[0], Integer.MAX_VALUE).length);
+
+            // 3D with rowCount == Integer.MAX_VALUE and/or columnCount == Integer.MAX_VALUE across all 8 primitives
+            assertArrayEquals(new boolean[][][] { { { true, false }, { true } } }, Arrays.reshape(new boolean[] { true, false, true }, Integer.MAX_VALUE, 2));
+            assertArrayEquals(new char[][][] { { { 'a', 'b' }, { 'c' } } }, Arrays.reshape(new char[] { 'a', 'b', 'c' }, Integer.MAX_VALUE, 2));
+            assertArrayEquals(new byte[][][] { { { 1, 2 }, { 3 } } }, Arrays.reshape(new byte[] { 1, 2, 3 }, Integer.MAX_VALUE, 2));
+            assertArrayEquals(new short[][][] { { { 1, 2 }, { 3 } } }, Arrays.reshape(new short[] { 1, 2, 3 }, Integer.MAX_VALUE, 2));
+            assertArrayEquals(new int[][][] { { { 1, 2 }, { 3, 4 }, { 5 } } }, Arrays.reshape(new int[] { 1, 2, 3, 4, 5 }, Integer.MAX_VALUE, 2));
+            assertArrayEquals(new int[][][] { { { 1, 2, 3, 4, 5 } } }, Arrays.reshape(new int[] { 1, 2, 3, 4, 5 }, 2, Integer.MAX_VALUE));
+            assertArrayEquals(new int[][][] { { { 1, 2, 3 } } }, Arrays.reshape(new int[] { 1, 2, 3 }, Integer.MAX_VALUE, Integer.MAX_VALUE));
+            assertArrayEquals(new long[][][] { { { 1L, 2L }, { 3L } } }, Arrays.reshape(new long[] { 1L, 2L, 3L }, Integer.MAX_VALUE, 2));
+            assertArrayEquals(new float[][][] { { { 1f, 2f }, { 3f } } }, Arrays.reshape(new float[] { 1f, 2f, 3f }, Integer.MAX_VALUE, 2));
+            assertArrayEquals(new double[][][] { { { 1d, 2d }, { 3d } } }, Arrays.reshape(new double[] { 1d, 2d, 3d }, Integer.MAX_VALUE, 2));
+            assertArrayEquals(new int[][][] { { { 42 } } }, Arrays.reshape(new int[] { 42 }, 1, 1));
+            assertArrayEquals(new String[][][] { { { "a", "b" }, { "c" } } }, fff.reshape(new String[] { "a", "b", "c" }, Integer.MAX_VALUE, 2));
+            assertArrayEquals(new String[][][] { { { "a", "b", "c" } } }, fff.reshape(new String[] { "a", "b", "c" }, Integer.MAX_VALUE, Integer.MAX_VALUE));
+            assertEquals(0, fff.reshape(new String[0], Integer.MAX_VALUE, Integer.MAX_VALUE).length);
+
+            // Null primitive array still validates non-positive dimensions first
+            assertThrows(IllegalArgumentException.class, () -> Arrays.reshape((boolean[]) null, 0));
+            assertThrows(IllegalArgumentException.class, () -> Arrays.reshape((boolean[]) null, 0, 1));
+            assertThrows(IllegalArgumentException.class, () -> Arrays.reshape((int[]) null, 0));
+            assertThrows(IllegalArgumentException.class, () -> Arrays.reshape((int[]) null, 1, 0));
+
+            // Exact multiples vs partial last row/block
+            assertArrayEquals(new int[][][] { { { 1, 2 }, { 3, 4 } }, { { 5, 6 }, { 7, 8 } } }, Arrays.reshape(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 }, 2, 2));
+            assertArrayEquals(new int[][][] { { { 1, 2 }, { 3, 4 } }, { { 5, 6 } } }, Arrays.reshape(new int[] { 1, 2, 3, 4, 5, 6 }, 2, 2));
+            assertArrayEquals(new int[][][] { { { 1, 2 }, { 3, 4 } }, { { 5, 6 }, { 7 } } }, Arrays.reshape(new int[] { 1, 2, 3, 4, 5, 6, 7 }, 2, 2));
+            assertArrayEquals(new String[][][] { { { "1", "2" }, { "3", "4" } }, { { "5", "6" }, { "7" } } },
+                    fff.reshape(new String[] { "1", "2", "3", "4", "5", "6", "7" }, 2, 2));
+        }
+
+        @Test
+        void totalElementCount_3D_aliasedLargePlanesAndJaggedNullPlanes() {
+            // Jagged/null planes across all 8 primitive types + Object[][][]
+            assertEquals(3L, Arrays.totalElementCount(new boolean[][][] { null, {}, { null, {}, { true, false } }, { { true } } }));
+            assertEquals(3L, Arrays.totalElementCount(new char[][][] { null, {}, { null, {}, { 'a', 'b' } }, { { 'c' } } }));
+            assertEquals(3L, Arrays.totalElementCount(new byte[][][] { null, {}, { null, {}, { 1, 2 } }, { { 3 } } }));
+            assertEquals(3L, Arrays.totalElementCount(new short[][][] { null, {}, { null, {}, { 1, 2 } }, { { 3 } } }));
+            assertEquals(3L, Arrays.totalElementCount(new int[][][] { null, {}, { null, {}, { 1, 2 } }, { { 3 } } }));
+            assertEquals(3L, Arrays.totalElementCount(new long[][][] { null, {}, { null, {}, { 1L, 2L } }, { { 3L } } }));
+            assertEquals(3L, Arrays.totalElementCount(new float[][][] { null, {}, { null, {}, { 1f, 2f } }, { { 3f } } }));
+            assertEquals(3L, Arrays.totalElementCount(new double[][][] { null, {}, { null, {}, { 1d, 2d } }, { { 3d } } }));
+            assertEquals(3L, fff.totalElementCount(new String[][][] { null, {}, { null, {}, { "a", "b" } }, { { "c" } } }));
+
+            // Aliased 3D planes whose total exceeds Integer.MAX_VALUE (300 * 1_000 * 10_000 = 3_000_000_000L)
+            final int[] intRow = new int[10_000];
+            final int[][] intPlane = new int[1_000][];
+            java.util.Arrays.fill(intPlane, intRow);
+            final int[][][] intCube = new int[300][][];
+            java.util.Arrays.fill(intCube, intPlane);
+            assertEquals(3_000_000_000L, Arrays.totalElementCount(intCube));
+            assertThrows(ArithmeticException.class, () -> Arrays.flatten(intCube));
+
+            final String[] objRow = new String[10_000];
+            final String[][] objPlane = new String[1_000][];
+            java.util.Arrays.fill(objPlane, objRow);
+            final String[][][] objCube = new String[300][][];
+            java.util.Arrays.fill(objCube, objPlane);
+            assertEquals(3_000_000_000L, fff.totalElementCount(objCube));
+            assertThrows(ArithmeticException.class, () -> fff.flatten(objCube));
+
+            // Per-plane long accumulation boundary in addElementCountExact
+            final long hugePlane = 1L << 61;
+            assertEquals(hugePlane * 2L, Arrays.addElementCountExact(hugePlane, hugePlane));
+            assertThrows(ArithmeticException.class, () -> Arrays.addElementCountExact(hugePlane * 3L, hugePlane * 2L));
+        }
     }
 }

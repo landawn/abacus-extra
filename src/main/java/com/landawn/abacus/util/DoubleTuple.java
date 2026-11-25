@@ -37,19 +37,23 @@ import com.landawn.abacus.util.stream.DoubleStream;
  * <p>The nested tuple types model fixed arities from 0 through 9. Prefer the {@code of(...)} factory
  * overloads to create a specific arity; {@link #from(double[])} is deprecated and retained only for
  * compatibility. The base class supplies aggregate, reversal, containment, conversion, and
- * element-wise functional helpers; {@link PrimitiveTuple} adds whole-tuple
- * {@link PrimitiveTuple#accept(Throwables.Consumer) accept},
- * {@link PrimitiveTuple#map(Throwables.Function) map},
- * {@link PrimitiveTuple#filter(Throwables.Predicate) filter}, and
- * {@link PrimitiveTuple#toOptional() toOptional}.</p>
+ * element-wise functional helpers, along with inherited whole-tuple helpers
+ * {@link #accept(Throwables.Consumer) accept},
+ * {@link #map(Throwables.Function) map},
+ * {@link #filter(Throwables.Predicate) filter}, and
+ * {@link #toOptional() toOptional}.</p>
  *
  * <p>Arity-specific nested types ({@code DoubleTuple1} through {@code DoubleTuple9}) expose their components as
  * public final fields {@code _1}, {@code _2}, and so on matching that arity. This sealed hierarchy permits only
  * the built-in nested types; all instances are immutable.</p>
  *
- * <p><b>Numeric semantics:</b> Aggregates follow IEEE-754 {@code double} arithmetic: a {@code NaN}
- * element propagates to the results of {@link #min()}, {@link #max()}, {@link #sum()}, and
- * {@link #average()}. {@link #lowerMedian()}, {@link #contains(double)}, and {@link #equals(Object)}
+ * <p><b>Numeric semantics:</b> {@link #min()} and {@link #max()} follow {@link Math#min(double, double)}
+ * and {@link Math#max(double, double)} (propagating {@code NaN} and treating {@code -0.0} as less than
+ * {@code +0.0}); {@link #sum()} and {@link #average()} delegate to {@link N#sum(double...)} and
+ * {@link N#average(double...)} (compensated, overflow-safe summation with {@code NaN} propagation), except that a
+ * one-element tuple returns its element as is, so {@code DoubleTuple.of(-0.0).sum()} is {@code -0.0} whereas
+ * {@code N.sum(-0.0)} is {@code 0.0}.
+ * {@link #median()}, {@link #lowerMedian()}, {@link #contains(double)}, and {@link #equals(Object)}
  * order and compare elements with {@link Double#compare(double, double)} semantics ({@code NaN} equal
  * to itself and greater than any other value, {@code -0.0} less than {@code 0.0}).
  * {@link #median()} is the conventional statistical median as a {@code double} (mean of the two middle
@@ -58,7 +62,6 @@ import com.landawn.abacus.util.stream.DoubleStream;
  * {@link NoSuchElementException}.</p>
  *
  * @param <TP> the concrete {@code DoubleTuple} subtype that fluent operations such as {@link #reversed()} return
- * @see PrimitiveTuple
  * @see BooleanTuple
  * @see ByteTuple
  * @see CharTuple
@@ -379,7 +382,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * // DoubleTuple.from(new double[10]);   // throws IllegalArgumentException
      * }</pre>
      *
-     * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values.length}.
+     * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values} being {@code null} or by {@code values.length}.
      * The generic return type is only type-safe when assigned to the matching arity-specific subtype,
      * or to the base tuple type. Assigning to the wrong arity-specific subtype will result in a
      * {@link ClassCastException} at the assignment site.</p>
@@ -628,7 +631,8 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * {@link #lowerMedian()}, which returns only the lower middle element for even arities.
      * </p>
      * <p>
-     * The even-arity mean is IEEE-754 arithmetic, so a tuple whose two middle values are
+     * For even arities, the mean of the two middle values uses the same midpoint as {@link N#median(double...)},
+     * avoiding overflow for large finite values such as {@link Double#MAX_VALUE}, while a middle pair of
      * {@code +Infinity} and {@code -Infinity} yields {@code NaN} even though neither {@link #min()} nor
      * {@link #max()} is {@code NaN} for that tuple. (A tuple that actually contains {@code NaN}
      * propagates it through {@code min()} and {@code max()} instead, while {@code median()} orders it
@@ -665,7 +669,14 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         java.util.Arrays.sort(a);
         final int middle = a.length / 2;
 
-        return a.length % 2 == 0 ? N.median(a[middle - 1], a[middle]) : a[middle];
+        return a.length % 2 == 0 ? medianOf(a[middle - 1], a[middle]) : a[middle];
+    }
+
+    private static double medianOf(final double first, final double second) {
+        final double sum = first + second;
+
+        // Halve before adding only when finite addition overflows to +/-Infinity; otherwise sum / 2d avoids subnormal underflow and double rounding.
+        return Double.isInfinite(sum) && Double.isFinite(first) && Double.isFinite(second) ? first / 2d + second / 2d : sum / 2d;
     }
 
     /**
@@ -786,7 +797,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
     /**
      * Returns a new array containing all elements of this tuple.
      * <p>
-     * This method creates a defensive copy of the internal array. Changes to the
+     * Creates and returns a new array containing all elements of this tuple in order. Changes to the
      * returned array do not affect the tuple because tuples are immutable.
      * </p>
      *
@@ -961,7 +972,19 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      */
     @Override
     public int hashCode() {
-        return N.hashCode(elements());
+        final double[] a = elements();
+
+        if (a.length == 0) {
+            return 1;
+        }
+
+        int result = Double.hashCode(a[0]);
+
+        for (int i = 1; i < a.length; i++) {
+            result = 31 * result + Double.hashCode(a[i]);
+        }
+
+        return result;
     }
 
     /**
@@ -1148,6 +1171,54 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
         @Override
         public boolean contains(final double value) {
             return false;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public double[] toArray() {
+            return new double[0];
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public DoubleList toList() {
+            return new DoubleList();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws IllegalArgumentException, E {
+            N.checkArgNotNull(action, cs.action);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public DoubleStream stream() {
+            return DoubleStream.empty();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int hashCode() {
+            return 1;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            return obj instanceof DoubleTuple0;
         }
 
         /**
@@ -1530,21 +1601,25 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         protected double[] elements() {
-            if (elements == null) {
-                elements = new double[] { _1 };
+            double[] a = elements;
+
+            if (a == null) {
+                elements = a = new double[] { _1 };
             }
 
-            return elements;
+            return a;
         }
     }
 
     /**
      * A {@code DoubleTuple} containing exactly two {@code double} elements.
      * <p>
-     * Components are the public final fields {@code _1} and {@code _2}. Besides the operations from
-     * {@link DoubleTuple} and {@link PrimitiveTuple}, this type adds element-unpacking helpers that
-     * pass both values to a bi-consumer / bi-function / bi-predicate (distinct from the whole-tuple
-     * {@code accept}/{@code map}/{@code filter} on {@link PrimitiveTuple}):
+     * Components are the public final fields {@code _1} and {@code _2}. Besides the operations inherited
+     * from {@link DoubleTuple}, this type adds element-unpacking helpers that
+     * pass both values to a bi-consumer / bi-function / bi-predicate (distinct from the inherited
+     * whole-tuple {@link #accept(Throwables.Consumer) accept},
+     * {@link #map(Throwables.Function) map}, and
+     * {@link #filter(Throwables.Predicate) filter}):
      * </p>
      * <ul>
      *   <li>{@link #accept(Throwables.DoubleBiConsumer)} — both elements as primitives</li>
@@ -1609,7 +1684,8 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Returns the minimum value among the two elements.
-         * If either element is {@code NaN}, the result is {@code NaN}.
+         * If either element is {@code NaN}, the result is {@code NaN}, and {@code -0.0} is
+         * treated as less than {@code +0.0}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -1630,12 +1706,13 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double min() {
-            return N.min(_1, _2);
+            return Math.min(_1, _2);
         }
 
         /**
          * Returns the maximum value among the two elements.
-         * If either element is {@code NaN}, the result is {@code NaN}.
+         * If either element is {@code NaN}, the result is {@code NaN}, and {@code +0.0} is
+         * treated as greater than {@code -0.0}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -1656,7 +1733,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double max() {
-            return N.max(_1, _2);
+            return Math.max(_1, _2);
         }
 
         /**
@@ -1684,7 +1761,9 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double sum() {
-            return N.sum(_1, _2);
+            // Starting from 0.0 preserves +0.0 for (-0.0, -0.0) and matches two-element compensated summation in N.sum bit-for-bit:
+            // the compensation term is the exact rounding error of _1 + _2, so adding it back leaves the rounded sum unchanged.
+            return 0.0 + _1 + _2;
         }
 
         /**
@@ -1712,7 +1791,9 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2));
+            final double[] a = elements;
+
+            return OptionalDouble.of(a != null ? N.average(a) : N.average(_1, _2));
         }
 
         /**
@@ -1732,7 +1813,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double median() {
-            return N.median(_1, _2);
+            return medianOf(_1, _2);
         }
 
         /**
@@ -1851,7 +1932,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * Invokes {@code action} once with both elements ({@code _1}, {@code _2}).
          * <p>
          * This is the element-unpacking overload for pairs. It differs from
-         * {@link PrimitiveTuple#accept(Throwables.Consumer)}, which receives this tuple object, and from
+         * {@link #accept(Throwables.Consumer)}, which receives this tuple object, and from
          * {@link #forEach(Throwables.DoubleConsumer)}, which invokes a consumer once per element.
          * </p>
          *
@@ -1879,7 +1960,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * @throws E if {@code action} throws when invoked with this tuple's elements
          * @see #forEach(Throwables.DoubleConsumer)
          * @see #map(Throwables.DoubleBiFunction)
-         * @see PrimitiveTuple#accept(Throwables.Consumer)
+         * @see #accept(Throwables.Consumer)
          */
         public <E extends Exception> void accept(final Throwables.DoubleBiConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
@@ -1891,7 +1972,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * Applies {@code mapper} to both elements ({@code _1}, {@code _2}) and returns the result.
          * <p>
          * Element-unpacking overload for pairs. Distinct from
-         * {@link PrimitiveTuple#map(Throwables.Function)}, which receives this tuple object as a single argument.
+         * {@link #map(Throwables.Function)}, which receives this tuple object as a single argument.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1921,10 +2002,10 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * @throws E if {@code mapper} throws when applied to this tuple's elements
          * @see #accept(Throwables.DoubleBiConsumer)
          * @see #filter(Throwables.DoubleBiPredicate)
-         * @see PrimitiveTuple#map(Throwables.Function)
+         * @see #map(Throwables.Function)
          */
         @MayReturnNull
-        public <U, E extends Exception> U map(final Throwables.DoubleBiFunction<U, E> mapper) throws IllegalArgumentException, E {
+        public <U, E extends Exception> U map(final Throwables.DoubleBiFunction<? extends U, E> mapper) throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2);
@@ -1935,7 +2016,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * ({@code _1}, {@code _2}); otherwise {@link Optional#empty()}.
          * <p>
          * Element-unpacking overload for pairs. Distinct from
-         * {@link PrimitiveTuple#filter(Throwables.Predicate)}, which tests the tuple object as a whole.
+         * {@link #filter(Throwables.Predicate)}, which tests the tuple object as a whole.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1968,7 +2049,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * @throws E if {@code predicate} throws while testing this tuple's elements
          * @see #accept(Throwables.DoubleBiConsumer)
          * @see #map(Throwables.DoubleBiFunction)
-         * @see PrimitiveTuple#filter(Throwables.Predicate)
+         * @see #filter(Throwables.Predicate)
          */
         public <E extends Exception> Optional<DoubleTuple2> filter(final Throwables.DoubleBiPredicate<E> predicate) throws IllegalArgumentException, E {
             N.checkArgNotNull(predicate, cs.predicate);
@@ -2074,11 +2155,13 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         protected double[] elements() {
-            if (elements == null) {
-                elements = new double[] { _1, _2 };
+            double[] a = elements;
+
+            if (a == null) {
+                elements = a = new double[] { _1, _2 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -2086,10 +2169,10 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * A {@code DoubleTuple} containing exactly three {@code double} elements.
      * <p>
      * Components are the public final fields {@code _1}, {@code _2}, and {@code _3}. In addition to
-     * {@link DoubleTuple} / {@link PrimitiveTuple} operations, this type provides element-unpacking
+     * inherited {@link DoubleTuple} operations, this type provides element-unpacking
      * {@link #accept(Throwables.DoubleTriConsumer)}, {@link #map(Throwables.DoubleTriFunction)}, and
      * {@link #filter(Throwables.DoubleTriPredicate)} helpers that pass all three values as primitives
-     * (distinct from the whole-tuple methods on {@link PrimitiveTuple}).
+     * (distinct from the inherited whole-tuple methods on {@link DoubleTuple}).
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -2155,7 +2238,8 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
 
         /**
          * Returns the minimum value among the three elements.
-         * If any element is {@code NaN}, the result is {@code NaN}.
+         * If any element is {@code NaN}, the result is {@code NaN}, and {@code -0.0} is
+         * treated as less than {@code +0.0}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -2173,12 +2257,13 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double min() {
-            return N.min(_1, _2, _3);
+            return Math.min(Math.min(_1, _2), _3);
         }
 
         /**
          * Returns the maximum value among the three elements.
-         * If any element is {@code NaN}, the result is {@code NaN}.
+         * If any element is {@code NaN}, the result is {@code NaN}, and {@code +0.0} is
+         * treated as greater than {@code -0.0}.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -2196,7 +2281,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double max() {
-            return N.max(_1, _2, _3);
+            return Math.max(Math.max(_1, _2), _3);
         }
 
         /**
@@ -2219,7 +2304,9 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double sum() {
-            return N.sum(_1, _2, _3);
+            final double[] a = elements;
+
+            return a != null ? N.sum(a) : N.sum(_1, _2, _3);
         }
 
         /**
@@ -2242,15 +2329,16 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3));
+            final double[] a = elements;
+
+            return OptionalDouble.of(a != null ? N.average(a) : N.average(_1, _2, _3));
         }
 
         /**
          * Returns the statistical median of this triple as a {@code double}.
          * <p>
-         * With three elements the middle value when sorted is both the lower median and the
-         * statistical median; the return type remains {@code double} for API consistency with
-         * even-arity tuples.
+         * With three elements, the middle value when sorted under {@link Double#compare(double, double)}
+         * is both the lower median and the statistical median.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -2380,7 +2468,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * Invokes {@code action} once with all three elements ({@code _1}, {@code _2}, {@code _3}).
          * <p>
          * Element-unpacking overload for triples. Distinct from
-         * {@link PrimitiveTuple#accept(Throwables.Consumer)} (whole tuple) and
+         * {@link #accept(Throwables.Consumer)} (whole tuple) and
          * {@link #forEach(Throwables.DoubleConsumer)} (one call per element).
          * </p>
          *
@@ -2410,7 +2498,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * @throws E if {@code action} throws when invoked with this tuple's elements
          * @see #forEach(Throwables.DoubleConsumer)
          * @see #map(Throwables.DoubleTriFunction)
-         * @see PrimitiveTuple#accept(Throwables.Consumer)
+         * @see #accept(Throwables.Consumer)
          */
         public <E extends Exception> void accept(final Throwables.DoubleTriConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
@@ -2422,7 +2510,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * Applies {@code mapper} to all three elements ({@code _1}, {@code _2}, {@code _3}) and returns the result.
          * <p>
          * Element-unpacking overload for triples. Distinct from
-         * {@link PrimitiveTuple#map(Throwables.Function)}, which receives this tuple object as a single argument.
+         * {@link #map(Throwables.Function)}, which receives this tuple object as a single argument.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -2453,10 +2541,10 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * @throws E if {@code mapper} throws when applied to this tuple's elements
          * @see #accept(Throwables.DoubleTriConsumer)
          * @see #filter(Throwables.DoubleTriPredicate)
-         * @see PrimitiveTuple#map(Throwables.Function)
+         * @see #map(Throwables.Function)
          */
         @MayReturnNull
-        public <U, E extends Exception> U map(final Throwables.DoubleTriFunction<U, E> mapper) throws IllegalArgumentException, E {
+        public <U, E extends Exception> U map(final Throwables.DoubleTriFunction<? extends U, E> mapper) throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2, _3);
@@ -2467,7 +2555,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * ({@code _1}, {@code _2}, {@code _3}); otherwise {@link Optional#empty()}.
          * <p>
          * Element-unpacking overload for triples. Distinct from
-         * {@link PrimitiveTuple#filter(Throwables.Predicate)}, which tests the tuple object as a whole.
+         * {@link #filter(Throwables.Predicate)}, which tests the tuple object as a whole.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -2500,7 +2588,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          * @throws E if {@code predicate} throws while testing this tuple's elements
          * @see #accept(Throwables.DoubleTriConsumer)
          * @see #map(Throwables.DoubleTriFunction)
-         * @see PrimitiveTuple#filter(Throwables.Predicate)
+         * @see #filter(Throwables.Predicate)
          */
         public <E extends Exception> Optional<DoubleTuple3> filter(final Throwables.DoubleTriPredicate<E> predicate) throws IllegalArgumentException, E {
             N.checkArgNotNull(predicate, cs.predicate);
@@ -2608,11 +2696,13 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         protected double[] elements() {
-            if (elements == null) {
-                elements = new double[] { _1, _2, _3 };
+            double[] a = elements;
+
+            if (a == null) {
+                elements = a = new double[] { _1, _2, _3 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -2621,8 +2711,8 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * <p>
      * Components are public final fields {@code _1}…{@code _4}. Unlike arity 2–3, this type does not
      * add element-unpacking {@code accept}/{@code map}/{@code filter} overloads; use
-     * {@link #forEach(Throwables.DoubleConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * {@link #forEach(Throwables.DoubleConsumer)}, {@link #stream()}, or the inherited whole-tuple
+     * helpers on {@link DoubleTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -2707,7 +2797,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double min() {
-            return Math.min(Math.min(Math.min(_1, _2), _3), _4);
+            return Math.min(Math.min(_1, _2), Math.min(_3, _4));
         }
 
         /**
@@ -2731,7 +2821,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double max() {
-            return Math.max(Math.max(Math.max(_1, _2), _3), _4);
+            return Math.max(Math.max(_1, _2), Math.max(_3, _4));
         }
 
         /**
@@ -2754,7 +2844,9 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double sum() {
-            return N.sum(_1, _2, _3, _4);
+            final double[] a = elements;
+
+            return a != null ? N.sum(a) : N.sum(_1, _2, _3, _4);
         }
 
         /**
@@ -2777,7 +2869,90 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4));
+            final double[] a = elements;
+
+            return OptionalDouble.of(a != null ? N.average(a) : N.average(_1, _2, _3, _4));
+        }
+
+        /**
+         * Returns the statistical median of this quadruple: the overflow-safe arithmetic mean of the
+         * two middle elements under {@link Double#compare(double, double)} ordering, using the same midpoint
+         * as {@link N#median(double...)}.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * DoubleTuple.of(1.0, 2.0, 3.0, 4.0).median();   // 2.5
+         * DoubleTuple.of(4.0, 1.0, 3.0, 2.0).median();   // 2.5
+         * }</pre>
+         *
+         * @return the arithmetic mean of the two middle values
+         * @see #lowerMedian()
+         */
+        @Override
+        public double median() {
+            // 4-element sorting network under Double.compare ordering to isolate the two middle values.
+            final double lo1, hi1;
+            if (Double.compare(_1, _2) <= 0) {
+                lo1 = _1;
+                hi1 = _2;
+            } else {
+                lo1 = _2;
+                hi1 = _1;
+            }
+
+            final double lo2, hi2;
+            if (Double.compare(_3, _4) <= 0) {
+                lo2 = _3;
+                hi2 = _4;
+            } else {
+                lo2 = _4;
+                hi2 = _3;
+            }
+
+            final double mid1 = Double.compare(lo1, lo2) >= 0 ? lo1 : lo2;
+            final double mid2 = Double.compare(hi1, hi2) <= 0 ? hi1 : hi2;
+
+            return medianOf(mid1, mid2);
+        }
+
+        /**
+         * Returns the lower median of this quadruple: the lower of the two middle values under
+         * {@link Double#compare(double, double)} ordering.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * DoubleTuple.of(1.0, 2.0, 3.0, 4.0).lowerMedian();   // 2.0
+         * DoubleTuple.of(4.0, 1.0, 3.0, 2.0).lowerMedian();   // 2.0
+         * }</pre>
+         *
+         * @return the lower of the two middle double values when sorted
+         * @see #median()
+         */
+        @Override
+        public double lowerMedian() {
+            // 4-element sorting network under Double.compare ordering: lower middle is min(mid1, mid2).
+            final double lo1, hi1;
+            if (Double.compare(_1, _2) <= 0) {
+                lo1 = _1;
+                hi1 = _2;
+            } else {
+                lo1 = _2;
+                hi1 = _1;
+            }
+
+            final double lo2, hi2;
+            if (Double.compare(_3, _4) <= 0) {
+                lo2 = _3;
+                hi2 = _4;
+            } else {
+                lo2 = _4;
+                hi2 = _3;
+            }
+
+            final double mid1 = Double.compare(lo1, lo2) >= 0 ? lo1 : lo2;
+            final double mid2 = Double.compare(hi1, hi2) <= 0 ? hi1 : hi2;
+
+            return Double.compare(mid1, mid2) <= 0 ? mid1 : mid2;
         }
 
         /**
@@ -2828,7 +3003,14 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public boolean contains(final double value) {
-            return N.equals(_1, value) || N.equals(_2, value) || N.equals(_3, value) || N.equals(_4, value);
+            if (Double.isNaN(value)) {
+                return Double.isNaN(_1) || Double.isNaN(_2) || Double.isNaN(_3) || Double.isNaN(_4);
+            }
+
+            // For non-NaN values, raw bit equality matches Double.compare == 0 (distinguishing -0.0 from +0.0).
+            final long bits = Double.doubleToRawLongBits(value);
+            return Double.doubleToRawLongBits(_1) == bits || Double.doubleToRawLongBits(_2) == bits || Double.doubleToRawLongBits(_3) == bits
+                    || Double.doubleToRawLongBits(_4) == bits;
         }
 
         /**
@@ -2952,11 +3134,13 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         protected double[] elements() {
-            if (elements == null) {
-                elements = new double[] { _1, _2, _3, _4 };
+            double[] a = elements;
+
+            if (a == null) {
+                elements = a = new double[] { _1, _2, _3, _4 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -2966,8 +3150,8 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * Provides direct access to elements through public final fields {@code _1} through {@code _5}.
      * Unlike arity 2–3, this type does not
      * add element-unpacking {@code accept}/{@code map}/{@code filter} overloads; use
-     * {@link #forEach(Throwables.DoubleConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * {@link #forEach(Throwables.DoubleConsumer)}, {@link #stream()}, or the inherited whole-tuple
+     * helpers on {@link DoubleTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -3055,7 +3239,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double min() {
-            return Math.min(Math.min(Math.min(Math.min(_1, _2), _3), _4), _5);
+            return Math.min(Math.min(Math.min(_1, _2), Math.min(_3, _4)), _5);
         }
 
         /**
@@ -3079,7 +3263,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double max() {
-            return Math.max(Math.max(Math.max(Math.max(_1, _2), _3), _4), _5);
+            return Math.max(Math.max(Math.max(_1, _2), Math.max(_3, _4)), _5);
         }
 
         /**
@@ -3102,7 +3286,9 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double sum() {
-            return N.sum(_1, _2, _3, _4, _5);
+            final double[] a = elements;
+
+            return a != null ? N.sum(a) : N.sum(_1, _2, _3, _4, _5);
         }
 
         /**
@@ -3125,7 +3311,93 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5));
+            final double[] a = elements;
+
+            return OptionalDouble.of(a != null ? N.average(a) : N.average(_1, _2, _3, _4, _5));
+        }
+
+        /**
+         * Returns the statistical median of this quintuple: the middle element under
+         * {@link Double#compare(double, double)} ordering.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0).median();   // 3.0
+         * DoubleTuple.of(5.0, 1.0, 4.0, 2.0, 3.0).median();   // 3.0
+         * }</pre>
+         *
+         * @return the middle double value when sorted
+         * @see #lowerMedian()
+         */
+        @Override
+        public double median() {
+            return lowerMedian();
+        }
+
+        /**
+         * Returns the lower median of this quintuple: the middle value under
+         * {@link Double#compare(double, double)} ordering.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0).lowerMedian();   // 3.0
+         * DoubleTuple.of(5.0, 1.0, 4.0, 2.0, 3.0).lowerMedian();   // 3.0
+         * }</pre>
+         *
+         * @return the middle double value when sorted
+         * @see #median()
+         */
+        @Override
+        public double lowerMedian() {
+            // 6-comparison selection network for the median of 5 elements under Double.compare ordering.
+            final double a, b;
+            if (Double.compare(_1, _2) <= 0) {
+                a = _1;
+                b = _2;
+            } else {
+                a = _2;
+                b = _1;
+            }
+
+            final double c, d;
+            if (Double.compare(_3, _4) <= 0) {
+                c = _3;
+                d = _4;
+            } else {
+                c = _4;
+                d = _3;
+            }
+
+            final double e, f;
+            if (Double.compare(a, c) < 0) {
+                if (Double.compare(b, _5) <= 0) {
+                    e = b;
+                    f = _5;
+                } else {
+                    e = _5;
+                    f = b;
+                }
+
+                if (Double.compare(e, c) < 0) {
+                    return Double.compare(c, f) <= 0 ? c : f;
+                } else {
+                    return Double.compare(e, d) <= 0 ? e : d;
+                }
+            } else {
+                if (Double.compare(d, _5) <= 0) {
+                    e = d;
+                    f = _5;
+                } else {
+                    e = _5;
+                    f = d;
+                }
+
+                if (Double.compare(e, a) < 0) {
+                    return Double.compare(a, f) <= 0 ? a : f;
+                } else {
+                    return Double.compare(e, b) <= 0 ? e : b;
+                }
+            }
         }
 
         /**
@@ -3176,7 +3448,14 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public boolean contains(final double value) {
-            return N.equals(_1, value) || N.equals(_2, value) || N.equals(_3, value) || N.equals(_4, value) || N.equals(_5, value);
+            if (Double.isNaN(value)) {
+                return Double.isNaN(_1) || Double.isNaN(_2) || Double.isNaN(_3) || Double.isNaN(_4) || Double.isNaN(_5);
+            }
+
+            // For non-NaN values, raw bit equality matches Double.compare == 0 (distinguishing -0.0 from +0.0).
+            final long bits = Double.doubleToRawLongBits(value);
+            return Double.doubleToRawLongBits(_1) == bits || Double.doubleToRawLongBits(_2) == bits || Double.doubleToRawLongBits(_3) == bits
+                    || Double.doubleToRawLongBits(_4) == bits || Double.doubleToRawLongBits(_5) == bits;
         }
 
         /**
@@ -3302,11 +3581,13 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         protected double[] elements() {
-            if (elements == null) {
-                elements = new double[] { _1, _2, _3, _4, _5 };
+            double[] a = elements;
+
+            if (a == null) {
+                elements = a = new double[] { _1, _2, _3, _4, _5 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -3316,8 +3597,8 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * Provides direct access to elements through public final fields {@code _1} through {@code _6}.
      * Unlike arity 2–3, this type does not
      * add element-unpacking {@code accept}/{@code map}/{@code filter} overloads; use
-     * {@link #forEach(Throwables.DoubleConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * {@link #forEach(Throwables.DoubleConsumer)}, {@link #stream()}, or the inherited whole-tuple
+     * helpers on {@link DoubleTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -3409,7 +3690,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double min() {
-            return Math.min(Math.min(Math.min(Math.min(Math.min(_1, _2), _3), _4), _5), _6);
+            return Math.min(Math.min(Math.min(_1, _2), Math.min(_3, _4)), Math.min(_5, _6));
         }
 
         /**
@@ -3433,7 +3714,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double max() {
-            return Math.max(Math.max(Math.max(Math.max(Math.max(_1, _2), _3), _4), _5), _6);
+            return Math.max(Math.max(Math.max(_1, _2), Math.max(_3, _4)), Math.max(_5, _6));
         }
 
         /**
@@ -3456,7 +3737,9 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double sum() {
-            return N.sum(_1, _2, _3, _4, _5, _6);
+            final double[] a = elements;
+
+            return a != null ? N.sum(a) : N.sum(_1, _2, _3, _4, _5, _6);
         }
 
         /**
@@ -3479,7 +3762,9 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6));
+            final double[] a = elements;
+
+            return OptionalDouble.of(a != null ? N.average(a) : N.average(_1, _2, _3, _4, _5, _6));
         }
 
         /**
@@ -3530,7 +3815,14 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public boolean contains(final double value) {
-            return N.equals(_1, value) || N.equals(_2, value) || N.equals(_3, value) || N.equals(_4, value) || N.equals(_5, value) || N.equals(_6, value);
+            if (Double.isNaN(value)) {
+                return Double.isNaN(_1) || Double.isNaN(_2) || Double.isNaN(_3) || Double.isNaN(_4) || Double.isNaN(_5) || Double.isNaN(_6);
+            }
+
+            // For non-NaN values, raw bit equality matches Double.compare == 0 (distinguishing -0.0 from +0.0).
+            final long bits = Double.doubleToRawLongBits(value);
+            return Double.doubleToRawLongBits(_1) == bits || Double.doubleToRawLongBits(_2) == bits || Double.doubleToRawLongBits(_3) == bits
+                    || Double.doubleToRawLongBits(_4) == bits || Double.doubleToRawLongBits(_5) == bits || Double.doubleToRawLongBits(_6) == bits;
         }
 
         /**
@@ -3659,11 +3951,13 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         protected double[] elements() {
-            if (elements == null) {
-                elements = new double[] { _1, _2, _3, _4, _5, _6 };
+            double[] a = elements;
+
+            if (a == null) {
+                elements = a = new double[] { _1, _2, _3, _4, _5, _6 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -3673,8 +3967,8 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * Provides direct access to elements through public final fields {@code _1} through {@code _7}.
      * Unlike arity 2–3, this type does not
      * add element-unpacking {@code accept}/{@code map}/{@code filter} overloads; use
-     * {@link #forEach(Throwables.DoubleConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * {@link #forEach(Throwables.DoubleConsumer)}, {@link #stream()}, or the inherited whole-tuple
+     * helpers on {@link DoubleTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -3773,7 +4067,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double min() {
-            return Math.min(Math.min(Math.min(Math.min(Math.min(Math.min(_1, _2), _3), _4), _5), _6), _7);
+            return Math.min(Math.min(Math.min(_1, _2), Math.min(_3, _4)), Math.min(Math.min(_5, _6), _7));
         }
 
         /**
@@ -3800,7 +4094,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double max() {
-            return Math.max(Math.max(Math.max(Math.max(Math.max(Math.max(_1, _2), _3), _4), _5), _6), _7);
+            return Math.max(Math.max(Math.max(_1, _2), Math.max(_3, _4)), Math.max(Math.max(_5, _6), _7));
         }
 
         /**
@@ -3826,7 +4120,9 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double sum() {
-            return N.sum(_1, _2, _3, _4, _5, _6, _7);
+            final double[] a = elements;
+
+            return a != null ? N.sum(a) : N.sum(_1, _2, _3, _4, _5, _6, _7);
         }
 
         /**
@@ -3852,7 +4148,9 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7));
+            final double[] a = elements;
+
+            return OptionalDouble.of(a != null ? N.average(a) : N.average(_1, _2, _3, _4, _5, _6, _7));
         }
 
         /**
@@ -3905,8 +4203,15 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public boolean contains(final double value) {
-            return N.equals(_1, value) || N.equals(_2, value) || N.equals(_3, value) || N.equals(_4, value) || N.equals(_5, value) || N.equals(_6, value)
-                    || N.equals(_7, value);
+            if (Double.isNaN(value)) {
+                return Double.isNaN(_1) || Double.isNaN(_2) || Double.isNaN(_3) || Double.isNaN(_4) || Double.isNaN(_5) || Double.isNaN(_6) || Double.isNaN(_7);
+            }
+
+            // For non-NaN values, raw bit equality matches Double.compare == 0 (distinguishing -0.0 from +0.0).
+            final long bits = Double.doubleToRawLongBits(value);
+            return Double.doubleToRawLongBits(_1) == bits || Double.doubleToRawLongBits(_2) == bits || Double.doubleToRawLongBits(_3) == bits
+                    || Double.doubleToRawLongBits(_4) == bits || Double.doubleToRawLongBits(_5) == bits || Double.doubleToRawLongBits(_6) == bits
+                    || Double.doubleToRawLongBits(_7) == bits;
         }
 
         /**
@@ -4065,11 +4370,13 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         protected double[] elements() {
-            if (elements == null) {
-                elements = new double[] { _1, _2, _3, _4, _5, _6, _7 };
+            double[] a = elements;
+
+            if (a == null) {
+                elements = a = new double[] { _1, _2, _3, _4, _5, _6, _7 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -4079,8 +4386,8 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * Provides direct access to elements through public final fields {@code _1} through {@code _8}.
      * Unlike arity 2–3, this type does not
      * add element-unpacking {@code accept}/{@code map}/{@code filter} overloads; use
-     * {@link #forEach(Throwables.DoubleConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * {@link #forEach(Throwables.DoubleConsumer)}, {@link #stream()}, or the inherited whole-tuple
+     * helpers on {@link DoubleTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -4186,7 +4493,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double min() {
-            return Math.min(Math.min(Math.min(Math.min(Math.min(Math.min(Math.min(_1, _2), _3), _4), _5), _6), _7), _8);
+            return Math.min(Math.min(Math.min(_1, _2), Math.min(_3, _4)), Math.min(Math.min(_5, _6), Math.min(_7, _8)));
         }
 
         /**
@@ -4213,7 +4520,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double max() {
-            return Math.max(Math.max(Math.max(Math.max(Math.max(Math.max(Math.max(_1, _2), _3), _4), _5), _6), _7), _8);
+            return Math.max(Math.max(Math.max(_1, _2), Math.max(_3, _4)), Math.max(Math.max(_5, _6), Math.max(_7, _8)));
         }
 
         /**
@@ -4239,7 +4546,9 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double sum() {
-            return N.sum(_1, _2, _3, _4, _5, _6, _7, _8);
+            final double[] a = elements;
+
+            return a != null ? N.sum(a) : N.sum(_1, _2, _3, _4, _5, _6, _7, _8);
         }
 
         /**
@@ -4265,7 +4574,9 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7, _8));
+            final double[] a = elements;
+
+            return OptionalDouble.of(a != null ? N.average(a) : N.average(_1, _2, _3, _4, _5, _6, _7, _8));
         }
 
         /**
@@ -4318,8 +4629,16 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public boolean contains(final double value) {
-            return N.equals(_1, value) || N.equals(_2, value) || N.equals(_3, value) || N.equals(_4, value) || N.equals(_5, value) || N.equals(_6, value)
-                    || N.equals(_7, value) || N.equals(_8, value);
+            if (Double.isNaN(value)) {
+                return Double.isNaN(_1) || Double.isNaN(_2) || Double.isNaN(_3) || Double.isNaN(_4) || Double.isNaN(_5) || Double.isNaN(_6) || Double.isNaN(_7)
+                        || Double.isNaN(_8);
+            }
+
+            // For non-NaN values, raw bit equality matches Double.compare == 0 (distinguishing -0.0 from +0.0).
+            final long bits = Double.doubleToRawLongBits(value);
+            return Double.doubleToRawLongBits(_1) == bits || Double.doubleToRawLongBits(_2) == bits || Double.doubleToRawLongBits(_3) == bits
+                    || Double.doubleToRawLongBits(_4) == bits || Double.doubleToRawLongBits(_5) == bits || Double.doubleToRawLongBits(_6) == bits
+                    || Double.doubleToRawLongBits(_7) == bits || Double.doubleToRawLongBits(_8) == bits;
         }
 
         /**
@@ -4480,11 +4799,13 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         protected double[] elements() {
-            if (elements == null) {
-                elements = new double[] { _1, _2, _3, _4, _5, _6, _7, _8 };
+            double[] a = elements;
+
+            if (a == null) {
+                elements = a = new double[] { _1, _2, _3, _4, _5, _6, _7, _8 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -4494,8 +4815,8 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
      * Provides direct access to elements through public final fields {@code _1} through {@code _9}.
      * Unlike arity 2–3, this type does not
      * add element-unpacking {@code accept}/{@code map}/{@code filter} overloads; use
-     * {@link #forEach(Throwables.DoubleConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * {@link #forEach(Throwables.DoubleConsumer)}, {@link #stream()}, or the inherited whole-tuple
+     * helpers on {@link DoubleTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -4606,7 +4927,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double min() {
-            return Math.min(Math.min(Math.min(Math.min(Math.min(Math.min(Math.min(Math.min(_1, _2), _3), _4), _5), _6), _7), _8), _9);
+            return Math.min(Math.min(Math.min(Math.min(_1, _2), Math.min(_3, _4)), Math.min(Math.min(_5, _6), Math.min(_7, _8))), _9);
         }
 
         /**
@@ -4633,7 +4954,7 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double max() {
-            return Math.max(Math.max(Math.max(Math.max(Math.max(Math.max(Math.max(Math.max(_1, _2), _3), _4), _5), _6), _7), _8), _9);
+            return Math.max(Math.max(Math.max(Math.max(_1, _2), Math.max(_3, _4)), Math.max(Math.max(_5, _6), Math.max(_7, _8))), _9);
         }
 
         /**
@@ -4659,7 +4980,9 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public double sum() {
-            return N.sum(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+            final double[] a = elements;
+
+            return a != null ? N.sum(a) : N.sum(_1, _2, _3, _4, _5, _6, _7, _8, _9);
         }
 
         /**
@@ -4685,7 +5008,9 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7, _8, _9));
+            final double[] a = elements;
+
+            return OptionalDouble.of(a != null ? N.average(a) : N.average(_1, _2, _3, _4, _5, _6, _7, _8, _9));
         }
 
         /**
@@ -4738,8 +5063,16 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         public boolean contains(final double value) {
-            return N.equals(_1, value) || N.equals(_2, value) || N.equals(_3, value) || N.equals(_4, value) || N.equals(_5, value) || N.equals(_6, value)
-                    || N.equals(_7, value) || N.equals(_8, value) || N.equals(_9, value);
+            if (Double.isNaN(value)) {
+                return Double.isNaN(_1) || Double.isNaN(_2) || Double.isNaN(_3) || Double.isNaN(_4) || Double.isNaN(_5) || Double.isNaN(_6) || Double.isNaN(_7)
+                        || Double.isNaN(_8) || Double.isNaN(_9);
+            }
+
+            // For non-NaN values, raw bit equality matches Double.compare == 0 (distinguishing -0.0 from +0.0).
+            final long bits = Double.doubleToRawLongBits(value);
+            return Double.doubleToRawLongBits(_1) == bits || Double.doubleToRawLongBits(_2) == bits || Double.doubleToRawLongBits(_3) == bits
+                    || Double.doubleToRawLongBits(_4) == bits || Double.doubleToRawLongBits(_5) == bits || Double.doubleToRawLongBits(_6) == bits
+                    || Double.doubleToRawLongBits(_7) == bits || Double.doubleToRawLongBits(_8) == bits || Double.doubleToRawLongBits(_9) == bits;
         }
 
         /**
@@ -4902,11 +5235,13 @@ public abstract sealed class DoubleTuple<TP extends DoubleTuple<TP>> extends Pri
          */
         @Override
         protected double[] elements() {
-            if (elements == null) {
-                elements = new double[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
+            double[] a = elements;
+
+            if (a == null) {
+                elements = a = new double[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
             }
 
-            return elements;
+            return a;
         }
     }
 

@@ -1067,6 +1067,62 @@ class PrimitiveTupleTest {
         }
 
         @Test
+        void map_supportsCovariantReturnType() {
+            IntTuple.IntTuple2 tuple = IntTuple.of(10, 20);
+            Throwables.Function<IntTuple.IntTuple2, String, RuntimeException> fn = t -> t._1 + ":" + t._2;
+
+            CharSequence result = tuple.<CharSequence, RuntimeException> map(fn);
+
+            assertEquals("10:20", result);
+
+            Throwables.Function<PrimitiveTuple<?>, String, RuntimeException> superFn = t -> "arity=" + t.arity();
+            CharSequence superResult = tuple.<CharSequence, RuntimeException> map(superFn);
+
+            assertEquals("arity=2", superResult);
+
+            // Element-unpacking Tuple2.map and Tuple3.map also accept covariant (? extends U) mapper return types across all 8 families
+            Throwables.BooleanBiFunction<String, RuntimeException> boolBi = (a, b) -> a + ":" + b;
+            Throwables.BooleanTriFunction<String, RuntimeException> boolTri = (a, b, c) -> a + ":" + b + ":" + c;
+            assertEquals("true:false", BooleanTuple.of(true, false).<CharSequence, RuntimeException> map(boolBi));
+            assertEquals("true:false:true", BooleanTuple.of(true, false, true).<CharSequence, RuntimeException> map(boolTri));
+
+            Throwables.ByteBiFunction<Integer, RuntimeException> byteBi = (a, b) -> a + b;
+            Throwables.ByteTriFunction<Integer, RuntimeException> byteTri = (a, b, c) -> a + b + c;
+            assertEquals(3, ByteTuple.of((byte) 1, (byte) 2).<Number, RuntimeException> map(byteBi));
+            assertEquals(6, ByteTuple.of((byte) 1, (byte) 2, (byte) 3).<Number, RuntimeException> map(byteTri));
+
+            Throwables.CharBiFunction<String, RuntimeException> charBi = (a, b) -> "" + a + b;
+            Throwables.CharTriFunction<String, RuntimeException> charTri = (a, b, c) -> "" + a + b + c;
+            assertEquals("ab", CharTuple.of('a', 'b').<CharSequence, RuntimeException> map(charBi));
+            assertEquals("abc", CharTuple.of('a', 'b', 'c').<CharSequence, RuntimeException> map(charTri));
+
+            Throwables.ShortBiFunction<Integer, RuntimeException> shortBi = (a, b) -> a + b;
+            Throwables.ShortTriFunction<Integer, RuntimeException> shortTri = (a, b, c) -> a + b + c;
+            assertEquals(30, ShortTuple.of((short) 10, (short) 20).<Number, RuntimeException> map(shortBi));
+            assertEquals(60, ShortTuple.of((short) 10, (short) 20, (short) 30).<Number, RuntimeException> map(shortTri));
+
+            Throwables.IntBiFunction<Integer, RuntimeException> intBi = Integer::sum;
+            Throwables.IntTriFunction<Integer, RuntimeException> intTri = (a, b, c) -> a + b + c;
+            assertEquals(30, IntTuple.of(10, 20).<Number, RuntimeException> map(intBi));
+            assertEquals(60, IntTuple.of(10, 20, 30).<Number, RuntimeException> map(intTri));
+
+            Throwables.LongBiFunction<Long, RuntimeException> longBi = Long::sum;
+            Throwables.LongTriFunction<Long, RuntimeException> longTri = (a, b, c) -> a + b + c;
+            assertEquals(30L, LongTuple.of(10L, 20L).<Number, RuntimeException> map(longBi));
+            assertEquals(60L, LongTuple.of(10L, 20L, 30L).<Number, RuntimeException> map(longTri));
+
+            Throwables.FloatBiFunction<Float, RuntimeException> floatBi = Float::sum;
+            Throwables.FloatTriFunction<Float, RuntimeException> floatTri = (a, b, c) -> a + b + c;
+            assertEquals(3.0f, FloatTuple.of(1.0f, 2.0f).<Number, RuntimeException> map(floatBi));
+            assertEquals(6.0f, FloatTuple.of(1.0f, 2.0f, 3.0f).<Number, RuntimeException> map(floatTri));
+
+            Throwables.DoubleBiFunction<Double, RuntimeException> doubleBi = Double::sum;
+            Throwables.DoubleTriFunction<Double, RuntimeException> doubleTri = (a, b, c) -> a + b + c;
+            assertEquals(3.0, DoubleTuple.of(1.0, 2.0).<Number, RuntimeException> map(doubleBi));
+            assertEquals(6.0, DoubleTuple.of(1.0, 2.0, 3.0).<Number, RuntimeException> map(doubleTri));
+        }
+
+        @Test
         void multipleMapCalls() {
             IntTuple2 tuple = IntTuple.of(3, 4);
 

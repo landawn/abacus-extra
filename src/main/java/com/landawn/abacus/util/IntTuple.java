@@ -37,11 +37,11 @@ import com.landawn.abacus.util.stream.IntStream;
  * <p>The nested tuple types model fixed arities from 0 through 9. Prefer the {@code of(...)} factory
  * overloads to create a specific arity; {@link #from(int[])} is deprecated and retained only for
  * compatibility. The base class supplies aggregate, reversal, containment, conversion, and
- * element-wise functional helpers; {@link PrimitiveTuple} adds whole-tuple
- * {@link PrimitiveTuple#accept(Throwables.Consumer) accept},
- * {@link PrimitiveTuple#map(Throwables.Function) map},
- * {@link PrimitiveTuple#filter(Throwables.Predicate) filter}, and
- * {@link PrimitiveTuple#toOptional() toOptional}.</p>
+ * element-wise functional helpers, along with inherited whole-tuple helpers
+ * {@link #accept(Throwables.Consumer) accept},
+ * {@link #map(Throwables.Function) map},
+ * {@link #filter(Throwables.Predicate) filter}, and
+ * {@link #toOptional() toOptional}.</p>
  *
  * <p>Arity-specific nested types ({@code IntTuple1} through {@code IntTuple9}) expose their components as
  * public final fields {@code _1}, {@code _2}, and so on matching that arity. This sealed hierarchy permits only
@@ -55,7 +55,6 @@ import com.landawn.abacus.util.stream.IntStream;
  * {@code min}/{@code max}/{@code lowerMedian}/{@code median} throw {@link NoSuchElementException}.</p>
  *
  * @param <TP> the concrete {@code IntTuple} subtype that fluent operations such as {@link #reversed()} return
- * @see PrimitiveTuple
  * @see BooleanTuple
  * @see ByteTuple
  * @see CharTuple
@@ -376,7 +375,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * IntTuple.from(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10});  // throws IllegalArgumentException
      * }</pre>
      *
-     * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values.length}.
+     * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values} being {@code null} or by {@code values.length}.
      * The generic return type is only type-safe when assigned to the matching arity-specific subtype,
      * or to the base tuple type. Assigning to the wrong arity-specific subtype will result in a
      * {@link ClassCastException} at the assignment site.</p>
@@ -734,7 +733,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
     /**
      * Returns a new array containing all elements of this tuple.
      * <p>
-     * Creates and returns a defensive copy of the internal element array. Modifications
+     * Creates and returns a new array containing all elements of this tuple in order. Modifications
      * to the returned array do not affect the tuple, maintaining immutability. The
      * returned array has the same length as the tuple's arity.
      * </p>
@@ -901,7 +900,19 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      */
     @Override
     public int hashCode() {
-        return N.hashCode(elements());
+        final int[] a = elements();
+
+        if (a.length == 0) {
+            return 1;
+        }
+
+        int result = a[0];
+
+        for (int i = 1; i < a.length; i++) {
+            result = 31 * result + a[i];
+        }
+
+        return result;
     }
 
     /**
@@ -1079,6 +1090,54 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
         @Override
         public boolean contains(final int value) {
             return false;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int[] toArray() {
+            return new int[0];
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public IntList toList() {
+            return new IntList();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws IllegalArgumentException, E {
+            N.checkArgNotNull(action, cs.action);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public IntStream stream() {
+            return IntStream.empty();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int hashCode() {
+            return 1;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            return obj instanceof IntTuple0;
         }
 
         /**
@@ -1413,21 +1472,25 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         protected int[] elements() {
-            if (elements == null) {
-                elements = new int[] { _1 };
+            int[] a = elements;
+
+            if (a == null) {
+                elements = a = new int[] { _1 };
             }
 
-            return elements;
+            return a;
         }
     }
 
     /**
      * An {@code IntTuple} containing exactly two {@code int} elements.
      * <p>
-     * Components are the public final fields {@code _1} and {@code _2}. Besides the operations from
-     * {@link IntTuple} and {@link PrimitiveTuple}, this type adds element-unpacking helpers that
-     * pass both values to a bi-consumer / bi-function / bi-predicate (distinct from the whole-tuple
-     * {@code accept}/{@code map}/{@code filter} on {@link PrimitiveTuple}):
+     * Components are the public final fields {@code _1} and {@code _2}. Besides the operations inherited
+     * from {@link IntTuple}, this type adds element-unpacking helpers that
+     * pass both values to a bi-consumer / bi-function / bi-predicate (distinct from the inherited
+     * whole-tuple {@link #accept(Throwables.Consumer) accept},
+     * {@link #map(Throwables.Function) map}, and
+     * {@link #filter(Throwables.Predicate) filter}):
      * </p>
      * <ul>
      *   <li>{@link #accept(Throwables.IntBiConsumer)} — both elements as primitives</li>
@@ -1499,7 +1562,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public int min() {
-            return N.min(_1, _2);
+            return Math.min(_1, _2);
         }
 
         /**
@@ -1517,7 +1580,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public int max() {
-            return N.max(_1, _2);
+            return Math.max(_1, _2);
         }
 
         /**
@@ -1536,7 +1599,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public int sum() throws ArithmeticException {
-            return N.sum(_1, _2);
+            return Math.addExact(_1, _2);
         }
 
         /**
@@ -1554,7 +1617,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2));
+            return OptionalDouble.of(((long) _1 + _2) / 2d);
         }
 
         /**
@@ -1594,7 +1657,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public int lowerMedian() {
-            return N.min(_1, _2);
+            return Math.min(_1, _2);
         }
 
         /**
@@ -1672,7 +1735,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * Invokes {@code action} once with both elements ({@code _1}, {@code _2}).
          * <p>
          * This is the element-unpacking overload for pairs. It differs from
-         * {@link PrimitiveTuple#accept(Throwables.Consumer)}, which receives this tuple object, and from
+         * {@link #accept(Throwables.Consumer)}, which receives this tuple object, and from
          * {@link #forEach(Throwables.IntConsumer)}, which invokes a consumer once per element.
          * </p>
          *
@@ -1699,7 +1762,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @throws E if {@code action} throws when invoked with this tuple's elements
          * @see #forEach(Throwables.IntConsumer)
          * @see #map(Throwables.IntBiFunction)
-         * @see PrimitiveTuple#accept(Throwables.Consumer)
+         * @see #accept(Throwables.Consumer)
          */
         public <E extends Exception> void accept(final Throwables.IntBiConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
@@ -1711,7 +1774,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * Applies {@code mapper} to both elements ({@code _1}, {@code _2}) and returns the result.
          * <p>
          * Element-unpacking overload for pairs. Distinct from
-         * {@link PrimitiveTuple#map(Throwables.Function)}, which receives this tuple object as a single argument.
+         * {@link #map(Throwables.Function)}, which receives this tuple object as a single argument.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1735,10 +1798,10 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @throws E if {@code mapper} throws when applied to this tuple's elements
          * @see #accept(Throwables.IntBiConsumer)
          * @see #filter(Throwables.IntBiPredicate)
-         * @see PrimitiveTuple#map(Throwables.Function)
+         * @see #map(Throwables.Function)
          */
         @MayReturnNull
-        public <U, E extends Exception> U map(final Throwables.IntBiFunction<U, E> mapper) throws IllegalArgumentException, E {
+        public <U, E extends Exception> U map(final Throwables.IntBiFunction<? extends U, E> mapper) throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2);
@@ -1749,7 +1812,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * ({@code _1}, {@code _2}); otherwise {@link Optional#empty()}.
          * <p>
          * Element-unpacking overload for pairs. Distinct from
-         * {@link PrimitiveTuple#filter(Throwables.Predicate)}, which tests the tuple object as a whole.
+         * {@link #filter(Throwables.Predicate)}, which tests the tuple object as a whole.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1774,7 +1837,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @throws E if {@code predicate} throws when testing this tuple's elements
          * @see #accept(Throwables.IntBiConsumer)
          * @see #map(Throwables.IntBiFunction)
-         * @see PrimitiveTuple#filter(Throwables.Predicate)
+         * @see #filter(Throwables.Predicate)
          */
         public <E extends Exception> Optional<IntTuple2> filter(final Throwables.IntBiPredicate<E> predicate) throws IllegalArgumentException, E {
             N.checkArgNotNull(predicate, cs.predicate);
@@ -1864,11 +1927,13 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         protected int[] elements() {
-            if (elements == null) {
-                elements = new int[] { _1, _2 };
+            int[] a = elements;
+
+            if (a == null) {
+                elements = a = new int[] { _1, _2 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -1876,10 +1941,10 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * An {@code IntTuple} containing exactly three {@code int} elements.
      * <p>
      * Components are the public final fields {@code _1}, {@code _2}, and {@code _3}. In addition to
-     * {@link IntTuple} / {@link PrimitiveTuple} operations, this type provides element-unpacking
+     * inherited {@link IntTuple} operations, this type provides element-unpacking
      * {@link #accept(Throwables.IntTriConsumer)}, {@link #map(Throwables.IntTriFunction)}, and
      * {@link #filter(Throwables.IntTriPredicate)} helpers that pass all three values as primitives
-     * (distinct from the whole-tuple methods on {@link PrimitiveTuple}).
+     * (distinct from the inherited whole-tuple methods on {@link IntTuple}).
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -1950,7 +2015,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public int min() {
-            return N.min(_1, _2, _3);
+            return Math.min(Math.min(_1, _2), _3);
         }
 
         /**
@@ -1968,7 +2033,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public int max() {
-            return N.max(_1, _2, _3);
+            return Math.max(Math.max(_1, _2), _3);
         }
 
         /**
@@ -1987,7 +2052,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public int sum() throws ArithmeticException {
-            return N.sum(_1, _2, _3);
+            return Math.toIntExact((long) _1 + _2 + _3);
         }
 
         /**
@@ -2005,7 +2070,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3));
+            return OptionalDouble.of(((long) _1 + _2 + _3) / 3d);
         }
 
         /**
@@ -2127,7 +2192,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * Invokes {@code action} once with all three elements ({@code _1}, {@code _2}, {@code _3}).
          * <p>
          * Element-unpacking overload for triples. Distinct from
-         * {@link PrimitiveTuple#accept(Throwables.Consumer)} (whole tuple) and
+         * {@link #accept(Throwables.Consumer)} (whole tuple) and
          * {@link #forEach(Throwables.IntConsumer)} (one call per element).
          * </p>
          *
@@ -2154,7 +2219,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @throws E if {@code action} throws when invoked with this tuple's elements
          * @see #forEach(Throwables.IntConsumer)
          * @see #map(Throwables.IntTriFunction)
-         * @see PrimitiveTuple#accept(Throwables.Consumer)
+         * @see #accept(Throwables.Consumer)
          */
         public <E extends Exception> void accept(final Throwables.IntTriConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
@@ -2166,7 +2231,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * Applies {@code mapper} to all three elements ({@code _1}, {@code _2}, {@code _3}) and returns the result.
          * <p>
          * Element-unpacking overload for triples. Distinct from
-         * {@link PrimitiveTuple#map(Throwables.Function)}, which receives this tuple object as a single argument.
+         * {@link #map(Throwables.Function)}, which receives this tuple object as a single argument.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -2190,10 +2255,10 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @throws E if {@code mapper} throws when applied to this tuple's elements
          * @see #accept(Throwables.IntTriConsumer)
          * @see #filter(Throwables.IntTriPredicate)
-         * @see PrimitiveTuple#map(Throwables.Function)
+         * @see #map(Throwables.Function)
          */
         @MayReturnNull
-        public <U, E extends Exception> U map(final Throwables.IntTriFunction<U, E> mapper) throws IllegalArgumentException, E {
+        public <U, E extends Exception> U map(final Throwables.IntTriFunction<? extends U, E> mapper) throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2, _3);
@@ -2204,7 +2269,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * ({@code _1}, {@code _2}, {@code _3}); otherwise {@link Optional#empty()}.
          * <p>
          * Element-unpacking overload for triples. Distinct from
-         * {@link PrimitiveTuple#filter(Throwables.Predicate)}, which tests the tuple object as a whole.
+         * {@link #filter(Throwables.Predicate)}, which tests the tuple object as a whole.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -2229,7 +2294,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          * @throws E if {@code predicate} throws when testing this tuple's elements
          * @see #accept(Throwables.IntTriConsumer)
          * @see #map(Throwables.IntTriFunction)
-         * @see PrimitiveTuple#filter(Throwables.Predicate)
+         * @see #filter(Throwables.Predicate)
          */
         public <E extends Exception> Optional<IntTuple3> filter(final Throwables.IntTriPredicate<E> predicate) throws IllegalArgumentException, E {
             N.checkArgNotNull(predicate, cs.predicate);
@@ -2319,11 +2384,13 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         protected int[] elements() {
-            if (elements == null) {
-                elements = new int[] { _1, _2, _3 };
+            int[] a = elements;
+
+            if (a == null) {
+                elements = a = new int[] { _1, _2, _3 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -2332,8 +2399,8 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * <p>
      * Components are public final fields {@code _1}…{@code _4}. Unlike arity 2–3, this type does not
      * add element-unpacking {@code accept}/{@code map}/{@code filter} overloads; use
-     * {@link #forEach(Throwables.IntConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * {@link #forEach(Throwables.IntConsumer)}, {@link #stream()}, or the inherited whole-tuple
+     * helpers on {@link IntTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -2416,7 +2483,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public int min() {
-            return N.min(_1, _2, _3, _4);
+            return Math.min(Math.min(_1, _2), Math.min(_3, _4));
         }
 
         /**
@@ -2441,7 +2508,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public int max() {
-            return N.max(_1, _2, _3, _4);
+            return Math.max(Math.max(_1, _2), Math.max(_3, _4));
         }
 
         /**
@@ -2467,7 +2534,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public int sum() throws ArithmeticException {
-            return N.sum(_1, _2, _3, _4);
+            return Math.toIntExact((long) _1 + _2 + _3 + _4);
         }
 
         /**
@@ -2492,7 +2559,57 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4));
+            return OptionalDouble.of(((long) _1 + _2 + _3 + _4) / 4d);
+        }
+
+        /**
+         * Returns the statistical median of this quadruple: the arithmetic mean of the two middle
+         * elements when sorted, as a {@code double}.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * IntTuple.of(1, 2, 3, 4).median();     // 2.5
+         * IntTuple.of(4, 1, 3, 2).median();     // 2.5
+         * IntTuple.of(-2, -1, 1, 2).median();   // 0.0
+         * }</pre>
+         *
+         * @return the arithmetic mean of the two middle values as a {@code double}
+         * @see #lowerMedian()
+         */
+        @Override
+        public double median() {
+            // 4-element sorting network: drop min(lo1, lo2) and max(hi1, hi2) to isolate the two middle values.
+            final int lo1 = Math.min(_1, _2);
+            final int hi1 = Math.max(_1, _2);
+            final int lo2 = Math.min(_3, _4);
+            final int hi2 = Math.max(_3, _4);
+
+            return ((double) Math.max(lo1, lo2) + Math.min(hi1, hi2)) / 2d;
+        }
+
+        /**
+         * Returns the lower median of this quadruple: the lower of the two middle signed values
+         * when sorted.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * IntTuple.of(1, 2, 3, 4).lowerMedian();     // 2
+         * IntTuple.of(4, 1, 3, 2).lowerMedian();     // 2
+         * IntTuple.of(-2, -1, 1, 2).lowerMedian();   // -1
+         * }</pre>
+         *
+         * @return the lower of the two middle int values when sorted
+         * @see #median()
+         */
+        @Override
+        public int lowerMedian() {
+            // 4-element sorting network: lower middle is min(max(lo1, lo2), min(hi1, hi2)).
+            final int lo1 = Math.min(_1, _2);
+            final int hi1 = Math.max(_1, _2);
+            final int lo2 = Math.min(_3, _4);
+            final int hi2 = Math.max(_3, _4);
+
+            return Math.min(Math.max(lo1, lo2), Math.min(hi1, hi2));
         }
 
         /**
@@ -2680,11 +2797,13 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         protected int[] elements() {
-            if (elements == null) {
-                elements = new int[] { _1, _2, _3, _4 };
+            int[] a = elements;
+
+            if (a == null) {
+                elements = a = new int[] { _1, _2, _3, _4 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -2693,8 +2812,8 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _5}.
      * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter} overloads;
-     * use {@link #forEach(Throwables.IntConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * use {@link #forEach(Throwables.IntConsumer)}, {@link #stream()}, or the inherited whole-tuple
+     * helpers on {@link IntTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -2782,7 +2901,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public int min() {
-            return N.min(_1, _2, _3, _4, _5);
+            return Math.min(Math.min(Math.min(_1, _2), Math.min(_3, _4)), _5);
         }
 
         /**
@@ -2807,7 +2926,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public int max() {
-            return N.max(_1, _2, _3, _4, _5);
+            return Math.max(Math.max(Math.max(_1, _2), Math.max(_3, _4)), _5);
         }
 
         /**
@@ -2833,7 +2952,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public int sum() throws ArithmeticException {
-            return N.sum(_1, _2, _3, _4, _5);
+            return Math.toIntExact((long) _1 + _2 + _3 + _4 + _5);
         }
 
         /**
@@ -2858,7 +2977,62 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5));
+            return OptionalDouble.of(((long) _1 + _2 + _3 + _4 + _5) / 5d);
+        }
+
+        /**
+         * Returns the statistical median of this quintuple as a {@code double}.
+         * <p>
+         * With five elements the middle value when sorted is both the lower median and the
+         * statistical median.
+         * </p>
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * IntTuple.of(1, 2, 3, 4, 5).median();     // 3.0
+         * IntTuple.of(5, 1, 4, 2, 3).median();     // 3.0
+         * IntTuple.of(-2, -1, 0, 1, 2).median();   // 0.0
+         * }</pre>
+         *
+         * @return the middle value when sorted, as a {@code double}
+         * @see #lowerMedian()
+         */
+        @Override
+        public double median() {
+            return lowerMedian();
+        }
+
+        /**
+         * Returns the lower median of this quintuple: the middle signed value when the five
+         * elements are sorted.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * IntTuple.of(1, 2, 3, 4, 5).lowerMedian();     // 3
+         * IntTuple.of(5, 1, 4, 2, 3).lowerMedian();     // 3
+         * IntTuple.of(-2, -1, 0, 1, 2).lowerMedian();   // 0
+         * }</pre>
+         *
+         * @return the middle int value when sorted
+         * @see #median()
+         */
+        @Override
+        public int lowerMedian() {
+            // 6-comparison selection network for the median of 5 elements.
+            final int a = Math.min(_1, _2);
+            final int b = Math.max(_1, _2);
+            final int c = Math.min(_3, _4);
+            final int d = Math.max(_3, _4);
+
+            if (a < c) {
+                final int e = Math.min(b, _5);
+                final int f = Math.max(b, _5);
+                return e < c ? Math.min(c, f) : Math.min(e, d);
+            } else {
+                final int e = Math.min(d, _5);
+                final int f = Math.max(d, _5);
+                return e < a ? Math.min(a, f) : Math.min(e, b);
+            }
         }
 
         /**
@@ -3047,11 +3221,13 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         protected int[] elements() {
-            if (elements == null) {
-                elements = new int[] { _1, _2, _3, _4, _5 };
+            int[] a = elements;
+
+            if (a == null) {
+                elements = a = new int[] { _1, _2, _3, _4, _5 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -3060,8 +3236,8 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _6}.
      * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter} overloads;
-     * use {@link #forEach(Throwables.IntConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * use {@link #forEach(Throwables.IntConsumer)}, {@link #stream()}, or the inherited whole-tuple
+     * helpers on {@link IntTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -3153,7 +3329,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public int min() {
-            return N.min(_1, _2, _3, _4, _5, _6);
+            return Math.min(Math.min(Math.min(_1, _2), Math.min(_3, _4)), Math.min(_5, _6));
         }
 
         /**
@@ -3178,7 +3354,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public int max() {
-            return N.max(_1, _2, _3, _4, _5, _6);
+            return Math.max(Math.max(Math.max(_1, _2), Math.max(_3, _4)), Math.max(_5, _6));
         }
 
         /**
@@ -3204,7 +3380,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public int sum() throws ArithmeticException {
-            return N.sum(_1, _2, _3, _4, _5, _6);
+            return Math.toIntExact((long) _1 + _2 + _3 + _4 + _5 + _6);
         }
 
         /**
@@ -3229,7 +3405,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6));
+            return OptionalDouble.of(((long) _1 + _2 + _3 + _4 + _5 + _6) / 6d);
         }
 
         /**
@@ -3419,11 +3595,13 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         protected int[] elements() {
-            if (elements == null) {
-                elements = new int[] { _1, _2, _3, _4, _5, _6 };
+            int[] a = elements;
+
+            if (a == null) {
+                elements = a = new int[] { _1, _2, _3, _4, _5, _6 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -3432,8 +3610,8 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _7}.
      * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter} overloads;
-     * use {@link #forEach(Throwables.IntConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * use {@link #forEach(Throwables.IntConsumer)}, {@link #stream()}, or the inherited whole-tuple
+     * helpers on {@link IntTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -3529,7 +3707,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public int min() {
-            return N.min(_1, _2, _3, _4, _5, _6, _7);
+            return Math.min(Math.min(Math.min(_1, _2), Math.min(_3, _4)), Math.min(Math.min(_5, _6), _7));
         }
 
         /**
@@ -3554,7 +3732,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public int max() {
-            return N.max(_1, _2, _3, _4, _5, _6, _7);
+            return Math.max(Math.max(Math.max(_1, _2), Math.max(_3, _4)), Math.max(Math.max(_5, _6), _7));
         }
 
         /**
@@ -3581,7 +3759,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public int sum() throws ArithmeticException {
-            return N.sum(_1, _2, _3, _4, _5, _6, _7);
+            return Math.toIntExact((long) _1 + _2 + _3 + _4 + _5 + _6 + _7);
         }
 
         /**
@@ -3606,7 +3784,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7));
+            return OptionalDouble.of(((long) _1 + _2 + _3 + _4 + _5 + _6 + _7) / 7d);
         }
 
         /**
@@ -3799,11 +3977,13 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         protected int[] elements() {
-            if (elements == null) {
-                elements = new int[] { _1, _2, _3, _4, _5, _6, _7 };
+            int[] a = elements;
+
+            if (a == null) {
+                elements = a = new int[] { _1, _2, _3, _4, _5, _6, _7 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -3812,8 +3992,8 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _8}.
      * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter} overloads;
-     * use {@link #forEach(Throwables.IntConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * use {@link #forEach(Throwables.IntConsumer)}, {@link #stream()}, or the inherited whole-tuple
+     * helpers on {@link IntTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -3915,7 +4095,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public int min() {
-            return N.min(_1, _2, _3, _4, _5, _6, _7, _8);
+            return Math.min(Math.min(Math.min(_1, _2), Math.min(_3, _4)), Math.min(Math.min(_5, _6), Math.min(_7, _8)));
         }
 
         /**
@@ -3940,7 +4120,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public int max() {
-            return N.max(_1, _2, _3, _4, _5, _6, _7, _8);
+            return Math.max(Math.max(Math.max(_1, _2), Math.max(_3, _4)), Math.max(Math.max(_5, _6), Math.max(_7, _8)));
         }
 
         /**
@@ -3967,7 +4147,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public int sum() throws ArithmeticException {
-            return N.sum(_1, _2, _3, _4, _5, _6, _7, _8);
+            return Math.toIntExact((long) _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8);
         }
 
         /**
@@ -3992,7 +4172,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7, _8));
+            return OptionalDouble.of(((long) _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8) / 8d);
         }
 
         /**
@@ -4187,11 +4367,13 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         protected int[] elements() {
-            if (elements == null) {
-                elements = new int[] { _1, _2, _3, _4, _5, _6, _7, _8 };
+            int[] a = elements;
+
+            if (a == null) {
+                elements = a = new int[] { _1, _2, _3, _4, _5, _6, _7, _8 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -4200,8 +4382,8 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _9}.
      * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter} overloads;
-     * use {@link #forEach(Throwables.IntConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * use {@link #forEach(Throwables.IntConsumer)}, {@link #stream()}, or the inherited whole-tuple
+     * helpers on {@link IntTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -4307,7 +4489,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public int min() {
-            return N.min(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+            return Math.min(Math.min(Math.min(Math.min(_1, _2), Math.min(_3, _4)), Math.min(Math.min(_5, _6), Math.min(_7, _8))), _9);
         }
 
         /**
@@ -4332,7 +4514,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public int max() {
-            return N.max(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+            return Math.max(Math.max(Math.max(Math.max(_1, _2), Math.max(_3, _4)), Math.max(Math.max(_5, _6), Math.max(_7, _8))), _9);
         }
 
         /**
@@ -4359,7 +4541,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public int sum() throws ArithmeticException {
-            return N.sum(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+            return Math.toIntExact((long) _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 + _9);
         }
 
         /**
@@ -4384,7 +4566,7 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7, _8, _9));
+            return OptionalDouble.of(((long) _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 + _9) / 9d);
         }
 
         /**
@@ -4580,11 +4762,13 @@ public abstract sealed class IntTuple<TP extends IntTuple<TP>> extends Primitive
          */
         @Override
         protected int[] elements() {
-            if (elements == null) {
-                elements = new int[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
+            int[] a = elements;
+
+            if (a == null) {
+                elements = a = new int[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
             }
 
-            return elements;
+            return a;
         }
     }
 

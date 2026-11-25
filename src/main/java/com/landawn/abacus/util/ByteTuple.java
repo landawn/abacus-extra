@@ -37,11 +37,11 @@ import com.landawn.abacus.util.stream.ByteStream;
  * <p>The nested tuple types model fixed arities from 0 through 9. Prefer the {@code of(...)} factory
  * overloads to create a specific arity; {@link #from(byte[])} is deprecated and retained only for
  * compatibility. The base class supplies aggregate, reversal, containment, conversion, and
- * element-wise functional helpers; {@link PrimitiveTuple} adds whole-tuple
- * {@link PrimitiveTuple#accept(Throwables.Consumer) accept},
- * {@link PrimitiveTuple#map(Throwables.Function) map},
- * {@link PrimitiveTuple#filter(Throwables.Predicate) filter}, and
- * {@link PrimitiveTuple#toOptional() toOptional}.</p>
+ * element-wise functional helpers, along with inherited whole-tuple helpers
+ * {@link #accept(Throwables.Consumer) accept},
+ * {@link #map(Throwables.Function) map},
+ * {@link #filter(Throwables.Predicate) filter}, and
+ * {@link #toOptional() toOptional}.</p>
  *
  * <p>Arity-specific nested types ({@code ByteTuple1} through {@code ByteTuple9}) expose their components as
  * public final fields {@code _1}, {@code _2}, and so on matching that arity. This sealed hierarchy permits only
@@ -55,7 +55,6 @@ import com.landawn.abacus.util.stream.ByteStream;
  * {@code min}/{@code max}/{@code lowerMedian}/{@code median} throw {@link NoSuchElementException}.</p>
  *
  * @param <TP> the concrete {@code ByteTuple} subtype that fluent operations such as {@link #reversed()} return
- * @see PrimitiveTuple
  * @see BooleanTuple
  * @see CharTuple
  * @see ShortTuple
@@ -437,7 +436,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * ByteTuple.from(new byte[10]);   // throws IllegalArgumentException
      * }</pre>
      *
-     * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values.length}.
+     * <p><b>&#9888;&#65039; Warning:</b> The runtime tuple implementation is chosen solely by {@code values} being {@code null} or by {@code values.length}.
      * The generic return type is only type-safe when assigned to the matching arity-specific subtype,
      * or to the base tuple type. Assigning to the wrong arity-specific subtype will result in a
      * {@link ClassCastException} at the assignment site.</p>
@@ -811,7 +810,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
     /**
      * Returns a new {@code byte[]} containing all elements of this tuple in order.
      * <p>
-     * The array is a defensive copy; mutations to it do not affect this tuple. Its length equals
+     * Modifications to the returned array do not affect this tuple. Its length equals
      * {@link #arity()}.
      * </p>
      *
@@ -962,9 +961,8 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * <p>
      * The hash code is computed based on the contents of the tuple using a standard
      * algorithm that ensures equal tuples have equal hash codes. This implementation
-     * is consistent with {@link #equals(Object)}. The non-empty arity-specific subclasses override
-     * this method with a specialized implementation that combines their fields directly; that
-     * implementation is self-consistent but does not produce the same value as this array-based one.
+     * is consistent with {@link #equals(Object)}. The arity-specific subclasses override
+     * this method with an equivalent specialized implementation.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -988,7 +986,19 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      */
     @Override
     public int hashCode() {
-        return N.hashCode(elements());
+        final byte[] a = elements();
+
+        if (a.length == 0) {
+            return 1;
+        }
+
+        int result = a[0];
+
+        for (int i = 1; i < a.length; i++) {
+            result = 31 * result + a[i];
+        }
+
+        return result;
     }
 
     /**
@@ -1004,8 +1014,8 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      *   <li>They contain the same byte values in the same order</li>
      * </ul>
      *
-     * <p>This method is consistent with {@link #hashCode()}. The non-empty arity-specific subclasses
-     * override this method with an equivalent but specialized implementation that compares fields directly.</p>
+     * <p>This method is consistent with {@link #hashCode()}. The arity-specific subclasses
+     * override this method with an equivalent specialized implementation.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1051,6 +1061,14 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * @return the internal array of byte elements
      */
     protected abstract byte[] elements();
+
+    private static byte minOf(final byte a, final byte b) {
+        return a <= b ? a : b;
+    }
+
+    private static byte maxOf(final byte a, final byte b) {
+        return a >= b ? a : b;
+    }
 
     /**
      * An empty {@code ByteTuple} (arity 0).
@@ -1180,6 +1198,54 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
         @Override
         public String toString() {
             return "()";
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public byte[] toArray() {
+            return new byte[0];
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public ByteList toList() {
+            return new ByteList();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws IllegalArgumentException, E {
+            N.checkArgNotNull(action, cs.action);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public ByteStream stream() {
+            return ByteStream.empty();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int hashCode() {
+            return 1;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            return obj instanceof ByteTuple0;
         }
 
         /**
@@ -1553,11 +1619,13 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         protected byte[] elements() {
-            if (elements == null) {
-                elements = new byte[] { _1 };
+            byte[] a = elements;
+
+            if (a == null) {
+                elements = a = new byte[] { _1 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -1565,9 +1633,9 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * A {@code ByteTuple} containing exactly two {@code byte} elements.
      * <p>
      * Components are the public final fields {@code _1} and {@code _2}. Besides the operations from
-     * {@link ByteTuple} and {@link PrimitiveTuple}, this type adds element-unpacking helpers that
+     * {@link ByteTuple}, this type adds element-unpacking helpers that
      * pass both values to a bi-consumer / bi-function / bi-predicate (distinct from the whole-tuple
-     * {@code accept}/{@code map}/{@code filter} on {@link PrimitiveTuple}):
+     * {@code accept}/{@code map}/{@code filter} on the base tuple type):
      * </p>
      * <ul>
      *   <li>{@link #accept(Throwables.ByteBiConsumer)} — both elements as primitives</li>
@@ -1649,7 +1717,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public byte min() {
-            return N.min(_1, _2);
+            return minOf(_1, _2);
         }
 
         /**
@@ -1670,7 +1738,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public byte max() {
-            return N.max(_1, _2);
+            return maxOf(_1, _2);
         }
 
         /**
@@ -1692,7 +1760,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public int sum() {
-            return N.sum(_1, _2);
+            return _1 + _2;
         }
 
         /**
@@ -1714,7 +1782,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2));
+            return OptionalDouble.of((_1 + _2) / 2d);
         }
 
         /**
@@ -1760,7 +1828,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public byte lowerMedian() {
-            return N.min(_1, _2);
+            return minOf(_1, _2);
         }
 
         /**
@@ -1855,7 +1923,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * Invokes {@code action} once with both elements ({@code _1}, {@code _2}).
          * <p>
          * This is the element-unpacking overload for pairs. It differs from
-         * {@link PrimitiveTuple#accept(Throwables.Consumer)}, which receives this tuple object, and from
+         * {@link #accept(Throwables.Consumer)}, which receives this tuple object, and from
          * {@link #forEach(Throwables.ByteConsumer)}, which invokes a consumer once per element.
          * </p>
          *
@@ -1885,7 +1953,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * @throws E if {@code action} throws when invoked with this tuple's elements
          * @see #forEach(Throwables.ByteConsumer)
          * @see #map(Throwables.ByteBiFunction)
-         * @see PrimitiveTuple#accept(Throwables.Consumer)
+         * @see #accept(Throwables.Consumer)
          */
         public <E extends Exception> void accept(final Throwables.ByteBiConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
@@ -1897,7 +1965,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * Applies {@code mapper} to both elements ({@code _1}, {@code _2}) and returns the result.
          * <p>
          * Element-unpacking overload for pairs. Distinct from
-         * {@link PrimitiveTuple#map(Throwables.Function)}, which receives this tuple object as a single argument.
+         * {@link #map(Throwables.Function)}, which receives this tuple object as a single argument.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1928,10 +1996,10 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * @throws E if {@code mapper} throws when applied to this tuple's elements
          * @see #accept(Throwables.ByteBiConsumer)
          * @see #filter(Throwables.ByteBiPredicate)
-         * @see PrimitiveTuple#map(Throwables.Function)
+         * @see #map(Throwables.Function)
          */
         @MayReturnNull
-        public <U, E extends Exception> U map(final Throwables.ByteBiFunction<U, E> mapper) throws IllegalArgumentException, E {
+        public <U, E extends Exception> U map(final Throwables.ByteBiFunction<? extends U, E> mapper) throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2);
@@ -1942,7 +2010,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * ({@code _1}, {@code _2}); otherwise {@link Optional#empty()}.
          * <p>
          * Element-unpacking overload for pairs. Distinct from
-         * {@link PrimitiveTuple#filter(Throwables.Predicate)}, which tests the tuple object as a whole.
+         * {@link #filter(Throwables.Predicate)}, which tests the tuple object as a whole.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -1974,7 +2042,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * @throws E if {@code predicate} throws when testing this tuple's elements
          * @see #accept(Throwables.ByteBiConsumer)
          * @see #map(Throwables.ByteBiFunction)
-         * @see PrimitiveTuple#filter(Throwables.Predicate)
+         * @see #filter(Throwables.Predicate)
          */
         public <E extends Exception> Optional<ByteTuple2> filter(final Throwables.ByteBiPredicate<E> predicate) throws IllegalArgumentException, E {
             N.checkArgNotNull(predicate, cs.predicate);
@@ -2073,11 +2141,13 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         protected byte[] elements() {
-            if (elements == null) {
-                elements = new byte[] { _1, _2 };
+            byte[] a = elements;
+
+            if (a == null) {
+                elements = a = new byte[] { _1, _2 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -2085,10 +2155,10 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * A {@code ByteTuple} containing exactly three {@code byte} elements.
      * <p>
      * Components are the public final fields {@code _1}, {@code _2}, and {@code _3}. In addition to
-     * {@link ByteTuple} / {@link PrimitiveTuple} operations, this type provides element-unpacking
+     * {@link ByteTuple} operations, this type provides element-unpacking
      * {@link #accept(Throwables.ByteTriConsumer)}, {@link #map(Throwables.ByteTriFunction)}, and
      * {@link #filter(Throwables.ByteTriPredicate)} helpers that pass all three values as primitives
-     * (distinct from the whole-tuple methods on {@link PrimitiveTuple}).
+     * (distinct from the whole-tuple methods on the base tuple type).
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -2170,7 +2240,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public byte min() {
-            return N.min(_1, _2, _3);
+            return minOf(minOf(_1, _2), _3);
         }
 
         /**
@@ -2190,7 +2260,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public byte max() {
-            return N.max(_1, _2, _3);
+            return maxOf(maxOf(_1, _2), _3);
         }
 
         /**
@@ -2211,7 +2281,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public int sum() {
-            return N.sum(_1, _2, _3);
+            return _1 + _2 + _3;
         }
 
         /**
@@ -2232,7 +2302,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3));
+            return OptionalDouble.of((_1 + _2 + _3) / 3d);
         }
 
         /**
@@ -2376,7 +2446,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * Invokes {@code action} once with all three elements ({@code _1}, {@code _2}, {@code _3}).
          * <p>
          * Element-unpacking overload for triples. Distinct from
-         * {@link PrimitiveTuple#accept(Throwables.Consumer)} (whole tuple) and
+         * {@link #accept(Throwables.Consumer)} (whole tuple) and
          * {@link #forEach(Throwables.ByteConsumer)} (one call per element).
          * </p>
          *
@@ -2409,7 +2479,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * @throws E if {@code action} throws when invoked with this tuple's elements
          * @see #forEach(Throwables.ByteConsumer)
          * @see #map(Throwables.ByteTriFunction)
-         * @see PrimitiveTuple#accept(Throwables.Consumer)
+         * @see #accept(Throwables.Consumer)
          */
         public <E extends Exception> void accept(final Throwables.ByteTriConsumer<E> action) throws IllegalArgumentException, E {
             N.checkArgNotNull(action, cs.action);
@@ -2421,7 +2491,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * Applies {@code mapper} to all three elements ({@code _1}, {@code _2}, {@code _3}) and returns the result.
          * <p>
          * Element-unpacking overload for triples. Distinct from
-         * {@link PrimitiveTuple#map(Throwables.Function)}, which receives this tuple object as a single argument.
+         * {@link #map(Throwables.Function)}, which receives this tuple object as a single argument.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -2457,10 +2527,10 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * @throws E if {@code mapper} throws when applied to this tuple's elements
          * @see #accept(Throwables.ByteTriConsumer)
          * @see #filter(Throwables.ByteTriPredicate)
-         * @see PrimitiveTuple#map(Throwables.Function)
+         * @see #map(Throwables.Function)
          */
         @MayReturnNull
-        public <U, E extends Exception> U map(final Throwables.ByteTriFunction<U, E> mapper) throws IllegalArgumentException, E {
+        public <U, E extends Exception> U map(final Throwables.ByteTriFunction<? extends U, E> mapper) throws IllegalArgumentException, E {
             N.checkArgNotNull(mapper, cs.mapper);
 
             return mapper.apply(_1, _2, _3);
@@ -2471,7 +2541,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * ({@code _1}, {@code _2}, {@code _3}); otherwise {@link Optional#empty()}.
          * <p>
          * Element-unpacking overload for triples. Distinct from
-         * {@link PrimitiveTuple#filter(Throwables.Predicate)}, which tests the tuple object as a whole.
+         * {@link #filter(Throwables.Predicate)}, which tests the tuple object as a whole.
          * </p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -2508,7 +2578,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          * @throws E if {@code predicate} throws when testing this tuple's elements
          * @see #accept(Throwables.ByteTriConsumer)
          * @see #map(Throwables.ByteTriFunction)
-         * @see PrimitiveTuple#filter(Throwables.Predicate)
+         * @see #filter(Throwables.Predicate)
          */
         public <E extends Exception> Optional<ByteTuple3> filter(final Throwables.ByteTriPredicate<E> predicate) throws IllegalArgumentException, E {
             N.checkArgNotNull(predicate, cs.predicate);
@@ -2607,11 +2677,13 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         protected byte[] elements() {
-            if (elements == null) {
-                elements = new byte[] { _1, _2, _3 };
+            byte[] a = elements;
+
+            if (a == null) {
+                elements = a = new byte[] { _1, _2, _3 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -2620,8 +2692,8 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * <p>
      * Components are public final fields {@code _1}…{@code _4}. Unlike arity 2–3, this type does not
      * add element-unpacking {@code accept}/{@code map}/{@code filter} overloads; use
-     * {@link #forEach(Throwables.ByteConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * {@link #forEach(Throwables.ByteConsumer)}, {@link #stream()}, or the inherited whole-tuple helpers on
+     * {@link ByteTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -2708,7 +2780,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public byte min() {
-            return N.min(_1, _2, _3, _4);
+            return minOf(minOf(_1, _2), minOf(_3, _4));
         }
 
         /**
@@ -2733,7 +2805,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public byte max() {
-            return N.max(_1, _2, _3, _4);
+            return maxOf(maxOf(_1, _2), maxOf(_3, _4));
         }
 
         /**
@@ -2758,7 +2830,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public int sum() {
-            return N.sum(_1, _2, _3, _4);
+            return _1 + _2 + _3 + _4;
         }
 
         /**
@@ -2783,7 +2855,56 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4));
+            return OptionalDouble.of((_1 + _2 + _3 + _4) / 4d);
+        }
+
+        /**
+         * Returns the statistical median of this 4-element tuple as a {@code double}:
+         * the arithmetic mean of the two middle signed values when sorted.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4).median();   // 2.5
+         * ByteTuple.of((byte) 4, (byte) 1, (byte) 3, (byte) 2).median();   // 2.5
+         * }</pre>
+         *
+         * @return the mean of the two middle byte values when sorted, as a {@code double}
+         * @see #lowerMedian()
+         */
+        @Override
+        public double median() {
+            // 4-element sorting-network selection: pairwise order (_1, _2) and (_3, _4);
+            // the two middle values are max(lo1, lo2) and min(hi1, hi2).
+            final byte lo1 = minOf(_1, _2);
+            final byte hi1 = maxOf(_1, _2);
+            final byte lo2 = minOf(_3, _4);
+            final byte hi2 = maxOf(_3, _4);
+
+            return (maxOf(lo1, lo2) + minOf(hi1, hi2)) / 2d;
+        }
+
+        /**
+         * Returns the lower median of this 4-element tuple: the lower of the two middle signed values when sorted.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4).lowerMedian();   // (byte) 2
+         * ByteTuple.of((byte) 4, (byte) 1, (byte) 3, (byte) 2).lowerMedian();   // (byte) 2
+         * }</pre>
+         *
+         * @return the lower-middle byte value when the four elements are sorted
+         * @see #median()
+         */
+        @Override
+        public byte lowerMedian() {
+            // 4-element sorting-network selection: pairwise order (_1, _2) and (_3, _4);
+            // the lower middle value is min(max(lo1, lo2), min(hi1, hi2)).
+            final byte lo1 = minOf(_1, _2);
+            final byte hi1 = maxOf(_1, _2);
+            final byte lo2 = minOf(_3, _4);
+            final byte hi2 = maxOf(_3, _4);
+
+            return minOf(maxOf(lo1, lo2), minOf(hi1, hi2));
         }
 
         /**
@@ -2970,11 +3091,13 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         protected byte[] elements() {
-            if (elements == null) {
-                elements = new byte[] { _1, _2, _3, _4 };
+            byte[] a = elements;
+
+            if (a == null) {
+                elements = a = new byte[] { _1, _2, _3, _4 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -2983,8 +3106,8 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _5}.
      * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
-     * overloads; use {@link #forEach(Throwables.ByteConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * overloads; use {@link #forEach(Throwables.ByteConsumer)}, {@link #stream()}, or the inherited whole-tuple helpers on
+     * {@link ByteTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -3074,7 +3197,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public byte min() {
-            return N.min(_1, _2, _3, _4, _5);
+            return minOf(minOf(minOf(_1, _2), minOf(_3, _4)), _5);
         }
 
         /**
@@ -3099,7 +3222,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public byte max() {
-            return N.max(_1, _2, _3, _4, _5);
+            return maxOf(maxOf(maxOf(_1, _2), maxOf(_3, _4)), _5);
         }
 
         /**
@@ -3124,7 +3247,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public int sum() {
-            return N.sum(_1, _2, _3, _4, _5);
+            return _1 + _2 + _3 + _4 + _5;
         }
 
         /**
@@ -3149,7 +3272,70 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5));
+            return OptionalDouble.of((_1 + _2 + _3 + _4 + _5) / 5d);
+        }
+
+        /**
+         * Returns the statistical median of this 5-element tuple as a {@code double}:
+         * the middle signed value when the five elements are sorted.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5).median();   // 3.0
+         * ByteTuple.of((byte) 5, (byte) 1, (byte) 4, (byte) 2, (byte) 3).median();   // 3.0
+         * }</pre>
+         *
+         * @return the middle byte value when sorted, as a {@code double}
+         * @see #lowerMedian()
+         */
+        @Override
+        public double median() {
+            return lowerMedian();
+        }
+
+        /**
+         * Returns the lower median of this 5-element tuple: the middle signed value when the five
+         * elements are ordered by signed numeric value.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5).lowerMedian();   // (byte) 3
+         * ByteTuple.of((byte) 5, (byte) 1, (byte) 4, (byte) 2, (byte) 3).lowerMedian();   // (byte) 3
+         * }</pre>
+         *
+         * @return the middle byte value when the five elements are sorted
+         * @see #median()
+         */
+        @Override
+        public byte lowerMedian() {
+            // Optimal 6-comparison register selection network for median of 5:
+            // order (_1, _2) -> (a, b) and (_3, _4) -> (c, d), drop min(a, c) (which is <= at least 3 elements),
+            // pair its partner with _5 -> (e, f), then select the 2nd smallest of the remaining two ordered pairs.
+            final byte a, b, c, d;
+            if (_1 <= _2) {
+                a = _1;
+                b = _2;
+            } else {
+                a = _2;
+                b = _1;
+            }
+            if (_3 <= _4) {
+                c = _3;
+                d = _4;
+            } else {
+                c = _4;
+                d = _3;
+            }
+
+            if (a < c) {
+                final byte e = b <= _5 ? b : _5;
+                final byte f = b <= _5 ? _5 : b;
+                return e < c ? (c < f ? c : f) : (e < d ? e : d);
+            } else {
+                final byte e = d <= _5 ? d : _5;
+                final byte f = d <= _5 ? _5 : d;
+                return e < a ? (a < f ? a : f) : (e < b ? e : b);
+            }
         }
 
         /**
@@ -3337,11 +3523,13 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         protected byte[] elements() {
-            if (elements == null) {
-                elements = new byte[] { _1, _2, _3, _4, _5 };
+            byte[] a = elements;
+
+            if (a == null) {
+                elements = a = new byte[] { _1, _2, _3, _4, _5 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -3350,8 +3538,8 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _6}.
      * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
-     * overloads; use {@link #forEach(Throwables.ByteConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * overloads; use {@link #forEach(Throwables.ByteConsumer)}, {@link #stream()}, or the inherited whole-tuple helpers on
+     * {@link ByteTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -3445,7 +3633,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public byte min() {
-            return N.min(_1, _2, _3, _4, _5, _6);
+            return minOf(minOf(minOf(_1, _2), minOf(_3, _4)), minOf(_5, _6));
         }
 
         /**
@@ -3470,7 +3658,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public byte max() {
-            return N.max(_1, _2, _3, _4, _5, _6);
+            return maxOf(maxOf(maxOf(_1, _2), maxOf(_3, _4)), maxOf(_5, _6));
         }
 
         /**
@@ -3495,7 +3683,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public int sum() {
-            return N.sum(_1, _2, _3, _4, _5, _6);
+            return _1 + _2 + _3 + _4 + _5 + _6;
         }
 
         /**
@@ -3520,7 +3708,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6));
+            return OptionalDouble.of((_1 + _2 + _3 + _4 + _5 + _6) / 6d);
         }
 
         /**
@@ -3709,11 +3897,13 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         protected byte[] elements() {
-            if (elements == null) {
-                elements = new byte[] { _1, _2, _3, _4, _5, _6 };
+            byte[] a = elements;
+
+            if (a == null) {
+                elements = a = new byte[] { _1, _2, _3, _4, _5, _6 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -3722,8 +3912,8 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _7}.
      * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
-     * overloads; use {@link #forEach(Throwables.ByteConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * overloads; use {@link #forEach(Throwables.ByteConsumer)}, {@link #stream()}, or the inherited whole-tuple helpers on
+     * {@link ByteTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -3821,7 +4011,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public byte min() {
-            return N.min(_1, _2, _3, _4, _5, _6, _7);
+            return minOf(minOf(minOf(_1, _2), minOf(_3, _4)), minOf(minOf(_5, _6), _7));
         }
 
         /**
@@ -3846,7 +4036,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public byte max() {
-            return N.max(_1, _2, _3, _4, _5, _6, _7);
+            return maxOf(maxOf(maxOf(_1, _2), maxOf(_3, _4)), maxOf(maxOf(_5, _6), _7));
         }
 
         /**
@@ -3873,7 +4063,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public int sum() {
-            return N.sum(_1, _2, _3, _4, _5, _6, _7);
+            return _1 + _2 + _3 + _4 + _5 + _6 + _7;
         }
 
         /**
@@ -3898,7 +4088,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7));
+            return OptionalDouble.of((_1 + _2 + _3 + _4 + _5 + _6 + _7) / 7d);
         }
 
         /**
@@ -4110,11 +4300,13 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         protected byte[] elements() {
-            if (elements == null) {
-                elements = new byte[] { _1, _2, _3, _4, _5, _6, _7 };
+            byte[] a = elements;
+
+            if (a == null) {
+                elements = a = new byte[] { _1, _2, _3, _4, _5, _6, _7 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -4123,8 +4315,8 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _8}.
      * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
-     * overloads; use {@link #forEach(Throwables.ByteConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * overloads; use {@link #forEach(Throwables.ByteConsumer)}, {@link #stream()}, or the inherited whole-tuple helpers on
+     * {@link ByteTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -4237,7 +4429,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public byte min() {
-            return N.min(_1, _2, _3, _4, _5, _6, _7, _8);
+            return minOf(minOf(minOf(_1, _2), minOf(_3, _4)), minOf(minOf(_5, _6), minOf(_7, _8)));
         }
 
         /**
@@ -4262,7 +4454,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public byte max() {
-            return N.max(_1, _2, _3, _4, _5, _6, _7, _8);
+            return maxOf(maxOf(maxOf(_1, _2), maxOf(_3, _4)), maxOf(maxOf(_5, _6), maxOf(_7, _8)));
         }
 
         /**
@@ -4290,7 +4482,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public int sum() {
-            return N.sum(_1, _2, _3, _4, _5, _6, _7, _8);
+            return _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8;
         }
 
         /**
@@ -4315,7 +4507,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7, _8));
+            return OptionalDouble.of((_1 + _2 + _3 + _4 + _5 + _6 + _7 + _8) / 8d);
         }
 
         /**
@@ -4529,11 +4721,13 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         protected byte[] elements() {
-            if (elements == null) {
-                elements = new byte[] { _1, _2, _3, _4, _5, _6, _7, _8 };
+            byte[] a = elements;
+
+            if (a == null) {
+                elements = a = new byte[] { _1, _2, _3, _4, _5, _6, _7, _8 };
             }
 
-            return elements;
+            return a;
         }
     }
 
@@ -4542,8 +4736,8 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
      * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _9}.
      * Unlike arity 2–3, this type does not add element-unpacking {@code accept}/{@code map}/{@code filter}
-     * overloads; use {@link #forEach(Throwables.ByteConsumer)}, {@link #stream()}, or the whole-tuple helpers from
-     * {@link PrimitiveTuple}.
+     * overloads; use {@link #forEach(Throwables.ByteConsumer)}, {@link #stream()}, or the inherited whole-tuple helpers on
+     * {@link ByteTuple}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -4662,7 +4856,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public byte min() {
-            return N.min(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+            return minOf(minOf(minOf(minOf(_1, _2), minOf(_3, _4)), minOf(minOf(_5, _6), minOf(_7, _8))), _9);
         }
 
         /**
@@ -4689,7 +4883,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public byte max() {
-            return N.max(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+            return maxOf(maxOf(maxOf(maxOf(_1, _2), maxOf(_3, _4)), maxOf(maxOf(_5, _6), maxOf(_7, _8))), _9);
         }
 
         /**
@@ -4717,7 +4911,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public int sum() {
-            return N.sum(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+            return _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 + _9;
         }
 
         /**
@@ -4742,7 +4936,7 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         public OptionalDouble average() {
-            return OptionalDouble.of(N.average(_1, _2, _3, _4, _5, _6, _7, _8, _9));
+            return OptionalDouble.of((_1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 + _9) / 9d);
         }
 
         /**
@@ -4960,11 +5154,13 @@ public abstract sealed class ByteTuple<TP extends ByteTuple<TP>> extends Primiti
          */
         @Override
         protected byte[] elements() {
-            if (elements == null) {
-                elements = new byte[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
+            byte[] a = elements;
+
+            if (a == null) {
+                elements = a = new byte[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
             }
 
-            return elements;
+            return a;
         }
     }
 

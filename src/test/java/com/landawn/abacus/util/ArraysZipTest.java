@@ -4100,6 +4100,90 @@ class ArraysZipTest {
                 });
             });
         }
+
+        @Test
+        @SuppressWarnings("unchecked")
+        void ffAndFffZip_inferredAndExplicitStoreExceptionAndNullSubArrays() {
+            // Empty outer arrays preserve inferred runtime type
+            assertEquals(Integer[][].class, ff.zip(new Integer[0][], new Integer[0][], Integer::sum).getClass());
+            assertEquals(Integer[][].class, ff.zip(new Integer[0][], new Integer[0][], 0, 0, Integer::sum).getClass());
+            assertEquals(Integer[][].class, ff.zip(new Integer[0][], new Integer[0][], new Integer[0][], (x, y, z) -> x + y + z).getClass());
+            assertEquals(Integer[][].class, ff.zip(new Integer[0][], new Integer[0][], new Integer[0][], 0, 0, 0, (x, y, z) -> x + y + z).getClass());
+            assertEquals(Integer[][][].class, fff.zip(new Integer[0][][], new Integer[0][][], Integer::sum).getClass());
+            assertEquals(Integer[][][].class, fff.zip(new Integer[0][][], new Integer[0][][], 0, 0, Integer::sum).getClass());
+            assertEquals(Integer[][][].class, fff.zip(new Integer[0][][], new Integer[0][][], new Integer[0][][], (x, y, z) -> x + y + z).getClass());
+            assertEquals(Integer[][][].class, fff.zip(new Integer[0][][], new Integer[0][][], new Integer[0][][], 0, 0, 0, (x, y, z) -> x + y + z).getClass());
+
+            // Null sub-arrays in 2D/3D defaulted object zip are treated as empty
+            final Integer[][] left2 = { null, { 1, 2 } };
+            final Integer[][] right2 = { { 10 }, null };
+            assertArrayEquals(new Integer[][] { { 10 }, { 1, 2 } }, ff.zip(left2, right2, 0, 0, Integer::sum));
+
+            final Integer[][][] left3 = { null, { null, { 1 } } };
+            final Integer[][][] right3 = { { { 5 } }, { { 2 }, null } };
+            assertArrayEquals(new Integer[][][] { { { 5 } }, { { 2 }, { 1 } } }, fff.zip(left3, right3, 0, 0, Integer::sum));
+
+            // Incompatible runtime store translates to IllegalArgumentException with ArrayStoreException cause for inferred overloads
+            final Number[][] narrow2 = new Integer[][] { { 1 } };
+            final Number[][][] narrow3 = new Integer[][][] { (Integer[][]) narrow2 };
+            final List<Executable> inferredFailures = List.of(//
+                    () -> ff.zip(narrow2, narrow2, (x, y) -> 1.5d), () -> ff.zip(narrow2, narrow2, 0, 0, (x, y) -> 1.5d),
+                    () -> ff.zip((Number[][]) null, narrow2, (Number) 0, (Number) 0, (x, y) -> 1.5d),
+                    () -> ff.zip(narrow2, narrow2, narrow2, (x, y, z) -> 1.5d), () -> ff.zip(narrow2, narrow2, narrow2, 0, 0, 0, (x, y, z) -> 1.5d),
+                    () -> ff.zip((Number[][]) null, narrow2, narrow2, (Number) 0, (Number) 0, (Number) 0, (x, y, z) -> 1.5d),
+                    () -> fff.zip(narrow3, narrow3, (x, y) -> 1.5d), () -> fff.zip(narrow3, narrow3, 0, 0, (x, y) -> 1.5d),
+                    () -> fff.zip((Number[][][]) null, narrow3, (Number) 0, (Number) 0, (x, y) -> 1.5d),
+                    () -> fff.zip(narrow3, narrow3, narrow3, (x, y, z) -> 1.5d), () -> fff.zip(narrow3, narrow3, narrow3, 0, 0, 0, (x, y, z) -> 1.5d),
+                    () -> fff.zip((Number[][][]) null, narrow3, narrow3, (Number) 0, (Number) 0, (Number) 0, (x, y, z) -> 1.5d));
+            for (final Executable op : inferredFailures) {
+                final IllegalArgumentException error = assertThrows(IllegalArgumentException.class, op);
+                assertInstanceOf(ArrayStoreException.class, error.getCause());
+            }
+
+            // Explicit targetElementType throws ArrayStoreException directly
+            final Class<Number> intRuntimeType = (Class<Number>) (Class<?>) Integer.class;
+            final List<Executable> explicitFailures = List.of(//
+                    () -> ff.zip(narrow2, narrow2, (x, y) -> 1.5d, intRuntimeType), () -> ff.zip(narrow2, null, 0, 0, (x, y) -> 1.5d, intRuntimeType),
+                    () -> ff.zip(narrow2, narrow2, narrow2, (x, y, z) -> 1.5d, intRuntimeType),
+                    () -> ff.zip(narrow2, null, null, 0, 0, 0, (x, y, z) -> 1.5d, intRuntimeType),
+                    () -> fff.zip(narrow3, narrow3, (x, y) -> 1.5d, intRuntimeType), () -> fff.zip(narrow3, null, 0, 0, (x, y) -> 1.5d, intRuntimeType),
+                    () -> fff.zip(narrow3, narrow3, narrow3, (x, y, z) -> 1.5d, intRuntimeType),
+                    () -> fff.zip(narrow3, null, null, 0, 0, 0, (x, y, z) -> 1.5d, intRuntimeType));
+            for (final Executable op : explicitFailures) {
+                assertThrows(ArrayStoreException.class, op);
+            }
+
+            // Covariant (? extends A) zipFunction return types on all 8 inferred ff.zip / fff.zip overloads + jagged empty sub-arrays/planes
+            final Throwables.BiFunction<Number, Number, Integer, RuntimeException> covBi = (x, y) -> x.intValue() + y.intValue();
+            final Throwables.TriFunction<Number, Number, Number, Integer, RuntimeException> covTri = (x, y, z) -> x.intValue() + y.intValue() + z.intValue();
+            final Number[][] num2A = { null, {}, { 1, 2 } };
+            final Number[][] num2B = { null, {}, { 10, 20 } };
+            final Number[][] num2C = { null, {}, { 100, 200 } };
+            final Number[][][] num3A = { null, num2A, num2A, num2A };
+            final Number[][][] num3B = { num2B, {}, num2B, num2B };
+            final Number[][][] num3C = { num2C, num2C, null, num2C };
+
+            assertArrayEquals(new Number[][] { {}, {}, { 11, 22 } }, ff.zip(num2A, num2B, covBi));
+            assertArrayEquals(new Number[][] { {}, {}, { 11, 22 } }, ff.zip(num2A, num2B, 0, 0, covBi));
+            assertArrayEquals(new Number[][] { {}, {}, { 111, 222 } }, ff.zip(num2A, num2B, num2C, covTri));
+            assertArrayEquals(new Number[][] { {}, {}, { 111, 222 } }, ff.zip(num2A, num2B, num2C, 0, 0, 0, covTri));
+            assertArrayEquals(new Number[][][] { {}, {}, { {}, {}, { 11, 22 } }, { {}, {}, { 11, 22 } } }, fff.zip(num3A, num3B, covBi));
+            assertArrayEquals(new Number[][][] { { {}, {}, { 10, 20 } }, { {}, {}, { 1, 2 } }, { {}, {}, { 11, 22 } }, { {}, {}, { 11, 22 } } },
+                    fff.zip(num3A, num3B, 0, 0, covBi));
+            assertArrayEquals(new Number[][][] { {}, {}, {}, { {}, {}, { 111, 222 } } }, fff.zip(num3A, num3B, num3C, covTri));
+            assertArrayEquals(new Number[][][] { { {}, {}, { 110, 220 } }, { {}, {}, { 101, 202 } }, { {}, {}, { 11, 22 } }, { {}, {}, { 111, 222 } } },
+                    fff.zip(num3A, num3B, num3C, 0, 0, 0, covTri));
+            assertArrayEquals(new Number[][][] { {}, {} }, fff.zip(new Number[][][] { null, {} }, new Number[][][] { {}, null }, 0, 0, covBi));
+            assertArrayEquals(new Number[][][] { {}, {} },
+                    fff.zip(new Number[][][] { null, {} }, new Number[][][] { {}, null }, new Number[][][] { null, {} }, 0, 0, 0, covTri));
+
+            // Explicit targetElementType with jagged empty planes/rows also reuses empty sub-arrays cleanly
+            assertArrayEquals(new Integer[][][] { {}, {}, { {}, {}, { 11, 22 } }, { {}, {}, { 11, 22 } } }, fff.zip(num3A, num3B, covBi, Integer.class));
+            assertArrayEquals(new Integer[][][] { {}, {} }, fff.zip(new Number[][][] { null, {} }, new Number[][][] { {}, null }, 0, 0, covBi, Integer.class));
+            assertArrayEquals(new Integer[][][] { {}, {}, {}, { {}, {}, { 111, 222 } } }, fff.zip(num3A, num3B, num3C, covTri, Integer.class));
+            assertArrayEquals(new Integer[][][] { {}, {} },
+                    fff.zip(new Number[][][] { null, {} }, new Number[][][] { {}, null }, new Number[][][] { null, {} }, 0, 0, 0, covTri, Integer.class));
+        }
     }
 
     private static Object[] arrayWithDimensions(final int dimensions) {

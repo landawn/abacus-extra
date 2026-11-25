@@ -1081,6 +1081,21 @@ class ImmutableIntArrayTest {
         }
 
         @Test
+        void subArray_fullRangeOnUnsafeWrapReturnsIndependentSnapshot() {
+            final int[] data = { 10, 20, 30 };
+            final ImmutableIntArray wrapped = ImmutableIntArray.unsafeWrap(data);
+            final ImmutableIntArray full = wrapped.subArray(0, wrapped.length());
+
+            assertNotSame(wrapped, full);
+            assertEquals(wrapped, full);
+
+            data[1] = 99;
+            assertEquals(99, wrapped.get(1));
+            assertEquals(20, full.get(1));
+            assertArrayEquals(new int[] { 10, 20, 30 }, full.copyOfRange(0, full.length()));
+        }
+
+        @Test
         void subArray_partialRange() {
             int[] data = { 10, 20, 30, 40, 50 };
             ImmutableIntArray immutable = ImmutableIntArray.unsafeWrap(data);
@@ -1119,6 +1134,27 @@ class ImmutableIntArrayTest {
 
             assertArrayEquals(new int[] { 20, 30, 40 }, immutable.copyOfRange(1, 4));
             assertThrows(IndexOutOfBoundsException.class, () -> immutable.copyOfRange(0, 6));
+        }
+
+        @Test
+        void copyOfRange_emptyRangeReturnsFreshEmptyArray() {
+            final ImmutableIntArray array = ImmutableIntArray.copyOf(new int[] { 10, 20, 30 });
+            final int[] first = array.copyOfRange(1, 1);
+            final int[] second = array.copyOfRange(1, 1);
+
+            assertEquals(0, first.length);
+            assertEquals(0, second.length);
+            assertNotSame(first, second);
+            assertNotSame(N.EMPTY_INT_ARRAY, first);
+            assertNotSame(N.EMPTY_INT_ARRAY, second);
+
+            final ImmutableIntArray empty = ImmutableIntArray.copyOf(null);
+            final int[] fromEmptyFirst = empty.copyOfRange(0, 0);
+            final int[] fromEmptySecond = empty.copyOfRange(0, 0);
+
+            assertEquals(0, fromEmptyFirst.length);
+            assertNotSame(fromEmptyFirst, fromEmptySecond);
+            assertNotSame(N.EMPTY_INT_ARRAY, fromEmptyFirst);
         }
 
         @Test
@@ -1343,6 +1379,35 @@ class ImmutableIntArrayTest {
 
     @Nested
     class ContractTests {
+
+        @Test
+        void emptyFactoriesAndEmptySubArrayShareSingletonWithIndependentStreams() {
+            final ImmutableIntArray fromUnsafeNull = ImmutableIntArray.unsafeWrap(null);
+            final ImmutableIntArray fromUnsafeEmpty = ImmutableIntArray.unsafeWrap(new int[0]);
+            final ImmutableIntArray fromCopyNull = ImmutableIntArray.copyOf(null);
+            final ImmutableIntArray fromCopyEmpty = ImmutableIntArray.copyOf(new int[0]);
+            final ImmutableIntArray nonEmpty = ImmutableIntArray.copyOf(new int[] { 1, 2, 3 });
+            final ImmutableIntArray fromSubArrayStart = nonEmpty.subArray(0, 0);
+            final ImmutableIntArray fromSubArrayMid = nonEmpty.subArray(2, 2);
+            final ImmutableIntArray fromSubArrayEnd = nonEmpty.subArray(3, 3);
+            final ImmutableIntArray fromEmptySubArray = fromCopyEmpty.subArray(0, 0);
+
+            assertSame(fromUnsafeNull, fromUnsafeEmpty);
+            assertSame(fromUnsafeNull, fromCopyNull);
+            assertSame(fromUnsafeNull, fromCopyEmpty);
+            assertSame(fromUnsafeNull, fromSubArrayStart);
+            assertSame(fromUnsafeNull, fromSubArrayMid);
+            assertSame(fromUnsafeNull, fromSubArrayEnd);
+            assertSame(fromUnsafeNull, fromEmptySubArray);
+
+            final IntStream firstStream = fromUnsafeNull.stream();
+            final IntStream secondStream = fromCopyEmpty.stream();
+            assertNotSame(firstStream, secondStream);
+            firstStream.close();
+            assertThrows(IllegalStateException.class, firstStream::count);
+            assertEquals(0, secondStream.count());
+            assertEquals(0, fromSubArrayMid.stream().count());
+        }
 
         @Test
         void emptyWrappers_shareStableHash() {
